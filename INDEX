@@ -14,7 +14,7 @@ System interface functions
  zp2sys sys2zp
  tf2ss ss2tf
  zp2tf tf2zp
- zp2ss ss2zp
+ zp2ss ss2zp zp
 Data structure access
  syschtsam
  sysdimensions
