@@ -68,21 +68,21 @@ Internal
  __syscont_disc__ __sysdefioname__ __sysdefstname__ __sysgroupn__
  __tf2sysl__ __zp2ssg2__ __outlist__ __zgpbal__
 Compatibility
- filt= use <code>tf2sys</code>
- ss= use <code>ss2sys</code>
- tf= use <code>tf2sys</code>
- zpk= use <code>zp2sys</code>
- ssdata= use <code>sys2ss</code>
- tfdata=use <code>sys2tf</code>
- zpkdata=use <code>sys2zp</code>
- isct=use <code>!is_digital</code>
- isdt=use <code>is_digital</code>
- issiso=use <code>is_siso</code>
- append(sys)=use <code>sysappend</code>
- connect=use <code>sysconnect</code>
- lft=use <code>starp</code>
- norm(sys)=use <code>h2norm</code>, <code>hinfnorm</code> or <code>zgrownorm</code>
- zero=use <code>tzero</code> or <code>tzero2</code>
- kalman=use <code>lqe</code>
- kalmd=use <code>dlqe</code> or <code>dkalman</code>
+ filt= use <f>tf2sys</f>
+ ss= use <f>ss2sys</f>
+ tf= use <f>tf2sys</f>
+ zpk= use <f>zp2sys</f>
+ ssdata= use <f>sys2ss</f>
+ tfdata=use <f>sys2tf</f>
+ zpkdata=use <f>sys2zp</f>
+ isct=use !<f>is_digital</f>
+ isdt=use <f>is_digital</f>
+ issiso=use <f>is_siso</f>
+ append(sys)=use <f>sysappend</f>
+ connect=use <f>sysconnect</f>
+ lft=use <f>starp</f>
+ norm(sys)=use <f>h2norm</f>, <f>hinfnorm</f> or <f>zgrownorm</f>
+ zero=use <f>tzero</f> or <f>tzero2</f>
+ kalman=use <f>lqe</f>
+ kalmd=use <f>dlqe</f> or <f>dkalman</f>
 
