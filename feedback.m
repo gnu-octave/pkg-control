@@ -1,4 +1,7 @@
 ## feedback(sys1,sys2)
+##
+## Filter the output of sys1 through sys2 and subtract it from the input.
+##
 ##              _____________
 ##     +        |            |
 ## u --->0----->|    sys1    |------->
