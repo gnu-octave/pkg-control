@@ -1,0 +1,88 @@
+control >> Control theory
+OCST demos
+ DEMOcontrol
+ controldemo
+ sysrepdemo
+ bddemo jet707 analdemo
+ frdemo
+ dgkfdemo hinfdemo dhinfdemo moddemo rldemo
+System interface functions
+ sysrepdemo
+ fir2sys sys2fir
+ ss2sys sys2ss
+ tf2sys sys2tf
+ zp2sys sys2zp
+ tf2ss ss2tf
+ zp2tf tf2zp
+ zp2ss ss2zp
+Data structure access
+ syschtsam
+ sysdimensions
+ sysgetsignals
+ sysgettsam
+ sysgettype
+ syssetsignals
+ sysupdate
+ minfo
+System display functions
+ sysout polyout tfout zpout
+Block diagram manipulations
+ bddemo jet707
+ buildssic ord2 parallel sysadd sysmin
+ sysappend sysconnect
+ syscont sysdisc
+ sysdup sysgroup sysmult sysprune
+ sysreorder sysscale syssub ugain wgt1o
+ feedback
+ starp
+Numerical functions
+ are dare dgram dlyap gram lyap pinv dre
+ zgfmul zgfslv zginit zgreduce zgrownorm zgscal zgsgiv
+ zgshsr
+System properties
+ analdemo
+ abcddim ctrb h2norm hinfnorm obsv pzmap
+ is_abcd is_controllable is_detectable is_dgkf
+ is_digital is_observable is_sample is_siso is_stabilizable
+ is_signal_list is_stable
+Time domain analysis
+ c2d d2c dmr2d damp dcgain impulse step
+Frequency domain analysis
+ frdemo
+ bode bode_bounds nichols
+ freqchkw ltifr nyquist tzero tzero2
+ rlocus
+Controller design
+ dgkfdemo hinfdemo dhinfdemo
+ dlqe dlqr lqe lqg lqr 
+ hinf_ctr hinfsyn hinfsyn_ric hinfsyn_chk
+ lsim place dkalman h2syn
+Miscellaneous
+ axis2dlim prompt sortcom swap run_cmd
+ strappend listidx packedform sysidx
+Obsolete
+ dezero dlqg minfo packsys unpacksys swaprows swapcols rotg qzval
+ syschnames series
+Internal
+ __bodquist__ __freqresp__ __stepimp__ __abcddims__ __syschnamesl__ 
+ __syscont_disc__ __sysdefioname__ __sysdefstname__ __sysgroupn__
+ __tf2sysl__ __zp2ssg2__ __outlist__ __zgpbal__
+Compatibility
+ filt= use <code>tf2sys</code>
+ ss= use <code>ss2sys</code>
+ tf= use <code>tf2sys</code>
+ zpk= use <code>zp2sys</code>
+ ssdata= use <code>sys2ss</code>
+ tfdata=use <code>sys2tf</code>
+ zpkdata=use <code>sys2zp</code>
+ isct=use <code>!is_digital</code>
+ isdt=use <code>is_digital</code>
+ issiso=use <code>is_siso</code>
+ append(sys)=use <code>sysappend</code>
+ connect=use <code>sysconnect</code>
+ lft=use <code>starp</code>
+ norm(sys)=use <code>h2norm</code>, <code>hinfnorm</code> or <code>zgrownorm</code>
+ zero=use <code>tzero</code> or <code>tzero2</code>
+ kalman=use <code>lqe</code>
+ kalmd=use <code>dlqe</code> or <code>dkalman</code>
+
