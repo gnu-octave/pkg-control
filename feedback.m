@@ -26,7 +26,7 @@
 ##
 ## This only works for SISO systems.
  
-## Author: Ben Sapp <mailto:bsapp@lanl.gov>
+## Author: Ben Sapp <bsapp@lanl.gov>
  
 function out = feedback(sys1,sys2)
   if (nargin != 2)
