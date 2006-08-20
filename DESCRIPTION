@@ -1,0 +1,10 @@
+Name: Control
+Version: 1.0.0
+Date: 2006-08-05
+Author: Ben Sapp
+Maintainer: Ben Sapp
+Title: Control.
+Description: Add a description to this package!
+Depends: octave (>= 2.9.7)
+License: GPL version 2 or later
+Url: http://octave.sf.net
