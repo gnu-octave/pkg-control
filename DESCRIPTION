@@ -2,7 +2,7 @@ Name: Control
 Version: 1.0.0
 Date: 2006-08-05
 Author: Ben Sapp
-Maintainer: Ben Sapp
+Maintainer: None
 Title: Control.
 Description: Additional Octave Control tools
 Depends: octave (>= 2.9.7)
