@@ -34,6 +34,13 @@ function m = gram (a, b)
 
   ## Let lyap do the error checking...
 
-  m = lyap (a, b*b');
+  m = lyap (a', b*b');
 
 endfunction
+
+
+%!test
+%! a = [-1 0 0; 1/2 -1 0; 1/2 0 -1];
+%! b = [1 0; 0 -1; 0 1];
+%! m = gram (a, b);
+%! assert (a * m + m * a' + b *b', zeros (size (a)))
