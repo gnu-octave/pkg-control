@@ -18,6 +18,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{K} =} place (@var{sys}, @var{p})
+## @deftypefnx {Function File} {@var{K} =} place (@var{a}, @var{b}, @var{p})
 ## Computes the matrix @var{K} such that if the state
 ## is feedback with gain @var{K}, then the eigenvalues  of the closed loop
 ## system (i.e. @math{A-BK}) are those specified in the vector @var{p}.
@@ -42,9 +43,18 @@
 ## code adaped by A.S.Hodel (a.s.hodel@eng.auburn.edu) for use in controls
 ## toolbox
 
-function K = place (sys, P)
+function K = place (argin1, argin2, argin3)
 
-  if (nargin != 2)
+  if (nargin == 3)
+
+    ## Ctmp is useful to use ss; it doesn't matter what the value of Ctmp is
+    Ctmp = zeros (1, rows (argin1));
+    sys = ss (argin1, argin2, Ctmp);
+    P = argin3;
+  elseif (nargin == 2)
+    sys = argin1;
+    P = argin2;
+  else
     print_usage ();
   endif
 
@@ -86,12 +96,7 @@ function K = place (sys, P)
   ## equation in the controllable canonical form.
 
   ## first we must calculate the controllability matrix M:
-  M = B;
-  AA = A;
-  for n = 2:nx
-    M(:,n) = AA*B;
-    AA = AA*A;
-  endfor
+  M = ctrb (A, B);
 
   ## second, construct the matrix W
   PCO = PC(nx:-1:1);
@@ -123,3 +128,12 @@ function K = place (sys, P)
 
 endfunction
 
+
+%!shared A, B, C, P, Kexpected
+%! A = [0 1; 3 2];
+%! B = [0; 1];
+%! C = [2 1]; # C is useful to use ss; it doesn't matter what the value of C is
+%! P = [-1 -0.5];
+%! Kexpected = [3.5 3.5];
+%!assert (place (ss (A, B, C), P), Kexpected);
+%!assert (place (A, B, P), Kexpected);
