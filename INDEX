@@ -58,6 +58,7 @@ Controller design
  dlqe dlqr lqe lqg lqr 
  hinf_ctr hinfsyn hinfsyn_ric hinfsyn_chk
  lsim place dkalman h2syn
+ acker
 Miscellaneous
  axis2dlim prompt sortcom swap run_cmd
  strappend listidx packedform sysidx
