@@ -40,12 +40,14 @@ Numerical functions
  are dare dgram dlyap gram lyap pinv dre
  zgfmul zgfslv zginit zgreduce zgrownorm zgscal zgsgiv
  zgshsr
+ balreal
 System properties
  analdemo
  abcddim ctrb h2norm hinfnorm obsv pzmap
  is_abcd is_controllable is_detectable is_dgkf
- is_digital is_observable is_sample is_siso is_stabilizable
+ is_observable is_sample is_siso is_stabilizable
  is_signal_list is_stable
+ isct isdt
 Time domain analysis
  c2d d2c dmr2d damp dcgain impulse step
 Frequency domain analysis
@@ -65,6 +67,7 @@ Miscellaneous
 Obsolete
  dezero dlqg minfo packsys unpacksys swaprows swapcols rotg qzval
  syschnames series
+ is_digital
 Internal
  __bodquist__ __freqresp__ __stepimp__ __abcddims__ __syschnamesl__ 
  __syscont_disc__ __sysdefioname__ __sysdefstname__ __sysgroupn__
@@ -78,8 +81,6 @@ Compatibility
  ssdata= use <f>sys2ss</f>
  tfdata=use <f>sys2tf</f>
  zpkdata=use <f>sys2zp</f>
- isct=use !<f>is_digital</f>
- isdt=use <f>is_digital</f>
  issiso=use <f>is_siso</f>
  append(sys)=use <f>sysappend</f>
  lft=use <f>starp</f>
@@ -87,4 +88,4 @@ Compatibility
  zero=use <f>tzero</f> or <f>tzero2</f>
  kalman=use <f>lqe</f>
  kalmd=use <f>dlqe</f> or <f>dkalman</f>
-
+ isstable=use <f>is_stable</f>

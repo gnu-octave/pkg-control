@@ -62,10 +62,24 @@ function m = dgram (a, b)
 
   if (nargin != 2)
     print_usage ();
+  else
+
+    ## this is not efficient, but it is simple to mantain
+    ##
+    ## efficiency is not important because this function is here only
+    ## for backward compatibility
+    c = zeros (1, length (a)); ## it doesn't matter what the value of c is
+    d = zeros (rows (c), columns (b)); ## it doesn't matter what the value of d is
+    Ts = 0.1; ## Ts != 0
+    sys = ss (a, b, c, d, Ts);
+    m = gram (sys, 'c');
   endif
 
-  ## let dlyap do the error checking...
-
-  m = dlyap (a, b*b');
-
 endfunction
+
+
+%!test
+%! a = [-1 0 0; 1/2 1 0; 1/2 0 -1] / 2;
+%! b = [1 0; 0 -1; 0 1];
+%! Wc = dgram (a, b);
+%! assert (a * Wc * a' - Wc + b * b', zeros (size (a)), 1e-12)
