@@ -1,4 +1,4 @@
-## Copyright (C) 2008 Luca Favatella <slackydeb@gmail.com>
+## Copyright (C) 2008, 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ##
 ## This program is free software; you can redistribute it and/or modify it
@@ -42,7 +42,7 @@
 ## @end deftypefn
 
 ## Author: Luca Favatella <slackydeb@gmail.com>
-## Version: 0.2.4
+## Version: 0.2.5
 
                                 # TODO
                                 # improve continuous-time system test
@@ -104,8 +104,8 @@ function [sysb, g, T, Ti] = balreal (sys)
     assert (Wo2bal, Sigma, ASSERT_TOL); ## DEBUG
 
     ## T and Ti
-    T = inv (T1 * T2);
-    Ti = inv (T);
+    Ti = T1 * T2;
+    T = inv (Ti);
   endif
 endfunction
 
