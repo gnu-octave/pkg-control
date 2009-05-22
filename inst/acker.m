@@ -23,7 +23,7 @@
 ## @end deftypefn
 
 ## Author: Luca Favatella <slackydeb@gmail.com>
-## Version: 0.1
+## Version: 0.1.1
 
                                 # TODO: modify this function to use
                                 # Ackermann's formula instead of being
@@ -43,4 +43,4 @@ endfunction
 %! B = [0; 1];
 %! P = [-1 -0.5];
 %! Kexpected = [3.5 3.5];
-%! assert (acker (A, B, P), Kexpected);
+%! assert (acker (A, B, P), Kexpected, 2*eps);

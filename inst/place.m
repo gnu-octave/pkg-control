@@ -135,5 +135,5 @@ endfunction
 %! C = [2 1]; # C is useful to use ss; it doesn't matter what the value of C is
 %! P = [-1 -0.5];
 %! Kexpected = [3.5 3.5];
-%!assert (place (ss (A, B, C), P), Kexpected);
-%!assert (place (A, B, P), Kexpected);
+%!assert (place (ss (A, B, C), P), Kexpected, 2*eps);
+%!assert (place (A, B, P), Kexpected, 2*eps);
