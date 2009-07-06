@@ -51,12 +51,12 @@
 function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
   if (nargin < 1 || nargin > 2)
-    print_usage();
+    print_usage ();
   endif
 
   ## Get State Space Matrices
-  sys = sysupdate(sys, "ss");
-  [A, B, C, D] = sys2ss(sys); 
+  sys = sysupdate (sys, "ss");
+  [A, B, C, D] = sys2ss (sys); 
 
 
   ## Find interesting Frequency Range w if not specified
@@ -64,12 +64,12 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
     j = 1; # Index Counter
     
-    for m = 1 : size(B, 2) # For all Inputs
-      for p = 1 : size(C, 1) # For all Outputs
+    for m = 1 : size (B, 2) # For all Inputs
+      for p = 1 : size (C, 1) # For all Outputs
 
         ## sys2zp and bode_bounds don't work for MIMO Systems!
-        sysp = sysprune(sys, p, m);
-        [zer, pol, k, tsam, inname, outname] = sys2zp(sysp);
+        sysp = sysprune (sys, p, m);
+        [zer, pol, k, tsam, inname, outname] = sys2zp (sysp);
 
         if (tsam == 0)
           DIGITAL = 0;
@@ -77,7 +77,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
           DIGITAL = 1;
         endif
 
-        [wmin, wmax] = bode_bounds(zer, pol, DIGITAL, tsam);
+        [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
 
         w_min(j) = wmin;
         w_max(j) = wmax;
@@ -85,37 +85,37 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
       endfor
     endfor
 
-    dec_min = min(w_min); # Begin Plot at 10^dec_min rad/s
-    dec_max = max(w_max); # End Plot at 10^dec_min rad/s
+    dec_min = min (w_min); # Begin Plot at 10^dec_min rad/s
+    dec_max = max (w_max); # End Plot at 10^dec_min rad/s
     n_steps = 1000; # Number of Steps
-    
-    w = logspace(dec_min, dec_max, n_steps); # rad/s
+
+    w = logspace (dec_min, dec_max, n_steps); # rad/s
   endif
 
 
   ## Repeat for every Frequency w
-  for k = 1 : size(w, 2)
+  for k = 1 : size (w, 2)
 
     ## Frequency Response Matrix
-    P = C * inv(i * w(k) * eye(size(A)) - A) * B  +  D;
+    P = C * inv (i * w(k) * eye (size(A)) - A) * B  +  D;
 
     ## Singular Value Decomposition
-    sigma = svd(P);
-    sigma_min(k) = min(sigma);
-    sigma_max(k) = max(sigma);
+    sigma = svd (P);
+    sigma_min(k) = min (sigma);
+    sigma_max(k) = max (sigma);
   endfor
 
   if (nargout < 1) # Plot the Information
 
     ## Convert to dB for Plotting
-    sigma_min_db = 20 * log10(sigma_min);
-    sigma_max_db = 20 * log10(sigma_max);
+    sigma_min_db = 20 * log10 (sigma_min);
+    sigma_max_db = 20 * log10 (sigma_max);
    
     ## Plot Results
-    semilogx(w, sigma_min_db, 'b', w, sigma_max_db, 'b')
-    title('Singular Values')
-    xlabel('Frequency [rad/s]')
-    ylabel('Singular Values [dB]')
+    semilogx (w, sigma_min_db, 'b', w, sigma_max_db, 'b')
+    title ('Singular Values')
+    xlabel ('Frequency [rad/s]')
+    ylabel ('Singular Values [dB]')
     grid on
   else # Return Values
     sigma_min_r = sigma_min;
