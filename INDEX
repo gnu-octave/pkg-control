@@ -64,6 +64,7 @@ Controller design
 Miscellaneous
  axis2dlim prompt sortcom swap run_cmd
  strappend listidx packedform sysidx
+ svplot
 Obsolete
  dezero dlqg minfo packsys unpacksys swaprows swapcols rotg qzval
  syschnames series
