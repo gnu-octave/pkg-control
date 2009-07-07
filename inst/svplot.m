@@ -45,29 +45,49 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1alpha
+## Version: 0.1
 
 
 function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
+  ## Check whether arguments are OK
   if (nargin < 1 || nargin > 2)
     print_usage ();
   endif
 
+  if(! isstruct (sys))
+    error ("first argument sys must be a system data structure");
+  endif
+
+  if (nargin == 2)
+    if (! isvector (w))
+      error ("second argument w must be a vector of frequencies");
+    endif
+  endif
+
   ## Get State Space Matrices
   sys = sysupdate (sys, "ss");
-  [A, B, C, D] = sys2ss (sys); 
+  [A, B, C, D] = sys2ss (sys);
+  I = eye (size (A));
 
 
   ## Find interesting Frequency Range w if not specified
   if (nargin < 2)
+
+    ## Since no frequency vector w has been specified, the interesting
+    ## decades of the sigma plot have to be found. The already existing
+    ## function bode_bounds does exactly that, unfortunately for SISO
+    ## systems only. Therefore, a SISO system from every input m to
+    ## every output p is created. Then for every SISO system the
+    ## interesting frequency range is calculated by bode_bounds.
+    ## Afterwards, the min/max decade can be found by the min()/max()
+    ## command.
 
     j = 1; # Index Counter
     
     for m = 1 : size (B, 2) # For all Inputs
       for p = 1 : size (C, 1) # For all Outputs
 
-        ## sys2zp and bode_bounds don't work for MIMO Systems!
         sysp = sysprune (sys, p, m);
         [zer, pol, k, tsam, inname, outname] = sys2zp (sysp);
 
@@ -75,6 +95,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
           DIGITAL = 0;
         else
           DIGITAL = 1;
+          ## FIXME: Discrete systems not yet tested!
         endif
 
         [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
@@ -87,7 +108,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
     dec_min = min (w_min); # Begin Plot at 10^dec_min rad/s
     dec_max = max (w_max); # End Plot at 10^dec_min rad/s
-    n_steps = 1000; # Number of Steps
+    n_steps = 1000; # Number of Frequencies evaluated for Plotting
 
     w = logspace (dec_min, dec_max, n_steps); # rad/s
   endif
@@ -97,7 +118,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   for k = 1 : size (w, 2)
 
     ## Frequency Response Matrix
-    P = C * inv (i * w(k) * eye (size(A)) - A) * B  +  D;
+    P = C * inv (i*w(k)*I - A) * B  +  D;
 
     ## Singular Value Decomposition
     sigma = svd (P);
@@ -105,7 +126,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     sigma_max(k) = max (sigma);
   endfor
 
-  if (nargout < 1) # Plot the Information
+  if (nargout == 0) # Plot the Information
 
     ## Convert to dB for Plotting
     sigma_min_db = 20 * log10 (sigma_min);
@@ -124,3 +145,18 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   endif
 
 endfunction
+
+
+%!shared sigma_min_exp, sigma_max_exp, w_exp, sigma_min_obs, sigma_max_obs, w_obs
+%! A = [1 2; 3 4];
+%! B = [5 6; 7 8];
+%! C = [4 3; 2 1];
+%! D = [8 7; 6 5];
+%! w = [2 3];
+%! sigma_min_exp = [0.698526948925716   0.608629874340667];
+%! sigma_max_exp = [7.91760889977901   8.62745836756994];
+%! w_exp = [2 3];
+%! [sigma_min_obs, sigma_max_obs, w_obs] = svplot (ss (A, B, C, D), w);
+%!assert (sigma_min_obs, sigma_min_exp, 4*eps); # tolerance manually tweaked
+%!assert (sigma_max_obs, sigma_max_exp, 12*eps); # tolerance manually tweaked
+%!assert (w_obs, w_exp, 2*eps);
