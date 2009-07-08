@@ -71,8 +71,8 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   I = eye (size (A));
 
 
-  ## Find interesting Frequency Range w if not specified
-  if (nargin < 2)
+  ## Find interesting frequency range w if not specified
+  if (nargin == 1)
 
     ## Since no frequency vector w has been specified, the interesting
     ## decades of the sigma plot have to be found. The already existing
@@ -83,38 +83,38 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     ## Afterwards, the min/max decade can be found by the min()/max()
     ## command.
 
-    j = 1; # Index Counter
+    j = 1; # Index counter (number of SISO systems)
     
-    for m = 1 : size (B, 2) # For all Inputs
-      for p = 1 : size (C, 1) # For all Outputs
+    for m = 1 : size (B, 2) # For all inputs
+      for p = 1 : size (C, 1) # For all outputs
 
-        sysp = sysprune (sys, p, m);
+        sysp = sysprune (sys, p, m); # Create SISO system
         [zer, pol, k, tsam, inname, outname] = sys2zp (sysp);
 
-        if (tsam == 0)
+        if (tsam == 0) # Continuous system
           DIGITAL = 0;
-        else
+        else # Discrete system
           DIGITAL = 1;
           ## FIXME: Discrete systems not yet tested!
         endif
 
         [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
 
-        w_min(j) = wmin;
-        w_max(j) = wmax;
+        w_min(j) = wmin; # Save result for later evaluation
+        w_max(j) = wmax; # dito
         j++;
       endfor
     endfor
 
-    dec_min = min (w_min); # Begin Plot at 10^dec_min rad/s
-    dec_max = max (w_max); # End Plot at 10^dec_min rad/s
-    n_steps = 1000; # Number of Frequencies evaluated for Plotting
+    dec_min = min (w_min); # Begin plot at 10^dec_min [rad/s]
+    dec_max = max (w_max); # End plot at 10^dec_min [rad/s]
+    n_steps = 1000; # Number of frequencies evaluated for plotting
 
-    w = logspace (dec_min, dec_max, n_steps); # rad/s
+    w = logspace (dec_min, dec_max, n_steps); # [rad/s]
   endif
 
 
-  ## Repeat for every Frequency w
+  ## Repeat for every frequency w
   for k = 1 : size (w, 2)
 
     ## Frequency Response Matrix
@@ -126,19 +126,19 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     sigma_max(k) = max (sigma);
   endfor
 
-  if (nargout == 0) # Plot the Information
+  if (nargout == 0) # Plot the information
 
-    ## Convert to dB for Plotting
+    ## Convert to dB for plotting
     sigma_min_db = 20 * log10 (sigma_min);
     sigma_max_db = 20 * log10 (sigma_max);
    
-    ## Plot Results
+    ## Plot results
     semilogx (w, sigma_min_db, 'b', w, sigma_max_db, 'b')
     title ('Singular Values')
     xlabel ('Frequency [rad/s]')
     ylabel ('Singular Values [dB]')
     grid on
-  else # Return Values
+  else # Return values
     sigma_min_r = sigma_min;
     sigma_max_r = sigma_max;
     w_r = w;
