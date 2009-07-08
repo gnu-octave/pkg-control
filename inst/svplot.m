@@ -100,8 +100,9 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
         [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
 
-        w_min(j) = wmin; # Save result for later evaluation
-        w_max(j) = wmax; # dito
+        # Save result for later evaluation
+        w_min(j) = wmin; 
+        w_max(j) = wmax;
         j++;
       endfor
     endfor
