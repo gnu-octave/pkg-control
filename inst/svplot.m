@@ -69,7 +69,14 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   sys = sysupdate (sys, "ss");
   [A, B, C, D] = sys2ss (sys);
   I = eye (size (A));
-
+  
+  ## Get system information
+  [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
+  
+  ## Warning for discrete systems, see FIXME below!
+  if (n_d_states != 0)
+    warning ("discrete systems have not been tested!");
+  endif
 
   ## Find interesting frequency range w if not specified
   if (nargin == 1)
@@ -85,8 +92,8 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
     j = 1; # Index counter (number of SISO systems)
     
-    for m = 1 : size (B, 2) # For all inputs
-      for p = 1 : size (C, 1) # For all outputs
+    for m = 1 : n_in # For all inputs
+      for p = 1 : n_out # For all outputs
 
         sysp = sysprune (sys, p, m); # Create SISO system
         [zer, pol, k, tsam, inname, outname] = sys2zp (sysp);
@@ -100,7 +107,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
         [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
 
-        # Save result for later evaluation
+        ## Save result for later evaluation
         w_min(j) = wmin; 
         w_max(j) = wmax;
         j++;
