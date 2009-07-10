@@ -45,7 +45,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1
+## Version: 0.2
 
 
 function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
@@ -65,15 +65,32 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     endif
   endif
 
+  if (is_siso (sys))
+    warning ("sys is a SISO system. You might want to use bode(sys) instead.");
+  endif
+
   ## Get State Space Matrices
   sys = sysupdate (sys, "ss");
   [A, B, C, D] = sys2ss (sys);
   I = eye (size (A));
   
+  %## Reduce to upper hessenberg form for efficiency
+  %[p, A] = hess (A);
+  %B = p' * B;
+  %C = C * p;
+  
   ## Get system information
   [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
+  digital = is_digital(sys, 2);
+  tsam = sysgettsam(sys);
   
-  ## Warning for discrete systems, see FIXME below!
+  ## Error for mixed systems
+  if (digital == -1)
+    error ("system must be either purely continuous or purely discrete");
+  endif
+  
+  ## FIXME: Discrete systems not tested!
+  ## Warning for discrete systems
   if (n_d_states != 0)
     warning ("discrete systems have not been tested!");
   endif
@@ -83,57 +100,37 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
 
     ## Since no frequency vector w has been specified, the interesting
     ## decades of the sigma plot have to be found. The already existing
-    ## function bode_bounds does exactly that, unfortunately for SISO
-    ## systems only. Therefore, a SISO system from every input m to
-    ## every output p is created. Then for every SISO system the
-    ## interesting frequency range is calculated by bode_bounds.
-    ## Afterwards, the min/max decade can be found by the min()/max()
-    ## command.
+    ## function bode_bounds does exactly that.
 
-    j = 1; # Index counter (number of SISO systems)
+    zer = tzero (sys);
+    pol = eig (A);
     
-    for m = 1 : n_in # For all inputs
-      for p = 1 : n_out # For all outputs
-
-        sysp = sysprune (sys, p, m); # Create SISO system
-        [zer, pol, k, tsam, inname, outname] = sys2zp (sysp);
-
-        if (tsam == 0) # Continuous system
-          DIGITAL = 0;
-        else # Discrete system
-          DIGITAL = 1;
-          ## FIXME: Discrete systems not yet tested!
-        endif
-
-        [wmin, wmax] = bode_bounds (zer, pol, DIGITAL, tsam);
-
-        ## Save result for later evaluation
-        w_min(j) = wmin; 
-        w_max(j) = wmax;
-        j++;
-      endfor
-    endfor
-
-    dec_min = min (w_min); # Begin plot at 10^dec_min [rad/s]
-    dec_max = max (w_max); # End plot at 10^dec_min [rad/s]
+    ## Begin plot at 10^dec_min, end plot at 10^dec_min [rad/s]
+    [dec_min, dec_max] = bode_bounds (zer, pol, digital, tsam);
+    
     n_steps = 1000; # Number of frequencies evaluated for plotting
 
     w = logspace (dec_min, dec_max, n_steps); # [rad/s]
   endif
-
-
-  ## Repeat for every frequency w
-  for k = 1 : size (w, 2)
+  
+  if (! digital) # continuous system
+    jw = i * w;
+  else # discrete system
+    jw = exp (i*w*tsam);
+  endif
+ 
+  ## Repeat for every frequency jw
+  for k = 1 : size (jw, 2)
 
     ## Frequency Response Matrix
-    P = C * inv (i*w(k)*I - A) * B  +  D;
+    P = C * inv (jw(k)*I - A) * B  +  D;
 
     ## Singular Value Decomposition
     sigma = svd (P);
     sigma_min(k) = min (sigma);
     sigma_max(k) = max (sigma);
   endfor
-
+      
   if (nargout == 0) # Plot the information
 
     ## Convert to dB for plotting
