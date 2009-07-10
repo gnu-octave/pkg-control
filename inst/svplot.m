@@ -74,11 +74,6 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   [A, B, C, D] = sys2ss (sys);
   I = eye (size (A));
   
-  %## Reduce to upper hessenberg form for efficiency
-  %[p, A] = hess (A);
-  %B = p' * B;
-  %C = C * p;
-  
   ## Get system information
   [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
   digital = is_digital(sys, 2);
@@ -87,12 +82,6 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   ## Error for mixed systems
   if (digital == -1)
     error ("system must be either purely continuous or purely discrete");
-  endif
-  
-  ## FIXME: Discrete systems not tested!
-  ## Warning for discrete systems
-  if (n_d_states != 0)
-    warning ("discrete systems have not been tested!");
   endif
 
   ## Find interesting frequency range w if not specified
