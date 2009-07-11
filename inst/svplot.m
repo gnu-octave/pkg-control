@@ -17,7 +17,7 @@
 ## @deftypefn{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys})
 ## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{w})
 ## If no output arguments are given, the singular value plot of a MIMO
-## system over a range of frequencies is printed on the screen;
+## system is printed on the screen;
 ## otherwise, the singular values of the system data structure are
 ## computed and returned.
 ##
@@ -41,7 +41,7 @@
 ## Vector of frequency values used.
 ## @end table
 ##
-## @seealso{is_digital}
+## @seealso{bode, svd, bode_bounds, is_digital}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
@@ -102,17 +102,17 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     w = logspace (dec_min, dec_max, n_steps); # [rad/s]
   endif
   
-  if (! digital) # continuous system
-    jw = i * w;
-  else # discrete system
-    jw = exp (i*w*tsam);
+  if (digital) # discrete system
+    s = exp (i * w * tsam);
+  else # continuous system
+    s = i * w;
   endif
  
-  ## Repeat for every frequency jw
-  for k = 1 : size (jw, 2)
+  ## Repeat for every frequency s
+  for k = 1 : size (s, 2)
 
     ## Frequency Response Matrix
-    P = C * inv (jw(k)*I - A) * B  +  D;
+    P = C * inv (s(k)*I - A) * B  +  D;
 
     ## Singular Value Decomposition
     sigma = svd (P);
