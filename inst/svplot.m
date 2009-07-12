@@ -24,8 +24,8 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## System data structure (must be either purely continuous or discrete;
-## see @code{is_digital}).
+## System data structure. Must be either purely continuous or discrete;
+## see @code{is_digital}.
 ## @item w
 ## Optional vector of frequency values. If @var{w} is not specified, it
 ## will be calculated by @code{bode_bounds}.
@@ -56,32 +56,31 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   endif
 
   if(! isstruct (sys))
-    error ("first argument sys must be a system data structure");
+    error ("svplot: first argument sys must be a system data structure");
   endif
 
   if (nargin == 2)
     if (! isvector (w))
-      error ("second argument w must be a vector of frequencies");
+      error ("svplot: second argument w must be a vector of frequencies");
     endif
   endif
 
   if (is_siso (sys))
-    warning ("sys is a SISO system. You might want to use bode(sys) instead.");
+    warning ("svplot: sys is a SISO system. You might want to use bode(sys) instead.");
   endif
 
-  ## Get State Space Matrices
+  ## Get state space matrices
   sys = sysupdate (sys, "ss");
   [A, B, C, D] = sys2ss (sys);
   I = eye (size (A));
   
   ## Get system information
-  [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
   digital = is_digital(sys, 2);
-  tsam = sysgettsam(sys);
+  t_sam = sysgettsam(sys);
   
   ## Error for mixed systems
   if (digital == -1)
-    error ("system must be either purely continuous or purely discrete");
+    error ("svplot: system must be either purely continuous or purely discrete");
   endif
 
   ## Find interesting frequency range w if not specified
@@ -94,17 +93,17 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     zer = tzero (sys);
     pol = eig (A);
     
-    ## Begin plot at 10^dec_min, end plot at 10^dec_min [rad/s]
-    [dec_min, dec_max] = bode_bounds (zer, pol, digital, tsam);
+    ## Begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
+    [dec_min, dec_max] = bode_bounds (zer, pol, digital, t_sam);
     
-    n_steps = 1000; # Number of frequencies evaluated for plotting
+    n_freq = 1000; # Number of frequencies evaluated for plotting
 
-    w = logspace (dec_min, dec_max, n_steps); # [rad/s]
+    w = logspace (dec_min, dec_max, n_freq); # [rad/s]
   endif
   
-  if (digital) # discrete system
-    s = exp (i * w * tsam);
-  else # continuous system
+  if (digital) # Discrete system
+    s = exp (i * w * t_sam);
+  else # Continuous system
     s = i * w;
   endif
  
@@ -112,10 +111,10 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   for k = 1 : size (s, 2)
 
     ## Frequency Response Matrix
-    P = C * inv (s(k)*I - A) * B  +  D;
+    G = C * inv (s(k)*I - A) * B  +  D;
 
     ## Singular Value Decomposition
-    sigma = svd (P);
+    sigma = svd (G);
     sigma_min(k) = min (sigma);
     sigma_max(k) = max (sigma);
   endfor
@@ -125,11 +124,18 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     ## Convert to dB for plotting
     sigma_min_db = 20 * log10 (sigma_min);
     sigma_max_db = 20 * log10 (sigma_max);
+    
+    ## Determine xlabel
+    if (digital)
+      xl_str = sprintf ('Frequency [rad/s]     Pi / T = %g', pi/t_sam);
+    else
+      xl_str = 'Frequency [rad/s]';
+    endif
    
     ## Plot results
     semilogx (w, sigma_min_db, 'b', w, sigma_max_db, 'b')
     title ('Singular Values')
-    xlabel ('Frequency [rad/s]')
+    xlabel (xl_str)
     ylabel ('Singular Values [dB]')
     grid on
   else # Return values
