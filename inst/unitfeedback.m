@@ -1,4 +1,5 @@
 ## Copyright (C) 2007 ZYED ben Mohamed EL HIDRI.  All rights reserved.
+## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by the
@@ -51,3 +52,15 @@ PS=sysmult(sys,S);
 Pcl=sysconnect(PS,1,2);
 out=sysprune(Pcl,1,1);
 endfunction
+
+
+%!test
+%!
+%! ## open loop system: 1 / s
+%! [num den] = sys2tf (unitfeedback (tf (1, [1 0])));
+%!
+%! ## closed loop system: 1 / (s + 1)
+%! num_exp = 1;
+%! den_exp = [1 1];
+%!
+%! assert ([num den], [num_exp den_exp]);
