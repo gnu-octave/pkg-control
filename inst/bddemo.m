@@ -24,6 +24,7 @@
 ## Author: David Clem
 ## Created: August 15, 1994
 ## Modified by A S Hodel Summer-Fall 1996
+## Added sysfeedback by Lukas Reichlin July 2009
 
 function bddemo ()
 
@@ -33,7 +34,7 @@ function bddemo ()
   while (1)
     clc
     k=0;
-    while(k > 14 || k < 1)
+    while(k > 15 || k < 1)
       k = menu("Octave Block Diagram Manipulations Demo", ...
         "sysadd/syssub: F(s) = G(s) +/- H(s)", ...
         "sysappend: add new inputs/outputs", ...
@@ -46,6 +47,7 @@ function bddemo ()
         "sysprune: keep only specified inputs/outputs", ...
         "sysscale: scale inputs/outputs by specified gain matrices", ...
         "parallel: parallel connection of two systems", ...
+        "sysfeedback: closed loop of a system", ...
         "buildssic: the combination of all", ...
         "Design examples:", ...
         "Return to main demo menu");
@@ -138,7 +140,7 @@ function bddemo ()
       help sysconnect
       prompt
       disp("********* N O T E *********")
-      disp("sysconnect is demonstrated fully in the design examples (option 13)");
+      disp("sysconnect is demonstrated fully in the design examples (option 14)");
       prompt
     elseif (k == 5)
       disp("syscont and sysdisc: ")
@@ -202,7 +204,7 @@ function bddemo ()
       help sysdup
       prompt
       disp("********* N O T E *********")
-      disp("sysdup is fully demonstrated in the design examples (option 13)")
+      disp("sysdup is fully demonstrated in the design examples (option 14)")
       prompt
     elseif (k == 7)
       help sysgroup
@@ -224,7 +226,7 @@ function bddemo ()
       disp("the output system is by default in state-space format.")
       disp(" ")
       disp("********* N O T E *********")
-      disp("sysgroup is further demonstrated in the design examples (option 13)")
+      disp("sysgroup is further demonstrated in the design examples (option 14)")
       prompt
     elseif (k == 8)
       help sysmult
@@ -261,14 +263,14 @@ function bddemo ()
       help sysprune
       prompt
       disp("********* N O T E *********")
-      disp("sysprune is demonstrated in the design examples (option 13)");
+      disp("sysprune is demonstrated in the design examples (option 14)");
       prompt
     elseif (k == 10)
       help sysscale
       disp(" ")
       prompt
       disp("********* N O T E *********")
-      disp("See the design examples (option 13) for use of sysscale.")
+      disp("See the design examples (option 14) for use of sysscale.")
       prompt
     elseif ( k == 11)
       help parallel
@@ -311,6 +313,12 @@ function bddemo ()
       sysout(sysp);
       prompt
     elseif (k == 12)
+      help sysfeedback
+      prompt
+      disp("********* N O T E *********")
+      disp("sysfeedback is demonstrated in the design examples (option 14)");
+      prompt
+    elseif (k == 13)
       ## buildssic description
       disp(" ")
       disp("        ---------------------------------------")
@@ -335,9 +343,10 @@ function bddemo ()
       disp("sysmult etc.")
       prompt
       disp("********* N O T E *********")
-      disp("buildssic is demonstrated in the design examples (option 13)");
+      disp("buildssic is demonstrated in the design examples (option 14)");
       prompt
-    elseif (k == 13)
+
+    elseif (k == 14)
       disp("Design examples")
       disp("Packed system matrices may be connected and manipulated")
       disp("With the functions listed below:")
@@ -345,8 +354,9 @@ function bddemo ()
       disp("  sysconnect: connect selected inputs/outputs")
       disp("  sysgroup: group two systems together")
       disp("  sysprune: prune a system to keep only selected inputs and outputs")
-      disp("  sysscale:pre/post multiply a system by constant matrices")
-      disp("  buildssic: connect systems with arbitrary complexity.")
+      disp("  sysscale: pre/post multiply a system by constant matrices")
+      disp("  sysfeedback: build closed loop of a system")
+      disp("  buildssic: connect systems with arbitrary complexity")
       prompt
       disp("As a simple example, we will construct the system block ")
       disp("diagram shown below ")
@@ -375,7 +385,7 @@ function bddemo ()
       K = tf(numk, denk,0,"controller input","controller output");
 
       meth = 0;
-      while(meth != 5)
+      while(meth != 6)
         disp("The first method consists of the following steps:")
         disp("   step 1: create systems P and K")
         disp("   step 2: group P and K together")
@@ -389,6 +399,10 @@ function bddemo ()
         disp("   step 4: prune the desired i/o connections")
         disp("The third method uses buildssic:")
         disp("   step 1: GW = buildssic(...,K,P)")
+        disp("The fourth method uses sysfeedback:")
+        disp("   step 1: create systems P and K")
+        disp("   step 2: connect P and K in series")
+        disp("   step 3: close the loop with sysfeedback")
         disp(" ")
         disp("Other design examples are in dgkfdemo (controldemo option 7)")
         disp(" ")
@@ -397,6 +411,7 @@ function bddemo ()
                 "Method 1 (w/o algebraic loop warning)", ...
                 "Method 2", ...
                 "Method 3", ...
+                "Method 4", ...
                 "Exit design examples");
         if(meth == 1)
           disp(" * * * Method 1 * * *")
@@ -598,12 +613,38 @@ function bddemo ()
       sysout(PKcl,"tf");
       disp("You can check this: PKcl = PK / (1 + PK), as expected")
       prompt
-      elseif(meth != 5)
+         elseif(meth == 5)
+          disp(" * * * Method 4 * * *")
+          disp(" ")
+          disp("         +          --------    --------");
+          disp("  r(t) ---> (+) --->| K(s) |--->| P(s) | ----> y(t)");
+          disp("            -^      --------    --------  |");
+          disp("             |                            |");
+          disp("             ------------------------------");
+          disp(" ")
+      disp("Step 1: We've already created systems P and K")
+      disp("Step 2: series connections of P and K")
+      cmd = "PK = sysmult(P,K);";
+      run_cmd
+      disp("PK=")
+      sysout(PK)
+      disp(" ");
+      disp("Step 3: closing the loop")
+      cmd = "PKcl = sysfeedback(PK);";
+      run_cmd
+      disp("PKcl=")
+      sysout(PKcl)
+      prompt
+      disp("The transfer function form of PKcl is:")
+      sysout(PKcl,"tf");
+      disp("You can check this: PKcl = PK / (1 + PK), as expected")
+      prompt
+      elseif(meth != 6)
         disp("invalid selection")
      endif
     endwhile
 
-    elseif (k == 14)
+    elseif (k == 15)
       return
     endif
   endwhile
