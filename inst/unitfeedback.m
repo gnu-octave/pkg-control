@@ -40,8 +40,17 @@
  
 ## Author: Zyed El Hidri <zyedm79@yahoo.com>
 
-function out = unitfeedback(sys)
-  out = sysfeedback(sys);
+function out = unitfeedback (sys)
+  
+  if (nargin != 1)
+    error ("only 1 argument accepted"); 	
+  endif
+
+  if (! is_siso (sys)) 	
+    error("only single input single output systems supported"); 	
+  endif
+  
+  out = sysfeedback (sys);
 endfunction
 
 
