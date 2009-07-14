@@ -41,16 +41,7 @@
 ## Author: Zyed El Hidri <zyedm79@yahoo.com>
 
 function out = unitfeedback(sys)
-  if (nargin != 1)
-    error("only 1 arguements accepted");
-  endif
-  if(!is_siso(sys))
-    error("only single input single output systems supported");
-  endif
-S=ss([],[],[],[1,-1],0,0,0,[],{"r(t)","y(t)",},"e(t)");
-PS=sysmult(sys,S);
-Pcl=sysconnect(PS,1,2);
-out=sysprune(Pcl,1,1);
+  out = sysfeedback(sys);
 endfunction
 
 
