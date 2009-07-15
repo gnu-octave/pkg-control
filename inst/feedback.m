@@ -222,14 +222,14 @@ function sys = feedback (varargin)
   
   ## Extract resulting model
   for k = 1 : n_out_1
-    out_idx(k) = k;
+    out_pr_idx(k) = k;
   endfor
   
   for k = 1 : n_in_1
-    in_idx(k) = k;
+    in_pr_idx(k) = k;
   endfor
   
-  sys = sysprune(sys, out_idx, in_idx);
+  sys = sysprune(sys, out_pr_idx, in_pr_idx);
   
 endfunction
 
