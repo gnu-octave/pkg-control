@@ -1,4 +1,3 @@
-## Copyright (C) 2000 Ben Sapp <bsapp@lanl.gov>
 ## Copyright (C) 2009 Lukas Reichlin <lukas.reichlin@swissonline.ch>
 ##
 ## This program is free software: you can redistribute it and/or modify
@@ -19,10 +18,8 @@
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{sign})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{sign})
-## Returns model sys for the negative feedback interconnection; i. e. filters the output of
-## sys1 through sys2 and subtracts it from the input. Occasionally warns about possible
-## algebraic loops even if they don't exist. These warnings are perfectly harmless and are 
-## due to the internal use of sysconnect.
+## Return model sys for the negative feedback interconnection; i. e. filter the output of
+## sys1 through sys2 and subtract it from the input.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -61,9 +58,8 @@
 ##
 ## @end deftypefn
  
-## Author: Ben Sapp <bsapp@lanl.gov>
-## Rewritten from scratch by Lukas Reichlin
-## for better M*tl*b compatibility in July 2009
+## Author: Lukas Reichlin
+## Rewritten from scratch for better compatibility in July 2009
 ## Version: 0.1
  
 function sys = feedback (varargin)
