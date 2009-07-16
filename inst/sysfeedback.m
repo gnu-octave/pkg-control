@@ -41,15 +41,15 @@
 ##         |                     |
 ##         +---------------------+
 ##
-##                      Y(s)       SYS(s)
-##         RETSYS(s) = ------ = ------------
-##                      U(s)     I + SYS(s)
+##              Y(s)       SYS(s)
+## RETSYS(s) = ------ = ------------
+##              U(s)     I + SYS(s)
 ##
 ##
 ## A SIMPLE EXAMPLE
 ##
-##         P(s) : Plant          L(s) : Open Loop
-##         C(s) : Controller     T(s) : Closed Loop
+## P(s) : Plant          L(s) : Open Loop
+## C(s) : Controller     T(s) : Closed Loop
 ##
 ##  r    +    e    +--------+    u  +--------+         y
 ## ------>(+)----->|  C(s)  |------>|  P(s)  |-----+----->
@@ -57,11 +57,11 @@
 ##         |                                       |
 ##         +---------------------------------------+
 ##
-##         L(s) = P(s) C(s)      ---> L = sysmult(P, C)
+## L(s) = P(s) C(s)      ---> L = sysmult(P, C)
 ##
-##                   L(s)
-##         T(s) = ----------     ---> T = sysfeedback(L)
-##                 1 + L(s)
+##           L(s)
+## T(s) = ----------     ---> T = sysfeedback(L)
+##         1 + L(s)
 ##
 ##  r      +--------+       y
 ## ------->|  T(s)  |--------->

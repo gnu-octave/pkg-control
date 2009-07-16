@@ -19,11 +19,10 @@
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{sign})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{sign})
-## Returns model sys for the feedback interconnection; i. e. filters the output of sys1
-## through sys2 and subtracts it from the input. Displays warnings if inputs, outputs
-## or states of sys1 and sys2 have equal names. Occasionally warns about possible algebraic
-## loops as well. These warnings are perfectly harmless and are due to the internal use
-## of sysgroup and sysconnect.
+## Returns model sys for the negative feedback interconnection; i. e. filters the output of
+## sys1 through sys2 and subtracts it from the input. Occasionally warns about possible
+## algebraic loops even if they don't exist. These warnings are perfectly harmless and are 
+## due to the internal use of sysconnect.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -165,6 +164,26 @@ function sys = feedback (varargin)
   
   
   ## Group sys1 and sys2 together
+  
+  ## Rename inputs, outputs and states of sys2 temporarily
+  ## to avoid spurious warnings from sysgroup 
+  
+  in_name = __sysdefioname__ (n_in_2, "in_feedback_tmp_name");
+  out_name = __sysdefioname__ (n_out_2, "out_feedback_tmp_name");
+ 
+  sys2 = syssetsignals (sys2, "in", in_name);
+  sys2 = syssetsignals (sys2, "out", out_name);
+  
+  if ((n_c_states_2 + n_d_states_2) != 0) # If there are any states
+      
+    for k = 1 : (n_c_states_2 + n_d_states_2)
+      st_name{k} = sprintf ("st_feedback_tmp_name_%d", k);
+    endfor
+  
+    sys2 = syssetsignals (sys2, "st", st_name);
+    
+  endif
+  
   sys = sysgroup(sys1, sys2);
   
   
@@ -188,11 +207,20 @@ function sys = feedback (varargin)
   
   
   ## Connect outputs with inputs
+  ## FIXME: Unable to prevent algebraic loop warnings from sysconnect
+  ## even if connections are made one by one with
+  ## for k = 1 : l_feedout
+  ##     sys = sysconnect (sys, feedout(k), in_idx(k));
+  ## endfor
+  ## and
+  ## for k = 1 : l_feedin
+  ##   sys = sysconnect (sys, out_idx(k), in_dup_idx(k));
+  ## endfor
   
-  ## connect outputs of sys1 to inputs of sys2
-  ## output indices of sys1 start at (1)
+  ## Connect outputs of sys1 to inputs of sys2
+  ## Output indices of sys1 start at (1)
   ## and end at (n_out_1) --> use feedout!
-  ## input indices of sys2 start at (n_in_1 + 1)
+  ## Input indices of sys2 start at (n_in_1 + 1)
   ## and end at (n_in_1 + n_in_2)
   
   for k = 1 : l_feedout
@@ -201,12 +229,12 @@ function sys = feedback (varargin)
   
   sys = sysconnect (sys, feedout, in_idx);
   
-  ## connect outputs of sys2 to inputs of sys1
-  ## output indices of sys 2 start at (n_out_1 + 1)
+  ## Connect outputs of sys2 to inputs of sys1
+  ## Output indices of sys 2 start at (n_out_1 + 1)
   ## and end at (n_out_1 + n_out_2)
-  ## duplicated input indices of sys 1 start at (n_in_1 + n_in_2 + 1)
+  ## Duplicated input indices of sys 1 start at (n_in_1 + n_in_2 + 1)
   ## and end at (n_in_1 + n_in_2 + l_feedin)
-  ## sequence of feedin already mapped to duplicated inputs
+  ## Sequence of feedin already mapped to duplicated inputs
   ## ---> (n_in_1 + n_in_2 + k)
 
   for k = 1 : l_feedin
