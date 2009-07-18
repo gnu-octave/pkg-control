@@ -71,8 +71,10 @@ function sys = feedback (varargin)
   ## Determine sys1 from input
   if (isstruct (varargin{1}))
     sys1 = varargin{1};
+    sys1wasmatrix = 0;
   elseif (ismatrix (varargin{1}))
     sys1 = ss ([], [], [], varargin{1});
+    sys1wasmatrix = 1;
   else
     error ("feedback: argument 1 (sys1) invalid");
   endif
@@ -80,10 +82,27 @@ function sys = feedback (varargin)
   ## Determine sys2 from input
   if (isstruct (varargin{2}))
     sys2 = varargin{2};
+    sys2wasmatrix = 0;
   elseif (ismatrix (varargin{2}))
     sys2 = ss ([], [], [], varargin{2});
+    sys2wasmatrix = 1;
   else
     error ("feedback: argument 2 (sys2) invalid");
+  endif
+  
+  ## Handle digital gains
+  if (sys1wasmatrix)
+    if (is_digital (sys2, 2))
+      t_sam = sysgettsam (sys2);
+      sys1 = c2d (sys1, t_sam);
+    endif
+  endif
+  
+  if (sys2wasmatrix)
+    if (is_digital (sys1, 2))
+      t_sam = sysgettsam (sys1);
+      sys2 = c2d (sys2, t_sam);
+    endif
   endif
   
   ## Determine feedback sign
