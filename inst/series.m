@@ -1,99 +1,231 @@
-## Copyright (C) 1996, 2000, 2004, 2005, 2007
-##               Auburn University.  All rights reserved.
+## Copyright (C) 2009 Lukas Reichlin <lukas.reichlin@swissonline.ch>
 ##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
-## This program is free software; you can redistribute it and/or modify it
-## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
-##
-## This program is distributed in the hope that it will be useful, but
-## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Forms the series connection of two systems.
+## -*- texinfo -*-
+## @deftypefn{Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
+## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{outputs1}, @var{inputs2})
+## Connect two systems in series.
+## @math{sys = sys2 * sys1}
 ##
-## Superseded by sysmult.  Do not use this routine!
-## used internally in zp2ss
+## @strong{Inputs}
+## @table @var
+## @item sys1
+## System data structure or gain matrix.
+## @item sys2
+## System data structure or gain matrix.
+## @item outputs1
+## Optional vector of output indices for sys1.
+## @item inputs2
+## Optional vector of input indices for sys2.
+## @end table
 ##
-## Type of input: Transfer functions
-## Command:       [num,den]=series(num1,den1,num2,den2)
-## Forms the series representation of the two transfer functions.
+## @strong{Outputs}
+## @table @var
+## @item sys
+## System data structure of series connection.
+## @end table
 ##
-## Type of input: State space systems
-## Command:       [a,b,c,d]=series(a1,b1,c1,d1,a2,b2,c2,d2)
-## Forms the series representation of the two state space system arguments.
-## The series connected system will have the inputs of system 1 and the
-## outputs of system 2.
+## @seealso{sysmult}
+## 
+## @example
+## @group
+##     .....................................
+##  u  :  +--------+ y1    u2  +--------+  :  y
+## ------>|  sys1  |---------->|  sys2  |------->
+##     :  +--------+           +--------+  :
+##     :................sys.................
 ##
-## Type of input: system data structure
-## Command:       syst=series(syst1,syst2)
-## Forms the series representation of the two mu system arguments.
-
-## Author: David Clem
-## Created: August 15, 1994
-
-function [a, b, c, d] = series (a1, b1, c1, d1, a2, b2, c2, d2)
-
-  ## If two arguments input, take care of mu system case
-
-  warning ("series is superseded by sysmult; use sysmult instead.")
-
-  muflag = 0;
-  if (nargin == 2)
-    temp = b1;
-    [a1, b1, c1, d1] = sys2ss (a1);
-    [a2, b2, c2, d2] = sys2ss (temp);
-    muflag = 1;
+## sys = series (sys1, sys2)
+##
+##
+##     .....................................
+##     :                   v2  +--------+  :
+##     :            ---------->|        |  :  y
+##     :  +--------+ y1    u2  |  sys2  |------->
+##  u  :  |        |---------->|        |  :
+## ------>|  sys1  |       z1  +--------+  :
+##     :  |        |---------->            :
+##     :  +--------+                       :
+##     :................sys.................
+##
+## outputs1 = [1]
+## inputs2 = [2]
+## sys = series (sys1, sys2, outputs1, inputs2)
+## @end group
+## @end example
+##
+## @end deftypefn
+ 
+## Author: Lukas Reichlin
+## Rewritten from scratch for better compatibility in July 2009
+## Version: 0.1
+ 
+function sys = series (varargin)
+  
+  if (nargin != 2 && nargin != 4)
+    print_usage ();
   endif
-
-  ## If four arguments input, put two transfer functions in series
-
-  if (nargin == 4)
-    a = conv (a1, c1);    # was conv1
-    b = conv (b1, d1);    # was conv1
-    c = 0;
-    d = 0;
-
-    ## Find series combination of 2 state space systems
-
-  elseif (nargin == 8 || muflag == 1)
-
-    ## check matrix dimensions
-
-    [n1, m1, p1] = abcddim (a1, b1, c1, d1);
-    [n2, m2, p2] = abcddim (a2, b2, c2, d2);
-
-    if (n1 == -1 || n2 == -1)
-      error ("incorrect matrix dimensions");
+  
+  ## Determine sys1 from input
+  if (isstruct (varargin{1}))
+    sys1 = varargin{1};
+    sys1wasmatrix = 0;
+  elseif (ismatrix (varargin{1}))
+    sys1 = ss ([], [], [], varargin{1});
+    sys1wasmatrix = 1;
+  else
+    error ("series: argument 1 (sys1) invalid");
+  endif
+    
+  ## Determine sys2 from input
+  if (isstruct (varargin{2}))
+    sys2 = varargin{2};
+    sys2wasmatrix = 0;
+  elseif (ismatrix (varargin{2}))
+    sys2 = ss ([], [], [], varargin{2});
+    sys2wasmatrix = 1;
+  else
+    error ("series: argument 2 (sys2) invalid");
+  endif
+  
+  ## Handle digital gains
+  if (sys1wasmatrix)
+    if (is_digital (sys2, 2))
+      t_sam = sysgettsam (sys2);
+      sys1 = c2d (sys1, t_sam);
     endif
-
-    ## check to make sure the number of outputs of system1 equals the number
-    ## of inputs of system2
-
-   if(p1 != m2)
-     error ("system 1 output / system 2 input connection sizes do not match");
-   endif
-
-   ## put the two state space systems in series
-
-    a = [a1, zeros(rows(a1), columns(a2)); b2*c1, a2];
-    b = [b1; b2*d1];
-    c = [d2*c1, c2];
-    d = [d2*d1];
-
-    ## take care of mu output
-
-    if (muflag == 1)
-      a = ss (a, b, c, d);
-      b = c = d = 0;
+  endif
+  
+  if (sys2wasmatrix)
+    if (is_digital (sys1, 2))
+      t_sam = sysgettsam (sys1);
+      sys2 = c2d (sys2, t_sam);
     endif
+  endif
+  
+  
+  if (nargin == 2)
+    
+    ## Let sysmult do the job
+    sys = sysmult (sys2, sys1); # Note the different sequence of systems!
+    
+  else # (nargin == 4)
+    
+    ## Get system information
+    [n_c_states_1, n_d_states_1, n_in_1, n_out_1] = sysdimensions (sys1);
+    [n_c_states_2, n_d_states_2, n_in_2, n_out_2] = sysdimensions (sys2);
+    
+    ## Get connection lists outputs1 and inputs2
+    if (isvector (varargin{3}))
+      outputs1 = varargin{3};
+    else
+      error ("series: argument 3 (outputs1) invalid");
+    endif
+    
+    if (isvector (varargin{4}))
+      inputs2 = varargin{4};
+    else
+      error ("series: argument 4 (inputs2) invalid");
+    endif
+    
+    l_outputs1 = length (outputs1);
+    l_inputs2 = length (inputs2);
+  
+    if (l_outputs1 > n_out_1)
+      error ("series: outputs1 has too many indices for sys1");
+    endif
+    
+    if (l_inputs2 > n_in_2)
+      error ("series: inputs2 has too many indices for sys2");
+    endif
+  
+    if (l_outputs1 != l_inputs2)
+      error ("series: number of outputs1 and inputs2 indices must be equal");
+    endif
+    
+    
+    ## Group sys1 and sys2 together
+    
+    ## Rename outputs of sys1 and inputs of sys2
+    ## to avoid unnecessary warnings from sysgroup 
+  
+    out_name = __sysdefioname__ (n_out_1, "out1_series_tmp_name");
+    in_name = __sysdefioname__ (n_in_2, "in2_series_tmp_name");
+    
+    sys1 = syssetsignals (sys1, "out", out_name);
+    sys2 = syssetsignals (sys2, "in", in_name);
+    
+    sys = sysgroup (sys2, sys1); # Inversed sequence for compatibility
+    
+    
+    ## Connect outputs of sys1 with inputs of sys2
+    
+    ## Output indices of sys1 start at (n_out_2 + 1)
+    ## and end at (n_out_2 + n_out_1)
+    ## Input indices of sys2 start at (1)
+    ## and end at (n_in_2) --> use inputs2!
+  
+    for k = 1 : l_outputs1
+      out_idx(k) = n_out_2 + outputs1(k);
+    endfor
+    
+    sys = sysconnect (sys, out_idx, inputs2);
+  
+  
+    ## Extract resulting model
+    
+    ## Output indices of sys2 start at (1)
+    ## and end at (n_out_2)
+    ## Input indices of sys1 start at (n_in_2 + 1)
+    ## and end at (n_in_2 + n_in_1)
+    
+    for k = 1 : n_out_2
+      out_pr_idx(k) = k;
+    endfor
+  
+    for k = 1 : n_in_1
+      in_pr_idx(k) = n_in_2 + k;
+    endfor
+    
+    sys = sysprune (sys, out_pr_idx, in_pr_idx);
+    
   endif
 
 endfunction
 
+
+%!shared G, H, sys1, sys2, A1, B1, C1, D1, A2, B2, C2, D2, A_exp, B_exp, C_exp, D_exp
+%! G = tf([2, 5, 1], [1, 2, 3]);
+%! H = zp(-2, -10, 5);
+%! sys1 = series(G, H);
+%! sys2 = series(G, H, 1, 1);
+%! [A1, B1, C1, D1] = sys2ss(sys1);
+%! [A2, B2, C2, D2] = sys2ss(sys2);
+%! A_exp = [-10   -5    1 ;
+%!            0    0    1 ;
+%!            0   -3   -2 ];
+%! B_exp = [  2 ;
+%!            0 ;
+%!            1 ];
+%! C_exp = [-40  -25    5 ];
+%! D_exp = [ 10 ];
+%!assert(A1, A_exp);
+%!assert(B1, B_exp);
+%!assert(C1, C_exp);
+%!assert(D1, D_exp);
+%!assert(A2, A_exp);
+%!assert(B2, B_exp);
+%!assert(C2, C_exp);
+%!assert(D2, D_exp);
