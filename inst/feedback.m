@@ -199,7 +199,7 @@ function sys = feedback (varargin)
     
   endif
   
-  sys = sysgroup(sys1, sys2);
+  sys = sysgroup (sys1, sys2);
   
   
   ## Duplicate inputs specified in feedin
@@ -272,7 +272,7 @@ function sys = feedback (varargin)
     in_pr_idx(k) = k;
   endfor
   
-  sys = sysprune(sys, out_pr_idx, in_pr_idx);
+  sys = sysprune (sys, out_pr_idx, in_pr_idx);
   
 endfunction
 
@@ -352,7 +352,6 @@ endfunction
 %! [F, G, H, J] = sys2ss(sys);
 %! 
 %! sysc = feedback(sys1, eye(2), [1, 2], [1, 2], -1);
-%!
 %!
 %! M = tf([2, 5, 1], [1, 2, 3]);
 %! N = zp(-2, -10, 5);
