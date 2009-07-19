@@ -90,7 +90,7 @@ function [yy, idx] = sortcom (xx, opt)
 
       ## sort common datavec values
       if (! isempty (zidx))
-        for iv = create_set (datavec(zidx))
+        for iv = unique (datavec(zidx))
           vidx = find (datavec == iv);
           [vals, imidx] = sort (imag (yy(vidx)));
           yy(vidx)  = yy(vidx(imidx));

@@ -138,7 +138,7 @@ function [f, w, rsys] = __bodquist__ (sys, w, outputs, inputs, rname)
         wnew = vec(wseg)'; # make a row vector
         wnew = wnew(find (wnew != 0));
         wnew = sort (wnew);
-        wnew = create_set (wnew);
+        wnew = unique (wnew);
         if (isempty (wnew))   # all small crossovers
           pcnt = 0;
         else
