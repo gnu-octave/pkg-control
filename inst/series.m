@@ -209,8 +209,8 @@ endfunction
 
 
 %!shared G, H, sys1, sys2, A1, B1, C1, D1, A2, B2, C2, D2, A_exp, B_exp, C_exp, D_exp
-%! G = tf([2, 5, 1], [1, 2, 3]);
-%! H = zp(-2, -10, 5);
+%! G = ss([0, 1; -3, -2], [0; 1], [-5, 1], [2]);
+%! H = ss([-10], [1], [-40], [5]);
 %! sys1 = series(G, H);
 %! sys2 = series(G, H, 1, 1);
 %! [A1, B1, C1, D1] = sys2ss(sys1);
