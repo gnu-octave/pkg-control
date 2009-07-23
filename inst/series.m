@@ -104,16 +104,14 @@ function sys = series (varargin)
   if (sys1wasmatrix)
     if (is_digital (sys2, 2) == 1) # -1 for mixed systems!
       t_sam = sysgettsam (sys2);
-      sys1 = c2d (sys1, t_sam);
-      sys1 = syschtsam (sys1, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
+      sys1 = ss ([], [], [], varargin{1}, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
     endif
   endif
   
   if (sys2wasmatrix)
     if (is_digital (sys1, 2) == 1)
       t_sam = sysgettsam (sys1);
-      sys2 = c2d (sys2, t_sam);
-      sys2 = syschtsam (sys2, t_sam);
+      sys2 = ss ([], [], [], varargin{2}, t_sam);
     endif
   endif
   
