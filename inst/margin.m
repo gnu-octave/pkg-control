@@ -51,6 +51,21 @@
 ##
 ## imag (num(jw) den(-jw)) = 0
 ## imag (num(-jw) den(jw)) = 0
+##
+## Phase Margin
+##           |num(jw)|        _
+## |L(jw)| = |-------| = 1 = |L(jw)|
+##           |den(jw)|
+##   _     2      2
+## z z = Re z + Im z
+##
+## num(jw) num(-jw)
+## ---------------- = 1
+## den(jw) den(-jw)
+##
+## num(jw) num(-jw) - den(jw) den(-jw) = 0
+##
+## real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
 ## @end group
 ## @end example
 ## @end deftypefn
