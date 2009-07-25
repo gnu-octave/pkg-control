@@ -126,7 +126,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
   
     if (length (idx) > 0)  # if frequencies in R+ exist
     
-      w_gm = w(idx);
+      w_gm = real (w(idx));
     
       for k = 1 : length (w_gm)
         f_resp(k) = polyval (num_jw, w_gm(k)) / polyval (den_jw, w_gm(k));
@@ -199,7 +199,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
     
     if (length (idx) > 0)  # if frequencies in R+ exist
     
-      w_pm = w(idx);
+      w_pm = real (w(idx));
     
       for k = 1 : length (w_pm)
         f_resp = polyval (num_jw, w_pm(k)) / polyval (den_jw, w_pm(k));
