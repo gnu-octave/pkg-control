@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
-## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{outputs1}, @var{inputs2})
+## @deftypefnx{Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
 ## Connect two systems in series.
 ## @math{sys = sys2 * sys1}
 ##
