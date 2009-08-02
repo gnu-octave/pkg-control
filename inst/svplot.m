@@ -37,7 +37,7 @@
 ## @item ptype = 2
 ## Singular values of the frequency response I + H; i.e. return difference.
 ## @item ptype = 3
-## Singular values of the frequency response I + inv(H); i.e inversed complementary sensitivity.
+## Singular values of the frequency response I + inv(H); i.e. inversed complementary sensitivity.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -136,7 +136,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
   endif
   
   switch (ptype)
-    case 0
+    case 0  # Default system
       for k = 1 : size (s, 2)  # Repeat for every frequency s
         H = C * inv (s(k)*I - A) * B  +  D;  # Frequency Response Matrix
         sigma = svd (H);  # Singular Value Decomposition
@@ -144,7 +144,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_max(k) = max (sigma);
       endfor
       
-    case 1
+    case 1  # Inversed system
       for k = 1 : size (s, 2)
         H = inv (C * inv (s(k)*I - A) * B  +  D);
         sigma = svd (H);
@@ -152,7 +152,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_max(k) = max (sigma);
       endfor
     
-    case 2
+    case 2  # Return difference
       for k = 1 : size (s, 2)
         H = J  +  C * inv (s(k)*I - A) * B  +  D;
         sigma = svd (H);
@@ -160,7 +160,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_max(k) = max (sigma);
       endfor
       
-    case 3
+    case 3  # Inversed complementary sensitivity
       for k = 1 : size (s, 2)
         H = J  +  inv (C * inv (s(k)*I - A) * B  +  D);
         sigma = svd (H);
