@@ -16,6 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys})
 ## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{w})
+## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{[]}, @var{ptype})
 ## If no output arguments are given, the singular value plot of a MIMO
 ## system is printed on the screen;
 ## otherwise, the singular values of the system data structure are
@@ -29,6 +30,14 @@
 ## @item w
 ## Optional vector of frequency values. If @var{w} is not specified, it
 ## will be calculated by @code{bode_bounds}.
+## @item ptype = 0
+## Singular values of the frequency response H of system sys. Default Value.
+## @item ptype = 1
+## Singular values of the frequency response inv(H); i.e. inversed system.
+## @item ptype = 2
+## Singular values of the frequency response I + H; i.e. return difference.
+## @item ptype = 3
+## Singular values of the frequency response I + inv(H); i.e inversed complementary sensitivity.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -45,13 +54,13 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.2
+## Version: 0.3
 
 
-function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
+function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
 
   ## Check whether arguments are OK
-  if (nargin < 1 || nargin > 2)
+  if (nargin < 1 || nargin > 3)
     print_usage ();
   endif
 
@@ -59,10 +68,10 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     error ("svplot: first argument sys must be a system data structure");
   endif
 
-  if (nargin == 2)
-    if (! isvector (w))
-      error ("svplot: second argument w must be a vector of frequencies");
-    endif
+  if (nargin == 1)
+    w = [];
+  elseif (! isvector (w) && ! isempty (w))
+    error ("svplot: second argument w must be a vector of frequencies");
   endif
 
   if (is_siso (sys))
@@ -82,9 +91,28 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
   if (digital == -1)
     error ("svplot: system must be either purely continuous or purely discrete");
   endif
+  
+  ## Handle plot type
+  if (nargin == 3)
+    if (isfloat (ptype))  # Numeric constants like 2 are NOT integers in Octave!
+      if (ptype != 0 && ptype != 1 && ptype != 2 && ptype != 3)
+        error ("svplot: third argument ptype must be 0, 1, 2 or 3");
+      endif
+    else
+      error ("svplot: third argument ptype must be a number");
+    endif
+    
+    [n_c, n_d, m, p] = sysdimensions (sys);
+    if (m != p)
+      error ("svplot: system must be square for ptype 1, 2 or 3");
+    endif
+    J = eye(m);
+  else  
+    ptype = 0;  # Default value
+  endif
 
   ## Find interesting frequency range w if not specified
-  if (nargin == 1)
+  if (isempty (w))
 
     ## Since no frequency vector w has been specified, the interesting
     ## decades of the sigma plot have to be found. The already existing
@@ -96,30 +124,52 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     ## Begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
     [dec_min, dec_max] = bode_bounds (zer, pol, digital, t_sam);
     
-    n_freq = 1000; # Number of frequencies evaluated for plotting
+    n_freq = 1000;  # Number of frequencies evaluated for plotting
 
-    w = logspace (dec_min, dec_max, n_freq); # [rad/s]
+    w = logspace (dec_min, dec_max, n_freq);  # [rad/s]
   endif
   
-  if (digital) # Discrete system
+  if (digital)  # Discrete system
     s = exp (i * w * t_sam);
-  else # Continuous system
+  else  # Continuous system
     s = i * w;
   endif
- 
-  ## Repeat for every frequency s
-  for k = 1 : size (s, 2)
-
-    ## Frequency Response Matrix
-    G = C * inv (s(k)*I - A) * B  +  D;
-
-    ## Singular Value Decomposition
-    sigma = svd (G);
-    sigma_min(k) = min (sigma);
-    sigma_max(k) = max (sigma);
-  endfor
+  
+  switch (ptype)
+    case 0
+      for k = 1 : size (s, 2)  # Repeat for every frequency s
+        H = C * inv (s(k)*I - A) * B  +  D;  # Frequency Response Matrix
+        sigma = svd (H);  # Singular Value Decomposition
+        sigma_min(k) = min (sigma);
+        sigma_max(k) = max (sigma);
+      endfor
       
-  if (nargout == 0) # Plot the information
+    case 1
+      for k = 1 : size (s, 2)
+        H = inv (C * inv (s(k)*I - A) * B  +  D);
+        sigma = svd (H);
+        sigma_min(k) = min (sigma);
+        sigma_max(k) = max (sigma);
+      endfor
+    
+    case 2
+      for k = 1 : size (s, 2)
+        H = J  +  C * inv (s(k)*I - A) * B  +  D;
+        sigma = svd (H);
+        sigma_min(k) = min (sigma);
+        sigma_max(k) = max (sigma);
+      endfor
+      
+    case 3
+      for k = 1 : size (s, 2)
+        H = J  +  inv (C * inv (s(k)*I - A) * B  +  D);
+        sigma = svd (H);
+        sigma_min(k) = min (sigma);
+        sigma_max(k) = max (sigma);
+      endfor
+  endswitch
+      
+  if (nargout == 0)  # Plot the information
 
     ## Convert to dB for plotting
     sigma_min_db = 20 * log10 (sigma_min);
@@ -138,7 +188,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w)
     xlabel (xl_str)
     ylabel ('Singular Values [dB]')
     grid on
-  else # Return values
+  else  # Return values
     sigma_min_r = sigma_min;
     sigma_max_r = sigma_max;
     w_r = w;
