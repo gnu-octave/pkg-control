@@ -35,7 +35,9 @@ Block diagram manipulations
  syscont sysdisc
  sysdup sysgroup sysmult sysprune
  sysreorder sysscale syssub ugain wgt1o
- starp
+ starp series
+ feedback sysfeedback
+ buildsens buildretdiff
 Numerical functions
  are dare dgram dlyap gram lyap pinv dre
  zgfmul zgfslv zginit zgreduce zgrownorm zgscal zgsgiv
@@ -67,15 +69,13 @@ Miscellaneous
  strappend listidx packedform sysidx
 Obsolete
  dezero dlqg minfo packsys unpacksys swaprows swapcols rotg qzval
- syschnames series
+ syschnames
  is_digital
+ unitfeedback
 Internal
  __bodquist__ __freqresp__ __stepimp__ __abcddims__ __syschnamesl__ 
  __syscont_disc__ __sysdefioname__ __sysdefstname__ __sysgroupn__
  __tf2sysl__ __zp2ssg2__ __outlist__ __zgpbal__
-Block diagram manipulations
- feedback
- unitfeedback
 Compatibility
  filt= use <f>tf2sys</f>
  zpk= use <f>zp2sys</f>
