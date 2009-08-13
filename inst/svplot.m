@@ -35,9 +35,11 @@
 ## @item ptype = 1
 ## Singular values of the frequency response inv(H); i.e. inversed system.
 ## @item ptype = 2
-## Singular values of the frequency response I + H; i.e. return difference.
+## Singular values of the frequency response I + H; i.e. inversed sensitivity
+## (or return difference) if H = P * C.
 ## @item ptype = 3
-## Singular values of the frequency response I + inv(H); i.e. inversed complementary sensitivity.
+## Singular values of the frequency response I + inv(H); i.e. inversed complementary
+## sensitivity if H = P * C.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -156,7 +158,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_max(k) = max (sigma);
       endfor
     
-    case 2  # Return difference
+    case 2  # Inversed sensitivity
       for k = 1 : l_s
         H = J  +  C * inv (s(k)*I - A) * B  +  D;
         sigma = svd (H);
