@@ -51,7 +51,7 @@ System properties
  is_signal_list is_stable
  isct isdt
 Time domain analysis
- c2d d2c dmr2d damp dcgain impulse step
+ c2d d2c dmr2d damp dcgain impulse step gensig
 Frequency domain analysis
  frdemo
  bode bode_bounds nichols
