@@ -72,7 +72,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1
+## Version: 0.1.1
 
 
 function retsys = sysfeedback (sys)
@@ -126,7 +126,7 @@ function retsys = sysfeedback (sys)
 endfunction
 
 
-%!shared A, B, C, D, F_exp, G_exp, H_exp, J_exp, F, G, H, J
+%!test
 %!
 %! ## Given Open Loop State Space Matrices
 %!
@@ -142,7 +142,7 @@ endfunction
 %!                0         0         0         0         0         0    -7.316    -12.38     30.69    -54.82    0.8061     31.01 ;
 %!                0         0         0         0         0         0    -30.52    -12.43    0.6207     3.803    -8.658      2.44 ;
 %!                0         0         0         0         0         0   -0.1735       8.7    -8.958      24.8   -0.3839    -16.77 ];
-%! 
+%!
 %! B = [            0           0 ;
 %!                  0           0 ;
 %!                  0           0 ;
@@ -155,13 +155,13 @@ endfunction
 %!          3.002e-06       33.54 ;
 %!           0.002484       1.146 ;
 %!          0.0002864      -9.934 ];
-%!          
+%!
 %! C = [  0    0    1    0    0    0    0    0    0    0    0    0 ;
 %!        0    0    0    1    0    0    0    0    0    0    0    0 ];
-%! 
+%!
 %! D = [  0   0 ;
 %!        0   0 ];
-%! 
+%!
 %! ## Expected Closed Loop State Space Matrices 
 %!
 %! F_exp = [      -25           0           0           0          50           0         763       310.7      -27.93      -96.51       216.4         -61 ;
@@ -176,7 +176,7 @@ endfunction
 %!                  0           0  -3.002e-06      -33.54           0           0      -7.316      -12.38       30.69      -54.82      0.8061       31.01 ;
 %!                  0           0   -0.002484      -1.146           0           0      -30.52      -12.43      0.6207       3.803      -8.658        2.44 ;
 %!                  0           0  -0.0002864       9.934           0           0     -0.1735         8.7      -8.958        24.8     -0.3839      -16.77 ];
-%! 
+%!
 %! G_exp = [        0           0 ;
 %!                  0           0 ;
 %!                  0           0 ;
@@ -189,18 +189,15 @@ endfunction
 %!          3.002e-06       33.54 ;
 %!           0.002484       1.146 ;
 %!          0.0002864      -9.934 ];
-%!          
+%!
 %! H_exp = [   0    0    1    0    0    0    0    0    0    0    0    0 ;
 %!             0    0    0    1    0    0    0    0    0    0    0    0 ];
-%! 
+%!
 %! J_exp = [   0   0 ;
 %!             0   0 ];
-%! 
-%! sys_ol = ss(A, B, C, D);
-%! sys_cl = sysfeedback(sys_ol);
-%! [F, G, H, J] = sys2ss(sys_cl);
-%! 
-%!assert(F, F_exp);
-%!assert(G, G_exp);
-%!assert(H, H_exp);
-%!assert(J, J_exp);
+%!
+%! sys_ol = ss (A, B, C, D);
+%! sys_cl = sysfeedback (sys_ol);
+%! [F, G, H, J] = sys2ss (sys_cl);
+%!
+%! assert([F, G; H, J], [F_exp, G_exp; H_exp, J_exp]);
