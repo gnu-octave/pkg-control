@@ -38,7 +38,7 @@
 ## @end table
 ##
 ## @seealso{sysmult}
-## 
+##
 ## @example
 ## @group
 ##     .....................................
@@ -67,17 +67,17 @@
 ## @end example
 ##
 ## @end deftypefn
- 
+
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.1
- 
+## Version: 0.1.1
+
 function sys = series (varargin)
-  
+
   if (nargin != 2 && nargin != 4)
     print_usage ();
   endif
-  
+
   ## Determine sys1 from input
   if (isstruct (varargin{1}))
     sys1 = varargin{1};
@@ -88,7 +88,7 @@ function sys = series (varargin)
   else
     error ("series: argument 1 (sys1) invalid");
   endif
-    
+
   ## Determine sys2 from input
   if (isstruct (varargin{2}))
     sys2 = varargin{2};
@@ -99,7 +99,7 @@ function sys = series (varargin)
   else
     error ("series: argument 2 (sys2) invalid");
   endif
-  
+
   ## Handle digital gains
   if (sys1wasmatrix)
     if (is_digital (sys2, 2) == 1) # -1 for mixed systems!
@@ -107,112 +107,112 @@ function sys = series (varargin)
       sys1 = ss ([], [], [], varargin{1}, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
     endif
   endif
-  
+
   if (sys2wasmatrix)
     if (is_digital (sys1, 2) == 1)
       t_sam = sysgettsam (sys1);
       sys2 = ss ([], [], [], varargin{2}, t_sam);
     endif
   endif
-  
-  
+
+
   if (nargin == 2)
-    
+
     ## Let sysmult do the job
     sys = sysmult (sys2, sys1); # Note the different sequence of systems!
-    
+
   else # (nargin == 4)
-    
+
     ## Get system information
     [n_c_states_1, n_d_states_1, n_in_1, n_out_1] = sysdimensions (sys1);
     [n_c_states_2, n_d_states_2, n_in_2, n_out_2] = sysdimensions (sys2);
-    
+
     ## Get connection lists outputs1 and inputs2
     if (isvector (varargin{3}))
       outputs1 = varargin{3};
     else
       error ("series: argument 3 (outputs1) invalid");
     endif
-    
+
     if (isvector (varargin{4}))
       inputs2 = varargin{4};
     else
       error ("series: argument 4 (inputs2) invalid");
     endif
-    
+
     l_outputs1 = length (outputs1);
     l_inputs2 = length (inputs2);
-  
+
     if (l_outputs1 > n_out_1)
       error ("series: outputs1 has too many indices for sys1");
     endif
-    
+
     if (l_inputs2 > n_in_2)
       error ("series: inputs2 has too many indices for sys2");
     endif
-  
+
     if (l_outputs1 != l_inputs2)
       error ("series: number of outputs1 and inputs2 indices must be equal");
     endif
-    
-    
+
+
     ## Group sys1 and sys2 together
-    
+
     ## Rename outputs of sys1 and inputs of sys2
     ## to avoid unnecessary warnings from sysgroup 
-  
+
     out_name = __sysdefioname__ (n_out_1, "out1_series_tmp_name");
     in_name = __sysdefioname__ (n_in_2, "in2_series_tmp_name");
-    
+
     sys1 = syssetsignals (sys1, "out", out_name);
     sys2 = syssetsignals (sys2, "in", in_name);
-    
+
     sys = sysgroup (sys2, sys1); # Inversed sequence for compatibility
-    
-    
+
+
     ## Connect outputs of sys1 with inputs of sys2
-    
+
     ## Output indices of sys1 start at (n_out_2 + 1)
     ## and end at (n_out_2 + n_out_1)
     ## Input indices of sys2 start at (1)
     ## and end at (n_in_2) --> use inputs2!
-  
+
     for k = 1 : l_outputs1
       out_idx(k) = n_out_2 + outputs1(k);
     endfor
-    
+
     sys = sysconnect (sys, out_idx, inputs2);
-  
-  
+
+
     ## Extract resulting model
-    
+
     ## Output indices of sys2 start at (1)
     ## and end at (n_out_2)
     ## Input indices of sys1 start at (n_in_2 + 1)
     ## and end at (n_in_2 + n_in_1)
-    
+
     for k = 1 : n_out_2
       out_pr_idx(k) = k;
     endfor
-  
+
     for k = 1 : n_in_1
       in_pr_idx(k) = n_in_2 + k;
     endfor
-    
+
     sys = sysprune (sys, out_pr_idx, in_pr_idx);
-    
+
   endif
 
 endfunction
 
 
-%!shared G, H, sys1, sys2, A1, B1, C1, D1, A2, B2, C2, D2, A_exp, B_exp, C_exp, D_exp
-%! G = ss([0, 1; -3, -2], [0; 1], [-5, 1], [2]);
-%! H = ss([-10], [1], [-40], [5]);
-%! sys1 = series(G, H);
-%! sys2 = series(G, H, 1, 1);
-%! [A1, B1, C1, D1] = sys2ss(sys1);
-%! [A2, B2, C2, D2] = sys2ss(sys2);
+%!shared A1, B1, C1, D1, A2, B2, C2, D2, A_exp, B_exp, C_exp, D_exp
+%! G = ss ([0, 1; -3, -2], [0; 1], [-5, 1], [2]);
+%! H = ss ([-10], [1], [-40], [5]);
+%! sys1 = series (G, H);
+%! sys2 = series (G, H, 1, 1);
+%! [A1, B1, C1, D1] = sys2ss (sys1);
+%! [A2, B2, C2, D2] = sys2ss (sys2);
 %! A_exp = [-10   -5    1 ;
 %!            0    0    1 ;
 %!            0   -3   -2 ];
@@ -221,11 +221,5 @@ endfunction
 %!            1 ];
 %! C_exp = [-40  -25    5 ];
 %! D_exp = [ 10 ];
-%!assert(A1, A_exp);
-%!assert(B1, B_exp);
-%!assert(C1, C_exp);
-%!assert(D1, D_exp);
-%!assert(A2, A_exp);
-%!assert(B2, B_exp);
-%!assert(C2, C_exp);
-%!assert(D2, D_exp);
+%!assert([A1, B1; C1, D1], [A_exp, B_exp; C_exp, D_exp]);
+%!assert([A2, B2; C2, D2], [A_exp, B_exp; C_exp, D_exp]);
