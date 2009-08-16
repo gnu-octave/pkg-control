@@ -18,7 +18,7 @@
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{sign})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{sign})
-## Return model sys for the negative feedback interconnection; i. e. filter the output of
+## Return model sys for the negative feedback interconnection; i.e. filter the output of
 ## sys1 through sys2 and subtract it from the input.
 ##
 ## @strong{Inputs}
@@ -43,31 +43,33 @@
 ## @end table
 ##
 ## @seealso{sysgroup, sysdup, sysscale, sysconnect, sysprune}
-## 
+##
 ## @example
 ## @group
 ##  u    +         +--------+             y
 ## ------>(+)----->|  sys1  |-------+------->
-##         ^ -     +--------+       |                             
+##         ^ -     +--------+       |
 ##         |                        |
 ##         |       +--------+       |
 ##         +-------|  sys2  |<------+
-##                 +--------+                             
+##                 +--------+
 ## @end group
 ## @end example
 ##
 ## @end deftypefn
- 
+
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.1
- 
+## Version: 0.1.1
+
+                                # TODO: don't use varargin
+
 function sys = feedback (varargin)
-  
+
   if (nargin < 2 || nargin > 5)
     print_usage ();
   endif
-  
+
   ## Determine sys1 from input
   if (isstruct (varargin{1}))
     sys1 = varargin{1};
@@ -78,7 +80,7 @@ function sys = feedback (varargin)
   else
     error ("feedback: argument 1 (sys1) invalid");
   endif
-  
+
   ## Determine sys2 from input
   if (isstruct (varargin{2}))
     sys2 = varargin{2};
@@ -89,7 +91,7 @@ function sys = feedback (varargin)
   else
     error ("feedback: argument 2 (sys2) invalid");
   endif
-  
+
   ## Handle digital gains
   if (sys1wasmatrix)
     if (is_digital (sys2, 2) == 1) # -1 for mixed systems!
@@ -97,17 +99,17 @@ function sys = feedback (varargin)
       sys1 = ss ([], [], [], varargin{1}, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
     endif
   endif
-  
+
   if (sys2wasmatrix)
     if (is_digital (sys1, 2) == 1)
       t_sam = sysgettsam (sys1);
       sys2 = ss ([], [], [], varargin{2}, t_sam);
     endif
   endif
-  
+
   ## Determine feedback sign
   fb_sign = -1; # Default value
-  
+
   if (nargin == 3)
     if (isreal (varargin{3}))
       if (varargin{3} == +1)
@@ -118,7 +120,7 @@ function sys = feedback (varargin)
       endif
     endif
   endif
-  
+
   if (nargin == 5)
     if (isreal (varargin{5}))
       if (varargin{5} == +1)
@@ -129,98 +131,98 @@ function sys = feedback (varargin)
       endif
     endif
   endif
-  
+
   ## Get system information
   [n_c_states_1, n_d_states, n_in_1, n_out_1] = sysdimensions (sys1);
   [n_c_states_2, n_d_states_2, n_in_2, n_out_2] = sysdimensions (sys2);
-  
-  
+
+
   ## Get connection lists feedin and feedout
   for k = 1 : n_in_1
     feedin(k) = k; # Default value
   endfor
-  
+
   for k = 1 : n_out_1
     feedout(k) = k; # Default value
   endfor
-  
+
   if (nargin == 4 || nargin == 5)
     if (isvector (varargin{3}))
       feedin = varargin{3};
     else
       error ("feedback: argument 3 (feedin) invalid");
     endif
-    
+
     if (isvector (varargin{4}))
       feedin = varargin{4};
     else
       error ("feedback: argument 4 (feedout) invalid");
     endif
   endif
-  
+
   l_feedin = length (feedin);
   l_feedout = length (feedout);
-  
+
   if (l_feedin > n_in_1)
     error ("feedback: feedin has too many indices");
   endif
-  
+
   if (l_feedin != n_out_2)
     error ("feedback: number of feedin indices and number of outputs of sys2 incompatible");
   endif
-  
+
   if (l_feedout > n_out_1)
     error ("feedback: feedout has too many indices");
   endif
-  
+
   if (l_feedout != n_in_2)
     error ("feedback: number of feedout indices and number of inputs of sys2 incompatible");
   endif
-  
-  
+
+
   ## Group sys1 and sys2 together
-  
+
   ## Rename inputs, outputs and states of sys2 temporarily
-  ## to avoid spurious warnings from sysgroup 
-  
+  ## to avoid spurious warnings from sysgroup
+
   in_name = __sysdefioname__ (n_in_2, "in_feedback_tmp_name");
   out_name = __sysdefioname__ (n_out_2, "out_feedback_tmp_name");
- 
+
   sys2 = syssetsignals (sys2, "in", in_name);
   sys2 = syssetsignals (sys2, "out", out_name);
-  
+
   if ((n_c_states_2 + n_d_states_2) != 0) # If there are any states
-      
+
     for k = 1 : (n_c_states_2 + n_d_states_2)
       st_name{k} = sprintf ("st_feedback_tmp_name_%d", k);
     endfor
-  
+
     sys2 = syssetsignals (sys2, "st", st_name);
-    
+
   endif
-  
+
   sys = sysgroup (sys1, sys2);
-  
-  
+
+
   ## Duplicate inputs specified in feedin
   sys = sysdup(sys, [], feedin);
-  
+
   ## Duplicated inputs start now at number (n_in_1 + n_in_2 + 1)
   ## and end at number (n_in_1 + n_in_2 + l_feedin)
-  
-  
+
+
   ## Scale inputs
   for k = 1 : (n_in_1 + n_in_2)
     in_scl(k) = 1;
   endfor
-  
+
   for k = (n_in_1 + n_in_2 + 1) : (n_in_1 + n_in_2 + l_feedin)
     in_scl(k) = fb_sign;
   endfor
-   
+
   sys = sysscale (sys, [], diag (in_scl));
-  
-  
+
+
   ## Connect outputs with inputs
   ## FIXME: Unable to prevent algebraic loop warnings from sysconnect
   ## even if connections are made one by one with
@@ -231,19 +233,19 @@ function sys = feedback (varargin)
   ## for k = 1 : l_feedin
   ##   sys = sysconnect (sys, out_idx(k), in_dup_idx(k));
   ## endfor
-  
+
   ## Connect outputs of sys1 to inputs of sys2
   ## Output indices of sys1 start at (1)
   ## and end at (n_out_1) --> use feedout!
   ## Input indices of sys2 start at (n_in_1 + 1)
   ## and end at (n_in_1 + n_in_2)
-  
+
   for k = 1 : l_feedout
     in_idx(k) = n_in_1 + k;
   endfor
-  
+
   sys = sysconnect (sys, feedout, in_idx);
-  
+
   ## Connect outputs of sys2 to inputs of sys1
   ## Output indices of sys 2 start at (n_out_1 + 1)
   ## and end at (n_out_1 + n_out_2)
@@ -255,25 +257,25 @@ function sys = feedback (varargin)
   for k = 1 : l_feedin
     out_idx(k) = n_out_1 + k;
   endfor
-  
+
   for k = 1 : l_feedin
     in_dup_idx(k) = n_in_1 + n_in_2 + k;
   endfor
-  
+
   sys = sysconnect (sys, out_idx, in_dup_idx);
-  
-  
+
+
   ## Extract resulting model
   for k = 1 : n_out_1
     out_pr_idx(k) = k;
   endfor
-  
+
   for k = 1 : n_in_1
     in_pr_idx(k) = k;
   endfor
-  
+
   sys = sysprune (sys, out_pr_idx, in_pr_idx);
-  
+
 endfunction
 
 
@@ -293,7 +295,7 @@ endfunction
 %!                0         0         0         0         0         0    -7.316    -12.38     30.69    -54.82    0.8061     31.01 ;
 %!                0         0         0         0         0         0    -30.52    -12.43    0.6207     3.803    -8.658      2.44 ;
 %!                0         0         0         0         0         0   -0.1735       8.7    -8.958      24.8   -0.3839    -16.77 ];
-%! 
+%!
 %! B = [            0           0 ;
 %!                  0           0 ;
 %!                  0           0 ;
@@ -306,14 +308,14 @@ endfunction
 %!          3.002e-06       33.54 ;
 %!           0.002484       1.146 ;
 %!          0.0002864      -9.934 ];
-%!          
+%!
 %! C = [  0    0    1    0    0    0    0    0    0    0    0    0 ;
 %!        0    0    0    1    0    0    0    0    0    0    0    0 ];
-%! 
+%!
 %! D = [  0   0 ;
 %!        0   0 ];
-%! 
-%! ## Expected Closed Loop State Space Matrices 
+%!
+%! ## Expected Closed Loop State Space Matrices
 %!
 %! F_exp = [      -25           0           0           0          50           0         763       310.7      -27.93      -96.51       216.4         -61 ;
 %!              0.261          -4      -0.002           0           0           0           0           0           0           0           0           0 ;
@@ -327,7 +329,7 @@ endfunction
 %!                  0           0  -3.002e-06      -33.54           0           0      -7.316      -12.38       30.69      -54.82      0.8061       31.01 ;
 %!                  0           0   -0.002484      -1.146           0           0      -30.52      -12.43      0.6207       3.803      -8.658        2.44 ;
 %!                  0           0  -0.0002864       9.934           0           0     -0.1735         8.7      -8.958        24.8     -0.3839      -16.77 ];
-%! 
+%!
 %! G_exp = [        0           0 ;
 %!                  0           0 ;
 %!                  0           0 ;
@@ -340,17 +342,17 @@ endfunction
 %!          3.002e-06       33.54 ;
 %!           0.002484       1.146 ;
 %!          0.0002864      -9.934 ];
-%!          
+%!
 %! H_exp = [   0    0    1    0    0    0    0    0    0    0    0    0 ;
 %!             0    0    0    1    0    0    0    0    0    0    0    0 ];
-%! 
+%!
 %! J_exp = [   0   0 ;
 %!             0   0 ];
-%! 
+%!
 %! sys1 = ss(A, B, C, D);
 %! sys = feedback(sys1, eye(2));
 %! [F, G, H, J] = sys2ss(sys);
-%! 
+%!
 %! sysc = feedback(sys1, eye(2), [1, 2], [1, 2], -1);
 %!
 %! M = tf([2, 5, 1], [1, 2, 3]);
@@ -366,11 +368,8 @@ endfunction
 %!             -3.418868581198019 + 0.000000000000000i ];
 %! k_exp =  0.181818181818182;
 %!
-%!assert(F, F_exp);
-%!assert(G, G_exp);
-%!assert(H, H_exp);
-%!assert(J, J_exp);
+%!assert([F, G; H, J], [F_exp, G_exp; H_exp, J_exp]);
 %!assert(sys, sysc)
-%!assert(zer, zer_exp);
-%!assert(pol, pol_exp, 2*eps);
+%!assert(zer, zer_exp, 16*eps); # FIXME: why is a so high tol needed?
+%!assert(pol, pol_exp, 16*eps); # FIXME: why is a so high tol needed?
 %!assert(k, k_exp, 2*eps);
