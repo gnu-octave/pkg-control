@@ -58,7 +58,6 @@
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
 ## Version: 0.3
 
-
 function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
 
   ## Check whether arguments are OK
@@ -84,16 +83,16 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
   sys = sysupdate (sys, "ss");
   [A, B, C, D] = sys2ss (sys);
   I = eye (size (A));
-  
+
   ## Get system information
   digital = is_digital(sys, 2);
   t_sam = sysgettsam(sys);
-  
+
   ## Error for mixed systems
   if (digital == -1)
     error ("svplot: system must be either purely continuous or purely discrete");
   endif
-  
+
   ## Handle plot type
   if (nargin == 3)
     if (isfloat (ptype))  # Numeric constants like 2 are NOT integers in Octave!
@@ -103,13 +102,13 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
     else
       error ("svplot: third argument ptype must be a number");
     endif
-    
+
     [n_c, n_d, m, p] = sysdimensions (sys);
     if (m != p)
       error ("svplot: system must be square for ptype 1, 2 or 3");
     endif
     J = eye(m);
-  else  
+  else
     ptype = 0;  # Default value
   endif
 
@@ -122,25 +121,25 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
 
     zer = tzero (sys);
     pol = eig (A);
-    
+
     ## Begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
     [dec_min, dec_max] = bode_bounds (zer, pol, digital, t_sam);
-    
+
     n_freq = 1000;  # Number of frequencies evaluated for plotting
 
     w = logspace (dec_min, dec_max, n_freq);  # [rad/s]
   endif
-  
+
   if (digital)  # Discrete system
     s = exp (i * w * t_sam);
   else  # Continuous system
     s = i * w;
   endif
-  
+
   l_s = length (s);
   sigma_min = zeros (1, l_s);
   sigma_max = zeros (1, l_s);
-  
+
   switch (ptype)
     case 0  # Default system
       for k = 1 : l_s  # Repeat for every frequency s
@@ -149,7 +148,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_min(k) = min (sigma);
         sigma_max(k) = max (sigma);
       endfor
-      
+
     case 1  # Inversed system
       for k = 1 : l_s
         H = inv (C * inv (s(k)*I - A) * B  +  D);
@@ -157,7 +156,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_min(k) = min (sigma);
         sigma_max(k) = max (sigma);
       endfor
-    
+
     case 2  # Inversed sensitivity
       for k = 1 : l_s
         H = J  +  C * inv (s(k)*I - A) * B  +  D;
@@ -165,7 +164,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_min(k) = min (sigma);
         sigma_max(k) = max (sigma);
       endfor
-      
+
     case 3  # Inversed complementary sensitivity
       for k = 1 : l_s
         H = J  +  inv (C * inv (s(k)*I - A) * B  +  D);
@@ -174,20 +173,20 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
         sigma_max(k) = max (sigma);
       endfor
   endswitch
-      
+
   if (nargout == 0)  # Plot the information
 
     ## Convert to dB for plotting
     sigma_min_db = 20 * log10 (sigma_min);
     sigma_max_db = 20 * log10 (sigma_max);
-    
+
     ## Determine xlabel
     if (digital)
       xl_str = sprintf ('Frequency [rad/s]     Pi / T = %g', pi/t_sam);
     else
       xl_str = 'Frequency [rad/s]';
     endif
-   
+
     ## Plot results
     semilogx (w, sigma_min_db, 'b', w, sigma_max_db, 'b')
     title ('Singular Values')
