@@ -74,10 +74,10 @@ endfunction
 %!
 %! numL = [1];
 %! denL = [1, 1];
-%! L = tf(numL, denL);
+%! L = tf (numL, denL);
 %!
 %! Q = buildretdiff(L);
-%! [numQ, denQ] = sys2tf(Q);
+%! [numQ, denQ] = sys2tf (Q);
 %!
 %! numQ_exp = [1, 2];
 %! denQ_exp = [1, 1];
