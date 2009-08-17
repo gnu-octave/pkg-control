@@ -51,27 +51,27 @@
 ## Version: 0.1
 
 function [u, t] = gensig (sigtype, tau, tfinal, tsam)
-  
+
   if (nargin < 2 || nargin > 4)
     print_usage ();
   endif
-  
+
   if (! ischar (sigtype))
     error ("gensig: first argument must be a string");
   endif
-  
+
   if (nargin < 3)
     tfinal = 5 * tau;
   endif
-  
+
   if (nargin < 4)
     tsam = tau / 64;
   endif
-  
+
   t = (0 : tsam : tfinal)';
-  
+
   sigtype = lower (sigtype);
-  
+
   switch (sigtype(1:2))
     case "si"
       u = sin (2*pi/tau * t);
@@ -84,7 +84,7 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     otherwise
       error ("gensig: invalid signal type");
   endswitch
-  
+
 endfunction
 
 ## FIXME: Add a test
