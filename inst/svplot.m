@@ -85,8 +85,8 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
   I = eye (size (A));
 
   ## Get system information
-  digital = is_digital(sys, 2);
-  t_sam = sysgettsam(sys);
+  digital = is_digital (sys, 2);
+  t_sam = sysgettsam (sys);
 
   ## Error for mixed systems
   if (digital == -1)
@@ -107,7 +107,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
     if (m != p)
       error ("svplot: system must be square for ptype 1, 2 or 3");
     endif
-    J = eye(m);
+    J = eye (m);
   else
     ptype = 0;  # Default value
   endif
