@@ -87,6 +87,7 @@ function retsys = buildsens (sys)
 
   sysI = ss ([], [], [], eye (n_in), t_sam);
 
+  ## TODO: use matrix instead of for
   for k = 1 : n_in
     in_scl(k) = -1;
   endfor
