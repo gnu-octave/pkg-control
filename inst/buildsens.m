@@ -30,7 +30,7 @@
 ## @end table
 ##
 ## @seealso{svplot}
-## 
+##
 ## @example
 ## @group
 ##         Y(s)         1               1
@@ -61,7 +61,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1
+## Version: 0.1.1
 
 function retsys = buildsens (sys)
 
@@ -72,33 +72,33 @@ function retsys = buildsens (sys)
   if(! isstruct (sys))
     error ("buildsens: argument sys must be a system data structure");
   endif
-  
+
   [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
   t_sam = sysgettsam (sys);
-  digital = is_digital(sys, 2);
+  digital = is_digital (sys, 2);
 
   if (n_in != n_out)
     error ("buildsens: number of inputs and outputs must be equal");
   endif
-  
+
   if (digital == -1)
     error ("buildsens: system must be either purely continuous or purely discrete");
   endif
-  
+
   sysI = ss ([], [], [], eye (n_in), t_sam);
-  
+
   for k = 1 : n_in
     in_scl(k) = -1;
   endfor
-   
+
   sys = sysscale (sys, [], diag (in_scl));
-  
+
   retsys = feedback (sysI, sys, +1);
 
 endfunction
 
 
-%!shared numL, denL, numS, denS, numS_exp, denS_exp
+%!shared numS, denS, numS_exp, denS_exp
 %!
 %! numL = [1];
 %! denL = [1, 1];
@@ -106,7 +106,7 @@ endfunction
 %!
 %! S = buildsens(L);
 %! [numS, denS] = sys2tf(S);
-%! 
+%!
 %! numS_exp = [1, 1];
 %! denS_exp = [1, 2];
 %!
