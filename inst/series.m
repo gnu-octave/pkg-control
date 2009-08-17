@@ -70,31 +70,31 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.1.1
+## Version: 0.1.2
 
-function sys = series (varargin)
+function sys = series (_sys1, _sys2, outputs1, inputs2)
 
   if (nargin != 2 && nargin != 4)
     print_usage ();
   endif
 
-  ## Determine sys1 from input
-  if (isstruct (varargin{1}))
-    sys1 = varargin{1};
+  ## Sanitize sys1
+  if (isstruct (_sys1))
+    sys1 = _sys1;
     sys1wasmatrix = 0;
-  elseif (ismatrix (varargin{1}))
-    sys1 = ss ([], [], [], varargin{1});
+  elseif (ismatrix (_sys1))
+    sys1 = ss ([], [], [], _sys1);
     sys1wasmatrix = 1;
   else
     error ("series: argument 1 (sys1) invalid");
   endif
 
-  ## Determine sys2 from input
-  if (isstruct (varargin{2}))
-    sys2 = varargin{2};
+  ## Sanitize sys2
+  if (isstruct (_sys2))
+    sys2 = _sys2;
     sys2wasmatrix = 0;
-  elseif (ismatrix (varargin{2}))
-    sys2 = ss ([], [], [], varargin{2});
+  elseif (ismatrix (_sys2))
+    sys2 = ss ([], [], [], _sys2);
     sys2wasmatrix = 1;
   else
     error ("series: argument 2 (sys2) invalid");
@@ -104,14 +104,14 @@ function sys = series (varargin)
   if (sys1wasmatrix)
     if (is_digital (sys2, 2) == 1) # -1 for mixed systems!
       t_sam = sysgettsam (sys2);
-      sys1 = ss ([], [], [], varargin{1}, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
+      sys1 = ss ([], [], [], _sys1, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
     endif
   endif
 
   if (sys2wasmatrix)
     if (is_digital (sys1, 2) == 1)
       t_sam = sysgettsam (sys1);
-      sys2 = ss ([], [], [], varargin{2}, t_sam);
+      sys2 = ss ([], [], [], _sys2, t_sam);
     endif
   endif
 
@@ -128,15 +128,11 @@ function sys = series (varargin)
     [n_c_states_2, n_d_states_2, n_in_2, n_out_2] = sysdimensions (sys2);
 
     ## Get connection lists outputs1 and inputs2
-    if (isvector (varargin{3}))
-      outputs1 = varargin{3};
-    else
+    if (! isvector (outputs1))
       error ("series: argument 3 (outputs1) invalid");
     endif
 
-    if (isvector (varargin{4}))
-      inputs2 = varargin{4};
-    else
+    if (! isvector (inputs2))
       error ("series: argument 4 (inputs2) invalid");
     endif
 
