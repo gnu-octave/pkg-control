@@ -30,7 +30,7 @@
 ## @end table
 ##
 ## @seealso{svplot}
-## 
+##
 ## @example
 ## @group
 ## Q(s) = I + L(s) = I  +  P(s) C(s)
@@ -39,7 +39,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1
+## Version: 0.1.1
 
 function retsys = buildretdiff (sys)
 
@@ -50,27 +50,27 @@ function retsys = buildretdiff (sys)
   if(! isstruct (sys))
     error ("buildretdiff: argument sys must be a system data structure");
   endif
-  
+
   [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
   t_sam = sysgettsam (sys);
-  digital = is_digital(sys, 2);
+  digital = is_digital (sys, 2);
 
   if (n_in != n_out)
     error ("buildretdiff: number of inputs and outputs must be equal");
   endif
-  
+
   if (digital == -1)
     error ("buildretdiff: system must be either purely continuous or purely discrete");
   endif
-  
+
   sysI = ss ([], [], [], eye (n_in), t_sam);
-  
+
   retsys = sysadd (sys, sysI);
 
 endfunction
 
 
-%!shared numL, denL, numQ, denQ, numQ_exp, denQ_exp
+%!shared numQ, denQ, numQ_exp, denQ_exp
 %!
 %! numL = [1];
 %! denL = [1, 1];
@@ -78,9 +78,9 @@ endfunction
 %!
 %! Q = buildretdiff(L);
 %! [numQ, denQ] = sys2tf(Q);
-%! 
+%!
 %! numQ_exp = [1, 2];
 %! denQ_exp = [1, 1];
 %!
-%!assert(numQ, numQ_exp);
+%!assert(numQ, numQ_exp, eps);
 %!assert(denQ, denQ_exp);
