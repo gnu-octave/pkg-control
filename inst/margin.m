@@ -15,12 +15,15 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
+## @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
 ## Gain and phase margin of a system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
 ## System data structure of a SISO system.
+## @item tol
+## Imaginary parts below tol are assumed to be zero. If not specified, default value 1e-7 is taken.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -70,12 +73,12 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.2.1
+## Version: 0.2.2
 
-function [gamma, phi, w_gamma, w_phi] = margin (sys)
+function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
   ## check whether arguments are OK
-  if (nargin != 1)
+  if (nargin < 1 || nargin > 2)
     print_usage ();
   endif
 
@@ -91,10 +94,14 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
     error ("margin: system must be either purely continuous or purely discrete");
   endif
 
-  ## get transfer function
-  [num, den, T] = sys2tf (sys);
+  if (nargin == 1)
+    tol = 1e-7;
+  endif
 
-  if (T == 0)  # continuous system
+  ## get transfer function
+  [num, den, Ts] = sys2tf (sys);
+
+  if (Ts == 0)  # continuous system
 
     ## create polynomials s -> jw
     l_num = length (num);
@@ -108,9 +115,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
       den_jw(k) = den(k) * i^(l_den - k);
     endfor
 
-
     ## GAIN MARGIN
-
     ## create gm polynomial
     gm_poly = imag (conv (num_jw, conj (den_jw)));
 
@@ -118,13 +123,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
     w = roots (gm_poly);
 
     ## filter results
-    TOL = 1e-7;  # imaginary parts below TOL are assumed to be zero
-    idx_1 = find (abs (imag (w)) < TOL);  # find real frequencies
+    idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
     idx_2 = find (real (w) > 0);  # find positive frequencies
     idx = intersect (idx_1, idx_2);  # find frequencies in R+
 
     if (length (idx) > 0)  # if frequencies in R+ exist
-
       w_gm = real (w(idx));
 
       for k = 1 : length (w_gm)
@@ -138,30 +141,21 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
       idx_5 = intersect (idx_3, idx_4);
 
       if (length (idx_5) > 0)  # if crossings between 0 and -1 exist
-
         gm = gm(idx_5);
         w_gm = w_gm(idx_5);
 
         [gamma, idx_6] = min (gm);
         w_gamma = w_gm(idx_6);
-
       else  # there are no crossings between 0 and -1
-
         gamma = Inf;
-        w_gamma = [];
-
+        w_gamma = NaN;
       endif
-
     else  # there are no frequencies in R+
-
       gamma = Inf;
-      w_gamma = [];
-
+      w_gamma = NaN;
     endif
 
-
     ## PHASE MARGIN
-
     ## create pm polynomials
     poly_1 = conv (num_jw, conj (num_jw));
     poly_2 = conv (den_jw, conj (den_jw));
@@ -191,13 +185,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
     w = roots (pm_poly);
 
     ## filter results
-    tol = 1e-7;  # imaginary parts below tol are assumed to be zero
     idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
     idx_2 = find (real (w) > 0);  # find positive frequencies
     idx = intersect (idx_1, idx_2);  # find frequencies in R+
 
     if (length (idx) > 0)  # if frequencies in R+ exist
-
       w_pm = real (w(idx));
 
       for k = 1 : length (w_pm)
@@ -207,12 +199,9 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys)
 
       [phi, idx_3] = min (pm);
       w_phi = w_pm(idx_3);
-
     else  # there are no frequencies in R+
-
       phi = 180;
-      w_phi = 0;
-
+      w_phi = NaN;
     endif
 
   else  # discrete system
