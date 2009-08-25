@@ -185,6 +185,7 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
     for k = 1 : n_out
       subplot (n_out, 1, k)
       plot (t, y(:, k))
+      grid on
       if (k == 1)
         title ("Response to Initial Conditions")
       endif

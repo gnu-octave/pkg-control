@@ -180,6 +180,10 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
     sigma_min_db = 20 * log10 (sigma_min);
     sigma_max_db = 20 * log10 (sigma_max);
 
+    ## Determine axes
+    ax_vec = axis2dlim ([[w(:), sigma_min_db(:)]; [w(:), sigma_max_db(:)]]);
+    ax_vec(1:2) = [min(w), max(w)];
+
     ## Determine xlabel
     if (digital)
       xl_str = sprintf ('Frequency [rad/s]     Pi / T = %g', pi/t_sam);
@@ -189,6 +193,7 @@ function [sigma_min_r, sigma_max_r, w_r] = svplot (sys, w, ptype)
 
     ## Plot results
     semilogx (w, sigma_min_db, 'b', w, sigma_max_db, 'b')
+    axis (ax_vec)
     title ('Singular Values')
     xlabel (xl_str)
     ylabel ('Singular Values [dB]')
