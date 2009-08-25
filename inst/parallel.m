@@ -15,7 +15,6 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
-## @deftypefnx{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2}, @var{in1}, @var{in2}, @var{out1}, @var{out2})
 ## Parallel connection of two systems.
 ## @math{sys = sys1 + sys2}
 ##
@@ -25,14 +24,6 @@
 ## System data structure or gain matrix.
 ## @item sys2
 ## System data structure or gain matrix.
-## @item in1
-## .
-## @item in2
-## .
-## @item out1
-## .
-## @item out2
-## .
 ## @end table
 ##
 ## @strong{Outputs}
@@ -41,7 +32,7 @@
 ## System data structure of parallel connection.
 ## @end table
 ##
-## @seealso{sysmult}
+## @seealso{sysadd}
 ## 
 ## @example
 ## @group
@@ -56,27 +47,6 @@
 ##     :.........sys............:
 ##
 ## sys = parallel (sys1, sys2)
-##
-##
-##     ..........................
-##  v1 :      +--------+        :  z1
-## ---------->|        |------------->
-##     :      |  sys1  |        :
-##     :  +-->|        |---+    :
-##  u  :  |   +--------+   | +  :  y
-## -------+                O--------->                  
-##     :  |   +--------+   | +  :
-##     :  +-->|        |---+    :
-##  v2 :      |  sys2  |        :  z2
-## ---------->|        |------------->
-##     :      +--------+        :
-##     :.........sys.............
-##
-## in1 = [2]
-## in2 = [1]
-## out1 = [2]
-## out2 = [1]
-## sys = parallel (sys1, sys2, in1, in2, out1, out2)
 ## @end group
 ## @end example
 ##
@@ -86,9 +56,9 @@
 ## Rewritten from scratch for better compatibility in July 2009
 ## Version: 0.1
 
-function sys = parallel (_sys1, _sys2, in1, in2, out1, out2)
+function sys = parallel (_sys1, _sys2)
 
-  if (nargin != 2 && nargin != 6)
+  if (nargin != 2)
     print_usage ();
   endif
 
@@ -129,19 +99,10 @@ function sys = parallel (_sys1, _sys2, in1, in2, out1, out2)
     endif
   endif
 
+  warning ("parallel: meaning has changed for compatibility reasons. use sysparallel for the old octave implementation.");
 
-  if (nargin == 2)  # Simple case
-
-    warning ("parallel: meaning has changed for compatibility reasons. use sysparallel for the old octave implementation.");
-
-    ## Let sysadd do the job
-    sys = sysadd (sys1, sys2);
-
-  else  # Complex case
-
-    error ("parallel: complex case (6 arguments) not implemented yet");
-
-  endif
+  ## Let sysadd do the job
+  sys = sysadd (sys1, sys2);
 
 endfunction
 
