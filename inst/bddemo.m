@@ -46,7 +46,7 @@ function bddemo ()
         "sysmult: F(s) = G(s)*H(s) (series connection)", ...
         "sysprune: keep only specified inputs/outputs", ...
         "sysscale: scale inputs/outputs by specified gain matrices", ...
-        "parallel: parallel connection of two systems", ...
+        "sysparallel: parallel connection of two systems", ...
         "sysfeedback: closed loop of a system", ...
         "buildssic: the combination of all", ...
         "Design examples:", ...
@@ -273,8 +273,8 @@ function bddemo ()
       disp("See the design examples (option 14) for use of sysscale.")
       prompt
     elseif ( k == 11)
-      help parallel
-      disp("parallel operates by making a call to sysgroup and sysscale.")
+      help sysparallel
+      disp("sysparallel operates by making a call to sysgroup and sysscale.")
       disp("Example:")
       sys1 = tf(1,[1, 1],0,"in1","out1");
       sys2 = tf(2,[1, 2],0,"in2","out2");
@@ -282,12 +282,12 @@ function bddemo ()
       sysout(sys1);
       disp("sys2=")
       sysout(sys2);
-      cmd = "sysp = parallel(sys1,sys2);";
+      cmd = "sysp = sysparallel(sys1,sys2);";
       run_cmd
       disp("sysp=")
       sysout(sysp);
       prompt
-      disp("parallel can be used for multiple input systems as well:")
+      disp("sysparallel can be used for multiple input systems as well:")
 
       in1 = {"u1.1","u1.2"};
       in2 = {"u2.1","u2.2"};
@@ -307,7 +307,7 @@ function bddemo ()
       sysout(sys1);
       disp("sys2=")
       sysout(sys2);
-      cmd = "sysp = parallel(sys1,sys2);";
+      cmd = "sysp = sysparallel(sys1,sys2);";
       run_cmd
       disp("sysp=")
       sysout(sysp);
@@ -333,7 +333,7 @@ function bddemo ()
       disp("The interconnections may be of arbitrary complexity.")
       disp("The use of buildssic is an alternative to sysgroup,")
       disp("sysadd/syssub, sysappend, sysconnect, sysdup, sysmult")
-      disp("sysprune, sysscale, parallel etc.")
+      disp("sysprune, sysscale, sysparallel etc.")
       disp("In contrast to these functions buildssic does not")
       disp("handle mixed continuous and discrete systems. However,")
       disp("discrete systems can be connected as long as their")
