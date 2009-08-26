@@ -90,3 +90,4 @@ Compatibility
  kalman=use <f>lqe</f>
  kalmd=use <f>dlqe</f> or <f>dkalman</f>
  isstable=use <f>is_stable</f>
+ sigma=use <f>svplot</f>
