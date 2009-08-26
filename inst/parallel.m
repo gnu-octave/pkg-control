@@ -107,7 +107,7 @@ function sys = parallel (_sys1, _sys2)
 endfunction
 
 
-%!shared G, H, sys, num, den, num_exp, den_exp
+%!shared num, den, num_exp, den_exp
 %! G = ss ([0], [1], [1], [0]);
 %! H = 1;
 %! sys = parallel (G, H);
