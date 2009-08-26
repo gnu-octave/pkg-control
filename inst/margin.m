@@ -75,7 +75,7 @@
 
 ## Version: 0.3
 
-function [gamma, phi, w_gamma, w_phi] = margin1 (sys, tol)
+function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
   ## check whether arguments are OK
   if (nargin < 1 || nargin > 2)
@@ -367,7 +367,7 @@ endfunction
 
 %!shared gamma, phi, w_gamma, w_phi, gamma_exp, phi_exp, w_gamma_exp, w_phi_exp
 %! sys = tf ([24], [1, 6, 11, 6]);
-%! [gamma, phi, w_gamma, w_phi] = margin1 (sys);
+%! [gamma, phi, w_gamma, w_phi] = margin (sys);
 %!
 %! gamma_exp = 2.50000000000000;
 %! phi_exp = 35.4254199887541;
