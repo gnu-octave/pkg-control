@@ -87,4 +87,5 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
 
 endfunction
 
-## FIXME: Add a test
+
+## TODO: Add a test

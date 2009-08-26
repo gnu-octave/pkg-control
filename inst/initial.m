@@ -64,7 +64,7 @@
 ## Created: August 16, 2009
 ## based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 ## Version: 0.1 alpha
-## FIXME: Needs thorough testing for discrete systems!
+## TODO: Needs thorough testing for discrete systems!
 
 function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
 
@@ -200,4 +200,6 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
 
 endfunction
 
-## FIXME: Add a test
+
+## TODO: Add a purely continuous system test
+## TODO: Add a purely discrete system test
