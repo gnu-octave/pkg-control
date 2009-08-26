@@ -114,5 +114,5 @@ endfunction
 %! [num, den] = sys2tf (sys);
 %! num_exp = [1, 1];
 %! den_exp = [1, 0];
-%!assert(num, num_exp);
-%!assert(den, den_exp);
+%!assert (num, num_exp);
+%!assert (den, den_exp);
