@@ -42,6 +42,7 @@
 ##
 ## @example
 ## @group
+## CONTINUOUS SYSTEMS
 ## Gain Margin
 ##         _               _
 ## L(jw) = L(jw)      BTW: L(jw) = L(-jw) = conj (L(jw))
@@ -56,19 +57,44 @@
 ## imag (num(-jw) den(jw)) = 0
 ##
 ## Phase Margin
-##           |num(jw)|        _
-## |L(jw)| = |-------| = 1 = |L(jw)|
+##           |num(jw)|
+## |L(jw)| = |-------| = 1
 ##           |den(jw)|
 ##   _     2      2
 ## z z = Re z + Im z
 ##
-## num(jw) num(-jw)
-## ---------------- = 1
-## den(jw) den(-jw)
+## num(jw)   num(-jw)
+## ------- * -------- = 1
+## den(jw)   den(-jw)
 ##
 ## num(jw) num(-jw) - den(jw) den(-jw) = 0
 ##
 ## real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
+##
+##
+## DISCRETE SYSTEMS
+## Gain Margin
+##                              jwT         log z
+## L(z) = L(1/z)      BTW: z = e    --> w = -----
+##                                           j T
+## num(z)   num(1/z)
+## ------ = --------
+## den(z)   den(1/z)
+##
+## num(z) den(1/z) - num(1/z) den(z) = 0
+##
+## Phase Margin
+##          |num(z)|
+## |L(z)| = |------| = 1
+##          |den(z)|
+##
+## L(z) L(1/z) = 1
+##
+## num(z)   num(1/z)
+## ------ * -------- = 0
+## den(z)   den(1/z)
+##
+## num(z) num(1/z) - den(z) den(1/z) = 0
 ## @end group
 ## @end example
 ## @end deftypefn
@@ -227,12 +253,15 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     z_num = zeros (1, l_num);
     z_den = zeros (1, l_den);
     z_num(1) = 1;
-    z_den(1) = 1; 
+    z_den(1) = 1;
+
+    num_inv = conv (num_inv, z_den);
+    den_inv = conv (den_inv, z_num);
 
     ## GAIN MARGIN
     ## create gm polynomial
-    poly_1 = conv (conv (num, den_inv), z_num);
-    poly_2 = conv (conv (num_inv, den), z_den);
+    poly_1 = conv (num, den_inv);
+    poly_2 = conv (num_inv, den);
 
     ## make polynomials equally long for subtraction
     l_p1 = length (poly_1);
@@ -303,8 +332,8 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
     ## PHASE MARGIN
     ## create pm polynomials
-    poly_1 = conv (conv (num, num_inv), z_den);
-    poly_2 = conv (conv (den, den_inv), z_num);
+    poly_1 = conv (num, num_inv);
+    poly_2 = conv (den, den_inv);
 
     ## make polynomials equally long for subtraction
     l_p1 = length (poly_1);
