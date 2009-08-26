@@ -95,6 +95,19 @@
 ## den(z)   den(1/z)
 ##
 ## num(z) num(1/z) - den(z) den(1/z) = 0
+##
+## PS: How to get L(1/z)
+##           4       3       2
+## p(z) = a z  +  b z  +  c z  +  d z  +  e
+##
+##             -4      -3      -2      -1
+## p(1/z) = a z  +  b z  +  c z  +  d z  +  e
+##
+##           -4                    2       3       4
+##        = z   ( a  +  b z  +  c z  +  d z  +  e z  )
+##
+##               4       3       2                     4
+##        = ( e z  +  d z  +  c z  +  b z  +  a ) / ( z  )
 ## @end group
 ## @end example
 ## @end deftypefn
