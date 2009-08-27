@@ -218,6 +218,7 @@ endfunction
 %! sigma_max_exp = [7.91760889977901   8.62745836756994];
 %! w_exp = [2 3];
 %! [sigma_min_obs, sigma_max_obs, w_obs] = svplot (ss (A, B, C, D), w);
-%!assert (sigma_min_obs, sigma_min_exp, 4*eps); # tolerance manually tweaked
-%!assert (sigma_max_obs, sigma_max_exp, 12*eps); # tolerance manually tweaked
+%!assert (sigma_min_obs, sigma_min_exp, 8*eps); # tolerance manually tweaked
+%!assert (sigma_max_obs, sigma_max_exp, 16*eps); # tolerance manually tweaked
 %!assert (w_obs, w_exp, 2*eps);
+
