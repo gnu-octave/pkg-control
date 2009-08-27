@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.3
+## Version: 0.4
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -252,24 +252,24 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     ## create polynomials z -> 1/z
     l_num = length (num);
     l_den = length (den);
-    num_inv = zeros (1, l_num);
-    den_inv = zeros (1, l_den);
+    num_rev = zeros (1, l_num);
+    den_rev = zeros (1, l_den);
 
     for k = 1 : l_num
-      num_inv(k) = num(l_num + 1 - k);
+      num_rev(k) = num(l_num + 1 - k);
     endfor
 
     for k = 1 : l_den
-      den_inv(k) = den(l_den + 1 - k);
+      den_rev(k) = den(l_den + 1 - k);
     endfor
 
-    z_num = zeros (1, l_num);
-    z_den = zeros (1, l_den);
-    z_num(1) = 1;
-    z_den(1) = 1;
+    num_div = zeros (1, l_num);
+    den_div = zeros (1, l_den);
+    num_div(1) = 1;
+    den_div(1) = 1;
 
-    num_inv = conv (num_inv, z_den);
-    den_inv = conv (den_inv, z_num);
+    num_inv = conv (num_rev, den_div);
+    den_inv = conv (den_rev, num_div);
 
     ## GAIN MARGIN
     ## create gm polynomial
@@ -407,16 +407,26 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 endfunction
 
 
-%!shared gamma, phi, w_gamma, w_phi, gamma_exp, phi_exp, w_gamma_exp, w_phi_exp
-%! sys = tf ([24], [1, 6, 11, 6]);
-%! [gamma, phi, w_gamma, w_phi] = margin (sys);
+%!shared margin_c, margin_c_exp, margin_d, margin_d_exp
+%! sysc = tf ([24], [1, 6, 11, 6]);
+%! [gamma_c, phi_c, w_gamma_c, w_phi_c] = margin (sysc);
+%! sysd = c2d (sysc, 0.3);
+%! [gamma_d, phi_d, w_gamma_d, w_phi_d] = margin (sysd);
 %!
-%! gamma_exp = 2.50000000000000;
-%! phi_exp = 35.4254199887541;
-%! w_gamma_exp = 3.31662479035540;
-%! w_phi_exp = 2.06385145800825;
+%! gamma_c_exp = 2.50000000000000;
+%! phi_c_exp = 35.4254199887541;
+%! w_gamma_c_exp = 3.31662479035540;
+%! w_phi_c_exp = 2.06385145800825;
 %!
-%!assert (gamma, gamma_exp, 10*eps);
-%!assert (phi, phi_exp, 256*eps); # FIXME: why this high tol?
-%!assert (w_gamma, w_gamma_exp, 2*eps);
-%!assert (w_phi, w_phi_exp, 25*eps);
+%! gamma_d_exp = 1.41205400689315;
+%! phi_d_exp = 18.6021379182828;
+%! w_gamma_d_exp = 2.47750745165538;
+%! w_phi_d_exp = 2.04369751003386;
+%!
+%! margin_c = [gamma_c, phi_c, w_gamma_c, w_phi_c];
+%! margin_c_exp = [gamma_c_exp, phi_c_exp, w_gamma_c_exp, w_phi_c_exp];
+%! margin_d = [gamma_d, phi_d, w_gamma_d, w_phi_d];
+%! margin_d_exp = [gamma_d_exp, phi_d_exp, w_gamma_d_exp, w_phi_d_exp];
+%!
+%!assert (margin_c, margin_c_exp, 128*eps);
+%!assert (margin_d, margin_d_exp, 160*eps);  # FIXME: why such a high tol?
