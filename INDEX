@@ -78,7 +78,7 @@ Internal
  __tf2sysl__ __zp2ssg2__ __outlist__ __zgpbal__
 Compatibility
  filt= use <f>tf2sys</f>
- zpk= use <f>zp2sys</f>
+ zpk= use <f>zp</f>
  ssdata= use <f>sys2ss</f>
  tfdata=use <f>sys2tf</f>
  zpkdata=use <f>sys2zp</f>
