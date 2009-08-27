@@ -17,6 +17,7 @@
 ## @deftypefn{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys})
 ## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{w})
 ## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{[]}, @var{ptype})
+## @deftypefnx{Function File} {[@var{sigma_min}, @var{sigma_max}, @var{w}] =} svplot (@var{sys}, @var{w}, @var{ptype})
 ## If no output arguments are given, the singular value plot of a MIMO
 ## system is printed on the screen;
 ## otherwise, the singular values of the system data structure are
