@@ -428,5 +428,5 @@ endfunction
 %! margin_d = [gamma_d, phi_d, w_gamma_d, w_phi_d];
 %! margin_d_exp = [gamma_d_exp, phi_d_exp, w_gamma_d_exp, w_phi_d_exp];
 %!
-%!assert (margin_c, margin_c_exp, 128*eps);
-%!assert (margin_d, margin_d_exp, 160*eps);  # FIXME: why such a high tol?
+%!assert (margin_c, margin_c_exp, 256*eps); # FIXME: why such a high tol?
+%!assert (margin_d, margin_d_exp, 2976*eps); # FIXME: why such a high tol?
