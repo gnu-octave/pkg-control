@@ -221,4 +221,3 @@ endfunction
 %!assert (sigma_min_obs, sigma_min_exp, 8*eps); # tolerance manually tweaked
 %!assert (sigma_max_obs, sigma_max_exp, 16*eps); # tolerance manually tweaked
 %!assert (w_obs, w_exp, 2*eps);
-

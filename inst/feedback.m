@@ -60,33 +60,31 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.1.1
+## Version: 0.2
 
-                                # TODO: don't use varargin
-
-function sys = feedback (varargin)
+function sys = feedback (_sys1, _sys2, varargin)
 
   if (nargin < 2 || nargin > 5)
     print_usage ();
   endif
 
-  ## Determine sys1 from input
-  if (isstruct (varargin{1}))
-    sys1 = varargin{1};
+  ## Sanitize sys1
+  if (isstruct (_sys1))
+    sys1 = _sys1;
     sys1wasmatrix = 0;
-  elseif (ismatrix (varargin{1}))
-    sys1 = ss ([], [], [], varargin{1});
+  elseif (ismatrix (_sys1))
+    sys1 = ss ([], [], [], _sys1);
     sys1wasmatrix = 1;
   else
     error ("feedback: argument 1 (sys1) invalid");
   endif
 
-  ## Determine sys2 from input
-  if (isstruct (varargin{2}))
-    sys2 = varargin{2};
+  ## Sanitize sys2
+  if (isstruct (_sys2))
+    sys2 = _sys2;
     sys2wasmatrix = 0;
-  elseif (ismatrix (varargin{2}))
-    sys2 = ss ([], [], [], varargin{2});
+  elseif (ismatrix (_sys2))
+    sys2 = ss ([], [], [], _sys2);
     sys2wasmatrix = 1;
   else
     error ("feedback: argument 2 (sys2) invalid");
@@ -96,14 +94,14 @@ function sys = feedback (varargin)
   if (sys1wasmatrix)
     if (is_digital (sys2, 2) == 1) # -1 for mixed systems!
       t_sam = sysgettsam (sys2);
-      sys1 = ss ([], [], [], varargin{1}, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
+      sys1 = ss ([], [], [], _sys1, t_sam); # sys1 = c2d (sys1, t_sam) doesn't work
     endif
   endif
 
   if (sys2wasmatrix)
     if (is_digital (sys1, 2) == 1)
       t_sam = sysgettsam (sys1);
-      sys2 = ss ([], [], [], varargin{2}, t_sam);
+      sys2 = ss ([], [], [], _sys2, t_sam);
     endif
   endif
 
@@ -111,22 +109,22 @@ function sys = feedback (varargin)
   fb_sign = -1; # Default value
 
   if (nargin == 3)
-    if (isreal (varargin{3}))
-      if (varargin{3} == +1)
+    if (isreal (varargin{1}))
+      if (varargin{1} == +1)
         fb_sign = +1;
       endif
-      if (varargin{3} != -1 && varargin{3} != +1)
+      if (varargin{1} != -1 && varargin{1} != +1)
         error ("feedback: argument 3 (sign) invalid");
       endif
     endif
   endif
 
   if (nargin == 5)
-    if (isreal (varargin{5}))
-      if (varargin{5} == +1)
+    if (isreal (varargin{3}))
+      if (varargin{3} == +1)
         fb_sign = +1;
       endif
-      if (varargin{5} != -1 && varargin{3} != +1)
+      if (varargin{3} != -1 && varargin{3} != +1)
         error ("feedback: argument 5 (sign) invalid");
       endif
     endif
@@ -138,6 +136,9 @@ function sys = feedback (varargin)
 
 
   ## Get connection lists feedin and feedout
+  feedin = zeros (1, n_in_1);
+  feedout = zeros (1, n_out_1);
+
   for k = 1 : n_in_1
     feedin(k) = k; # Default value
   endfor
@@ -147,14 +148,14 @@ function sys = feedback (varargin)
   endfor
 
   if (nargin == 4 || nargin == 5)
-    if (isvector (varargin{3}))
-      feedin = varargin{3};
+    if (isvector (varargin{1}))
+      feedin = varargin{1};
     else
       error ("feedback: argument 3 (feedin) invalid");
     endif
 
-    if (isvector (varargin{4}))
-      feedin = varargin{4};
+    if (isvector (varargin{2}))
+      feedin = varargin{2};
     else
       error ("feedback: argument 4 (feedout) invalid");
     endif
@@ -279,97 +280,23 @@ function sys = feedback (varargin)
 endfunction
 
 
-%!shared A, B, C, D, F_exp, G_exp, H_exp, J_exp, F, G, H, J, sys, sysc, M, N, outsys, zer, pol, k, zer_exp, pol_exp, k_exp
+%!shared sys1, sys2, sys3, sys4, sys5, sys6, sysexpa, sysexpb
+%! G = ss ([0], [1], [1], [0]);
+%! H = ss ([], [], [], [1]);
 %!
-%! ## Given Open Loop State Space Matrices
+%! sys1 = feedback (G, H);
+%! sys2 = feedback (G, 1, -1);
+%! sys3 = feedback (G, H, 1, 1, -1);
+%! sysexpa = ss ([-1], [1], [1], [0]);
 %!
-%! A = [        -25         0         0         0        50         0       763     310.7    -27.93    -96.51     216.4       -61 ;
-%!            0.261        -4    -0.002         0         0         0         0         0         0         0         0         0 ;
-%!              618      7640     -3.07         0         0     338.4     17.19     -2247      5459     -2782     298.7      2849 ;
-%!           -0.384      5.89     0.003      -2.1         0     -0.21  -0.01822    0.9135   -0.9346     2.552   -0.0403    -1.761 ;
-%!                0         0         0         0         0         0     30.52     12.43    -1.117    -3.861     8.658     -2.44 ;
-%!                0         0         0         0         0         0    0.1735      -8.7     8.901    -24.31    0.3839     16.77 ;
-%!                0         0         0         0         0         0      -788    -310.7     26.59     96.98    -166.4        61 ;
-%!                0         0         0         0         0         0      5.22        -4    -7.945    0.2199         0         0 ;
-%!                0         0         0         0         0         0     3.004     13.14    -31.54     13.91    -1.493    -12.56 ;
-%!                0         0         0         0         0         0    -7.316    -12.38     30.69    -54.82    0.8061     31.01 ;
-%!                0         0         0         0         0         0    -30.52    -12.43    0.6207     3.803    -8.658      2.44 ;
-%!                0         0         0         0         0         0   -0.1735       8.7    -8.958      24.8   -0.3839    -16.77 ];
+%! sys4 = feedback (G, H, +1);
+%! sys5 = feedback (G, 1, +1);
+%! sys6 = feedback (G, H, 1, 1, +1);
+%! sysexpb = ss ([1], [1], [1], [0]);
 %!
-%! B = [            0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!           0.006741      -9.319 ;
-%!         -0.0002757      -4.397 ;
-%!           0.005862     0.01201 ;
-%!          3.002e-06       33.54 ;
-%!           0.002484       1.146 ;
-%!          0.0002864      -9.934 ];
-%!
-%! C = [  0    0    1    0    0    0    0    0    0    0    0    0 ;
-%!        0    0    0    1    0    0    0    0    0    0    0    0 ];
-%!
-%! D = [  0   0 ;
-%!        0   0 ];
-%!
-%! ## Expected Closed Loop State Space Matrices
-%!
-%! F_exp = [      -25           0           0           0          50           0         763       310.7      -27.93      -96.51       216.4         -61 ;
-%!              0.261          -4      -0.002           0           0           0           0           0           0           0           0           0 ;
-%!                618        7640       -3.07           0           0       338.4       17.19       -2247        5459       -2782       298.7        2849 ;
-%!             -0.384        5.89       0.003        -2.1           0       -0.21    -0.01822      0.9135     -0.9346       2.552     -0.0403      -1.761 ;
-%!                  0           0           0           0           0           0       30.52       12.43      -1.117      -3.861       8.658       -2.44 ;
-%!                  0           0           0           0           0           0      0.1735        -8.7       8.901      -24.31      0.3839       16.77 ;
-%!                  0           0   -0.006741       9.319           0           0        -788      -310.7       26.59       96.98      -166.4          61 ;
-%!                  0           0   0.0002757       4.397           0           0        5.22          -4      -7.945      0.2199           0           0 ;
-%!                  0           0   -0.005862    -0.01201           0           0       3.004       13.14      -31.54       13.91      -1.493      -12.56 ;
-%!                  0           0  -3.002e-06      -33.54           0           0      -7.316      -12.38       30.69      -54.82      0.8061       31.01 ;
-%!                  0           0   -0.002484      -1.146           0           0      -30.52      -12.43      0.6207       3.803      -8.658        2.44 ;
-%!                  0           0  -0.0002864       9.934           0           0     -0.1735         8.7      -8.958        24.8     -0.3839      -16.77 ];
-%!
-%! G_exp = [        0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!                  0           0 ;
-%!           0.006741      -9.319 ;
-%!         -0.0002757      -4.397 ;
-%!           0.005862     0.01201 ;
-%!          3.002e-06       33.54 ;
-%!           0.002484       1.146 ;
-%!          0.0002864      -9.934 ];
-%!
-%! H_exp = [   0    0    1    0    0    0    0    0    0    0    0    0 ;
-%!             0    0    0    1    0    0    0    0    0    0    0    0 ];
-%!
-%! J_exp = [   0   0 ;
-%!             0   0 ];
-%!
-%! sys1 = ss(A, B, C, D);
-%! sys = feedback(sys1, eye(2));
-%! [F, G, H, J] = sys2ss(sys);
-%!
-%! sysc = feedback(sys1, eye(2), [1, 2], [1, 2], -1);
-%!
-%! M = tf([2, 5, 1], [1, 2, 3]);
-%! N = zp(-2, -10, 5);
-%! outsys = feedback(M, N);
-%! [zer, pol, k] = sys2zp(outsys);
-%!
-%! zer_exp = [ -2.280776406404418 ;
-%!             -0.219223593595584 ;
-%!             -9.999999999999996 ];
-%! pol_exp = [ -0.881474800310081 + 0.535367413587643i ;
-%!             -0.881474800310081 - 0.535367413587643i ;
-%!             -3.418868581198019 + 0.000000000000000i ];
-%! k_exp =  0.181818181818182;
-%!
-%!assert([F, G; H, J], [F_exp, G_exp; H_exp, J_exp]);
-%!assert(sys, sysc)
-%!assert(zer, zer_exp, 16*eps); # FIXME: why is a so high tol needed?
-%!assert(pol, pol_exp, 16*eps); # FIXME: why is a so high tol needed?
-%!assert(k, k_exp, 2*eps);
+%!assert (sys1, sysexpa);
+%!assert (sys2, sysexpa);
+%!assert (sys3, sysexpa);
+%!assert (sys4, sysexpb);
+%!assert (sys5, sysexpb);
+%!assert (sys6, sysexpb);
