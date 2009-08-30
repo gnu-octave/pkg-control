@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{retsys} =} buildretdiff (@var{sys})
-## Build the return difference of a system. Useful in combination with svplot.
+## Build the return difference of a system.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -39,7 +39,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1.1
+## Version: 0.1.2
 
 function retsys = buildretdiff (sys)
 

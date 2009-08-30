@@ -17,7 +17,7 @@
 ## @deftypefn{Function File} {@var{retsys} =} sysfeedback (@var{sys})
 ## Returns the closed loop of a system. The feedback is negative.
 ## Works for MIMO systems as well as for systems with mixed continuous
-## and discrete parts. Replacement for unitfeedback.
+## and discrete parts.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -72,8 +72,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1.1
-
+## Version: 0.1.2
 
 function retsys = sysfeedback (sys)
 

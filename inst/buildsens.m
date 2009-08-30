@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{retsys} =} buildsens (@var{sys})
-## Return the sensitivity of a system. Useful in combination with svplot.
+## Return the sensitivity of a system.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -61,7 +61,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1.1
+## Version: 0.1.2
 
 function retsys = buildsens (sys)
 
