@@ -72,7 +72,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1.2
+## Version: 0.2
 
 function retsys = sysfeedback (sys)
 
@@ -85,43 +85,32 @@ function retsys = sysfeedback (sys)
   endif
 
   [n_c_states, n_d_states, n_in, n_out] = sysdimensions (sys);
-  
+
   if (n_in != n_out)
     error ("sysfeedback: number of inputs and outputs must be equal");
   endif
-  
+
   ## Duplicate inputs
-  for k = 1 : n_in
-    in_idx(k) = k;
-  endfor
-  
+  in_idx = 1 : n_in;
+
   sys = sysdup (sys, [], in_idx);
-  
+
   ## Scale inputs
-  for k = 1 : n_in
-    in_scl(k) = 1;
-  endfor
-  
-  for k = (n_in + 1) : (2 * n_in)
-    in_scl(k) = -1;
-  endfor
-  
+  in_scl = ones (1, n_in);
+  in_scl = horzcat (in_scl, (-1) * in_scl);
+
   sys = sysscale (sys, [], diag (in_scl));
-  
+
   ## Connect outputs with inputs
-  for k = 1 : n_out
-    out_idx(k) = k;
-  endfor
-  
-  for k = 1 : n_in
-    in_dup_idx(k) = k + n_in;
-  endfor
-  
+  out_idx = 1 : n_out;
+
+  in_dup_idx = (n_in + 1) : (2 * n_in);
+
   sys = sysconnect (sys, out_idx, in_dup_idx);
-  
+
   ## Extract closed loop system
   retsys = sysprune (sys, out_idx, in_idx);
-  
+
 endfunction
 
 
