@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4
+## Version: 0.4.1
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -252,16 +252,9 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     ## create polynomials z -> 1/z
     l_num = length (num);
     l_den = length (den);
-    num_rev = zeros (1, l_num);
-    den_rev = zeros (1, l_den);
 
-    for k = 1 : l_num
-      num_rev(k) = num(l_num + 1 - k);
-    endfor
-
-    for k = 1 : l_den
-      den_rev(k) = den(l_den + 1 - k);
-    endfor
+    num_rev = fliplr (num);
+    den_rev = fliplr (den);
 
     num_div = zeros (1, l_num);
     den_div = zeros (1, l_den);
