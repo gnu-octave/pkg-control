@@ -19,7 +19,7 @@
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx{Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{sign})
 ## Return model sys for the negative feedback interconnection; i.e. filter the output of
-## sys1 through sys2 and subtract it from the input.
+## @var{sys1} through @var{sys2} and subtract it from the input.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -32,8 +32,8 @@
 ## @item feedout
 ## Optional vector of output indices for sys1.
 ## @item sign
-## If not specified, default value -1 is taken, resulting in a negative feedback.
-## Use +1 for positive feedback.
+## @code{-1} means negative feedback (default if not specified),
+## @code{+1} means positive one.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -60,9 +60,9 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2
+## Version: 0.2.1
 
-function sys = feedback (_sys1, _sys2, varargin)
+function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
   if (nargin < 2 || nargin > 5)
     print_usage ();
@@ -106,28 +106,14 @@ function sys = feedback (_sys1, _sys2, varargin)
   endif
 
   ## Determine feedback sign
-  fb_sign = -1; # Default value
-
   if (nargin == 3)
-    if (isreal (varargin{1}))
-      if (varargin{1} == +1)
-        fb_sign = +1;
-      endif
-      if (varargin{1} != -1 && varargin{1} != +1)
-        error ("feedback: argument 3 (sign) invalid");
-      endif
-    endif
+    sign = _sign_or_feedin;
   endif
 
-  if (nargin == 5)
-    if (isreal (varargin{3}))
-      if (varargin{3} == +1)
-        fb_sign = +1;
-      endif
-      if (varargin{3} != -1 && varargin{3} != +1)
-        error ("feedback: argument 5 (sign) invalid");
-      endif
-    endif
+  ## Sanitize feedback sign
+  if ((! isreal (sign)) && ((sign != -1) && # "&&" is short-circuit
+                            (sign != +1)))
+    error ("feedback: sign must be -1 or +1");
   endif
 
   ## Get system information
@@ -148,14 +134,14 @@ function sys = feedback (_sys1, _sys2, varargin)
   endfor
 
   if (nargin == 4 || nargin == 5)
-    if (isvector (varargin{1}))
-      feedin = varargin{1};
+    if (isvector (_sign_or_feedin))
+      feedin = _sign_or_feedin;
     else
       error ("feedback: argument 3 (feedin) invalid");
     endif
 
-    if (isvector (varargin{2}))
-      feedin = varargin{2};
+    if (isvector (_feedout))
+      feedin = _feedout;
     else
       error ("feedback: argument 4 (feedout) invalid");
     endif
@@ -218,7 +204,7 @@ function sys = feedback (_sys1, _sys2, varargin)
   endfor
 
   for k = (n_in_1 + n_in_2 + 1) : (n_in_1 + n_in_2 + l_feedin)
-    in_scl(k) = fb_sign;
+    in_scl(k) = sign;
   endfor
 
   sys = sysscale (sys, [], diag (in_scl));
