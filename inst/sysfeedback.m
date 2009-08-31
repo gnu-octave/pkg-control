@@ -72,7 +72,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.2.1
+## Version: 0.2.2
 
 function retsys = sysfeedback (sys)
 
@@ -97,7 +97,7 @@ function retsys = sysfeedback (sys)
 
   ## Scale inputs
   in_scl = ones (1, n_in);
-  in_scl = horzcat (in_scl, (-1) * in_scl);
+  in_scl = horzcat (in_scl, - in_scl);
 
   sys = sysscale (sys, [], diag (in_scl));
 

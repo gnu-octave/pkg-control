@@ -61,7 +61,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.2.1
+## Version: 0.2.2
 
 function retsys = buildsens (sys)
 
@@ -87,7 +87,7 @@ function retsys = buildsens (sys)
 
   sysI = ss ([], [], [], eye (n_in), t_sam);
 
-  in_scl = (-1) * eye (n_in);
+  in_scl = - eye (n_in);
 
   sys = sysscale (sys, [], in_scl);
 
