@@ -70,7 +70,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.1.2
+## Version: 0.2
 
 function sys = series (_sys1, _sys2, outputs1, inputs2)
 
@@ -173,9 +173,7 @@ function sys = series (_sys1, _sys2, outputs1, inputs2)
     ## Input indices of sys2 start at (1)
     ## and end at (n_in_2) --> use inputs2!
 
-    for k = 1 : l_outputs1
-      out_idx(k) = n_out_2 + outputs1(k);
-    endfor
+    out_idx = n_out_2 + outputs1;  
 
     sys = sysconnect (sys, out_idx, inputs2);
 
@@ -187,13 +185,9 @@ function sys = series (_sys1, _sys2, outputs1, inputs2)
     ## Input indices of sys1 start at (n_in_2 + 1)
     ## and end at (n_in_2 + n_in_1)
 
-    for k = 1 : n_out_2
-      out_pr_idx(k) = k;
-    endfor
+    out_pr_idx = 1 : n_out_2;
 
-    for k = 1 : n_in_1
-      in_pr_idx(k) = n_in_2 + k;
-    endfor
+    in_pr_idx = (n_in_2 + 1) : (n_in_2 + n_in_1);
 
     sys = sysprune (sys, out_pr_idx, in_pr_idx);
 
