@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.1
+## Version: 0.2.2
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -122,16 +122,8 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
 
   ## Get connection lists feedin and feedout
-  feedin = zeros (1, n_in_1);
-  feedout = zeros (1, n_out_1);
-
-  for k = 1 : n_in_1
-    feedin(k) = k; # Default value
-  endfor
-
-  for k = 1 : n_out_1
-    feedout(k) = k; # Default value
-  endfor
+  feedin = 1 : n_in_1; # Default value
+  feedout = 1 : n_out_1; # Default value
 
   if (nargin == 4 || nargin == 5)
     if (isvector (_sign_or_feedin))
