@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.3
+## Version: 0.2.4
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -213,10 +213,7 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
   ## Input indices of sys2 start at (n_in_1 + 1)
   ## and end at (n_in_1 + n_in_2)
 
-  for k = 1 : l_feedout
-    in_idx(k) = n_in_1 + k;
-  endfor
-
+  in_idx = n_in_1 + (1 : l_feedout);
   sys = sysconnect (sys, feedout, in_idx);
 
   ## Connect outputs of sys2 to inputs of sys1
