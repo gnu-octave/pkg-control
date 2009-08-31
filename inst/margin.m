@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.1
+## Version: 0.4.2
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -165,9 +165,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     w = roots (gm_poly);
 
     ## filter results
-    idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
-    idx_2 = find (real (w) > 0);  # find positive frequencies
-    idx = intersect (idx_1, idx_2);  # find frequencies in R+
+    idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
     if (length (idx) > 0)  # if frequencies in R+ exist
       w_gm = real (w(idx));
@@ -178,16 +176,14 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
       endfor
 
       ## find crossings between 0 and -1
-      idx_3 = find (real (f_resp) < 0);
-      idx_4 = find (real (f_resp) >= -1);
-      idx_5 = intersect (idx_3, idx_4);
+      idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
 
-      if (length (idx_5) > 0)  # if crossings between 0 and -1 exist
-        gm = gm(idx_5);
-        w_gm = w_gm(idx_5);
+      if (length (idx) > 0)  # if crossings between 0 and -1 exist
+        gm = gm(idx);
+        w_gm = w_gm(idx);
 
-        [gamma, idx_6] = min (gm);
-        w_gamma = w_gm(idx_6);
+        [gamma, idx] = min (gm);
+        w_gamma = w_gm(idx);
       else  # there are no crossings between 0 and -1
         gamma = Inf;
         w_gamma = NaN;
@@ -227,9 +223,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     w = roots (pm_poly);
 
     ## filter results
-    idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
-    idx_2 = find (real (w) > 0);  # find positive frequencies
-    idx = intersect (idx_1, idx_2);  # find frequencies in R+
+    idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
     if (length (idx) > 0)  # if frequencies in R+ exist
       w_pm = real (w(idx));
@@ -239,8 +233,8 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
         pm(k) = 180  +  arg (f_resp) / pi * 180;
       endfor
 
-      [phi, idx_3] = min (pm);
-      w_phi = w_pm(idx_3);
+      [phi, idx] = min (pm);
+      w_phi = w_pm(idx);
     else  # there are no frequencies in R+
       phi = 180;
       w_phi = NaN;
@@ -300,9 +294,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
       z_gm = z(idx);
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
 
-      idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
-      idx_2 = find (real (w) > 0);  # find positive frequencies
-      idx = intersect (idx_1, idx_2);  # find frequencies in R+
+      idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
       if (length (idx) > 0)  # if frequencies in R+ exist
         w_gm = real (w(idx));
@@ -313,16 +305,14 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
         endfor
 
         ## find crossings between 0 and -1
-        idx_3 = find (real (f_resp) < 0);
-        idx_4 = find (real (f_resp) >= -1);
-        idx_5 = intersect (idx_3, idx_4);
+        idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
 
-        if (length (idx_5) > 0)  # if crossings between 0 and -1 exist
-          gm = gm(idx_5);
-          w_gm = w_gm(idx_5);
+        if (length (idx) > 0)  # if crossings between 0 and -1 exist
+          gm = gm(idx);
+          w_gm = w_gm(idx);
 
-          [gamma, idx_6] = min (gm);
-          w_gamma = w_gm(idx_6);
+          [gamma, idx] = min (gm);
+          w_gamma = w_gm(idx);
         else  # there are no crossings between 0 and -1
           gamma = Inf;
           w_gamma = NaN;
@@ -372,9 +362,7 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
       z_gm = z(idx);
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
 
-      idx_1 = find (abs (imag (w)) < tol);  # find real frequencies
-      idx_2 = find (real (w) > 0);  # find positive frequencies
-      idx = intersect (idx_1, idx_2);  # find frequencies in R+
+      idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
       if (length (idx) > 0)  # if frequencies in R+ exist
         w_pm = real (w(idx));
@@ -384,8 +372,8 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
           pm(k) = 180  +  arg (f_resp) / pi * 180;
         endfor
 
-        [phi, idx_3] = min (pm);
-        w_phi = w_pm(idx_3);
+        [phi, idx] = min (pm);
+        w_phi = w_pm(idx);
       else  # there are no frequencies in R+
         phi = 180;
         w_phi = NaN;
