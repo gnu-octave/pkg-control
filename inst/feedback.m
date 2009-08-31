@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.6
+## Version: 0.2.7
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -191,8 +191,8 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
 
   ## Scale inputs
-  in_scl(1, 1 : (n_in_1 + n_in_2 + l_feedin)) = \
-      [(ones (1, n_in_1 + n_in_2)), (sign * ones (1, l_feedin))];
+  in_scl = horzcat (ones (1, n_in_1 + n_in_2), sign * ones (1, l_feedin));
+
   sys = sysscale (sys, [], diag (in_scl));
 
 
