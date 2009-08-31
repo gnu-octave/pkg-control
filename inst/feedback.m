@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.5
+## Version: 0.2.6
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -230,14 +230,8 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
 
   ## Extract resulting model
-  for k = 1 : n_out_1
-    out_pr_idx(k) = k;
-  endfor
-
-  for k = 1 : n_in_1
-    in_pr_idx(k) = k;
-  endfor
-
+  out_pr_idx = 1 : n_out_1;
+  in_pr_idx = 1 : n_in_1;
   sys = sysprune (sys, out_pr_idx, in_pr_idx);
 
 endfunction
