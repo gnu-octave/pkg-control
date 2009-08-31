@@ -70,7 +70,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function sys = series (_sys1, _sys2, outputs1, inputs2)
 
@@ -187,7 +187,7 @@ function sys = series (_sys1, _sys2, outputs1, inputs2)
 
     out_pr_idx = 1 : n_out_2;
 
-    in_pr_idx = (n_in_2 + 1) : (n_in_2 + n_in_1);
+    in_pr_idx = n_in_2 + (1 : n_in_1);
 
     sys = sysprune (sys, out_pr_idx, in_pr_idx);
 
