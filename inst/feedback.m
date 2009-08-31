@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.4
+## Version: 0.2.5
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -224,14 +224,8 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
   ## Sequence of feedin already mapped to duplicated inputs
   ## ---> (n_in_1 + n_in_2 + k)
 
-  for k = 1 : l_feedin
-    out_idx(k) = n_out_1 + k;
-  endfor
-
-  for k = 1 : l_feedin
-    in_dup_idx(k) = n_in_1 + n_in_2 + k;
-  endfor
-
+  out_idx = n_out_1 + (1 : l_feedin);
+  in_dup_idx = n_in_1 + n_in_2 + (1 : l_feedin);
   sys = sysconnect (sys, out_idx, in_dup_idx);
 
 
