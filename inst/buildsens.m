@@ -29,6 +29,8 @@
 ## Sensitivity system data structure.
 ## @end table
 ##
+## @seealso{svplot}
+##
 ## @example
 ## @group
 ##         Y(s)         1               1
@@ -59,7 +61,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1.3
+## Version: 0.2
 
 function retsys = buildsens (sys)
 
@@ -85,10 +87,7 @@ function retsys = buildsens (sys)
 
   sysI = ss ([], [], [], eye (n_in), t_sam);
 
-  ## TODO: use matrix instead of for
-  for k = 1 : n_in
-    in_scl(k) = -1;
-  endfor
+  in_scl = (-1) * ones (1, n_in);
 
   sys = sysscale (sys, [], diag (in_scl));
 
