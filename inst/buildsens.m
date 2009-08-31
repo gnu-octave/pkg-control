@@ -29,7 +29,7 @@
 ## Sensitivity system data structure.
 ## @end table
 ##
-## @seealso{svplot}
+## @seealso{sysfeedback, buildretdiff}
 ##
 ## @example
 ## @group
@@ -61,7 +61,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.2
+## Version: 0.2.1
 
 function retsys = buildsens (sys)
 
@@ -87,9 +87,9 @@ function retsys = buildsens (sys)
 
   sysI = ss ([], [], [], eye (n_in), t_sam);
 
-  in_scl = (-1) * ones (1, n_in);
+  in_scl = (-1) * eye (n_in);
 
-  sys = sysscale (sys, [], diag (in_scl));
+  sys = sysscale (sys, [], in_scl);
 
   retsys = feedback (sysI, sys, +1);
 

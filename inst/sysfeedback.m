@@ -72,7 +72,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.2
+## Version: 0.2.1
 
 function retsys = sysfeedback (sys)
 
@@ -104,7 +104,7 @@ function retsys = sysfeedback (sys)
   ## Connect outputs with inputs
   out_idx = 1 : n_out;
 
-  in_dup_idx = (n_in + 1) : (2 * n_in);
+  in_dup_idx = n_in + (1 : n_in);
 
   sys = sysconnect (sys, out_idx, in_dup_idx);
 
