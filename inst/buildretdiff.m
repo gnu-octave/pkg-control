@@ -29,8 +29,6 @@
 ## System data structure of the return difference.
 ## @end table
 ##
-## @seealso{svplot}
-##
 ## @example
 ## @group
 ## Q(s) = I + L(s) = I  +  P(s) C(s)
@@ -39,7 +37,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1.2
+## Version: 0.1.3
 
 function retsys = buildretdiff (sys)
 

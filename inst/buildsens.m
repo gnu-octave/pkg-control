@@ -29,8 +29,6 @@
 ## Sensitivity system data structure.
 ## @end table
 ##
-## @seealso{svplot}
-##
 ## @example
 ## @group
 ##         Y(s)         1               1
@@ -61,7 +59,7 @@
 ##
 ## @end deftypefn
 
-## Version: 0.1.2
+## Version: 0.1.3
 
 function retsys = buildsens (sys)
 

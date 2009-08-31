@@ -57,7 +57,7 @@ Frequency domain analysis
  bode bode_bounds nichols
  freqchkw ltifr nyquist tzero tzero2
  rlocus
- margin sigma svplot
+ margin sigma
 Controller design
  dgkfdemo hinfdemo dhinfdemo
  dlqe dlqr lqe lqg lqr 

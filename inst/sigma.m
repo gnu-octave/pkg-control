@@ -57,7 +57,7 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1
+## Version: 0.1.1
 
 function [sv_r, w_r] = sigma (sys, w, ptype)
 
@@ -92,7 +92,7 @@ function [sv_r, w_r] = sigma (sys, w, ptype)
 
   ## Error for mixed systems
   if (digital == -1)
-    error ("svplot: system must be either purely continuous or purely discrete");
+    error ("sigma: system must be either purely continuous or purely discrete");
   endif
 
   ## Handle plot type
