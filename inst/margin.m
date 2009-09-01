@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.2
+## Version: 0.4.3
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -166,11 +166,14 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
     ## filter results
     idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+    l_idx = length (idx);
 
-    if (length (idx) > 0)  # if frequencies in R+ exist
+    if (l_idx > 0)  # if frequencies in R+ exist
       w_gm = real (w(idx));
+      f_resp = zeros (1, l_idx);
+      gm = zeros (1, l_idx);
 
-      for k = 1 : length (w_gm)
+      for k = 1 : l_idx
         f_resp(k) = polyval (num_jw, w_gm(k)) / polyval (den_jw, w_gm(k));
         gm(k) = inv (abs (f_resp(k)));
       endfor
@@ -203,18 +206,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max);
-    poly_eq_2 = zeros (1, l_max);
+    poly_eq_1 = zeros (1, l_max - l_p1);
+    poly_eq_2 = zeros (1, l_max - l_p2);
 
-    for k = 1 : l_max
-      if (l_max - k < l_p1)
-        poly_eq_1(k) = poly_1(k + l_p1 - l_max);
-      endif
-
-      if (l_max - k < l_p2)
-        poly_eq_2(k) = poly_2(k + l_p2 - l_max);
-      endif
-    endfor
+    poly_eq_1 = horzcat (poly_eq_1, poly_1);
+    poly_eq_2 = horzcat (poly_eq_2, poly_2);
 
     ## subtract polynomials
     pm_poly = real (poly_eq_1 - poly_eq_2);
@@ -224,11 +220,13 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
     ## filter results
     idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+    l_idx = length (idx);
 
-    if (length (idx) > 0)  # if frequencies in R+ exist
+    if (l_idx > 0)  # if frequencies in R+ exist
       w_pm = real (w(idx));
+      pm = zeros (1, l_idx);
 
-      for k = 1 : length (w_pm)
+      for k = 1 : l_idx
         f_resp = polyval (num_jw, w_pm(k)) / polyval (den_jw, w_pm(k));
         pm(k) = 180  +  arg (f_resp) / pi * 180;
       endfor
@@ -268,18 +266,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max);
-    poly_eq_2 = zeros (1, l_max);
+    poly_eq_1 = zeros (1, l_max - l_p1);
+    poly_eq_2 = zeros (1, l_max - l_p2);
 
-    for k = 1 : l_max
-      if (l_max - k < l_p1)
-        poly_eq_1(k) = poly_1(k + l_p1 - l_max);
-      endif
-
-      if (l_max - k < l_p2)
-        poly_eq_2(k) = poly_2(k + l_p2 - l_max);
-      endif
-    endfor
+    poly_eq_1 = horzcat (poly_eq_1, poly_1);
+    poly_eq_2 = horzcat (poly_eq_2, poly_2);
 
     ## subtract polynomials
     gm_poly = poly_eq_1 - poly_eq_2;
@@ -295,11 +286,14 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
 
       idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+      l_idx = length (idx);
 
-      if (length (idx) > 0)  # if frequencies in R+ exist
+      if (l_idx > 0)  # if frequencies in R+ exist
         w_gm = real (w(idx));
+        f_resp = zeros (1, l_idx);
+        gm = zeros (1, l_idx);
 
-        for k = 1 : length (w_gm)
+        for k = 1 : l_idx
           f_resp(k) = polyval (num, exp (i*w_gm(k)*Ts)) / polyval (den, exp (i*w_gm(k)*Ts));
           gm(k) = inv (abs (f_resp(k)));
         endfor
@@ -336,18 +330,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max);
-    poly_eq_2 = zeros (1, l_max);
+    poly_eq_1 = zeros (1, l_max - l_p1);
+    poly_eq_2 = zeros (1, l_max - l_p2);
 
-    for k = 1 : l_max
-      if (l_max - k < l_p1)
-        poly_eq_1(k) = poly_1(k + l_p1 - l_max);
-      endif
-
-      if (l_max - k < l_p2)
-        poly_eq_2(k) = poly_2(k + l_p2 - l_max);
-      endif
-    endfor
+    poly_eq_1 = horzcat (poly_eq_1, poly_1);
+    poly_eq_2 = horzcat (poly_eq_2, poly_2);
 
     ## subtract polynomials
     pm_poly = poly_eq_1 - poly_eq_2;
@@ -363,11 +350,13 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
 
       idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+      l_idx = length (idx);
 
-      if (length (idx) > 0)  # if frequencies in R+ exist
+      if (l_idx > 0)  # if frequencies in R+ exist
         w_pm = real (w(idx));
+        pm = zeros (1, l_idx);
 
-        for k = 1 : length (w_pm)
+        for k = 1 : l_idx
           f_resp = polyval (num, exp (i*w_pm(k)*Ts)) / polyval (den, exp (i*w_pm(k)*Ts));
           pm(k) = 180  +  arg (f_resp) / pi * 180;
         endfor
