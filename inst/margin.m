@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.3
+## Version: 0.4.4
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -206,11 +206,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max - l_p1);
-    poly_eq_2 = zeros (1, l_max - l_p2);
+    lead_zer_1 = zeros (1, l_max - l_p1);
+    lead_zer_2 = zeros (1, l_max - l_p2);
 
-    poly_eq_1 = horzcat (poly_eq_1, poly_1);
-    poly_eq_2 = horzcat (poly_eq_2, poly_2);
+    poly_eq_1 = horzcat (lead_zer_1, poly_1);
+    poly_eq_2 = horzcat (lead_zer_2, poly_2);
 
     ## subtract polynomials
     pm_poly = real (poly_eq_1 - poly_eq_2);
@@ -266,11 +266,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max - l_p1);
-    poly_eq_2 = zeros (1, l_max - l_p2);
+    lead_zer_1 = zeros (1, l_max - l_p1);
+    lead_zer_2 = zeros (1, l_max - l_p2);
 
-    poly_eq_1 = horzcat (poly_eq_1, poly_1);
-    poly_eq_2 = horzcat (poly_eq_2, poly_2);
+    poly_eq_1 = horzcat (lead_zer_1, poly_1);
+    poly_eq_2 = horzcat (lead_zer_2, poly_2);
 
     ## subtract polynomials
     gm_poly = poly_eq_1 - poly_eq_2;
@@ -330,11 +330,11 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
     l_p2 = length (poly_2);
     l_max = max (l_p1, l_p2);
 
-    poly_eq_1 = zeros (1, l_max - l_p1);
-    poly_eq_2 = zeros (1, l_max - l_p2);
+    lead_zer_1 = zeros (1, l_max - l_p1);
+    lead_zer_2 = zeros (1, l_max - l_p2);
 
-    poly_eq_1 = horzcat (poly_eq_1, poly_1);
-    poly_eq_2 = horzcat (poly_eq_2, poly_2);
+    poly_eq_1 = horzcat (lead_zer_1, poly_1);
+    poly_eq_2 = horzcat (lead_zer_2, poly_2);
 
     ## subtract polynomials
     pm_poly = poly_eq_1 - poly_eq_2;
