@@ -53,10 +53,10 @@
 ## @seealso{impulse, lsim, step}
 ## @example
 ## @group
-## .
-## x = A x     x(0) = x0
+##                    .
+## Continuous Time:   x = A x ,   y = C x ,   x(0) = x0
 ##
-## y = C x
+## Discrete Time:   x[k+1] = A x[k] ,   y[k] = C x[k] ,   x[0] = x0
 ## @end group
 ## @end example
 ## @end deftypefn
@@ -64,8 +64,7 @@
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
 ## Created: August 16, 2009
 ## based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
-## Version: 0.1 alpha
-## TODO: Needs thorough testing for discrete systems!
+## Version: 0.1
 
 function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
 
@@ -183,16 +182,29 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
   endfor
 
   if (nargout == 0)  # plot information
-    for k = 1 : n_out
-      subplot (n_out, 1, k)
-      plot (t, y(:, k))
-      grid on
-      if (k == 1)
-        title ("Response to Initial Conditions")
-      endif
-      ylabel (sprintf ("Amplitude %s", sysgetsignals (sys, "out", k, 1)))
-    endfor
-    xlabel ("Time [s]")
+    if (digital)  # discrete system
+      for k = 1 : n_out
+        subplot (n_out, 1, k)
+        stairs (t, y(:, k))
+        grid on
+        if (k == 1)
+          title ("Response to Initial Conditions")
+        endif
+        ylabel (sprintf ("Amplitude %s", sysgetsignals (sys, "out", k, 1)))
+      endfor
+      xlabel ("Time [s]")
+    else  # continuous system
+      for k = 1 : n_out
+        subplot (n_out, 1, k)
+        plot (t, y(:, k))
+        grid on
+        if (k == 1)
+          title ("Response to Initial Conditions")
+        endif
+        ylabel (sprintf ("Amplitude %s", sysgetsignals (sys, "out", k, 1)))
+      endfor
+      xlabel ("Time [s]")
+    endif  
   else  # return values
     y_r = y;
     t_r = t;
