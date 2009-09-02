@@ -112,9 +112,9 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.5
+## Version: 0.4.6
 
-function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
+function [gamma, phi, w_gamma, w_phi] = margin (sys, tol = 1e-7)
 
   ## check whether arguments are OK
   if (nargin < 1 || nargin > 2)
@@ -131,10 +131,6 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
   if (is_digital (sys, 2) == -1)
     error ("margin: system must be either purely continuous or purely discrete");
-  endif
-
-  if (nargin == 1)
-    tol = 1e-7;
   endif
 
   ## get transfer function
