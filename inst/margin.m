@@ -112,7 +112,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.4
+## Version: 0.4.5
 
 function [gamma, phi, w_gamma, w_phi] = margin (sys, tol)
 
@@ -383,20 +383,24 @@ endfunction
 %! sysd = c2d (sysc, 0.3);
 %! [gamma_d, phi_d, w_gamma_d, w_phi_d] = margin (sysd);
 %!
-%! gamma_c_exp = 2.50000000000000;
-%! phi_c_exp = 35.4254199887541;
-%! w_gamma_c_exp = 3.31662479035540;
-%! w_phi_c_exp = 2.06385145800825;
+%! margin_c = round (100 * [gamma_c, phi_c, w_gamma_c, w_phi_c]) / 100;
+%! margin_d = round (100 * [gamma_d, phi_d, w_gamma_d, w_phi_d]) / 100;
 %!
-%! gamma_d_exp = 1.41205400689315;
-%! phi_d_exp = 18.6021379182828;
-%! w_gamma_d_exp = 2.47750745165538;
-%! w_phi_d_exp = 2.04369751003386;
+%! ## results from this implementation and the "dark side" diverge
+%! ## from the third digit after the decimal point on
 %!
-%! margin_c = [gamma_c, phi_c, w_gamma_c, w_phi_c];
+%! gamma_c_exp = 2.50;
+%! phi_c_exp = 35.43;
+%! w_gamma_c_exp = 3.32;
+%! w_phi_c_exp = 2.06;
+%!
+%! gamma_d_exp = 1.41;
+%! phi_d_exp = 18.60;
+%! w_gamma_d_exp = 2.48;
+%! w_phi_d_exp = 2.04;
+%!
 %! margin_c_exp = [gamma_c_exp, phi_c_exp, w_gamma_c_exp, w_phi_c_exp];
-%! margin_d = [gamma_d, phi_d, w_gamma_d, w_phi_d];
 %! margin_d_exp = [gamma_d_exp, phi_d_exp, w_gamma_d_exp, w_phi_d_exp];
 %!
-%!assert (margin_c, margin_c_exp, 256*eps); # FIXME: why such a high tol?
-%!assert (margin_d, margin_d_exp, 2976*eps); # FIXME: why such a high tol?
+%!assert (margin_c, margin_c_exp);
+%!assert (margin_d, margin_d_exp);
