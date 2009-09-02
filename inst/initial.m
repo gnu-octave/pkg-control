@@ -64,7 +64,7 @@
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
 ## Created: August 16, 2009
 ## based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
-## Version: 0.1
+## Version: 0.2
 
 function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
 
@@ -96,7 +96,7 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
   endif
 
   ## code adapted from __stepimp__.m
-  if (nargin < 3)
+  if (nargin < 4)
     ## we have to compute the time when the system reaches steady state
     ## and the step size
     eigw = eig (sys2ss (sys));
@@ -125,28 +125,34 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
     endfor
 
     if (nk == 0)
-      t_final = 10;
+      if (nargin < 3)
+        t_final = 10;
+      endif
       dt = t_final / 1000;
     else
       eigw = eigw(find (eigw));
       eigw_max = max (abs (eigw));
       dt = 0.2 * pi / eigw_max;
 
-      eigw_min = min (abs (real (eigw)));
-      t_final = 5.0 / eigw_min;
+      if (nargin < 3)
+        eigw_min = min (abs (real (eigw)));
+        t_final = 5.0 / eigw_min;
 
-      ## round up
-      yy = 10^(ceil (log10 (t_final)) - 1);
-      t_final = yy * ceil (t_final / yy);
-
-      n = t_final / dt;
-
-      if (n < 50)
-        dt = t_final / 50;
+        ## round up
+        yy = 10^(ceil (log10 (t_final)) - 1);
+        t_final = yy * ceil (t_final / yy);
       endif
 
-      if (n > 2000)
-        dt = t_final / 2000;
+      if (! digital)
+        n = t_final / dt;
+
+        if (n < 50)
+          dt = t_final / 50;
+        endif
+
+        if (n > 2000)
+          dt = t_final / 2000;
+        endif
       endif
     endif
   endif
@@ -169,7 +175,7 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
 
   ## preallocate memory
   y = zeros (l_t, n_out);
-  x_vec = zeros (l_t, n_st);
+  x_arr = zeros (l_t, n_st);
 
   ## make sure that x is a row vector
   x = reshape (x_0, length (x_0), 1);
@@ -177,7 +183,7 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
   ## simulation
   for k = 1 : l_t
     y(k, :) = C * x;
-    x_vec(k, :) = x;
+    x_arr(k, :) = x;
     x = F * x;
   endfor
 
@@ -208,11 +214,68 @@ function [y_r, t_r, x_r] = initial (sys, x_0, t_final, dt)
   else  # return values
     y_r = y;
     t_r = t;
-    x_r = x_vec;
+    x_r = x_arr;
   endif
 
 endfunction
 
 
-## TODO: Add a purely continuous system test
-## TODO: Add a purely discrete system test
+%!shared initial_c, initial_c_exp, initial_d, initial_d_exp
+%!
+%! A = [ -2.8    2.0   -1.8
+%!       -2.4   -2.0    0.8
+%!        1.1    1.7   -1.0 ];
+%!
+%! B = [ -0.8    0.5    0
+%!        0      0.7    2.3
+%!       -0.3   -0.1    0.5 ];
+%!
+%! C = [ -0.1    0     -0.3
+%!        0.9    0.5    1.2
+%!        0.1   -0.1    1.9 ];
+%!
+%! D = [ -0.5    0      0
+%!        0.1    0      0.3
+%!       -0.8    0      0   ];
+%!
+%! x_0 = [1, 2, 3];
+%!
+%! sysc = ss (A, B, C, D);
+%! sysd = c2d (sysc, 2);
+%!
+%! [yc, tc, xc] = initial (sysc, x_0, 0.2, 0.1);
+%! initial_c = round (100 * [yc, tc, xc]) / 100;
+%!
+%! [yd, td, xd] = initial (sysd, x_0, 4);
+%! initial_d = round (100 * [yd, td, xd]) / 100;
+%!
+%! yc_exp = [ -1.00   5.50   5.60
+%!            -0.99   5.09   5.77
+%!            -0.95   4.69   5.76 ];
+%!
+%! tc_exp = [  0.00
+%!             0.10
+%!             0.20 ];
+%!
+%! xc_exp = [  1.00   2.00   3.00
+%!             0.59   1.69   3.09
+%!             0.24   1.52   3.10 ];
+%!
+%! initial_c_exp = [yc_exp, tc_exp, xc_exp];
+%!
+%! yd_exp = [ -1.00   5.50   5.60
+%!            -0.65   3.17   4.22
+%!            -0.54   2.62   3.50 ];
+%!
+%! td_exp = [  0
+%!             2
+%!             4 ];
+%!
+%! xd_exp = [  1.00   2.00   3.00
+%!            -0.42   1.52   2.32
+%!            -0.35   1.25   1.93 ];
+%!
+%! initial_d_exp = [yd_exp, td_exp, xd_exp];
+%!
+%!assert (initial_c, initial_c_exp)
+%!assert (initial_d, initial_d_exp)
