@@ -16,7 +16,9 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
 ## @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
-## Gain and phase margin of a system.
+## Gain and phase margin of a system. If no output arguments are given, both gain and phase margin
+## are plotted on a bode diagram. Otherwise, the margins and their corresponding frequencies are
+## computed and returned.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -112,9 +114,9 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.4.6
+## Version: 0.5
 
-function [gamma, phi, w_gamma, w_phi] = margin (sys, tol = 1e-7)
+function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
   ## check whether arguments are OK
   if (nargin < 1 || nargin > 2)
@@ -180,12 +182,20 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol = 1e-7)
       if (length (idx) > 0)  # if crossings between 0 and -1 exist
         gm = gm(idx);
         w_gm = w_gm(idx);
-
         [gamma, idx] = min (gm);
         w_gamma = w_gm(idx);
       else  # there are no crossings between 0 and -1
-        gamma = Inf;
-        w_gamma = NaN;
+        idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
+
+        if (length (idx) > 0)  # if crossings between -1 and -Inf exist
+          gm = gm(idx);
+          w_gm = w_gm(idx);
+          [gamma, idx] = max (gm);
+          w_gamma = w_gm(idx);
+        else
+          gamma = Inf;
+          w_gamma = NaN;
+        endif
       endif
     else  # there are no frequencies in R+
       gamma = Inf;
@@ -300,12 +310,20 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol = 1e-7)
         if (length (idx) > 0)  # if crossings between 0 and -1 exist
           gm = gm(idx);
           w_gm = w_gm(idx);
-
           [gamma, idx] = min (gm);
           w_gamma = w_gm(idx);
         else  # there are no crossings between 0 and -1
-          gamma = Inf;
-          w_gamma = NaN;
+          idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
+
+          if (length (idx) > 0)  # if crossings between -1 and -Inf exist
+            gm = gm(idx);
+            w_gm = w_gm(idx);
+            [gamma, idx] = max (gm);
+            w_gamma = w_gm(idx);
+          else
+            gamma = Inf;
+            w_gamma = NaN;
+          endif
         endif
       else  # there are no frequencies in R+
         gamma = Inf;
@@ -368,6 +386,54 @@ function [gamma, phi, w_gamma, w_phi] = margin (sys, tol = 1e-7)
       w_phi = NaN;
     endif
 
+  endif
+
+
+  if (nargout == 0)  # show bode diagram
+
+    [f_resp, w] = __bodquist__ (sys, [], 1, 1, "bode");
+
+    mag_db = 20 * log10 (abs (f_resp));
+    pha = unwrap (arg (f_resp)) * 180 / pi;
+    gamma_db = 20 * log10 (gamma);
+
+    wv = [min(w), max(w)];
+    ax_vec_mag = axis2dlim ([w(:), mag_db(:)]);
+    ax_vec_mag(1:2) = wv;
+    ax_vec_pha = axis2dlim ([w(:), pha(:)]);
+    ax_vec_pha(1:2) = wv;
+
+    wgm = [w_gamma, w_gamma];
+    mgmh = [-gamma_db, ax_vec_mag(3)];
+    mgm = [0, -gamma_db];
+    pgm = [ax_vec_pha(4), -180];  
+
+    wpm = [w_phi, w_phi];
+    mpm = [0, ax_vec_mag(3)];
+    ppmh = [ax_vec_pha(4), phi - 180];
+    ppm = [phi - 180, -180];
+
+    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ...
+                         gamma_db, w_gamma, phi, w_phi);
+
+    subplot (2, 1, 1)
+    semilogx (w, mag_db, "b", wv, [0, 0], "k", wgm, mgmh, "k", wgm, mgm, "r", wpm, mpm, "k")
+    axis (ax_vec_mag)
+    grid on
+    title (title_str)
+    ylabel ("Magnitude [dB]")
+
+    subplot (2, 1, 2)
+    semilogx (w, pha, "b", wv, [-180, -180], "k", wgm, pgm, "k", wpm, ppmh, "k", wpm, ppm, "r")
+    axis (ax_vec_pha)
+    grid on
+    ylabel ("Phase [deg]")
+
+  else  # return values
+    gamma_r = gamma;
+    phi_r = phi;
+    w_gamma_r = w_gamma;
+    w_phi_r = w_phi; 
   endif
 
 endfunction
