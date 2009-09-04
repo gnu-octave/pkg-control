@@ -57,9 +57,9 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@swissonline.ch>
-## Version: 0.1.1
+## Version: 0.1.2
 
-function [sv_r, w_r] = sigma (sys, w, ptype)
+function [sv_r, w_r] = sigma (sys, w = [], ptype = 0)
 
   ## Check whether arguments are OK
   if (nargin < 1 || nargin > 3)
@@ -70,9 +70,7 @@ function [sv_r, w_r] = sigma (sys, w, ptype)
     error ("sigma: first argument sys must be a system data structure");
   endif
 
-  if (nargin == 1)
-    w = [];
-  elseif (! isvector (w) && ! isempty (w))
+  if (! isvector (w) && ! isempty (w))
     error ("sigma: second argument w must be a vector of frequencies");
   endif
 
@@ -109,8 +107,6 @@ function [sv_r, w_r] = sigma (sys, w, ptype)
       error ("sigma: system must be square for ptype 1, 2 or 3");
     endif
     J = eye (m);
-  else
-    ptype = 0;  # Default value
   endif
 
   ## Find interesting frequency range w if not specified
@@ -126,9 +122,7 @@ function [sv_r, w_r] = sigma (sys, w, ptype)
     ## Begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
     [dec_min, dec_max] = bode_bounds (zer, pol, digital, t_sam);
 
-    n_freq = 1000;  # Number of frequencies evaluated for plotting
-
-    w = logspace (dec_min, dec_max, n_freq);  # [rad/s]
+    w = logspace (dec_min, dec_max, 1000);  # [rad/s]
   endif
 
   if (digital)  # Discrete system
