@@ -114,7 +114,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.5
+## Version: 0.5.1
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
@@ -415,6 +415,11 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
     title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ...
                          gamma_db, w_gamma, phi, w_phi);
+    if (Ts == 0)
+      xl_str = "Frequency [rad/s]";
+    else
+      xl_str = sprintf ("Frequency [rad/s]     Pi / T = %g", pi/Ts);
+    endif
 
     subplot (2, 1, 1)
     semilogx (w, mag_db, "b", wv, [0, 0], "k", wgm, mgmh, "k", wgm, mgm, "r", wpm, mpm, "k")
@@ -427,6 +432,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     semilogx (w, pha, "b", wv, [-180, -180], "k", wgm, pgm, "k", wpm, ppmh, "k", wpm, ppm, "r")
     axis (ax_vec_pha)
     grid on
+    xlabel (xl_str)
     ylabel ("Phase [deg]")
 
   else  # return values
