@@ -114,7 +114,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.5.1
+## Version: 0.6.1
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
@@ -163,44 +163,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     w = roots (gm_poly);
 
     ## filter results
-    idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-    l_idx = length (idx);
-
-    if (l_idx > 0)  # if frequencies in R+ exist
-      w_gm = real (w(idx));
-      f_resp = zeros (1, l_idx);
-      gm = zeros (1, l_idx);
-
-      for k = 1 : l_idx
-        f_resp(k) = polyval (num_jw, w_gm(k)) / polyval (den_jw, w_gm(k));
-        gm(k) = inv (abs (f_resp(k)));
-      endfor
-
-      ## find crossings between 0 and -1
-      idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
-
-      if (length (idx) > 0)  # if crossings between 0 and -1 exist
-        gm = gm(idx);
-        w_gm = w_gm(idx);
-        [gamma, idx] = min (gm);
-        w_gamma = w_gm(idx);
-      else  # there are no crossings between 0 and -1
-        idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
-
-        if (length (idx) > 0)  # if crossings between -1 and -Inf exist
-          gm = gm(idx);
-          w_gm = w_gm(idx);
-          [gamma, idx] = max (gm);
-          w_gamma = w_gm(idx);
-        else
-          gamma = Inf;
-          w_gamma = NaN;
-        endif
-      endif
-    else  # there are no frequencies in R+
-      gamma = Inf;
-      w_gamma = NaN;
-    endif
+    [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol);
 
     ## PHASE MARGIN
     ## create pm polynomials
@@ -208,15 +171,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     poly_2 = conv (den_jw, conj (den_jw));
 
     ## make polynomials equally long for subtraction
-    l_p1 = length (poly_1);
-    l_p2 = length (poly_2);
-    l_max = max (l_p1, l_p2);
-
-    lead_zer_1 = zeros (1, l_max - l_p1);
-    lead_zer_2 = zeros (1, l_max - l_p2);
-
-    poly_eq_1 = horzcat (lead_zer_1, poly_1);
-    poly_eq_2 = horzcat (lead_zer_2, poly_2);
+    [poly_eq_1, poly_eq_2] = poly_equalizer (poly_1, poly_2);
 
     ## subtract polynomials
     pm_poly = real (poly_eq_1 - poly_eq_2);
@@ -225,24 +180,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     w = roots (pm_poly);
 
     ## filter results
-    idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-    l_idx = length (idx);
-
-    if (l_idx > 0)  # if frequencies in R+ exist
-      w_pm = real (w(idx));
-      pm = zeros (1, l_idx);
-
-      for k = 1 : l_idx
-        f_resp = polyval (num_jw, w_pm(k)) / polyval (den_jw, w_pm(k));
-        pm(k) = 180  +  arg (f_resp) / pi * 180;
-      endfor
-
-      [phi, idx] = min (pm);
-      w_phi = w_pm(idx);
-    else  # there are no frequencies in R+
-      phi = 180;
-      w_phi = NaN;
-    endif
+    [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
 
 
   else  # DISCRETE SYSTEM
@@ -268,15 +206,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     poly_2 = conv (num_inv, den);
 
     ## make polynomials equally long for subtraction
-    l_p1 = length (poly_1);
-    l_p2 = length (poly_2);
-    l_max = max (l_p1, l_p2);
-
-    lead_zer_1 = zeros (1, l_max - l_p1);
-    lead_zer_2 = zeros (1, l_max - l_p2);
-
-    poly_eq_1 = horzcat (lead_zer_1, poly_1);
-    poly_eq_2 = horzcat (lead_zer_2, poly_2);
+    [poly_eq_1, poly_eq_2] = poly_equalizer (poly_1, poly_2);
 
     ## subtract polynomials
     gm_poly = poly_eq_1 - poly_eq_2;
@@ -290,45 +220,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     if (length (idx) > 0)  # if z with magnitude 1 exist
       z_gm = z(idx);
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
-
-      idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-      l_idx = length (idx);
-
-      if (l_idx > 0)  # if frequencies in R+ exist
-        w_gm = real (w(idx));
-        f_resp = zeros (1, l_idx);
-        gm = zeros (1, l_idx);
-
-        for k = 1 : l_idx
-          f_resp(k) = polyval (num, exp (i*w_gm(k)*Ts)) / polyval (den, exp (i*w_gm(k)*Ts));
-          gm(k) = inv (abs (f_resp(k)));
-        endfor
-
-        ## find crossings between 0 and -1
-        idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
-
-        if (length (idx) > 0)  # if crossings between 0 and -1 exist
-          gm = gm(idx);
-          w_gm = w_gm(idx);
-          [gamma, idx] = min (gm);
-          w_gamma = w_gm(idx);
-        else  # there are no crossings between 0 and -1
-          idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
-
-          if (length (idx) > 0)  # if crossings between -1 and -Inf exist
-            gm = gm(idx);
-            w_gm = w_gm(idx);
-            [gamma, idx] = max (gm);
-            w_gamma = w_gm(idx);
-          else
-            gamma = Inf;
-            w_gamma = NaN;
-          endif
-        endif
-      else  # there are no frequencies in R+
-        gamma = Inf;
-        w_gamma = NaN;
-      endif
+      [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol);
     else  # there are no z with magnitude 1
       gamma = Inf;
       w_gamma = NaN;
@@ -340,15 +232,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     poly_2 = conv (den, den_inv);
 
     ## make polynomials equally long for subtraction
-    l_p1 = length (poly_1);
-    l_p2 = length (poly_2);
-    l_max = max (l_p1, l_p2);
-
-    lead_zer_1 = zeros (1, l_max - l_p1);
-    lead_zer_2 = zeros (1, l_max - l_p2);
-
-    poly_eq_1 = horzcat (lead_zer_1, poly_1);
-    poly_eq_2 = horzcat (lead_zer_2, poly_2);
+    [poly_eq_1, poly_eq_2] = poly_equalizer (poly_1, poly_2);
 
     ## subtract polynomials
     pm_poly = poly_eq_1 - poly_eq_2;
@@ -362,25 +246,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     if (length (idx) > 0)  # if z with magnitude 1 exist
       z_gm = z(idx);
       w = log (z_gm) / (i*Ts);  # get frequencies w from z
-
-      idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-      l_idx = length (idx);
-
-      if (l_idx > 0)  # if frequencies in R+ exist
-        w_pm = real (w(idx));
-        pm = zeros (1, l_idx);
-
-        for k = 1 : l_idx
-          f_resp = polyval (num, exp (i*w_pm(k)*Ts)) / polyval (den, exp (i*w_pm(k)*Ts));
-          pm(k) = 180  +  arg (f_resp) / pi * 180;
-        endfor
-
-        [phi, idx] = min (pm);
-        w_phi = w_pm(idx);
-      else  # there are no frequencies in R+
-        phi = 180;
-        w_phi = NaN;
-      endif
+      [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
     else  # there are no z with magnitude 1
       phi = 180;
       w_phi = NaN;
@@ -415,10 +281,10 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
     title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ...
                          gamma_db, w_gamma, phi, w_phi);
-    if (Ts == 0)
-      xl_str = "Frequency [rad/s]";
-    else
+    if (digital)
       xl_str = sprintf ("Frequency [rad/s]     Pi / T = %g", pi/Ts);
+    else
+      xl_str = "Frequency [rad/s]";
     endif
 
     subplot (2, 1, 1)
@@ -439,7 +305,104 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     gamma_r = gamma;
     phi_r = phi;
     w_gamma_r = w_gamma;
-    w_phi_r = w_phi; 
+    w_phi_r = w_phi;
+  endif
+
+endfunction
+
+
+function [poly_eq_1, poly_eq_2] = poly_equalizer (poly_1, poly_2)
+
+  l_p1 = length (poly_1);
+  l_p2 = length (poly_2);
+  l_max = max (l_p1, l_p2);
+
+  lead_zer_1 = zeros (1, l_max - l_p1);
+  lead_zer_2 = zeros (1, l_max - l_p2);
+
+  poly_eq_1 = horzcat (lead_zer_1, poly_1);
+  poly_eq_2 = horzcat (lead_zer_2, poly_2);
+
+endfunction
+
+
+function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
+
+  idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+  l_idx = length (idx);
+
+  if (l_idx > 0)  # if frequencies in R+ exist
+    w_gm = real (w(idx));
+    f_resp = zeros (1, l_idx);
+    gm = zeros (1, l_idx);
+
+    if (Ts == 0)
+      for k = 1 : l_idx
+        f_resp(k) = polyval (num, i*w_gm(k)) / polyval (den, i*w_gm(k));
+        gm(k) = inv (abs (f_resp(k)));
+      endfor
+    else
+      for k = 1 : l_idx
+        f_resp(k) = polyval (num, exp (i*w_gm(k)*Ts)) / polyval (den, exp (i*w_gm(k)*Ts));
+        gm(k) = inv (abs (f_resp(k)));
+      endfor
+    endif
+
+    ## find crossings between 0 and -1
+    idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
+
+    if (length (idx) > 0)  # if crossings between 0 and -1 exist
+      gm = gm(idx);
+      w_gm = w_gm(idx);
+      [gamma, idx] = min (gm);
+      w_gamma = w_gm(idx);
+    else  # there are no crossings between 0 and -1
+      idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
+
+      if (length (idx) > 0)  # if crossings between -1 and -Inf exist
+        gm = gm(idx);
+        w_gm = w_gm(idx);
+        [gamma, idx] = max (gm);
+        w_gamma = w_gm(idx);
+      else
+        gamma = Inf;
+        w_gamma = NaN;
+      endif
+    endif
+  else  # there are no frequencies in R+
+    gamma = Inf;
+    w_gamma = NaN;
+  endif
+
+endfunction
+
+
+function [phi, w_phi] = pm_filter (w, num, den, Ts, tol)
+
+  idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
+  l_idx = length (idx);
+
+  if (l_idx > 0)  # if frequencies in R+ exist
+    w_pm = real (w(idx));
+    pm = zeros (1, l_idx);
+
+    if (Ts == 0)
+      for k = 1 : l_idx
+        f_resp = polyval (num, i*w_pm(k)) / polyval (den, i*w_pm(k));
+        pm(k) = 180  +  arg (f_resp) / pi * 180;
+      endfor
+    else
+      for k = 1 : l_idx
+        f_resp = polyval (num, exp (i*w_pm(k)*Ts)) / polyval (den, exp (i*w_pm(k)*Ts));
+        pm(k) = 180  +  arg (f_resp) / pi * 180;
+      endfor
+    endif
+
+    [phi, idx] = min (pm);
+    w_phi = w_pm(idx);
+  else  # there are no frequencies in R+
+    phi = 180;
+    w_phi = NaN;
   endif
 
 endfunction
