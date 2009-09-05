@@ -114,7 +114,7 @@
 ## @end example
 ## @end deftypefn
 
-## Version: 0.6.1
+## Version: 0.6.2
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
@@ -281,10 +281,10 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
 
     title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ...
                          gamma_db, w_gamma, phi, w_phi);
-    if (digital)
-      xl_str = sprintf ("Frequency [rad/s]     Pi / T = %g", pi/Ts);
-    else
+    if (Ts == 0)
       xl_str = "Frequency [rad/s]";
+    else
+      xl_str = sprintf ("Frequency [rad/s]     Pi / T = %g", pi/Ts);
     endif
 
     subplot (2, 1, 1)
