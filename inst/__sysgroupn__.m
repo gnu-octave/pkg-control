@@ -46,7 +46,7 @@ function names = __sysgroupn__ (names, kind)
 		 kind, ii, kind, jj, st1);
         strval = sprintf ("%s_%d", st2, jj);
         names{jj} = strval;
-        warning ("sysgroup:     changed %s name %d to %s", kind, jj, strval);
+        warning ("sysgroup:   changed %s name(%d) to %s", kind, jj, strval);
         ## restart the check (just to be sure there's no further duplications)
         ii = 0;
 	jj = l;
