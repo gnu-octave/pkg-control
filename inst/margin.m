@@ -272,14 +272,14 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     wgm = [w_gamma, w_gamma];
     mgmh = [-gamma_db, ax_vec_mag(3)];
     mgm = [0, -gamma_db];
-    pgm = [ax_vec_pha(4), -180];  
+    pgm = [ax_vec_pha(4), -180];
 
     wpm = [w_phi, w_phi];
     mpm = [0, ax_vec_mag(3)];
     ppmh = [ax_vec_pha(4), phi - 180];
     ppm = [phi - 180, -180];
 
-    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ...
+    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ... # FIXME: what are these "..."? could them be deleted?
                          gamma_db, w_gamma, phi, w_phi);
     if (Ts == 0)
       xl_str = "Frequency [rad/s]";
