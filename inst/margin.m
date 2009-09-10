@@ -279,7 +279,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
     ppmh = [ax_vec_pha(4), phi - 180];
     ppm = [phi - 180, -180];
 
-    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)", ... # FIXME: what are these "..."? could them be deleted?
+    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)",
                          gamma_db, w_gamma, phi, w_phi);
     if (Ts == 0)
       xl_str = "Frequency [rad/s]";
