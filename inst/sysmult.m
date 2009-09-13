@@ -47,7 +47,7 @@ function sys = sysmult (varargin)
   for kk = 1:nargin
     arglist{kk} = varargin{kk};
     if (! isstruct (arglist{kk}))
-      error ("sysadd: argument %d is not a data structure", kk);
+      error ("sysmult: argument %d is not a data structure", kk);
     endif
   endfor
 
@@ -56,7 +56,7 @@ function sys = sysmult (varargin)
   for kk = 2:nargin
     [n, nz, mh, ph, Hyd] = sysdimensions (arglist{kk});
     if(ph != mg)
-      error ("arg %d has %d outputs; arg %d has %d inputs", kk, ph, kk-1, mg);
+      error ("sysmult: arg %d has %d outputs; arg %d has %d inputs", kk, ph, kk-1, mg);
     endif
     [n, nz, mg, pg, Gyd] = sysdimensions (arglist{kk});   # for next iteration
   endfor
