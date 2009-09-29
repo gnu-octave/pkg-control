@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin
 ## Rewritten from scratch for better compatibility in July 2009
-## Version: 0.2.7
+## Version: 0.2.8
 
 function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
 
@@ -133,7 +133,7 @@ function sys = feedback (_sys1, _sys2, _sign_or_feedin, _feedout, sign = -1)
     endif
 
     if (isvector (_feedout))
-      feedin = _feedout;
+      feedout = _feedout;
     else
       error ("feedback: argument 4 (feedout) invalid");
     endif
