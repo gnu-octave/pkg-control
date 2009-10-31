@@ -130,7 +130,7 @@ function x = lyap (a, b, c)
     [n1, m1] = size(c);
 
     if (n != n1 || m != m1)
-      error("lyap: a,b,c not conformably dimensioned");
+      error("lyap: a, b, c not conformably dimensioned");
     endif
   endif
 
