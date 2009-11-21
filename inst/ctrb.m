@@ -67,3 +67,6 @@ function Qs = ctrb (sys, b)
     endfor
   endif
 endfunction
+
+
+%!assert (ctrb ([1 0; 0 -0.5], [8; 8]), [8 8; 8 -4]);
