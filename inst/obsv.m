@@ -72,3 +72,6 @@ function Qb = obsv (sys, c)
     endfor
   endif
 endfunction
+
+
+%!assert (obsv ([1 0; 0 -0.5], [8 8]), [8 8; 8 -4]);
