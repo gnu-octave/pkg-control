@@ -71,4 +71,4 @@ function co = ctrb (sys_or_a, b)
 endfunction
 
 
-%!assert (ctrb ([1 0; 0 -0.5], [8; 8]), [8 8; 8 -4]);
+%!assert (ctrb ([1, 0; 0, -0.5], [8; 8]), [8, 8; 8, -4]);
