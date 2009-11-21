@@ -1,4 +1,5 @@
 ## Copyright (C) 1997, 2000, 2002, 2004, 2005, 2006, 2007 Kai P. Mueller
+## Copyright (C) 2009   Lukas F. Reichlin
 ##
 ##
 ## This program is free software; you can redistribute it and/or modify it
@@ -16,18 +17,18 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} ctrb (@var{sys}, @var{b})
-## @deftypefnx {Function File} {} ctrb (@var{a}, @var{b})
+## @deftypefn {Function File} {@var{co} =} ctrb (@var{sys})
+## @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
 ## Build controllability matrix:
 ## @iftex
 ## @tex
-## $$ Q_s = [ B AB A^2B \ldots A^{n-1}B ] $$
+## $$ C_o = [ B AB A^2B \ldots A^{n-1}B ] $$
 ## @end tex
 ## @end iftex
 ## @ifinfo
 ## @example
 ##              2       n-1
-## Qs = [ B AB A B ... A   B ]
+## Co = [ B AB A B ... A   B ]
 ## @end example
 ## @end ifinfo
 ##
@@ -42,30 +43,31 @@
 ## Created: November 4, 1997
 ## based on is_controllable.m of Scottedward Hodel
 
-function Qs = ctrb (sys, b)
+function co = ctrb (sys_or_a, b)
 
-  if (nargin == 2)
-    a = sys;
-  elseif (nargin == 1 && isstruct (sys))
+  if (nargin == 1 && isstruct (sys))
     sysupdate (sys, "ss");
     [a, b] = sys2ss (sys);
+  elseif (nargin == 2)
+    a = sys_or_a;
+    if (! isnumeric (a) || ! isnumeric (b) ||
+        rows(a) != rows (b) || ! issquare (a))
+      error ("ctrb: invalid arguments");
+    endif
   else
     print_usage ();
   endif
 
-  if (! is_abcd (a, b))
-    Qs = [];
-  else
-    ## no need to check dimensions, we trust is_abcd().
-    [na, ma] = size (a);
-    ## using imb avoids name conflict with the "mb" function
-    [inb, imb] = size (b);
-    Qs = zeros (na, ma*imb);
-    for i = 1:na
-      Qs(:,(i-1)*imb+1:i*imb) = b;
-      b = a * b;
-    endfor
-  endif
+  [arows, acols] = size (a);
+  [brows, bcols] = size (b);
+
+  co = zeros (arows, acols*bcols);
+
+  for k = 1 : arows
+    co(:, ((k-1)*bcols + 1) : (k*bcols)) = b;
+    b = a * b;
+  endfor
+
 endfunction
 
 
