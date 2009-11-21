@@ -1,4 +1,6 @@
 ## Copyright (C) 1997, 2000, 2002, 2004, 2005, 2006, 2007 Kai P. Mueller
+## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ##
 ## This program is free software; you can redistribute it and/or modify it
@@ -16,12 +18,12 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} obsv (@var{sys}, @var{c})
-## @deftypefnx {Function File} {} obsv (@var{a}, @var{c})
+## @deftypefn {Function File} {@var{ob} =} obsv (@var{sys})
+## @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
 ## Build observability matrix:
 ## @iftex
 ## @tex
-## $$ Q_b = \left[ \matrix{  C       \cr
+## $$ O_b = \left[ \matrix{  C       \cr
 ##                           CA    \cr
 ##                           CA^2  \cr
 ##                           \vdots  \cr
@@ -33,7 +35,7 @@
 ## @group
 ##      | C        |
 ##      | CA       |
-## Qb = | CA^2     |
+## Ob = | CA^2     |
 ##      | ...      |
 ##      | CA^(n-1) |
 ## @end group
@@ -48,29 +50,23 @@
 ## Author: Kai P. Mueller <mueller@ifr.ing.tu-bs.de>
 ## Created: November 4, 1997
 
-function Qb = obsv (sys, c)
+function ob = obsv (sys_or_a, c)
 
-  if (nargin == 2)
-    a = sys;
-  elseif (nargin == 1 && isstruct(sys))
+  if (nargin == 1 && isstruct (sys))
     sysupdate (sys, "ss");
     [a, b, c] = sys2ss (sys);
+  elseif (nargin == 2)
+    a = sys_or_a;
+    if (! isnumeric (a) || ! isnumeric (c) ||
+        columns(a) != columns (c) || ! issquare (a))
+      error ("obsv: invalid arguments");
+    endif
   else
     print_usage ();
   endif
 
-  if (! is_abcd (a, c'))
-    Qb = [];
-  else
-    ## no need to check dimensions, we trust is_abcd().
-    [na, ma] = size (a);
-    [nc, mc] = size (c);
-    Qb = zeros (na*nc, ma);
-    for i = 1:na
-      Qb((i-1)*nc+1:i*nc, :) = c;
-      c = c * a;
-    endfor
-  endif
+  ob = ctrb (a', c')';
+
 endfunction
 
 
