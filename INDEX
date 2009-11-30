@@ -72,11 +72,6 @@ Obsolete
  syschnames
  is_digital
  unitfeedback
-Internal
- __bodquist__ __freqresp__ __stepimp__ __abcddims__ __syschnamesl__ 
- __syscont_disc__ __sysdefioname__ __sysdefstname__ __sysgroupn__
- __tf2sysl__ __zp2ssg2__ __outlist__ __zgpbal__
- __axis2dlim__
 Compatibility
  filt= use <f>tf2sys</f>
  zpk= use <f>zp</f>
