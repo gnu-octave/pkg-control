@@ -217,7 +217,7 @@ function [rldata, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment, m
   if (nargout  == 0)
     rlpolv = vec(rlpol);
     axdata = [real(rlpolv), imag(rlpolv); real(olzer), imag(olzer)];
-    axlim = axis2dlim (axdata);
+    axlim = __axis2dlim__ (axdata);
     rldata = [real(rlpolv), imag(rlpolv) ];
     [stn, inname, outname] = sysgetsignals (sys);
 

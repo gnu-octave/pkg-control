@@ -139,7 +139,7 @@ function [mag2, phase2, w2] = nichols (sys, w, outputs, inputs)
               __outlist__ (outname, "       "));
     endif
 
-    axis (axis2dlim ([phase(:), md(:)]));
+    axis (__axis2dlim__ ([phase(:), md(:)]));
   else
     mag2 = mag;
     phase2 = phase;

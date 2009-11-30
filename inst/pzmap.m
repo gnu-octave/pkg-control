@@ -83,6 +83,6 @@ function [zer, pol] = pzmap (sys)
   grid ("on");
 
   ## compute axis limits
-  axis (axis2dlim ([zerdata; poldata]));
+  axis (__axis2dlim__ ([zerdata; poldata]));
 
 endfunction

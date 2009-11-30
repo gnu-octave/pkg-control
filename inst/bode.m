@@ -166,7 +166,7 @@ function [mag_r, phase_r, w_r] = bode (sys, w, outputs, inputs, plot_style)
       semilogx (w, md);
       if (max_mag_positive)
 	ylabel ("Gain in dB");
-	axvec = axis2dlim ([w(:), md(:)]);
+	axvec = __axis2dlim__ ([w(:), md(:)]);
 	axvec(1:2) = wv;
 	axis (axvec);
       endif
@@ -189,7 +189,7 @@ function [mag_r, phase_r, w_r] = bode (sys, w, outputs, inputs, plot_style)
 
     if (is_siso_sys)
       subplot (2, 1, 2);
-      axvec = axis2dlim ([w(:), phase(:)]);
+      axvec = __axis2dlim__ ([w(:), phase(:)]);
       axvec(1:2) = wv;
       semilogx (w, phase);
       axis (axvec);

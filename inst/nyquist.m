@@ -152,7 +152,7 @@ function [realp, imagp, w] = nyquist (sys, w, outputs, inputs, atol)
 			inn{1}, outn{1}, w(1), w(end)));
       endif
 
-      axis (axis2dlim ([[realp(:), imagp(:)]; [realp(:), -imagp(:)]]));
+      axis (__axis2dlim__ ([[realp(:), imagp(:)]; [realp(:), -imagp(:)]]));
 
       ## check for interactive plots
       dnplot = 1; # assume done; will change later if atol is satisfied

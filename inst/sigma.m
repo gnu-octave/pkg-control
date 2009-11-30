@@ -166,7 +166,7 @@ function [sv_r, w_r] = sigma (sys, w = [], ptype = 0)
     sv_db = 20 * log10 (sv);
 
     ## Determine axes
-    ax_vec = axis2dlim ([[w(:), min(sv_db)(:)]; [w(:), max(sv_db)(:)]]);
+    ax_vec = __axis2dlim__ ([[w(:), min(sv_db)(:)]; [w(:), max(sv_db)(:)]]);
     ax_vec(1:2) = [min(w), max(w)];
 
     ## Determine xlabel
