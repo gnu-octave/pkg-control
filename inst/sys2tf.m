@@ -60,3 +60,30 @@ function [num, den, tsam, inname, outname] = sys2tf (Asys)
 
 endfunction
 
+
+## This test case was suggested by Christian Riesch.
+## An unexpected result is shown. It is not clear if the bug is in tf,
+## sysmult, feedback, sys2tf.
+##
+## Reference:
+## http://sourceforge.net/mailarchive/message.php?msg_name=95DC1AA8EC908B48939B72CF375AA5E30E2AED15%40alice.at.omicron.at
+##
+%!shared sysUNIT, numA, denA, sysB, numCL_exp, denCL_exp
+%! sysUNIT = tf (1, 1, 1);
+%! numA = [1 -.7];
+%! denA = [1 -2 1];
+%! sysB = sysmult (tf ([8e-9 -5.6e-9], [1 -1], 1),
+%!                 tf ([125e6], [1 -1], 1));
+%! numCL_exp = [1 -2 1];
+%! denCL_exp = [1 -1 0.3];
+%!test
+%! [num_obs den_obs] = sys2tf (sysB);
+%! assert ([num_obs den_obs], [numA denA], 1e-8);
+%!test
+%! [num_obs den_obs] = sys2tf (feedback (sysUNIT, tf (numA, denA, 1)));
+%! assert ([num_obs den_obs], [numCL_exp denCL_exp], 1e-12);
+%!xtest
+%! ## If this code produces no error, probably the bug was fixed forgetting
+%! ## to remove this test case.
+%! [num_obs den_obs] = sys2tf (feedback (sysUNIT, sysB));
+%! assert ([num_obs den_obs], [numCL_exp denCL_exp]);
