@@ -1,0 +1,99 @@
+control >> Control Theory
+Examples and Demos
+  BMWengine
+  Boeing707
+  optiPID
+  WestlandLynx
+Linear Models
+  @lti/set
+  ss
+  tf
+Data Extraction
+  @lti/get
+  @lti/ssdata
+  @lti/tfdata
+Conversions
+  @lti/c2d
+  ss
+  tf
+System Interconnections
+  @lti/append
+  @lti/blkdiag
+  @lti/connect
+  @lti/feedback
+  @lti/lft
+  @lti/parallel
+  @lti/series
+  strseq
+System Gain and Dynamics
+  dcgain
+  @lti/norm
+  @lti/pole
+  pzmap
+  @lti/zero
+Time Domain Analysis
+  covar
+  gensig
+  impulse
+  initial
+  lsim
+  step
+Frequency Domain Analysis
+  bode
+  bodemag
+  freqresp
+  margin
+  nichols
+  nyquist
+  sigma
+Model Simplification
+  hsvd
+  @lti/minreal
+  @lti/sminreal
+Compensator Design
+  estim
+  place
+  rlocus
+LQR/LQG Design
+  dlqr
+  kalman
+  lqr
+Controller Synthesis
+  augw
+  h2syn
+  hinfsyn
+  mixsyn
+State-Space Models
+  ctrb
+  gram
+  obsv
+  @lti/xperm
+Model Dimensions and Characteristics
+  @lti/isct
+  @lti/isdt
+  @lti/issiso
+  @lti/isstable
+  @lti/size
+Overloaded and Arithmetic Operators
+  @lti/plus
+  @lti/minus
+  @lti/uminus
+  @lti/mtimes
+  @lti/mldivide
+  @lti/mrdivide
+  @lti/mpower
+  @lti/inv
+  @lti/transpose
+  @lti/horzcat
+  @lti/vertcat
+  @lti/subsasgn
+  @lti/subsref
+Matrix Equation Solvers
+  care
+  dare
+  dlyap
+  lyap
+Octave-only
+  isctrb
+  isobsv
+  @lti/mconnect
