@@ -98,7 +98,9 @@ function sys = series (sys1, sys2, out1, in2)
       in_scl(in2(k), k) = 1;
     endfor
 
-    sys = sys2 * in_scl * out_scl * sys1;
+    scl = in_scl * out_scl;
+
+    sys = sys2 * scl * sys1;
   else
     print_usage ();
   endif
