@@ -145,15 +145,15 @@ function fbsign = checkfbsign (fbsign)
   if (isnumeric (fbsign))
     fbsign = sign (fbsign);
   elseif (ischar (fbsign))
-    if (fbsign == "+")
+    if (strcmp (fbsign, "+"))
       fbsign = +1;
-    elseif (fbsign == "-")
+    elseif (strcmp (fbsign, "-"))
       fbsign = -1;
     else
-      error ("feedback: invalid feedback sign");
+      error ("feedback: invalid feedback sign string");
     endif
   else
-    error ("feedback: invalid feedback sign");
+    error ("feedback: invalid feedback sign type");
   endif
 
 endfunction
