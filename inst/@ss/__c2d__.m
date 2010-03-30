@@ -36,8 +36,8 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
 
       matexp = expm (mat);
 
-      sys.a = matexp(1:n, 1:n);  # F
-      sys.b = matexp(1:n, n+(1:m));  # G
+      sys.a = matexp (1:n, 1:n);  # F
+      sys.b = matexp (1:n, n+(1:m));  # G
 
     otherwise
       error ("ss: c2d: %s is an invalid method", method);
