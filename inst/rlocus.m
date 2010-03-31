@@ -17,23 +17,24 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}])
-##
+## @deftypefn {Function File} rlocus (@var{sys}) 
+## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}]) 
 ## Display root locus plot of the specified @acronym{SISO} system.
+##
 ## @example
 ## @group
-##        -----   ---     --------
-##    --->| + |---|k|---->| SISO |----------->
-##        -----   ---     --------        |
-##        - ^                             |
-##          |_____________________________|
+##  u    +         +---+      +------+             y
+## ------>(+)----->| k |----->| SISO |-------+------->
+##         ^ -     +---+      +------+       |
+##         |                                 |
+##         +---------------------------------+
 ## @end group
 ## @end example
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## system data structure
+## LTI model
 ## @item min_k
 ## Minimum value of @var{k}
 ## @item max_k
