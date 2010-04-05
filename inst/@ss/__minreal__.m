@@ -69,3 +69,13 @@ function retsys = __minreal__ (sys, tol)
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
 endfunction
+
+
+## FIXME: algorithm fails for the example below
+##
+## P = ss (-2, 3, 4, 5)
+## C = inv (P)
+## L = P * C
+## Lm = minreal (L)
+##
+## Lm.d should be 1

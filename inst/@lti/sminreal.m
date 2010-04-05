@@ -44,3 +44,15 @@ function sys = sminreal (sys)
   sys = __sysprune__ (sys, ":", ":", st_idx);
 
 endfunction
+
+
+## FIXME: algorithm returns wrong result for the example below
+##
+## P = ss (-2, 3, 4, 5)
+## C = inv (P)
+## L = P * C
+## Ls = sminreal (L)
+## bode (Ls)
+## 
+## Obviously, both magnitude and phase should be straight lines at 0 dB and 0 deg
+## In this case, sminreal shouldn't remove any states of L
