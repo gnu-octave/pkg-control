@@ -67,7 +67,7 @@ function H = __freqresp__ (sys, w, resptype = 0)
 
       case 3  # inversed complementary sensitivity
         for k = 1 : l_s
-          H(:, :, k) = I + inv(H(:, :, k));
+          H(:, :, k) = I + inv (H(:, :, k));
         endfor
 
       otherwise
