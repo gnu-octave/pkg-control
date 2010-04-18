@@ -23,12 +23,13 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.2
+Version: 0.3
 
 */
 
 #include <octave/oct.h>
-#include "f77-fcn.h"
+#include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -60,23 +61,7 @@ extern "C"
                   double* WORK, int& LWORK,
                   int& INFO);
 }
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int min (int a, int b)
-{
-    if (a < b)
-        return a;
-    else
-        return b;
-}
-     
+  
 DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
 {
     int nargin = args.length ();
@@ -91,10 +76,10 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
         // arguments in
         char equil = 'N';
         
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
-        NDArray d = args(3).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
@@ -171,11 +156,9 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
         int lwork = max (1, 8*nu);
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
-        dim_vector dv (1);
-        dv(0) = nu;
-        NDArray alphar (dv);
-        NDArray alphai (dv);
-        NDArray beta (dv);
+        ColumnVector alphar (nu);
+        ColumnVector alphai (nu);
+        ColumnVector beta (nu);
         
         int info2;
         

@@ -23,12 +23,13 @@ Uses SLICOT AB13BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.2
+Version: 0.3
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -44,29 +45,6 @@ extern "C"
                      double* DWORK, int& LDWORK,
                      int& IWARN,
                      int& INFO);
-}
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int max (int a, int b, int c)
-{
-    int d = max (a, b);
-    
-    return max (c, d);
-}
-
-int min (int a, int b)
-{
-    if (a < b)
-        return a;
-    else
-        return b;
 }
      
 DEFUN_DLD (slab13bd, args, nargout, "Slicot AB13BD Release 5.0")
@@ -84,10 +62,10 @@ DEFUN_DLD (slab13bd, args, nargout, "Slicot AB13BD Release 5.0")
         char dico;
         char jobn = 'H';
         
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
-        NDArray d = args(3).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         int digital = args(4).int_value ();
 
         if (digital == 0)

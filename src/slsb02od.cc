@@ -23,12 +23,13 @@ Uses SLICOT SB02OD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: February 2010
-Version: 0.1
+Version: 0.2
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -55,29 +56,6 @@ extern "C"
                   bool* BWORK,
                   int& INFO);
 }
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int max (int a, int b, int c)
-{
-    int d = max (a, b);
-    
-    return max (c, d);
-}
-
-int max (int a, int b, int c, int d)
-{
-    int e = max (a, b);
-    int f = max (c, d);
-    
-    return max (e, f);
-}
      
 DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
 {
@@ -98,11 +76,11 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
         char jobl;
         char sort = 'S';
         
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray q = args(2).array_value ();
-        NDArray r = args(3).array_value ();
-        NDArray l = args(4).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix q = args(2).matrix_value ();
+        Matrix r = args(3).matrix_value ();
+        Matrix l = args(4).matrix_value ();
         int digital = args(5).int_value ();
         int ijobl = args(6).int_value ();
 
@@ -130,10 +108,7 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
         double rcond;
         
         int ldx = max (1, n);
-        dim_vector dv (2);
-        dv(0) = ldx;
-        dv(1) = n;
-        NDArray x (dv);
+        Matrix x (ldx, n);
         
         // unused output arguments
         OCTAVE_LOCAL_BUFFER (double, alfar, 2*n);

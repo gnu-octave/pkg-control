@@ -23,13 +23,14 @@ Uses SLICOT AB13DD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.2
+Version: 0.3
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include <complex>
+#include "common.cc"
 
 extern "C"
 { 
@@ -49,22 +50,6 @@ extern "C"
                   Complex* CWORK, int& LCWORK,
                   int& INFO);
 }
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int min (int a, int b)
-{
-    if (a < b)
-        return a;
-    else
-        return b;
-}
      
 DEFUN_DLD (slab13dd, args, nargout, "Slicot AB13DD Release 5.0")
 {
@@ -83,10 +68,10 @@ DEFUN_DLD (slab13dd, args, nargout, "Slicot AB13DD Release 5.0")
         char equil = 'N';
         char jobd = 'D';
         
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
-        NDArray d = args(3).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         double* e = 0;
         int digital = args(4).int_value ();
         double tol = args(5).double_value ();
@@ -106,10 +91,8 @@ DEFUN_DLD (slab13dd, args, nargout, "Slicot AB13DD Release 5.0")
         int ldd = max (1, d.rows ());
         int lde = 1;
         
-        dim_vector dv (1);
-        dv(0) = 2;
-        NDArray fpeak (dv);
-        NDArray gpeak (dv);
+        ColumnVector fpeak (2);
+        ColumnVector gpeak (2);
         
         fpeak(0) = 0;
         fpeak(1) = 1;

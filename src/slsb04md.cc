@@ -23,12 +23,13 @@ Uses SLICOT SB04MD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.1
+Version: 0.2
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -41,22 +42,6 @@ extern "C"
                   int* IWORK,
                   double* DWORK, int& LDWORK,
                   int& INFO);
-}
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int max (int a, int b, int c, int d)
-{
-    int e = max (a, b);
-    int f = max (c, d);
-    
-    return max (e, f);
 }
      
 DEFUN_DLD (slsb04md, args, nargout, "Slicot SB04MD Release 5.0")
@@ -71,9 +56,9 @@ DEFUN_DLD (slsb04md, args, nargout, "Slicot SB04MD Release 5.0")
     else
     {
         // arguments in
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
         
         int n = a.rows ();
         int m = b.rows ();
@@ -84,11 +69,7 @@ DEFUN_DLD (slsb04md, args, nargout, "Slicot SB04MD Release 5.0")
         int ldz = max (1, m);
         
         // arguments out
-        dim_vector dv (2);
-        dv(0) = ldz;
-        dv(1) = m;
-        
-        NDArray z (dv);
+        Matrix z (ldz, m);
         
         // workspace
         int ldwork = max (1, 2*n*n + 8*n, 5*m, n + m);

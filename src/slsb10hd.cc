@@ -23,12 +23,13 @@ Uses SLICOT SB10HD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.2
+Version: 0.3
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -50,29 +51,6 @@ extern "C"
                   bool* BWORK,
                   int& INFO);
 }
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int max (int a, int b, int c)
-{
-    int d = max (a, b);
-    
-    return max (c, d);
-}
-
-int max (int a, int b, int c, int d)
-{
-    int e = max (a, b);
-    int f = max (c, d);
-    
-    return max (e, f);
-}
      
 DEFUN_DLD (slsb10hd, args, nargout, "Slicot SB10HD Release 5.0")
 {
@@ -86,10 +64,10 @@ DEFUN_DLD (slsb10hd, args, nargout, "Slicot SB10HD Release 5.0")
     else
     {
         // arguments in
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
-        NDArray d = args(3).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         
         int ncon = args(4).int_value ();
         int nmeas = args(5).int_value ();
@@ -111,30 +89,11 @@ DEFUN_DLD (slsb10hd, args, nargout, "Slicot SB10HD Release 5.0")
         double tol = 0;
         
         // arguments out
-        dim_vector dv_ak (2);
-        dv_ak(0) = ldak;
-        dv_ak(1) = n;
-        
-        dim_vector dv_bk (2);
-        dv_bk(0) = ldbk;
-        dv_bk(1) = nmeas;
-        
-        dim_vector dv_ck (2);
-        dv_ck(0) = ldck;
-        dv_ck(1) = n;
-        
-        dim_vector dv_dk (2);
-        dv_dk(0) = lddk;
-        dv_dk(1) = nmeas;
-        
-        dim_vector dv (1);
-        dv(0) = 4;
-        
-        NDArray ak (dv_ak);
-        NDArray bk (dv_bk);
-        NDArray ck (dv_ck);
-        NDArray dk (dv_dk);
-        NDArray rcond (dv);
+        Matrix ak (ldak, n);
+        Matrix bk (ldbk, nmeas);
+        Matrix ck (ldck, n);
+        Matrix dk (lddk, nmeas);
+        ColumnVector rcond (4);
         
         // workspace
         int m2 = ncon;

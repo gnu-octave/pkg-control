@@ -23,12 +23,13 @@ Uses SLICOT SG03AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.1
+Version: 0.2
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -50,14 +51,6 @@ extern "C"
                   double* DWORK, int& LDWORK,
                   int& INFO);
 }
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
      
 DEFUN_DLD (slsg03ad, args, nargout, "Slicot SG03AD Release 5.0")
 {
@@ -77,9 +70,9 @@ DEFUN_DLD (slsg03ad, args, nargout, "Slicot SG03AD Release 5.0")
         char trans = 'T';
         char uplo = 'U';    // ?!?
         
-        NDArray a = args(0).array_value ();
-        NDArray e = args(1).array_value ();
-        NDArray x = args(2).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix e = args(1).matrix_value ();
+        Matrix x = args(2).matrix_value ();
         int dt = args(3).int_value ();
         
         if (dt == 0)
@@ -100,22 +93,11 @@ DEFUN_DLD (slsg03ad, args, nargout, "Slicot SG03AD Release 5.0")
         double sep = 0;
         double ferr = 0;
         
-        dim_vector dv_q (2);
-        dv_q(0) = ldq;
-        dv_q(1) = n;
-        
-        dim_vector dv_z (2);
-        dv_z(0) = ldz;
-        dv_z(1) = n;
-        
-        dim_vector dv (1);
-        dv(0) = n;
-        
-        NDArray q (dv_q);
-        NDArray z (dv_z);
-        NDArray alphar (dv);
-        NDArray alphai (dv);
-        NDArray beta (dv);
+        Matrix q (ldq, n);
+        Matrix z (ldz, n);
+        ColumnVector alphar (n);
+        ColumnVector alphai (n);
+        ColumnVector beta (n);
         
         // workspace
         int* iwork = 0;  // not referenced because job = X

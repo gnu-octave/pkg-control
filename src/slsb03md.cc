@@ -23,12 +23,13 @@ Uses SLICOT SB03MD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: December 2009
-Version: 0.2
+Version: 0.3
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -45,14 +46,6 @@ extern "C"
                   int* IWORK,
                   double* DWORK, int& LDWORK,
                   int& INFO);
-}
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
 }
      
 DEFUN_DLD (slsb03md, args, nargout, "Slicot SB03MD Release 5.0")
@@ -72,8 +65,8 @@ DEFUN_DLD (slsb03md, args, nargout, "Slicot SB03MD Release 5.0")
         char fact = 'N';
         char trana = 'T';
         
-        NDArray a = args(0).array_value ();
-        NDArray c = args(1).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix c = args(1).matrix_value ();
         int dt = args(2).int_value ();
         
         if (dt == 0)
@@ -92,16 +85,9 @@ DEFUN_DLD (slsb03md, args, nargout, "Slicot SB03MD Release 5.0")
         double sep = 0;
         double ferr = 0;
         
-        dim_vector dv_u (2);
-        dv_u(0) = ldu;
-        dv_u(1) = n;
-        
-        dim_vector dv (1);
-        dv(0) = n;
-        
-        NDArray u (dv_u);
-        NDArray wr (dv);
-        NDArray wi (dv);
+        Matrix u (ldu, n);
+        ColumnVector wr (n);
+        ColumnVector wi (n);
         
         // workspace
         int* iwork = 0;  // not referenced because job = X

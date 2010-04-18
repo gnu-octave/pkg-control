@@ -23,12 +23,13 @@ Uses SLICOT AB13AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.1
+Version: 0.2
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
+#include "common.cc"
 
 extern "C"
 { 
@@ -43,21 +44,6 @@ extern "C"
                   double* HSV,
                   double* DWORK, int& LDWORK,
                   int& INFO);
-}
-
-int max (int a, int b)
-{
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
-int max (int a, int b, int c)
-{
-    int d = max (a, b);
-    
-    return max (c, d);
 }
      
 DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
@@ -75,9 +61,9 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
         char dico;
         char equil = 'N';
         
-        NDArray a = args(0).array_value ();
-        NDArray b = args(1).array_value ();
-        NDArray c = args(2).array_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
         int digital = args(3).int_value ();
         double alpha = args(4).double_value ();
         
@@ -90,16 +76,14 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
         int m = b.columns ();   // m: number of inputs
         int p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
+        int lda = max (1, a.rows ());
+        int ldb = max (1, b.rows ());
+        int ldc = max (1, c.rows ());
         
         // arguments out
         int ns;
         
-        dim_vector dv (1);
-        dv(0) = n;
-        NDArray hsv (dv);
+        ColumnVector hsv (n);
         
         // workspace
         int ldwork = max (1, n*(max (n, m, p) + 5) + n*(n+1)/2);
