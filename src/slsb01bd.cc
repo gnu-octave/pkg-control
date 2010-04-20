@@ -66,11 +66,11 @@ DEFUN_DLD (slsb01bd, args, nargout, "Slicot SB01BD Release 5.0")
         Matrix b = args(1).matrix_value ();
         ColumnVector wr = args(2).column_vector_value ();
         ColumnVector wi = args(3).column_vector_value ();
-        int digital = args(4).int_value ();
+        int discrete = args(4).int_value ();
         double alpha = args(5).double_value ();
         double tol = args(6).double_value ();
         
-        if (digital == 1)
+        if (discrete == 1)
             dico = 'D';
         else
             dico = 'C';

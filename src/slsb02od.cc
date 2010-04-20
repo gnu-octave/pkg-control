@@ -81,10 +81,10 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
         Matrix q = args(2).matrix_value ();
         Matrix r = args(3).matrix_value ();
         Matrix l = args(4).matrix_value ();
-        int digital = args(5).int_value ();
+        int discrete = args(5).int_value ();
         int ijobl = args(6).int_value ();
 
-        if (digital == 0)
+        if (discrete == 0)
             dico = 'C';
         else
             dico = 'D';

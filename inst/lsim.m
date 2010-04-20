@@ -39,12 +39,12 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
 
   [A, B, C, D, tsam] = ssdata (sys);
 
-  digital = ! isct (sys);  # static gains are treated as analog systems
+  discrete = ! isct (sys);  # static gains are treated as analog systems
 
   urows = rows (u);
   ucols = columns (u);
 
-  if (digital)  # discrete system
+  if (discrete)  # discrete system
     if (isempty (t))
       dt = tsam;
       tfinal = tsam * (urows - 1);
@@ -52,7 +52,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       dt = tsam;
       tfinal = t;
     else
-      warning ("lsim: spacing of time vector has no effect on sampling time of digital system");
+      warning ("lsim: spacing of time vector has no effect on sampling time of discrete system");
       dt = tsam;
       tfinal = t(end);
     endif
@@ -116,7 +116,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       outname = __markemptynames__ (outname);
     endif
 
-    if (digital)  # discrete system
+    if (discrete)  # discrete system
       for k = 1 : p
         subplot (p, 1, k);
         stairs (t, y(:, k));

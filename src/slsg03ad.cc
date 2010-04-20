@@ -73,9 +73,9 @@ DEFUN_DLD (slsg03ad, args, nargout, "Slicot SG03AD Release 5.0")
         Matrix a = args(0).matrix_value ();
         Matrix e = args(1).matrix_value ();
         Matrix x = args(2).matrix_value ();
-        int dt = args(3).int_value ();
+        int discrete = args(3).int_value ();
         
-        if (dt == 0)
+        if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';

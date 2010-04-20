@@ -35,19 +35,19 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
 
   [A, B, C, D, tsam] = ssdata (sys);
 
-  digital = ! isct (sys);  # static gains are treated as analog systems
+  discrete = ! isct (sys);  # static gains are treated as analog systems
 
-  if (digital)
+  if (discrete)
     if (! isempty (dt))
-      warning ("timeresp: argument dt has no effect on sampling time of digital system");
+      warning ("timeresp: argument dt has no effect on sampling time of discrete system");
     endif
 
     dt = tsam;
   endif
 
-  [tfinal, dt] = __simhorizon__ (A, digital, tfinal, dt);
+  [tfinal, dt] = __simhorizon__ (A, discrete, tfinal, dt);
 
-  if (! digital)
+  if (! discrete)
     sys = c2d (sys, dt, "zoh");
   endif
 
@@ -119,7 +119,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
         u = zeros (m, 1);
         u(j) = 1;
 
-        if (digital)
+        if (discrete)
           x = zeros (n, 1);  # zero by definition 
           y(1, :, j) = D * u / dt;
           x_arr(1, :, j) = x;
@@ -139,7 +139,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
         endfor
       endfor
 
-      if (digital)
+      if (discrete)
         y *= dt;
         x_arr *= dt;
       endif
@@ -170,7 +170,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
       cols = m;
     endif
 
-    if (digital)  # discrete system
+    if (discrete)  # discrete system
       for k = 1 : p
         for j = 1 : cols
 
@@ -230,7 +230,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
 endfunction
 
 
-function [tfinal, dt] = __simhorizon__ (A, digital, tfinal, Ts)
+function [tfinal, dt] = __simhorizon__ (A, discrete, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 
@@ -243,7 +243,7 @@ function [tfinal, dt] = __simhorizon__ (A, digital, tfinal, Ts)
   n = rows (A);
   eigw = eig (A);
 
-  if (digital)
+  if (discrete)
     ## perform bilinear transformation on poles in z
     for k = 1 : n
       pol = eigw(k);
@@ -269,14 +269,14 @@ function [tfinal, dt] = __simhorizon__ (A, digital, tfinal, Ts)
       tfinal = T_DEF;
     endif
 
-    if (! digital)
+    if (! discrete)
       dt = tfinal / N_DEF;
     endif
   else
     eigw = eigw(find (eigw));
     eigw_max = max (abs (eigw));
 
-    if (! digital)
+    if (! discrete)
       dt = 0.2 * pi / eigw_max;
     endif
 
@@ -289,7 +289,7 @@ function [tfinal, dt] = __simhorizon__ (A, digital, tfinal, Ts)
       tfinal = yy * ceil (tfinal / yy);
     endif
 
-    if (! digital)
+    if (! discrete)
       N = tfinal / dt;
 
       if (N < N_MIN)

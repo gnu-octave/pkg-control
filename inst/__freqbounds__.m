@@ -42,14 +42,14 @@ function [dec_min, dec_max] = __freqbounds__ (sys, wbounds = "std")
   zer = zero (sys);
   pol = pole (sys);
   tsam = get (sys, "tsam");
-  digital = (tsam > 0);  # static gains (tsam = -1) are continuous
+  discrete = (tsam > 0);  # static gains (tsam = -1) are continuous
   
   ## make sure zer, pol are row vectors
   pol = pol(:).';
   zer = zer(:).';
 
   ## check for natural frequencies away from omega = 0
-  if (digital)
+  if (discrete)
     ## The 2nd conditions prevents log(0) in the next log command
     iiz = find (abs(zer-1) > norm(zer)*eps && abs(zer) > norm(zer)*eps);
     iip = find (abs(pol-1) > norm(pol)*eps && abs(pol) > norm(pol)*eps);
@@ -114,8 +114,8 @@ function [dec_min, dec_max] = __freqbounds__ (sys, wbounds = "std")
       error ("freqbounds: second argument invalid");
   endswitch
 
-  ## run digital frequency all the way to pi
-  if (digital)
+  ## run discrete frequency all the way to pi
+  if (discrete)
     dec_max = log10 (pi/tsam);
   endif
 

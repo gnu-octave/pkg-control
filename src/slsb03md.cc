@@ -67,9 +67,9 @@ DEFUN_DLD (slsb03md, args, nargout, "Slicot SB03MD Release 5.0")
         
         Matrix a = args(0).matrix_value ();
         Matrix c = args(1).matrix_value ();
-        int dt = args(2).int_value ();
+        int discrete = args(2).int_value ();
         
-        if (dt == 0)
+        if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';

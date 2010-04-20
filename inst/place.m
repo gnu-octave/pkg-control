@@ -84,7 +84,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
       p = b;
       sys = a;
       [a, b] = ssdata (sys);
-      digital = ! isct (sys);  # treat tsam = -1 as continuous system
+      discrete = ! isct (sys);  # treat tsam = -1 as continuous system
     endif
   else  # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
     if (nargin < 3)  # nargin > 5 already tested
@@ -93,7 +93,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
       if (! isnumeric (a) || ! isnumeric (b) || ! issquare (a) || rows (a) != rows (b))
         error ("place: matrices a and b not conformal");
       endif
-      digital = 0;  # assume continuous system
+      discrete = 0;  # assume continuous system
     endif
   endif
 
@@ -114,7 +114,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
   endif
 
   if (isempty (alpha))
-    if (digital)
+    if (discrete)
       alpha = 0;
     else
       alpha = - norm (a, inf);
@@ -125,7 +125,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     tol = 0;
   endif
 
-  [f, iwarn, nfp, nap, nup] = slsb01bd (a, b, wr, wi, digital, alpha, tol);
+  [f, iwarn, nfp, nap, nup] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
   f = -f;  # A + B*F --> A - B*F
   
   if (iwarn)

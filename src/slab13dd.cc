@@ -73,10 +73,10 @@ DEFUN_DLD (slab13dd, args, nargout, "Slicot AB13DD Release 5.0")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         double* e = 0;
-        int digital = args(4).int_value ();
+        int discrete = args(4).int_value ();
         double tol = args(5).double_value ();
         
-        if (digital == 0)
+        if (discrete == 0)
             dico = 'C';
         else
             dico = 'D';

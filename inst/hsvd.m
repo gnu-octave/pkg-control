@@ -44,15 +44,15 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
   
   [a, b, c] = ssdata (sys);
 
-  digital = ! isct (sys);
+  discrete = ! isct (sys);
   
-  if (digital)
+  if (discrete)
     alpha = 1 - val;
   else
     alpha = - val;
   endif
   
-  [hsv, ns] = slab13ad (a, b, c, digital, alpha);
+  [hsv, ns] = slab13ad (a, b, c, discrete, alpha);
   
   idx = 1 : ns;
   hsv = hsv (idx);
