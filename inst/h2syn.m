@@ -103,7 +103,7 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
   
   d11 = d(1:p1, 1:m1);
   
-  if (isct (P) && ! all (all (d11 == 0)))
+  if (isct (P) && any (any (d11)))
     warning ("h2syn: setting matrice D11 to zero");
     d(1:p1, 1:m1) = 0;
   endif

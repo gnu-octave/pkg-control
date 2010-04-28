@@ -68,7 +68,7 @@ function gain = h2norm (sys)
     [a, b, c, d] = ssdata (sys);
     discrete = ! isct (sys);
     
-    if (! discrete && ! all (all (d == 0)))  # continuous and non-zero feedthrough
+    if (! discrete && any (any (d)))  # continuous and non-zero feedthrough
       gain = inf;
     else
       [gain, iwarn] = slab13bd (a, b, c, d, discrete);
