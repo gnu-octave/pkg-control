@@ -48,29 +48,23 @@
 
 function [Abar, Bbar, Cbar, T, K] = obsvf (A, B, C, TOL)
 
-  if (nargin<3 || nargin>4)
+  if (nargin < 3 || nargin > 4)
     print_usage ();
-  end
+  endif
 
-  n = length (A);
-
-  if (nargin==3)
-    TOL = n*norm (A, 1)*eps;
-  end
+  if (nargin == 3)
+    TOL = length (A) * norm (A, 1) * eps;
+  endif
 
   Ob         = obsv (A, C);
   [nro, nco] = size (Ob);
   rob        = rank (Ob);
-  lr         = nco-rob;
+  lr         = nco - rob;
   [U, S, V]  = svd (Ob);
   K          = V(:, 1:rob);  # Basis raw space
-  T          = V;  # [c;orth(c)];
-  Abar       = T\A*T;
-  Bbar       = T\B;
-  Cbar       = C*T;
-  Ano        = Abar(n-(n-rob)+1:n, n-(n-rob)+1:n)
-  Ao         = Abar(1:rob, 1:rob);
-  Bo         = Bbar(1:rob, :);
-  Co         = Cbar(:, 1:rob);
+  T          = V;            # [c; orth(c)];
+  Abar       = T \ A * T;
+  Bbar       = T \ B;
+  Cbar       = C * T;
 
 endfunction

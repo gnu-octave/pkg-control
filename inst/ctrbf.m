@@ -48,29 +48,23 @@
 
 function [Abar, Bbar, Cbar, T, K] = ctrbf (A, B, C, TOL)
 
-  if (nargin<3 || nargin>4)
+  if (nargin < 3 || nargin > 4)
     print_usage ();
-  end
+  endif
 
-  n = length (A);
-
-  if (nargin==3)
-    TOL = n*norm (A,1)*eps;
-  end
+  if (nargin == 3)
+    TOL = length (A) * norm (A,1) * eps;
+  endif
 
   Co         = ctrb (A, B);
   [nrc, ncc] = size (Co);
-  rco        = rank (Co,TOL);
-  lr         = nrc-rco;
+  rco        = rank (Co, TOL);
+  lr         = nrc - rco;
   [U, S, V]  = svd (Co);
   K          = U(:, 1:rco);  # Basis column space
-  T          = U;  # [B orth(B)]
-  Abar       = T\A*T;
-  Bbar       = T\B;
-  Cbar       = C*T;
-  Anc        = Abar(n-(n-rco)+1:n, n-(n-rco)+1:n);
-  Ac         = Abar(1:rco, 1:rco);
-  Bc         = Bbar(1:rco, :);
-  Cc         = Cbar(:, 1:rco);
-
+  T          = U;            # [B orth(B)]
+  Abar       = T \ A * T;
+  Bbar       = T \ B;
+  Cbar       = C * T;
+  
 endfunction
