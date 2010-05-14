@@ -59,7 +59,11 @@ function x = lyap (a, b, c, e)
 
       [x, scale] = slsb03md (a, -b, false);  # AX + XA' = -B
 
-      x /= scale;  # 0 < scale <= 1
+      ## x /= scale;  # 0 < scale <= 1
+
+      if (scale < 1)
+        warning ("lyap: solution scaled by %g to prevent overflow", scale);
+      endif
     
     case 3  # Sylvester equation
   
@@ -113,7 +117,11 @@ function x = lyap (a, b, c, e)
 
       [x, scale] = slsg03ad (a, e, -b, false);  # AXE' + EXA' = -B
       
-      x /= scale;  # 0 < scale <= 1
+      ## x /= scale;  # 0 < scale <= 1
+
+      if (scale < 1)
+        warning ("lyap: solution scaled by %g to prevent overflow", scale);
+      endif
 
     otherwise
       print_usage ();

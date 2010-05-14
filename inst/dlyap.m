@@ -59,7 +59,11 @@ function x = dlyap (a, b, c, e)
 
       [x, scale] = slsb03md (a, -b, true);  # AXA' - X = -B
   
-      x /= scale;  # 0 < scale <= 1
+      ## x /= scale;  # 0 < scale <= 1
+
+      if (scale < 1)
+        warning ("dlyap: solution scaled by %g to prevent overflow", scale);
+      endif
   
     case 3  # Sylvester equation
   
@@ -113,7 +117,11 @@ function x = dlyap (a, b, c, e)
 
       [x, scale] = slsg03ad (a, e, -b, true);  # AXA' - EXE' = -B
       
-      x /= scale;  # 0 < scale <= 1
+      ## x /= scale;  # 0 < scale <= 1
+
+      if (scale < 1)
+        warning ("dlyap: solution scaled by %g to prevent overflow", scale);
+      endif
 
     otherwise
       print_usage ();
