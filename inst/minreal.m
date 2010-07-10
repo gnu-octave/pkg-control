@@ -42,3 +42,4 @@ function [Amin,Bmin,Cmin] = minreal(A,B,C,TOL)
   disp(l);
 
 endfunction
+
