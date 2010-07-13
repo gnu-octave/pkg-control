@@ -82,9 +82,9 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     case "co"
       u = cos (2*pi/tau * t);
     case "sq"
-      u = +(rem (t, tau) >= tau/2);
+      u = (rem (t, tau) >= tau/2);
     case "pu"
-      u = +(rem (t, tau) < (1 - 1000*eps) * tsam);
+      u = (rem (t, tau) < (1 - 1000*eps) * tsam);
     otherwise
       error ("gensig: invalid signal type");
   endswitch
