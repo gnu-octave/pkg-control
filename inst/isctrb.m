@@ -107,10 +107,10 @@ function [retval, U] = isctrb (a, b, tol)
   endif
 
   ## check dimensions compatibility
-  n = issquare (a);
+  n = rows (a);
   [nr, nc] = size (b);
 
-  if (n == 0 || n != nr || nc == 0)
+  if (n == 0 || n != nr || nc == 0 || issquare (a))
     warning ("isctrb: a(%dx%d), b(%dx%d)",
               rows(a), columns(a), nr, nc);
     retval = 0;

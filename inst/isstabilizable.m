@@ -71,10 +71,10 @@ function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
   endif
 
   ## Checking dimensions
-  n = issquare (a);
+  n = rows (a);
   [nr, m] = size (b);
 
-  if (! n)
+  if (! issquare (a))
     error ("isstabilizable: a must be square");
   endif
   
