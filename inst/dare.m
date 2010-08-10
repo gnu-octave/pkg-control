@@ -54,28 +54,25 @@ function [x, l, g] = dare (a, b, q, r, s = [])
     print_usage ();
   endif
 
-  asize = issquare (a);
   [brows, bcols] = size (b);
-  qsize = issquare (q);
-  rsize = issquare (r);
 
-  if (! asize)
+  if (! issquare (a))
     error ("dare: a is not square");
   endif
 
-  if (! qsize)
+  if (! issquare (q))
     error ("dare: q is not square");
   endif
 
-  if (! rsize)
+  if (! issquare (r))
     error ("dare: r is not square");
   endif
   
-  if (asize != brows)
+  if (rows (a) != brows)
     error ("dare: a, b are not conformable");
   endif
   
-  if (rsize != bcols)
+  if (columns (r) != bcols)
     error ("dare: b, r are not conformable");
   endif
 

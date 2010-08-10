@@ -42,14 +42,14 @@ function x = dlyap (a, b, c, e)
   switch (nargin)
     case 2  # Lyapunov equation
 
-      na = issquare (a);
-      nb = issquare (b);
+      na = rows (a);
+      nb = rows (b);
   
-      if (! na)
+      if (! issquare (a))
         error ("lyap: a must be square");
       endif
 
-      if (! nb)
+      if (! issquare (b))
         error ("lyap: b must be square")
       endif
   
@@ -67,15 +67,15 @@ function x = dlyap (a, b, c, e)
   
     case 3  # Sylvester equation
   
-      n = issquare (a);
-      m = issquare (b);
+      n = rows (a);
+      m = rows (b);
       [crows, ccols] = size (c);
 
-      if (! n)
+      if (! issquare (a))
         error ("dlyap: a must be square");
       endif
 
-      if (! m)
+      if (! issquare (b))
         error ("dlyap: b must be square");
       endif
 
@@ -91,19 +91,19 @@ function x = dlyap (a, b, c, e)
         print_usage ();
       endif
       
-      na = issquare (a);
-      nb = issquare (b);
-      ne = issquare (e);
+      na = rows (a);
+      nb = rows (b);
+      ne = rows (e);
       
-      if (! na)
+      if (! issquare (a))
         error ("lyap: a must be square");
       endif
       
-      if (! nb)
+      if (! issquare (b))
         error ("lyap: b must be square");
       endif
       
-      if (! ne)
+      if (! issquare (e))
         error ("lyap: e must be square");
       endif
       

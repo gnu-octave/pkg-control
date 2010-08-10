@@ -54,28 +54,25 @@ function [x, l, g] = care (a, b, q, r, s = [])
     print_usage ();
   endif
 
-  asize = issquare (a);
   [brows, bcols] = size (b);
-  qsize = issquare (q);
-  rsize = issquare (r);
 
-  if (! asize)
+  if (! issquare (a))
     error ("care: a is not square");
   endif
 
-  if (! qsize)
+  if (! issquare (q))
     error ("care: q is not square");
   endif
 
-  if (! rsize)
+  if (! issquare (r))
     error ("care: r is not square");
   endif
   
-  if (asize != brows)
+  if (rows (a) != brows)
     error ("care: a, b are not conformable");
   endif
   
-  if (rsize != bcols)
+  if (columns (r) != bcols)
     error ("care: b, r are not conformable");
   endif
 
