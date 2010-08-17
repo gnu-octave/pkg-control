@@ -68,6 +68,8 @@ function retsys = __minreal__ (sys, tol)
   retsys = ss (A, B, C, sys.d);
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
+  warning ("ss: minreal: use result with caution");
+
 endfunction
 
 

@@ -43,6 +43,8 @@ function sys = sminreal (sys)
 
   sys = __sysprune__ (sys, ":", ":", st_idx);
 
+  warning ("sminreal: use result with caution");
+
 endfunction
 
 
