@@ -110,7 +110,7 @@ function [retval, U] = isctrb (a, b, tol)
   n = rows (a);
   [nr, nc] = size (b);
 
-  if (n == 0 || n != nr || nc == 0 || issquare (a))
+  if (n == 0 || n != nr || nc == 0 || ! issquare (a))
     warning ("isctrb: a(%dx%d), b(%dx%d)",
               rows(a), columns(a), nr, nc);
     retval = 0;
