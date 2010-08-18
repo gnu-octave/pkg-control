@@ -97,3 +97,5 @@ Octave-only
   isctrb
   isobsv
   @lti/mconnect
+Tests
+  test_control
