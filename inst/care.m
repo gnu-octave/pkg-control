@@ -47,8 +47,11 @@
 
 function [x, l, g] = care (a, b, q, r, s = [])
 
-  ## TODO : Add SLICOT SG02AD (Solution of continuous- or discrete-time
-  ##        algebraic Riccati equations for descriptor systems)
+  ## TODO: Add SLICOT SG02AD (Solution of continuous- or discrete-time
+  ##       algebraic Riccati equations for descriptor systems)
+
+  ## TODO: Check stabilizability and controllability more elegantly
+  ##       (without incorporating cross terms into a and q)
 
   if (nargin < 4 || nargin > 5)
     print_usage ();

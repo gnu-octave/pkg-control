@@ -37,7 +37,9 @@
 ## Created: January 2010
 ## Version: 0.1
 
-function x = lyap (a, b, c, e)
+function [x, scale] = lyap (a, b, c, e)
+
+  scale = 1;
 
   switch (nargin)
     case 2  # Lyapunov equation
@@ -60,10 +62,6 @@ function x = lyap (a, b, c, e)
       [x, scale] = slsb03md (a, -b, false);  # AX + XA' = -B
 
       ## x /= scale;  # 0 < scale <= 1
-
-      if (scale < 1)
-        warning ("lyap: solution scaled by %g to prevent overflow", scale);
-      endif
     
     case 3  # Sylvester equation
   
@@ -119,14 +117,14 @@ function x = lyap (a, b, c, e)
       
       ## x /= scale;  # 0 < scale <= 1
 
-      if (scale < 1)
-        warning ("lyap: solution scaled by %g to prevent overflow", scale);
-      endif
-
     otherwise
       print_usage ();
 
   endswitch
+
+  if (scale < 1)
+    warning ("lyap: solution scaled by %g to prevent overflow", scale);
+  endif
 
 endfunction
 
