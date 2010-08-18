@@ -36,17 +36,12 @@ int max (int a, int b)
 
 int max (int a, int b, int c)
 {
-    int d = max (a, b);
-    
-    return max (c, d);
+    return max (max (a, b), c);
 }
 
 int max (int a, int b, int c, int d)
-{
-    int e = max (a, b);
-    int f = max (c, d);
-    
-    return max (e, f);
+{    
+    return max (max (a, b), max (c, d));
 }
 
 int min (int a, int b)
