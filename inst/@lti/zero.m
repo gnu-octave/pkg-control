@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
-## Compute transmission zeros of LTI model.
+## Compute transmission zeros and gain of LTI model.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
