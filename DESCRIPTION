@@ -3,9 +3,9 @@ Version: 0.3.2
 Date: 2010-08-18
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
-Title: LTI Syncope
+Title: Computer Aided Control Systems Design
 Description: Object-oriented control tools for GNU Octave
 Depends: octave (>= 3.2.3)
 Autoload: yes
 License: GPL version 3 or later
-Url: http://octave.sf.net
+Url: http://octave.sf.net, http://www.slicot.org
