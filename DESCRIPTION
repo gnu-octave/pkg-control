@@ -3,8 +3,8 @@ Version: 2.0.0
 Date: 2010-08-25
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
-Title: Computer Aided Control Systems Design
-Description: Object-oriented control tools for GNU Octave
+Title: Control Systems
+Description: Computer Aided Control Systems Design package for GNU Octave
 Depends: octave (>= 3.2.3)
 Autoload: yes
 License: GPL version 3 or later
