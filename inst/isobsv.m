@@ -21,7 +21,7 @@
 ## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{sys}, @var{tol})
 ## Logical check for system observability.
 ##
-## Default: tol = @code{tol = 10*norm(a,'fro')*eps}
+## Default: tol = @code{tol = 10*norm(a,"fro")*eps}
 ##
 ## Returns 1 if the system @var{sys} or the pair (@var{a}, @var{c}) is
 ## observable, 0 if not.
@@ -55,9 +55,9 @@ function [retval, U] = isobsv (a, c, tol)
     print_usage ();
   endif
   if (exist ("tol"))
-    [retval, U] = isctrb (a', c', tol);
+    [retval, U] = isctrb (a.', c.', tol);
   else
-    [retval, U] = isctrb (a', c');
+    [retval, U] = isctrb (a.', c.');
   endif
 
 endfunction

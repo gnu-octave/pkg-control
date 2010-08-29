@@ -38,8 +38,8 @@ function retsys = __minreal__ (sys, tol)
     
     if (! cflg)
       if (! isempty (Uc))
-        A = Uc' * A * Uc;
-        B = Uc' * B;
+        A = Uc.' * A * Uc;
+        B = Uc.' * B;
         C = C * Uc;
       else
         A = B = C = [];
@@ -56,8 +56,8 @@ function retsys = __minreal__ (sys, tol)
 
     if (! oflg)
       if (! isempty (Uo))
-        A = Uo' * A * Uo;
-        B = Uo' * B;
+        A = Uo.' * A * Uo;
+        B = Uo.' * B;
         C = C * Uo;
       else
         A = B = C = [];

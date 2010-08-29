@@ -91,8 +91,8 @@ function [x, l, g] = care (a, b, q, r, s = [])
               srows, scols, brows, bcols);
     endif
 
-    ao = a - (b/r)*s';
-    qo = q - (s/r)*s';
+    ao = a - (b/r)*s.';
+    qo = q - (s/r)*s.';
   endif
 
   ## check stabilizability
@@ -123,13 +123,13 @@ function [x, l, g] = care (a, b, q, r, s = [])
     x = slsb02od (a, b, q, r, b, false, false);
     
     ## corresponding gain matrix
-    g = r \ (b'*x);
+    g = r \ (b.'*x);
   else
     ## unique stabilizing solution
     x = slsb02od (a, b, q, r, s, false, true);
     
     ## corresponding gain matrix
-    g = r \ (b'*x + s');
+    g = r \ (b.'*x + s.');
   endif
 
   ## closed-loop poles
@@ -151,7 +151,7 @@ endfunction
 %!
 %! r = 3;
 %!
-%! [x, l, g] = care (a, b, c'*c, r);
+%! [x, l, g] = care (a, b, c.'*c, r);
 %!
 %! xe = [ 0.5895    1.8216
 %!        1.8216    8.8188];
@@ -180,7 +180,7 @@ endfunction
 %!       0.0
 %!       1.0];
 %!
-%! [x, l, g] = care (a, b, c'*c, d'*d);
+%! [x, l, g] = care (a, b, c.'*c, d.'*d);
 %!
 %! xe = [ 1.7321   1.0000
 %!        1.0000   1.7321];

@@ -75,7 +75,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   m = columns (G);  # number of inputs
   p = rows (C);  # number of outputs
 
-  t = (0 : dt : tfinal)';  # time vector
+  t = (0 : dt : tfinal).';  # time vector
   trows = length (t);
 
   if (urows != trows)
@@ -101,9 +101,9 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
 
   ## simulation
   for k = 1 : trows
-    y(k, :) = C * x  +  D * u(k, :)';
+    y(k, :) = C * x  +  D * u(k, :).';
     x_arr(k, :) = x;
-    x = F * x  +  G * u(k, :)';
+    x = F * x  +  G * u(k, :).';
   endfor
 
   if (! nargout)  # plot information

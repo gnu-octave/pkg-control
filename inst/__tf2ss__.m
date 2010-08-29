@@ -87,8 +87,8 @@ function [a, b, c, d] = __tf2ss__ (num, den)
   endif
 
   ## force num, den to be row vectors
-  num = vec (num)';
-  den = vec (den)';
+  num = vec (num).';
+  den = vec (den).';
   nn = length (num);
   nd = length (den);
   if (nn > nd)

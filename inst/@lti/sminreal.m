@@ -37,8 +37,8 @@ function sys = sminreal (sys)
   [cflg, Uc] = isctrb (sys);
   [oflg, Uo] = isobsv (sys);
 
-  xc = find (max (abs (Uc')) != 0);
-  xo = find (max (abs (Uo')) != 0);
+  xc = find (max (abs (Uc.')) != 0);
+  xo = find (max (abs (Uo.')) != 0);
   st_idx = intersect (xc, xo);
 
   sys = __sysprune__ (sys, ":", ":", st_idx);

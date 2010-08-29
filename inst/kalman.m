@@ -91,20 +91,20 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
   h = d(sensors, stoch);
 
   if (isempty (s))
-    rbar = r + h*q*h';
-    sbar = g * q*h';
+    rbar = r + h*q*h.';
+    sbar = g * q*h.';
   else
-    rbar = r + h*s + s'*h' + h*q*h'; 
-    sbar = g * (q*h' + s);
+    rbar = r + h*s + s.'*h.' + h*q*h.'; 
+    sbar = g * (q*h.' + s);
   endif
 
   if (isct (sys))
-    [x, l, k] = care (a', c', g*q*g', rbar, sbar);
+    [x, l, k] = care (a.', c.', g*q*g.', rbar, sbar);
   else
-    [x, l, k] = dare (a', c', g*q*g', rbar, sbar);
+    [x, l, k] = dare (a.', c.', g*q*g.', rbar, sbar);
   endif
 
-  k = k';
+  k = k.';
 
   est = estim (sys, k, sensors, known);
 

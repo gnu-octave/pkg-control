@@ -58,7 +58,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
   p = rows (C);  # number of outputs
 
   ## time vector
-  t = (0 : dt : tfinal)';
+  t = (0 : dt : tfinal).';
   l_t = length (t);
 
   switch (resptype)

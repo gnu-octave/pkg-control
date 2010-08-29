@@ -72,7 +72,7 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     tsam = tau / 64;
   endif
 
-  t = (0 : tsam : tfinal)';
+  t = (0 : tsam : tfinal).';
 
   switch (lower (sigtype(1:2)))
     case "si"

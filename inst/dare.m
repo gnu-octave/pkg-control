@@ -91,8 +91,8 @@ function [x, l, g] = dare (a, b, q, r, s = [])
               srows, scols, brows, bcols);
     endif
 
-    ao = a - (b/r)*s';
-    qo = q - (s/r)*s';
+    ao = a - (b/r)*s.';
+    qo = q - (s/r)*s.';
   endif
   
   ## check stabilizability
@@ -123,13 +123,13 @@ function [x, l, g] = dare (a, b, q, r, s = [])
     x = slsb02od (a, b, q, r, b, true, false);
     
     ## corresponding gain matrix
-    g = (r + b'*x*b) \ (b'*x*a);
+    g = (r + b.'*x*b) \ (b.'*x*a);
   else
     ## unique stabilizing solution
     x = slsb02od (a, b, q, r, s, true, true);
     
     ## corresponding gain matrix
-    g = (r + b'*x*b) \ (b'*x*a + s');
+    g = (r + b.'*x*b) \ (b.'*x*a + s.');
   endif
 
   ## closed-loop poles

@@ -57,7 +57,7 @@ function retval = isdetectable (a, c = [], tol = [], dflg = 0)
     endif
   endif
 
-  retval = isstabilizable (a', c', tol, dflg);
+  retval = isstabilizable (a.', c.', tol, dflg);
 
 endfunction
 

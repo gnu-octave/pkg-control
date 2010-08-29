@@ -146,7 +146,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   ngain = max (30, ngain);
   gvec = linspace (mink, maxk, ngain);
   if (length (k_break))
-    gvec = sort ([gvec, vec(k_break)']);
+    gvec = sort ([gvec, vec(k_break).']);
   endif
 
   ## Find the open loop zeros and the initial poles
@@ -175,7 +175,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   done = (nargin == 4);    # perform a smoothness check
   while (! done && ngain < 1000)
     done = 1 ;      # assume done
-    dp = abs (diff (rlpol'))';
+    dp = abs (diff (rlpol.')).';
     maxdp = max (dp);
     
     ## search for poles whose neighbors are distant
@@ -306,7 +306,7 @@ function rlpol = sort_roots (rlpol,tolx, toly)
   endif
 
   # reorder entries in each column of rlpol to be by their nearest-neighbors
-  dp = diff (rlpol')';
+  dp = diff (rlpol.').';
   drp = max (real (dp));
   dip = max (imag (dp));
   idx = find (drp > tolx | dip > toly);
@@ -324,9 +324,9 @@ function rlpol = sort_roots (rlpol,tolx, toly)
       mindist = min (dval);
       sidx = min (find (dval == mindist)) + ii - 1;
       if (sidx != ii)
-        c1 = norm (diff(vals'));
+        c1 = norm (diff(vals.'));
         [vals(ii,2), vals(sidx,2)] = swap (vals(ii,2), vals(sidx,2));
-        c2 = norm (diff (vals'));
+        c2 = norm (diff (vals.'));
         if (c1 > c2)
           ## perform the swap
           [rlpol(ii,jdx), rlpol(sidx,jdx)] = swap (rlpol(ii,jdx), rlpol(sidx,jdx));
@@ -339,9 +339,6 @@ function rlpol = sort_roots (rlpol,tolx, toly)
 endfunction
 
 
-function [a1, b1] = swap (a, b)
-
-  a1 = b;
-  b1 = a;
+function [b, a] = swap (a, b)
 
 endfunction

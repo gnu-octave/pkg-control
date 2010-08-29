@@ -47,11 +47,11 @@ function [p, q] = covar (sys, w)
       error ("covar: system is not strictly proper");
     endif
     
-    q = lyap (a, b*w*b');
-    p = c*q*c';
+    q = lyap (a, b*w*b.');
+    p = c*q*c.';
   else
-    q = dlyap (a, b*w*b');
-    p = c*q*c' + d*w*d';
+    q = dlyap (a, b*w*b.');
+    p = c*q*c.' + d*w*d.';
   endif
 
 endfunction

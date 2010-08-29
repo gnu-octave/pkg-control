@@ -40,7 +40,7 @@ function ob = obsv (sys_or_a, c)
     print_usage ();
   endif
 
-  ob = ctrb (a', c')';
+  ob = ctrb (a.', c.').';
 
 endfunction
 

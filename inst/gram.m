@@ -19,9 +19,9 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{W} =} gram (@var{sys}, @var{mode})
 ## @deftypefnx {Function File} {@var{Wc} =} gram (@var{a}, @var{b})
-## @code{gram (@var{sys}, 'c')} returns the controllability gramian of
+## @code{gram (@var{sys}, "c")} returns the controllability gramian of
 ## the (continuous- or discrete-time) system @var{sys}.
-## @code{gram (@var{sys}, 'o')} returns the observability gramian of the
+## @code{gram (@var{sys}, "o")} returns the observability gramian of the
 ## (continuous- or discrete-time) system @var{sys}.
 ## @code{gram (@var{a}, @var{b})} returns the controllability gramian
 ## @var{Wc} of the continuous-time system @math{dx/dt = a x + b u};
@@ -52,8 +52,8 @@ function W = gram (argin1, argin2)
     [a, b, c] = ssdata (sys);
 
     if (strcmp (argin2, "o"))
-      a = a';
-      b = c';
+      a = a.';
+      b = c.';
     elseif (! strcmp (argin2, "c"))
       print_usage ();
     endif
@@ -71,9 +71,9 @@ function W = gram (argin1, argin2)
   endif
 
   if (isct (sys))
-    W = lyap (a, b*b');  # let lyap do the error checking about dimensions
+    W = lyap (a, b*b.');  # let lyap do the error checking about dimensions
   else  # discrete-time system
-    W = dlyap (a, b*b');  # let dlyap do the error checking about dimensions
+    W = dlyap (a, b*b.');  # let dlyap do the error checking about dimensions
   endif
 
 endfunction
@@ -83,21 +83,21 @@ endfunction
 %! a = [-1 0 0; 1/2 -1 0; 1/2 0 -1];
 %! b = [1 0; 0 -1; 0 1];
 %! c = [0 0 1; 1 1 0]; ## it doesn't matter what the value of c is
-%! Wc = gram (ss (a, b, c), 'c');
-%! assert (a * Wc + Wc * a' + b * b', zeros (size (a)))
+%! Wc = gram (ss (a, b, c), "c");
+%! assert (a * Wc + Wc * a.' + b * b.', zeros (size (a)))
 
 %!test
 %! a = [-1 0 0; 1/2 -1 0; 1/2 0 -1];
 %! b = [1 0; 0 -1; 0 1]; ## it doesn't matter what the value of b is
 %! c = [0 0 1; 1 1 0];
-%! Wo = gram (ss (a, b, c), 'o');
-%! assert (a' * Wo + Wo * a + c' * c, zeros (size (a)))
+%! Wo = gram (ss (a, b, c), "o");
+%! assert (a.' * Wo + Wo * a + c.' * c, zeros (size (a)))
 
 %!test
 %! a = [-1 0 0; 1/2 -1 0; 1/2 0 -1];
 %! b = [1 0; 0 -1; 0 1];
 %! Wc = gram (a, b);
-%! assert (a * Wc + Wc * a' + b * b', zeros (size (a)))
+%! assert (a * Wc + Wc * a.' + b * b.', zeros (size (a)))
 
 %!test
 %! a = [-1 0 0; 1/2 1 0; 1/2 0 -1] / 2;
@@ -105,8 +105,8 @@ endfunction
 %! c = [0 0 1; 1 1 0]; ## it doesn't matter what the value of c is
 %! d = zeros (rows (c), columns (b)); ## it doesn't matter what the value of d is
 %! Ts = 0.1; ## Ts != 0
-%! Wc = gram (ss (a, b, c, d, Ts), 'c');
-%! assert (a * Wc * a' - Wc + b * b', zeros (size (a)), 1e-12)
+%! Wc = gram (ss (a, b, c, d, Ts), "c");
+%! assert (a * Wc * a.' - Wc + b * b.', zeros (size (a)), 1e-12)
 
 %!test
 %! a = [-1 0 0; 1/2 1 0; 1/2 0 -1] / 2;
@@ -114,5 +114,5 @@ endfunction
 %! c = [0 0 1; 1 1 0];
 %! d = zeros (rows (c), columns (b)); ## it doesn't matter what the value of d is
 %! Ts = 0.1; ## Ts != 0
-%! Wo = gram (ss (a, b, c, d, Ts), 'o');
-%! assert (a' * Wo * a - Wo + c' * c, zeros (size (a)), 1e-12)
+%! Wo = gram (ss (a, b, c, d, Ts), "o");
+%! assert (a.' * Wo * a - Wo + c.' * c, zeros (size (a)), 1e-12)
