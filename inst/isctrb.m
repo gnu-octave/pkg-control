@@ -20,6 +20,8 @@
 ## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys}, @var{tol})
 ## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{a}, @var{b}, @var{tol})
 ## Logical check for system controllability.
+## Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -29,7 +31,7 @@
 ## @itemx b
 ## @var{n} by @var{n}, @var{n} by @var{m} matrices, respectively
 ## @item tol
-## optional roundoff parameter.  Default value: @code{10*eps}
+## optional roundoff parameter. Default value: 0
 ## @end table
 ##
 ## @strong{Outputs}
@@ -41,18 +43,7 @@
 ## @item u
 ## @var{u} is an orthogonal basis of the controllable subspace.
 ## @end table
-##
-## @strong{Method}
-## Controllability is determined by applying Arnoldi iteration with
-## complete re-orthogonalization to obtain an orthogonal basis of the
-## Krylov subspace
-## @example
-## span ([b,a*b,...,a^@{n-1@}*b]).
-## @end example
-## The Arnoldi iteration is executed with @code{krylov} if the system
-## has a single input; otherwise a block Arnoldi iteration is performed
-## with @code{krylovb}.
-## @seealso{size, rows, columns, length, ismatrix, isscalar, isvector, is_observable, is_stabilizable, is_detectable, krylov, krylovb}
+## @seealso{isobsv}
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -62,63 +53,36 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function [retval, U] = isctrb (a, b, tol)
-
-  deftol = 1;    # assume default tolerance
+function [retval, U] = isctrb (A, B = 0, tol = 0)
 
   if (nargin < 1 || nargin > 3)
     print_usage ();
-  elseif (isa (a, "lti"))
-    ## system structure passed.
-    [a, bs] = ssdata (a);
+  elseif (isa (A, "lti"))  # isctrb (sys), isctrb (sys, tol)
     if (nargin > 2)
       print_usage ();
-    elseif (nargin == 2)
-      tol = b;          # get tolerance
-      deftol = 0;
     endif
-    b = bs;
-  else
-    ## a,b arguments sent directly.
-    if (nargin < 2)
-      print_usage ();
-    else
-      deftol = 1;
-    endif
-  endif
-
-  ## check for default tolerance
-  if (deftol)
-    if (isa (a, "single") || isa (b, "single"))
-      tol = 1000 * eps("single");
-    else
-      tol = 1000*eps;
-    endif
+    tol = B;
+    [A, B] = ssdata (A);
+  elseif (nargin < 2)  # isctrb (A, B), isctrb (A, B, tol)
+    print_usage ();
   endif
 
   ## check tol dimensions
   if (! isscalar (tol))
     error ("isctrb: tol(%dx%d) must be a scalar",
             rows (tol), columns (tol));
-  elseif (! issample (tol))
-    error ("isctrb: tol=%e must be positive", tol);
   endif
 
   ## check dimensions compatibility
-  n = rows (a);
-  [nr, nc] = size (b);
-
-  if (n == 0 || n != nr || nc == 0 || ! issquare (a))
-    warning ("isctrb: a(%dx%d), b(%dx%d)",
-              rows(a), columns(a), nr, nc);
-    retval = 0;
-  else
-    ## call block-krylov subspace routine to get an orthogonal basis
-    ## of the controllable subspace.
-    [U, H, Ucols] = krylov (a, b, n, tol, 1);
-    retval = (Ucols == n);
+  if (isempty (A) || isempty (B) || rows (A) != rows (B) || ! issquare (A))
+    error ("isctrb: A(%dx%d), B(%dx%d)",
+            rows (A), columns (A), rows (B), columns (B));
   endif
+
+  [Ac, Bc, U, ncont] = slab01od (A, B, tol);
+U = U(:, 1:ncont);
+  retval = (ncont == rows (A));
 
 endfunction

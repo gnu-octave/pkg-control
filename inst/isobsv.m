@@ -28,7 +28,7 @@
 ##
 ## See @command{isctrb} for detailed description of arguments
 ## and default values.
-## @seealso{size, rows, columns, length, ismatrix, isscalar, isvector}
+## @seealso{isctrb}
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -37,27 +37,26 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function [retval, U] = isobsv (a, c, tol)
+function [retval, U] = isobsv (A, C = [], tol = [])
 
-  if (nargin < 1)
+  if (nargin < 1 || nargin > 3)
     print_usage ();
-  elseif (isa (a, "lti"))
-    ## system form
-    if (nargin == 2)
-      tol = c;
-    elseif (nargin > 2)
+  elseif (isa (A, "lti"))  # isobsv (sys), isobsv (sys, tol)
+    if (nargin > 2)
       print_usage ();
     endif
-    [a, b, c] = ssdata (a);
-  elseif (nargin > 3)
+    tol = C;
+    [A, B, C] = ssdata (A);
+  elseif (nargin < 2)  # isobsv (A, C), isobsv (A, C, tol)
     print_usage ();
   endif
-  if (exist ("tol"))
-    [retval, U] = isctrb (a.', c.', tol);
+
+  if (isempty (tol))
+    [retval, U] = isctrb (A.', C.');
   else
-    [retval, U] = isctrb (a.', c.');
+    [retval, U] = isctrb (A.', C.', tol);
   endif
 
 endfunction

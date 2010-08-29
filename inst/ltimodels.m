@@ -208,3 +208,17 @@ endfunction
 %! Me = [Ae, -Be; -Ce, De];
 %!
 %!assert (M, Me, 1e-4);
+
+## ss: minreal
+%!shared C, D
+%!
+%! A = ss (-2, 3, 4, 5);
+%! B = A / A;
+%! C = minreal (B);
+%! D = ss (1);
+%!
+%!assert (C.a, D.a);
+%!assert (C.b, D.b);
+%!assert (C.c, D.c);
+%!assert (C.d, D.d);
+

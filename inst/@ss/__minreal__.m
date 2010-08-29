@@ -68,16 +68,4 @@ function retsys = __minreal__ (sys, tol)
   retsys = ss (A, B, C, sys.d);
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
-  warning ("ss: minreal: use result with caution");
-
 endfunction
-
-
-## FIXME: algorithm fails for the example below
-##
-## P = ss (-2, 3, 4, 5)
-## C = inv (P)
-## L = P * C
-## Lm = minreal (L)
-##
-## Lm.d should be 1
