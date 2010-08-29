@@ -1,6 +1,6 @@
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
-     slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct
+     slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc
@@ -105,6 +105,11 @@ slab13ad.oct: slab13ad.cc
               SB03OT.f MB03QD.f MB04ND.f MB04OD.f MB03QY.f \
               SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
               SB03OV.f
+
+# Staircase form using orthogonal transformations
+slab01od.oct: slab01od.cc
+	mkoctfile slab01od.cc \
+              AB01OD.f AB01ND.f MB03OY.f MB01PD.f MB01QD.f
 
 clean:
 	rm *.o core octave-core *.oct *~
