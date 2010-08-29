@@ -49,21 +49,17 @@
 
 function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
 
-  if (nargin < 1)
+  if (nargin < 1 || nargin > 4)
     print_usage ();
   elseif (isa (a, "lti"))  # system passed
-    if (nargin == 2)
-      tol = b;          # get tolerance
-    elseif (nargin > 2)
+    if (nargin > 2)
       print_usage ();
     endif
-    disc = isdt(a);
+    tol = b;
+    dflg = isdt (a);
     [a, b] = ssdata (a);
-  else  # a,b arguments sent directly
-    if (nargin > 4 || nargin == 1)
-      print_usage ();
-    endif
-    disc = dflg;
+  elseif (nargin == 1)  # a,b arguments sent directly
+    print_usage ();
   endif
 
   if (isempty (tol))
@@ -88,20 +84,7 @@ function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
   specflag = 0;
 
   for k = 1 : n
-    if (! disc)
-      ## Continuous time case
-      rL = real (L(k));
-      if (rL >= 0)
-        H = [eye(n)*L(k)-a, b];
-        f = (rank (H, tol) == n);
-        if (f == 0)
-          retval = 0;
-          if (rL == 0)
-	        specflag = 1;
-          endif
-        endif
-      endif
-    else
+    if (dflg)
       ## Discrete time case
       rL = abs (L(k));
       if (rL >= 1)
@@ -111,6 +94,19 @@ function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
           retval = 0;
           if (rL == 1)
             specflag = 1;
+          endif
+        endif
+      endif
+    else
+      ## Continuous time case
+      rL = real (L(k));
+      if (rL >= 0)
+        H = [eye(n)*L(k)-a, b];
+        f = (rank (H, tol) == n);
+        if (f == 0)
+          retval = 0;
+          if (rL == 0)
+	        specflag = 1;
           endif
         endif
       endif

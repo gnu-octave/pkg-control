@@ -40,21 +40,17 @@
 
 function retval = isdetectable (a, c = [], tol = [], dflg = 0)
 
-  if (nargin < 1)
+  if (nargin < 1 || nargin > 4)
     print_usage ();
-  elseif (isa (a, "lti"))
-    ## system form
-    if (nargin == 2)
-      tol = c;
-    elseif (nargin > 2)
+  elseif (isa (a, "lti"))  # system passed
+    if (nargin > 2)
       print_usage ();
     endif
+    tol = c;
     dflg = isdt (a);
     [a, b, c] = ssdata (a);
-  else
-    if (nargin > 4 || nargin == 1)
-      print_usage ();
-    endif
+  elseif (nargin == 1)  # a,b arguments sent directly
+    print_usage ();
   endif
 
   retval = isstabilizable (a.', c.', tol, dflg);
