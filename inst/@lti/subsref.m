@@ -21,33 +21,37 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function ret = subsref (sys, s)
+function a = subsref (a, s)
 
   if (isempty (s))
     error ("lti: subsref: missing index");
   endif
 
-  switch (s(1).type)
-    case "()"
-      idx = s(1).subs;
-      if (numel (idx) == 2)
-        ret = __sysprune__ (sys, idx{1}, idx{2});
-      elseif (numel (idx) == 1)
-        ret = __freqresp__ (sys, idx{1});  
-      else
-        error ("lti: subsref: need one or two indices");
-      endif
-
-    case "."
-      fld = s.subs;
-      ret = get (sys, fld);
-      ## warning ("lti: subsref: do not use subsref for development");
-
-    otherwise
-      error ("lti: subsref: invalid subscript type");
-
-  endswitch
+  for k = 1 : numel (s)
+    if (isa (a, "lti"))
+      switch (s(k).type)
+        case "()"
+          idx = s(k).subs;
+          if (numel (idx) == 2)
+            a = __sysprune__ (a, idx{1}, idx{2});
+          elseif (numel (idx) == 1)
+            a = __freqresp__ (a, idx{1});  
+          else
+            error ("lti: subsref: need one or two indices");
+          endif
+        case "."
+          fld = s(k).subs;
+          a = get (a, fld);
+          ## warning ("lti: subsref: do not use subsref for development");
+        otherwise
+          error ("lti: subsref: invalid subscript type");
+      endswitch
+    else  # not an LTI model
+      a = subsref (a, s(k:end));
+      return;
+    endif
+  endfor
 
 endfunction

@@ -222,3 +222,25 @@ endfunction
 %!assert (C.c, D.c);
 %!assert (C.d, D.d);
 
+## tf: minreal
+%!shared a, b, c, d
+%! s = tf ("s");
+%! G1 = (s+1)*s*5/(s+1)/(s^2+s+1);
+%! G2 = tf ([1, 1, 1], [2, 2, 2]);
+%! G1min = minreal (G1);
+%! G2min = minreal (G2);
+%! a = G1min.num{1, 1};
+%! b = G1min.den{1, 1};
+%! c = G2min.num{1, 1};
+%! d = G2min.den{1, 1};
+%!assert (a, [5, 0], 1e-4);
+%!assert (b, [1, 1, 1], 1e-4);
+%!assert (c, 0.5, 1e-4);
+%!assert (d, 1, 1e-4);
+
+## lti: subsref
+%!shared a
+%! s = tf ("s");
+%! G = (s+1)*s*5/(s+1)/(s^2+s+1);
+%! a = G(1,1).num{1,1}(1);
+%!assert (a, 5, 1e-4);
