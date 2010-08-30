@@ -67,18 +67,15 @@ function [retval, U] = isctrb (A, B = 0, tol = 0)
     [A, B] = ssdata (A);
   elseif (nargin < 2)  # isctrb (A, B), isctrb (A, B, tol)
     print_usage ();
+  elseif (isempty (A) || isempty (B) || rows (A) != rows (B) || ! issquare (A))
+    error ("isctrb: A(%dx%d), B(%dx%d)",
+            rows (A), columns (A), rows (B), columns (B));
   endif
 
   ## check tol dimensions
   if (! isscalar (tol))
     error ("isctrb: tol(%dx%d) must be a scalar",
             rows (tol), columns (tol));
-  endif
-
-  ## check dimensions compatibility
-  if (isempty (A) || isempty (B) || rows (A) != rows (B) || ! issquare (A))
-    error ("isctrb: A(%dx%d), B(%dx%d)",
-            rows (A), columns (A), rows (B), columns (B));
   endif
 
   [Ac, Bc, U, ncont] = slab01od (A, B, tol);

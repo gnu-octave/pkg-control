@@ -116,7 +116,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   endif
   
   if (! isdetectable (P(p1+1 : p, :)))
-    error ("hinfsyn: (A, C2) must be detectable");
+    error ("hinfsyn: (C2, A) must be detectable");
   endif
 
   ## H-infinity synthesis

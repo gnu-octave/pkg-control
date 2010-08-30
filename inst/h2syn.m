@@ -113,7 +113,7 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
   endif
   
   if (! isdetectable (P(p1+1 : p, :)))
-    error ("h2syn: (A, C2) must be detectable");
+    error ("h2syn: (C2, A) must be detectable");
   endif
 
   ## H-2 synthesis
