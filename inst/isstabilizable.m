@@ -17,24 +17,50 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{retval} =} isstabilizable (@var{sys}, @var{tol})
+## @deftypefn {Function File} {@var{retval} =} isstabilizable (@var{sys})
+## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b})
+## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{tol})
+## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{[]}, @var{dflg})
 ## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{tol}, @var{dflg})
-## Logical check for system stabilizability (i.e., all unstable modes are controllable). 
-## Returns 1 if the system is stabilizable, 0 if the system is not stabilizable, -1 
-## if the system has non stabilizable modes at the imaginary axis (unit circle for 
-## discrete-time systems.
+## Logical check for system stabilizability (i.e., all unstable modes are controllable).
 ##
-## Test for stabilizability is performed via Hautus Lemma. If 
-## @iftex
-## @tex
-## @var{dflg}$\neq$0
-## @end tex
-## @end iftex
-## @ifinfo 
-## @var{dflg}!=0
-## @end ifinfo
-## assume that discrete-time matrices (a,b) are supplied.
-## @seealso{size, rows, columns, length, ismatrix, isscalar, isvector, is_observable, is_stabilizable, is_detectable}
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item a
+## State transition matrix.
+## @item b
+## Input matrix.
+## @item tol
+## Optional tolerance for stability. Default value is 0.
+## @item dflg = 0
+## Matrices (a, b) are part of a continuous-time system. Default Value.
+## @item dflg = 1
+## Matrices (a, b) are part of a discrete-time system.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item retval = 0
+## System is not stabilizable.
+## @item retval = 1
+## System is stabilizable.
+## @end table
+##
+## @example
+## @group
+## Method
+## - Calculate staircase form (SLICOT AB01OD)
+## - Extract unobservable part of state transition matrix
+## - Calculate eigenvalues of unobservable part
+## - Check whether
+##   real (ev) < -tol*(1 + abs (ev))   continuous-time
+##   abs (ev) < 1 - tol                discrete-time
+## @end group
+## @end example
+## @seealso{isdetectable, isstable, isctrb, isobsv}
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -42,10 +68,9 @@
 ## Updated by A. S. Hodel (scotte@eng.auburn.edu) Aubust, 1995 to use krylovb
 ## Updated by John Ingram (ingraje@eng.auburn.edu) July, 1996 to accept systems
 
-## FIXME: where has the version which uses krylovb gone?
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
 
@@ -60,63 +85,29 @@ function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
     [a, b] = ssdata (a);
   elseif (nargin == 1)  # a,b arguments sent directly
     print_usage ();
+  elseif (! issquare (a) || rows (a) != rows (b))
+    error ("isstabilizable: a must be square and conformal to b")
   endif
 
   if (isempty (tol))
-    tol = 200 * eps;
+    tol = 0;
   endif
 
-  ## Checking dimensions
-  n = rows (a);
-  [nr, m] = size (b);
+  ## controllability staircase form
+  [ac, bc, u, ncont] = slab01od (a, b, tol);
 
-  if (! issquare (a))
-    error ("isstabilizable: a must be square");
-  endif
-  
-  if (nr != n)
-    error ("isstabilizable:  (a,b) not conformal");
-  endif
-  
-  ## Computing the eigenvalue of A
-  L = eig (a);
-  retval = 1;
-  specflag = 0;
+  ## extract uncontrollable part of staircase form
+  uncont_idx = ncont+1 : rows (a);
+  auncont = ac(uncont_idx, uncont_idx);
 
-  for k = 1 : n
-    if (dflg)
-      ## Discrete time case
-      rL = abs (L(k));
-      if (rL >= 1)
-        H = [eye(n)*L(k)-a, b];
-        f = (rank (H, tol) == n);
-        if (f == 0)
-          retval = 0;
-          if (rL == 1)
-            specflag = 1;
-          endif
-        endif
-      endif
-    else
-      ## Continuous time case
-      rL = real (L(k));
-      if (rL >= 0)
-        H = [eye(n)*L(k)-a, b];
-        f = (rank (H, tol) == n);
-        if (f == 0)
-          retval = 0;
-          if (rL == 0)
-	        specflag = 1;
-          endif
-        endif
-      endif
-    endif
-  endfor
+  ## calculate poles of uncontrollable part
+  eigw = eig (auncont);
 
-  if (specflag == 1)
-    ## This means that the system has uncontrollable modes at the imaginary axis 
-    ## (or at the unit circle for discrete time systems)
-    retval = -1;
+  ## check whether uncontrollable poles are stable
+  if (dflg)
+    retval = all (abs (eigw) < 1 - tol);
+  else
+    retval = all (real (eigw) < -tol*(1 + abs (eigw)));
   endif
 
 endfunction

@@ -17,17 +17,41 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{retval} =} isdetectable (@var{a}, @var{c}, @var{tol}, @var{dflg})
+## @deftypefn {Function File} {@var{retval} =} isdetectable (@var{sys})
 ## @deftypefnx {Function File} {@var{retval} =} isdetectable (@var{sys}, @var{tol})
-## Test for detectability (observability of unstable modes) of (@var{a}, @var{c}).
+## @deftypefnx {Function File} {@var{retval} =} isdetectable (@var{a}, @var{c})
+## @deftypefnx {Function File} {@var{retval} =} isdetectable (@var{a}, @var{c}, @var{tol})
+## @deftypefnx {Function File} {@var{retval} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{dflg})
+## @deftypefnx {Function File} {@var{retval} =} isdetectable (@var{a}, @var{c}, @var{tol}, @var{dflg})
+## Logical test for system detectability (observability of unstable modes).
 ##
-## Returns 1 if the system @var{a} or the pair (@var{a}, @var{c}) is
-## detectable, 0 if not, and -1 if the system has unobservable modes at the
-## imaginary axis (unit circle for discrete-time systems).
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item a
+## State transition matrix.
+## @item c
+## Measurement matrix.
+## @item tol
+## Optional tolerance for stability. Default value is 0.
+## @item dflg = 0
+## Matrices (a, c) are part of a continuous-time system. Default Value.
+## @item dflg = 1
+## Matrices (a, c) are part of a discrete-time system.
+## @end table
 ##
-## @strong{See} @command{is_stabilizable} for detailed description of
+## @strong{Outputs}
+## @table @var
+## @item retval = 0
+## System is not detectable.
+## @item retval = 1
+## System is detectable.
+## @end table
+##
+## See @command{isstabilizable} for detailed description of
 ## arguments and computational method.
-## @seealso{isstabilizable, size, rows, columns, length, ismatrix, isscalar, isvector}
+## @seealso{isstabilizable, isstable, isctrb, isobsv}
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -36,7 +60,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function retval = isdetectable (a, c = [], tol = [], dflg = 0)
 
@@ -49,8 +73,8 @@ function retval = isdetectable (a, c = [], tol = [], dflg = 0)
     tol = c;
     dflg = isdt (a);
     [a, b, c] = ssdata (a);
-  elseif (nargin == 1)  # a,b arguments sent directly
-    print_usage ();
+  elseif (nargin == 1)  # a,c arguments sent directly
+    print_usage ();     # a,c dimension checked inside isstabilizable
   endif
 
   retval = isstabilizable (a.', c.', tol, dflg);
