@@ -43,21 +43,16 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function [x, l, g] = dare (a, b, q, r, s = [])
 
   ## TODO: Add SLICOT SG02AD (Solution of continuous- or discrete-time
   ##       algebraic Riccati equations for descriptor systems)
 
-  ## TODO: Check stabilizability and controllability more elegantly
-  ##       (without incorporating cross terms into a and q)
-
   if (nargin < 4 || nargin > 5)
     print_usage ();
   endif
-
-  [brows, bcols] = size (b);
 
   if (! issquare (a))
     error ("dare: a is not square");
@@ -71,50 +66,35 @@ function [x, l, g] = dare (a, b, q, r, s = [])
     error ("dare: r is not square");
   endif
   
-  if (rows (a) != brows)
-    error ("dare: a, b are not conformable");
+  if (rows (a) != rows (b))
+    error ("dare: (a, b) not conformable");
   endif
   
-  if (columns (r) != bcols)
-    error ("dare: b, r are not conformable");
+  if (columns (r) != columns (b))
+    error ("dare: (b, r) not conformable");
   endif
 
-  ## incorporate cross term into a and q
-  if (isempty (s))
-    ao = a;
-    qo = q;
-  else
-    [srows, scols] = size (s);  % [n2, m2]
-
-    if (srows != brows || scols != bcols)
-      error ("dare: s (%dx%d) must be identically dimensioned with b (%dx%d)",
-              srows, scols, brows, bcols);
-    endif
-
-    ao = a - (b/r)*s.';
-    qo = q - (s/r)*s.';
+  if (! isempty (s) && any (size (s) != size (b)))
+    error ("dare: s (%dx%d) must be identically dimensioned with b (%dx%d)",
+            rows (s), columns (s), rows (b), columns (b));
   endif
   
   ## check stabilizability
-  if (! isstabilizable (ao, b, [], 1))
-    error ("dare: a and b not stabilizable");
+  if (! isstabilizable (a, b, [], 1))
+    error ("dare: (a, b) not stabilizable");
   endif
 
-  ## check detectability
-  dflag = isdetectable (ao, qo, [], 1);
-
-  if (dflag == 0)
-    warning ("dare: (a,q) not detectable");
-  elseif (dflag == -1)
-    error ("dare: (a,q) has non-minimal modes near unit circle");
+  ## check positive semi-definiteness
+  if (isempty (s))
+    t = zeros (size (b));
+  else
+    t = s;
   endif
 
-  ## to allow lqe design, don't force
-  ## qo to be positive semi-definite
+  m = [q, t; t.', r];
 
-  ## checking positive definiteness
-  if (isdefinite (r) <= 0)
-    error ("dare: r must be positive definite");
+  if (isdefinite (m) < 0)
+    error ("dare: require [q, s; s.', r] >= 0");
   endif
 
   ## solve the riccati equation

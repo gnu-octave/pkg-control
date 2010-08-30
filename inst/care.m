@@ -43,21 +43,16 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.2
+## Version: 0.3
 
 function [x, l, g] = care (a, b, q, r, s = [])
 
   ## TODO: Add SLICOT SG02AD (Solution of continuous- or discrete-time
   ##       algebraic Riccati equations for descriptor systems)
 
-  ## TODO: Check stabilizability and controllability more elegantly
-  ##       (without incorporating cross terms into a and q)
-
   if (nargin < 4 || nargin > 5)
     print_usage ();
   endif
-
-  [brows, bcols] = size (b);
 
   if (! issquare (a))
     error ("care: a is not square");
@@ -71,50 +66,35 @@ function [x, l, g] = care (a, b, q, r, s = [])
     error ("care: r is not square");
   endif
   
-  if (rows (a) != brows)
-    error ("care: a, b are not conformable");
+  if (rows (a) != rows (b))
+    error ("care: (a, b) not conformable");
   endif
   
-  if (columns (r) != bcols)
-    error ("care: b, r are not conformable");
+  if (columns (r) != columns (b))
+    error ("care: (b, r) not conformable");
   endif
 
-  ## incorporate cross term into a and q
-  if (isempty (s))
-    ao = a;
-    qo = q;
-  else
-    [srows, scols] = size (s);  % [n2, m2]
-
-    if (srows != brows || scols != bcols)
-      error ("care: s (%dx%d) must be identically dimensioned with b (%dx%d)",
-              srows, scols, brows, bcols);
-    endif
-
-    ao = a - (b/r)*s.';
-    qo = q - (s/r)*s.';
+  if (! isempty (s) && any (size (s) != size (b)))
+    error ("care: s (%dx%d) must be identically dimensioned with b (%dx%d)",
+            rows (s), columns (s), rows (b), columns (b));
   endif
 
   ## check stabilizability
-  if (! isstabilizable (ao, b, [], 0))
-    error ("care: a and b not stabilizable");
+  if (! isstabilizable (a, b, [], 0))
+    error ("care: (a, b) not stabilizable");
   endif
 
-  ## check detectability
-  dflag = isdetectable (ao, qo, [], 0);
-
-  if (dflag == 0)
-    warning ("care: (a,q) not detectable");
-  elseif (dflag == -1)
-    error ("care: (a,q) has poles on imaginary axis");
+  ## check positive semi-definiteness
+  if (isempty (s))
+    t = zeros (size (b));
+  else
+    t = s;
   endif
 
-  ## to allow lqe design, don't force
-  ## qo to be positive semi-definite
+  m = [q, t; t.', r];
 
-  ## checking positive definiteness
-  if (isdefinite (r) <= 0)
-    error ("care: r must be positive definite");
+  if (isdefinite (m) < 0)
+    error ("care: require [q, s; s.', r] >= 0");
   endif
 
   ## solve the riccati equation
