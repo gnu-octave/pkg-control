@@ -77,7 +77,6 @@
 ## Created: December 2009
 ## Version: 0.1
 
-## TODO: find optimal instead of suboptimal controller
 ## TODO: improve compatibility for nargin >= 4
 
 function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)

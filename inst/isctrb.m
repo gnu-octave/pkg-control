@@ -82,7 +82,9 @@ function [retval, U] = isctrb (A, B = 0, tol = 0)
   endif
 
   [Ac, Bc, U, ncont] = slab01od (A, B, tol);
-U = U(:, 1:ncont);
+
+  U = U(:, 1:ncont);
+
   retval = (ncont == rows (A));
 
 endfunction
