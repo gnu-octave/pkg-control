@@ -52,3 +52,4 @@ test sigma
 test initial
 test ctrb
 test obsv
+test issample

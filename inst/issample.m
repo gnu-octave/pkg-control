@@ -16,10 +16,10 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} issample (@var{ts})
-## @deftypefnx {Function File} {} issample (@var{ts}, @var{-1})
+## @deftypefnx {Function File} {} issample (@var{ts}, @var{flg})
 ## Return true if @var{ts} is a valid sampling time
 ## (real, scalar, > 0). If a second argument != 0
-## is passed, -1 becomes a valid sample time as well.
+## is passed, -1 and 0 become valid sample times as well.
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -35,10 +35,33 @@ function bool = issample (tsam, flg = 0)
     print_usage (); 
   endif
 
-  if (flg)
-    bool = (isnumeric (tsam) && isscalar (tsam) && (tsam >= 0 || tsam == -1));
-  else
-    bool = (isnumeric (tsam) && isscalar (tsam) && (tsam == abs (tsam)) && (tsam != 0));
+  if (flg == 0)  # allow -1 and 0
+    bool = (isnumeric (tsam) && isscalar (tsam) && \
+           (! iscomplex (tsam)) && (tsam > 0));       
+  else  # refuse -1 and 0
+    bool = (isnumeric (tsam) && isscalar (tsam) && \
+           (! iscomplex (tsam)) && (tsam >= 0 || tsam == -1));
   endif
 
 endfunction
+
+
+## flg == 0
+%!assert (issample (1), true)
+%!assert (issample (pi), true)
+%!assert (issample (0), false)
+%!assert (issample (-1), false)
+%!assert (issample (-1, 0), false)
+%!assert (issample ("a"), false)
+%!assert (issample (eye (2)), false)
+%!assert (issample (2+2i), false)
+
+## flg != 0
+%!assert (issample (-1, 1), true)
+%!assert (issample (-1, -1), true)
+%!assert (issample (pi, 1), true)
+%!assert (issample (0, 1), true)
+%!assert (issample ("b", 1), false)
+%!assert (issample (-1, "ab"), true)
+%!assert (issample (rand (3,2), 1), false)
+%!assert (issample (2+2i, 1), false)
