@@ -22,21 +22,33 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.1
+## Version: 0.2
 
+## test collection
 test ltimodels
+
+## robust control
 test hinfsyn
 test h2syn
-test place
-test care
 
+## ARE solvers
+test care
+## test dare  # TODO: add missing test
 test kalman
+
+## Lyapunov
 test lyap
 test dlyap
 test gram
 test covar
 
+## various oct-files
+test place
+test hsvd
+
+## various m-files
 test margin
 test sigma
 test initial
-test hsvd
+test ctrb
+test obsv

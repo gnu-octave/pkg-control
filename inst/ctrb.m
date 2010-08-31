@@ -26,15 +26,17 @@
 ## Created: November 4, 1997
 ## based on is_controllable.m of Scottedward Hodel
 
-function co = ctrb (sys_or_a, b)
+function co = ctrb (a, b)
 
-  if (nargin == 1)
-    [a, b] = ssdata (sys_or_a);
-  elseif (nargin == 2)
-    a = sys_or_a;
+  if (nargin == 1)  # ctrb (sys)
+    if (! isa (a, "lti"))
+      error ("ctrb: argument must be an lti system");
+    endif
+    [a, b] = ssdata (a);
+  elseif (nargin == 2)  # ctrb (a, b)
     if (! isnumeric (a) || ! isnumeric (b) ||
-        rows(a) != rows (b) || ! issquare (a))
-      error ("ctrb: invalid arguments");
+        rows (a) != rows (b) || ! issquare (a))
+      error ("ctrb: invalid arguments (a, b)");
     endif
   else
     print_usage ();
