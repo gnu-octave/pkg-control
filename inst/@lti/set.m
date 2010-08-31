@@ -47,9 +47,7 @@ function retsys = set (sys, varargin)
 
   else  # sys = set (sys, "prop1", val1, ...)
 
-    n = (nargin-1) / 2;
-
-    if (n != round (n))
+    if (rem (nargin-1, 2))
       error ("lti: set: properties and values must come in pairs");
     endif
 
@@ -79,7 +77,6 @@ function retsys = set (sys, varargin)
 
         otherwise
           sys = __set__ (sys, prop, val);
-
       endswitch
     endfor
 

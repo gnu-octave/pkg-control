@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -25,9 +25,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = tf (num, den, varargin)
+function sys = tf (num = {}, den = {}, varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
   %inferiorto ("frd", "ss", "zpk");  # error if de-commented. bug in octave?
@@ -37,8 +37,6 @@ function sys = tf (num, den, varargin)
 
   switch (nargin)
     case 0
-      num = {};
-      den = {};
       tsam = -1;
       tfvar = "x";  # undefined
 

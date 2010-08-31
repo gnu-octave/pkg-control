@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -52,7 +52,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: August 2009
-## Version: 0.1
+## Version: 0.2
 
 function [u, t] = gensig (sigtype, tau, tfinal, tsam)
 
@@ -64,12 +64,20 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     error ("gensig: first argument must be a string");
   endif
 
+  if (! issample (tau))
+    error ("gensig: second argument is not a valid period");
+  endif
+
   if (nargin < 3)
     tfinal = 5 * tau;
+  elseif (! issample (tfinal))
+    error ("gensig: third argument is not a valid final time");
   endif
 
   if (nargin < 4)
     tsam = tau / 64;
+  elseif (! issample (tsam))
+    error ("gensig: fourth argument is not a valid sampling time");
   endif
 
   t = (0 : tsam : tfinal).';
@@ -84,7 +92,7 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     case "pu"
       u = rem (t, tau) < (1 - 1000*eps) * tsam;
     otherwise
-      error ("gensig: invalid signal type");
+      error ("gensig: ""%s"" is an invalid signal type", sigtype);
   endswitch
 
 endfunction

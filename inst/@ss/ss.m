@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -25,9 +25,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = ss (a, b, c, d, varargin)
+function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
   %inferiorto ("frd");
@@ -36,12 +36,8 @@ function sys = ss (a, b, c, d, varargin)
   argc = 0;
 
   switch (nargin)
-    case 0
-      a = [];
-      b = [];
-      c = [];
-      d = [];
-      tsam = -1;
+    case 0  # ss ()
+    ## tsam = -1;  # noting is done here, but "case 0" needed to prevent "otherwise"
 
     case 1
       if (isa (a, "ss"))  # already in ss form
@@ -56,7 +52,7 @@ function sys = ss (a, b, c, d, varargin)
         a = [];
         b = zeros (0, columns (d));
         c = zeros (rows (d), 0);
-        tsam = -1;
+        ## tsam = -1;
       else
         print_usage ();
       endif
@@ -64,13 +60,13 @@ function sys = ss (a, b, c, d, varargin)
     case 2
       print_usage ();
 
-    case 3  # a, b, c without d
+    case 3  # a, b, c without d   ss (a, b, c)
       d = zeros (rows (c), columns (b));
       tsam = 0;
 
-    case 4  # continuous system
-      tsam = 0;
+    case 4  # continuous system   ss (a, b, c, d), ss ([], [], [], d)
       [b, c] = __gaincheck__ (b, c, d);
+      tsam = 0;
 
     otherwise  # default case
       [b, c] = __gaincheck__ (b, c, d);
@@ -79,7 +75,6 @@ function sys = ss (a, b, c, d, varargin)
       if (issample (varargin{1}, 1))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
         tsam = varargin{1};
         argc--;
-
         if (argc > 0)
           varargin = varargin(2:end);
         endif
@@ -94,17 +89,15 @@ function sys = ss (a, b, c, d, varargin)
     tsam = -1;
   endif
 
-  [nu, nx, ny] = __ssmatdim__ (a, b, c, d);
+  [m, n, p] = __ssmatdim__ (a, b, c, d);
 
-  stname = repmat ({""}, nx, 1);
+  stname = repmat ({""}, n, 1);
 
-  ssdata = struct ("a", a,
-                   "b", b,
-                   "c", c,
-                   "d", d,
+  ssdata = struct ("a", a, "b", b,
+                   "c", c, "d", d,
                    "stname", {stname});
 
-  ltisys = lti (ny, nu, tsam);
+  ltisys = lti (p, m, tsam);
 
   sys = class (ssdata, "ss", ltisys);
 
@@ -118,6 +111,7 @@ endfunction
 function [b, c] = __gaincheck__ (b, c, d)
 
   ## catch the case sys = ss ([], [], [], d)
+  ## don't forget to set tsam = -1
   if (isempty (b) && isempty (c))
     b = zeros (0, columns (d));
     c = zeros (rows(d), 0);

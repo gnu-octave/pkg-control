@@ -16,23 +16,23 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Number of inputs, states and outputs of state space matrices.
+## Number of inputs (m), states (n) and outputs (p) of state space matrices.
 ## For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
 ## Version: 0.1
 
-function [nu, nx, ny] = __ssmatdim__ (a, b, c, d)
+function [m, n, p] = __ssmatdim__ (a, b, c, d)
 
   [arows, acols] = size (a);
   [brows, bcols] = size (b);
   [crows, ccols] = size (c);
   [drows, dcols] = size (d);
 
-  nu = bcols;  # = dcols
-  nx = arows;  # = acols
-  ny = crows;  # = drows
+  m = bcols;  # = dcols
+  n = arows;  # = acols
+  p = crows;  # = drows
 
   if (! issquare (a) && ! isempty (a))
     error ("ss: system matrix a(%dx%d) is not square", arows, acols);

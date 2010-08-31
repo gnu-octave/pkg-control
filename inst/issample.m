@@ -16,8 +16,10 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} issample (@var{ts})
+## @deftypefnx {Function File} {} issample (@var{ts}, @var{-1})
 ## Return true if @var{ts} is a valid sampling time
-## (real, scalar, > 0).
+## (real, scalar, > 0). If a second argument != 0
+## is passed, -1 becomes a valid sample time as well.
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -25,7 +27,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function bool = issample (tsam, flg = 0)
 
@@ -34,9 +36,9 @@ function bool = issample (tsam, flg = 0)
   endif
 
   if (flg)
-    bool = (isscalar (tsam) && (tsam >= 0 || tsam == -1));
+    bool = (isnumeric (tsam) && isscalar (tsam) && (tsam >= 0 || tsam == -1));
   else
-    bool = (isscalar (tsam) && (tsam == abs (tsam)) && (tsam != 0));
+    bool = (isnumeric (tsam) && isscalar (tsam) && (tsam == abs (tsam)) && (tsam != 0));
   endif
 
 endfunction
