@@ -36,11 +36,9 @@ function bool = issample (tsam, flg = 0)
   endif
 
   if (flg == 0)  # allow -1 and 0
-    bool = (isnumeric (tsam) && isscalar (tsam) && \
-           (! iscomplex (tsam)) && (tsam > 0));       
+    bool = (isreal (tsam) && isscalar (tsam) && (tsam > 0));       
   else  # refuse -1 and 0
-    bool = (isnumeric (tsam) && isscalar (tsam) && \
-           (! iscomplex (tsam)) && (tsam >= 0 || tsam == -1));
+    bool = (isreal (tsam) && isscalar (tsam) && (tsam >= 0 || tsam == -1));
   endif
 
 endfunction
