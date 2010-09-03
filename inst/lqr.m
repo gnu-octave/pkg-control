@@ -20,8 +20,8 @@
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
-## Return linear-quadratic state-feedback gain matrix g for a LTI system as well as
-## the solution x of the associated riccati equation and the closed-loop poles l.
+## Linear-quadratic regulator. Return linear-quadratic state-feedback gain matrix g for a LTI system
+## as well as the solution x of the associated riccati equation and the closed-loop poles l.
 ## @seealso{care, dare}
 ## @end deftypefn
 

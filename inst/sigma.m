@@ -20,10 +20,9 @@
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
-## If no output arguments are given, the singular value plot of a MIMO
-## system is printed on the screen;
-## otherwise, the singular values of the LTI system are
-## computed and returned.
+## Singular values of frequency response. If no output arguments are given,
+## the singular value plot of a MIMO system is printed on the screen;
+## otherwise, the singular values of the LTI system are computed and returned.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -31,7 +30,7 @@
 ## LTI system.
 ## @item w
 ## Optional vector of frequency values. If @var{w} is not specified, it
-## will be calculated by the zeros and poles of the system.
+## is calculated by the zeros and poles of the system.
 ## @item ptype = 0
 ## Singular values of the frequency response H of system sys. Default Value.
 ## @item ptype = 1
