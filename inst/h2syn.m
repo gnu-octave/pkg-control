@@ -26,12 +26,12 @@
 ## @item P
 ## Generalized plant.
 ## @item nmeas
-## Number of measured outputs e. The last nmeas outputs of P are connected to the
-## inputs of controller K. The remaining outputs z (indices 1 to p-nmeas) are used
+## Number of measured outputs e. The last nmeas outputs of @var{P} are connected to the
+## inputs of controller @var{K}. The remaining outputs z (indices 1 to p-nmeas) are used
 ## to calculate the H-2 norm.
 ## @item ncon
-## Number of controlled inputs u. The last ncon inputs of P are connected to the
-## outputs of controller K. The remaining inputs r (indices 1 to m-ncon) are excited
+## Number of controlled inputs u. The last ncon inputs of @var{P} are connected to the
+## outputs of controller @var{K}. The remaining inputs r (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @end table
 ##
@@ -40,9 +40,9 @@
 ## @item K
 ## State-space model of the H-2 optimal controller.
 ## @item N
-## State-space model of the lower LFT of P and K.
+## State-space model of the lower LFT of @var{P} and @var{K}.
 ## @item gamma
-## H-2 norm of N.
+## H-2 norm of @var{N}.
 ## @end table
 ##
 ## @example

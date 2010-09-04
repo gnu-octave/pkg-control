@@ -27,15 +27,15 @@
 ## @item P
 ## Generalized plant.
 ## @item nmeas
-## Number of measured outputs e. The last nmeas outputs of P are connected to the
-## inputs of controller K. The remaining outputs z (indices 1 to p-nmeas) are used
+## Number of measured outputs e. The last nmeas outputs of @var{P} are connected to the
+## inputs of controller @var{K}. The remaining outputs z (indices 1 to p-nmeas) are used
 ## to calculate the H-infinity norm.
 ## @item ncon
-## Number of controlled inputs u. The last ncon inputs of P are connected to the
-## outputs of controller K. The remaining inputs r (indices 1 to m-ncon) are excited
+## Number of controlled inputs u. The last ncon inputs of @var{P} are connected to the
+## outputs of controller @var{K}. The remaining inputs r (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @item gmax
-## The maximum value of the H-infinity norm of N. It is assumed that gmax is
+## The maximum value of the H-infinity norm of @var{N}. It is assumed that @var{gmax} is
 ## sufficiently large so that the controller is admissible.
 ## @end table
 ##
@@ -44,9 +44,9 @@
 ## @item K
 ## State-space model of the H-infinity (sub-)optimal controller.
 ## @item N
-## State-space model of the lower LFT of P and K.
+## State-space model of the lower LFT of @var{P} and @var{K}.
 ## @item gamma
-## L-infinity norm of N.
+## L-infinity norm of @var{N}.
 ## @end table
 ##
 ## @example

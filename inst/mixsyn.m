@@ -17,12 +17,38 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3})
-## Solve stacked S/KS/T H-inf problem, i.e. bound the largest singular values
+## Solve stacked S/KS/T H-inf problem. Bound the largest singular values
 ## of S (for performance), K S (to penalize large inputs) and
 ## T (for robustness and to avoid sensitivity to noise).
 ## In other words, the inputs r are excited by a harmonic test signal.
 ## Then the algorithm tries to find a controller K which minimizes
-## the H-infinity norm calculated from the outputs z. 
+## the H-infinity norm calculated from the outputs z.
+##
+## @strong{Inputs}
+## @table @var
+## @item G
+## LTI model of plant.
+## @item W1
+## LTI model of performance weight. Bounds the largest singular values of sensitivity @var{S}.
+## Model must be empty, SISO or of appropriate size.
+## @item W2
+## LTI model to penalize large control inputs. Bounds the largest singular values of @var{KS}.
+## Model must be empty, SISO or of appropriate size.
+## @item W3
+## LTI model of robustness and noise sensitivity weight. Bounds the largest singular values of 
+## complementary sensitivity @var{T}. Model must be empty, SISO or of appropriate size.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item K
+## State-space model of the H-infinity (sub-)optimal controller.
+## @item N
+## State-space model of the lower LFT of @var{P} and @var{K}.
+## @item gamma
+## L-infinity norm of @var{N}.
+## @end table
+##
 ## @example
 ## @group
 ##
