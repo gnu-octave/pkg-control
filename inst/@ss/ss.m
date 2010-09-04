@@ -17,10 +17,34 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam})
 ## Create or convert to state-space model.
+##
+## @strong{Inputs}
+## @table @var
+## @item a
+## State transition matrix.
+## @item b
+## Input matrix.
+## @item c
+## Measurement matrix.
+## @item d
+## Feedthrough matrix.
+## @item tsam
+## Sampling time. If @var{tsam} is not specified, a continuous-time
+## model is assumed.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## State-space model.
+## @end table
+##
+## @seealso{tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
