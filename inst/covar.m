@@ -17,9 +17,25 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{p}, @var{q}] =} covar (@var{sys}, @var{w})
-## Return the (steady-state) output covariance p as well as the state
-## covariance q for a lti model sys driven by the Gaussian white noise
-## inputs of intensity w.
+## Return the steady-state covariance.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @item w
+## Intensity of white noise inputs which drive @var{sys}.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item p
+## Output covariance.
+## @item q
+## State covariance.
+## @end table
+##
+## @seealso{lyap, dlyap}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

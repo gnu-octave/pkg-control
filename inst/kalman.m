@@ -26,11 +26,11 @@
 ## @table @var
 ## @item sys
 ## Nominal plant model.
-## @item Q
+## @item q
 ## Covariance of white process noise.
-## @item R
+## @item r
 ## Covariance of white measurement noise.
-## @item S
+## @item s
 ## Optional cross term covariance. Default value is zero.
 ## @item sensors
 ## Indices of measured output signals y from @var{sys}. If omitted, all outputs are measured.
@@ -43,9 +43,9 @@
 ## @table @var
 ## @item est
 ## State-space model of the Kalman estimator.
-## @item G
+## @item g
 ## Estimator gain.
-## @item X
+## @item x
 ## Solution of the Riccati equation.
 ## @end table
 ##
