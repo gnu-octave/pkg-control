@@ -19,6 +19,26 @@
 ## @deftypefn {Function File} {@var{est} =} estim (@var{sys}, @var{l})
 ## @deftypefnx {Function File} {@var{est} =} estim (@var{sys}, @var{l}, @var{sensors}, @var{known})
 ## Return state estimator for a given estimator gain
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @item l
+## State feedback matrix.
+## @item sensors
+## Indices of measured output signals y from @var{sys}. If omitted, all outputs are measured.
+## @item known
+## Indices of known input signals u (deterministic) to @var{sys}. All other inputs to @var{sys}
+## are assumed stochastic. If argument @var{known} is omitted, no inputs u are known.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item est
+## State-space model of estimator.
+## @end table
+## @seealso{kalman, place}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

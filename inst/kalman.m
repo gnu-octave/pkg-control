@@ -22,6 +22,33 @@
 ## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known})
 ## Design Kalman estimator for LTI systems.
 ##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Nominal plant model.
+## @item Q
+## Covariance of white process noise.
+## @item R
+## Covariance of white measurement noise.
+## @item S
+## Optional cross term covariance. Default value is zero.
+## @item sensors
+## Indices of measured output signals y from @var{sys}. If omitted, all outputs are measured.
+## @item known
+## Indices of known input signals u (deterministic) to @var{sys}. All other inputs to @var{sys}
+## are assumed stochastic. If argument @var{known} is omitted, no inputs u are known.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item est
+## State-space model of the Kalman estimator.
+## @item G
+## Estimator gain.
+## @item X
+## Solution of the Riccati equation.
+## @end table
+##
 ## @example
 ## @group
 ##                                  u  +-------+         ^
@@ -36,32 +63,6 @@
 ## @end group
 ## @end example
 ##
-## @strong{Inputs}
-## @table @var
-## @item sys
-## Nominal plant model.
-## @item Q
-## Covariance of white process noise.
-## @item R
-## Covariance of white measurement noise.
-## @item S
-## Optional cross term covariance. Default value is S = 0.
-## @item sensors
-## Indices of measured output signals y from sys. If omitted, all outputs are measured.
-## @item known
-## Indices of known input signals u (deterministic) to sys. All other inputs to sys
-## are assumed stochastic. If argument known is omitted, no inputs u are known.
-## @end table
-##
-## @strong{Outputs}
-## @table @var
-## @item est
-## State-space model of the Kalman estimator.
-## @item G
-## Estimator gain.
-## @item X
-## Solution of the Riccati equation.
-## @end table
 ## @seealso{care, dare, estim, lqr}
 ## @end deftypefn
 
