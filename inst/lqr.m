@@ -20,9 +20,47 @@
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
-## Linear-quadratic regulator. Return linear-quadratic state-feedback gain matrix g for a LTI system
-## as well as the solution x of the associated riccati equation and the closed-loop poles l.
-## @seealso{care, dare}
+## Linear-quadratic regulator.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Continuous or discrete-time LTI model.
+## @item a
+## State transition matrix of continuous-time system.
+## @item b
+## Input matrix of continuous-time system.
+## @item q
+## State weighting matrix.
+## @item r
+## Control weighting matrix.
+## @item s
+## Optional cross term matrix. If @var{s} is not specified, a zero matrix is assumed.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item g
+## State feedback matrix.
+## @item x
+## Unique stabilizing solution of the continuous-time Riccati equation.
+## @item l
+## Closed-loop poles.
+## @end table
+##
+## @example
+## @group
+## .
+## x = A x + B u,   x(0) = x0
+##
+##         /inf
+## J(x0) = | (x' Q x  +  u' R u  +  2 x' S u)  dt
+##         /0
+##
+## L = eig (A - B*G)
+## @end group
+## @end example
+## @seealso{care, dare, dlqr}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
