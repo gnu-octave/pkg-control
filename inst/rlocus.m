@@ -59,6 +59,10 @@
 ## Updated by Kristi McGowan July 1996 for intelligent gain selection
 ## Updated by John Ingram July 1996 for systems
 
+## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Date: December 2009
+## Version: 0.1
+
 ## TODO: Improve compatibility
 
 function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment, min_k, max_k)

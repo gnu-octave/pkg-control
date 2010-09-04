@@ -18,7 +18,29 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
-## Bode diagram of LTI model's frequency response.
+## Bode diagram of frequency response. If no output arguments are given,
+## the response is printed on the screen.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system. Must be a single-input and single-output (SISO) system.
+## @item w
+## Optional vector of frequency values. If @var{w} is not specified, it
+## is calculated by the zeros and poles of the system.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item mag
+## Vector of magnitude. Has length of frequency vector @var{w}.
+## @item pha
+## Vector of phase. Has length of frequency vector @var{w}.
+## @item w
+## Vector of frequency values used.
+## @end table
+##
+## @seealso{nichols, nyquist, svd}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

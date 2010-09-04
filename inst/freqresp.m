@@ -17,7 +17,25 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{H} =} freqresp (@var{sys}, @var{w})
-## Evaluate frequency response at given frequencies. 
+## Evaluate frequency response at given frequencies.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item w
+## Vector of frequency values.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item H
+## Array of frequency response. For a system with m inputs and p outputs, the array @var{H}
+## has dimensions [p, m, length (w)].
+## The frequency response at the frequency w(k) is given by H(:,:,k).
+## @end table
+##
+## @seealso{dcgain}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

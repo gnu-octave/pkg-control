@@ -18,6 +18,21 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
 ## DC gain of LTI model.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item k
+## DC gain matrice. For a system with m inputs and p outputs, the array @var{k}
+## has dimensions [p, m].
+## @end table
+##
+## @seealso{freqresp}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
