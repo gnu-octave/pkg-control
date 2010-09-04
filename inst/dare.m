@@ -18,11 +18,34 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
-## Return unique stabilizing solution x of the discrete-time
-## Riccati equation as well as the closed-loop poles l and the
-## corresponding gain matrix g.
+## Solve discrete-time algebraic Riccati equation (ARE).
 ## Uses SLICOT SB02OD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
+##
+## @strong{Inputs}
+## @table @var
+## @item a
+## Real matrix.
+## @item b
+## Real matrix.
+## @item q
+## Real matrix.
+## @item r
+## Real matrix.
+## @item s
+## Optional real matrix. If @var{s} is not specified, a zero matrix is assumed.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item x
+## Unique stabilizing solution of the discrete-time Riccati equation.
+## @item l
+## Closed-loop poles.
+## @item g
+## Corresponding gain matrix.
+## @end table
+##
 ## @example
 ## @group
 ##                           -1
@@ -36,6 +59,8 @@
 ##
 ##               -1
 ## G = (B'XB + R)   (B'XA + S')
+##
+## L = eig (A - B*G)
 ## @end group
 ## @end example
 ## @seealso{care, lqr, dlqr, kalman}
@@ -120,4 +145,27 @@ function [x, l, g] = dare (a, b, q, r, s = [])
 endfunction
 
 
-## TODO: add a test
+%!shared x, l, g, xe, le, ge
+%! a = [ 0.4   1.7
+%!       0.9   3.8];
+%!
+%! b = [ 0.8
+%!       2.1];
+%!
+%! c = [ 1  -1];
+%!
+%! r = 3;
+%!
+%! [x, l, g] = dare (a, b, c.'*c, r);
+%!
+%! xe = [ 1.5354    1.2623
+%!        1.2623   10.5596];
+%!
+%! le = [-0.0022
+%!        0.2454];
+%!
+%! ge = [ 0.4092    1.7283];
+%!
+%!assert (x, xe, 1e-4);
+%!assert (l, le, 1e-4);
+%!assert (g, ge, 1e-4);

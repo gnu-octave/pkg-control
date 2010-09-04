@@ -18,11 +18,34 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
-## Return unique stabilizing solution x of the continuous-time
-## Riccati equation as well as the closed-loop poles l and the
-## corresponding gain matrix g.
+## Solve continuous-time algebraic Riccati equation (ARE).
 ## Uses SLICOT SB02OD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
+##
+## @strong{Inputs}
+## @table @var
+## @item a
+## Real matrix.
+## @item b
+## Real matrix.
+## @item q
+## Real matrix.
+## @item r
+## Real matrix.
+## @item s
+## Optional real matrix. If @var{s} is not specified, a zero matrix is assumed.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item x
+## Unique stabilizing solution of the continuous-time Riccati equation.
+## @item l
+## Closed-loop poles.
+## @item g
+## Corresponding gain matrix.
+## @end table
+##
 ## @example
 ## @group
 ##               -1
@@ -36,6 +59,8 @@
 ##
 ##      -1
 ## G = R  (B'X + S')
+##
+## L = eig (A - B*G)
 ## @end group
 ## @end example
 ## @seealso{dare, lqr, dlqr, kalman}

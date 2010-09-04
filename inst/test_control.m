@@ -33,7 +33,7 @@ test h2syn
 
 ## ARE solvers
 test care
-## test dare  # TODO: add missing test
+test dare
 test kalman
 
 ## Lyapunov
