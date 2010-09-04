@@ -21,8 +21,7 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal}, @var{dt})
 ## Initial condition response of state-space model.
-## If no output arguments are given, the response is printed on the screen;
-## otherwise, the response is computed and returned.
+## If no output arguments are given, the response is printed on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -30,12 +29,15 @@
 ## State-space model.
 ## @item x0
 ## Vector of initial conditions for each state.
+## @item t
+## Optional time vector. Should be evenly spaced. If not specified, it is calculated
+## by the poles of the system to reflect adequately the response transients.
 ## @item tfinal
-## Optional simulation horizon. If not specified, it will be calculated by
+## Optional simulation horizon. If not specified, it is calculated by
 ## the poles of the system to reflect adequately the response transients.
 ## @item dt
 ## Optional sampling time. Be sure to choose it small enough to capture transient
-## phenomena. If not specified, it will be calculated by the poles of the system.
+## phenomena. If not specified, it is calculated by the poles of the system.
 ## @end table
 ##
 ## @strong{Outputs}
