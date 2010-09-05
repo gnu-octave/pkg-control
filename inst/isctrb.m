@@ -1,26 +1,25 @@
-## Copyright (C) 1993, 1994, 1995, 2000, 2002, 2004, 2005, 2006, 2007
-##               Auburn University.  All rights reserved.
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
+## This file is part of LTI Syncope.
 ##
-## This program is free software; you can redistribute it and/or modify it
-## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## LTI Syncope is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be useful, but
-## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## LTI Syncope is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys})
-## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys}, @var{tol})
-## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{a}, @var{b})
-## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{a}, @var{b}, @var{tol})
+## @deftypefn {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{sys})
+## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{a}, @var{b})
+## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{a}, @var{b}, @var{tol})
 ## Logical check for system controllability.
 ## Uses SLICOT AB01OD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
@@ -39,8 +38,10 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item retval
-## Logical flag; true (1) if the system is controllable.
+## @item bool = 0
+## System is not controllable.
+## @item bool = 1
+## System is controllable.
 ## @item u
 ## An orthogonal basis of the controllable subspace.
 ## @end table
@@ -48,30 +49,25 @@
 ## @seealso{isobsv}
 ## @end deftypefn
 
-## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
-## Created: August 1993
-## Updated by A. S. Hodel (scotte@eng.auburn.edu) Aubust, 1995 to use krylovb
-## Updated by John Ingram (ingraje@eng.auburn.edu) July, 1996 for packed systems
-
-## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Date: October 2009
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2009
 ## Version: 0.2
 
-function [retval, U] = isctrb (A, B = 0, tol = 0)
+function [bool, u] = isctrb (a, b = 0, tol = 0)
 
   if (nargin < 1 || nargin > 3)
     print_usage ();
-  elseif (isa (A, "lti"))  # isctrb (sys), isctrb (sys, tol)
+  elseif (isa (a, "lti"))  # isctrb (sys), isctrb (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
-    tol = B;
-    [A, B] = ssdata (A);
-  elseif (nargin < 2)  # isctrb (A, B), isctrb (A, B, tol)
+    tol = b;
+    [a, b] = ssdata (a);
+  elseif (nargin < 2)  # isctrb (a, b), isctrb (a, b, tol)
     print_usage ();
-  elseif (isempty (A) || isempty (B) || rows (A) != rows (B) || ! issquare (A))
-    error ("isctrb: A(%dx%d), B(%dx%d)",
-            rows (A), columns (A), rows (B), columns (B));
+  elseif (isempty (a) || isempty (b) || rows (a) != rows (b) || ! issquare (a))
+    error ("isctrb: a(%dx%d), b(%dx%d) not conformal",
+            rows (a), columns (a), rows (b), columns (b));
   endif
 
   ## check tol dimensions
@@ -80,10 +76,10 @@ function [retval, U] = isctrb (A, B = 0, tol = 0)
             rows (tol), columns (tol));
   endif
 
-  [Ac, Bc, U, ncont] = slab01od (A, B, tol);
+  [ac, bc, u, ncont] = slab01od (a, b, tol);
 
-  U = U(:, 1:ncont);
+  u = u(:, 1:ncont);
 
-  retval = (ncont == rows (A));
+  bool = (ncont == rows (a));
 
 endfunction

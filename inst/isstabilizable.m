@@ -1,29 +1,30 @@
-## Copyright (C) 1998, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
-##               Kai P. Mueller.
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
+## This file is part of LTI Syncope.
 ##
-## This program is free software; you can redistribute it and/or modify it
-## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## LTI Syncope is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be useful, but
-## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## LTI Syncope is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{retval} =} isstabilizable (@var{sys})
-## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{sys}, @var{tol})
-## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b})
-## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{tol})
-## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{[]}, @var{dflg})
-## @deftypefnx {Function File} {@var{retval} =} isstabilizable (@var{a}, @var{b}, @var{tol}, @var{dflg})
-## Logical check for system stabilizability (i.e., all unstable modes are controllable).
+## @deftypefn {Function File} {@var{bool} =} isstabilizable (@var{sys})
+## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b})
+## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{[]}, @var{dflg})
+## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{tol}, @var{dflg})
+## Logical check for system stabilizability. All unstable modes must be controllable or
+## all uncontrollable states must be stable. Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -36,16 +37,16 @@
 ## @item tol
 ## Optional tolerance for stability. Default value is 0.
 ## @item dflg = 0
-## Matrices (a, b) are part of a continuous-time system. Default Value.
+## Matrices (@var{a}, @var{b}) are part of a continuous-time system. Default Value.
 ## @item dflg = 1
-## Matrices (a, b) are part of a discrete-time system.
+## Matrices (@var{a}, @var{b}) are part of a discrete-time system.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item retval = 0
+## @item bool = 0
 ## System is not stabilizable.
-## @item retval = 1
+## @item bool = 1
 ## System is stabilizable.
 ## @end table
 ##
@@ -63,27 +64,22 @@
 ## @seealso{isdetectable, isstable, isctrb, isobsv}
 ## @end deftypefn
 
-## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
-## Created: August 1993
-## Updated by A. S. Hodel (scotte@eng.auburn.edu) Aubust, 1995 to use krylovb
-## Updated by John Ingram (ingraje@eng.auburn.edu) July, 1996 to accept systems
-
-## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Date: October 2009
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2009
 ## Version: 0.2
 
-function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
+function bool = isstabilizable (a, b = [], tol = [], dflg = 0)
 
   if (nargin < 1 || nargin > 4)
     print_usage ();
-  elseif (isa (a, "lti"))  # system passed
+  elseif (isa (a, "lti"))  # isstabilizable (sys), isstabilizable (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
     tol = b;
     dflg = isdt (a);
     [a, b] = ssdata (a);
-  elseif (nargin == 1)  # a,b arguments sent directly
+  elseif (nargin == 1)  # isstabilizable (a, b, ...)
     print_usage ();
   elseif (! issquare (a) || rows (a) != rows (b))
     error ("isstabilizable: a must be square and conformal to b")
@@ -105,9 +101,9 @@ function retval = isstabilizable (a, b = [], tol = [], dflg = 0)
 
   ## check whether uncontrollable poles are stable
   if (dflg)
-    retval = all (abs (eigw) < 1 - tol);
+    bool = all (abs (eigw) < 1 - tol);
   else
-    retval = all (real (eigw) < -tol*(1 + abs (eigw)));
+    bool = all (real (eigw) < -tol*(1 + abs (eigw)));
   endif
 
 endfunction
