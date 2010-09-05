@@ -25,9 +25,10 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## System data structure of a SISO system.
+## LTI model. Must be a single-input and single-output (SISO) system.
 ## @item tol
-## Imaginary parts below tol are assumed to be zero. If not specified, default value 1e-7 is taken.
+## Imaginary parts below @var{tol} are assumed to be zero.
+## If not specified, default value @code{sqrt (eps)} is taken.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -120,7 +121,7 @@
 ## Created: July 2009
 ## Version: 0.7.0
 
-function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = 1e-7)
+function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
   ## check whether arguments are OK
   if (nargin < 1 || nargin > 2)
