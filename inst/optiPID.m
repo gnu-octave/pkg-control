@@ -1,12 +1,13 @@
+% ===================================================================================
+% optiPID                          Lukas Reichlin                           July 2009
+% ===================================================================================
 % Numerical Optimization of an A/H PID Controller
-% Written by Lukas Reichlin     July 2009
 % Required OCTAVE Packages: control, miscellaneous, optim
 % Required MATLAB Toolboxes: Control, Optimization
+% ===================================================================================
 
 % Tabula Rasa
-clear all;
-close all;
-clc;
+clear all, close all, clc;
 
 % Global Variables
 global P t dt mu_1 mu_2 mu_3
@@ -18,8 +19,8 @@ P = tf (numP, denP);
 
 % Relative Weighting Factors: PLAY AROUND WITH THESE!
 mu_1 = 1;       % Minimize ITAE Criterion
-mu_2 = 1;       % Minimize Max Overshoot
-mu_3 = 1;       % Minimize Sensitivity Ms
+mu_2 = 10;      % Minimize Max Overshoot
+mu_3 = 20;      % Minimize Sensitivity Ms
 
 % Simulation Settings: PLANT-DEPENDENT!
 t_sim = 30;             % Simulation Time [s]
@@ -53,7 +54,7 @@ else
   error ('optiPID: please install optim package to proceed');
 end
 
-C_par_opt = fminsearch (@optiPIDfunction, C_par_0);
+C_par_opt = fminsearch (@optiPIDfun, C_par_0);
 
 % Optimized Controller
 disp ('optiPID: optimized PID controller parameters:');
@@ -95,3 +96,5 @@ title ('Step Response')
 xlabel ('Time [s]')
 ylabel ('Output [-]')
 legend ('A/H', 'Optimized', 'Location', 'SouthEast')
+
+% ===================================================================================
