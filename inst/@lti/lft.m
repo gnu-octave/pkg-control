@@ -27,11 +27,11 @@
 ## @item sys2
 ## Lower LTI model.
 ## @item nu
-## The last nu inputs of sys1 are connected with the first nu outputs of sys2.
-## If not specified, min (m1, p2) is taken.
+## The last nu inputs of @var{sys1} are connected with the first nu outputs of @var{sys2}.
+## If not specified, @code{min (m1, p2)} is taken.
 ## @item ny
-## The last ny outputs of sys1 are connected with the first ny inputs of sys2.
-## If not specified, min (p1, m2) is taken.
+## The last ny outputs of @var{sys1} are connected with the first ny inputs of @var{sys2}.
+## If not specified, @code{min (p1, m2)} is taken.
 ## @end table
 ##
 ## @strong{Outputs}

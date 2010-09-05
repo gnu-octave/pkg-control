@@ -22,10 +22,10 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function ltisys = lti (ny = 0, nu = 0, tsam = -1)
+function ltisys = lti (p = 0, m = 0, tsam = -1)
 
-  inname = repmat ({""}, nu, 1);
-  outname = repmat ({""}, ny, 1);
+  inname = repmat ({""}, m, 1);
+  outname = repmat ({""}, p, 1);
 
   ltisys = struct ("tsam", tsam,
                    "inname", {inname},

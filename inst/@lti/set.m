@@ -16,7 +16,8 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} set (@var{sys}, @var{"property"}, @var{value})
+## @deftypefn {Function File} set (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} set (@var{sys}, @var{"property"}, @var{value})
 ## Set or modify properties of LTI objects.
 ## @end deftypefn
 

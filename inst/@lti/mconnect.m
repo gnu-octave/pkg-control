@@ -19,6 +19,25 @@
 ## @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
 ## @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
 ## Arbitrary interconnections between the inputs and outputs of an LTI model.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item m
+## Connection matrix. Each row belongs to an input and each column represents an output.
+## @item inputs
+## Vector of indices of those inputs which are retained. If not specified, all inputs are kept.
+## @item outputs
+## Vector of indices of those outputs which are retained. If not specified, all outputs are kept.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## Interconnected system.
+## @end table
+##
 ## @example
 ## @group
 ## Solve the system equations of
@@ -26,7 +45,15 @@
 ## e(t) = u(t) + M y(t)
 ## in order to build
 ## y(t) = H u(t)
-## The matrix M for a (p-by-m) system G has m rows and p columns.
+## The matrix M for a (p-by-m) system G
+## has m rows and p columns (m-by-p).
+##
+## Example for a 3x2 system:
+## u1 = -1*y1 + 5*y2 + 0*y3
+## u2 = pi*y1 + 0*y2 - 7*y3
+##
+##     | -1      5      0 |
+## M = | pi      0      7 |
 ## @end group
 ## @end example
 ## @end deftypefn
