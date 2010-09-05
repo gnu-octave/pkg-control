@@ -25,6 +25,8 @@
 
 function sys = subsasgn (sys, idx, val)
 
+  ## TODO: enable stuff like sys.a(2, 1:3) = [4, 5, 6]
+
   switch (idx.type)
     case "."
       sys = set (sys, idx.subs, val);

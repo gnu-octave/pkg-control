@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function [m, n, p] = __ssmatdim__ (a, b, c, d)
 
@@ -56,6 +56,10 @@ function [m, n, p] = __ssmatdim__ (a, b, c, d)
   if (crows != drows)
     error ("ss: system matrices c(%dx%d) and d(%dx%d) are incompatible",
             crows, ccols, drows, dcols);
+  endif
+
+  if (! isreal (a) || ! isreal (b) || ! isreal (c) || ! isreal (d))
+    error ("ss: system matrices are not real");
   endif
 
 endfunction

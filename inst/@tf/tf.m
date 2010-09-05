@@ -42,6 +42,13 @@
 ## Transfer function model.
 ## @end table
 ##
+## @example
+## @group
+## s = tf ("s");
+## G = 1/(s+1)
+## @end group
+## @end example
+##
 ## @seealso{ss}
 ## @end deftypefn
 
