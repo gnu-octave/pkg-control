@@ -17,17 +17,34 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{a}, @var{c}, @var{tol})
+## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{sys})
 ## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{a}, @var{c})
+## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isobsv (@var{a}, @var{c}, @var{tol})
 ## Logical check for system observability.
+## Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## <http://www.slicot.org>
 ##
-## Default: tol = @code{tol = 10*norm(a,"fro")*eps}
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @item a
+## State transition matrix.
+## @item c
+## Measurement matrix.
+## @item tol
+## Optional roundoff parameter. Default value is zero.
+## @end table
 ##
-## Returns 1 if the system @var{sys} or the pair (@var{a}, @var{c}) is
-## observable, 0 if not.
+## @strong{Outputs}
+## @table @var
+## @item retval
+## Logical flag; true (1) if the system is observable.
+## @item u
+## An orthogonal basis of the observable subspace.
+## @end table
 ##
-## See @command{isctrb} for detailed description of arguments
-## and default values.
 ## @seealso{isctrb}
 ## @end deftypefn
 

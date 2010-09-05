@@ -22,6 +22,7 @@
 ## Solve discrete-time Lyapunov or Sylvester equations.
 ## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
+##
 ## @example
 ## @group
 ## AXA' - X + B = 0      (Lyapunov Equation)

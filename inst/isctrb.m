@@ -17,7 +17,9 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys}, @var{tol})
+## @deftypefn {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys})
+## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{a}, @var{b})
 ## @deftypefnx {Function File} {[@var{retval}, @var{u}] =} isctrb (@var{a}, @var{b}, @var{tol})
 ## Logical check for system controllability.
 ## Uses SLICOT AB01OD by courtesy of NICONET e.V.
@@ -26,23 +28,23 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## system data structure
+## LTI model.
 ## @item a
-## @itemx b
-## @var{n} by @var{n}, @var{n} by @var{m} matrices, respectively
+## State transition matrix.
+## @item b
+## Input matrix.
 ## @item tol
-## optional roundoff parameter. Default value: 0
+## Optional roundoff parameter. Default value is zero.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item retval
-## Logical flag; returns true (1) if the system @var{sys} or the
-## pair (@var{a}, @var{b}) is controllable, whichever was passed as input
-## arguments.
+## Logical flag; true (1) if the system is controllable.
 ## @item u
-## @var{u} is an orthogonal basis of the controllable subspace.
+## An orthogonal basis of the controllable subspace.
 ## @end table
+##
 ## @seealso{isobsv}
 ## @end deftypefn
 
