@@ -28,7 +28,7 @@ function p = __remleadzer__ (p)
   idx = find (p.poly != 0);
 
   if (! isempty (idx) && idx(1) > 1)
-    p.poly(1 : (idx(1)-1)) = [];
+    p.poly = p.poly(idx(1) : end);  # p.poly(idx) would remove all zeros
   endif
 
 endfunction
