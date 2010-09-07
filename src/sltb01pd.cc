@@ -80,7 +80,7 @@ DEFUN_DLD (sltb01pd, args, nargout, "Slicot TB01PD Release 5.0")
             ldc = max (1, m, p);
 
         // arguments out
-        int nr;
+        int nr = 0;
         
         // workspace
         int liwork = n + max (m, p);
@@ -90,7 +90,7 @@ DEFUN_DLD (sltb01pd, args, nargout, "Slicot TB01PD Release 5.0")
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info;
+        int info = 0;
 
 
         // SLICOT routine TB01PD

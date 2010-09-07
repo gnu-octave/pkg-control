@@ -81,7 +81,7 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
         int ldc = max (1, c.rows ());
         
         // arguments out
-        int ns;
+        int ns = 0;
         
         ColumnVector hsv (n);
         
@@ -91,7 +91,7 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info;
+        int info = 0;
 
 
         // SLICOT routine AB13AD
