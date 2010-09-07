@@ -111,7 +111,12 @@ DEFUN_DLD (sltb01pd, args, nargout, "Slicot TB01PD Release 5.0")
             
         if (info != 0)
             error ("ss: minreal: sltb01pd: TB01PD returned info = %d", info);
-        
+
+        // resize
+        a.resize (nr, nr);
+        b.resize (nr, m);
+        c.resize (p, nr);
+
         // return values
         retval(0) = a;
         retval(1) = b;

@@ -112,6 +112,9 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
             
         if (info != 0)
             error ("hsvd: slab13ad: AB13AD returned info = %d", info);
+
+        // resize
+        hsv.resize (ns);
         
         // return values
         retval(0) = hsv;

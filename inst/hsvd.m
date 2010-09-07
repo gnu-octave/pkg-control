@@ -26,7 +26,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.1
+## Version: 0.2
 
 function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
 
@@ -54,13 +54,10 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
   
   [hsv, ns] = slab13ad (a, b, c, discrete, alpha);
   
-  idx = 1 : ns;
-  hsv = hsv (idx);
-  
   if (nargout)
     hsv_r = hsv;
   else
-    bar (idx + (rows (a) - ns), hsv);
+    bar ((1:ns) + (rows (a) - ns), hsv);
     title ("Hankel Singular Values of Stable Part");
     xlabel ("State");
     ylabel ("State Energy");

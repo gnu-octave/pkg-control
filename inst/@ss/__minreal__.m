@@ -33,10 +33,6 @@ function retsys = __minreal__ (sys, tol)
 
   [a, b, c, nr] = sltb01pd (sys.a, sys.b, sys.c, tol);
 
-  a = a(1:nr, 1:nr);
-  b = b(1:nr, :);
-  c = c(:, 1:nr);
-
   retsys = ss (a, b, c, sys.d);
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
