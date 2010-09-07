@@ -165,10 +165,10 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
                   info));
 
         if (f77_exception_encountered)
-            error ("lti: norm: slsb02od: exception in SLICOT subroutine SB02OD");
+            error ("are: slsb02od: exception in SLICOT subroutine SB02OD");
             
         if (info != 0)
-            error ("lti: norm: slsb02od: SB02OD returned info = %d", info);
+            error ("are: slsb02od: SB02OD returned info = %d", info);
         
         // return value
         retval(0) = x;

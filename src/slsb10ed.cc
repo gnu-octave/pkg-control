@@ -115,7 +115,7 @@ DEFUN_DLD (slsb10ed, args, nargout, "Slicot SB10ED Release 5.0")
         int info;
 
 
-        // SLICOT routine SB10HD
+        // SLICOT routine SB10ED
         F77_XFCN (sb10ed, SB10ED,
                  (n, m, np,
                   ncon, nmeas,

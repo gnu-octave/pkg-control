@@ -93,10 +93,10 @@ DEFUN_DLD (slsb04qd, args, nargout, "Slicot SB04QD Release 5.0")
                   info));
 
         if (f77_exception_encountered)
-            error ("lyap: slsb04qd: exception in SLICOT subroutine SB04QD");
+            error ("dlyap: slsb04qd: exception in SLICOT subroutine SB04QD");
 
         if (info != 0)
-            error ("lyap: slsb04qd: SB04QD returned info = %d", info);
+            error ("dlyap: slsb04qd: SB04QD returned info = %d", info);
         
         // return values
         retval(0) = c;

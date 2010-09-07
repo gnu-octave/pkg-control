@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Hankel singular values.
+Staircase controllability form.
 Uses SLICOT AB01OD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 
@@ -113,10 +113,10 @@ DEFUN_DLD (slab01od, args, nargout, "Slicot AB01OD Release 5.0")
                   info));
 
         if (f77_exception_encountered)
-            error ("place: slab01od: exception in SLICOT subroutine AB01OD");
+            error ("slab01od: exception in SLICOT subroutine AB01OD");
             
         if (info != 0)
-            error ("place: slab01od: AB01OD returned info = %d", info);
+            error ("slab01od: AB01OD returned info = %d", info);
         
         // return values
         retval(0) = a;

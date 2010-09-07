@@ -94,7 +94,7 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
         int info;
 
 
-        // SLICOT routine AB13DD
+        // SLICOT routine AB13AD
         F77_XFCN (ab13ad, AB13AD,
                  (dico, equil,
                   n, m, p,
@@ -108,10 +108,10 @@ DEFUN_DLD (slab13ad, args, nargout, "Slicot AB13AD Release 5.0")
                   info));
 
         if (f77_exception_encountered)
-            error ("place: slab13ad: exception in SLICOT subroutine AB13AD");
+            error ("hsvd: slab13ad: exception in SLICOT subroutine AB13AD");
             
         if (info != 0)
-            error ("place: slab13ad: AB13AD returned info = %d", info);
+            error ("hsvd: slab13ad: AB13AD returned info = %d", info);
         
         // return values
         retval(0) = hsv;

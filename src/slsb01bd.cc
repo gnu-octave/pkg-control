@@ -103,7 +103,7 @@ DEFUN_DLD (slsb01bd, args, nargout, "Slicot SB01BD Release 5.0")
         int info;
 
 
-        // SLICOT routine AB13DD
+        // SLICOT routine SB01BD
         F77_XFCN (sb01bd, SB01BD,
                  (dico,
                   n, m, np,
