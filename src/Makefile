@@ -1,6 +1,7 @@
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
-     slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct
+     slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
+     sltb01pd.oct
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc
@@ -110,6 +111,12 @@ slab13ad.oct: slab13ad.cc
 slab01od.oct: slab01od.cc
 	mkoctfile slab01od.cc \
               AB01OD.f AB01ND.f MB03OY.f MB01PD.f MB01QD.f
+
+# Minimal realization of state-space models
+sltb01pd.oct: sltb01pd.cc
+	mkoctfile sltb01pd.cc \
+              TB01PD.f TB01XD.f TB01ID.f AB07MD.f TB01UD.f \
+              MB03OY.f MB01PD.f MB01QD.f
 
 clean:
 	rm *.o core octave-core *.oct *~

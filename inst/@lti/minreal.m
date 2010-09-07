@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,9 +23,17 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = minreal (sys, tol = "def")
+
+  if (nargin > 2)  # nargin == 0 not possible because minreal is inside @lti
+    print_usage ();
+  endif
+
+  if (isa (tol, "lti") || (tol != "def" && ! isreal (tol) && ! isscalar (tol)))
+    error ("minreal: second argument must be a real scalar");
+  endif
 
   sys = __minreal__ (sys, tol);
 
