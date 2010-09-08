@@ -23,13 +23,14 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.3
+Version: 0.4
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include "common.cc"
+#include <complex>
 
 extern "C"
 { 
@@ -118,7 +119,7 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
         int info;
         
         // tolerance
-        double tol = 2.2204e-16;    // TODO: use LAPACK dlamch
+        double tol = 0;     // AB08ND uses DLAMCH for default tolerance
 
         // SLICOT routine AB08ND
         F77_XFCN (ab08nd, AB08ND,
@@ -179,11 +180,21 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
             
         if (info2 != 0)
             error ("ss: zero: slab08nd: DGGEV returned info = %d", info2);
-        
+
+        // assemble complex vector - adapted from DEFUN complex in data.cc
+        ColumnVector zeror (nu);
+        ColumnVector zeroi (nu);
+
+        zeror = quotient (alphar, beta);
+        zeroi = quotient (alphai, beta);
+
+        ComplexColumnVector zero (nu, Complex ());
+
+        for (octave_idx_type i = 0; i < nu; i++)
+            zero.xelem (i) = Complex (zeror(i), zeroi(i));
+
         // return values
-        retval(0) = alphar;
-        retval(1) = alphai;
-        retval(2) = beta;
+        retval(0) = zero;
     }
     
     return retval;

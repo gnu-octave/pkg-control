@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,16 +22,11 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function [zer, gain] = __zero__ (sys)
 
-  if (isempty (sys.a))
-    zer = zeros (0, 1);
-  else
-    [alphar, alphai, beta] = slab08nd (sys.a, sys.b, sys.c, sys.d);
-    zer = (alphar + i*alphai) ./ beta;
-  endif
+  zer = slab08nd (sys.a, sys.b, sys.c, sys.d);
 
   lzer = length (zer);
   n = rows (sys.a);
