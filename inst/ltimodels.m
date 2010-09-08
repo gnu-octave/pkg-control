@@ -1,4 +1,5 @@
-## Copyright (C) 2009   Luca Favatella
+## Copyright (C) 2009          Luca Favatella
+## Copyright (C) 2009 - 2010   Lukas Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -31,6 +32,8 @@ function ltimodels (systype = "general")
   %if (nargin > 1)
     print_usage ();
   %endif
+
+  ## TODO: write documentation
 
   if (! ischar (systype))
     error ("ltimodels: argument must be a string");
@@ -282,38 +285,38 @@ endfunction
 %!assert (Bc, Bce, 1e-4);
 
 ## ss: minreal (SLICOT TB01PD)
-%!shared M, Me
-%! A = [ 1.0   2.0   0.0
-%!       4.0  -1.0   0.0
-%!       0.0   0.0   1.0 ];
-%!
-%! B = [ 1.0
-%!       0.0
-%!       1.0 ];
-%!
-%! C = [ 0.0   1.0  -1.0
-%!       0.0   0.0   1.0 ];
-%!
-%! D = zeros (2, 1);
-%!
-%! sys = ss (A, B, C, D);
-%! sysmin = minreal (sys, 0.0);
-%! [Ar, Br, Cr, Dr] = ssdata (sysmin);
-%! M = [Ar, Br; Cr, Dr];
-%!
-%! Ae = [ 1.0000  -1.4142   1.4142
-%!       -2.8284   0.0000   1.0000
-%!        2.8284   1.0000   0.0000 ];
-%!
-%! Be = [-1.0000
-%!        0.7071
-%!        0.7071 ];
-%!
-%! Ce = [ 0.0000   0.0000  -1.4142
-%!        0.0000   0.7071   0.7071 ];
-%!
-%! De = zeros (2, 1);
-%!
-%! Me = [Ae, Be; Ce, De];
-%!
-%!assert (M, Me, 1e-4);
+#%!shared M, Me
+#%! A = [ 1.0   2.0   0.0
+#%!       4.0  -1.0   0.0
+#%!       0.0   0.0   1.0 ];
+#%!
+#%! B = [ 1.0
+#%!       0.0
+#%!       1.0 ];
+#%!
+#%! C = [ 0.0   1.0  -1.0
+#%!       0.0   0.0   1.0 ];
+#%!
+#%! D = zeros (2, 1);
+#%!
+#%! sys = ss (A, B, C, D);
+#%! sysmin = minreal (sys, 0.0);
+#%! [Ar, Br, Cr, Dr] = ssdata (sysmin);
+#%! M = [Ar, Br; Cr, Dr];
+#%!
+#%! Ae = [ 1.0000  -1.4142   1.4142
+#%!       -2.8284   0.0000   1.0000
+#%!        2.8284   1.0000   0.0000 ];
+#%!
+#%! Be = [-1.0000
+#%!        0.7071
+#%!        0.7071 ];
+#%!
+#%! Ce = [ 0.0000   0.0000  -1.4142
+#%!        0.0000   0.7071   0.7071 ];
+#%!
+#%! De = zeros (2, 1);
+#%!
+#%! Me = [Ae, Be; Ce, De];
+#%!
+#%!assert (M, Me, 1e-4);

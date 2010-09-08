@@ -22,7 +22,7 @@
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.2
-
+%{
 function retsys = __minreal__ (sys, tol)
 
   if (tol == "def")
@@ -37,3 +37,62 @@ function retsys = __minreal__ (sys, tol)
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
 endfunction
+%}
+
+## ==============================================================================
+## TODO: Fix frequent segfaults in sltb01pd.oct, afterwards delete the code below
+## ==============================================================================
+
+## Algorithm based on sysmin by A. Scottedward Hodel
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2009
+## Version: 0.1
+
+function retsys = __minreal__ (sys, tol)
+
+  A = sys.a;
+  B = sys.b;
+  C = sys.c;
+
+  if (! isempty (A))
+    if (tol == "def")
+      [cflg, Uc] = isctrb (A, B);
+    else
+      [cflg, Uc] = isctrb (A, B, tol);
+    endif
+    
+    if (! cflg)
+      if (! isempty (Uc))
+        A = Uc.' * A * Uc;
+        B = Uc.' * B;
+        C = C * Uc;
+      else
+        A = B = C = [];
+      endif
+    endif
+  endif
+
+  if (! isempty (A))
+    if (tol == "def")
+      [oflg, Uo] = isobsv (A, C);
+    else
+      [oflg, Uo] = isobsv (A, C, tol);
+    endif
+
+    if (! oflg)
+      if (! isempty (Uo))
+        A = Uo.' * A * Uo;
+        B = Uo.' * B;
+        C = C * Uo;
+      else
+        A = B = C = [];
+      endif
+    endif
+  endif
+
+  retsys = ss (A, B, C, sys.d);
+  retsys.lti = sys.lti;  # retain i/o names and tsam
+
+endfunction
+
+## ==============================================================================
