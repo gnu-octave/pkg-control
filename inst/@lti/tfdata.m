@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function [num, den, tsam] = tfdata (sys, rtype = "vector")
 
@@ -38,10 +38,8 @@ function [num, den, tsam] = tfdata (sys, rtype = "vector")
   tsam = sys.tsam;
 
   if (rtype == "vector")
-    for k = 1 : numel (num)
-        num(k) = get (num{k});
-        den(k) = get (den{k});
-    endfor
+    num = cellfun ("@tfpoly/get", num, "UniformOutput", false);
+    den = cellfun ("@tfpoly/get", den, "UniformOutput", false);
   endif
 
 endfunction

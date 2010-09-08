@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,31 +20,19 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function val = __get__ (sys, prop)
 
   switch (prop)  # {<internal name>, <user name>}
     case "num"
-      val = sys.num;
-
-      for k = 1 : numel (val)
-        val(k) = get (val{k});
-      endfor
-
+      val = cellfun ("@tfpoly/get", sys.num, "UniformOutput", false);
     case "den"
-      val = sys.den;
-
-      for k = 1 : numel (val)
-        val(k) = get (val{k});
-      endfor
-
+      val = cellfun ("@tfpoly/get", sys.den, "UniformOutput", false);
     case {"tfvar", "variable"}
       val = sys.tfvar;
-
     otherwise
       error ("get: invalid property name");
-
   endswitch
 
 endfunction

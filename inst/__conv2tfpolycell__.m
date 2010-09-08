@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function ndr = __conv2tfpolycell__ (nd)
 
@@ -29,12 +29,6 @@ function ndr = __conv2tfpolycell__ (nd)
     nd = {nd};
   endif
 
-  [ndrows, ndcols] = size (nd);
-
-  ndr = cell (ndrows, ndcols);
-
-  for k = 1 : (ndrows*ndcols)
-    ndr{k} = tfpoly (nd{k});
-  endfor
+  ndr = cellfun (@tfpoly, nd, "UniformOutput", false);
 
 endfunction
