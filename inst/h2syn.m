@@ -108,11 +108,11 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     d(1:p1, 1:m1) = 0;
   endif
   
-  if (! isstabilizable (P(:, m1+1 : m)))
+  if (! isstabilizable (P(:, m1+1:m)))
     error ("h2syn: (A, B2) must be stabilizable");
   endif
   
-  if (! isdetectable (P(p1+1 : p, :)))
+  if (! isdetectable (P(p1+1:p, :)))
     error ("h2syn: (C2, A) must be detectable");
   endif
 

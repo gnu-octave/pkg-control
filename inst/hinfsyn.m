@@ -111,11 +111,11 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   m1 = m - ncon;
   p1 = p - nmeas;
   
-  if (! isstabilizable (P(:, m1+1 : m)))
+  if (! isstabilizable (P(:, m1+1:m)))
     error ("hinfsyn: (A, B2) must be stabilizable");
   endif
   
-  if (! isdetectable (P(p1+1 : p, :)))
+  if (! isdetectable (P(p1+1:p, :)))
     error ("hinfsyn: (C2, A) must be detectable");
   endif
 
