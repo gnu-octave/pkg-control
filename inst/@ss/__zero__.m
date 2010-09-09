@@ -26,21 +26,6 @@
 
 function [zer, gain] = __zero__ (sys)
 
-  zer = slab08nd (sys.a, sys.b, sys.c, sys.d);
-
-  lzer = length (zer);
-  n = rows (sys.a);
-  m = columns (sys.b);
-  p = rows (sys.c);
-
-  if (m == 1 && p == 1)
-    if (lzer == n)
-      gain = sys.d;
-    else
-      gain = sys.c * (sys.a^(n-1-lzer)) * sys.b;
-    endif
-  else
-    gain = [];
-  endif
+  [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
 
 endfunction

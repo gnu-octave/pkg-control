@@ -31,6 +31,7 @@ Version: 0.4
 #include <f77-fcn.h>
 #include "common.cc"
 #include <complex>
+#include <xpow.h>
 
 extern "C"
 { 
@@ -181,6 +182,21 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
         if (info2 != 0)
             error ("ss: zero: slab08nd: DGGEV returned info = %d", info2);
 
+        // calculate gain
+        octave_value gain;
+
+        if (m == 1 && p == 1)
+        {
+            if (nu == n)
+                gain = d;
+            else
+                gain = c * xpow (a, double (n-1-nu)) * b;
+        }
+        else
+        {
+            gain = Matrix (0, 0);
+        }
+
         // assemble complex vector - adapted from DEFUN complex in data.cc
         ColumnVector zeror (nu);
         ColumnVector zeroi (nu);
@@ -195,6 +211,7 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
 
         // return values
         retval(0) = zero;
+        retval(1) = gain;
     }
     
     return retval;
