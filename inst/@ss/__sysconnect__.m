@@ -74,7 +74,7 @@ function sys = __sysconnect__ (sys, M)
   Z = I - D*M;
 
   if (rcond (Z) < eps)  # check for singularity
-    error ("ss: sysconnect: (I - D*M) not invertible because of algebraic loop");
+    error ("ss: sysconnect: (I - D*M) not invertible");
   endif
 
   Z = inv (Z);
