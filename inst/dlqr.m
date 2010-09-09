@@ -33,7 +33,7 @@
 ## @item q
 ## State weighting matrix.
 ## @item r
-## Control weighting matrix.
+## Input weighting matrix.
 ## @item s
 ## Optional cross term matrix. If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
@@ -52,9 +52,9 @@
 ## @group
 ## x[k+1] = A x[k] + B u[k],   x[0] = x0
 ##
-##         /inf
-## J(x0) = | (x' Q x  +  u' R u  +  2 x' S u)  dt
-##         /0
+##         inf
+## J(x0) = SUM (x' Q x  +  u' R u  +  2 x' S u)
+##         k=0
 ##
 ## L = eig (A - B*G)
 ## @end group
