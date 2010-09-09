@@ -38,7 +38,7 @@
 ## Vector of frequency values used.
 ## @end table
 ##
-## @seealso{bode, nichols, nyquist, svd}
+## @seealso{bode, nichols, nyquist, sigma}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

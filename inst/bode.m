@@ -40,7 +40,7 @@
 ## Vector of frequency values used.
 ## @end table
 ##
-## @seealso{nichols, nyquist, svd}
+## @seealso{nichols, nyquist, sigma}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
