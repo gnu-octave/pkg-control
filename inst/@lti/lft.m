@@ -122,7 +122,7 @@ function sys = lft (sys1, sys2, nu, ny)
     if (ny > ny_max)
       error ("lft: argument ny (%d) must be at most %d", ny, ny_max);
     endif
-  end
+  endif
 
   M11 = zeros (m1, p1);
   M12 = [zeros(m1-nu, p2); eye(nu), zeros(nu, p2-nu)];

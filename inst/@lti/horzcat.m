@@ -36,7 +36,7 @@ function sys = horzcat (sys, varargin)
     if (p1 != p2)
       error ("lti: horzcat: number of system outputs incompatible: [(%dx%d), (%dx%d)]",
               p1, m1, p2, m2);
-    end
+    endif
 
     sys = __sysgroup__ (sys1, sys2);
 

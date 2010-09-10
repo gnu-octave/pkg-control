@@ -32,7 +32,7 @@ function sys = plus (sys1, sys2)
   if (p1 != p2 || m1 != m2)
     error ("lti: plus: system dimensions incompatible: (%dx%d) + (%dx%d)",
             p1, m1, p2, m2);
-  end
+  endif
 
   sys = __sysgroup__ (sys1, sys2);
 

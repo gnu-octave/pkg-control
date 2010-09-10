@@ -33,7 +33,7 @@ function sys = mldivide (sys1, sys2)
   if (m2 != p1)
     error ("lti: mldivide: system dimensions incompatible: (%dx%d) \ (%dx%d)",
             p1, m1, p2, m2);
-  end
+  endif
 
   sys = sys1 * sys2;
 

@@ -31,7 +31,7 @@ function sys = mtimes (sys2, sys1)
   if (m2 != p1)
     error ("lti: mtimes: system dimensions incompatible: (%dx%d) * (%dx%d)",
             p2, m2, p1, m1);
-  end
+  endif
 
   M22 = zeros (m2, p2);
   M21 = eye (m2, p1);
