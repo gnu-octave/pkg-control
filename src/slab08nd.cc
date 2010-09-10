@@ -183,7 +183,7 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
             error ("ss: zero: slab08nd: DGGEV returned info = %d", info2);
 
         // calculate gain
-        octave_value gain;
+        octave_value gain = Matrix (0, 0);;
 
         if (m == 1 && p == 1)
         {
@@ -191,10 +191,6 @@ DEFUN_DLD (slab08nd, args, nargout, "Slicot AB08ND Release 5.0")
                 gain = d;
             else
                 gain = c * xpow (a, double (n-1-nu)) * b;
-        }
-        else
-        {
-            gain = Matrix (0, 0);
         }
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
