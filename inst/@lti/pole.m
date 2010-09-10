@@ -26,6 +26,10 @@
 
 function pol = pole (sys)
 
+  if (nargin > 1)
+    print_usage ();
+  endif
+
   pol = __pole__ (sys);
 
 endfunction

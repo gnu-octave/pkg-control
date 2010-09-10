@@ -30,7 +30,7 @@ function sys = xperm (sys, st_idx)
     print_usage ();
   endif
 
-  if (! isnumeric (st_idx) || ! isvector (st_idx))
+  if (! isreal (st_idx) || ! isvector (st_idx))
     error ("xperm: second argument invalid");
   endif
 

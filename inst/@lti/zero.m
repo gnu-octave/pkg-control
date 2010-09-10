@@ -27,6 +27,10 @@
 
 function [zer, gain] = zero (sys)
 
+  if (nargin > 1)
+    print_usage ();
+  endif
+
   [zer, gain] = __zero__ (sys);
 
 endfunction
