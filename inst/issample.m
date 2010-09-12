@@ -35,9 +35,9 @@ function bool = issample (tsam, flg = 0)
     print_usage (); 
   endif
 
-  if (flg == 0)  # allow -1 and 0
+  if (flg == 0)  # refuse -1 and 0
     bool = (isreal (tsam) && isscalar (tsam) && (tsam > 0));       
-  else  # refuse -1 and 0
+  else  # allow -1 and 0
     bool = (isreal (tsam) && isscalar (tsam) && (tsam >= 0 || tsam == -1));
   endif
 

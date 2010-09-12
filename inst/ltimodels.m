@@ -249,6 +249,36 @@ endfunction
 #%!assert (M, Me, 1e-4);
 
 
+## ss: sminreal
+%!shared B, C
+%!
+%! A = ss (-2, 3, 4, 5);
+%! B = A / A;
+%! C = sminreal (B);  # no states should be removed
+%!
+%!assert (C.a, B.a);
+%!assert (C.b, B.b);
+%!assert (C.c, B.c);
+%!assert (C.d, B.d);
+
+%!shared A, B, D, E
+%!
+%! A = ss (-1, 1, 1, 0);
+%! B = ss (-2, 3, 4, 5);
+%! C = [A, B];
+%! D = sminreal (C(:, 1));
+%! E = sminreal (C(:, 2));
+%!
+%!assert (D.a, A.a);
+%!assert (D.b, A.b);
+%!assert (D.c, A.c);
+%!assert (D.d, A.d);
+%!assert (E.a, B.a);
+%!assert (E.b, B.b);
+%!assert (E.c, B.c);
+%!assert (E.d, B.d);
+
+
 ## mtimes
 %!shared sysmat, sysmat_exp
 %! sys1 = ss ([0, 1; -3, -2], [0; 1], [-5, 1], [2]);
