@@ -45,8 +45,8 @@ function [dec_min, dec_max] = __freqbounds__ (sys, wbounds = "std")
   discrete = (tsam > 0);  # static gains (tsam = -1) are continuous
   
   ## make sure zer, pol are row vectors
-  pol = pol(:).';
-  zer = zer(:).';
+  pol = reshape (pol, 1, []);
+  zer = reshape (zer, 1, []);
 
   ## check for natural frequencies away from omega = 0
   if (discrete)

@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function retsys = set (sys, varargin)
 
@@ -60,10 +60,10 @@ function retsys = set (sys, varargin)
 
       switch (prop)
         case {"inname", "inputname"}
-          sys.inname = __checkname__ (val, m)(:);
+          sys.inname = __checkname__ (val, m);
 
         case {"outname", "outputname"}
-          sys.outname = __checkname__ (val, p)(:);
+          sys.outname = __checkname__ (val, p);
 
         case {"tsam", "ts"}
           if (issample (val))

@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
 
@@ -58,7 +58,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
   p = rows (C);  # number of outputs
 
   ## time vector
-  t = (0 : dt : tfinal).';
+  t = reshape (0 : dt : tfinal, [], 1);
   l_t = length (t);
 
   switch (resptype)
@@ -71,7 +71,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
       x_arr = zeros (l_t, n);
 
       ## initial conditions
-      x = x0(:);  # make sure that x is a column vector
+      x = reshape (x0, [], 1);  # make sure that x is a column vector
 
       if (n != length (x0))
         error ("initial: x0 must be a vector with %d elements", n);

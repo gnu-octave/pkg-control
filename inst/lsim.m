@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -51,7 +51,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
 
@@ -101,7 +101,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   m = columns (G);  # number of inputs
   p = rows (C);  # number of outputs
 
-  t = (0 : dt : tfinal).';  # time vector
+  t = reshape (0 : dt : tfinal, [], 1);  # time vector
   trows = length (t);
 
   if (urows != trows)
@@ -123,7 +123,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
     error ("initial: x0 must be a vector with %d elements", n);
   endif
 
-  x = x0(:);  # make sure that x is a column vector
+  x = reshape (x0, [], 1);  # make sure that x is a column vector
 
   ## simulation
   for k = 1 : trows

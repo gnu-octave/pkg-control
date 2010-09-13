@@ -30,7 +30,7 @@ function [H, w] = __getfreqresp__ (sys, w = [], mimoflag = 0, resptype = 0, wbou
     error ("getfreqresp: first argument sys must be a LTI system");
   endif
 
-  if (! isvector (w) && ! isempty (w))
+  if (! isempty (w) && ! (isreal (w) && isvector (w)))
     error ("getfreqresp: second argument w must be a vector of frequencies");
   endif
 

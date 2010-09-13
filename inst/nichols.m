@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -45,7 +45,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
 function [mag_r, pha_r, w_r] = nichols (sys, w = [])
 
@@ -55,13 +55,13 @@ function [mag_r, pha_r, w_r] = nichols (sys, w = [])
 
   [H, w] = __getfreqresp__ (sys, w, false, 0, "ext");
 
-  H = H(:);
+  H = reshape (H, [], 1);
   mag = abs (H);
   pha = unwrap (arg (H)) * 180 / pi;
 
   if (! nargout)
     mag_db = 20 * log10 (mag);
-    ax_vec = __axis2dlim__ ([pha(:), mag_db(:)]);
+    ax_vec = __axis2dlim__ ([reshape(pha, [], 1), reshape(mag_db, [], 1)]);
     
     plot (pha, mag_db)
     axis (ax_vec)

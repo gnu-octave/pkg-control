@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -119,7 +119,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2009
-## Version: 0.7.0
+## Version: 0.7.1
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
@@ -262,15 +262,15 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
     [H, w] = __getfreqresp__ (sys, [], false, 0, "std");
 
-    H = H(:);
+    H = reshape (H, [], 1);
     mag_db = 20 * log10 (abs (H));
     pha = unwrap (arg (H)) * 180 / pi;
     gamma_db = 20 * log10 (gamma);
 
     wv = [min(w), max(w)];
-    ax_vec_mag = __axis2dlim__ ([w(:), mag_db(:)]);
+    ax_vec_mag = __axis2dlim__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
     ax_vec_mag(1:2) = wv;
-    ax_vec_pha = __axis2dlim__ ([w(:), pha(:)]);
+    ax_vec_pha = __axis2dlim__ ([reshape(w, [], 1), reshape(pha, [], 1)]);
     ax_vec_pha(1:2) = wv;
 
     wgm = [w_gamma, w_gamma];

@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
 function [mag_r, w_r] = bodemag (sys, w = [])
 
@@ -53,14 +53,14 @@ function [mag_r, w_r] = bodemag (sys, w = [])
 
   [H, w] = __getfreqresp__ (sys, w, false, 0, "std");
 
-  H = H(:);
+  H = reshape (H, [], 1);
   mag = abs (H);
 
   if (! nargout)
     mag_db = 20 * log10 (mag);
 
     wv = [min(w), max(w)];
-    ax_vec_mag = __axis2dlim__ ([w(:), mag_db(:)]);
+    ax_vec_mag = __axis2dlim__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
     ax_vec_mag(1:2) = wv;
 
     if (isct (sys))

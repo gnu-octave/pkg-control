@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -57,7 +57,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2009
-## Version: 0.3.0
+## Version: 0.3.1
 
 function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
 
@@ -82,7 +82,8 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     sv_db = 20 * log10 (sv);
 
     ## determine axes
-    ax_vec = __axis2dlim__ ([w(:), min(sv_db, [], 1)(:); w(:), max(sv_db, [], 1)(:)]);
+    ax_vec = __axis2dlim__ ([reshape(w, [], 1), reshape(min(sv_db, [], 1), [], 1);
+                             reshape(w, [], 1), reshape(max(sv_db, [], 1), [], 1)]);
     ax_vec(1:2) = [min(w), max(w)];
 
     ## determine xlabel
@@ -101,7 +102,7 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     grid ("on")
   else  # return values
     sv_r = sv;
-    w_r = w(:);
+    w_r = reshape (w, [], 1);
   endif
 
 endfunction

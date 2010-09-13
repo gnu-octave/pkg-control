@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 -2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function name = __checkname__ (name, req_len)
 
@@ -29,9 +29,9 @@ function name = __checkname__ (name, req_len)
     name = {name};      # e.g. sys = set (sys, "inname", "u_1")
   endif
 
-  n = numel (name);
+  name = reshape (name, [], 1);
 
-  if (n != req_len)
+  if (numel (name) != req_len)
     error ("lti: set: cell must contain %d strings", req_len);
   endif
 

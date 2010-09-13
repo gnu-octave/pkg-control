@@ -21,6 +21,26 @@
 ## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}]) 
 ## Display root locus plot of the specified @acronym{SISO} system.
 ##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model. Must be a single-input and single-output (SISO) system.
+## @item min_k
+## Minimum value of @var{k}.
+## @item max_k
+## Maximum value of @var{k}.
+## @item increment
+## The increment used in computing gain values.
+## @end table
+##
+## @strong{Outputs}
+## @table @var 
+## @item rldata
+## Data points plotted: in column 1 real values, in column 2 the imaginary values.
+## @item k
+## Gains for real axis break points.
+## @end table
+##
 ## @example
 ## @group
 ##  u    +         +---+      +------+             y
@@ -30,28 +50,6 @@
 ##         +---------------------------------+
 ## @end group
 ## @end example
-##
-## @strong{Inputs}
-## @table @var
-## @item sys
-## LTI model
-## @item min_k
-## Minimum value of @var{k}
-## @item max_k
-## Maximum value of @var{k}
-## @item increment
-## The increment used in computing gain values
-## @end table
-##
-## @strong{Outputs}
-##
-## Plots the root locus to the screen.
-## @table @var 
-## @item rldata
-## Data points plotted: in column 1 real values, in column 2 the imaginary values.
-## @item k
-## Gains for real axis break points.
-## @end table
 ## @end deftypefn
 
 ## Author: David Clem
@@ -61,7 +59,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: December 2009
-## Version: 0.1
+## Version: 0.2
 
 ## TODO: Improve compatibility
 
@@ -150,7 +148,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   ngain = max (30, ngain);
   gvec = linspace (mink, maxk, ngain);
   if (length (k_break))
-    gvec = sort ([gvec, vec(k_break).']);
+    gvec = sort ([gvec, reshape(k_break, 1, [])]);
   endif
 
   ## Find the open loop zeros and the initial poles
@@ -296,20 +294,21 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     title ("Root Locus");
     xlabel (sprintf ("Real Axis     gain = [%g, %g]", gvec(1), gvec(ngain)));
     ylabel ("Imaginary Axis");
-    set (gcf (), "visible","on");
+    set (gcf (), "visible", "on");
   else
     rldata_r = rldata;
   endif
 endfunction
 
 
-function rlpol = sort_roots (rlpol,tolx, toly)
+function rlpol = sort_roots (rlpol, tolx, toly)
   # no point sorting of you've only got one pole!
   if (rows (rlpol) == 1)
     return;
   endif
 
   # reorder entries in each column of rlpol to be by their nearest-neighbors
+rlpol
   dp = diff (rlpol.').';
   drp = max (real (dp));
   dip = max (imag (dp));

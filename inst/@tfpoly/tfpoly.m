@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function p = tfpoly (a)
 
@@ -35,8 +35,8 @@ function p = tfpoly (a)
       if (isa (a, "tfpoly"))
         p = a;
         return;
-      elseif (isvector (a) && isreal (a))
-        p.poly = a(:).';
+      elseif (isreal (a) && isvector (a))
+        p.poly = reshape (a, 1, []);
         p = class (p, "tfpoly");
         p = __remleadzer__ (p);
       else

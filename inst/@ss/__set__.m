@@ -43,7 +43,7 @@ function sys = __set__ (sys, prop, val)
 
     case {"stname", "statename"}
       n = rows (sys.a);
-      sys.stname = __checkname__ (val, n)(:);
+      sys.stname = __checkname__ (val, n);
 
     otherwise
       error ("set: invalid property name");

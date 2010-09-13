@@ -67,7 +67,7 @@
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2.2
+## Version: 0.2.3
 
 function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
 
@@ -101,7 +101,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     error ("place: p must be a vector");
   endif
   
-  p = sort (p(:));  # complex conjugate pairs must appear together
+  p = sort (reshape (p, [], 1));  # complex conjugate pairs must appear together
   wr = real (p);
   wi = imag (p);
   

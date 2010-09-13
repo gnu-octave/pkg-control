@@ -52,7 +52,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: August 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function [u, t] = gensig (sigtype, tau, tfinal, tsam)
 
@@ -80,7 +80,7 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     error ("gensig: fourth argument is not a valid sampling time");
   endif
 
-  t = (0 : tsam : tfinal).';
+  t = reshape (0 : tsam : tfinal, [], 1);
 
   switch (lower (sigtype(1:2)))
     case "si"
