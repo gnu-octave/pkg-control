@@ -23,9 +23,9 @@
 ## Test suite and help for LTI models.
 ## @end deftypefn
 
-## Author: Luca Favatella <slackydeb@gmail.com>
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
 function ltimodels (systype = "general")
 
@@ -197,7 +197,7 @@ endfunction
 %!assert (z, z_exp, 1e-4);
 
 
-## ss: minreal
+## ss: minreal (SLICOT TB01PD)
 %!shared C, D
 %!
 %! A = ss (-2, 3, 4, 5);
@@ -210,43 +210,41 @@ endfunction
 %!assert (C.c, D.c);
 %!assert (C.d, D.d);
 
-
-## ss: minreal (SLICOT TB01PD)
-#%!shared M, Me
-#%! A = [ 1.0   2.0   0.0
-#%!       4.0  -1.0   0.0
-#%!       0.0   0.0   1.0 ];
-#%!
-#%! B = [ 1.0
-#%!       0.0
-#%!       1.0 ];
-#%!
-#%! C = [ 0.0   1.0  -1.0
-#%!       0.0   0.0   1.0 ];
-#%!
-#%! D = zeros (2, 1);
-#%!
-#%! sys = ss (A, B, C, D);
-#%! sysmin = minreal (sys, 0.0);
-#%! [Ar, Br, Cr, Dr] = ssdata (sysmin);
-#%! M = [Ar, Br; Cr, Dr];
-#%!
-#%! Ae = [ 1.0000  -1.4142   1.4142
-#%!       -2.8284   0.0000   1.0000
-#%!        2.8284   1.0000   0.0000 ];
-#%!
-#%! Be = [-1.0000
-#%!        0.7071
-#%!        0.7071 ];
-#%!
-#%! Ce = [ 0.0000   0.0000  -1.4142
-#%!        0.0000   0.7071   0.7071 ];
-#%!
-#%! De = zeros (2, 1);
-#%!
-#%! Me = [Ae, Be; Ce, De];
-#%!
-#%!assert (M, Me, 1e-4);
+%!shared M, Me
+%! A = [ 1.0   2.0   0.0
+%!       4.0  -1.0   0.0
+%!       0.0   0.0   1.0 ];
+%!
+%! B = [ 1.0
+%!       0.0
+%!       1.0 ];
+%!
+%! C = [ 0.0   1.0  -1.0
+%!       0.0   0.0   1.0 ];
+%!
+%! D = zeros (2, 1);
+%!
+%! sys = ss (A, B, C, D);
+%! sysmin = minreal (sys, 0.0);
+%! [Ar, Br, Cr, Dr] = ssdata (sysmin);
+%! M = [Ar, Br; Cr, Dr];
+%!
+%! Ae = [ 1.0000  -1.4142   1.4142
+%!       -2.8284   0.0000   1.0000
+%!        2.8284   1.0000   0.0000 ];
+%!
+%! Be = [-1.0000
+%!        0.7071
+%!        0.7071 ];
+%!
+%! Ce = [ 0.0000   0.0000  -1.4142
+%!        0.0000   0.7071   0.7071 ];
+%!
+%! De = zeros (2, 1);
+%!
+%! Me = [Ae, Be; Ce, De];
+%!
+%!assert (M, Me, 1e-4);
 
 
 ## ss: sminreal

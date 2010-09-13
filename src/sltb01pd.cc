@@ -23,7 +23,7 @@ Uses SLICOT TB01PD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -78,6 +78,8 @@ DEFUN_DLD (sltb01pd, args, nargout, "Slicot TB01PD Release 5.0")
             ldc = 1;
         else
             ldc = max (1, m, p);
+
+        b.resize (ldb, max (m, p));
 
         // arguments out
         int nr = 0;
