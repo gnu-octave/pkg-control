@@ -23,13 +23,14 @@ Uses SLICOT SB02OD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: February 2010
-Version: 0.2
+Version: 0.2.1
 
 */
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include "common.cc"
+#include <complex>
 
 extern "C"
 { 
@@ -56,12 +57,12 @@ extern "C"
                   bool* BWORK,
                   int& INFO);
 }
-     
+
 DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
 {
     int nargin = args.length ();
     octave_value_list retval;
-    
+
     if (nargin != 7)
     {
         print_usage ();
@@ -75,7 +76,7 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
         char uplo = 'U';
         char jobl;
         char sort = 'S';
-        
+
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         Matrix q = args(2).matrix_value ();
@@ -88,54 +89,55 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
             dico = 'C';
         else
             dico = 'D';
-            
+
         if (ijobl == 0)
             jobl = 'Z';
         else
             jobl = 'N';
-        
+
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
         int p = 0;              // p: number of outputs, not used because FACT = 'N'
-        
+
         int lda = max (1, n);
         int ldb = max (1, n);
         int ldq = max (1, n);
         int ldr = max (1, m);
         int ldl = max (1, n);
-        
+
         // arguments out
         double rcond;
-        
+
         int ldx = max (1, n);
         Matrix x (ldx, n);
-        
-        // unused output arguments
-        OCTAVE_LOCAL_BUFFER (double, alfar, 2*n);
-        OCTAVE_LOCAL_BUFFER (double, alfai, 2*n);
-        OCTAVE_LOCAL_BUFFER (double, beta, 2*n);
-        
+
+        int nu = 2*n;
+        ColumnVector alfar (nu);
+        ColumnVector alfai (nu);
+        ColumnVector beta (nu);
+
         int lds = max (1, 2*n + m);
-        OCTAVE_LOCAL_BUFFER (double, s, lds*lds);
-        
+        Matrix s (lds, lds);
+
+        // unused output arguments
         int ldt = max (1, 2*n + m);
         OCTAVE_LOCAL_BUFFER (double, t, ldt * 2*n);
-        
+
         int ldu = max (1, 2*n);
         OCTAVE_LOCAL_BUFFER (double, u, ldu * 2*n);
-        
+
         // tolerance
         double tol = 0;  // use default value
-        
+
         // workspace
         int liwork = max (1, m, 2*n);
         OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
-        
+
         int ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
-        
+
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
-        
+
         // error indicator
         int info;
 
@@ -153,9 +155,9 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
                   l.fortran_vec (), ldl,
                   rcond,
                   x.fortran_vec (), ldx,
-                  alfar, alfai,
-                  beta,
-                  s, lds,
+                  alfar.fortran_vec (), alfai.fortran_vec (),
+                  beta.fortran_vec (),
+                  s.fortran_vec (), lds,
                   t, ldt,
                   u, ldu,
                   tol,
@@ -166,13 +168,30 @@ DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
 
         if (f77_exception_encountered)
             error ("are: slsb02od: exception in SLICOT subroutine SB02OD");
-            
+
         if (info != 0)
             error ("are: slsb02od: SB02OD returned info = %d", info);
+
+        // assemble complex vector - adapted from DEFUN complex in data.cc
+        alfar.resize (n);
+        alfai.resize (n);
+        beta.resize (n);
+
+        ColumnVector zeror (n);
+        ColumnVector zeroi (n);
+
+        zeror = quotient (alfar, beta);
+        zeroi = quotient (alfai, beta);
         
+        ComplexColumnVector zero (n, Complex ());
+
+        for (octave_idx_type i = 0; i < n; i++)
+            zero.xelem (i) = Complex (zeror(i), zeroi(i));
+
         // return value
         retval(0) = x;
+        retval(1) = zero;
     }
-    
+
     return retval;
 }

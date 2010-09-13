@@ -25,25 +25,25 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item a
-## Real matrix.
+## Real matrix (n-by-n).
 ## @item b
-## Real matrix.
+## Real matrix (n-by-m).
 ## @item q
-## Real matrix.
+## Real matrix (n-by-n).
 ## @item r
-## Real matrix.
+## Real matrix (m-by-m).
 ## @item s
-## Optional real matrix. If @var{s} is not specified, a zero matrix is assumed.
+## Optional real matrix (n-by-m). If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item x
-## Unique stabilizing solution of the continuous-time Riccati equation.
+## Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
 ## @item l
-## Closed-loop poles.
+## Closed-loop poles (n-by-1).
 ## @item g
-## Corresponding gain matrix.
+## Corresponding gain matrix (m-by-n).
 ## @end table
 ##
 ## @example
@@ -68,39 +68,41 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.3
+## Version: 0.4
 
 function [x, l, g] = care (a, b, q, r, s = [])
 
   ## TODO: Add SLICOT SG02AD (Solution of continuous- or discrete-time
   ##       algebraic Riccati equations for descriptor systems)
 
+  ## TODO: extract feedback matrix g from SB02OD (and SG02AD)
+
   if (nargin < 4 || nargin > 5)
     print_usage ();
   endif
 
-  if (! issquare (a))
-    error ("care: a is not square");
-  endif
-
-  if (! issquare (q))
-    error ("care: q is not square");
-  endif
-
-  if (! issquare (r))
-    error ("care: r is not square");
+  if (! isreal (a) || ! issquare (a))
+    error ("care: a must be real and square");
   endif
   
-  if (rows (a) != rows (b))
-    error ("care: (a, b) not conformable");
+  if (! isreal (b) || rows (a) != rows (b))
+    error ("care: b must be real and conformal to a");
+  endif
+
+  if (! isreal (q) || ! issquare (q))
+    error ("care: q must be real and square");
+  endif
+
+  if (! isreal (r) || ! issquare (r))
+    error ("care: r must be real and square");
   endif
   
   if (columns (r) != columns (b))
     error ("care: (b, r) not conformable");
   endif
 
-  if (! isempty (s) && any (size (s) != size (b)))
-    error ("care: s (%dx%d) must be identically dimensioned with b (%dx%d)",
+  if (! isempty (s) && (! isreal (s) || any (size (s) != size (b))))
+    error ("care: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
             rows (s), columns (s), rows (b), columns (b));
   endif
 
@@ -124,23 +126,14 @@ function [x, l, g] = care (a, b, q, r, s = [])
 
   ## solve the riccati equation
   if (isempty (s))
-    ## unique stabilizing solution
-    x = slsb02od (a, b, q, r, b, false, false);
-    
-    ## corresponding gain matrix
-    g = r \ (b.'*x);
-  else
-    ## unique stabilizing solution
-    x = slsb02od (a, b, q, r, s, false, true);
-    
-    ## corresponding gain matrix
-    g = r \ (b.'*x + s.');
-  endif
+    [x, l] = slsb02od (a, b, q, r, b, false, false);
 
-  ## closed-loop poles
-  l = eig (a - b*g);
-  
-  ## TODO: use alphar, alphai and beta from SB02OD
+    g = r \ (b.'*x);  # gain matrix
+  else
+    [x, l] = slsb02od (a, b, q, r, s, false, true);
+
+    g = r \ (b.'*x + s.');  # gain matrix
+  endif
 
 endfunction
 
