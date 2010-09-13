@@ -51,9 +51,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.2.1
 
-function [bool, u] = isctrb (a, b = 0, tol = 0)
+function [bool, u] = isctrb (a, b = [], tol = [])
 
   if (nargin < 1 || nargin > 3)
     print_usage ();
@@ -70,10 +70,10 @@ function [bool, u] = isctrb (a, b = 0, tol = 0)
             rows (a), columns (a), rows (b), columns (b));
   endif
 
-  ## check tol dimensions
-  if (! isscalar (tol))
-    error ("isctrb: tol(%dx%d) must be a scalar",
-            rows (tol), columns (tol));
+  if (! isreal (tol) && ! isscalar (tol))
+    error ("isctrb: tol must be a real scalar");
+  elseif (isempty (tol))
+    tol = 0;  # default tolerance
   endif
 
   [ac, bc, u, ncont] = slab01od (a, b, tol);

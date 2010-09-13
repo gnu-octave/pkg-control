@@ -66,7 +66,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function bool = isstabilizable (a, b = [], tol = [], dflg = 0)
 
@@ -77,7 +77,7 @@ function bool = isstabilizable (a, b = [], tol = [], dflg = 0)
       print_usage ();
     endif
     tol = b;
-    dflg = isdt (a);
+    dflg = ! isct (a);
     [a, b] = ssdata (a);
   elseif (nargin == 1)  # isstabilizable (a, b, ...)
     print_usage ();
@@ -85,8 +85,10 @@ function bool = isstabilizable (a, b = [], tol = [], dflg = 0)
     error ("isstabilizable: a must be square and conformal to b")
   endif
 
-  if (isempty (tol))
-    tol = 0;
+  if (! isreal (tol) && ! isscalar (tol))
+    error ("isstabilizable: tol must be a real scalar");
+  elseif (isempty (tol))
+    tol = 0;  # default tolerance
   endif
 
   ## controllability staircase form

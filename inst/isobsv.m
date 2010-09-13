@@ -51,7 +51,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function [bool, u] = isobsv (a, c = [], tol = [])
 
@@ -67,11 +67,7 @@ function [bool, u] = isobsv (a, c = [], tol = [])
     print_usage ();
   endif
 
-  if (isempty (tol))
-    [bool, u] = isctrb (a.', c.');
-  else
-    [bool, u] = isctrb (a.', c.', tol);
-  endif
+  [bool, u] = isctrb (a.', c.', tol);
 
 endfunction
 

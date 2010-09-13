@@ -117,7 +117,12 @@ DEFUN_DLD (slab01od, args, nargout, "Slicot AB01OD Release 5.0")
             
         if (info != 0)
             error ("slab01od: AB01OD returned info = %d", info);
-        
+
+        // resize
+        a.resize (n, n);
+        b.resize (n, m);
+        u.resize (n, n);
+
         // return values
         retval(0) = a;
         retval(1) = b;

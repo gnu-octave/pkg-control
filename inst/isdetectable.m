@@ -56,7 +56,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function bool = isdetectable (a, c = [], tol = [], dflg = 0)
 
@@ -67,7 +67,7 @@ function bool = isdetectable (a, c = [], tol = [], dflg = 0)
       print_usage ();
     endif
     tol = c;
-    dflg = isdt (a);
+    dflg = ! isct (a);
     [a, b, c] = ssdata (a);
   elseif (nargin == 1)  # isdetectable (a, c, ...)
     print_usage ();
