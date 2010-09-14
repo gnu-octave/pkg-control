@@ -24,7 +24,7 @@
 ##
 ## @example
 ## @group
-## A U' U A'  -  X  +  B B'  =  0              (Lyapunov Equation)
+## A U' U A'  -  U' U  +  B B'  =  0           (Lyapunov Equation)
 ##
 ## A U' U A'  -  E U' U E'  +  B B'  =  0      (Generalized Lyapunov Equation)
 ## @end group
