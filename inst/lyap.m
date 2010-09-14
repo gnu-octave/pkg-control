@@ -36,7 +36,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.1
+## Version: 0.2
 
 function [x, scale] = lyap (a, b, c, e)
 
@@ -44,20 +44,17 @@ function [x, scale] = lyap (a, b, c, e)
 
   switch (nargin)
     case 2  # Lyapunov equation
-
-      na = rows (a);
-      nb = rows (b);
   
-      if (! issquare (a))
-        error ("lyap: a must be square");
+      if (! isreal (a) || ! issquare (a) || isempty (a))
+        error ("lyap: a must be real and square");
       endif
 
-      if (! issquare (b))
-        error ("lyap: b must be square")
+      if (! isreal (b) || ! issquare (b) || isempty (b))
+        error ("lyap: b must be real and square")
       endif
   
-      if (na != nb)
-        error ("lyap: a and b must be of identical size");
+      if (rows (a) != rows (b))
+        error ("lyap: a and b must have the same number of rows");
       endif
 
       [x, scale] = slsb03md (a, -b, false);  # AX + XA' = -B
@@ -65,21 +62,17 @@ function [x, scale] = lyap (a, b, c, e)
       ## x /= scale;  # 0 < scale <= 1
     
     case 3  # Sylvester equation
-  
-      n = rows (a);
-      m = rows (b);
-      [crows, ccols] = size (c);
     
-      if (! issquare (a))
-        error ("lyap: a must be square");
+      if (! isreal (a) || isempty (a) || ! issquare (a))
+        error ("lyap: a must be real and square");
       endif
 
-      if (! issquare (b))
-        error ("lyap: b must be square");
+      if (! isreal (b) || isempty (b) || ! issquare (b))
+        error ("lyap: b must be real and square");
       endif
 
-      if (crows != n || ccols != m)
-        error ("lyap: c must be a (%dx%d) matrix", n, m);
+      if (! isreal (c) || isempty (c) || rows (c) != rows (a) || columns (c) != columns (b))
+        error ("lyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
       endif
 
       x = slsb04md (a, b, -c);  # AX + XB = -C
@@ -90,23 +83,19 @@ function [x, scale] = lyap (a, b, c, e)
         print_usage ();
       endif
       
-      na = rows (a);
-      nb = rows (b);
-      ne = rows (e);
-      
-      if (! issquare (a))
-        error ("lyap: a must be square");
+      if (! isreal (a) || isempty (a) || ! issquare (a))
+        error ("lyap: a must be real and square");
       endif
       
-      if (! issquare (b))
-        error ("lyap: b must be square");
+      if (! isreal (b) || isempty (b) || ! issquare (b))
+        error ("lyap: b must be real and square");
       endif
       
-      if (! issquare (e))
-        error ("lyap: e must be square");
+      if (! isreal (e) || isempty (e) || ! issquare (e))
+        error ("lyap: e must be real and square");
       endif
       
-      if (! ((na == nb)) && (na == ne))
+      if (rows (b) != rows (a) || rows (e) != rows (a))
         error ("lyap: a, b, e not conformal");
       endif
       

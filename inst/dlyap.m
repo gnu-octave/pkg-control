@@ -36,7 +36,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.1
+## Version: 0.2
 
 function [x, scale] = dlyap (a, b, c, e)
 
@@ -45,19 +45,16 @@ function [x, scale] = dlyap (a, b, c, e)
   switch (nargin)
     case 2  # Lyapunov equation
 
-      na = rows (a);
-      nb = rows (b);
-  
-      if (! issquare (a))
-        error ("lyap: a must be square");
+      if (! isreal (a) || ! issquare (a) || isempty (a))
+        error ("dlyap: a must be real and square");
       endif
 
-      if (! issquare (b))
-        error ("lyap: b must be square")
+      if (! isreal (b) || ! issquare (b) || isempty (b))
+        error ("dlyap: b must be real and square")
       endif
   
-      if (na != nb)
-        error ("lyap: a and b must be of identical size");
+      if (rows (a) != rows (b))
+        error ("dlyap: a and b must have the same number of rows");
       endif
 
       [x, scale] = slsb03md (a, -b, true);  # AXA' - X = -B
@@ -66,20 +63,16 @@ function [x, scale] = dlyap (a, b, c, e)
   
     case 3  # Sylvester equation
   
-      n = rows (a);
-      m = rows (b);
-      [crows, ccols] = size (c);
-
-      if (! issquare (a))
-        error ("dlyap: a must be square");
+      if (! isreal (a) || isempty (a) || ! issquare (a))
+        error ("dlyap: a must be real and square");
       endif
 
-      if (! issquare (b))
-        error ("dlyap: b must be square");
+      if (! isreal (b) || isempty (b) || ! issquare (b))
+        error ("dlyap: b must be real and square");
       endif
 
-      if (crows != n || ccols != m)
-        error ("dlyap: c must be a (%dx%d) matrix", n, m);
+      if (! isreal (c) || isempty (c) || rows (c) != rows (a) || columns (c) != columns (b))
+        error ("dlyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
       endif
 
       x = slsb04qd (-a, b, c);  # AXB' - X = -C
@@ -90,28 +83,24 @@ function [x, scale] = dlyap (a, b, c, e)
         print_usage ();
       endif
       
-      na = rows (a);
-      nb = rows (b);
-      ne = rows (e);
-      
-      if (! issquare (a))
-        error ("lyap: a must be square");
+      if (! isreal (a) || isempty (a) || ! issquare (a))
+        error ("dlyap: a must be real and square");
       endif
       
-      if (! issquare (b))
-        error ("lyap: b must be square");
+      if (! isreal (b) || isempty (b) || ! issquare (b))
+        error ("dlyap: b must be real and square");
       endif
       
-      if (! issquare (e))
-        error ("lyap: e must be square");
+      if (! isreal (e) || isempty (e) || ! issquare (e))
+        error ("dlyap: e must be real and square");
       endif
       
-      if (! ((na == nb)) && (na == ne))
-        error ("lyap: a, b, e not conformal");
+      if (rows (b) != rows (a) || rows (e) != rows (a))
+        error ("dlyap: a, b, e not conformal");
       endif
       
       if (! issymmetric (b))
-        error ("lyap: b must be symmetric");
+        error ("dlyap: b must be symmetric");
       endif
 
       [x, scale] = slsg03ad (a, e, -b, true);  # AXA' - EXE' = -B
