@@ -262,7 +262,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
   if (nargout == 0)  # show bode diagram
 
-    [H, w] = __getfreqresp__ (sys, [], false, 0, "std");
+    [H, w] = __frequency_response__ (sys, [], false, 0, "std");
 
     H = reshape (H, [], 1);
     mag_db = 20 * log10 (abs (H));

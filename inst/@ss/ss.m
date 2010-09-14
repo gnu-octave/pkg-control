@@ -54,7 +54,7 @@
 function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
-  %inferiorto ("frd");
+  ## inferiorto ("frd");
   superiorto ("zpk", "tf", "double");
 
   argc = 0;
@@ -113,7 +113,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
     tsam = -1;
   endif
 
-  [m, n, p] = __ssmatdim__ (a, b, c, d);
+  [m, n, p] = __ss_dim__ (a, b, c, d);
 
   stname = repmat ({""}, n, 1);
 

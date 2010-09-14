@@ -23,7 +23,7 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function [nrows, ncols] = __tfnddim__ (num, den)
+function [nrows, ncols] = __tf_dim__ (num, den)
 
   [nrows, ncols] = size (num);
   [drows, dcols] = size (den);

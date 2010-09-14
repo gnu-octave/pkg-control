@@ -74,7 +74,7 @@ function [y_r, t_r, x_r] = initial (sys, x0, tfinal = [], dt = [])
     print_usage ();
   endif
 
-  [y, t, x] = __timeresp__ (sys, "initial", ! nargout, tfinal, dt, x0);
+  [y, t, x] = __time_response__ (sys, "initial", ! nargout, tfinal, dt, x0);
 
   if (nargout)
     y_r = y;

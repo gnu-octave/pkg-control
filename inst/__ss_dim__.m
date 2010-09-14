@@ -23,7 +23,7 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function [m, n, p] = __ssmatdim__ (a, b, c, d)
+function [m, n, p] = __ss_dim__ (a, b, c, d)
 
   [arows, acols] = size (a);
   [brows, bcols] = size (b);

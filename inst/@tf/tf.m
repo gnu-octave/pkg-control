@@ -59,7 +59,7 @@
 function sys = tf (num = {}, den = {}, varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
-  %inferiorto ("frd", "ss", "zpk");  # error if de-commented. bug in octave?
+  ## inferiorto ("frd", "ss", "zpk");  # error if de-commented. bug in octave?
   superiorto ("double");
 
   argc = 0;
@@ -134,7 +134,7 @@ function sys = tf (num = {}, den = {}, varargin)
   endswitch
 
 
-  [p, m] = __tfnddim__ (num, den);
+  [p, m] = __tf_dim__ (num, den);
 
   tfdata = struct ("num", {num},
                    "den", {den},

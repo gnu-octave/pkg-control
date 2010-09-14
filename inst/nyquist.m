@@ -55,7 +55,7 @@ function [re_r, im_r, w_r] = nyquist (sys, w = [])
     print_usage ();
   endif
 
-  [H, w] = __getfreqresp__ (sys, w, false, 0, "ext");
+  [H, w] = __frequency_response__ (sys, w, false, 0, "ext");
 
   H = reshape (H, [], 1);
   re = real (H);

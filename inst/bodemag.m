@@ -53,7 +53,7 @@ function [mag_r, w_r] = bodemag (sys, w = [])
     print_usage ();
   endif
 
-  [H, w] = __getfreqresp__ (sys, w, false, 0, "std");
+  [H, w] = __frequency_response__ (sys, w, false, 0, "std");
 
   H = reshape (H, [], 1);
   mag = abs (H);

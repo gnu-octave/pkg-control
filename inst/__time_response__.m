@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.2
 
-function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
+function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt, x0)
 
   if (! isa (sys, "ss"))
     sys = ss (sys);  # sys must be proper
@@ -39,13 +39,13 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
 
   if (discrete)
     if (! isempty (dt))
-      warning ("timeresp: argument dt has no effect on sampling time of discrete system");
+      warning ("time_response: argument dt has no effect on sampling time of discrete system");
     endif
 
     dt = tsam;
   endif
 
-  [tfinal, dt] = __simhorizon__ (A, discrete, tfinal, dt);
+  [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, dt);
 
   if (! discrete)
     sys = c2d (sys, dt, "zoh");
@@ -145,7 +145,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
       endif
 
     otherwise
-      error ("timeresp: invalid response type");
+      error ("time_response: invalid response type");
 
   endswitch
 
@@ -230,7 +230,7 @@ function [y, t, x_arr] = __timeresp__ (sys, resptype, plotflag, tfinal, dt, x0)
 endfunction
 
 
-function [tfinal, dt] = __simhorizon__ (A, discrete, tfinal, Ts)
+function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 

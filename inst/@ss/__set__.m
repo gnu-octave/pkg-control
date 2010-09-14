@@ -26,19 +26,19 @@ function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case "a"
-      [m, n, p] = __ssmatdim__ (val, sys.b, sys.c, sys.d);
+      [m, n, p] = __ss_dim__ (val, sys.b, sys.c, sys.d);
       sys.a = val;
 
     case "b"
-      [m, n, p] = __ssmatdim__ (sys.a, val, sys.c, sys.d);
+      [m, n, p] = __ss_dim__ (sys.a, val, sys.c, sys.d);
       sys.b = val;
 
     case "c"
-      [m, n, p] = __ssmatdim__ (sys.a, sys.b, val, sys.d);
+      [m, n, p] = __ss_dim__ (sys.a, sys.b, val, sys.d);
       sys.c = val;
 
     case "d"
-      [m, n, p] = __ssmatdim__ (sys.a, sys.b, sys.c, val);
+      [m, n, p] = __ss_dim__ (sys.a, sys.b, sys.c, val);
       sys.d = val;
 
     case {"stname", "statename"}
@@ -46,7 +46,7 @@ function sys = __set__ (sys, prop, val)
       sys.stname = __checkname__ (val, n);
 
     otherwise
-      error ("set: invalid property name");
+      error ("ss: set: invalid property name");
 
   endswitch
 

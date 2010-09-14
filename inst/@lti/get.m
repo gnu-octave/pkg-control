@@ -28,10 +28,10 @@
 function varargout = get (sys, varargin)
 
   if (nargin == 1)
-    [propv, valv] = __propnames__ (sys);
-    nrows = numel (propv);
-    str = strjust (strvcat (propv), "right");
-    str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (valv));
+    [props, vals] = __property_names__ (sys);
+    nrows = numel (props);
+    str = strjust (strvcat (props), "right");
+    str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
     disp (str);
   else
     for k = 1 : (nargin-1)

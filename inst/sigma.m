@@ -67,7 +67,7 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     print_usage ();
   endif
 
-  [H, w] = __getfreqresp__ (sys, w, true, resptype, "std");
+  [H, w] = __frequency_response__ (sys, w, true, resptype, "std");
 
   [p, m] = size (sys);
   l_w = length (w);

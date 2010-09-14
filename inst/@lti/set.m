@@ -29,11 +29,11 @@ function retsys = set (sys, varargin)
 
   if (nargin == 1)  # set (sys), sys = set (sys)
 
-    [propv, valv] = __propnames__ (sys);
-    nrows = numel (propv);
+    [props, vals] = __property_names__ (sys);
+    nrows = numel (props);
 
-    str = strjust (strvcat (propv), "right");
-    str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (valv));
+    str = strjust (strvcat (props), "right");
+    str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
 
     disp (str);
 

@@ -47,8 +47,8 @@ function retsys = __sysgroup__ (sys1, sys2)
   C2 = sys2.c;
   D2 = sys2.d;
 
-  [m1, n1, p1] = __ssmatdim__ (A1, B1, C1, D1);
-  [m2, n2, p2] = __ssmatdim__ (A2, B2, C2, D2);
+  [m1, n1, p1] = __ss_dim__ (A1, B1, C1, D1);
+  [m2, n2, p2] = __ss_dim__ (A2, B2, C2, D2);
 
   A12 = zeros (n1, n2);
   B12 = zeros (n1, m2);

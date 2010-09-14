@@ -41,7 +41,7 @@ function val = __get__ (sys, prop)
       val = sys.stname;
 
     otherwise
-      error ("get: invalid property name");
+      error ("ss: get: invalid property name");
 
   endswitch
 

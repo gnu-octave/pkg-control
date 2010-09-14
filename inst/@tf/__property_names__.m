@@ -14,8 +14,8 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{propv}, @var{asgnvalv}] =} __propnames__ (@var{sys})
-## @deftypefnx {Function File} {[@var{propv}, @var{asgnvalv}] =} __propnames__ (@var{sys}, @var{"specific"})
+## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
+## @deftypefnx {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys}, @var{"specific"})
 ## Return the list of properties as well as the assignable values for a ss object sys.
 ## @end deftypefn
 
@@ -23,26 +23,26 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function [propv, asgnvalv] = __propnames__ (sys, flg)
+function [props, vals] = __property_names__ (sys, flg)
 
   ## cell vector of tf-specific properties
-  propv = {"num";
+  props = {"num";
            "den";
            "tfvar"};
 
   ## cell vector of tf-specific assignable values
-  asgnvalv = {"p-by-m cell array of row vectors (m = number of inputs)";
-              "p-by-m cell array of row vectors (p = number of outputs)";
-              "string (usually s or z)"};
+  vals = {"p-by-m cell array of row vectors (m = number of inputs)";
+          "p-by-m cell array of row vectors (p = number of outputs)";
+          "string (usually s or z)"};
 
   if (nargin == 1)
-    [ltipropv, ltiasgnvalv] = __propnames__ (sys.lti);
+    [ltiprops, ltivals] = __property_names__ (sys.lti);
 
-    propv = [propv;
-             ltipropv];
+    props = [props;
+             ltiprops];
 
-    asgnvalv = [asgnvalv;
-                ltiasgnvalv];
+    vals = [vals;
+            ltivals];
   endif
 
 endfunction

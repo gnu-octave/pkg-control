@@ -55,7 +55,7 @@ function [mag_r, pha_r, w_r] = nichols (sys, w = [])
     print_usage ();
   endif
 
-  [H, w] = __getfreqresp__ (sys, w, false, 0, "ext");
+  [H, w] = __frequency_response__ (sys, w, false, 0, "ext");
 
   H = reshape (H, [], 1);
   mag = abs (H);

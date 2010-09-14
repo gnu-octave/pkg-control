@@ -23,19 +23,19 @@
 ## Created: November 2009
 ## Version: 0.1
 
-function [H, w] = __getfreqresp__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std")
+function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std")
 
   ## check arguments
   if(! isa (sys, "lti"))
-    error ("getfreqresp: first argument sys must be a LTI system");
+    error ("frequency_response: first argument sys must be a LTI system");
   endif
 
   if (! isempty (w) && ! (isreal (w) && isvector (w)))
-    error ("getfreqresp: second argument w must be a vector of frequencies");
+    error ("frequency_response: second argument w must be a vector of frequencies");
   endif
 
   if (! mimoflag && ! issiso (sys))
-    error ("getfreqresp: require SISO system");
+    error ("frequency_response: require SISO system");
   endif
 
   ## find interesting frequency range w if not specified

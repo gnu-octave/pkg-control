@@ -14,7 +14,7 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{propv}, @var{asgnvalv}] =} __propnames__ (@var{sys})
+## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
 ## Return the list of properties as well as the assignable values for a lti object sys.
 ## @end deftypefn
 
@@ -22,16 +22,16 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function [propv, asgnvalv] = __propnames__ (sys)
+function [props, vals] = __property_names__ (sys)
 
   ## cell vector of lti-specific properties
-  propv = {"tsam";
+  props = {"tsam";
            "inname";
            "outname"};
 
   ## cell vector of lti-specific assignable values
-  asgnvalv = {"scalar (sample time in seconds)";
-              "m-by-1 cell vector of strings";
-              "p-by-1 cell vector of strings"};
+  vals = {"scalar (sample time in seconds)";
+          "m-by-1 cell vector of strings";
+          "p-by-1 cell vector of strings"};
 
 endfunction
