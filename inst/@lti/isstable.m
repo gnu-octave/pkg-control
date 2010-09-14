@@ -27,7 +27,7 @@
 
 function bool = isstable (sys, tol = 0)
 
-  if (nargin == 0 || nargin > 2)
+  if (nargin > 2)
     print_usage ();
   endif
 

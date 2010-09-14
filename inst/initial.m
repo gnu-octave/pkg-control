@@ -68,6 +68,8 @@
 
 function [y_r, t_r, x_r] = initial (sys, x0, tfinal = [], dt = [])
 
+  ## TODO: multiplot feature:   initial (sys1, "b", sys2, "r", ..., x0, ...)
+
   if (nargin < 2 || nargin > 4)
     print_usage ();
   endif

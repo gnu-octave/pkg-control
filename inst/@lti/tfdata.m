@@ -38,8 +38,8 @@ function [num, den, tsam] = tfdata (sys, rtype = "vector")
   tsam = sys.tsam;
 
   if (rtype == "vector")
-    num = cellfun ("@tfpoly/get", num, "UniformOutput", false);
-    den = cellfun ("@tfpoly/get", den, "UniformOutput", false);
+    num = cellfun ("@tfpoly/get", num, "uniformoutput", false);
+    den = cellfun ("@tfpoly/get", den, "uniformoutput", false);
   endif
 
 endfunction

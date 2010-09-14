@@ -55,6 +55,8 @@
 
 function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
 
+  ## TODO: multiplot feature:   lsim (sys1, "b", sys2, "r", ..., u, t)
+
   if (nargin < 2 || nargin > 5)
     print_usage ();
   endif

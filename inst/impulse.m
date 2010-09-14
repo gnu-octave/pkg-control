@@ -58,6 +58,8 @@
 
 function [y_r, t_r, x_r] = impulse (sys, tfinal = [], dt = [])
 
+  ## TODO: multiplot feature:   impulse (sys1, "b", sys2, "r", ...)
+
   if (nargin == 0 || nargin > 3)
     print_usage ();
   endif

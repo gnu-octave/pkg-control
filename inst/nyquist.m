@@ -49,6 +49,8 @@
 
 function [re_r, im_r, w_r] = nyquist (sys, w = [])
 
+  ## TODO: multiplot feature:   nyquist (sys1, "b", sys2, "r", ...)
+
   if (nargin == 0 || nargin > 2)
     print_usage ();
   endif

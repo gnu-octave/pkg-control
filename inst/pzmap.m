@@ -27,6 +27,9 @@
 
 function [pol_r, zer_r] = pzmap (sys)
 
+  ## TODO: multiplot feature:   pzmap (sys1, "b", sys2, "r", ...)
+  ## TODO: use better symbols for poles and zeros, fltk backend might be helpful
+
   if (nargin != 1)
     print_usage ();
   endif

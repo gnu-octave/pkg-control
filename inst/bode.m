@@ -49,6 +49,8 @@
 
 function [mag_r, pha_r, w_r] = bode (sys, w = [])
 
+  ## TODO: multiplot feature:   bode (sys1, "b", sys2, "r", ...)
+
   if (nargin == 0 || nargin > 2)
     print_usage ();
   endif

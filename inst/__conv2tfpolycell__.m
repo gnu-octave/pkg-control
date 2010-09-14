@@ -29,6 +29,6 @@ function ndr = __conv2tfpolycell__ (nd)
     nd = {nd};
   endif
 
-  ndr = cellfun (@tfpoly, nd, "UniformOutput", false);
+  ndr = cellfun (@tfpoly, nd, "uniformoutput", false);
 
 endfunction

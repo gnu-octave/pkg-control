@@ -47,6 +47,8 @@
 
 function [mag_r, w_r] = bodemag (sys, w = [])
 
+  ## TODO: multiplot feature:   bodemag (sys1, "b", sys2, "r", ...)
+
   if (nargin == 0 || nargin > 2)
     print_usage ();
   endif

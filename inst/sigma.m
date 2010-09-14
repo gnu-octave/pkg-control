@@ -61,6 +61,8 @@
 
 function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
 
+  ## TODO: multiplot feature:   sigma (sys1, "b", sys2, "r", ...)
+
   if (nargin == 0 || nargin > 3)
     print_usage ();
   endif

@@ -28,7 +28,7 @@
 
 function [n, varargout] = size (ltisys, idx = 0)
 
-  if (nargin != 1 && nargin != 2)
+  if (nargin > 2)
     print_usage ();
   endif
 

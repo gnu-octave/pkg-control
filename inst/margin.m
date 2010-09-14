@@ -123,6 +123,8 @@
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
+  ## TODO: multiplot feature:   margin (sys1, "b", sys2, "r", ...)
+
   ## check whether arguments are OK
   if (nargin < 1 || nargin > 2)
     print_usage ();

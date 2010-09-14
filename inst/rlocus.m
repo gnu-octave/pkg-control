@@ -65,6 +65,8 @@
 
 function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment, min_k, max_k)
 
+  ## TODO: multiplot feature:   rlocus (sys1, "b", sys2, "r", ...)
+
   if (nargin < 1 || nargin > 4)
     print_usage ();
   endif
