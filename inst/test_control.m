@@ -41,6 +41,8 @@ test lyap
 test dlyap
 test gram
 test covar
+test lyapchol
+## test dlyapchol  # TODO: add tests
 
 ## various oct-files
 test place

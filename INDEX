@@ -92,7 +92,9 @@ Matrix Equation Solvers
   care
   dare
   dlyap
+  dlyapchol
   lyap
+  lyapchol
 Octave-only
   isctrb
   isobsv

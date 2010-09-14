@@ -32,6 +32,8 @@
 ## AXA' - EXE' + B = 0   (Generalized Lyapunov Equation)
 ## @end group
 ## @end example
+##
+## @seealso{dlyapchol, lyap, lyapchol}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -1,7 +1,7 @@
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
      slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
-     sltb01pd.oct
+     sltb01pd.oct slsb03od.oct slsg03bd.oct
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc
@@ -107,16 +107,29 @@ slab13ad.oct: slab13ad.cc
               SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
               SB03OV.f
 
-# Staircase form using orthogonal transformations
+# staircase form using orthogonal transformations
 slab01od.oct: slab01od.cc
 	mkoctfile slab01od.cc \
               AB01OD.f AB01ND.f MB03OY.f MB01PD.f MB01QD.f
 
-# Minimal realization of state-space models
+# minimal realization of state-space models
 sltb01pd.oct: sltb01pd.cc
 	mkoctfile sltb01pd.cc \
               TB01PD.f TB01XD.f TB01ID.f AB07MD.f TB01UD.f \
               MB03OY.f MB01PD.f MB01QD.f
+
+# Cholesky factor of Lyapunov equations
+slsb03od.oct: slsb03od.cc
+	mkoctfile slsb03od.cc \
+              SB03OD.f select.f SB03OU.f SB03OT.f MB04ND.f \
+              MB04OD.f SB03OR.f SB03OY.f SB04PX.f MB04NY.f \
+              MB04OY.f SB03OV.f
+
+# Cholesky factor of generalized Lyapunov equations
+slsg03bd.oct: slsg03bd.cc
+	mkoctfile slsg03bd.cc \
+              SG03BD.f SG03BV.f SG03BU.f SG03BW.f SG03BX.f \
+              SG03BY.f MB02UU.f MB02UV.f
 
 clean:
 	rm *.o core octave-core *.oct *~
