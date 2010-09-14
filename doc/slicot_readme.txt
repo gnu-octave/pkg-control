@@ -1,7 +1,19 @@
+Important
+*********
+
+If you encounter any bugs in the octave control package, please
+DONT bother the great people behind SLICOT. Most likely it's a
+problem of the control package, not the proven SLICOT library.
+Therefore, please send any reports to the octave mailing list
+and the maintainer of the control package.
+See the file packinfo/DESCRIPTION for the current maintainer
+of the control package and his mail address.
+
+
 Acknowledgments
 ***************
 
-LTI SYNCOPE - LTI SYstems aNd COntrol PackagE - is partially based
+LTI SYNCOPE - LTI SYstems aNd COntrol PackagE - is ever-increasingly based
 on SLICOT subroutines by courtesy of the Numerics In COntrol NETwork
 NICONET e.V. <http://www.icm.tu-bs.de/NICONET/>.
 
