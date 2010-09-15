@@ -26,7 +26,7 @@
 
 function sys = __sysprune__ (sys, out_idx, in_idx, st_idx = ":")
 
-  sys.lti = __ltiprune__ (sys.lti, out_idx, in_idx);
+  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
 
   sys.a = sys.a(st_idx, st_idx);
   sys.b = sys.b(st_idx, in_idx);

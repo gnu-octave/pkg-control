@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{dec_min}, @var{dec_max}] =} __freqbounds__ (@var{sys})
+## @deftypefn {Function File} {[@var{dec_min}, @var{dec_max}] =} __frequency_range__ (@var{sys})
 ## Get default range of frequencies based on cutoff frequencies of system
 ## poles and zeros.
 ## Frequency range is the interval
@@ -37,7 +37,7 @@
 ## Date: October 2009
 ## Version: 0.1
 
-function [dec_min, dec_max] = __freqbounds__ (sys, wbounds = "std")
+function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
 
   zer = zero (sys);
   pol = pole (sys);
@@ -111,7 +111,7 @@ function [dec_min, dec_max] = __freqbounds__ (sys, wbounds = "std")
         dec_max += 2;
       endif
     otherwise
-      error ("freqbounds: second argument invalid");
+      error ("frequency_range: second argument invalid");
   endswitch
 
   ## run discrete frequency all the way to pi

@@ -16,7 +16,7 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Submodel extraction and reordering for LTI objects.
+## Block diagonal concatenation of two LTI models.
 ## This file is part of the Model Abstraction Layer.
 ## For internal use only.
 
@@ -24,9 +24,24 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function lti = __ltiprune__ (lti, out_idx, in_idx)
+function retlti = __lti_group__ (lti1, lti2)
 
-  lti.inname = lti.inname(in_idx);
-  lti.outname = lti.outname(out_idx);
+  retlti = lti ();
+
+  retlti.inname = [lti1.inname;
+                   lti2.inname];
+
+  retlti.outname = [lti1.outname;
+                    lti2.outname];
+
+  if (lti1.tsam == lti2.tsam)
+    retlti.tsam = lti1.tsam;
+  elseif (lti1.tsam == -1)
+    retlti.tsam = lti2.tsam;
+  elseif (lti2.tsam == -1)
+    retlti.tsam = lti1.tsam;
+  else
+    error ("lti_group: systems must have identical sampling times");
+  endif
 
 endfunction

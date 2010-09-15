@@ -26,7 +26,7 @@
 
 function sys = __sysprune__ (sys, out_idx, in_idx)
 
-  sys.lti = __ltiprune__ (sys.lti, out_idx, in_idx);
+  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
 
   sys.num = sys.num(out_idx, in_idx);
   sys.den = sys.den(out_idx, in_idx);

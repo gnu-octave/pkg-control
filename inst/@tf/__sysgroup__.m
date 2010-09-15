@@ -36,7 +36,7 @@ function retsys = __sysgroup__ (sys1, sys2)
 
   retsys = tf ();
 
-  retsys.lti = __ltigroup__ (sys1.lti, sys2.lti);
+  retsys.lti = __lti_group__ (sys1.lti, sys2.lti);
 
   [p1, m1] = size (sys1);
   [p2, m2] = size (sys2);

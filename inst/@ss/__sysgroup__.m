@@ -36,7 +36,7 @@ function retsys = __sysgroup__ (sys1, sys2)
 
   retsys = ss ();
 
-  retsys.lti = __ltigroup__ (sys1.lti, sys2.lti);
+  retsys.lti = __lti_group__ (sys1.lti, sys2.lti);
 
   A1 = sys1.a;
   B1 = sys1.b;

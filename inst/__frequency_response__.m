@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Return frequency response H and frequency vector w.
-## If w is empty, it will be calculated by __freqbounds__
+## If w is empty, it will be calculated by __frequency_range__
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
@@ -41,7 +41,7 @@ function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 
   ## find interesting frequency range w if not specified
   if (isempty (w))
     ## begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
-    [dec_min, dec_max] = __freqbounds__ (sys, wbounds);
+    [dec_min, dec_max] = __frequency_range__ (sys, wbounds);
 
     w = logspace (dec_min, dec_max, 500);  # [rad/s]
   endif
