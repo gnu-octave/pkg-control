@@ -226,7 +226,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   if (nargout  == 0)
     rlpolv = vec(rlpol);
     axdata = [real(rlpolv), imag(rlpolv); real(olzer), imag(olzer)];
-    axlim = __axis2dlim__ (axdata);
+    axlim = __axis_limits__ (axdata);
     rldata = [real(rlpolv), imag(rlpolv) ];
 
     %inname = get (sys, "inname");

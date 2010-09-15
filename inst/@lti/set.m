@@ -60,10 +60,10 @@ function retsys = set (sys, varargin)
 
       switch (prop)
         case {"inname", "inputname"}
-          sys.inname = __checkname__ (val, m);
+          sys.inname = __check_name_numel__ (val, m);
 
         case {"outname", "outputname"}
-          sys.outname = __checkname__ (val, p);
+          sys.outname = __check_name_numel__ (val, p);
 
         case {"tsam", "ts"}
           if (issample (val))

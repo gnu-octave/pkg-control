@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,19 +16,16 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Check whether a string of the cell "name" is empty and mark them
-## with "?". Used by display routines.
+## Used by display routines instead of multiple get calls.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
+## Created: September 2010
 ## Version: 0.1
 
-function name = __markemptynames__ (name)
+function [inname, outname, tsam] = __lti_data__ (sys)
 
-  for k = 1 : numel (name)
-    if (isempty (name{k}))
-      name{k} = "?";
-    endif 
-  endfor
+  inname = sys.inname;
+  outname = sys.outname;
+  tsam = sys.tsam;
 
 endfunction

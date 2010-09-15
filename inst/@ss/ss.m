@@ -89,11 +89,11 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
       tsam = 0;
 
     case 4  # continuous system   ss (a, b, c, d), ss ([], [], [], d)
-      [b, c] = __gaincheck__ (b, c, d);
+      [b, c] = __gain_check__ (b, c, d);
       tsam = 0;
 
     otherwise  # default case
-      [b, c] = __gaincheck__ (b, c, d);
+      [b, c] = __gain_check__ (b, c, d);
       argc = numel (varargin);
 
       if (issample (varargin{1}, 1))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
@@ -132,7 +132,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
 endfunction
 
 
-function [b, c] = __gaincheck__ (b, c, d)
+function [b, c] = __gain_check__ (b, c, d)
 
   ## catch the case sys = ss ([], [], [], d)
   ## don't forget to set tsam = -1

@@ -141,7 +141,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
     if (isempty (outname) || isequal ("", outname{:}))
       outname = strseq ("y_", 1 : length (outname));
     else
-      outname = __markemptynames__ (outname);
+      outname = __mark_empty_names__ (outname);
     endif
 
     if (discrete)  # discrete system

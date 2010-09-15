@@ -1,4 +1,4 @@
-## Copyright (C) 2009 -2010   Lukas F. Reichlin
+## Copyright (C) 2009   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,23 +16,19 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Check whether a cell contains the required number of strings.
-## Used by set and __set__.
+## Check whether a string of the cell "name" is empty and mark them
+## with "?". Used by display routines.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.1
 
-function name = __checkname__ (name, req_len)
+function name = __mark_empty_names__ (name)
 
-  if (! iscell (name))  # catch the siso case,
-    name = {name};      # e.g. sys = set (sys, "inname", "u_1")
-  endif
-
-  name = reshape (name, [], 1);
-
-  if (numel (name) != req_len)
-    error ("lti: set: cell must contain %d strings", req_len);
-  endif
+  for k = 1 : numel (name)
+    if (isempty (name{k}))
+      name{k} = "?";
+    endif 
+  endfor
 
 endfunction

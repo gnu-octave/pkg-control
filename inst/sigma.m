@@ -84,8 +84,8 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     sv_db = 20 * log10 (sv);
 
     ## determine axes
-    ax_vec = __axis2dlim__ ([reshape(w, [], 1), reshape(min(sv_db, [], 1), [], 1);
-                             reshape(w, [], 1), reshape(max(sv_db, [], 1), [], 1)]);
+    ax_vec = __axis_limits__ ([reshape(w, [], 1), reshape(min(sv_db, [], 1), [], 1);
+                              reshape(w, [], 1), reshape(max(sv_db, [], 1), [], 1)]);
     ax_vec(1:2) = [min(w), max(w)];
 
     ## determine xlabel

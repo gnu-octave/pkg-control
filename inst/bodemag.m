@@ -62,7 +62,7 @@ function [mag_r, w_r] = bodemag (sys, w = [])
     mag_db = 20 * log10 (mag);
 
     wv = [min(w), max(w)];
-    ax_vec_mag = __axis2dlim__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
+    ax_vec_mag = __axis_limits__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
     ax_vec_mag(1:2) = wv;
 
     if (isct (sys))

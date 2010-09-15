@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,42 +20,44 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function display (sys)
 
-  tsam = get (sys, "tsam");
-  inname = get (sys, "inname");
-  outname = get (sys, "outname");
+  [inname, outname, tsam] = __lti_data__ (sys.lti);
   stname = sys.stname;
 
-  if (isempty (inname) || isequal ("", inname{:}))
-    inname = strseq ("u", 1 : length (inname));
+  m = numel (inname);
+  p = numel (outname);
+  n = numel (stname);
+
+  if (m == 0 || isequal ("", inname{:}))
+    inname = strseq ("u", 1:m);
   else
-    inname = __markemptynames__ (inname);
+    inname = __mark_empty_names__ (inname);
   endif
 
-  if (isempty (outname) || isequal ("", outname{:}))
-    outname = strseq ("y", 1 : length (outname));
+  if (p == 0 || isequal ("", outname{:}))
+    outname = strseq ("y", 1:p);
   else
-    outname = __markemptynames__ (outname);
+    outname = __mark_empty_names__ (outname);
   endif
 
-  if (isempty (stname) || isequal ("", stname{:}))
-    stname = strseq ("x", 1 : length (stname));
+  if (n == 0 || isequal ("", stname{:}))
+    stname = strseq ("x", 1:n);
   else
-    stname = __markemptynames__ (stname);
+    stname = __mark_empty_names__ (stname);
   endif
 
   disp ("");
 
   if (! isempty (sys.a))
-    dispmat (sys.a, [inputname(1), ".a"], stname, stname);
-    dispmat (sys.b, [inputname(1), ".b"], stname, inname);
-    dispmat (sys.c, [inputname(1), ".c"], outname, stname);
+    __disp_mat__ (sys.a, [inputname(1), ".a"], stname, stname);
+    __disp_mat__ (sys.b, [inputname(1), ".b"], stname, inname);
+    __disp_mat__ (sys.c, [inputname(1), ".c"], outname, stname);
   endif
 
-  dispmat (sys.d, [inputname(1), ".d"], outname, inname);
+  __disp_mat__ (sys.d, [inputname(1), ".d"], outname, inname);
 
   display (sys.lti);  # display sampling time
 
@@ -70,7 +72,7 @@ function display (sys)
 endfunction
 
 
-function dispmat (m, mname, rname, cname)
+function __disp_mat__ (m, mname, rname, cname)
 
   MAX_LEN = 12;  # max length of row name and column name
   [mrows, mcols] = size (m);

@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 -2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,38 +16,23 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Set or modify properties of SS objects.
+## Check whether a cell contains the required number of strings.
+## Used by set and __set__.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = __set__ (sys, prop, val)
+function name = __check_name_numel__ (name, req_len)
 
-  switch (prop)  # {<internal name>, <user name>}
-    case "a"
-      [m, n, p] = __ss_dim__ (val, sys.b, sys.c, sys.d);
-      sys.a = val;
+  if (! iscell (name))  # catch the siso case,
+    name = {name};      # e.g. sys = set (sys, "inname", "u_1")
+  endif
 
-    case "b"
-      [m, n, p] = __ss_dim__ (sys.a, val, sys.c, sys.d);
-      sys.b = val;
+  name = reshape (name, [], 1);
 
-    case "c"
-      [m, n, p] = __ss_dim__ (sys.a, sys.b, val, sys.d);
-      sys.c = val;
-
-    case "d"
-      [m, n, p] = __ss_dim__ (sys.a, sys.b, sys.c, val);
-      sys.d = val;
-
-    case {"stname", "statename"}
-      n = rows (sys.a);
-      sys.stname = __check_name_numel__ (val, n);
-
-    otherwise
-      error ("ss: set: invalid property name");
-
-  endswitch
+  if (numel (name) != req_len)
+    error ("lti: set: cell must contain %d strings", req_len);
+  endif
 
 endfunction

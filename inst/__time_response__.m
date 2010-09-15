@@ -161,7 +161,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
     if (isempty (outname) || isequal ("", outname{:}))
       outname = strseq ("y_", 1 : length (outname));
     else
-      outname = __markemptynames__ (outname);
+      outname = __mark_empty_names__ (outname);
     endif
 
     if (strcmp (resptype, "initial"))

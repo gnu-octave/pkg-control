@@ -63,7 +63,7 @@ function [mag_r, pha_r, w_r] = nichols (sys, w = [])
 
   if (! nargout)
     mag_db = 20 * log10 (mag);
-    ax_vec = __axis2dlim__ ([reshape(pha, [], 1), reshape(mag_db, [], 1)]);
+    ax_vec = __axis_limits__ ([reshape(pha, [], 1), reshape(mag_db, [], 1)]);
     
     plot (pha, mag_db)
     axis (ax_vec)

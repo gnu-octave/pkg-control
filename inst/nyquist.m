@@ -62,7 +62,7 @@ function [re_r, im_r, w_r] = nyquist (sys, w = [])
   im = imag (H);
 
   if (! nargout)
-    ax_vec = __axis2dlim__ ([re, im; re, -im]);
+    ax_vec = __axis_limits__ ([re, im; re, -im]);
 
     plot (re, im, "b", re, -im, "r")
     axis (ax_vec)

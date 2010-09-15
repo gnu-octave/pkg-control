@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,32 +20,33 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function display (sys)
 
-  [ny, nu] = size (sys);
-  inname = get (sys, "inname");
-  outname = get (sys, "outname");
+  [inname, outname] = __lti_data__ (sys.lti);
 
-  if (isempty (inname) || isequal ("", inname{:}))
-    inname = strseq ("u", 1 : length (inname));
+  m = numel (inname);
+  p = numel (outname);
+
+  if (m == 0 || isequal ("", inname{:}))
+    inname = strseq ("u", 1:m);
   else
-    inname = __markemptynames__ (inname);
+    inname = __mark_empty_names__ (inname);
   endif
 
-  if (isempty (outname) || isequal ("", outname{:}))
-    outname = strseq ("y", 1 : length (outname));
+  if (p == 0 || isequal ("", outname{:}))
+    outname = strseq ("y", 1:p);
   else
-    outname = __markemptynames__ (outname);
+    outname = __mark_empty_names__ (outname);
   endif
 
   disp ("");
 
-  for m = 1 : nu
-    disp (["Transfer function \"", inputname(1), "\" from input \"", inname{m}, "\" to output ..."]);
-    for p = 1 : ny
-      dispfrac (sys.num{p, m}, sys.den{p, m}, sys.tfvar, outname{p});
+  for nu = 1 : m
+    disp (["Transfer function \"", inputname(1), "\" from input \"", inname{nu}, "\" to output ..."]);
+    for ny = 1 : p
+      __disp_frac__ (sys.num{ny, nu}, sys.den{ny, nu}, sys.tfvar, outname{ny});
     endfor
   endfor
 
@@ -54,7 +55,7 @@ function display (sys)
 endfunction
 
 
-function dispfrac (num, den, tfvar, name)
+function __disp_frac__ (num, den, tfvar, name)
 
   MAX_LEN = 12;  # max length of output name
 
