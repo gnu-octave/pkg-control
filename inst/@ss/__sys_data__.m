@@ -22,12 +22,12 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function data = __sys_data__ (sys)
+function [a, b, c, d, stname] = __sys_data__ (sys)
 
-  data.a = sys.a;
-  data.b = sys.b;
-  data.c = sys.c;
-  data.d = sys.d;
-  data.stname = sys.stname;
+  a = sys.a;
+  b = sys.b;
+  c = sys.c;
+  d = sys.d;
+  stname = sys.stname;
 
 endfunction

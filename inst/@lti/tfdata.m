@@ -31,10 +31,8 @@ function [num, den, tsam] = tfdata (sys, rtype = "vector")
     sys = tf (sys);
   endif
 
-  sysdata = __sys_data__ (sys); 
+  [num, den] = __sys_data__ (sys); 
 
-  num = sysdata.num;
-  den = sysdata.den;
   tsam = sys.tsam;
 
   if (rtype == "vector")

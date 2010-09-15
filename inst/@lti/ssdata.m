@@ -30,12 +30,8 @@ function [a, b, c, d, tsam] = ssdata (sys)
     sys = ss (sys);
   endif
 
-  sysdata = __sys_data__ (sys); 
+  [a, b, c, d] = __sys_data__ (sys); 
 
-  a = sysdata.a;
-  b = sysdata.b;
-  c = sysdata.c;
-  d = sysdata.d;
   tsam = sys.tsam;
 
 endfunction

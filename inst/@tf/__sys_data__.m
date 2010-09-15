@@ -22,10 +22,10 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function data = __sys_data__ (sys)
+function [num, den, tfvar] = __sys_data__ (sys)
 
-  data.num = sys.num;
-  data.den = sys.den;
-  data.tfvar = sys.tfvar;
+  num = sys.num;
+  den = sys.den;
+  tfvar = sys.tfvar;
 
 endfunction
