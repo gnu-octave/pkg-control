@@ -23,7 +23,7 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function [peq1, peq2] = __equalizer__ (p1, p2)
+function [peq1, peq2] = __make_equally_long__ (p1, p2)
 
   lp1 = length (p1.poly);
   lp2 = length (p2.poly);

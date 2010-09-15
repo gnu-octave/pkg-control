@@ -32,12 +32,12 @@ function p = minus (a, b)
     b = tfpoly (b);
   endif
 
-  [a, b] = __equalizer__ (a, b);
+  [a, b] = __make_equally_long__ (a, b);
 
   p = tfpoly ();
 
   p.poly = a.poly - b.poly;
 
-  p = __remleadzer__ (p);
+  p = __remove_leading_zeros__ (p);
 
 endfunction

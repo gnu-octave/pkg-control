@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,19 +16,19 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Remove leading zeros from a polynomial, except for polynomials
-## which are of length 1. For internal use only.
+## Convert a (cell of) row vector(s) to a cell of tfpoly objects.
+## Used by tf and __set__.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
-## Version: 0.1
+## Created: October 2009
+## Version: 0.2
 
-function p = __remleadzer__ (p)
+function ndr = __vec2tfpoly__ (nd)
 
-  idx = find (p.poly != 0);
-
-  if (! isempty (idx) && idx(1) > 1)
-    p.poly = p.poly(idx(1) : end);  # p.poly(idx) would remove all zeros
+  if (! iscell (nd))
+    nd = {nd};
   endif
+
+  ndr = cellfun (@tfpoly, nd, "uniformoutput", false);
 
 endfunction

@@ -79,15 +79,15 @@ function sys = tf (num = {}, den = {}, varargin)
         return;
       elseif (isnumeric (num))  # static gain
         num = num2cell (num);
-        num = __conv2tfpolycell__ (num);
+        num = __vec2tfpoly__ (num);
         [p, m] = size (num);
         den = tfpolyones (p, m);
         tsam = -1;
         tfvar = "x";  # undefined
       elseif (ischar (num))  # s = tf ("s")
         tfvar = num;
-        num = __conv2tfpolycell__ ([1, 0]);
-        den = __conv2tfpolycell__ ([1]);
+        num = __vec2tfpoly__ ([1, 0]);
+        den = __vec2tfpoly__ ([1]);
         tsam = 0;
       else
         print_usage ();
@@ -97,18 +97,18 @@ function sys = tf (num = {}, den = {}, varargin)
       if (ischar (num) && issample (den))  # z = tf ("z", 0.3)
         tfvar = num;
         tsam = den;
-        num = __conv2tfpolycell__ ([1, 0]);
-        den = __conv2tfpolycell__ ([1]);
+        num = __vec2tfpoly__ ([1, 0]);
+        den = __vec2tfpoly__ ([1]);
       else  # sys = tf (num, den)
-        num = __conv2tfpolycell__ (num);
-        den = __conv2tfpolycell__ (den);
+        num = __vec2tfpoly__ (num);
+        den = __vec2tfpoly__ (den);
         tfvar = "s";
         tsam = 0;
       endif
 
     otherwise  # default case
-      num = __conv2tfpolycell__ (num);
-      den = __conv2tfpolycell__ (den);
+      num = __vec2tfpoly__ (num);
+      den = __vec2tfpoly__ (den);
       argc = numel (varargin);
 
       if (issample (varargin{1}, 1))  # sys = tf (num, den, tsam, "prop1, "val1", ...)

@@ -38,7 +38,7 @@ function p = tfpoly (a)
       elseif (isreal (a) && isvector (a))
         p.poly = reshape (a, 1, []);
         p = class (p, "tfpoly");
-        p = __remleadzer__ (p);
+        p = __remove_leading_zeros__ (p);
       else
         error ("tfpoly: argument must be a real vector");
       endif
