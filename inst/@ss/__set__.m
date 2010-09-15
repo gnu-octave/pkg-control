@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,26 +20,34 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case "a"
-      [m, n, p] = __ss_dim__ (val, sys.b, sys.c, sys.d);
+      __ss_dim__ (val, sys.b, sys.c, sys.d);
       sys.a = val;
 
     case "b"
-      [m, n, p] = __ss_dim__ (sys.a, val, sys.c, sys.d);
+      __ss_dim__ (sys.a, val, sys.c, sys.d);
       sys.b = val;
 
     case "c"
-      [m, n, p] = __ss_dim__ (sys.a, sys.b, val, sys.d);
+      __ss_dim__ (sys.a, sys.b, val, sys.d);
       sys.c = val;
 
     case "d"
-      [m, n, p] = __ss_dim__ (sys.a, sys.b, sys.c, val);
+      __ss_dim__ (sys.a, sys.b, sys.c, val);
       sys.d = val;
+
+    case "e"
+      if (isempty (e))
+        sys.e = [];  # avoid [](nx0) or [](0xn)
+      else
+        __ss_dim__ (sys.a, sys.b, sys.c, sys.d, val);
+        sys.e = val;
+      endif
 
     case {"stname", "statename"}
       n = rows (sys.a);

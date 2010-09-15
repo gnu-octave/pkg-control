@@ -51,6 +51,10 @@ function display (sys)
 
   disp ("");
 
+  if (! isempty (sys.e))
+    __disp_mat__ (sys.e, [inputname(1), ".e"], stname, stname);
+  endif
+
   if (! isempty (sys.a))
     __disp_mat__ (sys.a, [inputname(1), ".a"], stname, stname);
     __disp_mat__ (sys.b, [inputname(1), ".b"], stname, inname);

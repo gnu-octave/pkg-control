@@ -58,6 +58,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   superiorto ("zpk", "tf", "double");
 
   argc = 0;
+  e = [];
 
   switch (nargin)
     case 0  # ss ()
@@ -111,6 +112,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   if (isempty (a))  # static system
     tsam = -1;
+    a = [];  # avoid [](nx0) or [](0xn)
   endif
 
   [m, n, p] = __ss_dim__ (a, b, c, d);
@@ -119,6 +121,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   ssdata = struct ("a", a, "b", b,
                    "c", c, "d", d,
+                   "e", e,
                    "stname", {stname});
 
   ltisys = lti (p, m, tsam);

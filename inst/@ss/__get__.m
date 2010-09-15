@@ -37,6 +37,9 @@ function val = __get__ (sys, prop)
     case "d"
       val = sys.d;
 
+    case "e"
+      val = sys.e;
+
     case {"stname", "statename"}
       val = sys.stname;
 

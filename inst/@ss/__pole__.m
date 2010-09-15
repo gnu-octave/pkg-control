@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,10 +20,14 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function pol = __pole__ (sys)
 
-  pol = eig (sys.a);
+  if (isempty (sys.e))
+    pol = eig (sys.a);
+  else
+    pol = eig (sys.a, sys.e);
+  endif
 
 endfunction

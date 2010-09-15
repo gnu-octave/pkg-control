@@ -30,6 +30,7 @@ function [props, vals] = __property_names__ (sys, flg)
            "b";
            "c";
            "d";
+           "e";
            "stname"};
 
   ## cell vector of ss-specific assignable values
@@ -37,6 +38,7 @@ function [props, vals] = __property_names__ (sys, flg)
           "n-by-m matrix (m = number of inputs)";
           "p-by-n matrix (p = number of outputs)";
           "p-by-m matrix";
+          "n-by-n matrix";
           "n-by-1 cell vector of strings"};
 
   if (nargin == 1)

@@ -43,7 +43,7 @@ function retsys = set (sys, varargin)
 
   elseif (nargout == 0)  # set (sys, "prop1", val1, ...)
 
-    warning ("lti: get: use sys = get (sys, ""property1"", ...) to save changes");
+    warning ("lti: set: use sys = get (sys, ""property1"", ...) to save changes");
     warning ("          octave does not support pass by reference");
 
   else  # sys = set (sys, "prop1", val1, ...)

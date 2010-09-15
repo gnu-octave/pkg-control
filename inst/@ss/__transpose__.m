@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
-## Version: 0.1
+## Version: 0.2
 
 function sys = __transpose__ (sys)
 
@@ -28,6 +28,7 @@ function sys = __transpose__ (sys)
   b = sys.b;
   c = sys.c;
   d = sys.d;
+  e = sys.e;
   
   sys.stname = repmat ({""}, rows (a), 1);
 
@@ -35,5 +36,6 @@ function sys = __transpose__ (sys)
   sys.b = c.';
   sys.c = b.';
   sys.d = d.';
+  sys.e = e.';
 
 endfunction

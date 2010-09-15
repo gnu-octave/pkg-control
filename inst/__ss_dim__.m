@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,7 +23,15 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function [m, n, p] = __ss_dim__ (a, b, c, d)
+function [m, n, p] = __ss_dim__ (a, b, c, d, e = [])
+
+  if (! all ([isreal(a), isreal(b), isreal(c), isreal(d), isreal(e)]))
+    error ("ss: system matrices must be real");
+  endif
+
+  if (! all ([ndims(a), ndims(b), ndims(c), ndims(d), ndims(e)] == 2))
+    error ("ss: system matrices must be two-dimensional arrays");
+  endif
 
   [arows, acols] = size (a);
   [brows, bcols] = size (b);
@@ -34,7 +42,7 @@ function [m, n, p] = __ss_dim__ (a, b, c, d)
   n = arows;  # = acols
   p = crows;  # = drows
 
-  if (! issquare (a) && ! isempty (a))
+  if (arows != acols)
     error ("ss: system matrix a(%dx%d) is not square", arows, acols);
   endif
 
@@ -58,8 +66,9 @@ function [m, n, p] = __ss_dim__ (a, b, c, d)
             crows, ccols, drows, dcols);
   endif
 
-  if (! isreal (a) || ! isreal (b) || ! isreal (c) || ! isreal (d))
-    error ("ss: system matrices are not real");
+  if (! isempty (e) && any (size (e) != n))
+    error ("ss: system matrices a(%dx%d) and e(%dx%d) are incompatible",
+            arows, acols, rows (e), columns (e));
   endif
 
 endfunction
