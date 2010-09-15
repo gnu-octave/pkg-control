@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function [a, b, c, d, tsam] = ssdata (sys)
 
@@ -30,7 +30,16 @@ function [a, b, c, d, tsam] = ssdata (sys)
     sys = ss (sys);
   endif
 
-  [a, b, c, d] = __sys_data__ (sys); 
+  [a, b, c, d, e] = __sys_data__ (sys);
+
+  if (! isempty (e))
+    if (rcond (e) < eps)  # check for singularity
+      error ("ss: ssdata: descriptor matrice ""e"" singular");
+    endif
+
+    a = e \ a;
+    b = e \ b;
+  endif
 
   tsam = sys.tsam;
 

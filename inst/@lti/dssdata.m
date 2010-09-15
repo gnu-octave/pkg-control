@@ -32,7 +32,7 @@ function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
     sys = ss (sys);
   endif
 
-  [a, b, c, d] = __sys_data__ (sys);
+  [a, b, c, d, e] = __sys_data__ (sys);
 
   if (isempty (flg))     # dssdata (sys, [])
     e = [];              # don't return eye for ss models

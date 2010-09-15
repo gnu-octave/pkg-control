@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __sys_inverse__ (sys)
 
@@ -28,21 +28,34 @@ function sys = __sys_inverse__ (sys)
   b = sys.b;
   c = sys.c;
   d = sys.d;
+  e = sys.e;
 
-  if (rcond (d) < eps)
-    error ("ss: sys_inverse: inverse is not proper, case not implemented yet");
-  else
+  if (! isempty (e) || rcond (d) < eps)  # dss or strictly proper ss
+
+    n = rows (a);
+    m = columns (b);  # p = m (square system)
+
+    if (isempty (e))  # avoid testing twice?
+      e = eye (n);
+    endif
+
+    sys.a = [a, b; c, d];
+    sys.b = [zeros(n, m); -eye(m)];
+    sys.c = [zeros(m, n), eye(m)];
+    sys.d = zeros (m);
+    sys.e = [e, zeros(n, m); zeros(m, n+m)];
+
+    sys.stname = repmat ({""}, n+m, 1);
+
+  else  # proper ss
+
     di = inv (d);
 
-    f = a - b * di * c;
-    g = b * di;
-    h = -di * c;
-    j = di;
-  endif
+    sys.a = a - b * di * c;
+    sys.b = -b * di;
+    sys.c = di * c;
+    sys.d = di;
 
-  sys.a = f;
-  sys.b = g;
-  sys.c = h;
-  sys.d = j;
+  endif
 
 endfunction

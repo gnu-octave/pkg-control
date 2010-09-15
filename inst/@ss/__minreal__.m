@@ -25,6 +25,10 @@
 
 function retsys = __minreal__ (sys, tol)
 
+  if (! isempty (sys.e))
+    error ("ss: zero: dss models not supported yet");
+  endif
+
   if (tol == "def")
     tol = 0;
   elseif (tol > 1)
