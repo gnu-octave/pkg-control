@@ -131,7 +131,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   endif
 
   if (! isa (sys, "lti"))
-    error ("margin: argument sys must be a LTI system");
+    error ("margin: argument sys must be an LTI system");
   endif
 
   if (! issiso (sys))

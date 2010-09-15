@@ -27,7 +27,7 @@ function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 
 
   ## check arguments
   if(! isa (sys, "lti"))
-    error ("frequency_response: first argument sys must be a LTI system");
+    error ("frequency_response: first argument sys must be an LTI system");
   endif
 
   if (! isempty (w) && ! (isreal (w) && isvector (w)))

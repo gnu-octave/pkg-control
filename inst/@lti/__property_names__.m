@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
-## Return the list of properties as well as the assignable values for a lti object sys.
+## Return the list of properties as well as the assignable values for an LTI object sys.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

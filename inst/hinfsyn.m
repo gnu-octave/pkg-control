@@ -87,7 +87,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   endif
   
   if (! isa (P, "lti"))
-    error ("hinfsyn: first argument must be a LTI system");
+    error ("hinfsyn: first argument must be an LTI system");
   endif
   
   if (! isscalar (nmeas) || ! isnumeric (nmeas) || isempty (nmeas))

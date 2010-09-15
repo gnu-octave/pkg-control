@@ -46,7 +46,7 @@ function W = gram (argin1, argin2)
     argin2 = lower (argin2);
 
     if (! isa (sys, "lti"))
-      error ("gram: first argument must be a LTI model");
+      error ("gram: first argument must be an LTI model");
     endif
 
     [a, b, c] = ssdata (sys);

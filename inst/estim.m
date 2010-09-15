@@ -52,7 +52,7 @@ function est = estim (sys, l, sensors = [], known = [])
   endif
 
   if (! isa (sys, "lti"))
-    error ("estim: first argument must be a LTI system");
+    error ("estim: first argument must be an LTI system");
   endif
 
   [a, b, c, d, tsam] = ssdata (sys);

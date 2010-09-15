@@ -81,7 +81,7 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
   endif
   
   if (! isa (P, "lti"))
-    error ("h2syn: first argument must be a LTI system");
+    error ("h2syn: first argument must be an LTI system");
   endif
   
   if (! isscalar (nmeas) || ! isnumeric (nmeas) || isempty (nmeas))

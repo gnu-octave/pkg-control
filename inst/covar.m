@@ -49,7 +49,7 @@ function [p, q] = covar (sys, w)
   endif
   
   if (! isa (sys, "lti"))
-    error ("covar: first argument must be a lti model");
+    error ("covar: first argument must be an LTI model");
   endif
   
   if (! isstable (sys))

@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} pzmap (@var{sys})
 ## @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
-## Plot the poles and zeros of a LTI system in the complex plane.
+## Plot the poles and zeros of an LTI system in the complex plane.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -35,7 +35,7 @@ function [pol_r, zer_r] = pzmap (sys)
   endif
 
   if (! isa (sys, "lti"))
-    error ("pzmap: argument must be a LTI system");
+    error ("pzmap: argument must be an LTI system");
   endif
 
   pol = pole (sys);

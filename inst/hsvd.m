@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
 ## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{alpha})
-## Hankel singular values of the stable part of a LTI model. If no output arguments are
+## Hankel singular values of the stable part of an LTI model. If no output arguments are
 ## given, the Hankel singular values are displayed in a plot.
 ## Uses SLICOT AB13AD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
@@ -35,7 +35,7 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
   endif
   
   if (! isa (sys, "lti"))
-    error ("hsvd: first argument must be a LTI system");
+    error ("hsvd: first argument must be an LTI system");
   endif
   
   if (! strcmp (tolower (prop(1)), "o"))
