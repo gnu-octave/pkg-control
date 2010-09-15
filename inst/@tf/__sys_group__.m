@@ -24,7 +24,7 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function retsys = __sysgroup__ (sys1, sys2)
+function retsys = __sys_group__ (sys1, sys2)
 
   if (! isa (sys1, "tf"))
     sys1 = tf (sys1);

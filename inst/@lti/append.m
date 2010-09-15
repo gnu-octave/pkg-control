@@ -30,7 +30,7 @@ function sys = append (varargin)
 
   if (nargin > 1)
     for k = 2 : nargin
-      sys = __sysgroup__ (sys, varargin{k});
+      sys = __sys_group__ (sys, varargin{k});
     endfor
   endif
 

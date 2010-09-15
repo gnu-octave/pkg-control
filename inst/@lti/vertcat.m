@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Vertical concatenation of LTI objects. If necessary, object conversion
-## is done by sysgroup. Used by Octave for "[lti1; lti2]".
+## is done by sys_group. Used by Octave for "[lti1; lti2]".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
@@ -38,7 +38,7 @@ function sys = vertcat (sys, varargin)
               p1, m1, p2, m2);
     endif
 
-    sys = __sysgroup__ (sys1, sys2);
+    sys = __sys_group__ (sys1, sys2);
 
     in_scl = [eye(m1); eye(m2)];
 

@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Matrix right division of LTI objects. If necessary, object conversion
-## is done by sysgroup in mtimes. Used by Octave for "lti1 / lti2".
+## is done by sys_group in mtimes. Used by Octave for "lti1 / lti2".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

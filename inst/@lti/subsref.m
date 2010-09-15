@@ -35,7 +35,7 @@ function a = subsref (a, s)
         case "()"
           idx = s(k).subs;
           if (numel (idx) == 2)
-            a = __sysprune__ (a, idx{1}, idx{2});
+            a = __sys_prune__ (a, idx{1}, idx{2});
           elseif (numel (idx) == 1)
             a = __freqresp__ (a, idx{1});  
           else

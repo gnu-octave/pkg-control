@@ -33,7 +33,7 @@ function sys = __minreal__ (sys, tol)
 
   for ny = 1 : p
     for nu = 1 : m
-      sisosys = __sysprune__ (sys, ny, nu);
+      sisosys = __sys_prune__ (sys, ny, nu);
 
       [zer, gain] = zero (sisosys);
       pol = pole (sisosys);

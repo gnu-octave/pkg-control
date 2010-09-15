@@ -79,10 +79,10 @@ function sys = mconnect (sys, M, in_idx, out_idx)
     error ("mconnect: second argument must be a matrix with real coefficients");
   endif
 
-  sys = __sysconnect__ (sys, M);
+  sys = __sys_connect__ (sys, M);
 
   if (nargin == 4)
-    sys = __sysprune__ (sys, out_idx, in_idx);
+    sys = __sys_prune__ (sys, out_idx, in_idx);
   endif
 
 endfunction

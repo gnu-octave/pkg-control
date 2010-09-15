@@ -16,29 +16,33 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} xperm (@var{sys}, @var{st_idx})
-## Reorder states in state-space models.
-## @end deftypefn
+## Inversion of SS models.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: November 2009
+## Created: October 2009
 ## Version: 0.1
 
-function sys = xperm (sys, st_idx)
+function sys = __sys_inverse__ (sys)
 
-  if (nargin != 2)
-    print_usage ();
+  a = sys.a;
+  b = sys.b;
+  c = sys.c;
+  d = sys.d;
+
+  if (rcond (d) < eps)
+    error ("ss: sys_inverse: inverse is not proper, case not implemented yet");
+  else
+    di = inv (d);
+
+    f = a - b * di * c;
+    g = b * di;
+    h = -di * c;
+    j = di;
   endif
 
-  if (! isreal (st_idx) || ! isvector (st_idx))
-    error ("xperm: second argument invalid");
-  endif
-
-  if (! isa (sys, "ss"))
-    warning ("xperm: system not in state-space form");
-    sys = ss (sys);
-  endif
-
-  sys = __sys_prune__ (sys, ":", ":", st_idx);
+  sys.a = f;
+  sys.b = g;
+  sys.c = h;
+  sys.d = j;
 
 endfunction

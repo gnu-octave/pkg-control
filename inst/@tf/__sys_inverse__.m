@@ -22,14 +22,14 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function sys = __sysinv__ (sys)
+function sys = __sys_inverse__ (sys)
 
   [p, m] = size (sys);
 
   ## TODO: inversion of MIMO TF models
 
   if (p != 1 || m != 1)
-    error ("tf: sysinv: MIMO systems not supported yet");
+    error ("tf: sys_inverse: MIMO systems not supported yet");
   endif
 
   den = sys.num;

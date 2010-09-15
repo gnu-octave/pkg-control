@@ -16,33 +16,23 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Inversion of SS models.
+## Submodel extraction and reordering for SS objects.
+## This file is part of the Model Abstraction Layer.
+## For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
+## Created: September 2009
 ## Version: 0.1
 
-function sys = __sysinv__ (sys)
+function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
 
-  a = sys.a;
-  b = sys.b;
-  c = sys.c;
-  d = sys.d;
+  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
 
-  if (rcond (d) < eps)
-    error ("ss: sysinv: inverse is not proper, case not implemented yet");
-  else
-    di = inv (d);
+  sys.a = sys.a(st_idx, st_idx);
+  sys.b = sys.b(st_idx, in_idx);
+  sys.c = sys.c(out_idx, st_idx);
+  sys.d = sys.d(out_idx, in_idx);
 
-    f = a - b * di * c;
-    g = b * di;
-    h = -di * c;
-    j = di;
-  endif
-
-  sys.a = f;
-  sys.b = g;
-  sys.c = h;
-  sys.d = j;
+  sys.stname = sys.stname(st_idx);
 
 endfunction

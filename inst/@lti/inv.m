@@ -30,7 +30,7 @@ function retsys = inv (sys)
     error ("lti: inv: system must be square");
   endif
 
-  retsys = __sysinv__ (sys);
+  retsys = __sys_inverse__ (sys);
 
   ## TODO: handle i/o names
 

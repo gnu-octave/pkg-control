@@ -71,7 +71,7 @@ function sys = sminreal (sys, tol = 0)
 
   st_idx = intersect (co_idx, ob_idx);
 
-  sys = __sysprune__ (sys, ":", ":", st_idx);
+  sys = __sys_prune__ (sys, ":", ":", st_idx);
 
 endfunction
 

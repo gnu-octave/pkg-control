@@ -53,7 +53,7 @@ function sys = connect (sys, cm, in_idx, out_idx)
     endfor
   endfor
 
-  sys = __sysconnect__ (sys, M);
-  sys = __sysprune__ (sys, out_idx, in_idx);
+  sys = __sys_connect__ (sys, M);
+  sys = __sys_prune__ (sys, out_idx, in_idx);
 
 endfunction

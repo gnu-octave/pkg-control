@@ -16,7 +16,7 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{retsys} =} __sysconnect__ (@var{sys}, @var{M})
+## @deftypefn {Function File} {@var{retsys} =} __sys_connect__ (@var{sys}, @var{M})
 ## This function is part of the Model Abstraction Layer. No argument checking.
 ## For internal use only.
 ## @example
@@ -61,7 +61,7 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function sys = __sysconnect__ (sys, M)
+function sys = __sys_connect__ (sys, M)
 
   [p, m] = size (sys);
 
@@ -74,7 +74,7 @@ function sys = __sysconnect__ (sys, M)
   Z = I - D*M;
 
   if (rcond (Z) < eps)  # check for singularity
-    error ("ss: sysconnect: (I - D*M) not invertible");
+    error ("ss: sys_connect: (I - D*M) not invertible");
   endif
 
   Z = inv (Z);

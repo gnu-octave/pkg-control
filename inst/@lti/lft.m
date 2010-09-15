@@ -95,7 +95,7 @@ function sys = lft (sys1, sys2, nu, ny)
     print_usage ();
   endif
 
-  ## object conversion done by sysgroup if necessary
+  ## object conversion done by sys_group if necessary
 
   [p1, m1] = size (sys1);
   [p2, m2] = size (sys2);
@@ -134,9 +134,9 @@ function sys = lft (sys1, sys2, nu, ny)
   in_idx = [1 : (m1-nu), m1 + (ny+1 : m2)];
   out_idx = [1 : (p1-ny), p1 + (nu+1 : p2)];
 
-  sys = __sysgroup__ (sys1, sys2);
-  sys = __sysconnect__ (sys, M);
-  sys = __sysprune__ (sys, out_idx, in_idx);
+  sys = __sys_group__ (sys1, sys2);
+  sys = __sys_connect__ (sys, M);
+  sys = __sys_prune__ (sys, out_idx, in_idx);
 
   [p, m] = size (sys);
 

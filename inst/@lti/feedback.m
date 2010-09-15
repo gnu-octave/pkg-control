@@ -133,9 +133,9 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
   in_idx = 1 : m1;
   out_idx = 1 : p1;
 
-  sys = __sysgroup__ (sys1, sys2);
-  sys = __sysconnect__ (sys, M);
-  sys = __sysprune__ (sys, out_idx, in_idx);
+  sys = __sys_group__ (sys1, sys2);
+  sys = __sys_connect__ (sys, M);
+  sys = __sys_prune__ (sys, out_idx, in_idx);
 
 endfunction
 

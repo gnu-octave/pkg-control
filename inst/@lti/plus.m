@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Binary addition of LTI objects. If necessary, object conversion
-## is done by sysgroup. Used by Octave for "lti1 + lti2".
+## is done by sys_group. Used by Octave for "lti1 + lti2".
 ## Operation is also known as "parallel connection".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -34,7 +34,7 @@ function sys = plus (sys1, sys2)
             p1, m1, p2, m2);
   endif
 
-  sys = __sysgroup__ (sys1, sys2);
+  sys = __sys_group__ (sys1, sys2);
 
   in_scl = [eye(m1); eye(m2)];
   out_scl = [eye(p1), eye(p2)];

@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Matrix multiplication of LTI objects. If necessary, object conversion
-## is done by sysgroup. Used by Octave for "lti1 * lti2".
+## is done by sys_group. Used by Octave for "lti1 * lti2".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
@@ -44,9 +44,9 @@ function sys = mtimes (sys2, sys1)
   out_idx = 1 : p2;
   in_idx = m2 + (1 : m1);
 
-  sys = __sysgroup__ (sys2, sys1);
-  sys = __sysconnect__ (sys, M);
-  sys = __sysprune__ (sys, out_idx, in_idx);
+  sys = __sys_group__ (sys2, sys1);
+  sys = __sys_connect__ (sys, M);
+  sys = __sys_prune__ (sys, out_idx, in_idx);
 
 endfunction
 

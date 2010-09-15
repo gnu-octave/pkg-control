@@ -16,13 +16,13 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Used by ssdata instead of get ().
+## Used by ssdata instead of multiple get calls.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
 ## Version: 0.1
 
-function data = __getsysdata__ (sys)
+function data = __sys_data__ (sys)
 
   data.a = sys.a;
   data.b = sys.b;

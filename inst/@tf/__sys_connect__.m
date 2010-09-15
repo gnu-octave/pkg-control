@@ -16,7 +16,7 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{retsys} =} __sysconnect__ (@var{sys}, @var{M})
+## @deftypefn {Function File} {@var{retsys} =} __sys_connect__ (@var{sys}, @var{M})
 ## This function is part of the Model Abstraction Layer. No argument checking.
 ## For internal use only.
 ## @example
@@ -37,7 +37,7 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function sys = __sysconnect__ (sys, M)
+function sys = __sys_connect__ (sys, M)
 
   [p, m] = size (sys);
 
@@ -92,7 +92,7 @@ function sys = __sysconnect__ (sys, M)
     sys.den(1,3) = den{1,1} * den{1,2};
 
   else
-    error ("tf: sysconnect: MIMO systems not supported yet");
+    error ("tf: sys_connect: MIMO systems not supported yet");
 
   endif
 

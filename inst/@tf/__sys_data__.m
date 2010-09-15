@@ -16,19 +16,16 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Submodel extraction and reordering for TF objects.
-## This file is part of the Model Abstraction Layer.
-## For internal use only.
+## Used by tfdata instead of multiple get calls.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.1
 
-function sys = __sysprune__ (sys, out_idx, in_idx)
+function data = __sys_data__ (sys)
 
-  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
-
-  sys.num = sys.num(out_idx, in_idx);
-  sys.den = sys.den(out_idx, in_idx);
+  data.num = sys.num;
+  data.den = sys.den;
+  data.tfvar = sys.tfvar;
 
 endfunction
