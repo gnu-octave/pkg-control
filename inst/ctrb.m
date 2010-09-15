@@ -1,5 +1,5 @@
-## Copyright (C) 1997, 2000, 2002, 2004, 2005, 2006, 2007 Kai P. Mueller
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
+## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,35 +22,32 @@
 ## Controllability matrix.
 ## @end deftypefn
 
-## Author: Kai P. Mueller <mueller@ifr.ing.tu-bs.de>
-## Created: November 4, 1997
-## based on is_controllable.m of Scottedward Hodel
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2009
+## Version: 0.2
 
 function co = ctrb (a, b)
 
-  if (nargin == 1)  # ctrb (sys)
+  if (nargin == 1)       # ctrb (sys)
     if (! isa (a, "lti"))
       error ("ctrb: argument must be an lti system");
     endif
     [a, b] = ssdata (a);
-  elseif (nargin == 2)  # ctrb (a, b)
-    if (! isnumeric (a) || ! isnumeric (b) ||
-        rows (a) != rows (b) || ! issquare (a))
+  elseif (nargin == 2)   # ctrb (a, b)
+    if (! isreal (a) || ! isreal (b)
+        || rows (a) != rows (b) || ! issquare (a))
       error ("ctrb: invalid arguments (a, b)");
     endif
   else
     print_usage ();
   endif
 
-  [arows, acols] = size (a);
-  [brows, bcols] = size (b);
+  n = rows (a);          # number of states
+  k = num2cell (0:n-1);  # exponents for a
 
-  co = zeros (arows, acols*bcols);
+  tmp = cellfun (@(x) a^x*b, k, "uniformoutput", false);
 
-  for k = 1 : arows
-    co(:, ((k-1)*bcols + 1) : (k*bcols)) = b;
-    b = a * b;
-  endfor
+  co = horzcat (tmp{:});
 
 endfunction
 

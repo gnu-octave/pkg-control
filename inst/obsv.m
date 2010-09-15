@@ -1,5 +1,4 @@
-## Copyright (C) 1997, 2000, 2002, 2004, 2005, 2006, 2007 Kai P. Mueller
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ## This file is part of LTI Syncope.
@@ -23,26 +22,19 @@
 ## Observability matrix.
 ## @end deftypefn
 
-## Author: Kai P. Mueller <mueller@ifr.ing.tu-bs.de>
-## Created: November 4, 1997
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2009
+## Version: 0.2
 
 function ob = obsv (a, c)
 
-  if (nargin == 1)  # obsv (sys)
-    if (! isa (a, "lti"))
-      error ("obsv: argument must be an lti system");
-    endif
-    [a, b, c] = ssdata (a);
-  elseif (nargin == 2)  # obsv (a, c)
-    if (! isnumeric (a) || ! isnumeric (c) ||
-        columns (a) != columns (c) || ! issquare (a))
-      error ("obsv: invalid arguments (a, c)");
-    endif
+  if (nargin == 1)           # obsv (sys)
+    ob = ctrb (a.').';       # transpose is overloaded for lti models
+  elseif (nargin == 2)       # obsv (a, c)
+    ob = ctrb (a.', c.').';  # size checked inside
   else
     print_usage ();
   endif
-
-  ob = ctrb (a.', c.').';
 
 endfunction
 
