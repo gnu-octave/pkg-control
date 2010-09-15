@@ -51,23 +51,22 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2.1
+## Version: 0.3
 
 function [bool, u] = isobsv (a, c = [], tol = [])
 
-  if (nargin < 1 || nargin > 3)
+  if (nargin == 0)
     print_usage ();
-  elseif (isa (a, "lti"))  # isobsv (sys), isobsv (sys, tol)
+  elseif (isa (a, "lti"))         # isobsv (sys), isobsv (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
-    tol = c;
-    [a, b, c] = ssdata (a);
-  elseif (nargin < 2)  # isobsv (a, c), isobsv (a, c, tol)
+    [bool, u] = isctrb (a.', c);  # transpose is overloaded
+  elseif (nargin < 2 || nargin > 3)
     print_usage ();
+  else                            # isobsv (a, c), isobsv (a, c, tol)
+    [bool, u] = isctrb (a.', c.', tol);
   endif
-
-  [bool, u] = isctrb (a.', c.', tol);
 
 endfunction
 

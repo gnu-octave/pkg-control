@@ -56,24 +56,22 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2.1
+## Version: 0.3
 
 function bool = isdetectable (a, c = [], tol = [], dflg = 0)
 
-  if (nargin < 1 || nargin > 4)
+  if (nargin == 0)
     print_usage ();
   elseif (isa (a, "lti"))  # isdetectable (sys), isdetectable (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
-    tol = c;
-    dflg = ! isct (a);
-    [a, b, c] = ssdata (a);
-  elseif (nargin == 1)  # isdetectable (a, c, ...)
+    bool = isstabilizable (a.', c);  # transpose is overloaded
+  elseif (nargin < 2 || nargin > 4)
     print_usage ();
+  else  # isdetectable (a, c, ...)
+    bool = isstabilizable (a.', c.', tol, dflg);  # arguments checked inside
   endif
-
-  bool = isstabilizable (a.', c.', tol, dflg);  # arguments checked inside
 
 endfunction
 
