@@ -37,7 +37,7 @@ function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
   if (isempty (flg))     # dssdata (sys, [])
     e = [];              # don't return eye for ss models
   else                   # dssdata (sys)
-    e = eye (size (a));  # descriptor model
+    e = eye (size (a));  # return eye for ss models
   endif
 
   tsam = sys.tsam;

@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,13 +20,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function H = __freqresp__ (sys, w, resptype = 0)
 
   [p, m] = size (sys);
-  [A, B, C, D, Ts] = ssdata (sys);
-  I = eye (size (A));
+  [A, B, C, D, E, Ts] = dssdata (sys);
+
   J = eye (m);
 
   if (resptype != 0 && m != p)
@@ -45,22 +45,22 @@ function H = __freqresp__ (sys, w, resptype = 0)
   switch (resptype)
     case 0  # default system
       for k = 1 : l_s
-        H(:, :, k) = C * inv (s(k)*I - A) * B  +  D;
+        H(:, :, k) = C * inv (s(k)*E - A) * B  +  D;
       endfor
 
     case 1  # inversed system
       for k = 1 : l_s
-        H(:, :, k) = inv (C * inv (s(k)*I - A) * B  +  D);
+        H(:, :, k) = inv (C * inv (s(k)*E - A) * B  +  D);
       endfor
 
     case 2  # inversed sensitivity
       for k = 1 : l_s
-        H(:, :, k) = J  +  C * inv (s(k)*I - A) * B  +  D;
+        H(:, :, k) = J  +  C * inv (s(k)*E - A) * B  +  D;
       endfor
 
     case 3  # inversed complementary sensitivity
       for k = 1 : l_s
-        H(:, :, k) = J  +  inv (C * inv (s(k)*I - A) * B  +  D);
+        H(:, :, k) = J  +  inv (C * inv (s(k)*E - A) * B  +  D);
       endfor
 
     otherwise
