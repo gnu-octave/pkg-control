@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,35 +16,42 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
-## DC gain of LTI model.
+## @deftypefn{Function File} {@var{H} =} freqresp (@var{sys}, @var{w})
+## Evaluate frequency response at given frequencies.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
 ## LTI system.
+## @item w
+## Vector of frequency values.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item k
-## DC gain matrice. For a system with m inputs and p outputs, the array @var{k}
-## has dimensions [p, m].
+## @item H
+## Array of frequency response. For a system with m inputs and p outputs, the array @var{H}
+## has dimensions [p, m, length (w)].
+## The frequency response at the frequency w(k) is given by H(:,:,k).
 ## @end table
 ##
-## @seealso{freqresp}
+## @seealso{dcgain}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function gain = dcgain (sys)
+function H = freqresp (sys, w)
 
-  if (nargin != 1)
+  if (nargin != 2)  # case freqresp () not possible
     print_usage ();
   endif
 
-  gain = __freqresp__ (sys, 0);
+  if (! isreal (w) || ! isvector (w))  # catches freqresp (sys, sys) and freqresp (w, sys) as well
+    error ("freqresp: second argument must be a real vector");
+  endif
+
+  H = __freqresp__ (sys, w);
 
 endfunction

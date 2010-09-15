@@ -26,7 +26,7 @@ System Interconnections
   @lti/series
   strseq
 System Gain and Dynamics
-  dcgain
+  @lti/dcgain
   @lti/norm
   @lti/pole
   pzmap
@@ -41,7 +41,7 @@ Time Domain Analysis
 Frequency Domain Analysis
   bode
   bodemag
-  freqresp
+  @lti/freqresp
   margin
   nichols
   nyquist
