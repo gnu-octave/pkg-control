@@ -48,7 +48,7 @@ function H = freqresp (sys, w)
     print_usage ();
   endif
 
-  if (! isreal (w) || ! isvector (w))  # catches freqresp (sys, sys) and freqresp (w, sys) as well
+  if (! is_real_vector (w))  # catches freqresp (sys, sys) and freqresp (w, sys) as well
     error ("freqresp: second argument must be a real vector");
   endif
 

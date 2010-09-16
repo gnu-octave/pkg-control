@@ -34,7 +34,7 @@ function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
     print_usage ();
   endif
 
-  if (isnumeric (ntype) && isscalar (ntype))
+  if (is_real_scalar (ntype))
     if (ntype == 2)
       ntype = "2";
     elseif (isinf (ntype))

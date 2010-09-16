@@ -81,27 +81,19 @@ function [x, l, g] = care (a, b, q, r, s = [])
     print_usage ();
   endif
 
-  if (! isreal (a) || ! issquare (a))
-    error ("care: a must be real and square");
+  if (! is_real_square_matrix (a, q, r))
+    error ("care: a, q, r must be real and square");
   endif
   
-  if (! isreal (b) || rows (a) != rows (b))
+  if (! is_real_matrix (b) || rows (a) != rows (b))
     error ("care: b must be real and conformal to a");
-  endif
-
-  if (! isreal (q) || ! issquare (q))
-    error ("care: q must be real and square");
-  endif
-
-  if (! isreal (r) || ! issquare (r))
-    error ("care: r must be real and square");
   endif
   
   if (columns (r) != columns (b))
     error ("care: (b, r) not conformable");
   endif
 
-  if (! isempty (s) && (! isreal (s) || any (size (s) != size (b))))
+  if (! isempty (s) && (! is_real_matrix (s) || ! size_equal (s, b)))
     error ("care: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
             rows (s), columns (s), rows (b), columns (b));
   endif

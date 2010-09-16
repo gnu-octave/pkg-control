@@ -47,16 +47,12 @@ function [x, scale] = lyap (a, b, c, e)
   switch (nargin)
     case 2  # Lyapunov equation
   
-      if (! isreal (a) || ! issquare (a) || isempty (a))
-        error ("lyap: a must be real and square");
-      endif
-
-      if (! isreal (b) || ! issquare (b) || isempty (b))
-        error ("lyap: b must be real and square")
+      if (! is_real_square_matrix (a, b))
+        error ("lyap: a, b must be real and square");
       endif
   
       if (rows (a) != rows (b))
-        error ("lyap: a and b must have the same number of rows");
+        error ("lyap: a, b must have the same number of rows");
       endif
 
       [x, scale] = slsb03md (a, -b, false);  # AX + XA' = -B
@@ -65,15 +61,11 @@ function [x, scale] = lyap (a, b, c, e)
     
     case 3  # Sylvester equation
     
-      if (! isreal (a) || isempty (a) || ! issquare (a))
-        error ("lyap: a must be real and square");
+      if (! is_real_square_matrix (a, b))
+        error ("lyap: a, b must be real and square");
       endif
 
-      if (! isreal (b) || isempty (b) || ! issquare (b))
-        error ("lyap: b must be real and square");
-      endif
-
-      if (! isreal (c) || isempty (c) || rows (c) != rows (a) || columns (c) != columns (b))
+      if (! is_real_matrix (c) || rows (c) != rows (a) || columns (c) != columns (b))
         error ("lyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
       endif
 
@@ -85,20 +77,12 @@ function [x, scale] = lyap (a, b, c, e)
         print_usage ();
       endif
       
-      if (! isreal (a) || isempty (a) || ! issquare (a))
-        error ("lyap: a must be real and square");
-      endif
-      
-      if (! isreal (b) || isempty (b) || ! issquare (b))
-        error ("lyap: b must be real and square");
-      endif
-      
-      if (! isreal (e) || isempty (e) || ! issquare (e))
-        error ("lyap: e must be real and square");
+      if (! is_real_square_matrix (a, b, e))
+        error ("lyap: a, b, e must be real and square");
       endif
       
       if (rows (b) != rows (a) || rows (e) != rows (a))
-        error ("lyap: a, b, e not conformal");
+        error ("lyap: a, b, e must have the same number of rows");
       endif
       
       if (! issymmetric (b))

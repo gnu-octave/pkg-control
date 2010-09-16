@@ -35,7 +35,7 @@ function p = tfpoly (a)
       if (isa (a, "tfpoly"))
         p = a;
         return;
-      elseif (isreal (a) && isvector (a))
+      elseif (is_real_vector (a))
         p.poly = reshape (a, 1, []);
         p = class (p, "tfpoly");
         p = __remove_leading_zeros__ (p);

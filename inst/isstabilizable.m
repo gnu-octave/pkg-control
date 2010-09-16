@@ -85,10 +85,10 @@ function bool = isstabilizable (a, b = [], tol = [], dflg = 0)
     error ("isstabilizable: a must be square and conformal to b")
   endif
 
-  if (! isreal (tol) && ! isscalar (tol))
-    error ("isstabilizable: tol must be a real scalar");
-  elseif (isempty (tol))
+  if (isempty (tol))
     tol = 0;  # default tolerance
+  elseif (! is_real_scalar (tol))
+    error ("isstabilizable: tol must be a real scalar");
   endif
 
   ## controllability staircase form

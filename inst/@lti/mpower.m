@@ -25,7 +25,7 @@
 
 function retsys = mpower (sys, e)
 
-  if (! isnumeric (e) || ! isscalar (e) || ! isreal (e) || e != round (e))
+  if (! is_real_scalar (e) || e != round (e))
     error ("lti: mpower: exponent must be an integer");
   endif
 

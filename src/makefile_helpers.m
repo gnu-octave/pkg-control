@@ -10,8 +10,12 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_helpers"));
 cd (srcdir);
 
-mkoctfile is_ss_mat.cc
-
 mkoctfile is_real_scalar.cc
+
+mkoctfile is_real_vector.cc
+
+mkoctfile is_real_matrix.cc
+
+mkoctfile is_real_square_matrix.cc
 
 cd (homedir);

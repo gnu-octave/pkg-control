@@ -30,7 +30,7 @@ function sys = xperm (sys, st_idx)
     print_usage ();
   endif
 
-  if (! isreal (st_idx) || ! isvector (st_idx))
+  if (! is_real_vector (st_idx))
     error ("xperm: second argument invalid");
   endif
 

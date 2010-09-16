@@ -34,8 +34,7 @@ function co = ctrb (a, b)
     endif
     [a, b] = ssdata (a);
   elseif (nargin == 2)   # ctrb (a, b)
-    if (! isreal (a) || ! isreal (b)
-        || rows (a) != rows (b) || ! issquare (a))
+    if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
       error ("ctrb: invalid arguments (a, b)");
     endif
   else

@@ -36,9 +36,9 @@ function bool = issample (tsam, flg = 0)
   endif
 
   if (flg == 0)  # refuse -1 and 0
-    bool = (isreal (tsam) && isscalar (tsam) && (tsam > 0));       
+    bool = is_real_scalar (tsam) && (tsam > 0);       
   else  # allow -1 and 0
-    bool = (isreal (tsam) && isscalar (tsam) && (tsam >= 0 || tsam == -1));
+    bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1);
   endif
 
 endfunction

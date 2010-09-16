@@ -31,7 +31,7 @@ function sys = minreal (sys, tol = "def")
     print_usage ();
   endif
 
-  if (isa (tol, "lti") || (tol != "def" && ! isreal (tol) && ! isscalar (tol)))
+  if (! is_real_scalar (tol) && tol != "def")
     error ("minreal: second argument must be a real scalar");
   endif
 

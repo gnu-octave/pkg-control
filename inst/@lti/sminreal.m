@@ -56,7 +56,7 @@ function sys = sminreal (sys, tol = 0)
     sys = ss (sys);
   endif
 
-  if (! (isreal (tol) && isscalar (tol) && (tol >= 0)))
+  if (! (is_real_scalar (tol) && (tol >= 0)))
     error ("sminreal: second argument is not a valid tolerance");
   endif
 

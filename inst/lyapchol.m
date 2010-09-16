@@ -42,12 +42,12 @@ function [u, scale] = lyapchol (a, b, e)
   switch (nargin)
     case 2
       
-      if (! isreal (a) || isempty (a) || ! issquare (a))
+      if (! is_real_square_matrix (a))
         error ("lyapchol: a must be real and square");
       endif
 
-      if (! isreal (b) || isempty (b))
-        error ("lyapchol: b must be real and square")
+      if (! is_real_matrix (b))
+        error ("lyapchol: b must be real")
       endif
   
       if (rows (a) != rows (b))
@@ -60,20 +60,16 @@ function [u, scale] = lyapchol (a, b, e)
 
     case 3
 
-      if (! isreal (a) || isempty (a) || ! issquare (a))
-        error ("lyapchol: a must be real and square");
-      endif
-      
-      if (! isreal (e) || isempty (e) || ! issquare (e))
-        error ("lyapchol: e must be real and square");
+      if (! is_real_square_matrix (a, e))
+        error ("lyapchol: a, e must be real and square");
       endif
 
-      if (! isreal (b) || isempty (b))
+      if (! is_real_matrix (b))
         error ("lyapchol: b must be real");
       endif
 
       if (rows (b) != rows (a) || rows (e) != rows (a))
-        error ("lyapchol: a, b, e not conformal");
+        error ("lyapchol: a, b, e must have the same number of rows");
       endif
 
       [u, scale] = slsg03bd (a.', e.', b.', false);

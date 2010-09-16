@@ -25,12 +25,10 @@
 
 function [m, n, p] = __ss_dim__ (a, b, c, d, e = [])
 
-  if (! all ([isreal(a), isreal(b), isreal(c), isreal(d), isreal(e)]))
-    error ("ss: system matrices must be real");
-  endif
+  ## TODO: create oct-file?
 
-  if (! all ([ndims(a), ndims(b), ndims(c), ndims(d), ndims(e)] == 2))
-    error ("ss: system matrices must be two-dimensional arrays");
+  if (! is_real_matrix (a, b, c, d, e))
+    error ("ss: system matrices must be real");
   endif
 
   [arows, acols] = size (a);

@@ -13,6 +13,7 @@ cd (srcdir);
 makefile_chol
 makefile_h2syn
 makefile_hankel
+makefile_helpers
 makefile_hinfsyn
 makefile_lqr
 makefile_lyap

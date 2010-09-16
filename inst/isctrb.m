@@ -65,15 +65,15 @@ function [bool, u] = isctrb (a, b = [], tol = [])
     [a, b] = ssdata (a);
   elseif (nargin < 2)  # isctrb (a, b), isctrb (a, b, tol)
     print_usage ();
-  elseif (isempty (a) || isempty (b) || rows (a) != rows (b) || ! issquare (a))
+  elseif (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
     error ("isctrb: a(%dx%d), b(%dx%d) not conformal",
             rows (a), columns (a), rows (b), columns (b));
   endif
 
-  if (! isreal (tol) && ! isscalar (tol))
-    error ("isctrb: tol must be a real scalar");
-  elseif (isempty (tol))
+  if (isempty (tol))
     tol = 0;  # default tolerance
+  elseif (! is_real_scalar (tol))
+    error ("isctrb: tol must be a real scalar");
   endif
 
   [ac, bc, u, ncont] = slab01od (a, b, tol);

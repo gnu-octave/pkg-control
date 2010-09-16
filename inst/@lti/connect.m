@@ -36,7 +36,7 @@ function sys = connect (sys, cm, in_idx, out_idx)
   ## TODO: proper argument checking
   ## TODO: name-based interconnections
 
-  if (! isreal (cm))
+  if (! is_real_matrix (cm))
     error ("connect: second argument must be a matrix with real coefficients");
   endif
 

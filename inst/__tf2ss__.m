@@ -66,9 +66,9 @@ function [a, b, c, d] = __tf2ss__ (num, den)
     error ("tf2ss: empty numerator");
   elseif (isempty (den))
     error ("tf2ss: empy denominator");
-  elseif (! isvector (num))
+  elseif (! is_real_vector (num))
     error ("num(%dx%d) must be a vector", rows (num), columns (num));
-  elseif (! isvector (den))
+  elseif (! is_real_vector (den))
     error ("den(%dx%d) must be a vector", rows (den), columns (den));
   endif
 

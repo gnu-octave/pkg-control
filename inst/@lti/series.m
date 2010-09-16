@@ -59,11 +59,11 @@ function sys = series (sys1, sys2, out1, in2)
     [p1, m1] = size (sys1);
     [p2, m2] = size (sys2);
 
-    if (! isvector (out1))
+    if (! is_real_vector (out1))
       error ("series: argument 3 (outputs1) invalid");
     endif
 
-    if (! isvector (in2))
+    if (! is_real_vector (in2))
       error ("series: argument 4 (inputs2) invalid");
     endif
 

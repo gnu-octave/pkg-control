@@ -2,7 +2,8 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
      slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
      sltb01pd.oct slsb03od.oct slsg03bd.oct \
-     is_ss_mat.oct is_real_scalar.oct
+     is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
+     is_real_square_matrix.oct
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc
@@ -133,11 +134,17 @@ slsg03bd.oct: slsg03bd.cc
               SG03BY.f MB02UU.f MB02UV.f
 
 # helpers
-is_ss_mat.oct: is_ss_mat.cc
-	mkoctfile is_ss_mat.cc
-
 is_real_scalar.oct: is_real_scalar.cc
 	mkoctfile is_real_scalar.cc
+
+is_real_vector.oct: is_real_vector.cc
+	mkoctfile is_real_vector.cc
+
+is_real_matrix.oct: is_real_matrix.cc
+	mkoctfile is_real_matrix.cc
+
+is_real_square_matrix.oct: is_real_square_matrix.cc
+	mkoctfile is_real_square_matrix.cc
 
 clean:
 	rm *.o core octave-core *.oct *~

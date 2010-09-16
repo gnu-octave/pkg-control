@@ -28,7 +28,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
     sys = ss (sys);  # sys must be proper
   endif
 
-  if (! isempty (tfinal) && ! isscalar (tfinal))  # time vector t passed
+  if (! isempty (tfinal) && ! is_real_scalar (tfinal))  # time vector t passed
     dt = tfinal(2) - tfinal(1);  # assume that t is regularly spaced
     tfinal = tfinal(end);
   endif
