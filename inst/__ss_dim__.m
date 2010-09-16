@@ -66,7 +66,7 @@ function [m, n, p] = __ss_dim__ (a, b, c, d, e = [])
             crows, ccols, drows, dcols);
   endif
 
-  if (! isempty (e) && any (size (e) != n))
+  if (! isempty (e) && ! size_equal (e, a))
     error ("ss: system matrices a(%dx%d) and e(%dx%d) are incompatible",
             arows, acols, rows (e), columns (e));
   endif

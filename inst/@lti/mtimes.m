@@ -51,3 +51,20 @@ function sys = mtimes (sys2, sys1)
 endfunction
 
 
+## Alternative code: consistency vs. compatibility
+#{
+  M11 = zeros (m1, p1);
+  M12 = zeros (m1, p2);
+  M21 = eye (m2, p1);
+  M22 = zeros (m2, p2);
+  
+
+  M = [M11, M12;
+       M21, M22];
+
+  out_idx = p1 + (1 : p2);
+  in_idx = 1 : m1;
+
+  sys = __sys_group__ (sys1, sys2);
+#}
+## Don't forget to adapt @tf/__sys_connect__.m draft code
