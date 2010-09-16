@@ -26,7 +26,13 @@
 
 function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
 
-  ## NOTE: this function is just a stub for development use
+  ## NOTE: In case sys is not a dss model (matrice e empty),
+  ##       dssdata (sys, []) returns e = [] whereas
+  ##       dssdata (sys) returns e = eye (size (a))
+
+  if (nargin > 2)
+    print_usage ();
+  endif
 
   if (! isa (sys, "ss"))
     sys = ss (sys);
@@ -34,9 +40,7 @@ function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
 
   [a, b, c, d, e] = __sys_data__ (sys);
 
-  if (isempty (flg))     # dssdata (sys, [])
-    e = [];              # don't return eye for ss models
-  else                   # dssdata (sys)
+  if (isempty (e) && ! isempty (flg))
     e = eye (size (a));  # return eye for ss models
   endif
 
