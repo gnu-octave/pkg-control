@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,23 +22,23 @@
 ## @example
 ## @group
 ## Problem: Solve the system equations of
-## .
-## x(t) = A x(t) + B e(t)
+##   .
+## E x(t) = A x(t) + B e(t)
 ##
-## y(t) = C x(t) + D e(t)
+##   y(t) = C x(t) + D e(t)
 ##
-## e(t) = u(t) + M y(t)
+##   e(t) = u(t) + M y(t)
 ##
 ## in order to build
-## .
-## x(t) = F x(t) + G u(t)
+##   .
+## K x(t) = F x(t) + G u(t)
 ##
-## y(t) = H x(t) + J u(t)
+##   y(t) = H x(t) + J u(t)
 ##
 ## Solution: Laplace Transformation
-## s X(s) = A X(s) + B U(s) + B M Y(s)                       [1]
+## E s X(s) = A X(s) + B U(s) + B M Y(s)                     [1]
 ##
-## Y(s) = C X(s) + D U(s) + D M Y(s)                         [2]
+##     Y(s) = C X(s) + D U(s) + D M Y(s)                     [2]
 ##
 ## solve [2] for Y(s)
 ## Y(s) = [I - D M]^(-1) C X(s)  +  [I - D M]^(-1) D U(s)
@@ -47,41 +47,40 @@
 ## Y(s) = Z C X(s) + Z D U(s)                                [3]
 ##
 ## insert [3] in [1], solve for X(s)
-## X(s) = [s I - (A + B M Z C)]^(-1) (B + B M Z D) U(s)      [4]
+## X(s) = [s E - (A + B M Z C)]^(-1) (B + B M Z D) U(s)      [4]
 ##
 ## inserting [4] in [3] finally yields
-## Y(s) = Z C [s I - (A + B M Z C)]^(-1) (B + B M Z D) U(s)  +  Z D U(s)
-##        \ /        \_____ _____/       \_____ _____/          \ /
-##         H               F                   G                 J
+## Y(s) = Z C [s E - (A + B M Z C)]^(-1) (B + B M Z D) U(s)  +  Z D U(s)
+##        \ /    |   \_____ _____/       \_____ _____/          \ /
+##         H     K         F                   G                 J
 ## @end group
 ## @end example
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = __sys_connect__ (sys, M)
+function sys = __sys_connect__ (sys, m)
 
-  [p, m] = size (sys);
+  a = sys.a;
+  b = sys.b;
+  c = sys.c;
+  d = sys.d;
 
-  A = sys.a;
-  B = sys.b;
-  C = sys.c;
-  D = sys.d;
+  z = eye (rows (d)) - d*m;
 
-  I = eye (p);
-  Z = I - D*M;
-
-  if (rcond (Z) < eps)  # check for singularity
-    error ("ss: sys_connect: (I - D*M) not invertible");
+  if (rcond (z) < eps)  # check for singularity
+    error ("ss: sys_connect: (I - D*M) singular");
   endif
 
-  Z = inv (Z);
+  z = inv (z);
 
-  sys.a = A + B*M*Z*C;  # F
-  sys.b = B + B*M*Z*D;  # G
-  sys.c = Z*C;          # H
-  sys.d = Z*D;          # J
+  sys.a = a + b*m*z*c;  # F
+  sys.b = b + b*m*z*d;  # G
+  sys.c = z*c;          # H
+  sys.d = z*d;          # J
+
+  ## sys.e remains constant: [] for ss models, e for dss models
 
 endfunction

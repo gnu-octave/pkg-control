@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
 
@@ -32,6 +32,10 @@ function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
   sys.b = sys.b(st_idx, in_idx);
   sys.c = sys.c(out_idx, st_idx);
   sys.d = sys.d(out_idx, in_idx);
+
+  if (! isempty (sys.e))
+    sys.e = sys.e(st_idx, st_idx);
+  endif
 
   sys.stname = sys.stname(st_idx);
 

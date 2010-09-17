@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function retsys = __sys_group__ (sys1, sys2)
 
@@ -38,39 +38,33 @@ function retsys = __sys_group__ (sys1, sys2)
 
   retsys.lti = __lti_group__ (sys1.lti, sys2.lti);
 
-  A1 = sys1.a;
-  B1 = sys1.b;
-  C1 = sys1.c;
-  D1 = sys1.d;
-  A2 = sys2.a;
-  B2 = sys2.b;
-  C2 = sys2.c;
-  D2 = sys2.d;
+  n1 = rows (sys1.a);
+  n2 = rows (sys2.a);
 
-  [m1, n1, p1] = __ss_dim__ (A1, B1, C1, D1);
-  [m2, n2, p2] = __ss_dim__ (A2, B2, C2, D2);
+  [p1, m1] = size (sys1.d);
+  [p2, m2] = size (sys2.d);
 
-  A12 = zeros (n1, n2);
-  B12 = zeros (n1, m2);
-  B21 = zeros (n2, m1);
-  C12 = zeros (p1, n2);
-  C21 = zeros (p2, n1);
-  D12 = zeros (p1, m2);
-  D21 = zeros (p2, m1);
+  retsys.a = [sys1.a, zeros(n1,n2); zeros(n2,n1), sys2.a];
 
-  retsys.a = [A1   , A12;
-              A12.', A2 ];
+  retsys.b = [sys1.b, zeros(n1,m2); zeros(n2,m1), sys2.b];
 
-  retsys.b = [B1 , B12;
-              B21, B2 ];
+  retsys.c = [sys1.c, zeros(p1,n2); zeros(p2,n1), sys2.c];
 
-  retsys.c = [C1 , C12;
-              C21, C2 ];
+  retsys.d = [sys1.d, zeros(p1,m2); zeros(p2,m1), sys2.d];
 
-  retsys.d = [D1 , D12;
-              D21, D2 ];
+  e1 = ! isempty (sys1.e);
+  e2 = ! isempty (sys2.e);
 
-  retsys.stname = [sys1.stname;
-                   sys2.stname];
+  if (e1 || e2)
+    if (e1 && e2)
+      retsys.e = [sys1.e, zeros(n1,n2); zeros(n2,n1), sys2.e];
+    elseif (e1)
+      retsys.e = [sys1.e, zeros(n1,n2); zeros(n2,n1), eye(n2)];
+    else
+      retsys.e = [eye(n1), zeros(n1,n2); zeros(n2,n1), sys2.e];
+    endif
+  endif
+
+  retsys.stname = [sys1.stname; sys2.stname];
 
 endfunction
