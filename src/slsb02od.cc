@@ -58,7 +58,11 @@ extern "C"
                   int& INFO);
 }
 
-DEFUN_DLD (slsb02od, args, nargout, "Slicot SB02OD Release 5.0")
+DEFUN_DLD (slsb02od, args, nargout,
+   "-*- texinfo -*-\n\
+Slicot SB02OD Release 5.0\n\
+No argument checking.\n\
+For internal use only.")
 {
     int nargin = args.length ();
     octave_value_list retval;
