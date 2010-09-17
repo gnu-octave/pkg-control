@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009 - 2010   Lukas F. Reichlin
+Copyright (C) 2010   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -17,13 +17,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Transmission zeros of state-space models.
-Uses SLICOT AB08ND by courtesy of NICONET e.V.
+Transmission zeros of descriptor state-space models.
+Uses SLICOT AG08BD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-Created: November 2009
-Version: 0.4
+Created: September 2010
+Version: 0.1
 
 */
 
@@ -35,18 +35,18 @@ Version: 0.4
 
 extern "C"
 { 
-    int F77_FUNC (ab08nd, AB08ND)
+    int F77_FUNC (ag08bd, AG08BD)
                  (char& EQUIL,
-                  int& N, int& M, int& P,
+                  int& L, int& N, int& M, int& P,
                   double* A, int& LDA,
+                  double* E, int& LDE,
                   double* B, int& LDB,
                   double* C, int& LDC,
                   double* D, int& LDD,
-                  int& NU, int& RANK, int& DINFZ,
-                  int& NKROR, int& NKROL, int* INFZ,
-                  int* KRONR, int* KRONL,
-                  double* AF, int& LDAF,
-                  double* BF, int& LDBF,
+                  int& NFZ, int& NRANK, int& NIZ, int& DINFZ,
+                  int& NKROR, int& NINFE, int& NKROL,
+                  int* INFZ,
+                  int* KRONR, int* INFE, int* KRONL,
                   double& TOL,
                   int* IWORK, double* DWORK, int& LDWORK,
                   int& INFO);
@@ -64,16 +64,16 @@ extern "C"
                   int& INFO);
 }
   
-DEFUN_DLD (slab08nd, args, nargout,
+DEFUN_DLD (slag08bd, args, nargout,
    "-*- texinfo -*-\n\
-Slicot AB08ND Release 5.0\n\
+Slicot AG08BD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 4)
+    if (nargin != 5)
     {
         print_usage ();
     }
@@ -83,96 +83,105 @@ For internal use only.")
         char equil = 'N';
         
         Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        Matrix d = args(3).matrix_value ();
-        
+        Matrix e = args(1).matrix_value (); 
+        Matrix b = args(2).matrix_value ();
+        Matrix c = args(3).matrix_value ();
+        Matrix d = args(4).matrix_value ();
+
+        int l = a.rows ();      // l: number of states
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
         int p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldc = max (1, c.rows ());
-        int ldd = max (1, d.rows ());
+        int lda = max (1, l);
+        int lde = max (1, l);
+        int ldb = max (1, l);
+
+        if (m == 0)
+            ldb = 1;
+
+        int ldc = max (1, p);
+        int ldd = max (1, p);
         
         // arguments out
-        int nu;
-        int rank;
+        int nfz;
+        int nrank;
+        int niz;
         int dinfz;
         int nkror;
+        int ninfe;
         int nkrol;
-        
-        int ldaf = max (1, n + m);
-        int ldbf = max (1, n + p);
 
-        OCTAVE_LOCAL_BUFFER (int, infz, n);
-        OCTAVE_LOCAL_BUFFER (int, kronr, 1 + max (n, m));
-        OCTAVE_LOCAL_BUFFER (int, kronl, 1 + max (n, p));
-        
-        OCTAVE_LOCAL_BUFFER (double, af, ldaf * (n + min (p, m)));
-        OCTAVE_LOCAL_BUFFER (double, bf, ldbf * (n + m));
+        OCTAVE_LOCAL_BUFFER (int, infz, n+1);
+        OCTAVE_LOCAL_BUFFER (int, kronr, n+m+1);
+        OCTAVE_LOCAL_BUFFER (int, infe, 1 + min (l+p, n+m));
+        OCTAVE_LOCAL_BUFFER (int, kronl, l+p+1);
 
         // workspace
-        int s = max (m, p);
-        int ldwork = max (s, n) + max (3*s-1, n+s);
+        int ldwork = max (l+p, m+n) * (m+n) + max (1, 5 * max (l+p, m+n));
         
-        OCTAVE_LOCAL_BUFFER (int, iwork, s);
+        OCTAVE_LOCAL_BUFFER (int, iwork, n + max (1, m));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
         int info;
         
         // tolerance
-        double tol = 0;     // AB08ND uses DLAMCH for default tolerance
+        double tol = 0;     // AG08BD uses DLAMCH for default tolerance
 
-        // SLICOT routine AB08ND
-        F77_XFCN (ab08nd, AB08ND,
+        // SLICOT routine AG08BD
+        F77_XFCN (ag08bd, AG08BD,
                  (equil,
-                  n, m, p,
+                  l, n, m, p,
                   a.fortran_vec (), lda,
+                  e.fortran_vec (), lde,
                   b.fortran_vec (), ldb,
                   c.fortran_vec (), ldc,
                   d.fortran_vec (), ldd,
-                  nu, rank, dinfz,
-                  nkror, nkrol, infz,
-                  kronr, kronl,
-                  af, ldaf,
-                  bf, ldbf,
+                  nfz, nrank, niz, dinfz,
+                  nkror, ninfe, nkrol,
+                  infz,
+                  kronr, infe, kronl,
                   tol,
                   iwork, dwork, ldwork,
                   info));
 
         if (f77_exception_encountered)
-            error ("ss: zero: slab08nd: exception in SLICOT subroutine AB08ND");
+            error ("dss: zero: slag08bd: exception in SLICOT subroutine AG08BD");
             
         if (info != 0)
-            error ("ss: zero: slab08nd: AB08ND returned info = %d", info);
-        
-        
+            error ("dss: zero: slag08bd: AG08BD returned info = %d", info);
+
+
         // DGGEV Part
+        a.resize (nfz, nfz);  // Af
+        e.resize (nfz, nfz);  // Ef
+
+        lda = max (1, nfz);
+        lde = max (1, nfz); 
+        
         char jobvl = 'N';
         char jobvr = 'N';
+
+        ColumnVector alphar (nfz);
+        ColumnVector alphai (nfz);
+        ColumnVector beta (nfz);
 
         double* vl = 0;     // not referenced because jobvl = 'N'
         int ldvl = 1;
         double* vr = 0;     // not referenced because jobvr = 'N'
         int ldvr = 1;
         
-        int lwork = max (1, 8*nu);
+        int lwork = max (1, 8*nfz);
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
-        
-        ColumnVector alphar (nu);
-        ColumnVector alphai (nu);
-        ColumnVector beta (nu);
         
         int info2;
         
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,
-                  nu,
-                  af, ldaf,
-                  bf, ldbf,
+                  nfz,
+                  a.fortran_vec (), lda,
+                  e.fortran_vec (), lde,
                   alphar.fortran_vec (), alphai.fortran_vec (),
                   beta.fortran_vec (),
                   vl, ldvl,
@@ -181,11 +190,11 @@ For internal use only.")
                   info2));
                                  
         if (f77_exception_encountered)
-            error ("ss: zero: slab08nd: exception in LAPACK subroutine DGGEV");
+            error ("dss: zero: slag08bd: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
-            error ("ss: zero: slab08nd: DGGEV returned info = %d", info2);
-
+            error ("dss: zero: slag08bd: DGGEV returned info = %d", info2);
+/*
         // calculate gain
         octave_value gain = Matrix (0, 0);;
 
@@ -196,22 +205,33 @@ For internal use only.")
             else
                 gain = c * xpow (a, double (n-1-nu)) * b;
         }
-
+*/
         // assemble complex vector - adapted from DEFUN complex in data.cc
-        ColumnVector zeror (nu);
-        ColumnVector zeroi (nu);
+        // LAPACK DGGEV.f says:
+        //
+        // Note: the quotients ALPHAR(j)/BETA(j) and ALPHAI(j)/BETA(j)
+        // may easily over- or underflow, and BETA(j) may even be zero.
+        // Thus, the user should avoid naively computing the ratio
+        // alpha/beta.  However, ALPHAR and ALPHAI will be always less
+        // than and usually comparable with norm(A) in magnitude, and
+        // BETA always less than and usually comparable with norm(B).
+        //
+        // Since we need the zeros explicitly ...
+
+        ColumnVector zeror (nfz);
+        ColumnVector zeroi (nfz);
 
         zeror = quotient (alphar, beta);
         zeroi = quotient (alphai, beta);
 
-        ComplexColumnVector zero (nu, Complex ());
+        ComplexColumnVector zero (nfz, Complex ());
 
-        for (octave_idx_type i = 0; i < nu; i++)
+        for (octave_idx_type i = 0; i < nfz; i++)
             zero.xelem (i) = Complex (zeror(i), zeroi(i));
 
         // return values
         retval(0) = zero;
-        retval(1) = gain;
+        // retval(1) = gain;
     }
     
     return retval;

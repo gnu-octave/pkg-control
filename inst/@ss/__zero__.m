@@ -26,10 +26,11 @@
 
 function [zer, gain] = __zero__ (sys)
 
-  if (! isempty (sys.e))
-    error ("ss: zero: dss models not supported yet");
+  if (isempty (sys.e))
+    [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
+  else
+    zer = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
+    gain = [];
   endif
-
-  [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
 
 endfunction
