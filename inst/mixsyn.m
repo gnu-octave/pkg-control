@@ -16,7 +16,7 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
 ## Solve stacked S/KS/T H-inf problem. Bound the largest singular values
 ## of S (for performance), K S (to penalize large inputs) and
 ## T (for robustness and to avoid sensitivity to noise).
@@ -30,13 +30,13 @@
 ## LTI model of plant.
 ## @item W1
 ## LTI model of performance weight. Bounds the largest singular values of sensitivity @var{S}.
-## Model must be empty, SISO or of appropriate size.
+## Model must be empty or proper, SISO or of appropriate size.
 ## @item W2
 ## LTI model to penalize large control inputs. Bounds the largest singular values of @var{KS}.
-## Model must be empty, SISO or of appropriate size.
+## Model must be empty or proper, SISO or of appropriate size.
 ## @item W3
 ## LTI model of robustness and noise sensitivity weight. Bounds the largest singular values of 
-## complementary sensitivity @var{T}. Model must be empty, SISO or of appropriate size.
+## complementary sensitivity @var{T}. Model must be empty or proper, SISO or of appropriate size.
 ## @end table
 ##
 ## @strong{Outputs}

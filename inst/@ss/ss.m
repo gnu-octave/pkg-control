@@ -19,23 +19,26 @@
 ## @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c})
-## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d})
-## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}, @dots{})
 ## Create or convert to state-space model.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item a
-## State transition matrix.
+## State transition matrix (n-by-n).
 ## @item b
-## Input matrix.
+## Input matrix (n-by-m).
 ## @item c
-## Measurement matrix.
+## Measurement matrix (p-by-n).
 ## @item d
-## Feedthrough matrix.
+## Feedthrough matrix (p-by-m).
 ## @item tsam
 ## Sampling time. If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
+## @item @dots{}
+## Optional pairs of properties and values.
+## Type @command{set (ss)} for more information.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -44,7 +47,7 @@
 ## State-space model.
 ## @end table
 ##
-## @seealso{tf}
+## @seealso{tf, dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

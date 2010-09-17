@@ -18,25 +18,28 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} dss (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} dss (@var{d})
-## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e})
-## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam})
-## Create or convert to state-space model.
+## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}, @dots{})
+## Create or convert to descriptor state-space model.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item a
-## State transition matrix.
+## State transition matrix (n-by-n).
 ## @item b
-## Input matrix.
+## Input matrix (n-by-m).
 ## @item c
-## Measurement matrix.
+## Measurement matrix (p-by-n).
 ## @item d
-## Feedthrough matrix.
+## Feedthrough matrix (p-by-m).
 ## @item e
-## Descriptor matrix.
+## Descriptor matrix (n-by-n).
 ## @item tsam
 ## Sampling time. If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
+## @item @dots{}
+## Optional pairs of properties and values.
+## Type @command{set (dss)} for more information.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -45,7 +48,7 @@
 ## Descriptor state-space model.
 ## @end table
 ##
-## @seealso{ss}
+## @seealso{ss, tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -55,14 +58,25 @@
 function sys = dss (varargin)
 
   switch (nargin)
-    case {0, 2, 3, 4}
-      print_usage ();
+    case 0  # useful for "set (dss)"
+      sys = ss ();
 
     case 1  # static gain
       sys = ss (varargin{1});
+
+    case {2, 3, 4}
+      print_usage ();
 
     otherwise  # general case
       sys = ss (varargin{[1:4, 6:end]}, "e", varargin{5});
   endswitch
 
 endfunction
+
+## NOTE: The author prefers "dss (e, a, b, c, d)" since we write
+##         .
+##       E x = A x + B u,     y = C x + D u
+##
+##       but this would break compatibility to a widespread
+##       commercial implementation of the octave language.
+##       There's no way to tell e and d apart if n = m = p.

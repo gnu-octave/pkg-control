@@ -19,8 +19,8 @@
 ## @deftypefn {Function File} {@var{s} =} tf (@var{"s"})
 ## @deftypefnx {Function File} {@var{z} =} tf (@var{"z"}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den})
-## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam})
+## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
 ## Create or convert to transfer function model.
 ##
 ## @strong{Inputs}
@@ -34,6 +34,9 @@
 ## @item tsam
 ## Sampling time. If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
+## @item @dots{}
+## Optional pairs of properties and values.
+## Type @command{set (tf)} for more information.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -49,7 +52,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{ss}
+## @seealso{ss, dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
