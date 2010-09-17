@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = sminreal (sys, tol = 0)
 
@@ -51,20 +51,24 @@ function sys = sminreal (sys, tol = 0)
     print_usage ();
   endif
 
-  if (! isa (sys, "ss"))
+  if (! isa (sys, "ss"))  # conversion done by dssdata
     warning ("sminreal: system not in state-space form");
-    sys = ss (sys);
   endif
 
   if (! (is_real_scalar (tol) && (tol >= 0)))
     error ("sminreal: second argument is not a valid tolerance");
   endif
 
-  [a, b, c] = ssdata (sys);
+  [a, b, c, d, e] = dssdata (sys);
 
   a = abs (a) > tol;
   b = abs (b) > tol;
   c = abs (c) > tol;
+
+  if (! isempty (e))
+    e = abs (e) > tol;
+    a = a | e;
+  endif
 
   co_idx = __controllable_states__ (a, b);
   ob_idx = __controllable_states__ (a.', c.');
