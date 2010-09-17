@@ -93,7 +93,7 @@ function [x, l, g] = care (a, b, q, r, s = [])
     error ("care: (b, r) not conformable");
   endif
 
-  if (! isempty (s) && (! is_real_matrix (s) || ! size_equal (s, b)))
+  if (! is_real_matrix (s) && ! size_equal (s, b))
     error ("care: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
             rows (s), columns (s), rows (b), columns (b));
   endif

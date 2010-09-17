@@ -93,7 +93,7 @@ function [x, l, g] = dare (a, b, q, r, s = [])
     error ("dare: b and r must have the same number of columns");
   endif
 
-  if (! isempty (s) && (! is_real_matrix (s) || ! size_equal (s, b)))
+  if (! is_real_matrix (s) && ! size_equal (s, b))
     error ("dare: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
             rows (s), columns (s), rows (b), columns (b));
   endif

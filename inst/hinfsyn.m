@@ -90,15 +90,15 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
     error ("hinfsyn: first argument must be an LTI system");
   endif
   
-  if (! is_real_scalar (nmeas) || isempty (nmeas))
+  if (! is_real_scalar (nmeas))
     error ("hinfsyn: second argument invalid");
   endif
   
-  if (! is_real_scalar (ncon) || isempty (ncon))
+  if (! is_real_scalar (ncon))
     error ("hinfsyn: third argument invalid");
   endif
   
-  if (! is_real_scalar (gmax) || isempty (gmax) || gmax < 0)
+  if (! is_real_scalar (gmax) || gmax < 0)
     error ("hinfsyn: fourth argument invalid");
   endif
 

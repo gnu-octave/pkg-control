@@ -84,11 +84,11 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     error ("h2syn: first argument must be an LTI system");
   endif
   
-  if (! is_real_scalar (nmeas) || isempty (nmeas))
+  if (! is_real_scalar (nmeas))
     error ("h2syn: second argument invalid");
   endif
   
-  if (! is_real_scalar (ncon) || isempty (ncon))
+  if (! is_real_scalar (ncon))
     error ("h2syn: third argument invalid");
   endif
 
