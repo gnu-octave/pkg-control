@@ -2,7 +2,7 @@
 
 DEFUN_DLD (is_real_vector, args, nargout,
    "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {} is_real_vwctor (@var{a}, @dots{})\n\
+@deftypefn {Loadable Function} {} is_real_vector (@var{a}, @dots{})\n\
 Return true if argument is a real vector.\n\
 @var{[]} is not a valid vector.\n\
 Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
