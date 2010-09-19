@@ -118,7 +118,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
     a = [];  # avoid [](nx0) or [](0xn)
   endif
 
-  [m, n, p] = __ss_dim__ (a, b, c, d);
+  [p, m, n] = __ss_dim__ (a, b, c, d);
 
   stname = repmat ({""}, n, 1);
 

@@ -29,8 +29,8 @@ function [zer, gain] = __zero__ (sys)
   if (isempty (sys.e))
     [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
   else
-    zer = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
-    gain = [];
+    [zer, gain] = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
+    ## FIXME: I'm not sure whether the gain is always correct
   endif
 
 endfunction

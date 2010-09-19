@@ -194,18 +194,23 @@ For internal use only.")
             
         if (info2 != 0)
             error ("dss: zero: slag08bd: DGGEV returned info = %d", info2);
-/*
+
         // calculate gain
         octave_value gain = Matrix (0, 0);;
 
-        if (m == 1 && p == 1)
+        if (m == 1 && p == 1)   // FIXME: I'm not sure of this
         {
-            if (nu == n)
-                gain = d;
+            if (nfz < n)
+                gain = args(3).matrix_value () * (args(1).matrix_value ()).inverse () * xpow (args(0).matrix_value (), double (n-1-nfz)) * args(2).matrix_value ();
+                // gain = args(3).matrix_value () * xpow (args(0).matrix_value (), double (n-1-nfz)) * (args(1).matrix_value ()).inverse () * args(2).matrix_value ();
+                // NOTE: content of matrices has changed
+                // c * inv (e) * a^(n-1-nfz) * b ?
+                // c * a^(n-1-nfz) * inv (e) * b ?
+                // good examples needed where a^(n-1-nfz) != eye (n)
             else
-                gain = c * xpow (a, double (n-1-nu)) * b;
+                gain = d;
         }
-*/
+
         // assemble complex vector - adapted from DEFUN complex in data.cc
         // LAPACK DGGEV.f says:
         //
@@ -231,7 +236,7 @@ For internal use only.")
 
         // return values
         retval(0) = zero;
-        // retval(1) = gain;
+        retval(1) = gain;
     }
     
     return retval;

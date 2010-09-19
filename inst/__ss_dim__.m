@@ -16,14 +16,14 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Number of inputs (m), states (n) and outputs (p) of state space matrices.
+## Number of outputs (p), inputs (m) and states (n) of state space matrices.
 ## For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
 ## Version: 0.2
 
-function [m, n, p] = __ss_dim__ (a, b, c, d, e = [])
+function [p, m, n] = __ss_dim__ (a, b, c, d, e = [])
 
   ## TODO: create oct-file?
 

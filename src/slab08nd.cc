@@ -191,10 +191,10 @@ For internal use only.")
 
         if (m == 1 && p == 1)
         {
-            if (nu == n)
-                gain = d;
-            else
+            if (nu < n)
                 gain = c * xpow (a, double (n-1-nu)) * b;
+            else
+                gain = d;
         }
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
