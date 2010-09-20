@@ -250,7 +250,7 @@ transmission zeros of descriptor state-space models
 %!
 %! A = ss (-2, 3, 4, 5);
 %! B = A / A;
-%! C = minreal (B);
+%! C = minreal (B, 1e-15);
 %! D = ss (1);
 %!
 %!assert (C.a, D.a);
