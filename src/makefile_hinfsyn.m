@@ -10,7 +10,8 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_hinfsyn"));
 cd (srcdir);
 
-mkoctfile slsb10fd.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsb10fd.cc \
           SB10FD.f SB10PD.f SB10QD.f SB10RD.f SB02RD.f \
           MB01RU.f MB01RX.f MA02AD.f SB02SD.f MA02ED.f \
           SB02RU.f SB02MR.f MB01SD.f SB02MS.f SB02MV.f \
@@ -18,7 +19,8 @@ mkoctfile slsb10fd.cc \
           MB01RY.f SB03SX.f SB03SY.f select.f SB03MX.f \
           SB03MY.f MB01UD.f SB03MV.f SB03MW.f SB04PX.f
 
-mkoctfile slsb10dd.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsb10dd.cc \
           SB10DD.f MB01RU.f MB01RX.f SB02SD.f SB02OD.f \
           MA02AD.f SB02OU.f SB02OV.f SB02OW.f MB01RY.f \
           SB02OY.f SB03SX.f SB03SY.f MA02ED.f select.f \

@@ -10,7 +10,8 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_hankel"));
 cd (srcdir);
 
-mkoctfile slab13ad.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slab13ad.cc \
           AB13AD.f TB01ID.f TB01KD.f AB13AX.f MA02DD.f \
           MB03UD.f TB01LD.f SB03OU.f MB03QX.f select.f \
           SB03OT.f MB03QD.f MB04ND.f MB04OD.f MB03QY.f \

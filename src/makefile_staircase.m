@@ -10,7 +10,8 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_staircase"));
 cd (srcdir);
 
-mkoctfile slab01od.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slab01od.cc \
           AB01OD.f AB01ND.f MB03OY.f MB01PD.f MB01QD.f
 
 cd (homedir);

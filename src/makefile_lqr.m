@@ -10,7 +10,8 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_lqr"));
 cd (srcdir);
 
-mkoctfile slsb02od.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsb02od.cc \
           SB02OD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
           SB02MR.f SB02MV.f
 

@@ -10,7 +10,8 @@ homedir = pwd ();
 srcdir = fileparts (which ("makefile_place"));
 cd (srcdir);
 
-mkoctfile slsb01bd.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsb01bd.cc \
           SB01BD.f MB03QD.f MB03QY.f SB01BX.f SB01BY.f \
           select.f
 
