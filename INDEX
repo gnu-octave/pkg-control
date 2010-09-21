@@ -5,6 +5,7 @@ Examples and Demos
   optiPID
   WestlandLynx
 Linear Models
+  dss
   @lti/set
   ss
   tf
@@ -14,6 +15,7 @@ Data Extraction
   @lti/tfdata
 Conversions
   @lti/c2d
+  dss
   ss
   tf
 System Interconnections
@@ -97,7 +99,9 @@ Matrix Equation Solvers
   lyapchol
 Octave-only
   isctrb
+  isdetectable
   isobsv
+  isstabilizable
   @lti/mconnect
 Tests
   test_control
