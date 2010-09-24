@@ -60,7 +60,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 6)
+    if (nargin != 8)
     {
         print_usage ();
     }
@@ -68,32 +68,38 @@ For internal use only.")
     {
         // arguments in
         char dico;
-        char jobe = 'I';
+        char jobe;
         char equil = 'N';
         char jobd = 'D';
         
         Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        Matrix d = args(3).matrix_value ();
-        double* e = 0;
-        int discrete = args(4).int_value ();
-        double tol = args(5).double_value ();
+        Matrix e = args(1).matrix_value ();
+        Matrix b = args(2).matrix_value ();
+        Matrix c = args(3).matrix_value ();
+        Matrix d = args(4).matrix_value ();
+        int discrete = args(5).int_value ();
+        int descriptor = args(6).int_value ();
+        double tol = args(7).double_value ();
         
         if (discrete == 0)
             dico = 'C';
         else
             dico = 'D';
+
+        if (descriptor == 0)
+            jobe = 'I';
+        else
+            jobe = 'G';
         
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
         int p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldc = max (1, c.rows ());
-        int ldd = max (1, d.rows ());
-        int lde = 1;
+        int lda = max (1, n);
+        int lde = max (1, n);
+        int ldb = max (1, n);
+        int ldc = max (1, p);
+        int ldd = max (1, p);
         
         ColumnVector fpeak (2);
         ColumnVector gpeak (2);
@@ -121,7 +127,7 @@ For internal use only.")
                   n, m, p,
                   fpeak.fortran_vec (),
                   a.fortran_vec (), lda,
-                  e, lde,
+                  e.fortran_vec (), lde,
                   b.fortran_vec (), ldb,
                   c.fortran_vec (), ldc,
                   d.fortran_vec (), ldd,

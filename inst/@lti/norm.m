@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -26,7 +26,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.2
+## Version: 0.3
 
 function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
 
@@ -86,11 +86,21 @@ endfunction
 
 function [gain, wpeak] = linfnorm (sys, tol = 0.01)
 
-  [a, b, c, d, tsam] = ssdata (sys);
+  [a, b, c, d, e, tsam] = dssdata (sys, []);
   discrete = ! isct (sys);
   tol = max (tol, 100*eps);
   
-  [fpeak, gpeak] = slab13dd (a, b, c, d, discrete, tol);
+  if (isempty (e))
+    [fpeak, gpeak] = slab13dd (a, a, b, c, d, discrete, false, tol);  # TODO: avoid dummy argument
+  else
+    if (rcond (e) < eps)
+      gain = inf;
+      wpeak = inf;
+      return;
+    else
+      [fpeak, gpeak] = slab13dd (a, e, b, c, d, discrete, true, tol);
+    endif
+  endif
   
   if (fpeak(2) > 0)
     if (discrete)
