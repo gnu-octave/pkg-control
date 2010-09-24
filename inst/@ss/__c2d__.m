@@ -24,20 +24,25 @@
 
 function sys = __c2d__ (sys, tsam, method = "zoh")
 
-  A = sys.a;
-  B = sys.b;
-
-  [n, m] = size (B);  # n: states, m: inputs
-
   switch (method)
     case {"zoh", "std"}
-      mat = [A*tsam, B*tsam;
-             zeros(m, n+m) ];
+      if (! isempty (sys.e))
+        if (rcond (sys.e) < eps)
+          error ("ss: c2d: zero-order hold method requires proper system");
+        else
+          sys.a = sys.e \ sys.a;
+          sys.b = sys.e \ sys.b;
+          sys.e = [];              # require ordinary state-space model
+        endif
+      endif
 
-      matexp = expm (mat);
+      [n, m] = size (sys.b);       # n: states, m: inputs
 
-      sys.a = matexp (1:n, 1:n);  # F
-      sys.b = matexp (1:n, n+(1:m));  # G
+      ## TODO: use SLICOT MB05OD
+      tmp = expm ([sys.a*tsam, sys.b*tsam; zeros(m, n+m)]);
+
+      sys.a = tmp (1:n, 1:n);      # F
+      sys.b = tmp (1:n, n+(1:m));  # G
 
     otherwise
       error ("ss: c2d: %s is an invalid method", method);
