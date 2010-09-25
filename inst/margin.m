@@ -119,7 +119,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2009
-## Version: 0.7.2
+## Version: 0.8
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
@@ -149,16 +149,9 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     ## create polynomials s -> jw
     l_num = length (num);
     l_den = length (den);
-    num_jw = zeros (1, l_num);
-    den_jw = zeros (1, l_den);
 
-    for k = 1 : l_num
-      num_jw(k) = num(k) * i^(l_num - k);
-    endfor
-
-    for k = 1 : l_den
-      den_jw(k) = den(k) * i^(l_den - k);
-    endfor
+    num_jw = num .* i.^(l_num-1 : -1 : 0);
+    den_jw = den .* i.^(l_den-1 : -1 : 0);
 
     ## GAIN MARGIN
     ## create gm polynomial
