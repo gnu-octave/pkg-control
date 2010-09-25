@@ -99,7 +99,7 @@ function [x, l, g] = care (a, b, q, r, s = [])
   endif
 
   ## check stabilizability
-  if (! isstabilizable (a, b, [], 0))
+  if (! isstabilizable (a, b, [], [], 0))
     error ("care: (a, b) not stabilizable");
   endif
 

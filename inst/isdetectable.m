@@ -19,11 +19,15 @@
 ## @deftypefn {Function File} {@var{bool} =} isdetectable (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{sys}, @var{tol})
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c})
-## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{tol})
-## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{dflg})
-## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{tol}, @var{dflg})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{[]}, @var{dflg})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{[]}, @var{dflg})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{tol}, @var{dflg})
+## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{tol}, @var{dflg})
 ## Logical test for system detectability. All unstable modes must be observable or
-## all unobservable states must be stable. Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## all unobservable states must be stable. Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -34,6 +38,8 @@
 ## State transition matrix.
 ## @item c
 ## Measurement matrix.
+## @item e
+## Descriptor matrix.
 ## @item tol
 ## Optional tolerance for stability. Default value is 0.
 ## @item dflg = 0
@@ -58,7 +64,7 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function bool = isdetectable (a, c = [], tol = [], dflg = 0)
+function bool = isdetectable (a, c = [], e = [], tol = [], dflg = 0)
 
   if (nargin == 0)
     print_usage ();
@@ -67,10 +73,10 @@ function bool = isdetectable (a, c = [], tol = [], dflg = 0)
       print_usage ();
     endif
     bool = isstabilizable (a.', c);  # transpose is overloaded
-  elseif (nargin < 2 || nargin > 4)
+  elseif (nargin < 2 || nargin > 5)
     print_usage ();
   else  # isdetectable (a, c, ...)
-    bool = isstabilizable (a.', c.', tol, dflg);  # arguments checked inside
+    bool = isstabilizable (a.', c.', e.', tol, dflg);  # arguments checked inside
   endif
 
 endfunction

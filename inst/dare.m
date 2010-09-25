@@ -99,7 +99,7 @@ function [x, l, g] = dare (a, b, q, r, s = [])
   endif
   
   ## check stabilizability
-  if (! isstabilizable (a, b, [], 1))
+  if (! isstabilizable (a, b, [], [], 1))
     error ("dare: (a, b) not stabilizable");
   endif
 
