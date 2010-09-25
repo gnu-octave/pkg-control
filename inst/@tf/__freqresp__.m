@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,60 +20,48 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function H = __freqresp__ (sys, w, resptype = 0)
+function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
-  [p, m] = size (sys);
-  [num, den, Ts] = tfdata (sys);
+  [num, den, tsam] = tfdata (sys);
 
-  if (Ts > 0)  # discrete system
-    s = exp (i * w * Ts);
+  if (tsam > 0)  # discrete system
+    s = num2cell (exp (i * w * tsam));
   else  # continuous system
-    s = i * w;
+    s = num2cell (i * w);
   endif
 
-  l_s = length (s);
-  H = zeros (p, m, l_s);
+  f = @(z) cellfun (@(x, y) polyval (x, z) / polyval (y, z), num, den);
 
-  for b = 1 : p
-    for a = 1 : m
-      num_pm = num{b, a};
-      den_pm = den{b, a};
-
-      for k = 1 : l_s
-        H(b, a, k) = polyval (num_pm, s(k)) / polyval (den_pm, s(k));
-      endfor
-    endfor
-  endfor
+  H = cellfun (f, s, "uniformoutput", false);
 
   if (resptype)
+    [p, m] = size (sys);
+
     if (m != p)
       error ("tf: freqresp: system must be square for response type %d", resptype);
     endif
 
-    I = eye (p);
+    j = eye (p);
 
     switch (resptype)
       case 1  # inversed system
-        for k = 1 : l_s
-          H(:, :, k) = inv (H(:, :, k));
-        endfor
+        H = cellfun (@inv, H, "uniformoutput", false);
 
       case 2  # inversed sensitivity
-        for k = 1 : l_s
-          H(:, :, k) = I + H(:, :, k);
-        endfor
+        H = cellfun (@(x) j + x, H, "uniformoutput", false);
 
       case 3  # inversed complementary sensitivity
-        for k = 1 : l_s
-          H(:, :, k) = I + inv (H(:, :, k));
-        endfor
+        H = cellfun (@(x) j + inv (x), H, "uniformoutput", false);
 
       otherwise
         error ("tf: freqresp: invalid response type");
-
     endswitch
+  endif
+
+  if (! cellflag)
+    H = cat (3, H{:});
   endif
 
 endfunction

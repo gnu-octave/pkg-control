@@ -57,7 +57,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2009
-## Version: 0.3.1
+## Version: 0.4
 
 function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
 
@@ -67,16 +67,10 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (sys, w, true, resptype, "std");
+  [H, w] = __frequency_response__ (sys, w, true, resptype, "std", true);
 
-  [p, m] = size (sys);
-  l_w = length (w);
-  sv = zeros (min (m, p), l_w);  # preallocate memory
-
-  ## singular value decomposition
-  for k = 1 : l_w
-    sv(:, k) = svd (H(:, :, k));
-  endfor
+  sv = cellfun (@svd, H, "uniformoutput", false);
+  sv = horzcat (sv{:});
 
   if (! nargout)  # plot the information
 

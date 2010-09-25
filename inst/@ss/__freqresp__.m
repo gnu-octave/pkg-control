@@ -20,52 +20,43 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function H = __freqresp__ (sys, w, resptype = 0)
+function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
-  [p, m] = size (sys);
-  [A, B, C, D, E, Ts] = dssdata (sys);
+  [a, b, c, d, e, tsam] = dssdata (sys);
 
-  J = eye (m);
+  j = eye (columns (b));
 
   if (resptype != 0 && m != p)
     error ("ss: freqresp: system must be square for response type %d", resptype);
   endif
 
-  if (Ts > 0)  # discrete system
-    s = exp (i * w * Ts);
+  if (tsam > 0)  # discrete system
+    s = num2cell (exp (i * w * tsam));
   else  # continuous system
-    s = i * w;
+    s = num2cell (i * w);
   endif
-
-  l_s = length (s);
-  H = zeros (p, m, l_s);
 
   switch (resptype)
     case 0  # default system
-      for k = 1 : l_s
-        H(:, :, k) = C * inv (s(k)*E - A) * B  +  D;
-      endfor
+      H = cellfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
 
     case 1  # inversed system
-      for k = 1 : l_s
-        H(:, :, k) = inv (C * inv (s(k)*E - A) * B  +  D);
-      endfor
+      H = cellfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     case 2  # inversed sensitivity
-      for k = 1 : l_s
-        H(:, :, k) = J  +  C * inv (s(k)*E - A) * B  +  D;
-      endfor
+      H = cellfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
 
     case 3  # inversed complementary sensitivity
-      for k = 1 : l_s
-        H(:, :, k) = J  +  inv (C * inv (s(k)*E - A) * B  +  D);
-      endfor
+      H = cellfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     otherwise
       error ("ss: freqresp: invalid response type");
-
   endswitch
+
+  if (! cellflag)
+    H = cat (3, H{:});
+  endif
 
 endfunction

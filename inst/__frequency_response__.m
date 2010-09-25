@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.2
 
-function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std")
+function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 
   ## check arguments
   if(! isa (sys, "lti"))
@@ -44,6 +44,6 @@ function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 
   endif
 
   ## frequency response
-  H = __freqresp__ (sys, w, resptype);
+  H = __freqresp__ (sys, w, resptype, cellflag);
 
 endfunction
