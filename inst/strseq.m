@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function strvec = strseq (str, idx)
 
@@ -36,11 +36,8 @@ function strvec = strseq (str, idx)
     print_usage ();
   endif
 
-  n = numel (idx);
-  strvec = cell (n, 1);
+  idx = reshape (num2cell (idx), [], 1);
 
-  for k = 1 : n
-    strvec{k, 1} = sprintf ("%s%d", str, idx(k));
-  endfor
+  strvec = cellfun (@(x) sprintf ("%s%d", str, x), idx, "uniformoutput", false);
 
 endfunction

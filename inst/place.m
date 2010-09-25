@@ -90,14 +90,14 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     if (nargin < 3)  # nargin > 5 already tested
       print_usage ();
     else
-      if (! isnumeric (a) || ! isnumeric (b) || ! issquare (a) || rows (a) != rows (b))
+      if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
         error ("place: matrices a and b not conformal");
       endif
       discrete = 0;  # assume continuous system
     endif
   endif
 
-  if (! isnumeric (p) || ! isvector (p) || isempty (p))
+  if (! isnumeric (p) || ! isvector (p) || isempty (p))  # p could be complex
     error ("place: p must be a vector");
   endif
   

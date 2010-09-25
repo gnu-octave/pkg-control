@@ -75,7 +75,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
         [sys, alti] = __sys2ss__ (a);
         sys.lti = alti;  # preserve lti properties
         return;
-      elseif (isnumeric (a))  # static gain
+      elseif (is_real_matrix (a))  # static gain
         d = a;
         a = [];
         b = zeros (0, columns (d));

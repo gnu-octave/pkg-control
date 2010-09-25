@@ -142,7 +142,7 @@ endfunction
 
 function fbsign = checkfbsign (fbsign)
 
-  if (isnumeric (fbsign))
+  if (is_real_scalar (fbsign))
     fbsign = sign (fbsign);
   elseif (ischar (fbsign))
     if (strcmp (fbsign, "+"))
