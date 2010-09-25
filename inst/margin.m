@@ -119,7 +119,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2009
-## Version: 0.7.1
+## Version: 0.7.2
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
@@ -335,24 +335,19 @@ endfunction
 function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-  l_idx = length (idx);
 
-  if (l_idx > 0)  # if frequencies in R+ exist
+  if (length (idx) > 0)  # if frequencies in R+ exist
     w_gm = real (w(idx));
-    f_resp = zeros (1, l_idx);
-    gm = zeros (1, l_idx);
 
     if (Ts == 0)
-      for k = 1 : l_idx
-        f_resp(k) = polyval (num, i*w_gm(k)) / polyval (den, i*w_gm(k));
-        gm(k) = inv (abs (f_resp(k)));
-      endfor
+      s = num2cell (i * w_gm);
     else
-      for k = 1 : l_idx
-        f_resp(k) = polyval (num, exp (i*w_gm(k)*Ts)) / polyval (den, exp (i*w_gm(k)*Ts));
-        gm(k) = inv (abs (f_resp(k)));
-      endfor
+      s = num2cell (exp (i * w_gm * Ts));
     endif
+
+    f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);
+    gm = cellfun (@(x) inv (abs (x)), f_resp);
+    f_resp = [f_resp{:}];
 
     ## find crossings between 0 and -1
     idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
@@ -386,23 +381,19 @@ endfunction
 function [phi, w_phi] = pm_filter (w, num, den, Ts, tol)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
-  l_idx = length (idx);
 
-  if (l_idx > 0)  # if frequencies in R+ exist
+  if (length (idx) > 0)  # if frequencies in R+ exist
     w_pm = real (w(idx));
-    pm = zeros (1, l_idx);
 
     if (Ts == 0)
-      for k = 1 : l_idx
-        f_resp = polyval (num, i*w_pm(k)) / polyval (den, i*w_pm(k));
-        pm(k) = 180  +  arg (f_resp) / pi * 180;
-      endfor
+      s = num2cell (i * w_pm);
     else
-      for k = 1 : l_idx
-        f_resp = polyval (num, exp (i*w_pm(k)*Ts)) / polyval (den, exp (i*w_pm(k)*Ts));
-        pm(k) = 180  +  arg (f_resp) / pi * 180;
-      endfor
+      s = num2cell (exp (i * w_pm * Ts));
     endif
+
+    f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);
+    pm = cellfun (@(x) 180 + arg (x) / pi * 180, f_resp);
+    f_resp = [f_resp{:}];
 
     [phi, idx] = min (pm);
     w_phi = w_pm(idx);
