@@ -16,12 +16,14 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{bool}, @var{u}] =} isobsv (@var{sys})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isobsv (@var{sys}, @var{tol})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isobsv (@var{a}, @var{c})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isobsv (@var{a}, @var{c}, @var{tol})
+## @deftypefn {Function File} {@var{bool} =} isobsv (@var{sys})
+## @deftypefnx {Function File} {@var{bool} =} isobsv (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c})
+## @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{e})
+## @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{[]}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{e}, @var{tol})
 ## Logical check for system observability.
-## Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -32,8 +34,10 @@
 ## State transition matrix.
 ## @item c
 ## Measurement matrix.
+## @item e
+## Descriptor matrix.
 ## @item tol
-## Optional roundoff parameter. Default value is zero.
+## Optional roundoff parameter. Default value is 0.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -42,8 +46,6 @@
 ## System is not observable.
 ## @item bool = 1
 ## System is observable.
-## @item u
-## An orthogonal basis of the observable subspace.
 ## @end table
 ##
 ## @seealso{isctrb}
@@ -53,19 +55,19 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [bool, u] = isobsv (a, c = [], tol = [])
+function bool = isobsv (a, c = [], e = [], tol = [])
 
   if (nargin == 0)
     print_usage ();
-  elseif (isa (a, "lti"))         # isobsv (sys), isobsv (sys, tol)
+  elseif (isa (a, "lti"))    # isobsv (sys), isobsv (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
-    [bool, u] = isctrb (a.', c);  # transpose is overloaded
-  elseif (nargin < 2 || nargin > 3)
+    bool = isctrb (a.', c);  # transpose is overloaded
+  elseif (nargin < 2 || nargin > 4)
     print_usage ();
-  else                            # isobsv (a, c), isobsv (a, c, tol)
-    [bool, u] = isctrb (a.', c.', tol);
+  else                       # isobsv (a, c), isobsv (a, c, e), ...
+    bool = isctrb (a.', c.', e.', tol);
   endif
 
 endfunction

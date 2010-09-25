@@ -16,12 +16,14 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{sys})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{sys}, @var{tol})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{a}, @var{b})
-## @deftypefnx {Function File} {[@var{bool}, @var{u}] =} isctrb (@var{a}, @var{b}, @var{tol})
+## @deftypefn {Function File} {@var{bool} =} isctrb (@var{sys})
+## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b})
+## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e})
+## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
+## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
 ## Logical check for system controllability.
-## Uses SLICOT AB01OD by courtesy of NICONET e.V.
+## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -32,8 +34,10 @@
 ## State transition matrix.
 ## @item b
 ## Input matrix.
+## @item e
+## Descriptor matrix.
 ## @item tol
-## Optional roundoff parameter. Default value is zero.
+## Optional roundoff parameter. Default value is 0.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -42,8 +46,6 @@
 ## System is not controllable.
 ## @item bool = 1
 ## System is controllable.
-## @item u
-## An orthogonal basis of the controllable subspace.
 ## @end table
 ##
 ## @seealso{isobsv}
@@ -51,23 +53,26 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2.1
+## Version: 0.3
 
-function [bool, u] = isctrb (a, b = [], tol = [])
+function bool = isctrb (a, b = [], e = [], tol = [])
 
-  if (nargin < 1 || nargin > 3)
+  if (nargin < 1 || nargin > 4)
     print_usage ();
   elseif (isa (a, "lti"))  # isctrb (sys), isctrb (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
     tol = b;
-    [a, b] = ssdata (a);
+    [a, b, c, d, e] = dssdata (a, []);
   elseif (nargin < 2)  # isctrb (a, b), isctrb (a, b, tol)
     print_usage ();
   elseif (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
     error ("isctrb: a(%dx%d), b(%dx%d) not conformal",
             rows (a), columns (a), rows (b), columns (b));
+  elseif (! isempty (e) && (! is_real_square_matrix (e) || ! size_equal (e, a)))
+    error ("isctrb: a(%dx%d), e(%dx%d) not conformal",
+            rows (a), columns (a), rows (e), columns (e));
   endif
 
   if (isempty (tol))
@@ -76,9 +81,11 @@ function [bool, u] = isctrb (a, b = [], tol = [])
     error ("isctrb: tol must be a real scalar");
   endif
 
-  [ac, bc, u, ncont] = slab01od (a, b, tol);
-
-  u = u(:, 1:ncont);
+  if (isempty (e))
+    [ac, bc, u, ncont] = slab01od (a, b, tol);
+  else
+    [ac, ec, bc, cc, q, z, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
+  endif
 
   bool = (ncont == rows (a));
 
