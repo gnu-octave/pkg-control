@@ -1,7 +1,7 @@
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
      slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
-     sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct \
+     sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct sltg01jd.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct
 
@@ -143,6 +143,11 @@ slag08bd.oct: slag08bd.cc
 	mkoctfile slag08bd.cc \
               AG08BD.f AG08BY.f TG01AD.f TB01XD.f MA02CD.f \
               TG01FD.f MA02BD.f MB03OY.f
+
+# minimal realization of descriptor state-space models
+sltg01jd.oct: sltg01jd.cc
+	mkoctfile sltg01jd.cc \
+              TG01JD.f TG01AD.f TB01XD.f MA02CD.f TG01HX.f
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc

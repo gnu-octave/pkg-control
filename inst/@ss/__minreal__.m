@@ -17,17 +17,14 @@
 
 ## -*- texinfo -*-
 ## Minimal realization of SS models. The physical meaning of states is lost.
-## Uses SLICOT TB01PD by courtesy of NICONET e.V. <http://www.slicot.org>
+## Uses SLICOT TB01PD and TG01JD by courtesy of NICONET e.V.
+## <http://www.slicot.org>
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function retsys = __minreal__ (sys, tol)
-
-  if (! isempty (sys.e))
-    error ("ss: minreal: dss models not supported yet");
-  endif
 
   if (tol == "def")
     tol = 0;
@@ -35,9 +32,14 @@ function retsys = __minreal__ (sys, tol)
     error ("ss: minreal: require tol <= 1");
   endif
 
-  [a, b, c, nr] = sltb01pd (sys.a, sys.b, sys.c, tol);
+  if (isempty (sys.e))
+    [a, b, c, nr] = sltb01pd (sys.a, sys.b, sys.c, tol);
+    retsys = ss (a, b, c, sys.d);
+  else
+    [a, e, b, c, nr] = sltg01jd (sys.a, sys.e, sys.b, sys.c, tol);
+    retsys = dss (a, b, c, sys.d, e);
+  endif
 
-  retsys = ss (a, b, c, sys.d);
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
 endfunction
