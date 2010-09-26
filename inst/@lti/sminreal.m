@@ -51,8 +51,9 @@ function sys = sminreal (sys, tol = 0)
     print_usage ();
   endif
 
-  if (! isa (sys, "ss"))     # conversion done by dssdata
+  if (! isa (sys, "ss"))
     warning ("sminreal: system not in state-space form");
+    sys = ss (sys);          # needed by __sys_prune__
   endif
 
   if (! (is_real_scalar (tol) && tol >= 0))
