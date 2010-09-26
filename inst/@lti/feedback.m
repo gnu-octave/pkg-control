@@ -126,6 +126,10 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
   for k = 1 : l_feedout
     M21(k, feedout(k)) = 1;
   endfor
+  
+  ## NOTE: for-loops do NOT the same as
+  ##       M12(feedin, 1:l_feedin) = fbsign;
+  ##       M21(1:l_feedout, feedout) = 1;
 
   M = [M11, M12;
        M21, M22];

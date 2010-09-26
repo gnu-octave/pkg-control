@@ -28,7 +28,7 @@ function p = tfpoly (a)
 
   switch (nargin)
     case 0
-      p.poly = [];
+      p = struct ("poly", []);
       p = class (p, "tfpoly");
 
     case 1

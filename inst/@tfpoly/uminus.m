@@ -22,10 +22,8 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function p = uminus (a)
+function a = uminus (a)
 
-  p = tfpoly ();
-
-  p.poly = -a.poly;
+  a.poly = -a.poly;
 
 endfunction

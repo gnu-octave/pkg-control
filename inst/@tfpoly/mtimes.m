@@ -22,7 +22,7 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function p = mtimes (a, b)
+function a = mtimes (a, b)
 
   if (! isa (a, "tfpoly"))
     a = tfpoly (a);
@@ -32,8 +32,6 @@ function p = mtimes (a, b)
     b = tfpoly (b);
   endif
 
-  p = tfpoly ();
-
-  p.poly = conv (a.poly, b.poly);
+  a.poly = conv (a.poly, b.poly);
 
 endfunction

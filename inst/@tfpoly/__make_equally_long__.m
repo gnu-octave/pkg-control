@@ -23,19 +23,13 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function [peq1, peq2] = __make_equally_long__ (p1, p2)
+function [a, b] = __make_equally_long__ (a, b)
 
-  lp1 = length (p1.poly);
-  lp2 = length (p2.poly);
-  lmax = max (lp1, lp2);
+  la = length (a.poly);
+  lb = length (b.poly);
+  lmax = max (la, lb);
 
-  leadzer1 = zeros (1, lmax - lp1);
-  leadzer2 = zeros (1, lmax - lp2);
-
-  peq1 = p1;
-  peq2 = p2;
-
-  peq1.poly = [leadzer1, p1.poly];
-  peq2.poly = [leadzer2, p2.poly];
+  a.poly = [zeros(1, lmax-la), a.poly];
+  b.poly = [zeros(1, lmax-lb), b.poly];
 
 endfunction

@@ -22,10 +22,8 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function p = uplus (a)
+function a = uplus (a)
 
-  p = tfpoly ();
-
-  p.poly = +a.poly;
+  a.poly = +a.poly;
 
 endfunction

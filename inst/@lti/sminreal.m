@@ -47,19 +47,19 @@
 
 function sys = sminreal (sys, tol = 0)
 
-  if (nargin > 2)  # sminreal () not possible (inside @lti)
+  if (nargin > 2)            # sminreal () not possible (inside @lti)
     print_usage ();
   endif
 
-  if (! isa (sys, "ss"))  # conversion done by dssdata
+  if (! isa (sys, "ss"))     # conversion done by dssdata
     warning ("sminreal: system not in state-space form");
   endif
 
-  if (! (is_real_scalar (tol) && (tol >= 0)))
+  if (! (is_real_scalar (tol) && tol >= 0))
     error ("sminreal: second argument is not a valid tolerance");
   endif
 
-  [a, b, c, d, e] = dssdata (sys);
+  [a, b, c, d, e] = dssdata (sys, []);
 
   a = abs (a) > tol;
   b = abs (b) > tol;
@@ -82,12 +82,12 @@ endfunction
 
 function c_idx = __controllable_states__ (a, b)
 
-  n = rows (a);  # number of states
-  a = a & ! eye (n);  # set diagonal entries to zero
+  n = rows (a);              # number of states
+  a = a & ! eye (n);         # set diagonal entries to zero
 
-  c_vec = any (b, 2);  # states directly controllable
-  c_idx = find (c_vec);  # indices of directly controllable states
-  c_idx_new = 0;  # any vector of length > 0 possible
+  c_vec = any (b, 2);        # states directly controllable
+  c_idx = find (c_vec);      # indices of directly controllable states
+  c_idx_new = 0;             # any vector of length > 0 possible
 
   while (all (length (c_idx) != [0, n] && length(c_idx_new) != 0))
 

@@ -22,7 +22,7 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function p = minus (a, b)
+function a = minus (a, b)
 
   if (! isa (a, "tfpoly"))
     a = tfpoly (a);
@@ -34,10 +34,8 @@ function p = minus (a, b)
 
   [a, b] = __make_equally_long__ (a, b);
 
-  p = tfpoly ();
+  a.poly = a.poly - b.poly;
 
-  p.poly = a.poly - b.poly;
-
-  p = __remove_leading_zeros__ (p);
+  a = __remove_leading_zeros__ (a);
 
 endfunction

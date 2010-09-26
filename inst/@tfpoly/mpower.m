@@ -24,14 +24,14 @@
 
 function p = mpower (a, b)
 
-  if (! isa (b, "double") && ! isscalar (b))
+  if (! isa (b, "double") && ! is_real_scalar (b))
     error ("tfpoly: mpower: power must be a natural number");
   endif
 
-  c = abs (round (b));
+  c = uint64 (b);
 
   if (c != b)
-    error ("tfpoly: mpower: power must be a natural number");
+    error ("tfpoly: mpower: power must be a positive integer");
   endif
 
   if (c == 0)

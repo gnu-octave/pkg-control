@@ -97,6 +97,10 @@ function sys = series (sys1, sys2, out1, in2)
       out_scl(k, out1(k)) = 1;
       in_scl(in2(k), k) = 1;
     endfor
+    
+    ## NOTE: for-loop does NOT the same as
+    ##       out_scl(1:l_out1, out1) = 1;
+    ##       in_scl(in2, 1:l_out1) = 1;
 
     scl = in_scl * out_scl;
 

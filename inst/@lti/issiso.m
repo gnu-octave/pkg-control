@@ -30,8 +30,6 @@ function bool = issiso (sys)
     print_usage ();
   endif
 
-  [p, m] = size (sys);
-
-  bool = (p*m == 1);
+  bool = all (size (sys) == 1);
 
 endfunction
