@@ -31,3 +31,9 @@ function pol = __pole__ (sys)
   endif
 
 endfunction
+
+
+## FIXME: sys = ss (-2, 3, 4, 0)
+##        sysi = inv (sys)  # singular e
+##        p = pole (sysi)
+##        infinite poles correct?
