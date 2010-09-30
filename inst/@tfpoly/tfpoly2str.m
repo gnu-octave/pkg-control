@@ -45,9 +45,9 @@ function str = tfpoly2str (p, tfvar = "x")
       str = [cs, num2str(abs (a), 4)];
     else
       if (abs (a) == 1)
-        str = [cs, coeff(a), variab(tfvar, lp-1)];
+        str = [cs, __variable__(tfvar, lp-1)];
       else
-        str = [cs, coeff(a), " ", variab(tfvar, lp-1)];
+        str = [cs, __coefficient__(a), " ", __variable__(tfvar, lp-1)];
       endif
     endif
 
@@ -64,9 +64,9 @@ function str = tfpoly2str (p, tfvar = "x")
           endif
 
           if (abs (a) == 1)
-            str = [str, cs, coeff(a), variab(tfvar, lp-k)];
+            str = [str, cs, __variable__(tfvar, lp-k)];
           else
-            str = [str, cs, coeff(a), " ", variab(tfvar, lp-k)];
+            str = [str, cs, __coefficient__(a), " ", __variable__(tfvar, lp-k)];
           endif
         endif
       endfor
@@ -89,7 +89,7 @@ function str = tfpoly2str (p, tfvar = "x")
 endfunction
 
 
-function str = coeff (a)
+function str = __coefficient__ (a)
 
   b = abs (a);  
 
@@ -102,7 +102,7 @@ function str = coeff (a)
 endfunction
 
 
-function str = variab (tfvar, n)
+function str = __variable__ (tfvar, n)
 
   if (n == 1)
     str = tfvar;
