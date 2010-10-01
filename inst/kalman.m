@@ -31,7 +31,7 @@
 ## @item r
 ## Covariance of white measurement noise.
 ## @item s
-## Optional cross term covariance. Default value is zero.
+## Optional cross term covariance. Default value is 0.
 ## @item sensors
 ## Indices of measured output signals y from @var{sys}. If omitted, all outputs are measured.
 ## @item known
@@ -70,7 +70,7 @@
 ## Created: November 2009
 ## Version: 0.3
 
-function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
+function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = [])
 
   ## TODO: type "current" for discrete-time systems
 
@@ -84,12 +84,11 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
     sensors = 1 : rows (c);
   endif
 
-  stoch = 1 : columns (b);
-  stoch(known) = [];
+  stochastic = complement (deterministic, 1 : columns (b))
 
   c = c(sensors, :);
-  g = b(:, stoch);
-  h = d(sensors, stoch);
+  g = b(:, stochastic);
+  h = d(sensors, stochastic);
 
   if (isempty (s))
     rbar = r + h*q*h.';
@@ -107,7 +106,7 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
 
   k = k.';
 
-  est = estim (sys, k, sensors, known);
+  est = estim (sys, k, sensors, deterministic);
 
 endfunction
 
