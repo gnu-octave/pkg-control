@@ -67,7 +67,7 @@
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2.3
+## Version: 0.3
 
 function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
 
@@ -75,16 +75,16 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     print_usage ();
   endif
 
-  if (isa (a, "lti"))  # place (sys, p), place (sys, p, alpha), place (sys, p, alpha, tol)
-    if (nargin > 4)  # nargin < 2 already tested
+  if (isa (a, "lti"))              # place (sys, p), place (sys, p, alpha), place (sys, p, alpha, tol)
+    if (nargin > 4)                # nargin < 2 already tested
       print_usage ();
     else
       tol = alpha;
       alpha = p;
       p = b;
       sys = a;
-      [a, b] = ssdata (sys);
-      discrete = ! isct (sys);  # treat tsam = -1 as continuous system
+      [a, b] = dssdata (sys, []);  # descriptor matrice e should have no influence
+      discrete = ! isct (sys);     # treat tsam = -1 as continuous system
     endif
   else  # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
     if (nargin < 3)  # nargin > 5 already tested
@@ -93,7 +93,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
       if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
         error ("place: matrices a and b not conformal");
       endif
-      discrete = 0;  # assume continuous system
+      discrete = 0;                # assume continuous system
     endif
   endif
 
@@ -101,12 +101,12 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     error ("place: p must be a vector");
   endif
   
-  p = sort (reshape (p, [], 1));  # complex conjugate pairs must appear together
+  p = sort (reshape (p, [], 1));   # complex conjugate pairs must appear together
   wr = real (p);
   wi = imag (p);
   
-  n = rows (a);  # number of states
-  np = length (p);  # number of given eigenvalues
+  n = rows (a);                    # number of states
+  np = length (p);                 # number of given eigenvalues
   
   if (np > n)
     error ("place: at most %d eigenvalues can be assigned for the given matrix a (%dx%d)",
@@ -126,7 +126,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
   endif
 
   [f, iwarn, nfp, nap, nup] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
-  f = -f;  # A + B*F --> A - B*F
+  f = -f;                          # A + B*F --> A - B*F
   
   if (iwarn)
     warning ("place: %d violations of the numerical stability condition NORM(F) <= 100*NORM(A)/NORM(B)",
@@ -158,10 +158,10 @@ endfunction
 %!       0.0000   1.1800
 %!       0.0000   0.0000];
 %!
-%! P = [(-0.5000 + 0.1500*i)
-%!      (-0.5000 +-0.1500*i)];
-#%!      (-2.0000 + 0.0000*i)
-#%!      (-0.4000 + 0.0000*i)];
+%! P = [-0.5000 + 0.1500i
+%!      -0.5000 - 0.1500i];
+#%!      -2.0000 + 0.0000i
+#%!      -0.4000 + 0.0000i];
 %!
 %! ALPHA = -0.4;
 %! TOL = 1e-8;
