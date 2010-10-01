@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,6 +20,8 @@
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{sys}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
+## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
 ## Linear-quadratic regulator for discrete-time systems.
 ##
 ## @strong{Inputs}
@@ -36,6 +38,8 @@
 ## Input weighting matrix.
 ## @item s
 ## Optional cross term matrix. If @var{s} is not specified, a zero matrix is assumed.
+## @item e
+## Optional descriptor matrix. If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -64,11 +68,11 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
-function [g, x, l] = dlqr (a, b, q, r = [], s = [])
+function [g, x, l] = dlqr (a, b, q, r = [], s = [], e = [])
 
-  if (nargin < 3 || nargin > 5)
+  if (nargin < 3 || nargin > 6)
     print_usage ();
   endif
 
@@ -76,7 +80,7 @@ function [g, x, l] = dlqr (a, b, q, r = [], s = [])
     s = r;
     r = q;
     q = b;
-    [a, b, c, d, tsam] = ssdata (a);
+    [a, b, c, d, e, tsam] = dssdata (a, []);
   elseif (nargin < 4)
     print_usage ();
   else
@@ -84,9 +88,9 @@ function [g, x, l] = dlqr (a, b, q, r = [], s = [])
   endif
 
   if (tsam > 0)
-    [x, l, g] = dare (a, b, q, r, s);
+    [x, l, g] = dare (a, b, q, r, s, e);
   else
-    [x, l, g] = care (a, b, q, r, s);
+    [x, l, g] = care (a, b, q, r, s, e);
   endif
 
 endfunction
