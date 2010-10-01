@@ -15,4 +15,9 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           SB02OD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
           SB02MR.f SB02MV.f
 
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsg02ad.cc \
+          SG02AD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
+          MB01SD.f MB02VD.f MB02PD.f MA02GD.f
+
 cd (homedir);

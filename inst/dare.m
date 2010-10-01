@@ -68,16 +68,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
-function [x, l, g] = dare (a, b, q, r, s = [])
-
-  ## TODO: Add SLICOT SG02AD (Solution of continuous- or discrete-time
-  ##       algebraic Riccati equations for descriptor systems)
+function [x, l, g] = dare (a, b, q, r, s = [], e = [])
 
   ## TODO: extract feedback matrix g from SB02OD (and SG02AD)
 
-  if (nargin < 4 || nargin > 5)
+  if (nargin < 4 || nargin > 6)
     print_usage ();
   endif
 
@@ -97,9 +94,13 @@ function [x, l, g] = dare (a, b, q, r, s = [])
     error ("dare: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
             rows (s), columns (s), rows (b), columns (b));
   endif
-  
+
+  if (! isempty (e) && (! is_real_square_matrix (e) || ! size_equal (e, a)))
+    error ("dare: a and e must have the same number of rows");
+  endif
+
   ## check stabilizability
-  if (! isstabilizable (a, b, [], [], 1))
+  if (! isstabilizable (a, b, e, [], 1))
     error ("dare: (a, b) not stabilizable");
   endif
 
@@ -117,14 +118,22 @@ function [x, l, g] = dare (a, b, q, r, s = [])
   endif
 
   ## solve the riccati equation
-  if (isempty (s))
-    [x, l] = slsb02od (a, b, q, r, b, true, false);
-    
-    g = (r + b.'*x*b) \ (b.'*x*a);  # gain matrix
+  if (isempty (e))
+    if (isempty (s))
+      [x, l] = slsb02od (a, b, q, r, b, true, false);
+      g = (r + b.'*x*b) \ (b.'*x*a);  # gain matrix
+    else
+      [x, l] = slsb02od (a, b, q, r, s, true, true);
+      g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix
+    endif
   else
-    [x, l] = slsb02od (a, b, q, r, s, true, true);
-
-    g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix
+    if (isempty (s))
+      [x, l] = slsg02ad (a, e, b, q, r, b, true, false);
+      g = (r + b.'*x*b) \ (a.'*x*b).';
+    else
+      [x, l] = slsg02ad (a, e, b, q, r, s, true, true);
+      g = (r + b.'*x*b) \ (a.'*x*b + s).';
+    endif
   endif
 
 endfunction
@@ -154,3 +163,5 @@ endfunction
 %!assert (x, xe, 1e-4);
 %!assert (sort (l), sort (le), 1e-4);
 %!assert (g, ge, 1e-4);
+
+## TODO: add more tests (nonempty s and/or e)
