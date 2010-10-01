@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
 function est = estim (sys, l, sensors = [], known = [])
 
@@ -55,7 +55,7 @@ function est = estim (sys, l, sensors = [], known = [])
     error ("estim: first argument must be an LTI system");
   endif
 
-  [a, b, c, d, tsam] = ssdata (sys);
+  [a, b, c, d, e, tsam] = dssdata (sys, []);
 
   if (isempty (sensors))
     sensors = 1 : rows (c);
@@ -73,8 +73,9 @@ function est = estim (sys, l, sensors = [], known = [])
   g = [b - l*d, l];
   h = [c; eye(n)];
   j = [d, zeros(p, p); zeros(n, m), zeros(n, p)];
+  ## k = e;
 
-  est = ss (f, g, h, j, tsam);
+  est = dss (f, g, h, j, e, tsam);
 
   ## TODO: inname, stname, outname
 

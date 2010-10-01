@@ -68,7 +68,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.2
+## Version: 0.3
 
 function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
 
@@ -78,7 +78,7 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
     print_usage ();
   endif
 
-  [a, b, c, d] = ssdata (sys);
+  [a, b, c, d, e] = dssdata (sys, []);
 
   if (isempty (sensors))
     sensors = 1 : rows (c);
@@ -95,14 +95,14 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], known = [])
     rbar = r + h*q*h.';
     sbar = g * q*h.';
   else
-    rbar = r + h*s + s.'*h.' + h*q*h.'; 
+    rbar = r + h*q*h.'+ h*s + s.'*h.'; 
     sbar = g * (q*h.' + s);
   endif
 
   if (isct (sys))
-    [x, l, k] = care (a.', c.', g*q*g.', rbar, sbar);
+    [x, l, k] = care (a.', c.', g*q*g.', rbar, sbar, e.');
   else
-    [x, l, k] = dare (a.', c.', g*q*g.', rbar, sbar);
+    [x, l, k] = dare (a.', c.', g*q*g.', rbar, sbar, e.');
   endif
 
   k = k.';
