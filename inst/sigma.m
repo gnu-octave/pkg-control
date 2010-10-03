@@ -96,7 +96,7 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     xlabel (xl_str)
     ylabel ("Singular Values [dB]")
     grid ("on")
-  else  # return values
+  else            # return values
     sv_r = sv;
     w_r = reshape (w, [], 1);
   endif

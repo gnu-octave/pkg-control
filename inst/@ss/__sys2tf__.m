@@ -28,10 +28,10 @@ function [retsys, retlti] = __sys2tf__ (sys)
     error ("ss: ss2tf: MIMO case not implemented yet");
   endif
 
-  if (isempty (sys.a))  # static gain
+  if (isempty (sys.a))                        # static gain
     num = sys.d;
     den = 1;
-  else  # default case
+  else                                        # default case
     [zer, gain] = zero (sys);
     
     num = gain * real (poly (zer));
@@ -39,6 +39,6 @@ function [retsys, retlti] = __sys2tf__ (sys)
   endif
 
   retsys = tf (num, den, get (sys, "tsam"));  # tsam needed to set appropriate tfvar
-  retlti = sys.lti;   # preserve lti properties
+  retlti = sys.lti;                           # preserve lti properties
 
 endfunction

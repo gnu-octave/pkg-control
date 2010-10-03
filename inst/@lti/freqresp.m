@@ -44,7 +44,7 @@
 
 function H = freqresp (sys, w)
 
-  if (nargin != 2)  # case freqresp () not possible
+  if (nargin != 2)           # case freqresp () not possible
     print_usage ();
   endif
 

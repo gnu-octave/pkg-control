@@ -106,7 +106,7 @@ function sys = lft (sys1, sys2, nu, ny)
   if (nargin == 2)  # sys = lft (sys1, sys2)
     nu = nu_max;
     ny = ny_max;
-  else  # sys = lft (sys1, sys2, nu, ny)
+  else              # sys = lft (sys1, sys2, nu, ny)
     if (! is_real_scalar (nu) || nu < 0)
       error ("lft: argument nu must be a positive integer");
     endif

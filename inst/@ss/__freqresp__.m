@@ -34,21 +34,21 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
   if (tsam > 0)  # discrete system
     s = num2cell (exp (i * w * tsam));
-  else  # continuous system
+  else           # continuous system
     s = num2cell (i * w);
   endif
 
   switch (resptype)
-    case 0  # default system
+    case 0       # default system
       H = cellfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
 
-    case 1  # inversed system
+    case 1       # inversed system
       H = cellfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
-    case 2  # inversed sensitivity
+    case 2       # inversed sensitivity
       H = cellfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
 
-    case 3  # inversed complementary sensitivity
+    case 3       # inversed complementary sensitivity
       H = cellfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     otherwise

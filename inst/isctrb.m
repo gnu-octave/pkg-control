@@ -65,7 +65,7 @@ function bool = isctrb (a, b = [], e = [], tol = [])
     endif
     tol = b;
     [a, b, c, d, e] = dssdata (a, []);
-  elseif (nargin < 2)  # isctrb (a, b), isctrb (a, b, tol)
+  elseif (nargin < 2)      # isctrb (a, b), isctrb (a, b, tol)
     print_usage ();
   elseif (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
     error ("isctrb: a(%dx%d), b(%dx%d) not conformal",
@@ -76,7 +76,7 @@ function bool = isctrb (a, b = [], e = [], tol = [])
   endif
 
   if (isempty (tol))
-    tol = 0;  # default tolerance
+    tol = 0;               # default tolerance
   elseif (! is_real_scalar (tol))
     error ("isctrb: tol must be a real scalar");
   endif

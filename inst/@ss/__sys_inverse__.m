@@ -33,9 +33,9 @@ function sys = __sys_inverse__ (sys)
   if (! isempty (e) || rcond (d) < eps)  # dss or strictly proper ss
 
     n = rows (a);
-    m = columns (b);  # p = m (square system)
+    m = columns (b);                     # p = m (square system)
 
-    if (isempty (e))  # avoid testing twice?
+    if (isempty (e))                     # avoid testing twice?
       e = eye (n);
     endif
 
@@ -47,7 +47,7 @@ function sys = __sys_inverse__ (sys)
 
     sys.stname = repmat ({""}, n+m, 1);
 
-  else  # proper ss
+  else                                   # proper ss
 
     di = inv (d);
 

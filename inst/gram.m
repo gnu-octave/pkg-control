@@ -41,7 +41,7 @@ function W = gram (argin1, argin2)
     print_usage ();
   endif
 
-  if (ischar (argin2))  # the function was called as "gram (sys, mode)"
+  if (ischar (argin2))     # the function was called as "gram (sys, mode)"
     sys = argin1;
     argin2 = lower (argin2);
 
@@ -57,7 +57,7 @@ function W = gram (argin1, argin2)
     elseif (! strcmp (argin2, "c"))
       print_usage ();
     endif
-  else  # the function was called as "gram (a, b)"
+  else                     # the function was called as "gram (a, b)"
     a = argin1;
     b = argin2;
 
@@ -71,7 +71,7 @@ function W = gram (argin1, argin2)
   endif
 
   if (isct (sys))
-    W = lyap (a, b*b.');  # let lyap do the error checking about dimensions
+    W = lyap (a, b*b.');   # let lyap do the error checking about dimensions
   else  # discrete-time system
     W = dlyap (a, b*b.');  # let dlyap do the error checking about dimensions
   endif

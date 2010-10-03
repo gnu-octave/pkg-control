@@ -42,7 +42,7 @@ function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
   zer = zero (sys);
   pol = pole (sys);
   tsam = get (sys, "tsam");
-  discrete = (tsam > 0);  # static gains (tsam = -1) are continuous
+  discrete = (tsam > 0);                 # static gains (tsam = -1) are continuous
   
   ## make sure zer, pol are row vectors
   pol = reshape (pol, 1, []);
@@ -85,8 +85,8 @@ function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
   
   if (isempty (iip) && isempty (iiz))
     ## no poles/zeros away from omega = 0; pick defaults
-    dec_min = 0;  # -1
-    dec_max = 2;  # 3
+    dec_min = 0;                         # -1
+    dec_max = 2;                         # 3
   else
     dec_min = floor (log10 (min (abs ([cpol, czer]))));
     dec_max = ceil (log10 (max (abs ([cpol, czer]))));
@@ -94,7 +94,7 @@ function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
 
   ## expand to show the entirety of the "interesting" portion of the plot
   switch (wbounds)
-    case "std"  # standard
+    case "std"                           # standard
       if (dec_min == dec_max)
         dec_min -= 2;
         dec_max += 2;
@@ -102,7 +102,7 @@ function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
         dec_min--;
         dec_max++;
       endif
-    case "ext"  # extended (for nyquist)
+    case "ext"                           # extended (for nyquist)
       if (any (abs (pol) < sqrt (eps)))  # look for integrators
         ## dec_min -= 0.5;
         dec_max += 2;

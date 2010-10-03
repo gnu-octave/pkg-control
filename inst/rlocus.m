@@ -81,24 +81,24 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   if (lden < 2)
     error ("system has no poles");
   elseif (lnum < lden)
-    num = [zeros(1,lden-lnum), num];  # so that derivative is shortened by one
+    num = [zeros(1,lden-lnum), num];       # so that derivative is shortened by one
   endif
 
   olpol = roots (den);
   olzer = roots (num);
-  nas = lden - lnum; # number of asymptotes
+  nas = lden - lnum;                       # number of asymptotes
   maxk = 0;
   if (nas > 0)
     cas = (sum (olpol) - sum (olzer)) / nas;
     angles = (2*[1:nas]-1)*pi/nas;
-    # printf("rlocus: there are %d asymptotes centered at %f\n", nas, cas);
+    ## printf("rlocus: there are %d asymptotes centered at %f\n", nas, cas);
   else
     cas = angles = [];
     maxk = 100*den(1)/num(1);
   endif
 
 
-  # compute real axis break points and corresponding gains
+  ## compute real axis break points and corresponding gains
   dnum = polyderiv (num);
   dden = polyderiv (den);
   brkp = conv (den, dnum) - conv (num, dden);
@@ -113,7 +113,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   endif
   
   if (nas == 0)
-    maxk = max (1, 2*maxk);  # get at least some root locus
+    maxk = max (1, 2*maxk);                # get at least some root locus
   else
     ## get distance from breakpoints, poles, and zeros to center of asymptotes
     dmax = 3*max (abs ([vec(olzer); vec(olpol); vec(real_ax_pts)] - cas));
@@ -121,7 +121,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       dmax = 1;
     endif
  
-    # get gain for dmax along each asymptote, adjust maxk if necessary
+    ## get gain for dmax along each asymptote, adjust maxk if necessary
     svals = cas + dmax * exp (j*angles);
     kvals = -polyval (den, svals) ./ polyval (num, svals);
     maxk = max (maxk, max (real (kvals)));
@@ -176,9 +176,9 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   ## sort according to nearest-neighbor
   rlpol = sort_roots (rlpol, smtolx, smtoly);
 
-  done = (nargin == 4);    # perform a smoothness check
+  done = (nargin == 4);                    # perform a smoothness check
   while (! done && ngain < 1000)
-    done = 1 ;      # assume done
+    done = 1 ;                             # assume done
     dp = abs (diff (rlpol.')).';
     maxdp = max (dp);
     
@@ -203,7 +203,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
         newg = linspace (g1, g2, 5);
         newg = newg(2:4);
         gvec = [gvec,newg];
-        done = 0;             # need to process new gains
+        done = 0;                          # need to process new gains
       endif
     endfor
 
@@ -239,14 +239,14 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     if (! isempty (rlzer))
       nelts++;
     endif
-    # add asymptotes
+    ## add asymptotes
     n_A = length (olpol) - length (olzer);
     if (n_A > 0)
       nelts += n_A;
     endif
     args = cell (3, nelts);
     kk = 0;
-    # asymptotes first
+    ## asymptotes first
     if (n_A > 0)
       len_A = 2*max (abs (axlim));
       sigma_A = (sum(olpol) - sum(olzer))/n_A;
@@ -261,7 +261,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
         endif
       endfor
     endif
-    # locus next
+    ## locus next
     for ii = 1:rows(rlpol)
       args{1,++kk} = real (rlpol (ii,:));
       args{2,kk} = imag (rlpol (ii,:));
@@ -271,7 +271,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
         args{3,kk} = "b-";
       endif
     endfor
-    # poles and zeros last
+    ## poles and zeros last
     args{1,++kk} = real (olpol);
     args{2,kk} = imag (olpol);
     args{3,kk} = "rx;open loop poles;";
@@ -304,12 +304,12 @@ endfunction
 
 
 function rlpol = sort_roots (rlpol, tolx, toly)
-  # no point sorting of you've only got one pole!
+  ## no point sorting of you've only got one pole!
   if (rows (rlpol) == 1)
     return;
   endif
 
-  # reorder entries in each column of rlpol to be by their nearest-neighbors
+  ## reorder entries in each column of rlpol to be by their nearest-neighbors
 rlpol
   dp = diff (rlpol.').';
   drp = max (real (dp));
@@ -319,7 +319,7 @@ rlpol
     return;
   endif
 
-  [np, ng] = size (rlpol);  # num poles, num gains
+  [np, ng] = size (rlpol);                 # num poles, num gains
   for jj = idx
     vals = rlpol(:,[jj,jj+1]);
     jdx = (jj+1):ng;

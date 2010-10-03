@@ -121,7 +121,7 @@ function [x, l, g] = dare (a, b, q, r, s = [], e = [])
   if (isempty (e))
     if (isempty (s))
       [x, l] = slsb02od (a, b, q, r, b, true, false);
-      g = (r + b.'*x*b) \ (b.'*x*a);  # gain matrix
+      g = (r + b.'*x*b) \ (b.'*x*a);        # gain matrix
     else
       [x, l] = slsb02od (a, b, q, r, s, true, true);
       g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix

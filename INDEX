@@ -97,7 +97,7 @@ Matrix Equation Solvers
   dlyapchol
   lyap
   lyapchol
-Octave-only
+Octave-Specific
   isctrb
   isdetectable
   isobsv

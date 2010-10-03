@@ -68,14 +68,14 @@ function bool = isdetectable (a, c = [], e = [], tol = [], dflg = 0)
 
   if (nargin == 0)
     print_usage ();
-  elseif (isa (a, "lti"))  # isdetectable (sys), isdetectable (sys, tol)
+  elseif (isa (a, "lti"))                              # isdetectable (sys), isdetectable (sys, tol)
     if (nargin > 2)
       print_usage ();
     endif
-    bool = isstabilizable (a.', c);  # transpose is overloaded
+    bool = isstabilizable (a.', c);                    # transpose is overloaded
   elseif (nargin < 2 || nargin > 5)
     print_usage ();
-  else  # isdetectable (a, c, ...)
+  else                                                 # isdetectable (a, c, ...)
     bool = isstabilizable (a.', c.', e.', tol, dflg);  # arguments checked inside
   endif
 

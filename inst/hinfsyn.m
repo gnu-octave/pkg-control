@@ -120,9 +120,9 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   endif
 
   ## H-infinity synthesis
-  if (isct (P))  # continuous plant
+  if (isct (P))             # continuous plant
     [ak, bk, ck, dk] = slsb10fd (a, b, c, d, ncon, nmeas, gmax);
-  else  # discrete plant
+  else                      # discrete plant
     [ak, bk, ck, dk] = slsb10dd (a, b, c, d, ncon, nmeas, gmax);
   endif
   

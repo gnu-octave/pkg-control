@@ -78,7 +78,7 @@ endfunction
 
 function __disp_mat__ (m, mname, rname, cname)
 
-  MAX_LEN = 12;  # max length of row name and column name
+  MAX_LEN = 12;       # max length of row name and column name
   [mrows, mcols] = size (m);
 
   row_name = strjust (strvcat (" ", rname), "left");

@@ -38,13 +38,13 @@ function retsys = mpower (sys, e)
   ex = round (abs (e));  # make sure ex is a positive integer
 
   switch (sign (e))
-    case -1  # lti^-ex
+    case -1              # lti^-ex
       sys = inv (sys);
       retsys = sys;
-    case 0  # lti^0
+    case 0               # lti^0
       retsys = eye (p);
       return;
-    case 1  # lti^ex
+    case 1               # lti^ex
       retsys = sys;
   endswitch
     

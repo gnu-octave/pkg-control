@@ -117,9 +117,9 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
   endif
 
   ## H-2 synthesis
-  if (isct (P))  # continuous plant
+  if (isct (P))             # continuous plant
     [ak, bk, ck, dk] = slsb10hd (a, b, c, d, ncon, nmeas);
-  else  # discrete plant
+  else                      # discrete plant
     [ak, bk, ck, dk] = slsb10ed (a, b, c, d, ncon, nmeas);
   endif
   

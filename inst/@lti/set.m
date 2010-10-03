@@ -27,7 +27,7 @@
 
 function retsys = set (sys, varargin)
 
-  if (nargin == 1)  # set (sys), sys = set (sys)
+  if (nargin == 1)       # set (sys), sys = set (sys)
 
     [props, vals] = __property_names__ (sys);
     nrows = numel (props);
@@ -46,7 +46,7 @@ function retsys = set (sys, varargin)
     warning ("lti: set: use sys = get (sys, ""property1"", ...) to save changes");
     warning ("          octave does not support pass by reference");
 
-  else  # sys = set (sys, "prop1", val1, ...)
+  else                   # sys = set (sys, "prop1", val1, ...)
 
     if (rem (nargin-1, 2))
       error ("lti: set: properties and values must come in pairs");

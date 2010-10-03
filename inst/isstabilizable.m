@@ -85,7 +85,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
     tol = b;
     dflg = ! isct (a);
     [a, b, c, d, e] = dssdata (a, []);
-  elseif (nargin == 1)  # isstabilizable (a, b, ...)
+  elseif (nargin == 1)     # isstabilizable (a, b, ...)
     print_usage ();
   elseif (! is_real_square_matrix (a) || rows (a) != rows (b))
     error ("isstabilizable: a must be square and conformal to b");
@@ -94,7 +94,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
   endif
 
   if (isempty (tol))
-    tol = 0;  # default tolerance
+    tol = 0;               # default tolerance
   elseif (! is_real_scalar (tol))
     error ("isstabilizable: tol must be a real scalar");
   endif

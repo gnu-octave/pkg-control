@@ -45,8 +45,8 @@ function axvec = __axis_limits__ (axdata)
   ## compute axis limits
   minv = min (axdata);
   maxv = max (axdata);
-  delv = (maxv-minv)/2;      # breadth of the plot
-  midv = (minv + maxv)/2;    # midpoint of the plot
+  delv = (maxv-minv)/2;             # breadth of the plot
+  midv = (minv + maxv)/2;           # midpoint of the plot
   axmid = [midv(1), midv(1), midv(2), midv(2)];
   axdel = [-0.1, 0.1, -0.1, 0.1];   # default plot width (if less than 2-d data)
   if (max (delv) == 0)

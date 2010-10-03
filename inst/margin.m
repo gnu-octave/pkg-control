@@ -144,7 +144,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   den = den{1, 1};
 
 
-  if (Ts == 0)  # CONTINUOUS SYSTEM
+  if (Ts == 0)                                           # CONTINUOUS SYSTEM
 
     ## create polynomials s -> jw
     l_num = length (num);
@@ -181,7 +181,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
 
 
-  else  # DISCRETE SYSTEM
+  else                                                   # DISCRETE SYSTEM
 
     ## create polynomials z -> 1/z
     l_num = length (num);
@@ -213,13 +213,13 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     z = roots (gm_poly);
 
     ## filter results
-    idx = find (abs (abs (z) - 1) < tol);  # find z with magnitude 1
+    idx = find (abs (abs (z) - 1) < tol);                # find z with magnitude 1
 
-    if (length (idx) > 0)  # if z with magnitude 1 exist
+    if (length (idx) > 0)                                # if z with magnitude 1 exist
       z_gm = z(idx);
-      w = log (z_gm) / (i*Ts);  # get frequencies w from z
+      w = log (z_gm) / (i*Ts);                           # get frequencies w from z
       [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol);
-    else  # there are no z with magnitude 1
+    else                                                 # there are no z with magnitude 1
       gamma = Inf;
       w_gamma = NaN;
     endif
@@ -239,13 +239,13 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     z = roots (pm_poly);
 
     ## filter results
-    idx = find (abs (abs (z) - 1) < tol);  # find z with magnitude 1
+    idx = find (abs (abs (z) - 1) < tol);                # find z with magnitude 1
 
-    if (length (idx) > 0)  # if z with magnitude 1 exist
+    if (length (idx) > 0)                                # if z with magnitude 1 exist
       z_gm = z(idx);
-      w = log (z_gm) / (i*Ts);  # get frequencies w from z
+      w = log (z_gm) / (i*Ts);                           # get frequencies w from z
       [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
-    else  # there are no z with magnitude 1
+    else                                                 # there are no z with magnitude 1
       phi = 180;
       w_phi = NaN;
     endif
@@ -253,7 +253,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   endif
 
 
-  if (nargout == 0)  # show bode diagram
+  if (nargout == 0)                                      # show bode diagram
 
     [H, w] = __frequency_response__ (sys, [], false, 0, "std");
 
@@ -300,7 +300,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     xlabel (xl_str)
     ylabel ("Phase [deg]")
 
-  else  # return values
+  else                                                   # return values
     gamma_r = gamma;
     phi_r = phi;
     w_gamma_r = w_gamma;
@@ -329,7 +329,7 @@ function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
-  if (length (idx) > 0)  # if frequencies in R+ exist
+  if (length (idx) > 0)                                  # if frequencies in R+ exist
     w_gm = real (w(idx));
 
     if (Ts == 0)
@@ -345,15 +345,15 @@ function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
     ## find crossings between 0 and -1
     idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
 
-    if (length (idx) > 0)  # if crossings between 0 and -1 exist
+    if (length (idx) > 0)                                # if crossings between 0 and -1 exist
       gm = gm(idx);
       w_gm = w_gm(idx);
       [gamma, idx] = min (gm);
       w_gamma = w_gm(idx);
-    else  # there are no crossings between 0 and -1
-      idx = find (real (f_resp) < -1);  # find crossings between -1 and -Inf
+    else                                                 # there are no crossings between 0 and -1
+      idx = find (real (f_resp) < -1);                   # find crossings between -1 and -Inf
 
-      if (length (idx) > 0)  # if crossings between -1 and -Inf exist
+      if (length (idx) > 0)                              # if crossings between -1 and -Inf exist
         gm = gm(idx);
         w_gm = w_gm(idx);
         [gamma, idx] = max (gm);
@@ -363,7 +363,7 @@ function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
         w_gamma = NaN;
       endif
     endif
-  else  # there are no frequencies in R+
+  else                                                   # there are no frequencies in R+
     gamma = Inf;
     w_gamma = NaN;
   endif
@@ -375,7 +375,7 @@ function [phi, w_phi] = pm_filter (w, num, den, Ts, tol)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
-  if (length (idx) > 0)  # if frequencies in R+ exist
+  if (length (idx) > 0)                                  # if frequencies in R+ exist
     w_pm = real (w(idx));
 
     if (Ts == 0)
@@ -390,7 +390,7 @@ function [phi, w_phi] = pm_filter (w, num, den, Ts, tol)
 
     [phi, idx] = min (pm);
     w_phi = w_pm(idx);
-  else  # there are no frequencies in R+
+  else                                                   # there are no frequencies in R+
     phi = 180;
     w_phi = NaN;
   endif
@@ -401,7 +401,7 @@ endfunction
 %!shared margin_c, margin_c_exp, margin_d, margin_d_exp
 %! sysc = tf ([24], [1, 6, 11, 6]);
 %! [gamma_c, phi_c, w_gamma_c, w_phi_c] = margin (sysc);
-%! sysd = tf (c2d (ss (sysc), 0.3));  # c2d for tf not implemented yet
+%! sysd = tf (c2d (ss (sysc), 0.3));                     # c2d for tf not implemented yet
 %! [gamma_d, phi_d, w_gamma_d, w_phi_d] = margin (sysd);
 %!
 %! margin_c = [gamma_c, phi_c, w_gamma_c, w_phi_c];

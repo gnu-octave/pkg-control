@@ -87,7 +87,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
       discrete = ! isct (sys);     # treat tsam = -1 as continuous system
     endif
   else  # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
-    if (nargin < 3)  # nargin > 5 already tested
+    if (nargin < 3)                # nargin > 5 already tested
       print_usage ();
     else
       if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))

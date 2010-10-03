@@ -24,7 +24,7 @@
 
 function sys = __set__ (sys, prop, val)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (prop)      # {<internal name>, <user name>}
     case "a"
       __ss_dim__ (val, sys.b, sys.c, sys.d);
       sys.a = val;

@@ -27,7 +27,7 @@ function sys = __minreal__ (sys, tol)
   ## TODO: Once ZPK models are implemented, convert TF to ZPK,
   ##       do cancellations over there and convert back to TF
 
-  sqrt_eps = sqrt (eps);  # treshold for zero
+  sqrt_eps = sqrt (eps);                        # treshold for zero
 
   [p, m] = size (sys);
 
@@ -38,11 +38,11 @@ function sys = __minreal__ (sys, tol)
       [zer, gain] = zero (sisosys);
       pol = pole (sisosys);
 
-      for k = length (zer) : -1 : 1  # reversed because of deleted zeros
+      for k = length (zer) : -1 : 1             # reversed because of deleted zeros
         [jnk, idx] = min (abs (zer(k) - pol));  # find best match
 
         if (tol == "def")
-          if (abs (zer(k)) < sqrt_eps)  # catch case zer(k) = 0
+          if (abs (zer(k)) < sqrt_eps)          # catch case zer(k) = 0
             t = 1000 * eps;
           else
             t = 1000 * abs (zer(k)) * sqrt_eps;
@@ -60,8 +60,8 @@ function sys = __minreal__ (sys, tol)
       num = real (gain * poly (zer));
       den = real (poly (pol));
 
-      num_idx = find (abs (num) < sqrt_eps);  # suppress numerical noise
-      den_idx = find (abs (den) < sqrt_eps);  # in polynomial coefficients
+      num_idx = find (abs (num) < sqrt_eps);    # suppress numerical noise
+      den_idx = find (abs (den) < sqrt_eps);    # in polynomial coefficients
 
       num(num_idx) = 0;
       den(den_idx) = 0;

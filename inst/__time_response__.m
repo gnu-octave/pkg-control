@@ -25,17 +25,17 @@
 function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt, x0)
 
   if (! isa (sys, "ss"))
-    sys = ss (sys);  # sys must be proper
+    sys = ss (sys);                                    # sys must be proper
   endif
 
   if (is_real_vector (tfinal) && length (tfinal) > 1)  # time vector t passed
-    dt = tfinal(2) - tfinal(1);  # assume that t is regularly spaced
+    dt = tfinal(2) - tfinal(1);                        # assume that t is regularly spaced
     tfinal = tfinal(end);
   endif
 
   [A, B, C, D, tsam] = ssdata (sys);
 
-  discrete = ! isct (sys);  # static gains are treated as analog systems
+  discrete = ! isct (sys);                             # static gains are treated as analog systems
 
   if (discrete)
     if (! isempty (dt))
@@ -51,11 +51,11 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
     sys = c2d (sys, dt, "zoh");
   endif
 
-  [F, G] = ssdata (sys);  # matrices C and D don't change
+  [F, G] = ssdata (sys);                               # matrices C and D don't change
 
-  n = rows (F);  # number of states
-  m = columns (G);  # number of inputs
-  p = rows (C);  # number of outputs
+  n = rows (F);                                        # number of states
+  m = columns (G);                                     # number of inputs
+  p = rows (C);                                        # number of outputs
 
   ## time vector
   t = reshape (0 : dt : tfinal, [], 1);
@@ -71,7 +71,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       x_arr = zeros (l_t, n);
 
       ## initial conditions
-      x = reshape (x0, [], 1);  # make sure that x is a column vector
+      x = reshape (x0, [], 1);                         # make sure that x is a column vector
 
       if (n != length (x0))
         error ("initial: x0 must be a vector with %d elements", n);
@@ -92,7 +92,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       y = zeros (l_t, p, m);
       x_arr = zeros (l_t, n, m);
 
-      for j = 1 : m  # for every input channel
+      for j = 1 : m                                    # for every input channel
         ## initial conditions
         x = zeros (n, 1);
         u = zeros (m, 1);
@@ -114,18 +114,18 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       y = zeros (l_t, p, m);
       x_arr = zeros (l_t, n, m);
 
-      for j = 1 : m  # for every input channel
+      for j = 1 : m                                    # for every input channel
         ## initial conditions
         u = zeros (m, 1);
         u(j) = 1;
 
         if (discrete)
-          x = zeros (n, 1);  # zero by definition 
+          x = zeros (n, 1);                            # zero by definition 
           y(1, :, j) = D * u / dt;
           x_arr(1, :, j) = x;
           x = G * u / dt;
         else
-          x = B * u;  # B, not G!
+          x = B * u;                                   # B, not G!
           y(1, :, j) = C * x;
           x_arr(1, :, j) = x;
           x = F * x;
@@ -150,7 +150,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
   endswitch
 
   
-  if (plotflag)  # display plot
+  if (plotflag)                                        # display plot
 
     ## TODO: Set correct titles, especially for multi-input systems
     ##       Limitations probably due to the Gnuplot backend
@@ -170,7 +170,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       cols = m;
     endif
 
-    if (discrete)  # discrete system
+    if (discrete)                                      # discrete system
       for k = 1 : p
         for j = 1 : cols
 
@@ -197,7 +197,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
 
       xlabel ("Time [s]");
 
-    else  # continuous system
+    else                                               # continuous system
       for k = 1 : p
         for j = 1 : cols
 
@@ -234,11 +234,11 @@ function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 
-  TOL = 1.0e-10;  # values below TOL are assumed to be zero
-  N_MIN = 50;     # min number of points
-  N_MAX = 2000;   # max number of points
-  N_DEF = 1000;   # default number of points
-  T_DEF = 10;     # default simulation time
+  TOL = 1.0e-10;                                       # values below TOL are assumed to be zero
+  N_MIN = 50;                                          # min number of points
+  N_MAX = 2000;                                        # max number of points
+  N_DEF = 1000;                                        # default number of points
+  T_DEF = 10;                                          # default simulation time
 
   n = rows (A);
   eigw = eig (A);
@@ -302,7 +302,7 @@ function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
     endif
   endif
 
-  if (! isempty (Ts))  # catch case analog system with dt specified
+  if (! isempty (Ts))                                  # catch case analog system with dt specified
     dt = Ts;
   endif
 

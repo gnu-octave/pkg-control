@@ -45,7 +45,7 @@ function [x, scale] = lyap (a, b, c, e)
   scale = 1;
 
   switch (nargin)
-    case 2  # Lyapunov equation
+    case 2                                      # Lyapunov equation
   
       if (! is_real_square_matrix (a, b))
         error ("lyap: a, b must be real and square");
@@ -55,11 +55,11 @@ function [x, scale] = lyap (a, b, c, e)
         error ("lyap: a, b must have the same number of rows");
       endif
 
-      [x, scale] = slsb03md (a, -b, false);  # AX + XA' = -B
+      [x, scale] = slsb03md (a, -b, false);     # AX + XA' = -B
 
-      ## x /= scale;  # 0 < scale <= 1
+      ## x /= scale;                            # 0 < scale <= 1
     
-    case 3  # Sylvester equation
+    case 3                                      # Sylvester equation
     
       if (! is_real_square_matrix (a, b))
         error ("lyap: a, b must be real and square");
@@ -71,7 +71,7 @@ function [x, scale] = lyap (a, b, c, e)
 
       x = slsb04md (a, b, -c);  # AX + XB = -C
 
-    case 4  # generalized Lyapunov equation
+    case 4                                      # generalized Lyapunov equation
     
       if (! isempty (c))
         print_usage ();
@@ -91,7 +91,7 @@ function [x, scale] = lyap (a, b, c, e)
 
       [x, scale] = slsg03ad (a, e, -b, false);  # AXE' + EXA' = -B
       
-      ## x /= scale;  # 0 < scale <= 1
+      ## x /= scale;                            # 0 < scale <= 1
 
     otherwise
       print_usage ();

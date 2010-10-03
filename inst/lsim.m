@@ -62,17 +62,17 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   endif
 
   if (! isa (sys, "ss"))
-    sys = ss (sys);  # sys must be proper
+    sys = ss (sys);                      # sys must be proper
   endif
 
   [A, B, C, D, tsam] = ssdata (sys);
 
-  discrete = ! isct (sys);  # static gains are treated as analog systems
+  discrete = ! isct (sys);               # static gains are treated as analog systems
 
   urows = rows (u);
   ucols = columns (u);
 
-  if (discrete)  # discrete system
+  if (discrete)                          # discrete system
     if (isempty (t))
       dt = tsam;
       tfinal = tsam * (urows - 1);
@@ -84,24 +84,24 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       dt = tsam;
       tfinal = t(end);
     endif
-  else  # continuous system
+  else                                   # continuous system
     if (isempty (t))
       error ("lsim: invalid time vector");
     elseif (length (t) == 1)
       dt = t / (urows - 1);
       tfinal = t;
     else
-      dt = t(2) - t(1);  # assume that t is regularly spaced
+      dt = t(2) - t(1);                  # assume that t is regularly spaced
       tfinal = t(end);
     endif
-    sys = c2d (sys, dt, method);  # convert to discrete model
+    sys = c2d (sys, dt, method);         # convert to discrete model
   endif
 
-  [F, G] = ssdata (sys);  # matrices C and D don't change
+  [F, G] = ssdata (sys);                 # matrices C and D don't change
 
-  n = rows (F);  # number of states
-  m = columns (G);  # number of inputs
-  p = rows (C);  # number of outputs
+  n = rows (F);                          # number of states
+  m = columns (G);                       # number of inputs
+  p = rows (C);                          # number of outputs
 
   t = reshape (0 : dt : tfinal, [], 1);  # time vector
   trows = length (t);
@@ -125,7 +125,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
     error ("initial: x0 must be a vector with %d elements", n);
   endif
 
-  x = reshape (x0, [], 1);  # make sure that x is a column vector
+  x = reshape (x0, [], 1);               # make sure that x is a column vector
 
   ## simulation
   for k = 1 : trows
@@ -134,7 +134,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
     x = F * x  +  G * u(k, :).';
   endfor
 
-  if (! nargout)  # plot information
+  if (! nargout)                         # plot information
     str = "Linear Simulation Results";
     outname = get (sys, "outname");
 
@@ -144,7 +144,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       outname = __mark_empty_names__ (outname);
     endif
 
-    if (discrete)  # discrete system
+    if (discrete)                        # discrete system
       for k = 1 : p
         subplot (p, 1, k);
         stairs (t, y(:, k));
@@ -155,7 +155,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
         ylabel (sprintf ("Amplitude %s", outname{k}));
       endfor
       xlabel ("Time [s]");
-    else  # continuous system
+    else                                 # continuous system
       for k = 1 : p
         subplot (p, 1, k);
         plot (t, y(:, k));
@@ -167,7 +167,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       endfor
       xlabel ("Time [s]");
     endif
-  else  # return values
+  else                                   # return values
     y_r = y;
     t_r = t;
     x_r = x_arr;

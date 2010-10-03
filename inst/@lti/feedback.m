@@ -45,7 +45,7 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
   [p1, m1] = size (sys1);
 
   switch (nargin)
-    case 1  # sys = feedback (sys)
+    case 1                          # sys = feedback (sys)
       if (p1 != m1)
         error ("feedback: argument must be a square system");
       endif
@@ -65,25 +65,25 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
         sys2 = eye (p1);
         feedin = 1 : m1;
         feedout = 1 : p1;
-      else  # sys = feedback (sys1, sys2)
+      else                          # sys = feedback (sys1, sys2)
         fbsign = -1;
         sys2 = sys2_or_fbsign;
         feedin = 1 : m1;
         feedout = 1 : p1;
       endif
 
-    case 3  # sys = feedback (sys1, sys2, "+")
+    case 3                          # sys = feedback (sys1, sys2, "+")
       fbsign = checkfbsign (feedin_or_fbsign);
       sys2 = sys2_or_fbsign;
       feedin = 1 : m1;
       feedout = 1 : p1;
 
-    case 4  # sys = feedback (sys1, sys2, feedin, feedout)
+    case 4                          # sys = feedback (sys1, sys2, feedin, feedout)
       fbsign = -1;
       sys2 = sys2_or_fbsign;
       feedin = feedin_or_fbsign;
 
-    case 5  # sys = feedback (sys1, sys2, feedin, feedout, "+")
+    case 5                          # sys = feedback (sys1, sys2, feedin, feedout, "+")
       fbsign = checkfbsign (fbsign);
       sys2 = sys2_or_fbsign;
       feedin = feedin_or_fbsign;

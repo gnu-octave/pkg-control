@@ -64,18 +64,18 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   e = [];
 
   switch (nargin)
-    case 0  # ss ()
-    ## tsam = -1;  # noting is done here, but "case 0" needed to prevent "otherwise"
+    case 0                            # ss ()
+    ## tsam = -1;                     # nothing is done here, but "case 0" needed to prevent "otherwise"
 
     case 1
-      if (isa (a, "ss"))  # already in ss form
+      if (isa (a, "ss"))              # already in ss form
         sys = a;
         return;
-      elseif (isa (a, "lti"))  # another lti object
+      elseif (isa (a, "lti"))         # another lti object
         [sys, alti] = __sys2ss__ (a);
-        sys.lti = alti;  # preserve lti properties
+        sys.lti = alti;               # preserve lti properties
         return;
-      elseif (is_real_matrix (a))  # static gain
+      elseif (is_real_matrix (a))     # static gain
         d = a;
         a = [];
         b = zeros (0, columns (d));
@@ -92,7 +92,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
       d = zeros (rows (c), columns (b));
       tsam = 0;
 
-    case 4  # continuous system   ss (a, b, c, d), ss ([], [], [], d)
+    case 4                            # continuous system   ss (a, b, c, d), ss ([], [], [], d)
       [b, c] = __gain_check__ (b, c, d);
       tsam = 0;
 
@@ -106,16 +106,16 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
         if (argc > 0)
           varargin = varargin(2:end);
         endif
-      else  # sys = ss (a, b, c, d, "prop1, "val1", ...)
+      else                            # sys = ss (a, b, c, d, "prop1, "val1", ...)
         tsam = 0;
       endif
 
   endswitch
 
 
-  if (isempty (a))  # static system
+  if (isempty (a))                    # static system
     tsam = -1;
-    a = [];  # avoid [](nx0) or [](0xn)
+    a = [];                           # avoid [](nx0) or [](0xn)
   endif
 
   [p, m, n] = __ss_dim__ (a, b, c, d);

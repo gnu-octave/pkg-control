@@ -121,7 +121,7 @@ function [x, l, g] = care (a, b, q, r, s = [], e = [])
   if (isempty (e))
     if (isempty (s))
       [x, l] = slsb02od (a, b, q, r, b, false, false);
-      g = r \ (b.'*x);  # gain matrix
+      g = r \ (b.'*x);        # gain matrix
     else
       [x, l] = slsb02od (a, b, q, r, s, false, true);
       g = r \ (b.'*x + s.');  # gain matrix

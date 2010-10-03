@@ -58,10 +58,10 @@
 function sys = dss (varargin)
 
   switch (nargin)
-    case 0  # useful for "set (dss)"
+    case 0     # useful for "set (dss)"
       sys = ss ();
 
-    case 1  # static gain
+    case 1     # static gain
       sys = ss (varargin{1});
 
     case {2, 3, 4}
