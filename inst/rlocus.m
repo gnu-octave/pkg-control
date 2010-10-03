@@ -309,8 +309,7 @@ function rlpol = sort_roots (rlpol, tolx, toly)
     return;
   endif
 
-  ## reorder entries in each column of rlpol to be by their nearest-neighbors
-rlpol
+  ## reorder entries in each column of rlpol to be by their nearest-neighbors rlpol
   dp = diff (rlpol.').';
   drp = max (real (dp));
   dip = max (imag (dp));
