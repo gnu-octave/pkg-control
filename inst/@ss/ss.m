@@ -88,7 +88,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
     case 2
       print_usage ();
 
-    case 3  # a, b, c without d   ss (a, b, c)
+    case 3                            # a, b, c without d   ss (a, b, c)
       d = zeros (rows (c), columns (b));
       tsam = 0;
 
@@ -96,7 +96,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
       [b, c] = __gain_check__ (b, c, d);
       tsam = 0;
 
-    otherwise  # default case
+    otherwise                         # default case
       [b, c] = __gain_check__ (b, c, d);
       argc = numel (varargin);
 
