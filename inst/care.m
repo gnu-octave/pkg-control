@@ -18,8 +18,10 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
+## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
 ## Solve continuous-time algebraic Riccati equation (ARE).
-## Uses SLICOT SB02OD by courtesy of NICONET e.V.
+## Uses SLICOT SB02OD and SG02AD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -34,6 +36,8 @@
 ## Real matrix (m-by-m).
 ## @item s
 ## Optional real matrix (n-by-m). If @var{s} is not specified, a zero matrix is assumed.
+## @item e
+## Optional descriptor matrix (n-by-n). If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -48,11 +52,11 @@
 ##
 ## @example
 ## @group
-##               -1
-## A'X + XA - XBR  B'X + Q = 0
+##                -1
+## A'X + XA - XB R  B'X + Q = 0
 ## 
 ##                      -1
-## A'X + XA - (XB + S) R  (XB + S)' + Q = 0
+## A'X + XA - (XB + S) R  (B'X + S') + Q = 0
 ##
 ##      -1
 ## G = R  B'X
@@ -61,6 +65,20 @@
 ## G = R  (B'X + S')
 ##
 ## L = eig (A - B*G)
+##
+##                     -1
+## A'XE + E'XA - E'XB R   B'XE + Q = 0
+##
+##                           -1
+## A'XE + E'XA - (E'XB + S) R   (B'XE + S') + Q = 0
+##
+##      -1
+## G = R  B'XE
+##
+##      -1
+## G = R  (B'XE + S)
+##
+## L = eig (A - B*G, E)
 ## @end group
 ## @end example
 ## @seealso{dare, lqr, dlqr, kalman}
@@ -121,18 +139,18 @@ function [x, l, g] = care (a, b, q, r, s = [], e = [])
   if (isempty (e))
     if (isempty (s))
       [x, l] = slsb02od (a, b, q, r, b, false, false);
-      g = r \ (b.'*x);        # gain matrix
+      g = r \ (b.'*x);          # gain matrix
     else
       [x, l] = slsb02od (a, b, q, r, s, false, true);
-      g = r \ (b.'*x + s.');  # gain matrix
+      g = r \ (b.'*x + s.');    # gain matrix
     endif
   else
     if (isempty (s))
       [x, l] = slsg02ad (a, e, b, q, r, b, false, false);
-      g = r \ (e.'*x*b).';
+      g = r \ (b.'*x*e);        # gain matrix
     else
       [x, l] = slsg02ad (a, e, b, q, r, s, false, true);
-      g = r \ (e.'*x*b + s).';
+      g = r \ (b.'*x*e + s.');  # gain matrix
     endif
   endif
 

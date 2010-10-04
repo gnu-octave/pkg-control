@@ -18,8 +18,10 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
+## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
 ## Solve discrete-time algebraic Riccati equation (ARE).
-## Uses SLICOT SB02OD by courtesy of NICONET e.V.
+## Uses SLICOT SB02OD and SG02AD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -34,6 +36,8 @@
 ## Real matrix (m-by-m).
 ## @item s
 ## Optional real matrix (n-by-m). If @var{s} is not specified, a zero matrix is assumed.
+## @item e
+## Optional descriptor matrix (n-by-n). If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -52,7 +56,7 @@
 ## A'XA - X - A'XB (B'XB + R)   B'XA + Q = 0
 ##
 ##                                 -1
-## A'XA - X - (A'XB + S) (B'XB + R)   (A'XB + S)' + Q = 0
+## A'XA - X - (A'XB + S) (B'XB + R)   (B'XA + S') + Q = 0
 ##
 ##               -1
 ## G = (B'XB + R)   B'XA
@@ -61,6 +65,20 @@
 ## G = (B'XB + R)   (B'XA + S')
 ##
 ## L = eig (A - B*G)
+##
+##                              -1
+## A'XA - E'XE - A'XB (B'XB + R)   B'XA + Q = 0
+##
+##                                    -1
+## A'XA - E'XE - (A'XB + S) (B'XB + R)   (B'XA + S') + Q = 0
+##
+##               -1
+## G = (B'XB + R)   B'XA
+##
+##               -1
+## G = (B'XB + R)   (B'XA + S')
+##
+## L = eig (A - B*G, E)
 ## @end group
 ## @end example
 ## @seealso{care, lqr, dlqr, kalman}
@@ -129,10 +147,10 @@ function [x, l, g] = dare (a, b, q, r, s = [], e = [])
   else
     if (isempty (s))
       [x, l] = slsg02ad (a, e, b, q, r, b, true, false);
-      g = (r + b.'*x*b) \ (a.'*x*b).';
+      g = (r + b.'*x*b) \ (b.'*x*a);        # gain matrix
     else
       [x, l] = slsg02ad (a, e, b, q, r, s, true, true);
-      g = (r + b.'*x*b) \ (a.'*x*b + s).';
+      g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix
     endif
   endif
 
