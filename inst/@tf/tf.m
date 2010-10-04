@@ -80,7 +80,7 @@ function sys = tf (num = {}, den = {}, varargin)
         [sys, numlti] = __sys2tf__ (num);
         sys.lti = numlti;                  # preserve lti properties
         return;
-      elseif (is_real_vector (num))        # static gain
+      elseif (is_real_matrix (num))        # static gain
         num = num2cell (num);
         num = __vec2tfpoly__ (num);
         [p, m] = size (num);
