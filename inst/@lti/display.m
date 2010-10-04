@@ -24,10 +24,8 @@
 
 function display (ltisys)
 
-  tsam = ltisys.tsam;
-
-  if (tsam > 0)
-    disp (sprintf("Sampling time: %g s", tsam));
+  if (ltisys.tsam > 0)
+    disp (sprintf ("Sampling time: %g s", ltisys.tsam));
   endif
 
 endfunction

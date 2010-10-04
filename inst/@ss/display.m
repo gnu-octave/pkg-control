@@ -27,27 +27,9 @@ function display (sys)
   [inname, outname, tsam] = __lti_data__ (sys.lti);
   stname = sys.stname;
 
-  m = numel (inname);
-  p = numel (outname);
-  n = numel (stname);
-
-  if (m == 0 || isequal ("", inname{:}))
-    inname = strseq ("u", 1:m);
-  else
-    inname = __mark_empty_names__ (inname);
-  endif
-
-  if (p == 0 || isequal ("", outname{:}))
-    outname = strseq ("y", 1:p);
-  else
-    outname = __mark_empty_names__ (outname);
-  endif
-
-  if (n == 0 || isequal ("", stname{:}))
-    stname = strseq ("x", 1:n);
-  else
-    stname = __mark_empty_names__ (stname);
-  endif
+  inname = __labels__ (inname, "u");
+  outname = __labels__ (outname, "y");
+  stname = __labels__ (stname, "x");
 
   disp ("");
 

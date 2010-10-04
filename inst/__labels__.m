@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009 - 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,19 +16,26 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Check whether a string of the cell "name" is empty and mark them
-## with "?". Used by display routines.
+## Return default labels if cell "name" contains only empty strings.
+## If not, check whether individual strings of the cell "name" are
+## empty and mark them with "?". Used by display routines.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function name = __mark_empty_names__ (name)
+function [name, n] = __labels__ (name, variable = "x")
 
-  for k = 1 : numel (name)
-    if (isempty (name{k}))
-      name{k} = "?";
-    endif 
-  endfor
+  n = numel (name);
+
+  if (n == 0 || isequal ("", name{:}))
+    name = strseq (variable, 1:n);
+  else
+    for k = 1 : n
+      if (isempty (name{k}))
+        name{k} = "?";
+      endif 
+    endfor
+  endif
 
 endfunction

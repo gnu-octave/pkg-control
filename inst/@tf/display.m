@@ -26,20 +26,8 @@ function display (sys)
 
   [inname, outname] = __lti_data__ (sys.lti);
 
-  m = numel (inname);
-  p = numel (outname);
-
-  if (m == 0 || isequal ("", inname{:}))
-    inname = strseq ("u", 1:m);
-  else
-    inname = __mark_empty_names__ (inname);
-  endif
-
-  if (p == 0 || isequal ("", outname{:}))
-    outname = strseq ("y", 1:p);
-  else
-    outname = __mark_empty_names__ (outname);
-  endif
+  [inname, m] = __labels__ (inname, "u");
+  [outname, p] = __labels__ (outname, "y");
 
   disp ("");
 
