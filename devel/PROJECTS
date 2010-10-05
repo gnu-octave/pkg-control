@@ -1,0 +1,80 @@
+<html>
+<pre>
+Control PROJECTS                                          -*- text -*-
+================
+
+grep FIXME and/or TODO for more information
+
+
+-------
+General:
+-------
+
+  * Multiplot feature for time and frequency response functions.
+    sigma (sys1, sys2, ...), step (sys1, "b", sys2, "r", ...)
+
+  * Improve c2d, e.g. "tustin" option.
+
+  * Implement d2c.
+
+  * Improve @lti/subsasgn.m
+
+  * Improve @lti/parallel.m
+
+  * n-th order approximation of time delay  exp (tau*s)
+    sys = pade (tau, n) 
+
+  * Implement frd models (easy) and adapt __frequency_response__.m
+
+  * Implement zpk models (harder) and @zpset similar to @tfpoly.
+
+  * SLICOT model and controller reduction.  Separate control-reduction package?
+
+  * SLICOT system identification.  Separate control-identification package?
+
+------------------
+State-Space Models:
+------------------
+
+  * Fix poles of descriptor models (@ss/__pole__.m)
+
+  * Fix gain of descriptor models (slag08bd.cc)
+
+  * Scaling: TB01ID/TD (ss) and TG01AD (dss) ?
+
+  * Balancing: TB01TD ?
+
+  * Use SLICOT for @ss/__sys2tf__.m
+
+  * Prescaling for __freqresp__.m ?
+
+------------------------
+Transfer Function Models:
+------------------------
+
+  * Support "z^-1" as tfvar (@tf and @tfpoly)
+
+  * MIMO tf interconnections (@tf/__sys_connect__.m)
+
+  * Use SLICOT for tf2ss conversion (@tf/__sys2ss__.m)
+
+  * Implement c2d conversion (@tf/__c2d__.m)
+
+------
+Always:
+------
+
+  * Squash bugs.
+
+  * Write/improve documentation.  If you implement a feature without documentation,
+    nobody besides you will ever use it!  Don't waste your time :-)
+
+  * Add tests.
+
+  * Test the control package on different platforms.
+
+  * Compare results to those from other free and non-free implementations of an
+    Octave-like language.
+
+</pre>
+</html>
