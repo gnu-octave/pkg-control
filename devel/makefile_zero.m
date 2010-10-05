@@ -2,12 +2,13 @@
 ## Developer Makefile for OCT-files
 ## ==============================================================================
 ## USAGE: * fetch control from Octave-Forge by svn
-##        * add control/inst and control/src to your Octave path
+##        * add control/inst, control/src and control/devel to your Octave path
 ##        * run makefile_*
 ## ==============================================================================
 
 homedir = pwd ();
-srcdir = fileparts (which ("makefile_zero"));
+develdir = fileparts (which ("makefile_zero"));
+srcdir = [develdir, "/../src"];
 cd (srcdir);
 
 ## transmission zeros of state-space models

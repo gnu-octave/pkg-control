@@ -2,21 +2,25 @@
 ## Developer Makefile for OCT-files
 ## ==============================================================================
 ## USAGE: * fetch control from Octave-Forge by svn
-##        * add control/inst and control/src to your Octave path
+##        * add control/inst, control/src and control/devel to your Octave path
 ##        * run makefile_*
 ## ==============================================================================
 
 homedir = pwd ();
-srcdir = fileparts (which ("makefile_minreal"));
+develdir = fileparts (which ("makefile_chol"));
+srcdir = [develdir, "/../src"];
 cd (srcdir);
 
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
-          sltb01pd.cc \
-          TB01PD.f TB01XD.f TB01ID.f AB07MD.f TB01UD.f \
-          MB03OY.f MB01PD.f MB01QD.f
+          slsb03od.cc \
+          SB03OD.f select.f SB03OU.f SB03OT.f MB04ND.f \
+          MB04OD.f SB03OR.f SB03OY.f SB04PX.f MB04NY.f \
+          MB04OY.f SB03OV.f
+   
 
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
-          sltg01jd.cc \
-          TG01JD.f TG01AD.f TB01XD.f MA02CD.f TG01HX.f
+          slsg03bd.cc \
+          SG03BD.f SG03BV.f SG03BU.f SG03BW.f SG03BX.f \
+          SG03BY.f MB02UU.f MB02UV.f
 
 cd (homedir);
