@@ -1,9 +1,10 @@
 =====================================================================================
 Prepare control-2.0 Package for Release
 =====================================================================================
-USAGE: * update version number in the commands below
+USAGE: * adapt all paths to your machine
+       * update version number in the commands below
        * copy-paste entire block at once to the terminal
-       * <http://octave.sourceforge.net/developers.html>
+       * follow instructions on <http://octave.sourceforge.net/developers.html>
 
 TODO:  * create a nice shell script for this task
 =====================================================================================
