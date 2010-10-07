@@ -58,16 +58,13 @@
 function sys = dss (varargin)
 
   switch (nargin)
-    case 0     # useful for "set (dss)"
-      sys = ss ();
-
-    case 1     # static gain
-      sys = ss (varargin{1});
+    case {0, 1}  # static gain (dss (5)) or empty (useful for "set (dss)")
+      sys = ss (varargin{:});
 
     case {2, 3, 4}
       print_usage ();
 
-    otherwise  # general case
+    otherwise    # general case
       sys = ss (varargin{[1:4, 6:end]}, "e", varargin{5});
   endswitch
 
