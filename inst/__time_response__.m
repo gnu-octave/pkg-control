@@ -73,8 +73,8 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       ## initial conditions
       x = reshape (x0, [], 1);                         # make sure that x is a column vector
 
-      if (n != length (x0))
-        error ("initial: x0 must be a vector with %d elements", n);
+      if (n != length (x0) || ! is_real_vector (x0))
+        error ("initial: x0 must be a real vector with %d elements", n);
       endif
 
       ## simulation
@@ -153,7 +153,6 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
   if (plotflag)                                        # display plot
 
     ## TODO: Set correct titles, especially for multi-input systems
-    ##       Limitations probably due to the Gnuplot backend
 
     stable = isstable (sys);
     outname = get (sys, "outname");
@@ -302,7 +301,7 @@ function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
     endif
   endif
 
-  if (! isempty (Ts))                                  # catch case analog system with dt specified
+  if (! isempty (Ts))                                  # catch case cont. system with dt specified
     dt = Ts;
   endif
 
