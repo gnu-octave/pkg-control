@@ -24,8 +24,8 @@
 ## Created: October 2009
 ## Version: 0.1
 
-function pol = eig (sys)
+function pol = eig (varargin)
 
-  pol = pole (sys);
+  pol = pole (varargin{:});
 
 endfunction

@@ -24,6 +24,10 @@
 
 function retsys = inv (sys)
 
+  if (nargin != 1)  # prevent sys = inv (sys1, sys2, sys3, ...)
+    error ("lti: inv: this is an unary operator");
+  endif
+
   [p, m] = size (sys);
 
   if (p != m)
