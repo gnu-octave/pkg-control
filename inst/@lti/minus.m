@@ -25,6 +25,10 @@
 
 function sys = minus (sys1, sys2)
 
+  if (nargin != 2)  # prevent sys = minus (sys1, sys2, sys3, ...)
+    error ("lti: minus: this is a binary operator");
+  endif
+
   [p1, m1] = size (sys1);
   [p2, m2] = size (sys2);
 

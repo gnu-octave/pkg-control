@@ -25,6 +25,10 @@
 
 function sys = mrdivide (sys1, sys2)
 
+  if (nargin != 2)    # prevent sys = mrdivide (sys1, sys2, sys3, ...)
+    error ("lti: mrdivide: this is a binary operator");
+  endif
+
   sys2 = inv (sys2);  # let octave decide which inv() it uses
 
   [p1, m1] = size (sys1);

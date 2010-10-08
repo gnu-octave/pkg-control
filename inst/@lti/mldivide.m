@@ -25,6 +25,10 @@
 
 function sys = mldivide (sys1, sys2)
 
+  if (nargin != 2)    # prevent sys = mldivide (sys1, sys2, sys3, ...)
+    error ("lti: mldivide: this is a binary operator");
+  endif
+
   sys1 = inv (sys1);  # let octave decide which inv() it uses
 
   [p1, m1] = size (sys1);

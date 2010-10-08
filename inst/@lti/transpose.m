@@ -22,13 +22,17 @@
 ## Created: February 2010
 ## Version: 0.1
 
-function retsys = transpose (sys)
+function sys = transpose (sys)
+
+  if (nargin != 1)  # prevent sys = transpose (sys1, sys2, sys3, ...)
+    error ("lti: transpose: this is an unary operator");
+  endif
 
   [p, m] = size (sys);
 
-  retsys = __transpose__ (sys);
+  sys = __transpose__ (sys);
 
-  retsys.inname = repmat ({""}, p, 1);
-  retsys.outname = repmat ({""}, m, 1);
+  sys.inname = repmat ({""}, p, 1);
+  sys.outname = repmat ({""}, m, 1);
 
 endfunction

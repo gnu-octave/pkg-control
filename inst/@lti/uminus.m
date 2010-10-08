@@ -24,6 +24,10 @@
 
 function sys = uminus (sys)
 
+  if (nargin != 1)  # prevent sys = uminus (sys1, sys2, sys3, ...)
+    error ("lti: uminus: this is an unary operator");
+  endif
+
   [p, m] = size (sys);
 
   out_scl = - eye (p);

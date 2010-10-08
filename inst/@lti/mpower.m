@@ -25,6 +25,10 @@
 
 function retsys = mpower (sys, e)
 
+  if (nargin != 2)       # prevent sys = mpower (a, b, c, ...)
+    error ("lti: mpower: this is a binary operator");
+  endif
+
   if (! is_real_scalar (e) || e != round (e))
     error ("lti: mpower: exponent must be an integer");
   endif
