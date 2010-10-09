@@ -32,7 +32,7 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     else
       tol = sqrt (eps);
       w = num2cell (w);  # use oct-file cellfun instead of m-file arrayfun
-      w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false)
+      w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false);
       w_idx = vertcat (w_idx{:});
 
       ## NOTE: There are problems when cellfun uses "uniformoutput", true
