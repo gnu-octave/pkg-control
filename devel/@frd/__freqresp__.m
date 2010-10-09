@@ -24,13 +24,27 @@
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
-  ## TODO: handle case  dcgain (frdsys)
+  [H, w_sys, tsam] = frdata (sys, "array");
 
-%  if (! isempty (w))
-%    error ("frd: freqresp: frequency vector w must be empty");  
-%  endif
+  if (! isempty (w))     # freqresp (frdsys, w), sigma (frdsys, w), ...
+    if (tsam == -1)      # static gains
+      H = repmat (H, [1, 1, length(w)]);
+    else
+      tol = sqrt (eps);
+      w = num2cell (w);  # use oct-file cellfun instead of m-file arrayfun
+      w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false)
+      w_idx = vertcat (w_idx{:});
 
-  H = __sys_data__ (sys);
+      ## NOTE: There are problems when cellfun uses "uniformoutput", true
+      ##       and find returns an empty matrix,    
+
+      if (length (w_idx) != numel (w))
+        error ("frd: freqresp: some frequencies are not within tolerance %g", tol);
+      endif
+
+      H = H(:, :, w_idx);
+    endif
+  endif
 
   [p, m, l] = size (H);
 
@@ -50,13 +64,13 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     j = eye (p);
 
     switch (resptype)
-      case 1     # inversed system
+      case 1             # inversed system
         H = cellfun (@inv, H, "uniformoutput", false);
 
-      case 2     # inversed sensitivity
+      case 2             # inversed sensitivity
         H = cellfun (@(x) j + x, H, "uniformoutput", false);
 
-      case 3     # inversed complementary sensitivity
+      case 3             # inversed complementary sensitivity
         H = cellfun (@(x) j + inv (x), H, "uniformoutput", false);
 
       otherwise
