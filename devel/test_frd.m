@@ -46,6 +46,20 @@ sys1.'
 sys2 = frd (reshape (1:45, 3, 3, []), 1:5)
 inv (sys2)
 
+
+P_ss = Boeing707;
+T_ss = feedback (P_ss);
+
+P_frd = frd (P_ss);
+T_frd = feedback (P_frd);
+
+figure (5)
+subplot (2, 1, 1)
+sigma (T_ss)
+subplot (2, 1, 2)
+sigma (T_frd)
+
+
 %{
 P = frd ((1:45)*(1-2i), logspace (-2,3,45))
 
