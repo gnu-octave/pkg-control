@@ -16,19 +16,19 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Transpose of FRD models.
+## Inversion of FRD models.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
 ## Version: 0.1
 
-function sys = __transpose__ (sys)
+function sys = __sys_inverse__ (sys)
 
   [p, m, l] = size (sys.H);
 
   H = mat2cell (sys.H, p, m, ones (1, l))(:);
 
-  H = cellfun (@transpose, H, "uniformoutput", false);
+  H = cellfun (@inv, H, "uniformoutput", false);
 
   sys.H = cat (3, H{:});
 

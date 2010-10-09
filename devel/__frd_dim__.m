@@ -33,13 +33,13 @@ function [p, m, l] = __frd_dim__ (H, w)
     error ("frd: w must be a vector of positive real numbers");
   endif
 
-  if (isempty (H))
-    p = m = l = 0;
-  else
-    [p, m, l] = size (H);
+  lw = length (w);
+
+  if (lw > 1 && (! issorted (w) || w(1) >= w(end) || length (unique (w)) != lw))
+    error ("frd: vector w must contain unique frequencies in ascending order");
   endif
 
-  lw = length (w);
+  [p, m, l] = size (H);
 
   if (l != lw)
     error ("frd: H (%dx%dx%d) and w (%d) must have equal length",

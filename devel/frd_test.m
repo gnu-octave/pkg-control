@@ -40,6 +40,11 @@ subplot (2, 1, 2)
 sigma (P_frd, [], 3)
 
 
+sys1 = frd (reshape (1:60, 3, 4, []), 1:5)
+sys1.'
+
+sys2 = frd (reshape (1:45, 3, 3, []), 1:5)
+inv (sys2)
 
 %{
 P = frd ((1:45)*(1-2i), logspace (-2,3,45))
