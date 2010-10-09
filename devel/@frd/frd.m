@@ -38,15 +38,19 @@ function sys = frd (H = [], w = [], varargin)
       tsam = -1;
 
     case 1
-      if (isa (H, "frd"))          # already in frd form
+      if (isa (H, "frd"))             # already in frd form
         sys = H;
+        return;
+      elseif (isa (H, "lti"))         # another lti object  sys = frd (sys)
+        [sys, alti] = __sys2frd__ (H);
+        sys.lti = alti;               # preserve lti properties
         return;
       else
         print_usage ();
       endif
 
     case 2
-      if (isa (H, "lti"))             # another lti object
+      if (isa (H, "lti"))             # another lti object  sys = frd (sys, w)
         [sys, alti] = __sys2frd__ (H, w);
         sys.lti = alti;               # preserve lti properties
         return;
