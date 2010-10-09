@@ -43,29 +43,36 @@ function retsys = __sys_group__ (sys1, sys2)
   [p1, m1, l1] = size (sys1.H);
   [p2, m2, l2] = size (sys2.H);
 
+  ## TODO: tolerances for frequencies, i.e. don't check for equality
 
-  if (lw1 == lw2 && all (sys1.w == sys2.w))
+  ## find intersection of frequency vectors
+  if (lw1 == lw2 && all (sys1.w == sys2.w))  # identical frequency vectors
     retsys.w = sys1.w;
-  else
-    retsys.w = intersect (sys1.w, sys2.w);
+    H1 = sys1.H;
+    H2 = sys2.H;
+  else                                       # differing frequency vectors
+    ## find common frequencies
+    retsys.w = w = intersect (sys1.w, sys2.w);
+    w = num2cell (w);
+
+    ## indices of common frequencies
+    w1_idx = cellfun (@(x) find (sys1.w == x), w);
+    w2_idx = cellfun (@(x) find (sys2.w == x), w);
+
+    ## extract common responses
+    H1 = sys1.H(:, :, w1_idx);
+    H2 = sys2.H(:, :, w2_idx);
   endif
 
-  % l filtern
-  H1 = sys1.H(:, :, w1_idx);
-  H2 = sys2.H(:, :, w2_idx);
-
+  ## block-diagonal concatenation
+  lw = length (retsys.w);
   z12 = zeros (p1, m2);
   z21 = zeros (p2, m1);
-
-%  H1 = mat2cell (H1, p1, m1, ones (1, l))(:);
-%  H2 = mat2cell (H2, p2, m2, ones (1, l))(:);
-  H1 = mat2cell (H1, p1, m1, ones (1, l1))(:);
-  H2 = mat2cell (H2, p2, m2, ones (1, l2))(:);
+  H1 = mat2cell (H1, p1, m1, ones (1, lw))(:);
+  H2 = mat2cell (H2, p2, m2, ones (1, lw))(:);
 
   H = cellfun (@(x, y) [x, z12; z21, y], H1, H2, "uniformoutput", false);
 
   retsys.H = cat (3, H{:});
-
-% welche indices von H1, H2 ? --> vorher ausmisten
 
 endfunction

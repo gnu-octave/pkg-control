@@ -82,7 +82,7 @@ function sys = frd (H = [], w = [], varargin)
   ltisys = lti (p, m, tsam);
 
   sys = class (frdata, "frd", ltisys);
-sys.lti.tsam
+
   if (argc > 0)
     sys = set (sys, varargin{:});
   endif

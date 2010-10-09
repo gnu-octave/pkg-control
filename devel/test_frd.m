@@ -1,12 +1,12 @@
-sys = frd (1, 1)
+sys1 = frd (1, 1)
 
-sys = frd (2+5i, 3, 0.1)
+sys2 = frd (2+5i, 3, 0.1)
 
-sys = frd (ones (2, 3, 5), 1:5)
+sys3 = frd (ones (2, 3, 5), 1:5)
 
-frd
+sys4 = frd
 
-frd ([], [])
+sys5 = frd ([], [])
 
 
 
@@ -40,11 +40,13 @@ subplot (2, 1, 2)
 sigma (P_frd, [], 3)
 
 
-sys1 = frd (reshape (1:60, 3, 4, []), 1:5)
-sys1.'
+%sys1 = frd (reshape (1:60, 3, 4, []), 1:5)
+%sys1.'
+P_frd.';
 
-sys2 = frd (reshape (1:45, 3, 3, []), 1:5)
-inv (sys2)
+%sys2 = frd (reshape (1:45, 3, 3, []), 1:5)
+%inv (sys2)
+inv (P_frd);
 
 
 P_ss = Boeing707;
@@ -55,10 +57,24 @@ T_frd = feedback (P_frd);
 
 figure (5)
 subplot (2, 1, 1)
-sigma (T_ss)
+% sigma (T_ss)
+sigma (T_ss, T_frd.w)
 subplot (2, 1, 2)
 sigma (T_frd)
 
+figure (6)
+subplot (2, 1, 1)
+% sigma (T_ss + P_ss)
+sigma (T_ss + P_ss, T_frd.w)
+subplot (2, 1, 2)
+sigma (T_frd + P_frd)
+
+figure (7)
+subplot (2, 1, 1)
+% sigma (T_ss * P_ss)
+sigma (T_ss * P_ss, T_frd.w)
+subplot (2, 1, 2)
+sigma (T_frd * P_frd)
 
 %{
 P = frd ((1:45)*(1-2i), logspace (-2,3,45))
