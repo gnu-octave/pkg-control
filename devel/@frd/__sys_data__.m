@@ -1,4 +1,4 @@
-## Copyright (C) 2009 - 2010   Lukas F. Reichlin
+## Copyright (C) 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,28 +16,15 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
-## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
-## Access transfer function data.
-## @end deftypefn
+## Used by frdata instead of multiple get calls.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
-## Version: 0.2
+## Created: October 2010
+## Version: 0.1
 
-function [num, den, tsam] = tfdata (sys, rtype = "vector")
+function [H, w] = __sys_data__ (sys)
 
-  if (! isa (sys, "tf"))
-    sys = tf (sys);
-  endif
-
-  [num, den] = __sys_data__ (sys); 
-
-  tsam = sys.tsam;
-
-  if (rtype(1) == "v")
-    num = cellfun ("@tfpoly/get", num, "uniformoutput", false);
-    den = cellfun ("@tfpoly/get", den, "uniformoutput", false);
-  endif
+  H = sys.H;
+  w = sys.w;
 
 endfunction

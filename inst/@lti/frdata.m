@@ -1,4 +1,4 @@
-## Copyright (C) 2009 - 2010   Lukas F. Reichlin
+## Copyright (C) 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,28 +16,27 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
-## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
-## Access transfer function data.
+## @deftypefn {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys})
+## @deftypefnx {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys}, @var{"vector"})
+## Access frequency response data.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
-## Version: 0.2
+## Created: October 2010
+## Version: 0.1
 
-function [num, den, tsam] = tfdata (sys, rtype = "vector")
+function [H, w, tsam] = frdata (sys, rtype = "vector")
 
-  if (! isa (sys, "tf"))
-    sys = tf (sys);
+  if (! isa (sys, "frd"))
+    sys = frd (sys);
   endif
 
-  [num, den] = __sys_data__ (sys); 
+  [H, w] = __sys_data__ (sys); 
 
   tsam = sys.tsam;
 
   if (rtype(1) == "v")
-    num = cellfun ("@tfpoly/get", num, "uniformoutput", false);
-    den = cellfun ("@tfpoly/get", den, "uniformoutput", false);
+    H = reshape (H, [], 1);
   endif
 
 endfunction

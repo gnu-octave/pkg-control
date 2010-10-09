@@ -26,9 +26,7 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
   [a, b, c, d, e, tsam] = dssdata (sys);
 
-  j = eye (columns (b));
-
-  if (resptype != 0 && m != p)
+  if (resptype != 0 && columns (b) != rows (c))
     error ("ss: freqresp: system must be square for response type %d", resptype);
   endif
 
@@ -46,9 +44,11 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
       H = cellfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     case 2       # inversed sensitivity
+      j = eye (columns (b));
       H = cellfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
 
     case 3       # inversed complementary sensitivity
+      j = eye (columns (b));
       H = cellfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     otherwise

@@ -34,13 +34,21 @@ function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 
     error ("frequency_response: require SISO system");
   endif
 
-  ## find interesting frequency range w if not specified
-  if (isempty (w))
-    ## begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
-    [dec_min, dec_max] = __frequency_range__ (sys, wbounds);
-    w = logspace (dec_min, dec_max, 500);  # [rad/s]
-  elseif (! is_real_vector (w))
-    error ("frequency_response: second argument w must be a vector of frequencies");
+  if (isa (sys, "frd"))
+    if (isempty (w))
+      w = get (sys, "w");
+    else
+      warning ("frequency_response: second argument w is ignored");
+    endif
+  else
+    ## find interesting frequency range w if not specified
+    if (isempty (w))
+      ## begin plot at 10^dec_min, end plot at 10^dec_max [rad/s]
+      [dec_min, dec_max] = __frequency_range__ (sys, wbounds);
+      w = logspace (dec_min, dec_max, 500);  # [rad/s]
+    elseif (! is_real_vector (w))
+      error ("frequency_response: second argument w must be a vector of frequencies");
+    endif
   endif
 
   ## frequency response

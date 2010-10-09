@@ -1,4 +1,4 @@
-## Copyright (C) 2009 - 2010   Lukas F. Reichlin
+## Copyright (C) 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,28 +16,24 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
-## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
-## Access transfer function data.
-## @end deftypefn
+## Access property values of FRD objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
-## Version: 0.2
+## Created: October 2010
+## Version: 0.1
 
-function [num, den, tsam] = tfdata (sys, rtype = "vector")
+function val = __get__ (sys, prop)
 
-  if (! isa (sys, "tf"))
-    sys = tf (sys);
-  endif
+  switch (prop)  # {<internal name>, <user name>}
+    case {"h", "r", "resp", "response"}
+      val = sys.H;
 
-  [num, den] = __sys_data__ (sys); 
+    case {"w", "f", "freq", "frequency"}
+      val = sys.w;
 
-  tsam = sys.tsam;
+    otherwise
+      error ("frd: get: invalid property name");
 
-  if (rtype(1) == "v")
-    num = cellfun ("@tfpoly/get", num, "uniformoutput", false);
-    den = cellfun ("@tfpoly/get", den, "uniformoutput", false);
-  endif
+  endswitch
 
 endfunction
