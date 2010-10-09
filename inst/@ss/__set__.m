@@ -42,7 +42,7 @@ function sys = __set__ (sys, prop, val)
       sys.d = val;
 
     case "e"
-      if (isempty (e))
+      if (isempty (val))
         sys.e = [];  # avoid [](nx0) or [](0xn)
       else
         __ss_dim__ (sys.a, sys.b, sys.c, sys.d, val);
