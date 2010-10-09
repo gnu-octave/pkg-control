@@ -24,18 +24,14 @@
 
 function sys = __set__ (sys, prop, val)
 
-  switch (prop)                                 # {<internal name>, <user name>}
+  switch (prop)  # {<internal name>, <user name>}
     case {"h", "r", "resp", "response"}
-      if (ndims (val) != 3 && ! isempty (val))  # TODO: share code with @frd/frd.m
-        val = reshape (val, 1, 1, []);
-      elseif (isempty (val))
-        val = zeros (0, 0, 0);
-      endif
+      val = __adjust_frd_data__ (val, sys.w, 0);
       __frd_dim__ (val, sys.w);
       sys.H = val;
 
     case {"w", "f", "freq", "frequency"}
-      val = reshape (val, [], 1);
+      [jnk, val] = __adjust_frd_data__ (sys.H, val, 0);  ## TODO: use [~, val] for octave 3.4
       __frd_dim__ (sys.H, val);
       sys.w = val;
 
