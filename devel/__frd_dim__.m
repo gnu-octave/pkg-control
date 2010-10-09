@@ -29,6 +29,19 @@ function [p, m, l] = __frd_dim__ (H, w)
     error ("frd: H must be a 3-dimensional numeric array");
   endif
 
+  lw = length (w);
+
+  if (lw > 1 && (! is_real_vector (w) || any (w < 0) \
+                 || ! issorted (w) || w(1) >= w(end) || length (unique (w)) != lw))
+    error ("frd: w must be a vector of positive real numbers");
+  elseif (lw == 1 && ! issample (w, -1))
+    error ("frd: scalar w must be a valid sampling time");
+  endif
+%{
+  if (! isnumeric (H))  # TODO: watch out for __set__ vector case
+    error ("frd: H must be a 3-dimensional numeric array");
+  endif
+
   if (! isempty (w) && (! is_real_vector (w) || any (w < 0)))
     error ("frd: w must be a vector of positive real numbers");
   endif
@@ -37,8 +50,10 @@ function [p, m, l] = __frd_dim__ (H, w)
 
   if (lw > 1 && (! issorted (w) || w(1) >= w(end) || length (unique (w)) != lw))
     error ("frd: vector w must contain unique frequencies in ascending order");
+  elseif (lw == 1 && ! issample (w, -1))
+    error ("frd: scalar w must be a valid sampling time");
   endif
-
+%}
   [p, m, l] = size (H);
 
   if (l != lw)

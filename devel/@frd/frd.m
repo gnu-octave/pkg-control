@@ -73,8 +73,24 @@ function sys = frd (H = [], w = [], varargin)
 
   endswitch
 
+  ## TODO: create separate function
   if (ndims (H) != 3 && ! isempty (H))
-    H = reshape (H, 1, 1, []);
+    if (is_real_scalar (H))           # static gain (H is a scalar)
+      H = reshape (H, 1, 1, []);
+      tsam = -1;
+    elseif (isvector (H))             # SISO system (H is a vector)
+      H = reshape (H, 1, 1, []);
+    else                              # static gain (H is a matrix)
+      if (! is_real_matrix (H))
+        error ("frd: static gain matrix must be real");
+      endif
+      H = reshape (H, rows (H), []);
+      lw = length (w);
+      if (lw > 1)
+        H = repmat (H, [1, 1, lw]);   # needed for "frd1 + matrix2" or "matrix1 * frd2) 
+      endif
+      tsam = -1;
+    endif
   elseif (isempty (H))
     H = zeros (0, 0, 0);
     tsam = -1;
@@ -89,7 +105,7 @@ function sys = frd (H = [], w = [], varargin)
   ltisys = lti (p, m, tsam);
 
   sys = class (frdata, "frd", ltisys);
-
+sys.lti.tsam
   if (argc > 0)
     sys = set (sys, varargin{:});
   endif
