@@ -8,7 +8,7 @@ sys4 = frd
 
 sys5 = frd ([], [])
 
-sys6 = frd ([1, 2; 3, 4])
+sys6 = frd ([1, 2; 3, 4], logspace (-1, 1, 10))
 
 
 
@@ -79,9 +79,9 @@ subplot (2, 1, 2)
 sigma (T_frd * P_frd)
 
 
-k1 = frd (ss ([1, 2; 3, 4]))
+k1 = frd (ss ([1, 2; 3, 4]));
 % k2 = frd (tf ([1, 2; 3, 4]))
-k2 = frd (tf (5))
+k2 = frd (tf (5));
 
 
 %{

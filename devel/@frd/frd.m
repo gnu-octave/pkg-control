@@ -16,7 +16,8 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} frd (@var{sys}, @var{w})
+## @deftypefn {Function File} {@var{sys} =} frd (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} frd (@var{sys}, @var{w})
 ## @deftypefnx {Function File} {@var{sys} =} frd (@var{H}, @var{w})
 ## @deftypefnx {Function File} {@var{sys} =} frd (@var{H}, @var{w}, @var{tsam})
 ## Create or convert to frequency response data.
@@ -31,11 +32,22 @@ function sys = frd (H = [], w = [], varargin)
   ## model precedence: frd > ss > zpk > tf > double
   superiorto ("ss", "zpk", "tf", "double");
 
+  ## NOTE: * There's no such thing as a static gain
+  ##         because FRD objects are measurements,
+  ##         not models.
+  ##       * If something like  sys1 = frd (5)  existed,
+  ##         it would cause troubles in cases like
+  ##         sys2 = ss (...), sys = sys1 * sys2
+  ##         because sys2 needs to be converted to FRD,
+  ##         but sys1 contains no valid frequencies.
+  ##       * Because of the reasons given above,
+  ##         tsam = -1 and w = -1 don't make sense
+
   argc = 0;
 
   switch (nargin)
     case 0
-      tsam = -1;
+      tsam = 0;
 
     case 1
       if (isa (H, "frd"))             # already in frd form
@@ -45,9 +57,6 @@ function sys = frd (H = [], w = [], varargin)
         [sys, alti] = __sys2frd__ (H);
         sys.lti = alti;               # preserve lti properties
         return;
-      elseif (is_real_matrix (H))     # static gain  sys = frd (M)
-        w = -1;
-        tsam = -1;
       else
         print_usage ();
       endif

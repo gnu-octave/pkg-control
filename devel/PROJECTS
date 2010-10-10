@@ -22,15 +22,25 @@ General:
   * Improve @lti/parallel.m
 
   * n-th order approximation of time delay  exp (tau*s)
-    sys = pade (tau, n) 
+    sys = pade (tau, n)
 
-  * Implement frd models (easy) and adapt __frequency_response__.m
+  * Add delays  exp (-T*s)  indelay, outdelay, stdelay, ...
+    -- Support time and frequency responses.
+    -- Support interconnections.
 
-  * Implement zpk models (harder) and @zpset similar to @tfpoly.
+  * Implement zpk models and @zpset similar to @tfpoly.
 
   * SLICOT model and controller reduction.  Separate control-reduction package?
 
   * SLICOT system identification.  Separate control-identification package?
+
+-----------------------
+Frequency Response Data:
+-----------------------
+
+  * Write a nice display routine ().
+
+  * Tolerances for intersection of frequency vectors in @frd/__sys_group__.m
 
 ------------------
 State-Space Models:

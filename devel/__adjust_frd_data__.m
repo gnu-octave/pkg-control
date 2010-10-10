@@ -26,26 +26,26 @@
 function [H, w, tsam] = __adjust_frd_data__ (H, w, tsam);
 
   w = reshape (w, [], 1);
+  lw = length (w);
 
   if (ndims (H) != 3 && ! isempty (H))
-    if (is_real_scalar (H))           # static gain (H is a real scalar)
+    if (isscalar (H))
       H = reshape (H, 1, 1, []);
-      tsam = -1;
-    elseif (isvector (H))             # SISO system (H is a complex vector)
-      H = reshape (H, 1, 1, []);
-    elseif (is_real_matrix (H))       # static gain (H is a real matrix)
-      H = reshape (H, rows (H), []);
-      lw = length (w);
       if (lw > 1)
-        H = repmat (H, [1, 1, lw]);   # needed for "frd1 + matrix2" or "matrix1 * frd2) 
+        H = repmat (H, [1, 1, lw]);  # needed for "frd1 + scalar2" or "scalar1 * frd2) 
       endif
-      tsam = -1;
+    elseif (isvector (H))            # SISO system (H is a vector)
+      H = reshape (H, 1, 1, []);
+    elseif (ismatrix (H))
+      H = reshape (H, rows (H), []);
+      if (lw > 1)
+        H = repmat (H, [1, 1, lw]);  # needed for "frd1 + matrix2" or "matrix1 * frd2) 
+      endif
     else
-      error ("frd: static gain matrix must be real");
+      error ("frd: first argument H invalid");
     endif
   elseif (isempty (H))
     H = zeros (0, 0, 0);
-    tsam = -1;
   endif
 
 endfunction

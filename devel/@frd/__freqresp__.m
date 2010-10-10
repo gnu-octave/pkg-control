@@ -27,23 +27,19 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
   [H, w_sys, tsam] = frdata (sys, "array");
 
   if (! isempty (w))     # freqresp (frdsys, w), sigma (frdsys, w), ...
-    if (tsam == -1)      # static gains
-      H = repmat (H, [1, 1, length(w)]);
-    else
-      tol = sqrt (eps);
-      w = num2cell (w);  # use oct-file cellfun instead of m-file arrayfun
-      w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false);
-      w_idx = vertcat (w_idx{:});
+    tol = sqrt (eps);
+    w = num2cell (w);    # use oct-file cellfun instead of m-file arrayfun
+    w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false);
+    w_idx = vertcat (w_idx{:});
 
-      ## NOTE: There are problems when cellfun uses "uniformoutput", true
-      ##       and find returns an empty matrix,    
+    ## NOTE: There are problems when cellfun uses "uniformoutput", true
+    ##       and find returns an empty matrix,    
 
-      if (length (w_idx) != numel (w))
-        error ("frd: freqresp: some frequencies are not within tolerance %g", tol);
-      endif
-
-      H = H(:, :, w_idx);
+    if (length (w_idx) != numel (w))
+      error ("frd: freqresp: some frequencies are not within tolerance %g", tol);
     endif
+
+    H = H(:, :, w_idx);
   endif
 
   [p, m, l] = size (H);
