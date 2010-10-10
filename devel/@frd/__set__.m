@@ -26,12 +26,12 @@ function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case {"h", "r", "resp", "response"}
-      val = __adjust_frd_data__ (val, sys.w, 0);
+      val = __adjust_frd_data__ (val, sys.w);
       __frd_dim__ (val, sys.w);
       sys.H = val;
 
     case {"w", "f", "freq", "frequency"}
-      [jnk, val] = __adjust_frd_data__ (sys.H, val, 0);  ## TODO: use [~, val] for octave 3.4
+      [jnk, val] = __adjust_frd_data__ (sys.H, val);  ## TODO: use [~, val] for octave 3.4
       __frd_dim__ (sys.H, val);
       sys.w = val;
 

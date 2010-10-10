@@ -85,7 +85,7 @@ function sys = frd (H = [], w = [], varargin)
 
   endswitch
 
-  [H, w, tsam] = __adjust_frd_data__ (H, w, tsam);
+  [H, w] = __adjust_frd_data__ (H, w);
 
   [p, m] = __frd_dim__ (H, w);
 

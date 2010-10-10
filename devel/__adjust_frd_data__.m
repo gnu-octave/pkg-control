@@ -23,7 +23,7 @@
 ## Created: October 2010
 ## Version: 0.1
 
-function [H, w, tsam] = __adjust_frd_data__ (H, w, tsam);
+function [H, w] = __adjust_frd_data__ (H, w);
 
   w = reshape (w, [], 1);
   lw = length (w);
