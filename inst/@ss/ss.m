@@ -100,7 +100,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
       [b, c] = __gain_check__ (b, c, d);
       argc = numel (varargin);
 
-      if (issample (varargin{1}, 1))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
+      if (issample (varargin{1}, 0))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
         tsam = varargin{1};
         argc--;
         if (argc > 0)

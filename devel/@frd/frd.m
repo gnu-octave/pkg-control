@@ -45,6 +45,9 @@ function sys = frd (H = [], w = [], varargin)
         [sys, alti] = __sys2frd__ (H);
         sys.lti = alti;               # preserve lti properties
         return;
+      elseif (is_real_matrix (H))     # static gain  sys = frd (M)
+        w = -1;
+        tsam = -1;
       else
         print_usage ();
       endif
@@ -61,7 +64,7 @@ function sys = frd (H = [], w = [], varargin)
     otherwise                         # default case
       argc = numel (varargin);
 
-      if (issample (varargin{1}, 1))  # sys = frd (H, w, tsam, "prop1, "val1", ...)
+      if (issample (varargin{1}, 0))  # sys = frd (H, w, tsam, "prop1, "val1", ...)
         tsam = varargin{1};
         argc--;
         if (argc > 0)

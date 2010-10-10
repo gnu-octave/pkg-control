@@ -24,9 +24,14 @@
 
 function [retsys, retlti] = __sys2frd__ (sys, w = [])
 
-  if (isempty (w))
-    [dec_min, dec_max] = __frequency_range__ (sys);
-    w = logspace (dec_min, dec_max, 500);
+  if (isempty (w))      # case sys = frd (sys)
+    tsam = get (sys, "tsam");
+    if (tsam == -1)     # static gain
+      w = -1;           # value is insignificant
+    else                # dynamic system
+      [dec_min, dec_max] = __frequency_range__ (sys);
+      w = logspace (dec_min, dec_max, 500);
+    endif
   endif
 
   H = __freqresp__ (sys, w);

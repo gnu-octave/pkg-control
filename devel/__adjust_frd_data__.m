@@ -25,6 +25,8 @@
 
 function [H, w, tsam] = __adjust_frd_data__ (H, w, tsam);
 
+  w = reshape (w, [], 1);
+
   if (ndims (H) != 3 && ! isempty (H))
     if (is_real_scalar (H))           # static gain (H is a real scalar)
       H = reshape (H, 1, 1, []);
@@ -45,7 +47,5 @@ function [H, w, tsam] = __adjust_frd_data__ (H, w, tsam);
     H = zeros (0, 0, 0);
     tsam = -1;
   endif
-
-  w = reshape (w, [], 1);
 
 endfunction

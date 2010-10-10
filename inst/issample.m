@@ -15,11 +15,28 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} issample (@var{ts})
-## @deftypefnx {Function File} {} issample (@var{ts}, @var{flg})
-## Return true if @var{ts} is a valid sampling time
-## (real, scalar, > 0). If a second argument != 0
-## is passed, -1 and 0 become valid sample times as well.
+## @deftypefn {Function File} {@var{bool} =} issample (@var{ts})
+## @deftypefnx {Function File} {@var{bool} =} issample (@var{ts}, @var{flg})
+## Return true if @var{ts} is a valid sampling time.
+##
+## @strong{Inputs}
+## @table @var
+## @item ts
+## Alleged sampling time to be tested.
+## @item flg = 1
+## Accept real scalars @var{ts} > 0. Default Value.
+## @item flg = 0
+## Accept real scalars @var{ts} >= 0.
+## @item flg = -1
+## Accept real scalars @var{ts} >= 0 and @var{ts} == -1.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item bool
+## True if conditions are met and false otherwise.
+## @end table
+##
 ## @end deftypefn
 
 ## Author: A. S. Hodel <a.s.hodel@eng.auburn.edu>
@@ -27,39 +44,62 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: September 2009
-## Version: 0.2
+## Version: 0.3
 
-function bool = issample (tsam, flg = 0)
+function bool = issample (tsam, flg = 1)
 
   if (nargin < 1 || nargin > 2)
     print_usage (); 
   endif
 
-  if (flg == 0)  # refuse -1 and 0
-    bool = is_real_scalar (tsam) && (tsam > 0);       
-  else           # allow -1 and 0
-    bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1);
-  endif
+  switch (flg)
+    case 1       # refuse -1 and 0
+      bool = is_real_scalar (tsam) && (tsam > 0);
+    case 0       # allow 0, refuse -1
+      bool = is_real_scalar (tsam) && (tsam >= 0);
+    case -1      # allow -1 and 0
+      bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1);
+    otherwise
+      print_usage ();
+  endswitch
 
 endfunction
 
 
-## flg == 0
+## flg == 1
 %!assert (issample (1), true)
 %!assert (issample (pi), true)
 %!assert (issample (0), false)
 %!assert (issample (-1), false)
-%!assert (issample (-1, 0), false)
+%!assert (issample (-1, 1), false)
 %!assert (issample ("a"), false)
 %!assert (issample (eye (2)), false)
 %!assert (issample (2+2i), false)
 
-## flg != 0
-%!assert (issample (-1, 1), true)
+## flg == 0
+%!assert (issample (1, 0), true)
+%!assert (issample (0, 0), true)
+%!assert (issample (-1, 0), false)
+%!assert (issample (pi, 0), true)
+%!assert (issample ("b", 0), false)
+%!assert (issample (rand (3,2), 0), false)
+%!assert (issample (2+2i, 0), false)
+%!assert (issample (0+2i, 0), false)
+
+## flg == -1
 %!assert (issample (-1, -1), true)
-%!assert (issample (pi, 1), true)
-%!assert (issample (0, 1), true)
-%!assert (issample ("b", 1), false)
-%!assert (issample (-1, "ab"), true)
-%!assert (issample (rand (3,2), 1), false)
-%!assert (issample (2+2i, 1), false)
+%!assert (issample (0, -1), true)
+%!assert (issample (1, -1), true)
+%!assert (issample (pi, -1), true)
+%!assert (issample (-pi, -1), false)
+%!assert (issample ("b", -1), false)
+%!assert (issample (rand (3,2), -1), false)
+%!assert (issample (-2+2i, -1), false)
+
+## errors
+%!error (issample (-1, "ab"))
+%!error (issample ())
+%!error (issample (-1, -1, -1))
+%!error (issample (1, pi))
+%!error (issample (5, rand (2,3)))
+%!error (issample (0, 1+2i))

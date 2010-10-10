@@ -34,7 +34,7 @@ function [p, m, l] = __frd_dim__ (H, w)
   if (lw > 1 && (! is_real_vector (w) || any (w < 0) \
                  || ! issorted (w) || w(1) >= w(end) || length (unique (w)) != lw))
     error ("frd: w must be a vector of positive real numbers");
-  elseif (lw == 1 && ! issample (w, -1))
+  elseif (lw == 1 && (! issample (w, -1) || (iscomplex (H) && ! issample (w, 0))))
     error ("frd: scalar w must be a valid sampling time");
   endif
 
