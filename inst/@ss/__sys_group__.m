@@ -35,21 +35,17 @@ function retsys = __sys_group__ (sys1, sys2)
   endif
 
   retsys = ss ();
-
   retsys.lti = __lti_group__ (sys1.lti, sys2.lti);
 
   n1 = rows (sys1.a);
   n2 = rows (sys2.a);
-
+  
   [p1, m1] = size (sys1.d);
   [p2, m2] = size (sys2.d);
 
   retsys.a = [sys1.a, zeros(n1,n2); zeros(n2,n1), sys2.a];
-
   retsys.b = [sys1.b, zeros(n1,m2); zeros(n2,m1), sys2.b];
-
   retsys.c = [sys1.c, zeros(p1,n2); zeros(p2,n1), sys2.c];
-
   retsys.d = [sys1.d, zeros(p1,m2); zeros(p2,m1), sys2.d];
 
   e1 = ! isempty (sys1.e);
