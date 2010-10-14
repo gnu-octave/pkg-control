@@ -48,6 +48,14 @@
 ## Descriptor state-space model.
 ## @end table
 ##
+## @example
+## @group
+##   .
+## E x = A x + B u
+##   y = C x + D u
+## @end group
+## @end example
+##
 ## @seealso{ss, tf}
 ## @end deftypefn
 
