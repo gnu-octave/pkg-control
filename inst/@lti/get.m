@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function varargout = get (sys, varargin)
 
@@ -44,6 +44,12 @@ function varargout = get (sys, varargin)
           val = sys.outname;
         case {"tsam", "ts"}
           val = sys.tsam;
+        case "name"
+          val = sys.name;
+        case "notes"
+          val = sys.notes;
+        case "userdata"
+          val = sys.userdata;
         otherwise
           val = __get__ (sys, prop);
       endswitch

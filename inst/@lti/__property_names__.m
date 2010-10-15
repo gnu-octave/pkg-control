@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,18 +22,24 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function [props, vals] = __property_names__ (sys)
 
   ## cell vector of lti-specific properties
   props = {"tsam";
            "inname";
-           "outname"};
+           "outname";
+           "name";
+           "notes";
+           "userdata"};
 
   ## cell vector of lti-specific assignable values
   vals = {"scalar (sample time in seconds)";
           "m-by-1 cell vector of strings";
-          "p-by-1 cell vector of strings"};
+          "p-by-1 cell vector of strings";
+          "string";
+          "string or cell of strings";
+          "any data type"};
 
 endfunction

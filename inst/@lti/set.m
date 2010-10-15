@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function retsys = set (sys, varargin)
 
@@ -37,9 +37,9 @@ function retsys = set (sys, varargin)
 
     disp (str);
 
-    if (nargout != 0)
-      retsys = sys;
-    endif
+    if (nargout != 0)    # function sys = set (sys, varargin)
+      retsys = sys;      # would lead to unwanted output when using
+    endif                # set (sys)
 
   elseif (nargout == 0)  # set (sys, "prop1", val1, ...)
 
@@ -73,8 +73,26 @@ function retsys = set (sys, varargin)
           else
             error ("lti: set: invalid sampling time");
           endif
+          ## TODO: use of c2d, d2c and d2d if tsam changes?
 
-          ## TODO: use of c2d, d2c and d2d if tsam changes
+        case "name"
+          if (ischar (val))
+            sys.name = val;
+          else
+            error ("lti: set: property ""name"" requires a string");
+          endif
+
+        case "notes"
+          if (iscellstr (val))
+            sys.notes = val;
+          elseif (ischar (val))
+            sys.notes = {val};
+          else
+            error ("lti: set: property ""notes"" requires string or cell of strings");
+          endif
+
+        case "userdata"
+          sys.userdata = val;
 
         otherwise
           sys = __set__ (sys, prop, val);
