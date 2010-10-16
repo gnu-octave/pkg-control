@@ -102,36 +102,30 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   argc = 0;                           # initialize argument count
   tsam = 0;                           # initialize sampling time
 
-  switch (nargin)
-    case {0, 2, 3, 4}                 # ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
-    ## nothing is done here
-    ## case needed to prevent "otherwise"
-
-    case 1
-      if (isa (a, "ss"))              # already in ss form
-        sys = a;
-        return;
-      elseif (isa (a, "lti"))         # another lti object
-        [sys, alti] = __sys2ss__ (a);
-        sys.lti = alti;               # preserve lti properties
-        return;
-      elseif (is_real_matrix (a))     # static gain  sys = ss (5)
-        d = a;
-        a = [];
-      else
-        print_usage ();
+  if (nargin == 1)
+    if (isa (a, "ss"))                # already in ss form
+      sys = a;
+      return;
+    elseif (isa (a, "lti"))           # another lti object
+      [sys, alti] = __sys2ss__ (a);
+      sys.lti = alti;                 # preserve lti properties
+      return;
+    elseif (is_real_matrix (a))       # static gain  sys = ss (5)
+      d = a;
+      a = [];
+    else
+      print_usage ();
+    endif
+  elseif (nargin > 4)                 # default case  sys = ss (a, b, c, d, "prop1, "val1", ...)
+    argc = numel (varargin);          # number of additional arguments after d
+    if (issample (varargin{1}, 0))    # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
+      tsam = varargin{1};
+      argc--;
+      if (argc > 0)
+        varargin = varargin(2:end);
       endif
-
-    otherwise                         # default case  sys = ss (a, b, c, d, "prop1, "val1", ...)
-      argc = numel (varargin);        # number of additional arguments after d
-      if (issample (varargin{1}, 0))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
-        tsam = varargin{1};
-        argc--;
-        if (argc > 0)
-          varargin = varargin(2:end);
-        endif
-      endif
-  endswitch
+    endif
+  endif                               # nothing to do for ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
 
   [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   [p, m, n] = __ss_dim__ (a, b, c, d);
