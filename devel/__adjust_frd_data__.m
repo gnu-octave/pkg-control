@@ -32,14 +32,14 @@ function [H, w] = __adjust_frd_data__ (H, w);
     if (isscalar (H))
       H = reshape (H, 1, 1, []);
       if (lw > 1)
-        H = repmat (H, [1, 1, lw]);  # needed for "frd1 + scalar2" or "scalar1 * frd2) 
+        H = repmat (H, [1, 1, lw]);            # needed for "frd1 + scalar2" or "scalar1 * frd2) 
       endif
-    elseif (isvector (H))            # SISO system (H is a vector)
+    elseif (isvector (H) && length (H) == lw)  # SISO system (H is a vector)
       H = reshape (H, 1, 1, []);
     elseif (ismatrix (H))
       H = reshape (H, rows (H), []);
       if (lw > 1)
-        H = repmat (H, [1, 1, lw]);  # needed for "frd1 + matrix2" or "matrix1 * frd2) 
+        H = repmat (H, [1, 1, lw]);            # needed for "frd1 + matrix2" or "matrix1 * frd2) 
       endif
     else
       error ("frd: first argument H invalid");
