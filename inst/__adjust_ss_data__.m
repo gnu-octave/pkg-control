@@ -30,8 +30,13 @@ function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
     tsam = -1;
   endif
 
-  if (isempty (d))                 # ss (a, b, c), ss (a, b, c, [], ...)
-    d = zeros (rows (c), columns (b));
+  if (isempty (d))
+    if (isempty (c))               # ss (a, b), ss (a, b, [], [], ...)
+      c = eye (size (a));
+      d = zeros (rows (a), columns (b));
+    else                           # ss (a, b, c), ss (a, b, c, [], ...)
+      d = zeros (rows (c), columns (b));
+    endif
   endif
 
   if (isempty (b) && isempty (c))  # sys = ss ([], [], [], d)

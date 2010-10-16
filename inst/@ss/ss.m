@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}, @dots{})
@@ -31,11 +32,12 @@
 ## Input matrix (n-by-m).
 ## @item c
 ## Measurement matrix (p-by-n).
+## If @var{c} is empty @code{[]} or not specified, an identity matrix is assumed.
 ## @item d
 ## Feedthrough matrix (p-by-m).
+## If @var{d} is empty @code{[]} or not specified, a zero matrix is assumed.
 ## @item tsam
-## Sampling time. If @var{tsam} is not specified, a continuous-time
-## model is assumed.
+## Sampling time.  If @var{tsam} is not specified, a continuous-time model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.
 ## Type @command{set (ss)} for more information.
@@ -46,6 +48,43 @@
 ## @item sys
 ## State-space model.
 ## @end table
+##
+## @strong{Example}
+## @example
+## @group
+## octave:1> a = [1 2 3; 4 5 6; 7 8 9];
+## octave:2> b = [10; 11; 12];
+## octave:3> stname = {"V", "A", "kJ"};
+## octave:4> sys = ss (a, b, [], [], "stname", stname)
+## 
+## sys.a =
+##         V   A  kJ
+##    V    1   2   3
+##    A    4   5   6
+##    kJ   7   8   9
+## 
+## sys.b =
+##        u1
+##    V   10
+##    A   11
+##    kJ  12
+## 
+## sys.c =
+##         V   A  kJ
+##    y1   1   0   0
+##    y2   0   1   0
+##    y3   0   0   1
+## 
+## sys.d =
+##        u1
+##    y1   0
+##    y2   0
+##    y3   0
+## 
+## Continuous-time model.
+## octave:5> 
+## @end group
+## @end example
 ##
 ## @seealso{tf, dss}
 ## @end deftypefn
@@ -64,7 +103,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   tsam = 0;                           # initialize sampling time
 
   switch (nargin)
-    case {0, 3, 4}                    # ss (), ss (a, b, c), ss (a, b, c, d)
+    case {0, 2, 3, 4}                 # ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
     ## nothing is done here
     ## case needed to prevent "otherwise"
 
@@ -82,9 +121,6 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
       else
         print_usage ();
       endif
-
-    case 2
-      print_usage ();
 
     otherwise                         # default case  sys = ss (a, b, c, d, "prop1, "val1", ...)
       argc = numel (varargin);        # number of additional arguments after d
