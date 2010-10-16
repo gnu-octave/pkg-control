@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{P} =} augw (@var{G}, @var{W1}, @var{W2}, @var{W3})
-## Extend plant for stacked S/KS/T problem. Subsequently, the robust control problem
+## Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
 ## can be solved by h2syn or hinfsyn.
 ##
 ## @strong{Inputs}
@@ -25,15 +25,18 @@
 ## @item G
 ## LTI model of plant.
 ## @item W1
-## LTI model of performance weight. Bounds the largest singular values of sensitivity @var{S}.
-## Model must be empty, SISO or of appropriate size.
+## LTI model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
+## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W2
-## LTI model to penalize large control inputs. Bounds the largest singular values of @var{KS}.
-## Model must be empty, SISO or of appropriate size.
+## LTI model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
+## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W3
-## LTI model of robustness and noise sensitivity weight. Bounds the largest singular values of 
-## complementary sensitivity @var{T}. Model must be empty, SISO or of appropriate size.
+## LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+## complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
 ## @end table
+##
+## All inputs must be proper/realizable.
+## Scalars, vectors and matrices are possible instead of LTI models.
 ##
 ## @strong{Outputs}
 ## @table @var

@@ -17,11 +17,11 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
-## Solve stacked S/KS/T H-inf problem. Bound the largest singular values
-## of S (for performance), K S (to penalize large inputs) and
-## T (for robustness and to avoid sensitivity to noise).
+## Solve stacked S/KS/T H-inf problem.  Bound the largest singular values
+## of @var{S} (for performance), @var{K S} (to penalize large inputs) and
+## @var{T} (for robustness and to avoid sensitivity to noise).
 ## In other words, the inputs r are excited by a harmonic test signal.
-## Then the algorithm tries to find a controller K which minimizes
+## Then the algorithm tries to find a controller @var{K} which minimizes
 ## the H-infinity norm calculated from the outputs z.
 ##
 ## @strong{Inputs}
@@ -29,15 +29,20 @@
 ## @item G
 ## LTI model of plant.
 ## @item W1
-## LTI model of performance weight. Bounds the largest singular values of sensitivity @var{S}.
-## Model must be empty or proper, SISO or of appropriate size.
+## LTI model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
+## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W2
-## LTI model to penalize large control inputs. Bounds the largest singular values of @var{KS}.
-## Model must be empty or proper, SISO or of appropriate size.
+## LTI model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
+## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W3
-## LTI model of robustness and noise sensitivity weight. Bounds the largest singular values of 
-## complementary sensitivity @var{T}. Model must be empty or proper, SISO or of appropriate size.
+## LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+## complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
+## @item @dots{}
+## Optional arguments of @command {hinfsyn}.  Type @command{help hinfsyn} for more information.
 ## @end table
+##
+## All inputs must be proper/realizable.
+## Scalars, vectors and matrices are possible instead of LTI models.
 ##
 ## @strong{Outputs}
 ## @table @var

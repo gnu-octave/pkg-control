@@ -24,14 +24,14 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item P
-## Generalized plant.
+## Generalized plant.  Must be a proper/realizable LTI model.
 ## @item nmeas
-## Number of measured outputs e. The last nmeas outputs of @var{P} are connected to the
-## inputs of controller @var{K}. The remaining outputs z (indices 1 to p-nmeas) are used
+## Number of measured outputs e.  The last nmeas outputs of @var{P} are connected to the
+## inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
 ## to calculate the H-2 norm.
 ## @item ncon
-## Number of controlled inputs u. The last ncon inputs of @var{P} are connected to the
-## outputs of controller @var{K}. The remaining inputs r (indices 1 to m-ncon) are excited
+## Number of controlled inputs u.  The last ncon inputs of @var{P} are connected to the
+## outputs of controller @var{K}.  The remaining inputs r (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @end table
 ##
