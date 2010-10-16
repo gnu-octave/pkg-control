@@ -51,7 +51,7 @@ function sys = __set__ (sys, prop, val)
 
     case {"stname", "statename"}
       n = rows (sys.a);
-      sys.stname = __check_name_numel__ (val, n);
+      sys.stname = __adjust_labels__ (val, n);
 
     otherwise
       error ("ss: set: invalid property name");

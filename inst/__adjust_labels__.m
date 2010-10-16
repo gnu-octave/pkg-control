@@ -21,17 +21,17 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function name = __check_name_numel__ (name, req_len)
+function name = __adjust_labels__ (name, req_len)
 
-  if (! iscell (name))  # catch the siso case,
-    name = {name};      # e.g. sys = set (sys, "inname", "u_1")
+  if (iscell (name))
+    name = reshape (name, [], 1);
+  else                             # catch the siso case,
+    name = {name};                 # e.g. sys = set (sys, "inname", "u_1")
   endif
 
-  name = reshape (name, [], 1);
-
-  if (numel (name) != req_len)
+  if (! iscellstr (name) || numel (name) != req_len)
     error ("lti: set: cell must contain %d strings", req_len);
   endif
 
