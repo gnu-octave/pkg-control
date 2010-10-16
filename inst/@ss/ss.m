@@ -52,7 +52,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
@@ -60,12 +60,13 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   ## inferiorto ("frd");
   superiorto ("zpk", "tf", "double");
 
-  argc = 0;
-  e = [];
+  argc = 0;                           # initialize argument count
+  tsam = 0;                           # initialize sampling time
 
   switch (nargin)
-    case 0                            # ss ()
-    ## tsam = -1;                     # nothing is done here, but "case 0" needed to prevent "otherwise"
+    case {0, 3, 4}                    # ss (), ss (a, b, c), ss (a, b, c, d)
+    ## nothing is done here
+    ## case needed to prevent "otherwise"
 
     case 1
       if (isa (a, "ss"))              # already in ss form
@@ -75,12 +76,9 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
         [sys, alti] = __sys2ss__ (a);
         sys.lti = alti;               # preserve lti properties
         return;
-      elseif (is_real_matrix (a))     # static gain
+      elseif (is_real_matrix (a))     # static gain  sys = ss (5)
         d = a;
         a = [];
-        b = zeros (0, columns (d));
-        c = zeros (rows (d), 0);
-        ## tsam = -1;
       else
         print_usage ();
       endif
@@ -88,43 +86,25 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
     case 2
       print_usage ();
 
-    case 3                            # a, b, c without d   ss (a, b, c)
-      d = zeros (rows (c), columns (b));
-      tsam = 0;
-
-    case 4                            # continuous system   ss (a, b, c, d), ss ([], [], [], d)
-      [b, c] = __gain_check__ (b, c, d);
-      tsam = 0;
-
-    otherwise                         # default case
-      [b, c] = __gain_check__ (b, c, d);
-      argc = numel (varargin);
-
+    otherwise                         # default case  sys = ss (a, b, c, d, "prop1, "val1", ...)
+      argc = numel (varargin);        # number of additional arguments after d
       if (issample (varargin{1}, 0))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
         tsam = varargin{1};
         argc--;
         if (argc > 0)
           varargin = varargin(2:end);
         endif
-      else                            # sys = ss (a, b, c, d, "prop1, "val1", ...)
-        tsam = 0;
       endif
-
   endswitch
 
-
-  if (isempty (a))                    # static system
-    tsam = -1;
-    a = [];                           # avoid [](nx0) or [](0xn)
-  endif
-
+  [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   [p, m, n] = __ss_dim__ (a, b, c, d);
 
   stname = repmat ({""}, n, 1);
 
   ssdata = struct ("a", a, "b", b,
                    "c", c, "d", d,
-                   "e", e,
+                   "e", [],
                    "stname", {stname});
 
   ltisys = lti (p, m, tsam);
@@ -133,18 +113,6 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   if (argc > 0)
     sys = set (sys, varargin{:});
-  endif
-
-endfunction
-
-
-function [b, c] = __gain_check__ (b, c, d)
-
-  ## catch the case sys = ss ([], [], [], d)
-  ## don't forget to set tsam = -1
-  if (isempty (b) && isempty (c))
-    b = zeros (0, columns (d));
-    c = zeros (rows(d), 0);
   endif
 
 endfunction
