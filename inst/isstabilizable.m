@@ -56,9 +56,9 @@
 ## System is stabilizable.
 ## @end table
 ##
+## @strong{Method}
 ## @example
 ## @group
-## Method
 ## * Calculate staircase form (SLICOT AB01OD)
 ## * Extract unobservable part of state transition matrix
 ## * Calculate eigenvalues of unobservable part

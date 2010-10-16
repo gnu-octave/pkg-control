@@ -52,6 +52,7 @@
 ## Closed-loop poles.
 ## @end table
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ## x[k+1] = A x[k] + B u[k],   x[0] = x0

@@ -49,6 +49,7 @@
 ## Solution of the Riccati equation.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##                                  u  +-------+         ^

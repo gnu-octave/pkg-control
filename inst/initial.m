@@ -51,7 +51,7 @@
 ## State trajectories array. Has length(t) rows and as many columns as states.
 ## @end table
 ##
-## @seealso{impulse, lsim, step}
+## @strong{Example}
 ## @example
 ## @group
 ##                    .
@@ -60,6 +60,8 @@
 ## Discrete Time:   x[k+1] = A x[k] ,   y[k] = C x[k] ,   x[0] = x0
 ## @end group
 ## @end example
+##
+## @seealso{impulse, lsim, step}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -23,6 +23,7 @@
 ## Uses SLICOT SB03MD, SB04MD and SG03AD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ## AX + XA' + B = 0      (Lyapunov Equation)

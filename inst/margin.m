@@ -43,8 +43,7 @@
 ## Frequency for the phase margin (in rad/s).
 ## @end table
 ##
-## @seealso{roots}
-##
+## @strong{Equations}
 ## @example
 ## @group
 ## CONTINUOUS SYSTEMS
@@ -115,6 +114,8 @@
 ##        = ( e z  +  d z  +  c z  +  b z  +  a ) / ( z  )
 ## @end group
 ## @end example
+##
+## @seealso{roots}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

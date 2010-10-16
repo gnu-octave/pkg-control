@@ -41,6 +41,7 @@
 ## State-space model of augmented plant.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##

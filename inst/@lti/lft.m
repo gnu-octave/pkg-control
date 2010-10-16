@@ -40,6 +40,7 @@
 ## Resulting LTI model.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##       .............sys..............

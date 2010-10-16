@@ -45,10 +45,27 @@
 ## Transfer function model.
 ## @end table
 ##
+## @strong{Example}
 ## @example
 ## @group
-## s = tf ("s");
-## G = 1/(s+1)
+## octave:1> s = tf ("s");
+## octave:2> G = 1/(s+1)
+##
+## Transfer function "G" from input "u1" to output ...
+##         1  
+##  y1:  -----
+##       s + 1
+##
+## octave:3> z = tf ("z", 0.2);
+## octave:4> H = 0.095/(z-0.9)
+## 
+## Transfer function "H" from input "u1" to output ...
+##        0.095 
+##  y1:  -------
+##       z - 0.9
+## 
+## Sampling time: 0.2 s
+## octave:5> 
 ## @end group
 ## @end example
 ##

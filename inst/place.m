@@ -55,6 +55,7 @@
 ## eigenvalue assignment algorithm.
 ## @end table
 ##
+## @strong{Note}
 ## @example
 ## @group
 ## Place is also suitable to design estimator gains:

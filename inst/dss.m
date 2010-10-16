@@ -48,6 +48,7 @@
 ## Descriptor state-space model.
 ## @end table
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ##   .

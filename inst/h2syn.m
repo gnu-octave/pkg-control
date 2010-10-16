@@ -45,6 +45,7 @@
 ## H-2 norm of @var{N}.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##

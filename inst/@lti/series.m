@@ -19,6 +19,8 @@
 ## @deftypefn {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
 ## @deftypefnx {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
 ## Series connection of two LTI models.
+##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##     .....................................

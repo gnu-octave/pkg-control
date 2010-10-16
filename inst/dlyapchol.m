@@ -22,6 +22,7 @@
 ## Uses SLICOT SB03OD and SG03BD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ## A U' U A'  -  U' U  +  B B'  =  0           (Lyapunov Equation)

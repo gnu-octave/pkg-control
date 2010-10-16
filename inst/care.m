@@ -50,6 +50,7 @@
 ## Corresponding gain matrix (m-by-n).
 ## @end table
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ##                -1

@@ -38,6 +38,7 @@
 ## Interconnected system.
 ## @end table
 ##
+## @strong{Example}
 ## @example
 ## @group
 ## Solve the system equations of

@@ -41,6 +41,7 @@
 ## Gains for real axis break points.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##  u    +         +---+      +------+             y

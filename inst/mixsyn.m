@@ -49,6 +49,7 @@
 ## L-infinity norm of @var{N}.
 ## @end table
 ##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##

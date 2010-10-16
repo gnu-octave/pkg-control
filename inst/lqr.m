@@ -52,6 +52,7 @@
 ## Closed-loop poles.
 ## @end table
 ##
+## @strong{Equations}
 ## @example
 ## @group
 ## .

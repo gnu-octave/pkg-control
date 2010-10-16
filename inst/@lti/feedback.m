@@ -23,6 +23,8 @@
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{"+"})
 ## Feedback connection of two LTI models.
+##
+## @strong{Block Diagram}
 ## @example
 ## @group
 ##  u    +         +--------+             y
