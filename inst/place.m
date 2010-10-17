@@ -20,9 +20,9 @@
 ## @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
 ## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{sys}, @var{p}, @var{alpha})
 ## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
-## Pole assignment for a given matrix pair (@var{a},@var{B}) such that @code{p = eig (A-B*F)}.
-## If parameter alpha is specified, poles with real parts (continuous time)
-## or moduli (discrete time) below alpha are left untouched.
+## Pole assignment for a given matrix pair (@var{A},@var{B}) such that @code{p = eig (A-B*F)}.
+## If parameter @var{alpha} is specified, poles with real parts (continuous-time)
+## or moduli (discrete-time) below @var{alpha} are left untouched.
 ## Uses SLICOT SB01BD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
@@ -33,13 +33,13 @@
 ## @item a
 ## State transition matrix (n-by-n) of a continuous-time system.
 ## @item b
-## Input matrix (n-by-m) of a continuous time system.
+## Input matrix (n-by-m) of a continuous-time system.
 ## @item p
 ## Desired eigenvalues of the closed-loop system state-matrix @var{A-B*F}.
-## @code{length (p) <= rows (A)}
+## @code{length (p) <= rows (A)}.
 ## @item alpha
 ## Specifies the maximum admissible value, either for real
-## parts or for moduli, of the eigenvalues of A which will
+## parts or for moduli, of the eigenvalues of @var{A} which will
 ## not be modified by the eigenvalue assignment algorithm.
 ## @code{alpha >= 0} for discrete-time systems.
 ## @end table
@@ -61,8 +61,8 @@
 ##
 ## @strong{Note}
 ## @example
-## @group
 ## Place is also suitable to design estimator gains:
+## @group
 ## L = place (A.', C.', p).'
 ## L = place (sys.', p).'   % useful for discrete-time systems
 ## @end group

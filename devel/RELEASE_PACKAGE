@@ -28,6 +28,7 @@ tar czf control-html.tar.gz control-html
 md5 control-html.tar.gz
 md5 control-html.tar.gz > md5_control_html.txt
 uuencode control-html.tar.gz < control-html.tar.gz > control-html.tar.gz.uue
+cd
 
 
 =====================================================================================
