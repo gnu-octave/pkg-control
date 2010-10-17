@@ -38,7 +38,7 @@
 ## LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
 ## complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item @dots{}
-## Optional arguments of @command {hinfsyn}.  Type @command{help hinfsyn} for more information.
+## Optional arguments of @command{hinfsyn}.  Type @command{help hinfsyn} for more information.
 ## @end table
 ##
 ## All inputs must be proper/realizable.
