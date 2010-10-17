@@ -85,7 +85,7 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = 
     sensors = 1 : rows (c);
   endif
 
-  stochastic = complement (deterministic, 1 : columns (b));
+  stochastic = setdiff (1 : columns (b), deterministic);
 
   c = c(sensors, :);
   g = b(:, stochastic);
