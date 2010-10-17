@@ -54,7 +54,7 @@
 ## @group
 ## octave:1> a = [1 2 3; 4 5 6; 7 8 9];
 ## octave:2> b = [10; 11; 12];
-## octave:3> stname = {"V", "A", "kJ"};
+## octave:3> stname = @{"V", "A", "kJ"@};
 ## octave:4> sys = ss (a, b, [], [], "stname", stname)
 ## 
 ## sys.a =
