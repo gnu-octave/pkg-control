@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{retsys} =} __sys_connect__ (@var{sys}, @var{M})
-## This function is part of the Model Abstraction Layer. No argument checking.
+## This function is part of the Model Abstraction Layer.  No argument checking.
 ## For internal use only.
 ## @example
 ## @group

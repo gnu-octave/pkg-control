@@ -28,7 +28,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item k
-## DC gain matrice. For a system with m inputs and p outputs, the array @var{k}
+## DC gain matrice.  For a system with m inputs and p outputs, the array @var{k}
 ## has dimensions [p, m].
 ## @end table
 ##

@@ -37,7 +37,7 @@
 ## @item e
 ## Descriptor matrix.
 ## @item tol
-## Optional roundoff parameter. Default value is 0.
+## Optional roundoff parameter.  Default value is 0.
 ## @end table
 ##
 ## @strong{Outputs}

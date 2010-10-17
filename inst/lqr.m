@@ -37,9 +37,9 @@
 ## @item r
 ## Input weighting matrix.
 ## @item s
-## Optional cross term matrix. If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term matrix.  If @var{s} is not specified, a zero matrix is assumed.
 ## @item e
-## Optional descriptor matrix. If @var{e} is not specified, an identity matrix is assumed.
+## Optional descriptor matrix.  If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}

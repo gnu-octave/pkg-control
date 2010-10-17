@@ -30,7 +30,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item H
-## Array of frequency response. For a system with m inputs and p outputs, the array @var{H}
+## Array of frequency response.  For a system with m inputs and p outputs, the array @var{H}
 ## has dimensions [p, m, length (w)].
 ## The frequency response at the frequency w(k) is given by H(:,:,k).
 ## @end table

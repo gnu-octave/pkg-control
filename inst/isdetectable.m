@@ -26,8 +26,9 @@
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{[]}, @var{dflg})
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{[]}, @var{tol}, @var{dflg})
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{tol}, @var{dflg})
-## Logical test for system detectability. All unstable modes must be observable or
-## all unobservable states must be stable. Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
+## Logical test for system detectability.
+## All unstable modes must be observable or all unobservable states must be stable.
+## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 ##
 ## @strong{Inputs}
@@ -41,9 +42,9 @@
 ## @item e
 ## Descriptor matrix.
 ## @item tol
-## Optional tolerance for stability. Default value is 0.
+## Optional tolerance for stability.  Default value is 0.
 ## @item dflg = 0
-## Matrices (@var{a}, @var{c}) are part of a continuous-time system. Default Value.
+## Matrices (@var{a}, @var{c}) are part of a continuous-time system.  Default Value.
 ## @item dflg = 1
 ## Matrices (@var{a}, @var{c}) are part of a discrete-time system.
 ## @end table

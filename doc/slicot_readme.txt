@@ -2,7 +2,7 @@ Important
 *********
 
 If you encounter any bugs in the octave control package, please
-DONT bother the great people behind SLICOT. Most likely it's a
+DONT bother the great people behind SLICOT.  Most likely it's a
 problem of the control package, not the proven SLICOT library.
 Therefore, please send any reports to the octave mailing list
 and the maintainer of the control package.

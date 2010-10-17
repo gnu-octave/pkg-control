@@ -20,7 +20,7 @@
 ## @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
 ## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{sys}, @var{p}, @var{alpha})
 ## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
-## Pole assignment for a given matrix pair (A,B) such that eig (A-B*F) = P.
+## Pole assignment for a given matrix pair (@var{a},@var{B}) such that @code{p = eig (A-B*F)}.
 ## If parameter alpha is specified, poles with real parts (continuous time)
 ## or moduli (discrete time) below alpha are left untouched.
 ## Uses SLICOT SB01BD by courtesy of NICONET e.V.
@@ -30,14 +30,18 @@
 ## @table @var
 ## @item sys
 ## LTI system.
+## @item a
+## State transition matrix (n-by-n) of a continuous-time system.
+## @item b
+## Input matrix (n-by-m) of a continuous time system.
 ## @item p
-## Desired eigenvalues of the closed-loop system state-matrix A-B*F.
-## length (P) <= rows (A)
+## Desired eigenvalues of the closed-loop system state-matrix @var{A-B*F}.
+## @code{length (p) <= rows (A)}
 ## @item alpha
 ## Specifies the maximum admissible value, either for real
 ## parts or for moduli, of the eigenvalues of A which will
 ## not be modified by the eigenvalue assignment algorithm.
-## ALPHA >= 0 for discrete-time systems.
+## @code{alpha >= 0} for discrete-time systems.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -45,11 +49,11 @@
 ## @item f
 ## State feedback gain matrix.
 ## @item nfp
-## The number of fixed poles, i.e. eigenvalues of A having
-## real parts less than ALPHA, or moduli less than ALPHA.
-## These eigenvalues are not modified by place.
+## The number of fixed poles, i.e. eigenvalues of @var{A} having
+## real parts less than @var{alpha}, or moduli less than @var{alpha}.
+## These eigenvalues are not modified by @command{place}.
 ## @item nap
-## The number of assigned eigenvalues. NAP = N-NFP-NUP.
+## The number of assigned eigenvalues.  @code{nap = n-nfp-nup}.
 ## @item nup
 ## The number of uncontrollable eigenvalues detected by the
 ## eigenvalue assignment algorithm.

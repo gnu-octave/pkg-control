@@ -18,14 +18,14 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
 ## @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
-## Gain and phase margin of a system. If no output arguments are given, both gain and phase margin
-## are plotted on a bode diagram. Otherwise, the margins and their corresponding frequencies are
+## Gain and phase margin of a system.  If no output arguments are given, both gain and phase margin
+## are plotted on a bode diagram.  Otherwise, the margins and their corresponding frequencies are
 ## computed and returned.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model. Must be a single-input and single-output (SISO) system.
+## LTI model.  Must be a single-input and single-output (SISO) system.
 ## @item tol
 ## Imaginary parts below @var{tol} are assumed to be zero.
 ## If not specified, default value @code{sqrt (eps)} is taken.

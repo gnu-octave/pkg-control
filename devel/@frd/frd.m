@@ -25,15 +25,15 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model. If second argument @var{w} is omitted, the interesting
+## LTI model.  If second argument @var{w} is omitted, the interesting
 ## frequency range is calculated by the zeros and poles of @var{sys}.
 ## @item H
-## Frequency response array (p-by-m-by-lw). In the SISO case,
+## Frequency response array (p-by-m-by-lw).  In the SISO case,
 ## a vector (lw-by-1) or (1-by-lw) is accepted as well.
 ## @item w
 ## Frequency vector (lw-by-1) in radian per second [rad/s].
 ## @item tsam
-## Sampling time. If @var{tsam} is not specified, a continuous-time
+## Sampling time.  If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.

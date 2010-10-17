@@ -19,7 +19,7 @@
 ## @deftypefn{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau})
 ## @deftypefnx{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau}, @var{tfinal}, @var{tsam})
-## Generate periodic signal. Useful in combination with lsim.
+## Generate periodic signal.  Useful in combination with lsim.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -34,9 +34,9 @@
 ## @item tau
 ## Duration of one period in seconds.
 ## @item tfinal
-## Optional duration of the signal in seconds. Default duration is 5 periods.
+## Optional duration of the signal in seconds.  Default duration is 5 periods.
 ## @item tsam
-## Optional sampling time in seconds. Default spacing is tau/64.
+## Optional sampling time in seconds.  Default spacing is tau/64.
 ## @end table
 ##
 ## @strong{Outputs}

@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Matrix power of LTI objects. The exponent must be an integer.
+## Matrix power of LTI objects.  The exponent must be an integer.
 ## Used by Octave for "lti^int".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{retsys} =} __sys_connect__ (@var{sys}, @var{M})
-## This function is part of the Model Abstraction Layer. No argument checking.
+## This function is part of the Model Abstraction Layer.  No argument checking.
 ## For internal use only.
 ## @example
 ## @group
@@ -44,13 +44,13 @@ function sys = __sys_connect__ (sys, M)
   num = sys.num;
   den = sys.den;
 
-  ## TODO: Implementation for MIMO models. There are three possibilities:
+  ## TODO: Implementation for MIMO models.  There are three possibilities:
   ##       1. An _algebraic_ solution of the inversion problem in order
-  ##          to not introduce unwanted zero/pole pairs. Difficult.
-  ##       2. A numeric solution of the inversion problem. Afterwards,
-  ##          elimination of _all_ zero/pole pairs by minreal. Bad.
+  ##          to not introduce unwanted zero/pole pairs.  Difficult.
+  ##       2. A numeric solution of the inversion problem.  Afterwards,
+  ##          elimination of _all_ zero/pole pairs by minreal.  Bad.
   ##       3. Conversion to state-space, solving the problem there and
-  ##          converting back to transfer function. Easier, but obviously,
+  ##          converting back to transfer function.  Easier, but obviously,
   ##          this way needs MIMO __sys2ss__ and __sys2tf__ implementations
   ##          as described in Thomas Kailath's classic "Linear Systems".
   ##          Possibly this is the way to go, but it works for proper systems

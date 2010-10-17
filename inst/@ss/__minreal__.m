@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Minimal realization of SS models. The physical meaning of states is lost.
+## Minimal realization of SS models.  The physical meaning of states is lost.
 ## Uses SLICOT TB01PD and TG01JD by courtesy of NICONET e.V.
 ## <http://www.slicot.org>
 

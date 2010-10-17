@@ -18,24 +18,24 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
 ## @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
-## Nyquist diagram of frequency response. If no output arguments are given,
+## Nyquist diagram of frequency response.  If no output arguments are given,
 ## the response is printed on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system. Must be a single-input and single-output (SISO) system.
+## LTI system.  Must be a single-input and single-output (SISO) system.
 ## @item w
-## Optional vector of frequency values. If @var{w} is not specified, it
-## is calculated by the zeros and poles of the system.
+## Optional vector of frequency values.  If @var{w} is not specified,
+## it is calculated by the zeros and poles of the system.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item re
-## Vector of real parts. Has length of frequency vector @var{w}.
+## Vector of real parts.  Has length of frequency vector @var{w}.
 ## @item im
-## Vector of imaginary parts. Has length of frequency vector @var{w}.
+## Vector of imaginary parts.  Has length of frequency vector @var{w}.
 ## @item w
 ## Vector of frequency values used.
 ## @end table

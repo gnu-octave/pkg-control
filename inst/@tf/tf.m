@@ -26,13 +26,13 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item num
-## Numerator or cell of numerators. Row vector containing the exponents
+## Numerator or cell of numerators.  Row vector containing the exponents
 ## of the polynomial in descending order.
 ## @item den
-## Denominator or cell of denominators. Row vector containing the exponents
+## Denominator or cell of denominators.  Row vector containing the exponents
 ## of the polynomial in descending order.
 ## @item tsam
-## Sampling time. If @var{tsam} is not specified, a continuous-time
+## Sampling time.  If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.

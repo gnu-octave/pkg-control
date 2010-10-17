@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Binary addition of LTI objects. If necessary, object conversion
-## is done by sys_group. Used by Octave for "lti1 + lti2".
+## Binary addition of LTI objects.  If necessary, object conversion
+## is done by sys_group.  Used by Octave for "lti1 + lti2".
 ## Operation is also known as "parallel connection".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

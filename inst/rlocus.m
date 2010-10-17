@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model. Must be a single-input and single-output (SISO) system.
+## LTI model.  Must be a single-input and single-output (SISO) system.
 ## @item min_k
 ## Minimum value of @var{k}.
 ## @item max_k

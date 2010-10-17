@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Make two polynomials equally long by adding leading zeros
-## to the shorter one. For internal use only.
+## to the shorter one.  For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

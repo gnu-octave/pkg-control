@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## Return default labels if cell "name" contains only empty strings.
 ## If not, check whether individual strings of the cell "name" are
-## empty and mark them with "?". Used by display routines.
+## empty and mark them with "?".  Used by display routines.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

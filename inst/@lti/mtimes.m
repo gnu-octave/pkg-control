@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Matrix multiplication of LTI objects. If necessary, object conversion
-## is done by sys_group. Used by Octave for "lti1 * lti2".
+## Matrix multiplication of LTI objects.  If necessary, object conversion
+## is done by sys_group.  Used by Octave for "lti1 * lti2".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

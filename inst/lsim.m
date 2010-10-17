@@ -19,7 +19,7 @@
 ## @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0}, @var{method})
-## Simulate LTI model response to arbitrary inputs. If no output arguments are given,
+## Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
 ## the system response is plotted on the screen.
 ##
 ## @strong{Inputs}
@@ -27,23 +27,23 @@
 ## @item sys
 ## LTI model.
 ## @item t
-## Time vector. Should be evenly spaced.
+## Time vector.  Should be evenly spaced.
 ## @item x0
 ## Vector of initial conditions for each state.
 ## @item method
-## Discretization method for continuous-time models. Default value is zoh
-## (zero-order hold). All methods from c2d are supported. 
+## Discretization method for continuous-time models.  Default value is zoh
+## (zero-order hold).  All methods from c2d are supported. 
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item y
-## Output response array. Has as many rows as time samples (length of t)
+## Output response array.  Has as many rows as time samples (length of t)
 ## and as many columns as outputs.
 ## @item t
 ## Time row vector.
 ## @item x
-## State trajectories array. Has length(t) rows and as many columns as states.
+## State trajectories array.  Has @code{length (t)} rows and as many columns as states.
 ## @end table
 ##
 ## @seealso{impulse, initial, step}

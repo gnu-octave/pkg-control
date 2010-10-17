@@ -20,34 +20,34 @@
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
-## Singular values of frequency response. If no output arguments are given,
+## Singular values of frequency response.  If no output arguments are given,
 ## the singular value plot is printed on the screen;
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system. Multiple inputs and/or outputs (MIMO systems) make practical sense.
+## LTI system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
 ## @item w
-## Optional vector of frequency values. If @var{w} is not specified, it
-## is calculated by the zeros and poles of the system.
+## Optional vector of frequency values.  If @var{w} is not specified,
+## it is calculated by the zeros and poles of the system.
 ## @item ptype = 0
-## Singular values of the frequency response H of system sys. Default Value.
+## Singular values of the frequency response @var{H} of system @var{sys}.  Default Value.
 ## @item ptype = 1
-## Singular values of the frequency response inv(H); i.e. inversed system.
+## Singular values of the frequency response @code{inv(H)}; i.e. inversed system.
 ## @item ptype = 2
-## Singular values of the frequency response I + H; i.e. inversed sensitivity
-## (or return difference) if H = P * C.
+## Singular values of the frequency response @code{I + H}; i.e. inversed sensitivity
+## (or return difference) if @code{H = P * C}.
 ## @item ptype = 3
-## Singular values of the frequency response I + inv(H); i.e. inversed complementary
-## sensitivity if H = P * C.
+## Singular values of the frequency response @code{I + inv(H)}; i.e. inversed complementary
+## sensitivity if @code{H = P * C}.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item sv
-## Array of singular values. For a system with m inputs and p outputs, the array sv
-## has min(m,p) rows and as many columns as frequency points (length of w).
-## The singular values at the frequency w(k) are given by sv(:,k).
+## Array of singular values.  For a system with m inputs and p outputs, the array sv
+## has @code{min (m, p)} rows and as many columns as frequency points @code{length (w)}.
+## The singular values at the frequency @code{w(k)} are given by @code{sv(:,k)}.
 ## @item w
 ## Vector of frequency values used.
 ## @end table

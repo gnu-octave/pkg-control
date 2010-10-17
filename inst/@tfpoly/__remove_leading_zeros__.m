@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Remove leading zeros from a polynomial, except for polynomials
-## which are of length 1. For internal use only.
+## which are of length 1.  For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

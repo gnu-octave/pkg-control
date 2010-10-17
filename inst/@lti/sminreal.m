@@ -29,7 +29,7 @@
 ## @item tol
 ## Optional tolerance for controllability and observability. 
 ## Entries of the state-space matrices whose moduli are less or equal to @var{tol}
-## are assumed to be zero. Default value is 0.
+## are assumed to be zero.  Default value is 0.
 ## @end table
 ##
 ## @strong{Outputs}

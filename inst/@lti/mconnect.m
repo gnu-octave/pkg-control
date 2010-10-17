@@ -25,11 +25,11 @@
 ## @item sys
 ## LTI system.
 ## @item m
-## Connection matrix. Each row belongs to an input and each column represents an output.
+## Connection matrix.  Each row belongs to an input and each column represents an output.
 ## @item inputs
-## Vector of indices of those inputs which are retained. If not specified, all inputs are kept.
+## Vector of indices of those inputs which are retained.  If not specified, all inputs are kept.
 ## @item outputs
-## Vector of indices of those outputs which are retained. If not specified, all outputs are kept.
+## Vector of indices of those outputs which are retained.  If not specified, all outputs are kept.
 ## @end table
 ##
 ## @strong{Outputs}

@@ -35,9 +35,9 @@
 ## @item r
 ## Real matrix (m-by-m).
 ## @item s
-## Optional real matrix (n-by-m). If @var{s} is not specified, a zero matrix is assumed.
+## Optional real matrix (n-by-m).  If @var{s} is not specified, a zero matrix is assumed.
 ## @item e
-## Optional descriptor matrix (n-by-n). If @var{e} is not specified, an identity matrix is assumed.
+## Optional descriptor matrix (n-by-n).  If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}

@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Return frequency response H and frequency vector w.
-## If w is empty, it will be calculated by __frequency_range__
+## If w is empty, it will be calculated by __frequency_range__.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009

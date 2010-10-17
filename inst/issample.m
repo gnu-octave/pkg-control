@@ -24,7 +24,7 @@
 ## @item ts
 ## Alleged sampling time to be tested.
 ## @item flg = 1
-## Accept real scalars @var{ts} > 0. Default Value.
+## Accept real scalars @var{ts} > 0.  Default Value.
 ## @item flg = 0
 ## Accept real scalars @var{ts} >= 0.
 ## @item flg = -1

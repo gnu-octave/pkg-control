@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Number of outputs and inputs of transfer function numerator and
-## denominator. For internal use only.
+## denominator.  For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

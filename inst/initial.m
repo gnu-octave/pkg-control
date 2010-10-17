@@ -30,25 +30,25 @@
 ## @item x0
 ## Vector of initial conditions for each state.
 ## @item t
-## Optional time vector. Should be evenly spaced. If not specified, it is calculated
+## Optional time vector.  Should be evenly spaced.  If not specified, it is calculated
 ## by the poles of the system to reflect adequately the response transients.
 ## @item tfinal
-## Optional simulation horizon. If not specified, it is calculated by
+## Optional simulation horizon.  If not specified, it is calculated by
 ## the poles of the system to reflect adequately the response transients.
 ## @item dt
-## Optional sampling time. Be sure to choose it small enough to capture transient
-## phenomena. If not specified, it is calculated by the poles of the system.
+## Optional sampling time.  Be sure to choose it small enough to capture transient
+## phenomena.  If not specified, it is calculated by the poles of the system.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item y
-## Output response array. Has as many rows as time samples (length of t)
+## Output response array.  Has as many rows as time samples (length of t)
 ## and as many columns as outputs.
 ## @item t
 ## Time row vector.
 ## @item x
-## State trajectories array. Has length(t) rows and as many columns as states.
+## State trajectories array.  Has @code{length (t)} rows and as many columns as states.
 ## @end table
 ##
 ## @strong{Example}

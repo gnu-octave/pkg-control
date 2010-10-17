@@ -40,5 +40,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
 
   retsys = tf (num, den, get (sys, "tsam"));  # tsam needed to set appropriate tfvar
   retlti = sys.lti;                           # preserve lti properties
+  
+  ## FIXME: sys = tf (ss (5))
 
 endfunction
