@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -40,9 +40,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign)
+function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
   [p1, m1] = size (sys1);
 
@@ -52,43 +52,36 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
         error ("feedback: argument must be a square system");
       endif
 
-      fbsign = -1;
       sys2 = eye (p1);
       feedin = 1 : m1;
       feedout = 1 : p1;
 
     case 2
-      if (ischar (sys2_or_fbsign))  # sys = feedback (sys, "+")
+      if (ischar (sys2))            # sys = feedback (sys, "+")
         if (p1 != m1)
-          error ("feedback: argument must be a square system");
+          error ("feedback: first argument must be a square system");
         endif
 
-        fbsign = checkfbsign (sys2_or_fbsign);
+        fbsign = __check_fbsign__ (sys2);
         sys2 = eye (p1);
         feedin = 1 : m1;
         feedout = 1 : p1;
-      else                          # sys = feedback (sys1, sys2)
-        fbsign = -1;
-        sys2 = sys2_or_fbsign;
-        feedin = 1 : m1;
-        feedout = 1 : p1;
-      endif
+      endif                         # sys = feedback (sys1, sys2)
+
+      feedin = 1 : m1;
+      feedout = 1 : p1;
 
     case 3                          # sys = feedback (sys1, sys2, "+")
-      fbsign = checkfbsign (feedin_or_fbsign);
-      sys2 = sys2_or_fbsign;
+      fbsign = __check_fbsign__ (feedin);
       feedin = 1 : m1;
       feedout = 1 : p1;
 
     case 4                          # sys = feedback (sys1, sys2, feedin, feedout)
-      fbsign = -1;
-      sys2 = sys2_or_fbsign;
-      feedin = feedin_or_fbsign;
+      ## nothing needs to be done here
+      ## case 4 required to prevent "otherwise"
 
     case 5                          # sys = feedback (sys1, sys2, feedin, feedout, "+")
-      fbsign = checkfbsign (fbsign);
-      sys2 = sys2_or_fbsign;
-      feedin = feedin_or_fbsign;
+      fbsign = __check_fbsign__ (fbsign);
 
     otherwise
       print_usage ();
@@ -146,7 +139,7 @@ function sys = feedback (sys1, sys2_or_fbsign, feedin_or_fbsign, feedout, fbsign
 endfunction
 
 
-function fbsign = checkfbsign (fbsign)
+function fbsign = __check_fbsign__ (fbsign)
 
   if (is_real_scalar (fbsign))
     fbsign = sign (fbsign);
