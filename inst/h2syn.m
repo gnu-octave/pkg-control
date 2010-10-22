@@ -31,7 +31,7 @@
 ## to calculate the H-2 norm.
 ## @item ncon
 ## Number of controlled inputs u.  The last ncon inputs of @var{P} are connected to the
-## outputs of controller @var{K}.  The remaining inputs r (indices 1 to m-ncon) are excited
+## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @end table
 ##
@@ -53,7 +53,7 @@
 ##          K         2
 ##
 ##                +--------+  
-##        r ----->|        |-----> z
+##        w ----->|        |-----> z
 ##                |  P(s)  |
 ##        u +---->|        |-----+ e
 ##          |     +--------+     |
@@ -63,7 +63,7 @@
 ##                +--------+
 ##
 ##                +--------+      
-##        r ----->|  N(s)  |-----> z
+##        w ----->|  N(s)  |-----> z
 ##                +--------+
 ## @end group
 ## @end example

@@ -32,7 +32,7 @@
 ## to calculate the H-infinity norm.
 ## @item ncon
 ## Number of controlled inputs u.  The last ncon inputs of @var{P} are connected to the
-## outputs of controller @var{K}.  The remaining inputs r (indices 1 to m-ncon) are excited
+## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @item gmax
 ## The maximum value of the H-infinity norm of @var{N}.  It is assumed that @var{gmax} is
@@ -57,7 +57,7 @@
 ##          K         inf
 ##
 ##                +--------+  
-##        r ----->|        |-----> z
+##        w ----->|        |-----> z
 ##                |  P(s)  |
 ##        u +---->|        |-----+ e
 ##          |     +--------+     |
@@ -67,7 +67,7 @@
 ##                +--------+
 ##
 ##                +--------+      
-##        r ----->|  N(s)  |-----> z
+##        w ----->|  N(s)  |-----> z
 ##                +--------+
 ## @end group
 ## @end example
