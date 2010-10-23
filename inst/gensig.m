@@ -52,9 +52,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: August 2009
-## Version: 0.2.1
+## Version: 0.3
 
-function [u, t] = gensig (sigtype, tau, tfinal, tsam)
+function [u, t] = gensig (sigtype, tau, tfinal = 5*tau, tsam = tau/64)
 
   if (nargin < 2 || nargin > 4)
     print_usage ();
@@ -68,15 +68,11 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     error ("gensig: second argument is not a valid period");
   endif
 
-  if (nargin < 3)
-    tfinal = 5 * tau;
-  elseif (! issample (tfinal))
+  if (! issample (tfinal))
     error ("gensig: third argument is not a valid final time");
   endif
 
-  if (nargin < 4)
-    tsam = tau / 64;
-  elseif (! issample (tsam))
+  if (! issample (tsam))
     error ("gensig: fourth argument is not a valid sampling time");
   endif
 
@@ -88,9 +84,9 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     case "co"
       u = cos (2*pi/tau * t);
     case "sq"
-      u = rem (t, tau) >= tau/2;
+      u = double (rem (t, tau) >= tau/2);
     case "pu"
-      u = rem (t, tau) < (1 - 1000*eps) * tsam;
+      u = double (rem (t, tau) < (1 - 1000*eps) * tsam);
     otherwise
       error ("gensig: ""%s"" is an invalid signal type", sigtype);
   endswitch
