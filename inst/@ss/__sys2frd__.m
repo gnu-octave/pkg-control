@@ -25,8 +25,7 @@
 function [retsys, retlti] = __sys2frd__ (sys, w = [])
 
   if (isempty (w))      # case sys = frd (sys)
-    [dec_min, dec_max] = __frequency_range__ (sys);
-    w = logspace (dec_min, dec_max, 500);
+    w = __frequency_vector__ (sys);
   endif
 
   H = __freqresp__ (sys, w);

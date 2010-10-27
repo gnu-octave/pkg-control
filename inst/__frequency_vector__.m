@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{dec_min}, @var{dec_max}] =} __frequency_range__ (@var{sys})
+## @deftypefn {Function File} {@var{w} =} __frequency_vector__ (@var{sys})
 ## Get default range of frequencies based on cutoff frequencies of system
 ## poles and zeros.
 ## Frequency range is the interval
@@ -30,14 +30,14 @@
 ## [10^@var{wmin}, 10^@var{wmax}]
 ## @end ifinfo
 ##
-## Used internally in @command{margin} (@command{bode}, @command{nyquist})
+## Used by @command{__frequency_response__}
 ## @end deftypefn
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
+function w = __frequency_vector__ (sys, wbounds = "std")
 
   zer = zero (sys);
   pol = pole (sys);
@@ -118,5 +118,13 @@ function [dec_min, dec_max] = __frequency_range__ (sys, wbounds = "std")
   if (discrete)
     dec_max = log10 (pi/tsam);
   endif
+
+  ## create frequency vector
+  zp = [abs(zer), abs(pol)];
+  idx = find (zp > 10^dec_min & zp < 10^dec_max);
+  zp = zp(idx);
+
+  w = logspace (dec_min, dec_max, 500);
+  w = unique ([w, zp]);                  # unique also sorts frequency vector
 
 endfunction
