@@ -28,7 +28,11 @@
 ## @item flg = 0
 ## Accept real scalars @var{ts} >= 0.
 ## @item flg = -1
+## Accept real scalars @var{ts} > 0 and @var{ts} == -1.
+## @item flg = -10
 ## Accept real scalars @var{ts} >= 0 and @var{ts} == -1.
+## @item flg = -2
+## Accept real scalars @var{ts} >= 0, @var{ts} == -1 and @var{ts} == -2.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -53,12 +57,16 @@ function bool = issample (tsam, flg = 1)
   endif
 
   switch (flg)
-    case 1       # refuse -1 and 0
+    case 1    # discrete
       bool = is_real_scalar (tsam) && (tsam > 0);
-    case 0       # allow 0, refuse -1
+    case 0    # continuous or discrete
       bool = is_real_scalar (tsam) && (tsam >= 0);
-    case -1      # allow -1 and 0
+    case -1   # discrete, tsam unspecified
+      bool = is_real_scalar (tsam) && (tsam > 0 || tsam == -1);
+    case -10  # continuous or discrete, tsam unspecified
       bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1);
+    case -2   # accept static gains
+      bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1 || tsam == -2);
     otherwise
       print_usage ();
   endswitch
@@ -67,8 +75,8 @@ endfunction
 
 
 ## flg == 1
-%!assert (issample (1), true)
-%!assert (issample (pi), true)
+%!assert (issample (1))
+%!assert (issample (pi))
 %!assert (issample (0), false)
 %!assert (issample (-1), false)
 %!assert (issample (-1, 1), false)
@@ -77,20 +85,20 @@ endfunction
 %!assert (issample (2+2i), false)
 
 ## flg == 0
-%!assert (issample (1, 0), true)
-%!assert (issample (0, 0), true)
+%!assert (issample (1, 0))
+%!assert (issample (0, 0))
 %!assert (issample (-1, 0), false)
-%!assert (issample (pi, 0), true)
+%!assert (issample (pi, 0))
 %!assert (issample ("b", 0), false)
 %!assert (issample (rand (3,2), 0), false)
 %!assert (issample (2+2i, 0), false)
 %!assert (issample (0+2i, 0), false)
 
 ## flg == -1
-%!assert (issample (-1, -1), true)
-%!assert (issample (0, -1), true)
-%!assert (issample (1, -1), true)
-%!assert (issample (pi, -1), true)
+%!assert (issample (-1, -1))
+%!assert (issample (0, -1), false)
+%!assert (issample (1, -1))
+%!assert (issample (pi, -1))
 %!assert (issample (-pi, -1), false)
 %!assert (issample ("b", -1), false)
 %!assert (issample (rand (3,2), -1), false)

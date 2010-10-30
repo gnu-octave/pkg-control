@@ -89,7 +89,7 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
       p = b;
       sys = a;
       [a, b] = dssdata (sys, []);  # descriptor matrice e should have no influence
-      discrete = ! isct (sys);     # treat tsam = -1 as continuous system
+      discrete = ! isct (sys);     # treat tsam = -2 as continuous system
     endif
   else  # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
     if (nargin < 3)                # nargin > 5 already tested

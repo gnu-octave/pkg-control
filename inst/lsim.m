@@ -68,6 +68,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   [A, B, C, D, tsam] = ssdata (sys);
 
   discrete = ! isct (sys);               # static gains are treated as analog systems
+  tsam = abs (tsam);                     # use 1 second as default if tsam is unspecified (-1)
 
   urows = rows (u);
   ucols = columns (u);
@@ -137,12 +138,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   if (! nargout)                         # plot information
     str = "Linear Simulation Results";
     outname = get (sys, "outname");
-
-    if (isempty (outname) || isequal ("", outname{:}))
-      outname = strseq ("y_", 1 : length (outname));
-    else
-      outname = __mark_empty_names__ (outname);
-    endif
+    outname = __labels__ (outname, "y_");
 
     if (discrete)                        # discrete system
       for k = 1 : p

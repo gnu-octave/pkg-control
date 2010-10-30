@@ -66,7 +66,7 @@ function retsys = set (sys, varargin)
           sys.outname = __adjust_labels__ (val, p);
 
         case {"tsam", "ts"}
-          if (issample (val))
+          if (issample (val, -1))
             sys.tsam = val;
             warning ("lti: set: use the editing of property ""%s"" with caution", prop);
             warning ("          it may lead to corrupted models");

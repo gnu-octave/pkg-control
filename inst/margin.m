@@ -140,12 +140,14 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   endif
 
   ## get transfer function
-  [num, den, Ts] = tfdata (sys);
+  [num, den, tsam] = tfdata (sys);
+  continuous = isct (sys);
+  tsam = abs (tsam);                                     # use 1 second as default if tsam == -1
   num = num{1, 1};
   den = den{1, 1};
 
 
-  if (Ts == 0)                                           # CONTINUOUS SYSTEM
+  if (continuous)                                        # CONTINUOUS SYSTEM
 
     ## create polynomials s -> jw
     l_num = length (num);
@@ -162,7 +164,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     w = roots (gm_poly);
 
     ## filter results
-    [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol);
+    [gamma, w_gamma] = gm_filter (w, num, den, tsam, tol, continuous);
 
     ## PHASE MARGIN
     ## create pm polynomials
@@ -179,7 +181,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     w = roots (pm_poly);
 
     ## filter results
-    [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
+    [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous);
 
 
   else                                                   # DISCRETE SYSTEM
@@ -218,8 +220,8 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
     if (length (idx) > 0)                                # if z with magnitude 1 exist
       z_gm = z(idx);
-      w = log (z_gm) / (i*Ts);                           # get frequencies w from z
-      [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol);
+      w = log (z_gm) / (i*tsam);                         # get frequencies w from z
+      [gamma, w_gamma] = gm_filter (w, num, den, tsam, tol, continuous);
     else                                                 # there are no z with magnitude 1
       gamma = Inf;
       w_gamma = NaN;
@@ -244,8 +246,8 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
     if (length (idx) > 0)                                # if z with magnitude 1 exist
       z_gm = z(idx);
-      w = log (z_gm) / (i*Ts);                           # get frequencies w from z
-      [phi, w_phi] = pm_filter (w, num, den, Ts, tol);
+      w = log (z_gm) / (i*tsam);                         # get frequencies w from z
+      [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous);
     else                                                 # there are no z with magnitude 1
       phi = 180;
       w_phi = NaN;
@@ -281,7 +283,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
     title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)",
                          gamma_db, w_gamma, phi, w_phi);
-    if (Ts == 0)
+    if (continuous)
       xl_str = "Frequency [rad/s]";
     else
       xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi/Ts);
@@ -326,17 +328,17 @@ function [poly_eq_1, poly_eq_2] = poly_equalizer (poly_1, poly_2)
 endfunction
 
 
-function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
+function [gamma, w_gamma] = gm_filter (w, num, den, tsam, tol, continuous)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
   if (length (idx) > 0)                                  # if frequencies in R+ exist
     w_gm = real (w(idx));
 
-    if (Ts == 0)
+    if (continuous)
       s = num2cell (i * w_gm);
     else
-      s = num2cell (exp (i * w_gm * Ts));
+      s = num2cell (exp (i * w_gm * tsam));
     endif
 
     f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);
@@ -372,17 +374,17 @@ function [gamma, w_gamma] = gm_filter (w, num, den, Ts, tol)
 endfunction
 
 
-function [phi, w_phi] = pm_filter (w, num, den, Ts, tol)
+function [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous)
 
   idx = find ((abs (imag (w)) < tol) & (real (w) > 0));  # find frequencies in R+
 
   if (length (idx) > 0)                                  # if frequencies in R+ exist
     w_pm = real (w(idx));
 
-    if (Ts == 0)
+    if (continuous)
       s = num2cell (i * w_pm);
     else
-      s = num2cell (exp (i * w_pm * Ts));
+      s = num2cell (exp (i * w_pm * tsam));
     endif
 
     f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);

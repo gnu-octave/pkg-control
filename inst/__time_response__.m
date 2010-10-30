@@ -36,6 +36,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
   [A, B, C, D, tsam] = ssdata (sys);
 
   discrete = ! isct (sys);                             # static gains are treated as analog systems
+  tsam = abs (tsam);                                   # use 1 second if tsam is unspecified (-1)
 
   if (discrete)
     if (! isempty (dt))
@@ -156,12 +157,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
 
     stable = isstable (sys);
     outname = get (sys, "outname");
-
-    if (isempty (outname) || isequal ("", outname{:}))
-      outname = strseq ("y_", 1 : length (outname));
-    else
-      outname = __mark_empty_names__ (outname);
-    endif
+    outname = __labels__ (outname, "y_");
 
     if (strcmp (resptype, "initial"))
       cols = 1;

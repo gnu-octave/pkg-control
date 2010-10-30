@@ -41,8 +41,8 @@ function w = __frequency_vector__ (sys, wbounds = "std")
 
   zer = zero (sys);
   pol = pole (sys);
-  tsam = get (sys, "tsam");
-  discrete = (tsam > 0);                 # static gains (tsam = -1) are continuous
+  tsam = abs (get (sys, "tsam"));        # tsam could be -1
+  discrete = ! isct (sys);               # static gains (tsam = -2) are assumed continuous
   
   ## make sure zer, pol are row vectors
   pol = reshape (pol, 1, []);

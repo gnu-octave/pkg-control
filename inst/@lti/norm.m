@@ -104,7 +104,7 @@ function [gain, wpeak] = linfnorm (sys, tol = 0.01)
   
   if (fpeak(2) > 0)
     if (discrete)
-      wpeak = fpeak(1) / tsam;
+      wpeak = fpeak(1) / abs (tsam);  # tsam could be -1
     else
       wpeak = fpeak(1);
     endif

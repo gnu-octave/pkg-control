@@ -79,32 +79,32 @@
 function sys = tf (num = {}, den = {}, varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
-  ## inferiorto ("frd", "ss", "zpk");      # error if de-commented. bug in octave?
+  ## inferiorto ("frd", "ss", "zpk");          # error if de-commented. bug in octave?
   superiorto ("double");
 
   argc = 0;
 
   switch (nargin)
     case 0
-      tsam = -1;
-      tfvar = "x";                         # undefined
+      tsam = -2;
+      tfvar = "x";                             # undefined
 
     case 1
-      if (isa (num, "tf"))                 # already in tf form
+      if (isa (num, "tf"))                     # already in tf form
         sys = num;
         return;
-      elseif (isa (num, "lti"))            # another lti object
+      elseif (isa (num, "lti"))                # another lti object
         [sys, numlti] = __sys2tf__ (num);
-        sys.lti = numlti;                  # preserve lti properties
+        sys.lti = numlti;                      # preserve lti properties
         return;
-      elseif (is_real_matrix (num))        # static gain
+      elseif (is_real_matrix (num))            # static gain
         num = num2cell (num);
         num = __vec2tfpoly__ (num);
         [p, m] = size (num);
         den = tfpolyones (p, m);
-        tsam = -1;
-        tfvar = "x";                       # undefined
-      elseif (ischar (num))                # s = tf ("s")
+        tsam = -2;
+        tfvar = "x";                           # undefined
+      elseif (ischar (num))                    # s = tf ("s")
         tfvar = num;
         num = __vec2tfpoly__ ([1, 0]);
         den = __vec2tfpoly__ ([1]);
@@ -114,24 +114,24 @@ function sys = tf (num = {}, den = {}, varargin)
       endif
 
     case 2
-      if (ischar (num) && issample (den))  # z = tf ("z", 0.3)
+      if (ischar (num) && issample (den, -1))  # z = tf ("z", 0.3)
         tfvar = num;
         tsam = den;
         num = __vec2tfpoly__ ([1, 0]);
         den = __vec2tfpoly__ ([1]);
-      else                                 # sys = tf (num, den)
+      else                                     # sys = tf (num, den)
         num = __vec2tfpoly__ (num);
         den = __vec2tfpoly__ (den);
         tfvar = "s";
         tsam = 0;
       endif
 
-    otherwise                              # default case
+    otherwise                                  # default case
       num = __vec2tfpoly__ (num);
       den = __vec2tfpoly__ (den);
       argc = numel (varargin);
 
-      if (issample (varargin{1}, 0))       # sys = tf (num, den, tsam, "prop1, "val1", ...)
+      if (issample (varargin{1}, -10))         # sys = tf (num, den, tsam, "prop1, "val1", ...)
         tsam = varargin{1};
         argc--;
         
@@ -146,7 +146,7 @@ function sys = tf (num = {}, den = {}, varargin)
         if (argc > 0)
           varargin = varargin(2:end);
         endif
-      else                                 # sys = tf (num, den, "prop1, "val1", ...)
+      else                                     # sys = tf (num, den, "prop1, "val1", ...)
         tsam = 0;
         tfvar = "s";
       endif

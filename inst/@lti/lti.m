@@ -22,7 +22,7 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function ltisys = lti (p = 0, m = 0, tsam = -1)
+function ltisys = lti (p = 0, m = 0, tsam = -2)
 
   inname = repmat ({""}, m, 1);
   outname = repmat ({""}, p, 1);

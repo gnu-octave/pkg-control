@@ -47,7 +47,7 @@ function display (sys)
 
   display (sys.lti);  # display sampling time
 
-  if (tsam == -1)
+  if (tsam == -2)
     disp ("Static gain.");
   elseif (tsam == 0)
     disp ("Continuous-time model.");

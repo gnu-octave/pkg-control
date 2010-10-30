@@ -26,10 +26,10 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
   [num, den, tsam] = tfdata (sys);
 
-  if (tsam > 0)  # discrete system
-    s = num2cell (exp (i * w * tsam));
-  else           # continuous system
+  if (isct (sys))  # continuous system
     s = num2cell (i * w);
+  else             # discrete system
+    s = num2cell (exp (i * w * abs (tsam)));
   endif
 
   f = @(z) cellfun (@(x, y) polyval (x, z) / polyval (y, z), num, den);

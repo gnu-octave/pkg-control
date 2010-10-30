@@ -30,24 +30,24 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     error ("ss: freqresp: system must be square for response type %d", resptype);
   endif
 
-  if (tsam > 0)  # discrete system
-    s = num2cell (exp (i * w * tsam));
-  else           # continuous system
+  if (isct (sys))  # continuous system
     s = num2cell (i * w);
+  else             # discrete system
+    s = num2cell (exp (i * w * abs (tsam)));
   endif
 
   switch (resptype)
-    case 0       # default system
+    case 0         # default system
       H = cellfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
 
-    case 1       # inversed system
+    case 1         # inversed system
       H = cellfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
-    case 2       # inversed sensitivity
+    case 2         # inversed sensitivity
       j = eye (columns (b));
       H = cellfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
 
-    case 3       # inversed complementary sensitivity
+    case 3         # inversed complementary sensitivity
       j = eye (columns (b));
       H = cellfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 

@@ -73,13 +73,13 @@ endfunction
 ## isct, isdt
 %!shared ltisys
 %! ltisys = tf (12);
-%!assert (ltisys.ts, -1);
+%!assert (ltisys.ts, -2);
 %!assert (isct (ltisys));
 %!assert (isdt (ltisys));
 
 %!shared ltisys
 %! ltisys = ss (17);
-%!assert (ltisys.ts, -1);
+%!assert (ltisys.ts, -2);
 %!assert (isct (ltisys));
 %!assert (isdt (ltisys));
 

@@ -27,7 +27,7 @@ function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
 
   if (isempty (a))                 # static system
     a = [];                        # avoid [](nx0) or [](0xn)
-    tsam = -1;
+    tsam = -2;
   endif
 
   if (isempty (d))
@@ -42,7 +42,7 @@ function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   if (isempty (b) && isempty (c))  # sys = ss ([], [], [], d)
     b = zeros (0, columns (d));
     c = zeros (rows(d), 0);
-    tsam = -1;
+    tsam = -2;
   endif
 
 endfunction

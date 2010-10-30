@@ -88,7 +88,7 @@ function [g, x, l] = dlqr (a, b, q, r = [], s = [], e = [])
     tsam = 1;  # any value > 0 could be used here
   endif
 
-  if (tsam > 0)
+  if (issample (tsam, -1))
     [x, l, g] = dare (a, b, q, r, s, e);
   else
     [x, l, g] = care (a, b, q, r, s, e);
