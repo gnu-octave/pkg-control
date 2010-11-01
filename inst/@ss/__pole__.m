@@ -18,9 +18,10 @@
 ## -*- texinfo -*-
 ## Poles of SS object.
 
+## Special thanks to Peter Benner for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function pol = __pole__ (sys)
 
@@ -28,12 +29,15 @@ function pol = __pole__ (sys)
     pol = eig (sys.a);
   else
     pol = eig (sys.a, sys.e);
+    tol = norm ([sys.a, sys.e], 2);
+    idx = find (abs (pol) < tol/eps);
+    pol = pol(idx);
   endif
 
 endfunction
 
 
-## FIXME: sys = ss (-2, 3, 4, 0)
-##        sysi = inv (sys)  # singular e
-##        p = pole (sysi)
-##        infinite poles correct?
+## sys = ss (-2, 3, 4, 0)
+## sysi = inv (sys)  # singular e
+## p = pole (sysi)
+## infinite poles correct?
