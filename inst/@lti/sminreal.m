@@ -90,7 +90,7 @@ function c_idx = __controllable_states__ (a, b)
   c_idx = find (c_vec);      # indices of directly controllable states
   c_idx_new = 0;             # any vector of length > 0 possible
 
-  while (all (length (c_idx) != [0, n] && length(c_idx_new) != 0))
+  while (all (length (c_idx) != [0, n]) && length(c_idx_new) != 0)
 
     u_idx = find (! c_vec);  # indices of uncontrollable states
 
