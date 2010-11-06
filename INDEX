@@ -4,38 +4,53 @@ Examples and Demos
   Boeing707
   optiPID
   WestlandLynx
-Linear Models
+Linear Time Invariant Models
   dss
-  @lti/set
   ss
   tf
-Data Extraction
+Model Data Access
+  @lti/dssdata
   @lti/get
+  @lti/set
   @lti/ssdata
   @lti/tfdata
-Conversions
+  @lti/xperm
+Model Conversions
   @lti/c2d
-  dss
-  ss
-  tf
-System Interconnections
+Model Interconnections
   @lti/append
+  augw
   @lti/blkdiag
   @lti/connect
   @lti/feedback
   @lti/lft
+  @lti/mconnect
   @lti/parallel
   @lti/series
-  strseq
-System Gain and Dynamics
+Model Characteristics
+  ctrb
   @lti/dcgain
+  gram
+  hsvd
+  @lti/isct
+  isctrb
+  isdetectable
+  @lti/isdt
+  isobsv
+  @lti/issiso
+  isstabilizable
+  @lti/isstable
   @lti/norm
+  obsv
   @lti/pole
   pzmap
+  @lti/size
   @lti/zero
+Model Simplification
+  @lti/minreal
+  @lti/sminreal
 Time Domain Analysis
   covar
-  gensig
   impulse
   initial
   lsim
@@ -48,48 +63,18 @@ Frequency Domain Analysis
   nichols
   nyquist
   sigma
-Model Simplification
-  hsvd
-  @lti/minreal
-  @lti/sminreal
-Compensator Design
-  estim
+Pole Placement
   place
   rlocus
-LQR/LQG Design
+Linear-Quadratic Control
   dlqr
+  estim
   kalman
   lqr
-Controller Synthesis
-  augw
+Robust Control
   h2syn
   hinfsyn
   mixsyn
-State-Space Models
-  ctrb
-  gram
-  obsv
-  @lti/xperm
-Model Dimensions and Characteristics
-  @lti/isct
-  @lti/isdt
-  @lti/issiso
-  @lti/isstable
-  @lti/size
-Overloaded and Arithmetic Operators
-  @lti/plus
-  @lti/minus
-  @lti/uminus
-  @lti/mtimes
-  @lti/mldivide
-  @lti/mrdivide
-  @lti/mpower
-  @lti/inv
-  @lti/transpose
-  @lti/horzcat
-  @lti/vertcat
-  @lti/subsasgn
-  @lti/subsref
 Matrix Equation Solvers
   care
   dare
@@ -97,11 +82,21 @@ Matrix Equation Solvers
   dlyapchol
   lyap
   lyapchol
-Octave-Specific
-  isctrb
-  isdetectable
-  isobsv
-  isstabilizable
-  @lti/mconnect
-Tests
+Overloaded Operators
+  @lti/horzcat
+  @lti/inv
+  @lti/minus
+  @lti/mldivide
+  @lti/mpower
+  @lti/mrdivide
+  @lti/mtimes
+  @lti/plus
+  @lti/subsasgn
+  @lti/subsref
+  @lti/transpose
+  @lti/uminus
+  @lti/vertcat
+Miscellaneous
+  gensig
+  strseq
   test_control
