@@ -14,12 +14,11 @@ Model Data Access
   @lti/set
   @lti/ssdata
   @lti/tfdata
-  @lti/xperm
 Model Conversions
   @lti/c2d
+  @lti/xperm
 Model Interconnections
   @lti/append
-  augw
   @lti/blkdiag
   @lti/connect
   @lti/feedback
@@ -51,6 +50,7 @@ Model Simplification
   @lti/sminreal
 Time Domain Analysis
   covar
+  gensig
   impulse
   initial
   lsim
@@ -72,6 +72,7 @@ Linear-Quadratic Control
   kalman
   lqr
 Robust Control
+  augw
   h2syn
   hinfsyn
   mixsyn
@@ -97,6 +98,5 @@ Overloaded Operators
   @lti/uminus
   @lti/vertcat
 Miscellaneous
-  gensig
   strseq
   test_control
