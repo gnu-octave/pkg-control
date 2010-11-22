@@ -80,7 +80,7 @@ function [mag_r, pha_r, w_r] = bode (sys, w = [])
     semilogx (w, mag_db)
     axis (ax_vec_mag)
     grid ("on")
-    title ("Bode Diagram")
+    title (["Bode Diagram of ", inputname(1)])
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)

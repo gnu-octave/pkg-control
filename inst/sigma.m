@@ -92,7 +92,7 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     ## plot results
     semilogx (w, sv_db, "b")
     axis (ax_vec)
-    title ("Singular Values")
+    title (["Singular Values of ", inputname(1)])
     xlabel (xl_str)
     ylabel ("Singular Values [dB]")
     grid ("on")

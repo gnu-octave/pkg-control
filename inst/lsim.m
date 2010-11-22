@@ -136,7 +136,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   endfor
 
   if (! nargout)                         # plot information
-    str = "Linear Simulation Results";
+    str = ["Linear Simulation Results of ", inputname(1)];
     outname = get (sys, "outname");
     outname = __labels__ (outname, "y_");
 

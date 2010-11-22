@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.2
 
-function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt, x0)
+function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
 
   if (! isa (sys, "ss"))
     sys = ss (sys);                                    # sys must be proper
@@ -64,7 +64,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
 
   switch (resptype)
     case "initial"
-      str = "Response to Initial Conditions";
+      str = ["Response of ", sysname, " to Initial Conditions"];
       yfinal = zeros (p, 1);
 
       ## preallocate memory
@@ -86,7 +86,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       endfor
 
     case "step"
-      str = "Step Response";
+      str = ["Step Response of ", sysname];
       yfinal = dcgain (sys);
 
       ## preallocate memory
@@ -108,7 +108,7 @@ function [y, t, x_arr] = __time_response__ (sys, resptype, plotflag, tfinal, dt,
       endfor
 
     case "impulse"
-      str = "Impulse Response";
+      str = ["Impulse Response of ", sysname];
       yfinal = zeros (p, m);
 
       ## preallocate memory

@@ -49,7 +49,7 @@ function [pol_r, zer_r] = pzmap (sys)
 
     plot (pol_re, pol_im, "xb", zer_re, zer_im, "sr")
     grid ("on")  
-    title ("Pole-Zero Map")
+    title (["Pole-Zero Map of ", inputname(1)])
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
   else

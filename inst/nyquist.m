@@ -67,7 +67,7 @@ function [re_r, im_r, w_r] = nyquist (sys, w = [])
     plot (re, im, "b", re, -im, "r")
     axis (ax_vec)
     grid ("on")
-    title ("Nyquist Diagram")
+    title (["Nyquist Diagram of ", inputname(1)])
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
   else

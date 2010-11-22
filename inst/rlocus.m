@@ -294,7 +294,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     legend ("boxon", 2);
     grid ("on");
     axis (axlim);
-    title ("Root Locus");
+    title (["Root Locus of ", inputname(1)]);
     xlabel (sprintf ("Real Axis     gain = [%g, %g]", gvec(1), gvec(ngain)));
     ylabel ("Imaginary Axis");
     set (gcf (), "visible", "on");

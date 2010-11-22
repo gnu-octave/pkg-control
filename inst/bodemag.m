@@ -74,7 +74,7 @@ function [mag_r, w_r] = bodemag (sys, w = [])
     semilogx (w, mag_db)
     axis (ax_vec_mag)
     grid ("on")
-    title ("Bode Magnitude Diagram")
+    title (["Bode Magnitude Diagram of ", inputname(1)])
     xlabel (xl_str)
     ylabel ("Magnitude [dB]")
   else

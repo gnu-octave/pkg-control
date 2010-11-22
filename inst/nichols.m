@@ -68,7 +68,7 @@ function [mag_r, pha_r, w_r] = nichols (sys, w = [])
     plot (pha, mag_db)
     axis (ax_vec)
     grid ("on")
-    title ("Nichols Chart")
+    title (["Nichols Chart of ", inputname(1)])
     xlabel ("Phase [deg]")
     ylabel ("Magnitude [dB]")
   else
