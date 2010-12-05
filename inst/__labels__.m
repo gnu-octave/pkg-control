@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function [name, n] = __labels__ (name, variable = "x")
 
@@ -31,11 +31,8 @@ function [name, n] = __labels__ (name, variable = "x")
   if (n == 0 || isequal ("", name{:}))
     name = strseq (variable, 1:n);
   else
-    for k = 1 : n
-      if (isempty (name{k}))
-        name{k} = "?";
-      endif 
-    endfor
+    idx = cellfun (@isempty, name);
+    name(idx) = "?";
   endif
 
 endfunction
