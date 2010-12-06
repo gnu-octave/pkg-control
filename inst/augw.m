@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -95,7 +95,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.1
+## Version: 0.2
 
 function P = augw (G, W1 = [], W2 = [], W3 = [])
 
@@ -104,50 +104,11 @@ function P = augw (G, W1 = [], W2 = [], W3 = [])
   endif
 
   G = ss (G);
-  W1 = ss (W1);
-  W2 = ss (W2);
-  W3 = ss (W3);
-
   [p, m] = size (G);
-  [p1, m1] = size (W1);
-  [p2, m2] = size (W2);
-  [p3, m3] = size (W3);
 
-  if (m1 != 0 && m1 != p)
-    if (m1 == 1)
-      W = W1;
-      for k = 2 : p
-        W1 = append (W1, W);
-      endfor
-      [p1, m1] = size (W1);
-    else
-      error ("augw: W1 must have %d inputs", p);
-    endif
-  endif
-
-  if (m2 != 0 && m2 != m)
-    if (m2 == 1)
-      W = W2;
-      for k = 2 : m
-        W2 = append (W2, W);
-      endfor
-      [p2, m2] = size (W2);
-    else
-      error ("augw: W2 must have %d inputs", m);
-    endif
-  endif
-
-  if (m3 != 0 && m3 != p)
-    if (m3 == 1)
-      W = W3;
-      for k = 2 : p
-        W3 = append (W3, W);
-      endfor
-      [p3, m3] = size (W3);
-    else
-      error ("augw: W3 must have %d inputs", p);
-    endif
-  endif
+  [W1, p1, m1] = __adjust_weighting__ (W1, p);
+  [W2, p2, m2] = __adjust_weighting__ (W2, m);
+  [W3, p3, m3] = __adjust_weighting__ (W3, p);
 
   ## Pr = [1; 0; 0; 1];
   ## Pu = [-1; 0; 1; -1]*G + [0; 1; 0; 0];
@@ -170,5 +131,25 @@ function P = augw (G, W1 = [], W2 = [], W3 = [])
   Pu = Pu1 * G  +  Pu2;
 
   P = append (W1, W2, W3, eye (p, p)) * [Pr, Pu];
+
+endfunction
+
+
+function [W, p, m] = __adjust_weighting__ (W, s)
+
+  W = ss (W);
+  [p, m] = size (W);
+
+  if (m == 0 || m == s)               # model is empty or has s inputs
+    return;
+  elseif (m == 1)                     # model is SISO or SIMO
+    tmp = W;
+    for k = 2 : s
+      W = append (W, tmp);            # stack single-input model s times
+    endfor
+    [p, m] = size (W);                # weighting function now of correct size
+  else                                # model is MIMO or MISO
+    error ("augw: %s must have 1 or %d inputs", inputname(1), s);
+  endif 
 
 endfunction
