@@ -40,7 +40,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
@@ -110,21 +110,25 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
   endif
 
   M11 = zeros (m1, p1);
-  M12 = zeros (m1, p2);
-  M21 = zeros (m2, p1);
   M22 = zeros (m2, p2);
 
-  for k = 1 : l_feedin
-    M12(feedin(k), k) = fbsign;
-  endfor
-
-  for k = 1 : l_feedout
-    M21(k, feedout(k)) = 1;
-  endfor
+  M12 = full (sparse (feedin, 1:l_feedin, fbsign, m1, p2));
+  M21 = full (sparse (1:l_feedout, feedout, 1, m2, p1));
   
   ## NOTE: for-loops do NOT the same as
   ##       M12(feedin, 1:l_feedin) = fbsign;
   ##       M21(1:l_feedout, feedout) = 1;
+  ##
+  ## M12 = zeros (m1, p2);
+  ## M21 = zeros (m2, p1);
+  ##
+  ## for k = 1 : l_feedin
+  ##   M12(feedin(k), k) = fbsign;
+  ## endfor
+  ##
+  ## for k = 1 : l_feedout
+  ##   M21(k, feedout(k)) = 1;
+  ## endfor
 
   M = [M11, M12;
        M21, M22];

@@ -35,15 +35,15 @@ function sys = connect (sys, cm, in_idx, out_idx)
 
   ## TODO: proper argument checking
   ## TODO: name-based interconnections
+  ## TODO: replace nested for-if statement
 
   if (! is_real_matrix (cm))
     error ("connect: second argument must be a matrix with real coefficients");
   endif
 
-  cm = round (cm);
   M = zeros (m, p);
   in = cm(:, 1);
-  out = cm(:, 2 : cmcols);
+  out = cm(:, 2:cmcols);
 
   for a = 1 : cmrows
     for b = 1 : cmcols-1

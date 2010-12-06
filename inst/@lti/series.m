@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -51,7 +51,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = series (sys1, sys2, out1, in2)
 
@@ -92,20 +92,22 @@ function sys = series (sys1, sys2, out1, in2)
       error ("series: range of inputs2 indices exceeds dimensions of sys2");
     endif
 
-    out_scl = zeros (l_out1, p1);
-    in_scl = zeros (m2, l_in2);
-
-    for k = 1 : l_out1
-      out_scl(k, out1(k)) = 1;
-      in_scl(in2(k), k) = 1;
-    endfor
+    out_scl = full (sparse (1:l_out1, out1, 1, l_out1, p1));
+    in_scl = full (sparse (in2, 1:l_out1, 1, m2, l_in2));
     
     ## NOTE: for-loop does NOT the same as
     ##       out_scl(1:l_out1, out1) = 1;
     ##       in_scl(in2, 1:l_out1) = 1;
+    ##
+    ## out_scl = zeros (l_out1, p1);
+    ## in_scl = zeros (m2, l_in2);
+    ##
+    ## for k = 1 : l_out1
+    ##   out_scl(k, out1(k)) = 1;
+    ##   in_scl(in2(k), k) = 1;
+    ## endfor
 
     scl = in_scl * out_scl;
-
     sys = sys2 * scl * sys1;
   else
     print_usage ();
