@@ -24,6 +24,7 @@
 
 function display (sys)
 
+  inputname_str = inputname(1);
   [inname, outname] = __lti_data__ (sys.lti);
 
   [inname, m] = __labels__ (inname, "u");
@@ -32,7 +33,7 @@ function display (sys)
   disp ("");
 
   for nu = 1 : m
-    disp (["Transfer function \"", inputname(1), "\" from input \"", inname{nu}, "\" to output ..."]);
+    disp (["Transfer function \"", inputname_str, "\" from input \"", inname{nu}, "\" to output ..."]);
     for ny = 1 : p
       __disp_frac__ (sys.num{ny, nu}, sys.den{ny, nu}, sys.tfvar, outname{ny});
     endfor

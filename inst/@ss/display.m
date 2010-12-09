@@ -24,6 +24,7 @@
 
 function display (sys)
 
+  inputname_str = inputname(1);
   [inname, outname, tsam] = __lti_data__ (sys.lti);
   stname = sys.stname;
 
@@ -34,16 +35,16 @@ function display (sys)
   disp ("");
 
   if (! isempty (sys.e))
-    __disp_mat__ (sys.e, [inputname(1), ".e"], stname, stname);
+    __disp_mat__ (sys.e, [inputname_str, ".e"], stname, stname);
   endif
 
   if (! isempty (sys.a))
-    __disp_mat__ (sys.a, [inputname(1), ".a"], stname, stname);
-    __disp_mat__ (sys.b, [inputname(1), ".b"], stname, inname);
-    __disp_mat__ (sys.c, [inputname(1), ".c"], outname, stname);
+    __disp_mat__ (sys.a, [inputname_str, ".a"], stname, stname);
+    __disp_mat__ (sys.b, [inputname_str, ".b"], stname, inname);
+    __disp_mat__ (sys.c, [inputname_str, ".c"], outname, stname);
   endif
 
-  __disp_mat__ (sys.d, [inputname(1), ".d"], outname, inname);
+  __disp_mat__ (sys.d, [inputname_str, ".d"], outname, inname);
 
   display (sys.lti);  # display sampling time
 
