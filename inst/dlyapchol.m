@@ -36,7 +36,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.2
+## Version: 0.2.1
 
 function [u, scale] = dlyapchol (a, b, e)
 
@@ -44,15 +44,21 @@ function [u, scale] = dlyapchol (a, b, e)
     case 2
       
       if (! is_real_square_matrix (a))
-        error ("dlyapchol: a must be real and square");
+        ## error ("dlyapchol: a must be real and square");
+        error ("dlyapchol: %s must be real and square", \
+                inputname(1));
       endif
 
       if (! is_real_matrix (b))
-        error ("dlyapchol: b must be real")
+        ## error ("dlyapchol: b must be real")
+        error ("dlyapchol: %s must be real", \
+                inputname(2))
       endif
   
       if (rows (a) != rows (b))
-        error ("dlyapchol: a and b must have the same number of rows");
+        ## error ("dlyapchol: a and b must have the same number of rows");
+        error ("dlyapchol: %s and %s must have the same number of rows", \
+                inputname(1), inputname(2));
       endif
 
       [u, scale] = slsb03od (a.', b.', true);
@@ -62,15 +68,21 @@ function [u, scale] = dlyapchol (a, b, e)
     case 3
 
       if (! is_real_square_matrix (a, e))
-        error ("dlyapchol: a, e must be real and square");
+        ## error ("dlyapchol: a, e must be real and square");
+        error ("dlyapchol: %s, %s must be real and square", \
+                inputname(1), inputname(3));
       endif
 
       if (! is_real_matrix (b))
-        error ("dlyapchol: b must be real");
+        ## error ("dlyapchol: b must be real");
+        error ("dlyapchol: %s must be real", \
+                inputname(2));
       endif
 
       if (rows (b) != rows (a) || rows (e) != rows (a))
-        error ("dlyapchol: a, b, e must have the same number of rows");
+        ## error ("dlyapchol: a, b, e must have the same number of rows");
+        error ("dlyapchol: %s, %s, %s must have the same number of rows", \
+                inputname(1), inputname(2), inputname(3));
       endif
 
       [u, scale] = slsg03bd (a.', e.', b.', true);

@@ -39,7 +39,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.2
+## Version: 0.2.1
 
 function [x, scale] = lyap (a, b, c, e)
 
@@ -49,11 +49,16 @@ function [x, scale] = lyap (a, b, c, e)
     case 2                                      # Lyapunov equation
   
       if (! is_real_square_matrix (a, b))
-        error ("lyap: a, b must be real and square");
+        ## error ("lyap: a, b must be real and square");
+        error ("lyap: %s, %s must be real and square", \
+                inputname(1), inputname(2));
       endif
   
       if (rows (a) != rows (b))
-        error ("lyap: a, b must have the same number of rows");
+        ## error ("lyap: a, b must have the same number of rows");
+        error ("lyap: %s, %s must have the same number of rows", \
+                inputname(1), inputname(2));
+
       endif
 
       [x, scale] = slsb03md (a, -b, false);     # AX + XA' = -B
@@ -63,11 +68,15 @@ function [x, scale] = lyap (a, b, c, e)
     case 3                                      # Sylvester equation
     
       if (! is_real_square_matrix (a, b))
-        error ("lyap: a, b must be real and square");
+        ## error ("lyap: a, b must be real and square");
+        error ("lyap: %s, %s must be real and square", \
+                inputname(1), inputname(2));
       endif
 
       if (! is_real_matrix (c) || rows (c) != rows (a) || columns (c) != columns (b))
-        error ("lyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
+        ## error ("lyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
+        error ("lyap: %s must be a real (%dx%d) matrix", \
+                rows (a), columns (b), inputname(3));
       endif
 
       x = slsb04md (a, b, -c);  # AX + XB = -C
@@ -79,15 +88,21 @@ function [x, scale] = lyap (a, b, c, e)
       endif
       
       if (! is_real_square_matrix (a, b, e))
-        error ("lyap: a, b, e must be real and square");
+        ## error ("lyap: a, b, e must be real and square");
+        error ("lyap: %s, %s, %s must be real and square", \
+                inputname(1), inputname(2), inputname(4));
       endif
       
       if (rows (b) != rows (a) || rows (e) != rows (a))
-        error ("lyap: a, b, e must have the same number of rows");
+        ## error ("lyap: a, b, e must have the same number of rows");
+        error ("lyap: %s, %s, %s must have the same number of rows", \
+                inputname(1), inputname(2), inputname(4));
       endif
       
       if (! issymmetric (b))
-        error ("lyap: b must be symmetric");
+        ## error ("lyap: b must be symmetric");
+        error ("lyap: %s must be symmetric", \
+                inputname(2));
       endif
 
       [x, scale] = slsg03ad (a, e, -b, false);  # AXE' + EXA' = -B

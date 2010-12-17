@@ -39,7 +39,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.2
+## Version: 0.2.1
 
 function [x, scale] = dlyap (a, b, c, e)
 
@@ -49,11 +49,15 @@ function [x, scale] = dlyap (a, b, c, e)
     case 2                                     # Lyapunov equation
 
       if (! is_real_square_matrix (a, b))
-        error ("dlyap: a, b must be real and square");
+        ## error ("dlyap: a, b must be real and square");
+        error ("dlyap: %s, %s must be real and square", \
+                inputname(1), inputname(2));
       endif
   
       if (rows (a) != rows (b))
-        error ("dlyap: a, b must have the same number of rows");
+        ## error ("dlyap: a, b must have the same number of rows");
+        error ("dlyap: %s, %s must have the same number of rows", \
+                inputname(1), inputname(2));
       endif
 
       [x, scale] = slsb03md (a, -b, true);     # AXA' - X = -B
@@ -63,11 +67,15 @@ function [x, scale] = dlyap (a, b, c, e)
     case 3                                     # Sylvester equation
   
       if (! is_real_square_matrix (a, b))
-        error ("dlyap: a, b must be real and square");
+        ## error ("dlyap: a, b must be real and square");
+        error ("dlyap: %s, %s must be real and square", \
+                inputname(1), inputname(2));
       endif
 
       if (! is_real_matrix (c) || rows (c) != rows (a) || columns (c) != columns (b))
-        error ("dlyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
+        ## error ("dlyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
+        error ("dlyap: %s must be a real (%dx%d) matrix", \
+                rows (a), columns (b), inputname(3));
       endif
 
       x = slsb04qd (-a, b, c);                 # AXB' - X = -C
@@ -79,15 +87,21 @@ function [x, scale] = dlyap (a, b, c, e)
       endif
       
       if (! is_real_square_matrix (a, b, e))
-        error ("dlyap: a, b, e must be real and square");
+        ## error ("dlyap: a, b, e must be real and square");
+        error ("dlyap: %s, %s, %s must be real and square", \
+                inputname(1), inputname(2), inputname(4));
       endif
       
       if (rows (b) != rows (a) || rows (e) != rows (a))
-        error ("dlyap: a, b, e must have the same number of rows");
+        ## error ("dlyap: a, b, e must have the same number of rows");
+        error ("dlyap: %s, %s, %s must have the same number of rows", \
+                inputname(1), inputname(2), inputname(4));
       endif
       
       if (! issymmetric (b))
-        error ("dlyap: b must be symmetric");
+        ## error ("dlyap: b must be symmetric");
+        error ("dlyap: %s must be symmetric", \
+                inputname(2));
       endif
 
       [x, scale] = slsg03ad (a, e, -b, true);  # AXA' - EXE' = -B
