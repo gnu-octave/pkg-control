@@ -64,7 +64,7 @@ function [y_r, t_r, x_r] = step (sys, tfinal = [], dt = [])
     print_usage ();
   endif
 
-  [y, t, x] = __time_response__ (sys, "step", ! nargout, tfinal, dt, [], inputname(1));
+  [y, t, x] = __time_response__ (sys, "step", ! nargout, tfinal, dt, [], inputname (1));
 
   if (nargout)
     y_r = y;

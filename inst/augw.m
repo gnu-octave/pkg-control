@@ -149,7 +149,7 @@ function [W, p, m] = __adjust_weighting__ (W, s)
     endfor
     [p, m] = size (W);                # weighting function now of correct size
   else                                # model is MIMO or MISO
-    error ("augw: %s must have 1 or %d inputs", inputname(1), s);
+    error ("augw: %s must have 1 or %d inputs", inputname (1), s);
   endif 
 
 endfunction

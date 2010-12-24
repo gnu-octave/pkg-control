@@ -46,19 +46,19 @@ function [u, scale] = lyapchol (a, b, e)
       if (! is_real_square_matrix (a))
         ## error ("lyapchol: a must be real and square");
         error ("lyapchol: %s must be real and square", \
-                inputname(1));
+                inputname (1));
       endif
 
       if (! is_real_matrix (b))
         ## error ("lyapchol: b must be real")
         error ("lyapchol: %s must be real", \
-                inputname(2))
+                inputname (2))
       endif
   
       if (rows (a) != rows (b))
         ## error ("lyapchol: a and b must have the same number of rows");
         error ("lyapchol: %s and %s must have the same number of rows", \
-                inputname(1), inputname(2));
+                inputname (1), inputname (2));
       endif
 
       [u, scale] = slsb03od (a.', b.', false);
@@ -70,19 +70,19 @@ function [u, scale] = lyapchol (a, b, e)
       if (! is_real_square_matrix (a, e))
         ## error ("lyapchol: a, e must be real and square");
         error ("lyapchol: %s, %s must be real and square", \
-                inputname(1), inputname(3));
+                inputname (1), inputname (3));
       endif
 
       if (! is_real_matrix (b))
         ## error ("lyapchol: b must be real");
         error ("lyapchol: %s must be real", \
-                inputname(2));
+                inputname (2));
       endif
 
       if (rows (b) != rows (a) || rows (e) != rows (a))
         ## error ("lyapchol: a, b, e must have the same number of rows");
         error ("lyapchol: %s, %s, %s must have the same number of rows", \
-                inputname(1), inputname(2), inputname(3));
+                inputname (1), inputname (2), inputname (3));
       endif
 
       [u, scale] = slsg03bd (a.', e.', b.', false);

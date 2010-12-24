@@ -72,7 +72,7 @@ function sys = frd (H = [], w = [], varargin)
   argc = 0;                             # initialize argument count
 
   switch (nargin)
-    case 0                              # empty objet  sys = frd ()
+    case 0                              # empty object  sys = frd ()
       tsam = 0;                         # tsam = -2  is *not* possible
 
     case 1

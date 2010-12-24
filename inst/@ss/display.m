@@ -24,7 +24,7 @@
 
 function display (sys)
 
-  inputname_str = inputname(1);
+  inputname_str = inputname (1);
   [inname, outname, tsam] = __lti_data__ (sys.lti);
   stname = sys.stname;
 

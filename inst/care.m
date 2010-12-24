@@ -87,7 +87,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.5
+## Version: 0.5.1
 
 function [x, l, g] = care (a, b, q, r, s = [], e = [])
 
@@ -98,29 +98,41 @@ function [x, l, g] = care (a, b, q, r, s = [], e = [])
   endif
 
   if (! is_real_square_matrix (a, q, r))
-    error ("care: a, q, r must be real and square");
+    ## error ("care: a, q, r must be real and square");
+    error ("care: %s, %s, %s must be real and square", \
+            inputname (1), inputname (3), inputname (4));
   endif
   
   if (! is_real_matrix (b) || rows (a) != rows (b))
-    error ("care: a and b must have the same number of rows");
+    ## error ("care: a and b must have the same number of rows");
+    error ("care: %s and %s must have the same number of rows", \
+            inputname (1), inputname (2));
   endif
   
   if (columns (r) != columns (b))
-    error ("care: b and r must have the same number of columns");
+    ## error ("care: b and r must have the same number of columns");
+    error ("care: %s and %s must have the same number of columns", \
+            inputname (2), inputname (4));
   endif
 
   if (! is_real_matrix (s) && ! size_equal (s, b))
-    error ("care: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
-            rows (s), columns (s), rows (b), columns (b));
+    ## error ("care: s(%dx%d) must be real and identically dimensioned with b(%dx%d)",
+    ##         rows (s), columns (s), rows (b), columns (b));
+    error ("care: %s(%dx%d) must be real and identically dimensioned with %s(%dx%d)", \
+            inputname (5), rows (s), columns (s), inputname (2), rows (b), columns (b));
   endif
 
   if (! isempty (e) && (! is_real_square_matrix (e) || ! size_equal (e, a)))
-    error ("care: a and e must have the same number of rows");
+    ## error ("care: a and e must have the same number of rows");
+    error ("care: %s and %s must have the same number of rows", \
+            inputname (1), inputname (6));
   endif
 
   ## check stabilizability
   if (! isstabilizable (a, b, e, [], 0))
-    error ("care: (a, b) not stabilizable");
+    ## error ("care: (a, b) not stabilizable");
+    error ("care: (%s, %s) not stabilizable", \
+            inputname (1), inputname (2));
   endif
 
   ## check positive semi-definiteness
@@ -133,7 +145,9 @@ function [x, l, g] = care (a, b, q, r, s = [], e = [])
   m = [q, t; t.', r];
 
   if (isdefinite (m) < 0)
-    error ("care: require [q, s; s.', r] >= 0");
+    ## error ("care: require [q, s; s.', r] >= 0");
+    error ("care: require [%s, %s; %s.', %s] >= 0", \
+            inputname (3), inputname (5), inputname (5), inputname (4));
   endif
 
   ## solve the riccati equation
