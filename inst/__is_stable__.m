@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2010   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,24 +16,18 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
-## @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
-## Determine whether LTI system is stable.
-## @end deftypefn
+## Determine whether all poles in a vector are stable.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
-## Version: 0.2
+## Created: December 2010
+## Version: 0.1
 
-function bool = isstable (sys, tol = 0)
+function bool = __is_stable__ (eigw, ct = true, tol = 0)
 
-  if (nargin > 2)
-    print_usage ();
+  if (ct)  # continuous-time
+    bool = all (real (eigw) < -tol*(1 + abs (eigw)));
+  else     # discrete-time
+    bool = all (abs (eigw) < 1 - tol);
   endif
-
-  eigw = pole (sys);
-  ct = isct (sys);
-
-  bool = __is_stable__ (eigw, ct, tol);
 
 endfunction

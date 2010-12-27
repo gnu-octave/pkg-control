@@ -73,7 +73,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.3.1
 
 function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
 
@@ -124,10 +124,6 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
   endif
 
   ## check whether uncontrollable poles are stable
-  if (dflg)
-    bool = all (abs (eigw) < 1 - tol);
-  else
-    bool = all (real (eigw) < -tol*(1 + abs (eigw)));
-  endif
+  bool = __is_stable__ (eigw, ! dflg, tol);
 
 endfunction
