@@ -72,7 +72,7 @@
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.3
+## Version: 0.3.1
 
 function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
 
@@ -83,23 +83,21 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
   if (isa (a, "lti"))              # place (sys, p), place (sys, p, alpha), place (sys, p, alpha, tol)
     if (nargin > 4)                # nargin < 2 already tested
       print_usage ();
-    else
-      tol = alpha;
-      alpha = p;
-      p = b;
-      sys = a;
-      [a, b] = dssdata (sys, []);  # descriptor matrice e should have no influence
-      discrete = ! isct (sys);     # treat tsam = -2 as continuous system
     endif
-  else  # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
+    tol = alpha;
+    alpha = p;
+    p = b;
+    sys = a;
+    [a, b] = ssdata (sys);         # descriptor matrice e should be regular
+    discrete = ! isct (sys);       # treat tsam = -2 as continuous system
+  else                             # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
     if (nargin < 3)                # nargin > 5 already tested
       print_usage ();
-    else
-      if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
-        error ("place: matrices a and b not conformal");
-      endif
-      discrete = 0;                # assume continuous system
     endif
+    if (! is_real_square_matrix (a) || ! is_real_matrix (b) || rows (a) != rows (b))
+      error ("place: matrices a and b not conformal");
+    endif
+    discrete = 0;                  # assume continuous system
   endif
 
   if (! isnumeric (p) || ! isvector (p) || isempty (p))  # p could be complex
