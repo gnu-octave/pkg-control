@@ -35,6 +35,7 @@ Model Characteristics
   isctrb
   isdetectable
   @lti/isdt
+  @lti/isminimumphase
   isobsv
   @lti/issiso
   isstabilizable
