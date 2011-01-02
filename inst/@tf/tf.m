@@ -135,10 +135,8 @@ function sys = tf (num = {}, den = {}, varargin)
         tsam = varargin{1};
         argc--;
         
-        if (varargin{1} == 0)
+        if (tsam == 0)
           tfvar = "s";
-        elseif (varargin{1} == -1)
-          tfvar = "x";
         else
           tfvar = "z";
         endif
