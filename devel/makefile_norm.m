@@ -4,6 +4,9 @@
 ## USAGE: * fetch control from Octave-Forge by svn
 ##        * add control/inst, control/src and control/devel to your Octave path
 ##        * run makefile_*
+## NOTES: * The option "-Wl,-framework" "-Wl,vecLib" is needed for MacPorts'
+##          octave-devel @3.3.52_1+gcc44 on MacOS X 10.6.4. However, this option
+##          breaks other platforms. See MacPorts Ticket #26640.
 ## ==============================================================================
 
 homedir = pwd ();
@@ -12,14 +15,16 @@ srcdir = [develdir, "/../src"];
 cd (srcdir);
 
 ## H-2 norm
-mkoctfile slab13bd.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slab13bd.cc \
           AB13BD.f SB08DD.f SB03OU.f SB01FY.f TB01LD.f \
           SB03OT.f MB04ND.f MB04OD.f MB03QX.f select.f \
           SB03OR.f MB04OX.f MB03QD.f SB03OY.f MA02AD.f \
           MB03QY.f SB04PX.f MB04NY.f MB04OY.f SB03OV.f
 
 ## L-inf norm
-mkoctfile slab13dd.cc \
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slab13dd.cc \
           AB13DD.f MA02AD.f MB01SD.f MB03XD.f TB01ID.f \
           TG01AD.f TG01BD.f AB13DX.f MA01AD.f MA02ID.f \
           MB03XP.f MB04DD.f MB04QB.f MB04TB.f MB03XU.f \
