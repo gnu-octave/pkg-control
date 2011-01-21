@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -52,9 +52,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: August 2009
-## Version: 0.3
+## Version: 0.4
 
-function [u, t] = gensig (sigtype, tau, tfinal = 5*tau, tsam = tau/64)
+function [u, t] = gensig (sigtype, tau, tfinal, tsam)
 
   if (nargin < 2 || nargin > 4)
     print_usage ();
@@ -68,11 +68,15 @@ function [u, t] = gensig (sigtype, tau, tfinal = 5*tau, tsam = tau/64)
     error ("gensig: second argument is not a valid period");
   endif
 
-  if (! issample (tfinal))
+  if (nargin < 3)
+    tfinal = 5 * tau;
+  elseif (! issample (tfinal))
     error ("gensig: third argument is not a valid final time");
   endif
 
-  if (! issample (tsam))
+  if (nargin < 4)
+    tsam = tau / 64;
+  elseif (! issample (tsam))
     error ("gensig: fourth argument is not a valid sampling time");
   endif
 
@@ -93,5 +97,3 @@ function [u, t] = gensig (sigtype, tau, tfinal = 5*tau, tsam = tau/64)
 
 endfunction
 
-
-## TODO: Add a test
