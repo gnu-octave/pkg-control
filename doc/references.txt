@@ -4,19 +4,42 @@ REFERENCES
 German
 ******
 
-Meyer, M.
-Signalverarbeitung
-Vieweg & Teubner
-2009
-
 Geering, H.P.
 Regelungstechnik
 Springer
 2004
 
+Meyer, M.
+Signalverarbeitung
+Vieweg & Teubner
+2009
+
 
 English
 *******
+
+Anderson, B.D.O. and Moore, J.B.
+Optimal Control
+Linear Quadratic Methods
+Dover Publications
+1990
+
+Astršm, K. and HŠgglund, T.
+PID Controllers
+Theory, Design and Tuning
+Second Edition
+Instrument Society of America
+1995
+
+Doyle, J.C., Francis, B.A. and Tannenbaum, A.R.
+Feedback Control Theory
+Dover Publications
+1992
+
+Geering, H.P.
+Optimal Control with Engineering Applications
+Springer
+2007
 
 Guzzella, L.
 Analysis and Design of SISO Control Systems
@@ -28,31 +51,6 @@ Linear Systems
 Prentice Hall
 1980
 
-Anderson, B.D.O. and Moore, J.B.
-Optimal Control
-Linear Quadratic Methods
-Dover Publications
-1990
-
-Skogestad, S. and Postlethwaite, I.
-Multivariable Feedback Control
-Analysis and Design
-Second Edition
-Wiley
-2005
-
-Doyle, J.C., Francis, B.A. and Tannenbaum, A.R.
-Feedback Control Theory
-Dover Publications
-1992
-
-Astršm, K. and HŠgglund, T.
-PID Controllers
-Theory, Design and Tuning
-Second Edition
-Instrument Society of America
-1995
-
 Leigh, J.R.
 Applied Digital Control
 Theory, Design and Implementation
@@ -60,14 +58,16 @@ Second Edition
 Dover Publications
 1992
 
-Geering, H.P.
-Optimal Control with Engineering Applications
-Springer
-2007
-
 Ljung, L.
 System Identification
 Theory for the User
 Second Edition
 Prentice Hall
 1999
+
+Skogestad, S. and Postlethwaite, I.
+Multivariable Feedback Control
+Analysis and Design
+Second Edition
+Wiley
+2005

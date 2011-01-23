@@ -62,8 +62,8 @@ function outsys = Boeing707 ()
 
   inam = {"thrust"; "rudder"};
   onam = {"speed"; "pitch"};
-  snam = {"x1"; "x2"; "x3"; "x4"};
+  ## snam = {"x1"; "x2"; "x3"; "x4"};
 
-  outsys = ss (a, b, c, d, "stname", snam, "inname", inam, "outname", onam);
+  outsys = ss (a, b, c, d, "inname", inam, "outname", onam);
 
 endfunction

@@ -2,8 +2,8 @@
 % optiPIDfun                       Lukas Reichlin                       July 2009
 % ===============================================================================
 % Objective Function
-% See "Analysis and Synthesis of SISO Control Systems"
-% by Lino Guzzella for further details
+% Reference: Guzzella, L. (2007) Analysis and Synthesis of SISO Control Systems.
+%            vdf, Zurich
 % ===============================================================================
 
 function J = optiPIDfun (C_par)
@@ -18,8 +18,8 @@ function J = optiPIDfun (C_par)
   tau = Td / 10;
 
   % PID Controller with Roll-Off
-  numC = kp * [Ti * Td,  Ti,  1];
-  denC = conv ([Ti, 0], [tau^2,  2 * tau,  1]);
+  numC = kp * [Ti*Td, Ti, 1];
+  denC = conv ([Ti, 0], [tau^2, 2*tau, 1]);
   C = tf (numC, denC);
 
   % Open Loop
@@ -32,11 +32,11 @@ function J = optiPIDfun (C_par)
   SUML = append (SUM, L);
 
   % Build System Interconnections
-  CM = [3, 1;   % Controller Input with Sum Block Output 
-        2, 2];  % Sum Block Negative Input with Plant Output
+  CM = [3, 1;          % Controller Input with Sum Block Output 
+        2, 2];         % Sum Block Negative Input with Plant Output
 
-  inputs = [1];      % Input 1: reference r(t)
-  outputs = [1, 2];  % Output 1: error e(t), Output 2: output y(t)
+  inputs = [1];        % Input 1: reference r(t)
+  outputs = [1, 2];    % Output 1: error e(t), Output 2: output y(t)
 
   SUML = connect (SUML, CM, inputs, outputs);
 
