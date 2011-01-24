@@ -6,7 +6,6 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct
 
-# TODO: automatically run "rm makefile_*.m" for installation
 # TODO: leading and trailing underscores for sl* functions
 #       (__sl*__.oct) would be nice, but this can be an issue
 #       for fortran compilers.
