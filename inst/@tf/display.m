@@ -66,9 +66,9 @@ function __disp_frac__ (num, den, tfvar, name)
 
     str = strjust (strvcat (numstr, fracstr, denstr), "center");
 
-    namestr = [name, ":  "];
+    namestr = name(:, 1 : min (MAX_LEN, end));
+    namestr = [namestr, ":  "];
     namestr = strjust (strvcat (" ", namestr, " "), "left");
-    namestr = namestr(:, 1 : min (MAX_LEN, end));
     namestr = horzcat (repmat (" ", 3, 1), namestr);
 
     str = [namestr, str];
