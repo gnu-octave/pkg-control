@@ -98,13 +98,13 @@ function sys = frd (H = [], w = [], varargin)
 
     otherwise                           # default case
       argc = numel (varargin);          # number of additional arguments after H and w
-      if (issample (varargin{1}, -10))  # sys = frd (H, w, tsam, "prop1, "val1", ...)
+      if (issample (varargin{1}, -10))  # sys = frd (H, w, tsam, "prop1", val1, ...)
         tsam = varargin{1};             # discrete-time
         argc--;                         # tsam is not a property-value pair
         if (argc > 0)                   # if there are any properties and values ...
           varargin = varargin(2:end);   # remove tsam from property-value list
         endif
-      else                              # sys = frd (H, w, "prop1, "val1", ...)
+      else                              # sys = frd (H, w, "prop1", val1, ...)
         tsam = 0;                       # continuous-time
       endif
   endswitch

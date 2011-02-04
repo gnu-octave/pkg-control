@@ -131,7 +131,7 @@ function sys = tf (num = {}, den = {}, varargin)
       den = __vec2tfpoly__ (den);
       argc = numel (varargin);
 
-      if (issample (varargin{1}, -10))         # sys = tf (num, den, tsam, "prop1, "val1", ...)
+      if (issample (varargin{1}, -10))         # sys = tf (num, den, tsam, "prop1", val1, ...)
         tsam = varargin{1};
         argc--;
         
@@ -144,7 +144,7 @@ function sys = tf (num = {}, den = {}, varargin)
         if (argc > 0)
           varargin = varargin(2:end);
         endif
-      else                                     # sys = tf (num, den, "prop1, "val1", ...)
+      else                                     # sys = tf (num, den, "prop1", val1, ...)
         tsam = 0;
         tfvar = "s";
       endif

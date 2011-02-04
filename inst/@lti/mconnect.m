@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -61,11 +61,11 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = mconnect (sys, M, in_idx, out_idx)
+function sys = mconnect (sys, M, in_idx, out_idx = ":")
 
-  if (nargin != 2 && nargin != 4)
+  if (nargin < 2 || nargin > 4)
     print_usage ();
   endif
 
@@ -82,7 +82,7 @@ function sys = mconnect (sys, M, in_idx, out_idx)
 
   sys = __sys_connect__ (sys, M);
 
-  if (nargin == 4)
+  if (nargin > 2)
     sys = __sys_prune__ (sys, out_idx, in_idx);
   endif
 

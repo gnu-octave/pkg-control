@@ -116,7 +116,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
     else
       print_usage ();
     endif
-  elseif (nargin > 4)                 # default case  sys = ss (a, b, c, d, "prop1, "val1", ...)
+  elseif (nargin > 4)                 # default case  sys = ss (a, b, c, d, "prop1", val1, ...)
     argc = numel (varargin);          # number of additional arguments after d
     if (issample (varargin{1}, -10))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
       tsam = varargin{1};
