@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,16 +21,21 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = subsasgn (sys, idx, val)
 
-  ## TODO: enable stuff like sys.a(2, 1:3) = [4, 5, 6]
+  ## TODO: enable *more* stuff like sys.a(2, 1:3) = [4, 5, 6]
+  ## warning ("lti: subsasgn: do not use subsasgn for development");
 
-  switch (idx.type)
+  switch (idx(1).type)
     case "."
-      sys = set (sys, idx.subs, val);
-      ## warning ("lti: subsasgn: do not use subsasgn for development");
+      if (length (idx) == 1)
+        sys = set (sys, idx.subs, val);
+      else
+        prop = idx(1).subs;
+        sys = set (sys, prop, subsasgn (get (sys, prop), idx(2:end), val));
+      endif
 
     otherwise
       error ("lti: subsasgn: invalid subscripted assignment type");
