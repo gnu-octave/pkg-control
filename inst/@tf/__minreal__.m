@@ -39,7 +39,7 @@ function sys = __minreal__ (sys, tol)
       pol = pole (sisosys);
 
       for k = length (zer) : -1 : 1             # reversed because of deleted zeros
-        [jnk, idx] = min (abs (zer(k) - pol));  # find best match
+        [~, idx] = min (abs (zer(k) - pol));    # find best match
 
         if (tol == "def")
           if (abs (zer(k)) < sqrt_eps)          # catch case zer(k) = 0

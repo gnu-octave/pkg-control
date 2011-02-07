@@ -82,9 +82,9 @@ function bool = isctrb (a, b = [], e = [], tol = [])
   endif
 
   if (isempty (e))
-    [ac, bc, u, ncont] = slab01od (a, b, tol);
+    [~, ~, ~, ncont] = slab01od (a, b, tol);
   else
-    [ac, ec, bc, cc, q, z, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
+    [~, ~, ~, ~, ~, ~, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
   endif
 
   bool = (ncont == rows (a));

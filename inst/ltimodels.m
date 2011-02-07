@@ -197,7 +197,7 @@ endfunction
 %!assert (z, z_exp, 1e-4);
 
 
-transmission zeros of descriptor state-space models
+## transmission zeros of descriptor state-space models
 %!shared z, z_exp
 %! A = [  1     0     0     0     0     0     0     0     0
 %!        0     1     0     0     0     0     0     0     0

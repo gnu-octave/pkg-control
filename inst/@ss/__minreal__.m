@@ -33,10 +33,10 @@ function retsys = __minreal__ (sys, tol)
   endif
 
   if (isempty (sys.e))
-    [a, b, c, nr] = sltb01pd (sys.a, sys.b, sys.c, tol);
+    [a, b, c] = sltb01pd (sys.a, sys.b, sys.c, tol);
     retsys = ss (a, b, c, sys.d);
   else
-    [a, e, b, c, nr] = sltg01jd (sys.a, sys.e, sys.b, sys.c, tol);
+    [a, e, b, c] = sltg01jd (sys.a, sys.e, sys.b, sys.c, tol);
     retsys = dss (a, b, c, sys.d, e);
   endif
 

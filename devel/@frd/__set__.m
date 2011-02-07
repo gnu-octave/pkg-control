@@ -31,7 +31,7 @@ function sys = __set__ (sys, prop, val)
       sys.H = val;
 
     case {"w", "f", "freq", "frequency"}
-      [jnk, val] = __adjust_frd_data__ (sys.H, val);  ## TODO: use [~, val] for octave 3.4
+      [~, val] = __adjust_frd_data__ (sys.H, val);
       __frd_dim__ (sys.H, val);
       sys.w = val;
 
