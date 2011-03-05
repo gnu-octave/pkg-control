@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.1.1
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
@@ -33,9 +33,10 @@ function [retsys, retlti] = __sys2tf__ (sys)
     den = 1;
   else                                        # default case
     [zer, gain] = zero (sys);
+    pol = pole (sys);
     
     num = gain * real (poly (zer));
-    den = real (poly (sys.a));
+    den = real (poly (pol));
   endif
 
   retsys = tf (num, den, get (sys, "tsam"));  # tsam needed to set appropriate tfvar
