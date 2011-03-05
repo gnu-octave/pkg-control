@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT AG08BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -195,22 +195,6 @@ For internal use only.")
         if (info2 != 0)
             error ("dss: zero: slag08bd: DGGEV returned info = %d", info2);
 
-        // calculate gain
-        octave_value gain = Matrix (0, 0);;
-
-        if (m == 1 && p == 1)   // FIXME: I'm not sure of this
-        {
-            if (nfz < n)
-                gain = args(3).matrix_value () * (args(1).matrix_value ()).inverse () * xpow (args(0).matrix_value (), double (n-1-nfz)) * args(2).matrix_value ();
-                // gain = args(3).matrix_value () * xpow (args(0).matrix_value (), double (n-1-nfz)) * (args(1).matrix_value ()).inverse () * args(2).matrix_value ();
-                // NOTE: content of matrices has changed
-                // c * inv (e) * a^(n-1-nfz) * b ?
-                // c * a^(n-1-nfz) * inv (e) * b ?
-                // good examples needed where a^(n-1-nfz) != eye (n)
-            else
-                gain = d;
-        }
-
         // assemble complex vector - adapted from DEFUN complex in data.cc
         // LAPACK DGGEV.f says:
         //
@@ -236,7 +220,6 @@ For internal use only.")
 
         // return values
         retval(0) = zero;
-        retval(1) = gain;
     }
     
     return retval;

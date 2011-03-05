@@ -1,0 +1,17 @@
+===============================================================================
+control-2.0.1   Release Date: 2011-mm-dd   Maintainer: lukas.reichlin@gmail.com
+===============================================================================
+
+** lsim.m
+   -- Support time vectors not starting at zero. (Thanks to Rob Frohne)
+   -- Improved help text.
+
+** @lti/zero.m
+   -- The gain of descriptor state-space models is now computed correctly.
+
+
+===============================================================================
+control-2.0.0   Release Date: 2011-02-08   Maintainer: lukas.reichlin@gmail.com
+===============================================================================
+
+** First official release.

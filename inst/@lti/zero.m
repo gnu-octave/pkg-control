@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.1.1
 
 function [zer, gain] = zero (sys)
 
@@ -31,6 +31,6 @@ function [zer, gain] = zero (sys)
     print_usage ();
   endif
 
-  [zer, gain] = __zero__ (sys);
+  [zer, gain] = __zero__ (sys, nargout);
 
 endfunction

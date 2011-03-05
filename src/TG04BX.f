@@ -1,4 +1,4 @@
-      SUBROUTINE TG04BX( IP, IZ, E, A, LDA, B, C, D, PR, PI, ZR, ZI,
+      SUBROUTINE TG04BX( IP, IZ, A, LDA, E, B, C, D, PR, PI, ZR, ZI,
      $                   GAIN, IWORK )
 C
 C     WARNING
@@ -148,7 +148,7 @@ C     .. Scalar Arguments ..
       DOUBLE PRECISION   D, GAIN
       INTEGER            IP, IZ, LDA
 C     .. Array Arguments ..
-      DOUBLE PRECISION   E(LDA,*), A(LDA,*), B(*), C(*), PI(*), PR(*),
+      DOUBLE PRECISION   A(LDA,*), E(LDA,*), B(*), C(*), PI(*), PR(*),
      $                   ZI(*), ZR(*)
       INTEGER            IWORK(*)
 C     .. Local Scalars ..
@@ -168,10 +168,10 @@ C     For efficiency, the input scalar parameters are not checked.
 C
 C     Quick return if possible.
 C
-      IF( IP.EQ.0 ) THEN
-         GAIN = ZERO
-         RETURN
-      END IF
+C     IF( IP.EQ.0 ) THEN
+C        GAIN = ZERO
+C        RETURN
+C     END IF
 C
 C     Compute a suitable value for S0 .
 C
@@ -197,8 +197,8 @@ C
 C
 C     Form A - S0*E .
 C
-      DO 30 J = 1, IP
-         DO 25 I = 1, IP
+      DO 30 J = 1, LDA
+         DO 25 I = 1, LDA
             A(I,J) = A(I,J) - S0*E(I,J)
    25    CONTINUE
    30 CONTINUE
@@ -206,15 +206,19 @@ C
 C     Compute the LU factorization of the matrix A - S0*E
 C     (guaranteed to be nonsingular).
 C
-      CALL MB02SD( IP, A, LDA, IWORK, INFO )
+C     CALL MB02SD( IP, A, LDA, IWORK, INFO )
+      CALL MB02SD( LDA, A, LDA, IWORK, INFO )
 C
 C     Solve the linear system (A - S0*E)*x = b .
 C
-      CALL MB02RD( 'No Transpose', IP, 1, A, LDA, IWORK, B, IP, INFO )
+C     CALL MB02RD( 'No Transpose', IP, 1, A, LDA, IWORK, B, IP, INFO )
+C     CALL MB02RD( 'No Transpose', IP, 1, A, LDA, IWORK, B, LDA, INFO )
+      CALL MB02RD( 'No Transpose', LDA, 1, A, LDA, IWORK, B, LDA, INFO )
 C                        -1
 C     Compute c*(S0*E - A) *b + d .
 C
-      GAIN = D - DDOT( IP, C, 1, B, 1 )
+C     GAIN = D - DDOT( IP, C, 1, B, 1 )
+      GAIN = D - DDOT( LDA, C, 1, B, 1 )
 C
 C     Multiply by the products in terms of poles and zeros in (1).
 C

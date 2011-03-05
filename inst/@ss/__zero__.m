@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,15 +22,21 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function [zer, gain] = __zero__ (sys)
+function [zer, gain] = __zero__ (sys, argc)
 
   if (isempty (sys.e))
     [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
   else
-    [zer, gain] = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
-    ## FIXME: I'm not sure whether the gain is always correct
+    zer = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
+    if (argc > 1 && issiso (sys))
+      pol = pole (sys);
+      gain = sltg04bx (sys.a, sys.e, sys.b, sys.c, sys.d, \
+                       real (pol), imag (pol), real (zer), imag (zer));
+    else
+      gain = [];
+    endif
   endif
 
 endfunction
