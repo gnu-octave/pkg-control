@@ -46,10 +46,6 @@ Frequency Response Data:
 State-Space Models:
 ------------------
 
-  * Fix poles of descriptor models (@ss/__pole__.m)
-
-  * Fix gain of descriptor models (slag08bd.cc)
-
   * Scaling: TB01ID/TD (ss) and TG01AD (dss) ?
 
   * Balancing: TB01TD ?
