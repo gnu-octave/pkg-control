@@ -937,3 +937,31 @@ endfunction
 %! Me = [Ae, Be; Ce, De];
 %!
 %!assert (M, Me, 1e-4);
+
+
+## Gain of descriptor state-space models
+%!shared p, pi, z, zi, k, ki, p_tf, pi_tf, z_tf, zi_tf, k_tf, ki_tf
+%! P = ss (-2, 3, 4, 5);
+%! Pi = inv (P);
+%!
+%! p = pole (P);
+%! [z, k] = zero (P);
+%!
+%! pi = pole (Pi);
+%! [zi, ki] = zero (Pi);
+%!
+%! P_tf = tf (P);
+%! Pi_tf = tf (Pi);
+%!
+%! p_tf = pole (P_tf);
+%! [z_tf, k_tf] = zero (P_tf);
+%!
+%! pi_tf = pole (Pi_tf);
+%! [zi_tf, ki_tf] = zero (Pi_tf);
+%!
+%!assert (p, zi, 1e-4);
+%!assert (z, pi, 1e-4);
+%!assert (k, inv (ki), 1e-4);
+%!assert (p_tf, zi_tf, 1e-4);
+%!assert (z_tf, pi_tf, 1e-4);
+%!assert (k_tf, inv (ki_tf), 1e-4);
