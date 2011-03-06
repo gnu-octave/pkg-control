@@ -1,5 +1,5 @@
 ===============================================================================
-control-2.0.1   Release Date: 2011-mm-dd   Maintainer: lukas.reichlin@gmail.com
+control-2.0.1   Release Date: 2011-03-06   Maintainer: lukas.reichlin@gmail.com
 ===============================================================================
 
 ** lsim.m
@@ -8,6 +8,7 @@ control-2.0.1   Release Date: 2011-mm-dd   Maintainer: lukas.reichlin@gmail.com
 
 ** @lti/zero.m
    -- The gain of descriptor state-space models is now computed correctly.
+      (fingers crossed)
 
 
 ===============================================================================
@@ -15,3 +16,6 @@ control-2.0.0   Release Date: 2011-02-08   Maintainer: lukas.reichlin@gmail.com
 ===============================================================================
 
 ** First official release.
+
+
+===============================================================================
