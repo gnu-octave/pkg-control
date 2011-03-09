@@ -143,7 +143,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   ## initial conditions
   if (isempty (x0))
     x0 = zeros (n, 1);
-  elseif (n != length (x0) || is_real_vector (x0))
+  elseif (n != length (x0) || ! is_real_vector (x0))
     error ("initial: x0 must be a vector with %d elements", n);
   endif
 
