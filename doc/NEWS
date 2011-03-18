@@ -1,10 +1,10 @@
 ===============================================================================
-control-2.0.2   Release Date: 2011-03-xx   Release Manager: Lukas Reichlin
+control-2.0.2   Release Date: 2011-03-18   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** lsim.m
    -- Fixed a logical error that refused valid initial state vectors.  It was
-      a thinko introduced with the changes in control-2.0.1.
+      due to a thinko introduced with the changes in control-2.0.1.
       (Thanks to Rob Frohne)
 
 
