@@ -26,7 +26,7 @@
 ## @item P
 ## Generalized plant.  Must be a proper/realizable LTI model.
 ## @item nmeas
-## Number of measured outputs e.  The last nmeas outputs of @var{P} are connected to the
+## Number of measured outputs v.  The last nmeas outputs of @var{P} are connected to the
 ## inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
 ## to calculate the H-2 norm.
 ## @item ncon
@@ -55,7 +55,7 @@
 ##                +--------+  
 ##        w ----->|        |-----> z
 ##                |  P(s)  |
-##        u +---->|        |-----+ e
+##        u +---->|        |-----+ v
 ##          |     +--------+     |
 ##          |                    |
 ##          |     +--------+     |
