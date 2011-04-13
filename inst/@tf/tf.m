@@ -32,7 +32,7 @@
 ## Denominator or cell of denominators.  Each denominator must be a row vector
 ## containing the exponents of the polynomial in descending order.
 ## @item tsam
-## Sampling time.  If @var{tsam} is not specified, a continuous-time
+## Sampling time in seconds.  If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.

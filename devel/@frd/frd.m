@@ -33,8 +33,8 @@
 ## @item w
 ## Frequency vector (lw-by-1) in radian per second [rad/s].
 ## @item tsam
-## Sampling time.  If @var{tsam} is not specified, a continuous-time
-## model is assumed.
+## Sampling time in seconds.  If @var{tsam} is not specified,
+## a continuous-time model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.
 ## Type @command{set (frd)} for more information.

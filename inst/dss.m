@@ -35,8 +35,8 @@
 ## @item e
 ## Descriptor matrix (n-by-n).
 ## @item tsam
-## Sampling time.  If @var{tsam} is not specified, a continuous-time
-## model is assumed.
+## Sampling time in seconds.  If @var{tsam} is not specified, 
+## a continuous-time model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.
 ## Type @command{set (dss)} for more information.
