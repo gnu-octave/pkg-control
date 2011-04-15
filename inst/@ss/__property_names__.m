@@ -33,7 +33,8 @@ function [props, vals] = __property_names__ (sys, flg)
            "c";
            "d";
            "e";
-           "stname"};
+           "stname";
+           "scaled"};
 
   ## cell vector of ss-specific assignable values
   vals = {"n-by-n matrix (n = number of states)";
@@ -41,7 +42,8 @@ function [props, vals] = __property_names__ (sys, flg)
           "p-by-n matrix (p = number of outputs)";
           "p-by-m matrix";
           "n-by-n matrix";
-          "n-by-1 cell vector of strings"};
+          "n-by-1 cell vector of strings";
+          "1-by-1 logical value"};
 
   if (nargin == 1)
     [ltiprops, ltivals] = __property_names__ (sys.lti);

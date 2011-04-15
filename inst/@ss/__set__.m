@@ -53,6 +53,14 @@ function sys = __set__ (sys, prop, val)
       n = rows (sys.a);
       sys.stname = __adjust_labels__ (val, n);
 
+    case "scaled"
+      if (isscalar (val))
+        sys.scaled = logical (val);
+        warning ("ss: set: property ""scaled"" has no influence yet");
+      else
+        error ("ss: set: property ""scaled"" must be a logical value");
+      endif
+
     otherwise
       error ("ss: set: invalid property name");
 

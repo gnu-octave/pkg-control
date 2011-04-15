@@ -43,6 +43,9 @@ function val = __get__ (sys, prop)
     case {"stname", "statename"}
       val = sys.stname;
 
+    case "scaled"
+      val = sys.scaled;
+
     otherwise
       error ("ss: get: invalid property name");
 

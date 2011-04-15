@@ -135,7 +135,8 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   ssdata = struct ("a", a, "b", b,
                    "c", c, "d", d,
                    "e", [],
-                   "stname", {stname});
+                   "stname", {stname},
+                   "scaled", false);
 
   ltisys = lti (p, m, tsam);
 
