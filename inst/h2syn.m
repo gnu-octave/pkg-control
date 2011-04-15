@@ -119,9 +119,9 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
 
   ## H-2 synthesis
   if (isct (P))             # continuous plant
-    [ak, bk, ck, dk] = slsb10hd (a, b, c, d, ncon, nmeas);
+    [ak, bk, ck, dk, rcond] = slsb10hd (a, b, c, d, ncon, nmeas);
   else                      # discrete plant
-    [ak, bk, ck, dk] = slsb10ed (a, b, c, d, ncon, nmeas);
+    [ak, bk, ck, dk, rcond] = slsb10ed (a, b, c, d, ncon, nmeas);
   endif
   
   ## controller
@@ -132,6 +132,9 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     varargout{1} = N;
     if (nargout > 2)
       varargout{2} = norm (N, 2);
+      if (nargout > 3)
+        varargout{3} = rcond;
+      endif
     endif
   endif
 

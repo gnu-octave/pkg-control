@@ -149,6 +149,7 @@ For internal use only.")
         retval(1) = bk;
         retval(2) = ck;
         retval(3) = dk;
+        retval(4) = rcond;
     }
     
     return retval;

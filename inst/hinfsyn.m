@@ -122,9 +122,9 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
 
   ## H-infinity synthesis
   if (isct (P))             # continuous plant
-    [ak, bk, ck, dk] = slsb10fd (a, b, c, d, ncon, nmeas, gmax);
+    [ak, bk, ck, dk, rcond] = slsb10fd (a, b, c, d, ncon, nmeas, gmax);
   else                      # discrete plant
-    [ak, bk, ck, dk] = slsb10dd (a, b, c, d, ncon, nmeas, gmax);
+    [ak, bk, ck, dk, rcond] = slsb10dd (a, b, c, d, ncon, nmeas, gmax);
   endif
   
   ## controller
@@ -135,6 +135,9 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
     varargout{1} = N;
     if (nargout > 2)
       varargout{2} = norm (N, inf);
+      if (nargout > 3)
+        varargout{3} = rcond;
+      endif
     endif
   endif
 
