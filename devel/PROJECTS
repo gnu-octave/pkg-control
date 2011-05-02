@@ -34,25 +34,33 @@ General:
 
   * SLICOT system identification.  Separate control-identification package?
 
+  * Check whether RASP-DESCRIPT Fortran routines are free software and include them
+    for dss system conversions and other stuff if possible.
+
 -----------------------
 Frequency Response Data:
 -----------------------
 
-  * Write a nice display routine ().
+  * Write a nice display routine.
 
   * Tolerances for intersection of frequency vectors in @frd/__sys_group__.m
+
+  * Static gains DO make sense in certain cases (conversion from ss or tf gains).
 
 ------------------
 State-Space Models:
 ------------------
 
-  * Scaling: TB01ID/TD (ss) and TG01AD (dss) ?
+  * Scaling: TB01ID (ss) and TG01AD (dss)
 
   * Balancing: TB01TD ?
 
-  * Use SLICOT for @ss/__sys2tf__.m
+  * Use SLICOT TB04BD for @ss/__sys2tf__.m
 
-  * Prescaling for __freqresp__.m ?
+  * Prescaling for __freqresp__.m using TB01ID (ss) and TG01AD (dss)
+    if property scaled == false.
+
+  * sys = prescale (sys) using TB01ID (ss) and TG01AD (dss)
 
 ------------------------
 Transfer Function Models:
@@ -62,7 +70,7 @@ Transfer Function Models:
 
   * MIMO tf interconnections (@tf/__sys_connect__.m)
 
-  * Use SLICOT for tf2ss conversion (@tf/__sys2ss__.m)
+  * Use SLICOT (TD04AD?) for tf2ss conversion (@tf/__sys2ss__.m)
 
   * Implement c2d conversion (@tf/__c2d__.m)
 
@@ -74,6 +82,9 @@ Always:
 
   * Write/improve documentation.  If you implement a feature without documentation,
     nobody besides you will ever use it!  Don't waste your time :-)
+ 
+  * Add description of each input and output argument to texinfo strings of
+    functions on the INDEX list.
 
   * Add tests.
 
