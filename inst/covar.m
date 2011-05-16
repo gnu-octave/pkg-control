@@ -59,7 +59,7 @@ function [p, q] = covar (sys, w)
   [a, b, c, d] = ssdata (sys);
   
   if (isct (sys))
-    if (any (any (d)))
+    if (any (d(:)))
       error ("covar: system is not strictly proper");
     endif
     

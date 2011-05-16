@@ -30,7 +30,7 @@
 
 function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
 
-  if (nargin > 3)  # norm () is caught by built-in function
+  if (nargin > 3)                     # norm () is caught by built-in function
     print_usage ();
   endif
 
@@ -68,7 +68,7 @@ function gain = h2norm (sys)
     [a, b, c, d] = ssdata (sys);
     discrete = ! isct (sys);
     
-    if (! discrete && any (any (d)))  # continuous and non-zero feedthrough
+    if (! discrete && any (d(:)))     # continuous and non-zero feedthrough
       gain = inf;
     else
       [gain, iwarn] = slab13bd (a, b, c, d, discrete);
