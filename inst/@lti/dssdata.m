@@ -17,7 +17,38 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
+## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
 ## Access descriptor state-space model data.
+## Argument @var{sys} is not limited to descriptor state-space models.
+## If @var{sys} is not a descriptor state-space model, it is converted automatically.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Any type of LTI model.
+## @item []
+## In case @var{sys} is not a dss model (descriptor matrix @var{e} empty),
+## @code{dssdata (sys, [])} returns the empty element @code{e = []} whereas
+## @code{dssdata (sys)} returns the identity matrix @code{e = eye (size (a))}.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item a
+## State transition matrix (n-by-n).
+## @item b
+## Input matrix (n-by-m).
+## @item c
+## Measurement matrix (p-by-n).
+## @item d
+## Feedthrough matrix (p-by-m).
+## @item e
+## Descriptor matrix (n-by-n).
+## @item tsam
+## Sampling time in seconds.  If @var{sys} is a continuous-time model,
+## a zero is returned.
+## @end table
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -38,10 +38,10 @@ extern "C"
     int F77_FUNC (ab08nd, AB08ND)
                  (char& EQUIL,
                   int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
+                  const double* A, int& LDA,
+                  const double* B, int& LDB,
+                  const double* C, int& LDC,
+                  const double* D, int& LDD,
                   int& NU, int& RANK, int& DINFZ,
                   int& NKROR, int& NKROL, int* INFZ,
                   int* KRONR, int* KRONL,
@@ -54,8 +54,8 @@ extern "C"
     int F77_FUNC (dggev, DGGEV)
                  (char& JOBVL, char& JOBVR,
                   int& N,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
+                  double* AF, int& LDAF,
+                  double* BF, int& LDBF,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
                   double* VL, int& LDVL,
@@ -82,10 +82,10 @@ For internal use only.")
         // arguments in
         char equil = 'N';
         
-        Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        Matrix d = args(3).matrix_value ();
+        const Matrix a = args(0).matrix_value ();
+        const Matrix b = args(1).matrix_value ();
+        const Matrix c = args(2).matrix_value ();
+        const Matrix d = args(3).matrix_value ();
         
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
