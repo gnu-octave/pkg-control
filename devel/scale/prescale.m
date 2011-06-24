@@ -1,12 +1,12 @@
-function [e, f, g, h, j] = prescale (a, b, c, d)
-  [e, f, g, h, j] = sltb01id (a, b, c, d)
-end
+function [a, b, c, maxred, scale] = prescale (a, b, c, maxred)
 
-%function [a, b, c, maxred, scale] = prescale (a, b, c, maxred)
-%
-%  [a, b, c, maxred, scale] = sltb01id (a, b, c, maxred);
-%
-%endfunction
+  if (nargin != 4)
+  	print_usage ();
+  endif
+
+  [a, b, c, maxred, scale] = sltb01id (a, b, c, maxred);
+
+endfunction
 
 
 ## state-space models
@@ -58,5 +58,5 @@ end
 %!assert (Ao, Ae, 1e-4);
 %!assert (Bo, Be, 1e-4);
 %!assert (Co, Ce, 1e-4);
-%!assert (MAXREDo, MAXREDe, 1e-4);
-%!assert (SCALEo, SCALEe, 1e-4);
+%!assert (MAXREDo, MAXREDe, 1e6);
+%!assert (SCALEo, SCALEe.', 1e-4);
