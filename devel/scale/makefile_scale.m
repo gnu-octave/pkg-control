@@ -4,6 +4,6 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           TB01ID.f
 
 ## scaling of descriptor state-space models
-## mkoctfile "-Wl,-framework" "-Wl,vecLib" \
-##           sltg01ad.cc \
-##           TG01AD.f
+mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          sltg01ad.cc \
+          TG01AD.f

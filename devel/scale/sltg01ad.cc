@@ -55,7 +55,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 4)
+    if (nargin != 5)
     {
         print_usage ();
     }
@@ -65,23 +65,29 @@ For internal use only.")
         char job = 'A';
         
         Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        double maxred = args(3).double_value ();
+        Matrix e = args(1).matrix_value ();
+        Matrix b = args(2).matrix_value ();
+        Matrix c = args(3).matrix_value ();
+        double tresh = args(4).double_value ();
 
-        int n = a.rows ();      // n: number of states
+        int l = a.rows ();
+        int n = a.columns ();   // n: number of states
         int m = b.columns ();   // m: number of inputs
         int p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
+        int lda = max (1, l);
+        int lde = max (1, l);
+        int ldb = max (1, l);
         int ldc = max (1, p);
-        
+
 
         // arguments out
-        ColumnVector scale (n);
+        ColumnVector lscale (l);
+        ColumnVector rscale (n);
 
-        
+        // workspace
+        OCTAVE_LOCAL_BUFFER (double, dwork, 3*(l+n));
+
         // error indicators
         int info = 0;
 
@@ -89,12 +95,14 @@ For internal use only.")
         // SLICOT routine TG01AD
         F77_XFCN (tg01ad, TG01AD,
                  (job,
-                  n, m, p,
-                  maxred,
+                  l, n, m, p,
+                  tresh,
                   a.fortran_vec (), lda,
+                  e.fortran_vec (), lde,
                   b.fortran_vec (), ldb,
                   c.fortran_vec (), ldc,
-                  scale.fortran_vec (),
+                  lscale.fortran_vec (), rscale.fortran_vec (),
+                  dwork,
                   info));
 
         if (f77_exception_encountered)
@@ -106,10 +114,11 @@ For internal use only.")
 
         // return values
         retval(0) = a;
-        retval(1) = b;
-        retval(2) = c;
-        retval(3) = octave_value (maxred);
-        retval(4) = scale;
+        retval(1) = e;
+        retval(2) = b;
+        retval(3) = c;
+        retval(4) = lscale;
+        retval(5) = rscale;
     }
     
     return retval;
