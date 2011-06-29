@@ -43,7 +43,7 @@ function [props, vals] = __property_names__ (sys, flg)
           "p-by-m matrix";
           "n-by-n matrix";
           "n-by-1 cell vector of strings";
-          "1-by-1 logical value"};
+          "scalar logical value"};
 
   if (nargin == 1)
     [ltiprops, ltivals] = __property_names__ (sys.lti);

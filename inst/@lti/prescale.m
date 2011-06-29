@@ -17,7 +17,40 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
-## Prescale
+## Prescale state-space model.
+## Uses SLICOT TB01ID and TG01AD by courtesy of
+## @uref{NICONET e.V., http://www.slicot.org}
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item scaledsys
+## Scaled state-space model.
+## @item info
+## Structure containig additional information.
+## @item info.SL
+## Left scaling factors.  @code{Tl = diag (info.SL)}.
+## @item info.SR
+## Right scaling factors.  @code{Tr = diag (info.SR)}.
+## @end table
+##
+## @strong{Equations}
+## @example
+## @group
+## Es = Tl E Tr
+## As = Tl A Tr
+## Bs = Tl B
+## Cs =    C Tr
+## Ds =    D
+##
+## For proper state-space models, Tl and Tr are inverse of each other.
+## @end group
+## @end example
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
