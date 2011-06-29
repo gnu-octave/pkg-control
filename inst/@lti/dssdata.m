@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
-## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
+## @deftypefnx {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
 ## Access descriptor state-space model data.
 ## Argument @var{sys} is not limited to descriptor state-space models.
 ## If @var{sys} is not a descriptor state-space model, it is converted automatically.
@@ -48,7 +48,6 @@
 ## Sampling time in seconds.  If @var{sys} is a continuous-time model,
 ## a zero is returned.
 ## @end table
-##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

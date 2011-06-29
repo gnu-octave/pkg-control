@@ -19,7 +19,7 @@
 ## @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
 ## Prescale state-space model.
 ## Uses SLICOT TB01ID and TG01AD by courtesy of
-## @uref{NICONET e.V., http://www.slicot.org}
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
