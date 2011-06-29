@@ -21,6 +21,7 @@ makefile_lyap
 makefile_minreal
 makefile_norm
 makefile_place
+makefile_scale
 makefile_staircase
 makefile_zero
 

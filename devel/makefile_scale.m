@@ -1,3 +1,8 @@
+homedir = pwd ();
+develdir = fileparts (which ("makefile_scale"));
+srcdir = [develdir, "/../src"];
+cd (srcdir);
+
 ## scaling of state-space models
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           sltb01id.cc \
@@ -7,3 +12,5 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           sltg01ad.cc \
           TG01AD.f
+
+cd (homedir);
