@@ -23,8 +23,8 @@
 ## Pole assignment for a given matrix pair (@var{A},@var{B}) such that @code{p = eig (A-B*F)}.
 ## If parameter @var{alpha} is specified, poles with real parts (continuous-time)
 ## or moduli (discrete-time) below @var{alpha} are left untouched.
-## Uses SLICOT SB01BD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT SB01BD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var

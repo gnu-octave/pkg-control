@@ -18,8 +18,8 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
 ## H-2 control synthesis for LTI plant.
-## Uses SLICOT SB10HD and SB10ED by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT SB10HD and SB10ED by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var

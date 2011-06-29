@@ -28,8 +28,8 @@
 ## @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{tol}, @var{dflg})
 ## Logical test for system detectability.
 ## All unstable modes must be observable or all unobservable states must be stable.
-## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT AB01OD and TG01HD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var

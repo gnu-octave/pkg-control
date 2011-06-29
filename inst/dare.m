@@ -21,8 +21,8 @@
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
 ## Solve discrete-time algebraic Riccati equation (ARE).
-## Uses SLICOT SB02OD and SG02AD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT SB02OD and SG02AD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var

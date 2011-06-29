@@ -20,8 +20,8 @@
 ## @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{c})
 ## @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{[]}, @var{e})
 ## Solve discrete-time Lyapunov or Sylvester equations.
-## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Equations}
 ## @example

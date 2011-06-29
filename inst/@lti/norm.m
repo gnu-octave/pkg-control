@@ -20,8 +20,8 @@
 ## @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
 ## @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf}, @var{tol})
 ## Return H-2 or L-inf norm of LTI model.
-## Uses SLICOT AB13BD and AB13DD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT AB13BD and AB13DD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

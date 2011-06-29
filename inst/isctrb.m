@@ -23,8 +23,8 @@
 ## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
 ## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
 ## Logical check for system controllability.
-## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT AB01OD and TG01HD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var

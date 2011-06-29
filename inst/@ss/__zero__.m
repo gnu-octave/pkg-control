@@ -17,8 +17,8 @@
 
 ## -*- texinfo -*-
 ## Transmission zeros of SS object.
-## Uses SLICOT AB08ND by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT AB08ND by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

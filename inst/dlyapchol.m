@@ -19,8 +19,8 @@
 ## @deftypefn{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b})
 ## @deftypefnx{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b}, @var{e})
 ## Compute Cholesky factor of discrete-time Lyapunov equations.
-## Uses SLICOT SB03OD and SG03BD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT SB03OD and SG03BD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Equations}
 ## @example

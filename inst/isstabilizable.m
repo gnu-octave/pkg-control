@@ -28,8 +28,8 @@
 ## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{e}, @var{tol}, @var{dflg})
 ## Logical check for system stabilizability.
 ## All unstable modes must be controllable or all uncontrollable states must be stable.
-## Uses SLICOT AB01OD and TG01HD by courtesy of NICONET e.V.
-## <http://www.slicot.org>
+## Uses SLICOT AB01OD and TG01HD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
