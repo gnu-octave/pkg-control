@@ -41,7 +41,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.1
+## Version: 0.1.1
 
 ## TODO: translate German terminology 
 
@@ -100,7 +100,7 @@ function sys = BMWengine (flg = "scaled")
       Cp = [    0          0          1          0          0
                 0          0          0          1          0 ];
 
-      sys = ss (Ap, [Bp, Bdp], Cp);
+      sys = ss (Ap, [Bp, Bdp], Cp, [], "scaled", true);
 
     otherwise
       print_usage ();

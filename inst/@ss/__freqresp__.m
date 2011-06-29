@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,9 +20,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
+
+  if (sys.scaled == false)
+    sys = prescale (sys);
+  endif
 
   [a, b, c, d, e, tsam] = dssdata (sys);
 

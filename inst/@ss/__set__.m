@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __set__ (sys, prop, val)
 
@@ -56,7 +56,6 @@ function sys = __set__ (sys, prop, val)
     case "scaled"
       if (isscalar (val))
         sys.scaled = logical (val);
-        warning ("ss: set: property ""scaled"" has no influence yet");
       else
         error ("ss: set: property ""scaled"" must be a logical value");
       endif
