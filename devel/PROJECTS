@@ -51,16 +51,9 @@ Frequency Response Data:
 State-Space Models:
 ------------------
 
-  * Scaling: TB01ID (ss) and TG01AD (dss)
-
   * Balancing: TB01TD ?
 
   * Use SLICOT TB04BD for @ss/__sys2tf__.m
-
-  * Prescaling for __freqresp__.m using TB01ID (ss) and TG01AD (dss)
-    if property scaled == false.
-
-  * sys = prescale (sys) using TB01ID (ss) and TG01AD (dss)
 
 ------------------------
 Transfer Function Models:

@@ -1123,7 +1123,7 @@ endfunction
 %!assert (Ao, Ae, 1e-4);
 %!assert (Bo, Be, 1e-4);
 %!assert (Co, Ce, 1e-4);
-%!assert (INFOo.SL, SCALEe.', 1e-4);
+%!assert (INFOo.SL.^-1, SCALEe.', 1e-4);
 %!assert (INFOo.SR, SCALEe.', 1e-4);
 
 

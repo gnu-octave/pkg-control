@@ -32,7 +32,7 @@
 ## @item scaledsys
 ## Scaled state-space model.
 ## @item info
-## Structure containig additional information.
+## Structure containing additional information.
 ## @item info.SL
 ## Left scaling factors.  @code{Tl = diag (info.SL)}.
 ## @item info.SR
