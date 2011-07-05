@@ -18,6 +18,29 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}] =} ssdata (@var{sys})
 ## Access state-space model data.
+## Argument @var{sys} is not limited to state-space models.
+## If @var{sys} is not a state-space model, it is converted automatically.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Any type of LTI model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item a
+## State transition matrix (n-by-n).
+## @item b
+## Input matrix (n-by-m).
+## @item c
+## Measurement matrix (p-by-n).
+## @item d
+## Feedthrough matrix (p-by-m).
+## @item tsam
+## Sampling time in seconds.  If @var{sys} is a continuous-time model,
+## a zero is returned.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -28,7 +28,6 @@
 function [pol_r, zer_r] = pzmap (sys)
 
   ## TODO: multiplot feature:   pzmap (sys1, "b", sys2, "r", ...)
-  ## TODO: use better symbols for poles and zeros, fltk backend might be helpful
 
   if (nargin != 1)
     print_usage ();
@@ -47,7 +46,7 @@ function [pol_r, zer_r] = pzmap (sys)
     zer_re = real (zer);
     zer_im = imag (zer);
 
-    plot (pol_re, pol_im, "xb", zer_re, zer_im, "sr")
+    plot (pol_re, pol_im, "xb", zer_re, zer_im, "or")
     grid ("on")  
     title (["Pole-Zero Map of ", inputname(1)])
     xlabel ("Real Axis")
