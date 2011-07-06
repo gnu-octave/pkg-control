@@ -1,3 +1,22 @@
+Summary of important user-visible changes for releases of the control package
+
+===============================================================================
+control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ss.m
+   -- Support for property "scaled".  By default, it is set to "false".
+
+** @lti/prescale.m
+   -- Scaling for state-space models (SLICOT TB01ID) and descriptor models
+      (SLICOT TG01AD).
+   
+** @lti/freqresp.m
+   -- Scale state-space models using @lti/prescale.m if property "scaled" is
+      set to "false".  Frequency response commands now perform automatic
+      scaling unless model property "scaled" is set to "true".
+
+
 ===============================================================================
 control-2.0.2   Release Date: 2011-03-18   Release Manager: Lukas Reichlin
 ===============================================================================

@@ -19,7 +19,9 @@
 ## @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
 ## Prescale state-space model.
 ## Uses SLICOT TB01ID and TG01AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## @uref{http://www.slicot.org, NICONET e.V.}.
+## Frequency response commands perform automatic scaling unless model property
+## @var{scaled} is set to @var{true}.
 ##
 ## @strong{Inputs}
 ## @table @var
