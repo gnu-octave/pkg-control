@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -63,8 +63,8 @@ function sys = frd (H = [], w = [], varargin)
   ##         sys2 = ss (...), sys = sys1 * sys2
   ##         because sys2 needs to be converted to FRD,
   ##         but sys1 contains no valid frequencies.
-  ##       * Because of the reasons given above,
-  ##         tsam = -2 and w = -1 don't make sense
+  ##       * However, things like  frd (ss (5))  should
+  ##         be possible.
 
   ## model precedence: frd > ss > zpk > tf > double
   superiorto ("ss", "zpk", "tf", "double");
@@ -73,7 +73,7 @@ function sys = frd (H = [], w = [], varargin)
 
   switch (nargin)
     case 0                              # empty object  sys = frd ()
-      tsam = 0;                         # tsam = -2  is *not* possible
+      tsam = -2;                        # undefined sampling time
 
     case 1
       if (isa (H, "frd"))               # already in frd form  sys = frd (frdsys)
