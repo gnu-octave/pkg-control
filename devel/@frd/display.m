@@ -62,13 +62,23 @@ function __disp_resp__ (H, w, outname)
   H = cellfun (@__resp2str__, H, outname, "uniformoutput", false);
   
   tsize = terminal_size ();
+  col_freq = columns (w);
+  col_resp = cellfun (@columns, H);
+  col_max = tsize(2) - col_freq;
+  width = cumsum (col_resp);
   
-  ## TODO: Show as many outputs on one line as the terminal width allows
-  
-  for k = 1 : p
-    disp ([w, H{k}]);
+  start = 0;
+  stop = col_max;
+  while (start < width(end))
+    idx = find (width > start & width <= stop);
+    disp ([w, H{idx}]);
     disp ("");
-  endfor
+    start = width(idx(end));
+    stop = start + col_max;
+  endwhile
+
+  ## FIXME: Handle case where tsize(2) is not enough
+  ##        to display frequencies and one output.
 
 endfunction
 
