@@ -29,12 +29,15 @@ function display (sys)
 
   [inname, m] = __labels__ (inname, "u");
   [outname, p] = __labels__ (outname, "y");
+  
+  w = __freq2str__ (sys.w);
 
   disp ("");
 
-  for i = 1 : m
-    disp (["Frequency response \"", sysname, "\" from input \"", inname{i}, "\" to output ..."]);
-    __disp_resp__ (sys.H(:,i,:), sys.w, outname);
+  for k = 1 : m
+    disp (["Frequency response \"", sysname, "\" from input \"", inname{k}, "\" to output ..."]);
+    disp ("");
+    __disp_resp__ (sys.H(:,k,:), w, outname);
   endfor
 
   display (sys.lti);  # display sampling time
@@ -50,26 +53,26 @@ function display (sys)
 endfunction
 
 
-function __disp_freq__ ()
-
-endfunction
-
-
 function __disp_resp__ (H, w, outname)
 
-  len = rows (w);
-  
-  % Hier kommt H, wie bei ss nur soviele Ausgänge pro Zeile anzeigen wie terminal size
-  % H kann auch komplex sein --> zwei Kolonnen
+  p = rows (H);       # number of outputs
+  len = size (H, 3);  # number of frequencies
 
-  H = mat2cell (H, ones (1, rows (H)), 1, len)(:);
-  H = cellfun (@__resp2str__, H, outname, "uniformoutput", false)
+  H = mat2cell (H, ones (1, p), 1, len)(:);
+  H = cellfun (@__resp2str__, H, outname, "uniformoutput", false);
+  
+  tsize = terminal_size ();
+  
+  ## TODO: Show as many outputs on one line as the terminal width allows
+  
+  for k = 1 : p
+    disp ([w, H{k}]);
+    disp ("");
+  endfor
 
 endfunction
 
 
-% Noch nicht in Betrieb, kann in display selbst aufgerufen werden, dann nur einmal aufrufen
-% und Resultat immer wieder übergeben
 function str = __freq2str__ (w, title = "w [rad/s]")
 
   len = rows (w);
@@ -82,16 +85,17 @@ function str = __freq2str__ (w, title = "w [rad/s]")
 endfunction
 
 
-% Für Cellfun
 function str = __resp2str__ (H, outname)
 
   len = length (H);
-  str = __vec2str__ (H);
+  real_str = __vec2str__ (real (H), "  ");
+  imag_str = __vec2str__ (imag (H), "i");
+  str = [real_str, imag_str];
   line = repmat ("-", 1, max (columns (str), columns (outname)));
   str = strvcat (outname, line, str);
-  space = repmat ("  ", len+2, 1);
+  space = repmat ("   ", len+2, 1);
   str = [space, str];
-  % Noch für complex ergänzen
+
 endfunction
 
 

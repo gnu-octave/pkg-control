@@ -76,7 +76,7 @@ function __disp_mat__ (m, mname, rname, cname)
     mat{k} = strjust (strvcat (acol{:}), "right");
   endfor
 
-  lcols = cellfun ("size", mat, 2);
+  lcols = cellfun (@columns, mat);
   lcols_max = 2 + max (horzcat (lcols, 1));
 
   for k = 1 : mcols
