@@ -98,9 +98,13 @@ endfunction
 function str = __resp2str__ (H, outname)
 
   len = length (H);
-  real_str = __vec2str__ (real (H), "  ");
-  imag_str = __vec2str__ (imag (H), "i");
-  str = [real_str, imag_str];
+  real_str = __vec2str__ (real (H));
+  if (any (imag (H)))
+    imag_str = __vec2str__ (imag (H), " ", "i");
+    str = [real_str, imag_str];
+  else
+    str = real_str;
+  endif
   line = repmat ("-", 1, max (columns (str), columns (outname)));
   str = strvcat (outname, line, str);
   space = repmat ("   ", len+2, 1);
@@ -109,13 +113,22 @@ function str = __resp2str__ (H, outname)
 endfunction
 
 
-function col = __vec2str__ (vec, str)
+function col = __vec2str__ (vec, pre, post)
 
-  vec = num2cell (vec(:));
-  col = cellfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
+  vec = vec(:);
+  tmp = isfinite (vec);
+  tmp = abs (vec(tmp & vec != 0));
+  vec = num2cell (vec);
+  if (isempty (tmp) || min (tmp) < 1e-3 || max (tmp) > 1e4)
+    col = cellfun (@(x) sprintf ("%.3e", x), vec, "uniformoutput", false);
+  elseif (all (floor (tmp) == tmp))
+    col = cellfun (@(x) sprintf ("%d", x), vec, "uniformoutput", false);
+  else
+    col = cellfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
+  endif
   col = strjust (char (col), "right");
   if (nargin > 1)
-    col = [col, repmat(str, length (vec), 1)];
+    col = [repmat(pre, length (vec), 1), col, repmat(post, length (vec), 1)];
   endif
 
 endfunction
