@@ -6,10 +6,12 @@ Examples and Demos
   WestlandLynx
 Linear Time Invariant Models
   dss
+  frd
   ss
   tf
 Model Data Access
   @lti/dssdata
+  @lti/frdata
   @lti/get
   @lti/set
   @lti/ssdata

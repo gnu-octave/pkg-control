@@ -1,6 +1,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.1.51   Release Date: 2011-07-21   Release Manager: Lukas Reichlin
+===============================================================================
+
+** frd.m
+   -- Support for Frequency Response Data (frd) measurement "models".
+
+
+===============================================================================
 control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
 ===============================================================================
 

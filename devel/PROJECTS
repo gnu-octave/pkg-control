@@ -41,11 +41,7 @@ General:
 Frequency Response Data:
 -----------------------
 
-  * Write a nice display routine.
-
   * Tolerances for intersection of frequency vectors in @frd/__sys_group__.m
-
-  * Static gains DO make sense in certain cases (conversion from ss or tf gains).
 
 ------------------
 State-Space Models:

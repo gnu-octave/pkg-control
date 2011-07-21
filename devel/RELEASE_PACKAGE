@@ -3,6 +3,8 @@ Prepare control-2.0 Package for Release
 =====================================================================================
 USAGE: * adapt all paths to your machine
        * update version number in the commands below
+       * adapt version number and release date in DESCRIPTION
+       * update doc/NEWS
        * copy-paste entire block at once to the terminal
        * follow instructions on <http://octave.sourceforge.net/developers.html>
 
@@ -16,12 +18,12 @@ svn export control ~/octave/__TEMP__/control
 rm -R ~/octave/__TEMP__/control/devel
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
-tar czf control-2.1.50.tar.gz control/
-md5 control-2.1.50.tar.gz
-md5 control-2.1.50.tar.gz > md5_control_pkg.txt
-uuencode control-2.1.50.tar.gz < control-2.1.50.tar.gz > control-2.1.50.tar.gz.uue
+tar czf control-2.1.51.tar.gz control/
+md5 control-2.1.51.tar.gz
+md5 control-2.1.51.tar.gz > md5_control_pkg.txt
+uuencode control-2.1.51.tar.gz < control-2.1.51.tar.gz > control-2.1.51.tar.gz.uue
 octave -q --eval \
-"pkg install control-2.1.50.tar.gz"
+"pkg install control-2.1.51.tar.gz"
 octave -q --eval \
 "pkg load generate_html; generate_package_html ('control', 'control-html', 'octave-forge')"
 tar czf control-html.tar.gz control-html
@@ -36,7 +38,7 @@ Aftermath
 =====================================================================================
 
 rm -R ~/octave/__TEMP__
-rm -R ~/octave/control-2.1.50
+rm -R ~/octave/control-2.1.51
 
 
 =====================================================================================
