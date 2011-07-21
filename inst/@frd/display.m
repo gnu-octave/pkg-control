@@ -97,23 +97,28 @@ endfunction
 
 function str = __resp2str__ (H, outname)
 
+  H = H(:);
   len = length (H);
   real_str = __vec2str__ (real (H));
-  if (any (imag (H)))
-    imag_str = __vec2str__ (imag (H), " ", "i");
-    str = [real_str, imag_str];
+  im = imag (H);
+  if (any (im))
+    imag_str = __vec2str__ (abs (im), "i");
+    sign_str = repmat (" + ", len, 1);
+    neg = im < 0;
+    sign_str(neg, 2) = "-";
+    str = [real_str, sign_str, imag_str];
   else
     str = real_str;
   endif
   line = repmat ("-", 1, max (columns (str), columns (outname)));
   str = strvcat (outname, line, str);
-  space = repmat ("   ", len+2, 1);
+  space = repmat ("    ", len+2, 1);
   str = [space, str];
 
 endfunction
 
 
-function col = __vec2str__ (vec, pre, post)
+function col = __vec2str__ (vec, post)
 
   vec = vec(:);
   tmp = isfinite (vec);
@@ -128,7 +133,7 @@ function col = __vec2str__ (vec, pre, post)
   endif
   col = strjust (char (col), "right");
   if (nargin > 1)
-    col = [repmat(pre, length (vec), 1), col, repmat(post, length (vec), 1)];
+    col = [col, repmat(post, length (vec), 1)];
   endif
 
 endfunction
