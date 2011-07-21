@@ -47,7 +47,7 @@ function sys = __sys_connect__ (sys, M)
   I = eye (p);
   H = mat2cell (sys.H, p, m, ones (1, l))(:);
 
-  H = cellfun (@(x) [I - x*M] \ x, H, "uniformoutput", false);
+  H = cellfun (@(x) (I - x*M) \ x, H, "uniformoutput", false);
 
   sys.H = cat (3, H{:});
 
