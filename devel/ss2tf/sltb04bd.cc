@@ -68,7 +68,7 @@ For internal use only.")
         // arguments in
         char jobd = 'D';
         char order = 'D';
-//        char order = 'I';
+        // char order = 'I';
         char equil = 'N';
 
         Matrix a = args(0).matrix_value ();
@@ -91,8 +91,14 @@ For internal use only.")
         int ldigd = max (1, p);
         int lg = p * m * md;
 
-        OCTAVE_LOCAL_BUFFER (int, ign, ldign*m);
-        OCTAVE_LOCAL_BUFFER (int, igd, ldigd*m);
+        //OCTAVE_LOCAL_BUFFER (int, ign, ldign*m);
+        //OCTAVE_LOCAL_BUFFER (int, igd, ldigd*m);
+        
+        dim_vector dvn (ldign, m);
+        dim_vector dvd (ldigd, m);
+        
+        int32NDArray ign (dvn);
+        int32NDArray igd (dvd);
 
         RowVector gn (lg);
         RowVector gd (lg);
@@ -118,8 +124,10 @@ For internal use only.")
                   b.fortran_vec (), ldb,
                   c.fortran_vec (), ldc,
                   d.fortran_vec (), ldd,
-                  ign, ldign,
-                  igd, ldigd,
+                  // ign, ldign,
+                  // igd, ldigd,
+                  ign.fortran_vec (), ldign,
+                  igd.fortran_vec (), ldigd,
                   gn.fortran_vec (), gd.fortran_vec (),
                   tol,
                   iwork,
@@ -135,8 +143,8 @@ For internal use only.")
         // return values
         retval(0) = gn;
         retval(1) = gd;
-        retval(2) = octave_value (ign);
-        retval(3) = octave_value (igd);
+        retval(2) = ign;
+        retval(3) = igd;
     }
 
     return retval;
