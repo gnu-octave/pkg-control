@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
-## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
 ## H-infinity control synthesis for LTI plant.
 ## Uses SLICOT SB10FD and SB10DD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}

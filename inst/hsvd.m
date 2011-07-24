@@ -58,7 +58,7 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
     hsv_r = hsv;
   else
     bar ((1:ns) + (rows (a) - ns), hsv);
-    title ("Hankel Singular Values of Stable Part");
+    title (["Hankel Singular Values of Stable Part of ", inputname(1)]);
     xlabel ("State");
     ylabel ("State Energy");
     grid ("on");
