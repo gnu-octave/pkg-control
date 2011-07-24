@@ -58,7 +58,7 @@ function [H, w, tsam] = frdata (sys, rtype = "array")
 
   tsam = sys.tsam;
 
-  if (rtype(1) == "v" && issiso (sys))
+  if (lower (rtype(1)) == "v" && issiso (sys))
     H = reshape (H, [], 1);
   endif
 

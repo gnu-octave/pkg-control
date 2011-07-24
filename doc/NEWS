@@ -1,6 +1,17 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** @lti/frdata.m
+   -- The frequency response is now returned correctly as an array and not as a
+      vector, unless the "vector" option is set and the system is single-input
+      single-output.
+   -- Added help text.
+
+
+===============================================================================
 control-2.1.51   Release Date: 2011-07-21   Release Manager: Lukas Reichlin
 ===============================================================================
 
