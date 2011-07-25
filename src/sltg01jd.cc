@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT TG01JD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -57,7 +57,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 5)
+    if (nargin != 6)
     {
         print_usage ();
     }
@@ -66,13 +66,19 @@ For internal use only.")
         // arguments in
         char job = 'I';
         char systyp = 'R';
-        char equil = 'N';
+        char equil;
         
         Matrix a = args(0).matrix_value ();
         Matrix e = args(1).matrix_value ();
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
+        const int scaled = args(5).int_value ();
+        
+        if (scaled == 0)
+            equil = 'S';
+        else
+            equil = 'N';
 
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
@@ -96,8 +102,8 @@ For internal use only.")
         
         // workspace
         int liwork = n + max (m, p);
-        int ldwork = max (n, 2*m, 2*p);
-        // int ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
+        // int ldwork = max (n, 2*m, 2*p);
+        int ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
 
         // FIXME: larger ldwork should give better results,
         //        but it breaks the test that Slicot provides.
