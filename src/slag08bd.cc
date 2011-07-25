@@ -23,7 +23,7 @@ Uses SLICOT AG08BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -73,20 +73,26 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 5)
+    if (nargin != 6)
     {
         print_usage ();
     }
     else
     {
         // arguments in
-        char equil = 'N';
+        char equil;
         
         Matrix a = args(0).matrix_value ();
         Matrix e = args(1).matrix_value (); 
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
         Matrix d = args(4).matrix_value ();
+        const int scaled = args(5).int_value ();
+        
+        if (scaled == 0)
+            equil = 'S';
+        else
+            equil = 'N';
 
         int l = a.rows ();      // l: number of states
         int n = a.rows ();      // n: number of states

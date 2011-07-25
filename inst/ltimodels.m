@@ -189,7 +189,7 @@ endfunction
 %! D = [      0         0
 %!       0.0768    0.1134 ];
 %!
-%! sys = ss (A, B, C, D);
+%! sys = ss (A, B, C, D, "scaled", true);
 %! z = sort (zero (sys));
 %!
 %! z_exp = sort ([-13.2759; 12.5774; -0.0155]);
@@ -237,7 +237,7 @@ endfunction
 %!        0    -1    -2
 %!        0     0     0 ];
 %!
-%! sys = dss (A, B, C, D, E);
+%! sys = dss (A, B, C, D, E, "scaled", true);
 %! z = zero (sys);
 %!
 %! z_exp = 1;

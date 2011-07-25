@@ -27,9 +27,9 @@
 function [zer, gain] = __zero__ (sys, argc)
 
   if (isempty (sys.e))
-    [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d);
+    [zer, gain] = slab08nd (sys.a, sys.b, sys.c, sys.d, sys.scaled);
   else
-    zer = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d);
+    zer = slag08bd (sys.a, sys.e, sys.b, sys.c, sys.d, sys.scaled);
     if (argc > 1 && issiso (sys))
       pol = pole (sys);
       gain = sltg04bx (sys.a, sys.e, sys.b, sys.c, sys.d, \

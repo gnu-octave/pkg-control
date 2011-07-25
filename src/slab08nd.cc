@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -73,19 +73,25 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 4)
+    if (nargin != 5)
     {
         print_usage ();
     }
     else
     {
         // arguments in
-        char equil = 'N';
+        char equil;
         
         const Matrix a = args(0).matrix_value ();
         const Matrix b = args(1).matrix_value ();
         const Matrix c = args(2).matrix_value ();
         const Matrix d = args(3).matrix_value ();
+        const int scaled = args(4).int_value ();
+        
+        if (scaled == 0)
+            equil = 'S';
+        else
+            equil = 'N';
         
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
