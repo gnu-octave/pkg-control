@@ -46,17 +46,21 @@ function [pol_r, zer_r] = pzmap2 (varargin)
     zer_re = cellfun (@real, zer, "uniformoutput", false);
     zer_im = cellfun (@imag, zer, "uniformoutput", false);
     
+    len = numel (pol);
     plot_args = {};
-    for k = 1 : numel (pol)
+    legend_args = cell (len, 1);
+    for k = 1 : len
       plot_args = cat (2, plot_args, pol_re(k), pol_im(k), {sprintf("x%d", k)}, \
                                      zer_re(k), zer_im(k), {sprintf("o%d", k)});
+      legend_args{k} = inputname(k);
     endfor
 
-    plot (plot_args{:})
+    h = plot (plot_args{:});
     grid ("on")  
-    title (["Pole-Zero Map of ", inputname(1)])
+    title ("Pole-Zero Map")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+    legend (h(1:2:2*len), legend_args)
   else
     pol_r = pol{1};
     zer_r = zer{1};
