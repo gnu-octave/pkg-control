@@ -49,9 +49,10 @@ function [pol_r, zer_r] = pzmap2 (varargin)
     len = numel (pol);
     plot_args = {};
     legend_args = cell (len, 1);
+    colororder = get (gca, "colororder");
     for k = 1 : len
-      plot_args = cat (2, plot_args, pol_re(k), pol_im(k), {sprintf("x%d", k)}, \
-                                     zer_re(k), zer_im(k), {sprintf("o%d", k)});
+      plot_args = cat (2, plot_args, pol_re(k), pol_im(k), {"x", "color", colororder(k,:)}, \
+                                     zer_re(k), zer_im(k), {"o", "color", colororder(k,:)});
       legend_args{k} = inputname(k);
     endfor
 
