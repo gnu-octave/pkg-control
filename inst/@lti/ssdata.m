@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -45,15 +45,15 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
-function [a, b, c, d, tsam] = ssdata (sys)
+function [a, b, c, d, tsam, scaled] = ssdata (sys)
 
   if (! isa (sys, "ss"))
     sys = ss (sys);
   endif
 
-  [a, b, c, d, e] = __sys_data__ (sys);
+  [a, b, c, d, e, ~, scaled] = __sys_data__ (sys);
 
   if (! isempty (e))
     if (rcond (e) < eps)  # check for singularity

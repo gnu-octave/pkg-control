@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,9 +20,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
-function [a, b, c, d, e, stname] = __sys_data__ (sys)
+function [a, b, c, d, e, stname, scaled] = __sys_data__ (sys)
 
   a = sys.a;
   b = sys.b;
@@ -30,5 +30,6 @@ function [a, b, c, d, e, stname] = __sys_data__ (sys)
   d = sys.d;
   e = sys.e;
   stname = sys.stname;
+  scaled = sys.scaled;
 
 endfunction

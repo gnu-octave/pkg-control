@@ -4,6 +4,13 @@ Summary of important user-visible changes for releases of the control package
 control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** hsvd.m
+   -- Use scaling unless state-space model property "scaled" is set to true.
+
+** @lti/norm.m
+   -- Use scaling for computation of L-infinity norm unless state-space model
+      property "scaled" is set to true.
+      
 ** @lti/minreal.m
    -- Use scaling for state-space and descriptor state-space models unless
       property "scaled" is set to true.

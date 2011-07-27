@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -52,9 +52,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2010
-## Version: 0.1
+## Version: 0.2
 
-function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
+function [a, b, c, d, e, tsam, scaled] = dssdata (sys, flg = 0)
 
   ## NOTE: In case sys is not a dss model (matrice e empty),
   ##       dssdata (sys, []) returns e = [] whereas
@@ -68,7 +68,7 @@ function [a, b, c, d, e, tsam] = dssdata (sys, flg = 0)
     sys = ss (sys);
   endif
 
-  [a, b, c, d, e] = __sys_data__ (sys);
+  [a, b, c, d, e, ~, scaled] = __sys_data__ (sys);
 
   if (isempty (e) && ! isempty (flg))
     e = eye (size (a));  # return eye for ss models

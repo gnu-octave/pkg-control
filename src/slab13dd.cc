@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT AB13DD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -60,7 +60,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 8)
+    if (nargin != 9)
     {
         print_usage ();
     }
@@ -69,7 +69,7 @@ For internal use only.")
         // arguments in
         char dico;
         char jobe;
-        char equil = 'N';
+        char equil;
         char jobd = 'D';
         
         Matrix a = args(0).matrix_value ();
@@ -80,6 +80,7 @@ For internal use only.")
         int discrete = args(5).int_value ();
         int descriptor = args(6).int_value ();
         double tol = args(7).double_value ();
+        const int scaled = args(8).int_value ();
         
         if (discrete == 0)
             dico = 'C';
@@ -90,7 +91,12 @@ For internal use only.")
             jobe = 'I';
         else
             jobe = 'G';
-        
+
+        if (scaled == 0)
+            equil = 'S';
+        else
+            equil = 'N';
+
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
         int p = c.rows ();      // p: number of outputs

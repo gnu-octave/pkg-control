@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -26,7 +26,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.2
+## Version: 0.3
 
 function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
 
@@ -42,7 +42,7 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
     error ("hsvd: second argument invalid");
   endif
   
-  [a, b, c] = ssdata (sys);
+  [a, b, c, ~, ~, scaled] = ssdata (sys);
 
   discrete = ! isct (sys);
   
@@ -52,7 +52,7 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
     alpha = - val;
   endif
   
-  [hsv, ns] = slab13ad (a, b, c, discrete, alpha);
+  [hsv, ns] = slab13ad (a, b, c, discrete, alpha, scaled);
   
   if (nargout)
     hsv_r = hsv;
@@ -88,7 +88,7 @@ endfunction
 %!        0.0000   0.0000  0.0000   1.0000  0.0000  0.0000  0.0000
 %!        0.0000   0.0000  0.0000   0.0000  1.0000  0.0000  0.0000];
 %!
-%! sys = ss (a, b, c);
+%! sys = ss (a, b, c, [], "scaled", true);
 %! hsv = hsvd (sys);
 %!
 %! hsv_exp = [2.5139; 2.0846; 1.9178; 0.7666; 0.5473; 0.0253; 0.0246];
