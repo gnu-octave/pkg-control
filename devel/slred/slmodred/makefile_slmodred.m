@@ -7,7 +7,8 @@ mkoctfile AB09ID.f TB01PD.f SB08DD.f TB01ID.f TB01KD.f \
           MB04OY.f MB03QD.f SB03OY.f MB03QY.f MB01QD.f \
           SB03OR.f SB03OV.f SB04PX.f
 
-mkoctfile AB09JD.f TB01ID.f TB01KD.f AB07ND.f AB09JV.f \
+mkoctfile slab09jd.cc \
+          AB09JD.f TB01ID.f TB01KD.f AB07ND.f AB09JV.f \
           AB09JW.f AB09CX.f AG07BD.f AB08MD.f AB04MD.f \
           TB01LD.f delctg.f SB04PY.f AB09AX.f AB08NX.f \
           MB01SD.f AB09JX.f MA02AD.f TB01WD.f MB03OY.f \
