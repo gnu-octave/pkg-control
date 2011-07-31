@@ -13,6 +13,7 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           SB02OV.f SB02MV.f SB02OU.f SB02MR.f
 
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
+          slsb10zd.cc \
           SB10ZD.f MA02AD.f SB02OD.f select.f MB01RX.f \
           MB02VD.f SB02OY.f SB02OW.f SB02OV.f SB02OU.f \
           SB02MR.f MA02GD.f SB02MV.f

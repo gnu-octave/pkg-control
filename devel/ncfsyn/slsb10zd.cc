@@ -17,12 +17,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
-Positive feedback controller for a discrete-time system (D == 0).
-Uses SLICOT SB10KD by courtesy of NICONET e.V.
+Positive feedback controller for a discrete-time system (D != 0).
+Uses SLICOT SB10ZD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-Created: July 2011
+Created: August 2011
 Version: 0.1
 
 */
@@ -33,33 +33,35 @@ Version: 0.1
 
 extern "C"
 { 
-    int F77_FUNC (sb10kd, SB10KD)
+    int F77_FUNC (sb10zd, SB10ZD)
                  (int& N, int& M, int& NP,
                   double* A, int& LDA,
                   double* B, int& LDB,
                   double* C, int& LDC,
+                  double* D, int& LDD,
                   double& FACTOR,
                   double* AK, int& LDAK,
                   double* BK, int& LDBK,
                   double* CK, int& LDCK,
                   double* DK, int& LDDK,
                   double* RCOND,
+                  double& TOL,
                   int* IWORK,
                   double* DWORK, int& LDWORK,
                   bool* BWORK,
                   int& INFO);
 }
      
-DEFUN_DLD (slsb10kd, args, nargout,
+DEFUN_DLD (slsb10zd, args, nargout,
    "-*- texinfo -*-\n\
-Slicot SB10KD Release 5.0\n\
+Slicot SB10ZD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 4)
+    if (nargin != 6)
     {
         print_usage ();
     }
@@ -69,8 +71,10 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         
-        double factor = args(3).double_value ();
+        double factor = args(4).double_value ();
+        double tol = args(5).double_value ();
         
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
@@ -79,6 +83,7 @@ For internal use only.")
         int lda = max (1, n);
         int ldb = max (1, n);
         int ldc = max (1, np);
+        int ldd = max (1, np);
         
         int ldak = max (1, n);
         int ldbk = max (1, n);
@@ -90,13 +95,13 @@ For internal use only.")
         Matrix bk (ldbk, np);
         Matrix ck (ldck, n);
         Matrix dk (lddk, np);
-        ColumnVector rcond (4);
+        ColumnVector rcond (6);
         
         // workspace
-        int liwork = 2 * max (n, np+m);
-        int ldwork = 15*n*n + 6*n +
-                     max (14*n+23, 16*n, 2*n+np+m, 3*(np+m)) +
-                     max (n*n, 11*n*np + 2*m*m + 8*np*np + 8*m*n + 4*m*np + np);
+        int liwork = 2 * max (n, m+np);
+        int ldwork = 16*n*n + 5*m*m + 7*np*np + 6*m*n + 7*m*np +
+                     7*n*np + 6*n + 2*(m + np) +
+                     max (14*n+23, 16*n, 2*m-1, 2*np-1);
 
         OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
@@ -106,28 +111,30 @@ For internal use only.")
         int info;
 
 
-        // SLICOT routine SB10KD
-        F77_XFCN (sb10kd, SB10KD,
+        // SLICOT routine SB10ZD
+        F77_XFCN (sb10zd, SB10ZD,
                  (n, m, np,
                   a.fortran_vec (), lda,
                   b.fortran_vec (), ldb,
                   c.fortran_vec (), ldc,
+                  d.fortran_vec (), ldd,
                   factor,
                   ak.fortran_vec (), ldak,
                   bk.fortran_vec (), ldbk,
                   ck.fortran_vec (), ldck,
                   dk.fortran_vec (), lddk,
                   rcond.fortran_vec (),
+                  tol,
                   iwork,
                   dwork, ldwork,
                   bwork,
                   info));
 
         if (f77_exception_encountered)
-            error ("hinfsyn: slsb10kd: exception in SLICOT subroutine SB10KD");
+            error ("hinfsyn: slsb10zd: exception in SLICOT subroutine SB10ZD");
 
         if (info != 0)
-            error ("hinfsyn: slsb10kd: SB10KD returned info = %d", info);
+            error ("hinfsyn: slsb10zd: SB10ZD returned info = %d", info);
 
         // resizing
         ak.resize (n, n);
