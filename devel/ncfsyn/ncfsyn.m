@@ -17,7 +17,10 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
+## Normalized Coprime Factor (NCF) H-infinity synthesis.
 ## Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
+## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -58,7 +61,11 @@ function K = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   endif
 
   ## controller
-  K = ss (ak, bk, ck, dk, tsam);
+  Ks = ss (ak, bk, ck, dk, tsam);
+  
+  K = W1 * Ks * W2;
+  
+  %struct ("Gs", Gs, "Ks", Ks);
 
 endfunction
 
@@ -69,6 +76,12 @@ function W = __adjust_weighting__ (W, s)
     W = ss (eye (s));
   else
     W = ss (W);
+    if (! isstable (W))
+      error ("ncfsyn: %s must be stable", inputname (1));
+    endif
+    if (! isminimumphase (W))
+      error ("ncfsyn: %s must be minimum-phase", inputname (1));
+    endif
     [p, m] = size (W);
     if (m == s && p == s)      # model is of correct size
       return;
