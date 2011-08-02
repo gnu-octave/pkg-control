@@ -21,13 +21,42 @@
 ## Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
 ## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
+##
+## @strong{Inputs}
+## @table @var
+## @item G
+## LTI model of plant.
+## @item W1
+## LTI model of precompensator.  Model must be SISO or of appropriate size.
+## An identity matrix is taken if @var{W1} is not specified or if an empty model
+## @code{[]} is passed.
+## @item W2
+## LTI model of postcompensator.  Model must be SISO or of appropriate size.
+## An identity matrix is taken if @var{W2} is not specified or if an empty model
+## @code{[]} is passed.
+## @item factor
+## @code{factor = 1} implies that an optimal controller is required.
+## @code{factor > 1} implies that a suboptimal controller is required,
+## achieving a performance taht is @var{factor} times less than optimal.
+## Default value is 1.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item K
+## State-space model of the H-infinity loop-shaping controller.
+## @item N
+## State-space model of the lower LFT of @var{P} and @var{K}.
+## @item gamma
+## L-infinity norm of @var{N}.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2011
 ## Version: 0.1
 
-% function [K, N, gamma] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
+% function [K, N, gamma, info] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 function K = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   if (nargin == 0 || nargin > 4)
@@ -65,7 +94,7 @@ function K = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   
   K = W1 * Ks * W2;
   
-  %struct ("Gs", Gs, "Ks", Ks);
+  %struct ("Gs", Gs, "Ks", Ks, "rcond", rcond);
 
 endfunction
 
@@ -76,12 +105,12 @@ function W = __adjust_weighting__ (W, s)
     W = ss (eye (s));
   else
     W = ss (W);
-    if (! isstable (W))
-      error ("ncfsyn: %s must be stable", inputname (1));
-    endif
-    if (! isminimumphase (W))
-      error ("ncfsyn: %s must be minimum-phase", inputname (1));
-    endif
+    %if (! isstable (W))
+    %  error ("ncfsyn: %s must be stable", inputname (1));
+    %endif
+    %if (! isminimumphase (W))
+    %  error ("ncfsyn: %s must be minimum-phase", inputname (1));
+    %endif
     [p, m] = size (W);
     if (m == s && p == s)      # model is of correct size
       return;

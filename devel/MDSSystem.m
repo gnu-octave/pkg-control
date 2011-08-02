@@ -1,16 +1,16 @@
+% ===============================================================================
+% Robust Control of a Mass-Damper-Spring System
+% ===============================================================================
+% Reference: Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
+%            Robust Control Design with Matlab, Springer 2005
+% ===============================================================================
+
 % Tabula Rasa
 clear all, close all, clc
 
-% Nominal Values
-m_nom = 3;   % Mass
-c_nom = 1;   % Damping Coefficient
-k_nom = 2;   % Spring Stiffness
-
-% Perturbations
-p_m = 0.4;   % 40% uncertainty in the mass
-p_c = 0.2;   % 20% uncertainty in the damping coefficient
-p_k = 0.3;   % 30% uncertainty in the spring stiffness
-
+% ===============================================================================
+% System Model
+% ===============================================================================
 %                +---------------+  
 %                | d_m   0    0  |
 %          +-----|  0   d_c   0  |<----+
@@ -22,6 +22,16 @@ p_k = 0.3;   % 30% uncertainty in the spring stiffness
 %                |     G_nom     |
 %        u ----->|               |-----> y
 %                +---------------+
+
+% Nominal Values
+m_nom = 3;   % Mass
+c_nom = 1;   % Damping Coefficient
+k_nom = 2;   % Spring Stiffness
+
+% Perturbations
+p_m = 0.4;   % 40% uncertainty in the mass
+p_c = 0.2;   % 20% uncertainty in the damping coefficient
+p_k = 0.3;   % 30% uncertainty in the spring stiffness
 
 % State-Space Representation
 A =   [            0,            1
@@ -51,12 +61,36 @@ D21 = [            0,            0,            0 ];
 
 D22 = [            0 ];
 
-inname = {"u_m", "u_c", "u_k", "u"};    % Input Names
-outname = {"y_m", "y_c", "y_k", "y"};   % Output Names
+inname = {'u_m', 'u_c', 'u_k', 'u'};    % Input Names
+outname = {'y_m', 'y_c', 'y_k', 'y'};   % Output Names
 
 G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], \
-            "inname", inname, "outname", outname);
+            'inputname', inname, 'outputname', outname);
 
+
+% ===============================================================================
+% Frequency Analysis of Uncertain System
+% ===============================================================================
+
+% Uncertainties: -1 <= delta_m, delta_c, delta_k <= 1
+[delta_m, delta_c, delta_k] = ndgrid ([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]);
+w = logspace (-1, 1, 100);  % Frequency Vector
+figure (1)
+
+for k = 1 : numel (delta_m)
+  Delta = diag ([delta_m(k), delta_c(k), delta_k(k)]);
+  G_per = lft (Delta, G_nom);
+  bode (G_per, w)
+  subplot (2, 1, 1)
+  hold on
+  subplot (2, 1, 2)
+  hold on
+endfor
+
+
+% ===============================================================================
+% Mixed Sensitivity H-infinity Controller Design
+% ===============================================================================
 %                                    +-------+
 %             +--------------------->|  W_p  |----------> e_p
 %             |                      +-------+
@@ -72,11 +106,11 @@ G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], \
 %        +-----------------------------------------+
 
 % Weighting Functions
-s = tf ("s");
+s = tf ('s');
 W_p = 0.95 * (s^2 + 1.8*s + 10) / (s^2 + 8.0*s + 0.01);
 W_u = 10^-2;
 
-% Suboptimal H-infinity Controller Design
+% Mixed Sensitivity H-infinity Controller Design
 G = G_nom(4, 4);    % Extract output y and input u
 %K = mixsyn (G, W_p, W_u);
 %[K, ~, gamma] = mixsyn (G, W_p, W_u)
@@ -91,33 +125,38 @@ L = G * K;
 % Closed Loop
 T = feedback (L);
 
-figure (1)
+figure (2)
 sigma (T)
 
-figure (2)
+figure (3)
 sigma (N)
 
 norm (N, inf)
 
-figure (3)
+figure (4)
 step (T)
 
 
-figure (4)
+% ===============================================================================
+% H-infinity Loop-Shaping Design
+% ===============================================================================
 
-w = logspace (-1, 1, 100);
+W1 = 8 * (2*s + 1) / (0.9*s);     % Precompensator
+W2 = 1;                           % Postcompensator
+factor = 1.1                      % Suboptimal Controller
 
-% Uncertainties
-% -1 <= delta_m, delta_c, delta_k <= 1
-[delta_m, delta_c, delta_k] = ndgrid ([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]);
+% Compute the suboptimal positive feedback controller
+K = ncfsyn (G, W1, W2, factor)
 
-for k = 1 : numel (delta_1)
-  Delta = diag ([delta_m(k), delta_c(k), delta_k(k)]);
-  G_per = lft (Delta, G_nom);
-  %figure (4)
-  bode (G_per, w)
-  subplot (2, 1, 1)
-  hold on
-  subplot (2, 1, 2)
-  hold on
-endfor
+K = -K;  % negative feedback controller
+
+% Open Loop
+L = G * K;
+
+% Closed Loop
+T = feedback (L);
+
+figure (5)
+step (T)
+
+% ===============================================================================
