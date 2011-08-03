@@ -24,9 +24,9 @@ clear all, close all, clc
 %                +---------------+
 
 % Nominal Values
-m_nom = 3;   % Mass
-c_nom = 1;   % Damping Coefficient
-k_nom = 2;   % Spring Stiffness
+m_nom = 3;   % mass
+c_nom = 1;   % damping coefficient
+k_nom = 2;   % spring stiffness
 
 % Perturbations
 p_m = 0.4;   % 40% uncertainty in the mass
@@ -61,10 +61,10 @@ D21 = [            0,            0,            0 ];
 
 D22 = [            0 ];
 
-inname = {'u_m', 'u_c', 'u_k', 'u'};    % Input Names
-outname = {'y_m', 'y_c', 'y_k', 'y'};   % Output Names
+inname = {'u_m', 'u_c', 'u_k', 'u'};             % input names
+outname = {'y_m', 'y_c', 'y_k', 'y'};            % output names
 
-G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], \
+G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], ...
             'inputname', inname, 'outputname', outname);
 
 
@@ -74,7 +74,9 @@ G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], \
 
 % Uncertainties: -1 <= delta_m, delta_c, delta_k <= 1
 [delta_m, delta_c, delta_k] = ndgrid ([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]);
-w = logspace (-1, 1, 100);  % Frequency Vector
+
+% Bode Plots of Perturbed Plants
+w = logspace (-1, 1, 100);                       % frequency vector
 figure (1)
 
 for k = 1 : numel (delta_m)
@@ -106,24 +108,17 @@ endfor
 %        +-----------------------------------------+
 
 % Weighting Functions
-s = tf ('s');
+s = tf ('s');                                    % transfer function variable
 W_p = 0.95 * (s^2 + 1.8*s + 10) / (s^2 + 8.0*s + 0.01);
 W_u = 10^-2;
 
 % Mixed Sensitivity H-infinity Controller Design
-G = G_nom(4, 4);    % Extract output y and input u
-%K = mixsyn (G, W_p, W_u);
-%[K, ~, gamma] = mixsyn (G, W_p, W_u)
-[K, N, gamma] = mixsyn (G, W_p, W_u)
-% g_max = 10;
-% K = mixsyn (G, W_p, W_u, [], g_max)
-% [K, ~, gamma] = mixsyn (G, W_p, W_u, [], g_max)
+G = G_nom(4, 4);                                 % extract output y and input u
 
-% Open Loop
-L = G * K;
+[K, N, gamma] = mixsyn (G, W_p, W_u);
 
-% Closed Loop
-T = feedback (L);
+L = G * K;                                       % open loop
+T = feedback (L);                                % closed loop
 
 figure (2)
 sigma (T)
@@ -141,20 +136,16 @@ step (T)
 % H-infinity Loop-Shaping Design
 % ===============================================================================
 
-W1 = 8 * (2*s + 1) / (0.9*s);     % Precompensator
-W2 = 1;                           % Postcompensator
-factor = 1.1                      % Suboptimal Controller
+W1 = 8 * (2*s + 1) / (0.9*s);                    % precompensator
+W2 = 1;                                          % postcompensator
+factor = 1.1;                                    % suboptimal controller
 
 % Compute the suboptimal positive feedback controller
-K = ncfsyn (G, W1, W2, factor)
+K = ncfsyn (G, W1, W2, factor);                  % positive feedback controller
 
-K = -K;  % negative feedback controller
-
-% Open Loop
-L = G * K;
-
-% Closed Loop
-T = feedback (L);
+K = -K;                                          % negative feedback controller
+L = G * K;                                       % open loop
+T = feedback (L);                                % closed loop
 
 figure (5)
 step (T)
