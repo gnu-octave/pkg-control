@@ -142,6 +142,7 @@ factor = 1.1;                                    % suboptimal controller
 
 % Compute the suboptimal positive feedback controller
 K = ncfsyn (G, W1, W2, factor);                  % positive feedback controller
+[K, N, gamma, info] = ncfsyn (G, W1, W2, factor)
 
 K = -K;                                          % negative feedback controller
 L = G * K;                                       % open loop

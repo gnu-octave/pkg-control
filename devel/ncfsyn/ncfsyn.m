@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
 ## Normalized Coprime Factor (NCF) H-infinity synthesis.
 ## Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
 ## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
@@ -46,9 +46,19 @@
 ## @item K
 ## State-space model of the H-infinity loop-shaping controller.
 ## @item N
-## State-space model of the lower LFT of @var{P} and @var{K}.
+## State-space model of closed loop.
 ## @item gamma
 ## L-infinity norm of @var{N}.
+## @item info
+## Structure containing additional information.
+## @item info.emax
+## Nugap robustness.  @code{emax = inv (gamma)}.
+## @item info.Gs
+## Shaped plant.  @code{Gs = W2 * G * W1}.
+## @item info.Ks
+## Controller for shaped plant.  @code{Ks = ncfsyn (Gs)}.
+## @item info.rcond
+## Estimates of the reciprocal condition numbers of the Riccati equations.
 ## @end table
 ## @end deftypefn
 
@@ -56,8 +66,7 @@
 ## Created: July 2011
 ## Version: 0.1
 
-% function [K, N, gamma, info] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
-function K = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
+function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   if (nargin == 0 || nargin > 4)
     print_usage ();
@@ -93,8 +102,24 @@ function K = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   Ks = ss (ak, bk, ck, dk, tsam);
   
   K = W1 * Ks * W2;
-  
-  %struct ("Gs", Gs, "Ks", Ks, "rcond", rcond);
+
+  if (nargout > 1)
+    N = append (eye (p), K, G);
+    M = [zeros(p,p), zeros(p,m),     eye(p);
+             eye(p), zeros(p,m), zeros(p,p);
+         zeros(m,p),     eye(m), zeros(m,p)];
+    in_idx = [1:p, 2*p+(1:m)];
+    out_idx = 1:p+m;
+    N = mconnect (N, M, in_idx, out_idx);
+    varargout{1} = N;
+    if (nargout > 2)
+      gamma = norm (N, inf);
+      varargout{2} = gamma;
+      if (nargout > 3)
+        varargout{3} = struct ("emax", inv (gamma), "Gs", Gs, "Ks", Ks, "rcond", rcond);
+      endif
+    endif
+  endif
 
 endfunction
 

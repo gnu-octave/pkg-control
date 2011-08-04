@@ -118,22 +118,22 @@ function str = __resp2str__ (H, outname)
 endfunction
 
 
-function col = __vec2str__ (vec, post)
+function str = __vec2str__ (vec, post)
 
   vec = vec(:);
   tmp = isfinite (vec);
   tmp = abs (vec(tmp & vec != 0));
   vec = num2cell (vec);
   if (isempty (tmp) || min (tmp) < 1e-3 || max (tmp) > 1e4)
-    col = cellfun (@(x) sprintf ("%.3e", x), vec, "uniformoutput", false);
+    str = cellfun (@(x) sprintf ("%.3e", x), vec, "uniformoutput", false);
   elseif (all (floor (tmp) == tmp))
-    col = cellfun (@(x) sprintf ("%d", x), vec, "uniformoutput", false);
+    str = cellfun (@(x) sprintf ("%d", x), vec, "uniformoutput", false);
   else
-    col = cellfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
+    str = cellfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
   endif
-  col = strjust (char (col), "right");
+  str = strjust (char (str), "right");
   if (nargin > 1)
-    col = [col, repmat(post, length (vec), 1)];
+    str = [str, repmat(post, length (vec), 1)];
   endif
 
 endfunction
