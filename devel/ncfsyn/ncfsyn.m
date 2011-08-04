@@ -46,7 +46,7 @@
 ## @item K
 ## State-space model of the H-infinity loop-shaping controller.
 ## @item N
-## State-space model of closed loop.
+## State-space model of the closed loop depicted below.
 ## @item gamma
 ## L-infinity norm of @var{N}.
 ## @item info
@@ -60,6 +60,21 @@
 ## @item info.rcond
 ## Estimates of the reciprocal condition numbers of the Riccati equations.
 ## @end table
+##
+## @strong{Block Diagram of N}
+## @example
+## @group
+##
+##             ^ z1              ^ z2
+##             |                 |
+##  w1  +      |   +--------+    |            +--------+
+## ----->(+)---+-->|   Ks   |----+--->(+)---->|   Gs   |----+
+##        ^ +      +--------+          ^      +--------+    |
+##        |                        w2  |                    |
+##        |                                                 |
+##        +-------------------------------------------------+
+## @end group
+## @end example
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -104,7 +119,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   K = W1 * Ks * W2;
 
   if (nargout > 1)
-    N = append (eye (p), K, G);
+    N = append (eye (p), Ks, Gs);
     M = [zeros(p,p), zeros(p,m),     eye(p);
              eye(p), zeros(p,m), zeros(p,p);
          zeros(m,p),     eye(m), zeros(m,p)];
