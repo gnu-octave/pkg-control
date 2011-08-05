@@ -80,6 +80,7 @@ Robust Control
   h2syn
   hinfsyn
   mixsyn
+  ncfsyn
 Matrix Equation Solvers
   care
   dare

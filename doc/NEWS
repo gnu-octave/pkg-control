@@ -1,17 +1,29 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ncfsyn
+   -- Added support for McFarlane/Glover loop shaping design procedure.  ncfsyn
+      stands for Normalized Coprime Factor Synthesis.
+
+** MDSSystem
+   -- Added example script which demonstrates the usage of the robust control
+      commands "mixsyn" and "ncfsyn".
+
+===============================================================================
 control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** hsvd.m
+** hsvd
    -- Use scaling unless state-space model property "scaled" is set to true.
 
-** @lti/norm.m
+** @lti/norm
    -- Use scaling for computation of L-infinity norm unless state-space model
       property "scaled" is set to true.
       
-** @lti/minreal.m
+** @lti/minreal
    -- Use scaling for state-space and descriptor state-space models unless
       property "scaled" is set to true.
    -- More accurate results are to be expected for descriptor state-space
@@ -19,11 +31,11 @@ control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
       reduction occurs. This is achieved by saving the system matrices before
       each phase and restoring them if no order reduction took place.
   
-** @lti/zero.m
+** @lti/zero
    -- Use scaling for state-space and descriptor state-space models unless
       property "scaled" is set to true.
 
-** @lti/frdata.m
+** @lti/frdata
    -- The frequency response is now returned correctly as an array and not as a
       vector, unless the "vector" option is set and the system is single-input
       single-output.
@@ -34,7 +46,7 @@ control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
 control-2.1.51   Release Date: 2011-07-21   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** frd.m
+** frd
    -- Support for Frequency Response Data (frd) measurement "models".
 
 
@@ -42,14 +54,14 @@ control-2.1.51   Release Date: 2011-07-21   Release Manager: Lukas Reichlin
 control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** ss.m
+** ss
    -- Support for property "scaled".  By default, it is set to "false".
 
-** @lti/prescale.m
+** @lti/prescale
    -- Scaling for state-space models (SLICOT TB01ID) and descriptor models
       (SLICOT TG01AD).
    
-** @lti/freqresp.m
+** @lti/freqresp
    -- Scale state-space models using @lti/prescale.m if property "scaled" is
       set to "false".  Frequency response commands now perform automatic
       scaling unless model property "scaled" is set to "true".
@@ -59,7 +71,7 @@ control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
 control-2.0.2   Release Date: 2011-03-18   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** lsim.m
+** lsim
    -- Fixed a logical error that refused valid initial state vectors.  It was
       due to a thinko introduced with the changes in control-2.0.1.
       (Thanks to Rob Frohne)
@@ -69,11 +81,11 @@ control-2.0.2   Release Date: 2011-03-18   Release Manager: Lukas Reichlin
 control-2.0.1   Release Date: 2011-03-06   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** lsim.m
+** lsim
    -- Support time vectors not starting at zero. (Thanks to Rob Frohne)
    -- Improved help text.
 
-** @lti/zero.m
+** @lti/zero
    -- The gain of descriptor state-space models is now computed correctly.
       (fingers crossed)
 

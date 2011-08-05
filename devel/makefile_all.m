@@ -19,6 +19,7 @@ makefile_hinfsyn
 makefile_lqr
 makefile_lyap
 makefile_minreal
+makefile_ncfsyn
 makefile_norm
 makefile_place
 makefile_scale

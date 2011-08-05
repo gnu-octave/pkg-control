@@ -1,3 +1,19 @@
+## ==============================================================================
+## Developer Makefile for OCT-files
+## ==============================================================================
+## USAGE: * fetch control from Octave-Forge by svn
+##        * add control/inst, control/src and control/devel to your Octave path
+##        * run makefile_*
+## NOTES: * The option "-Wl,-framework" "-Wl,vecLib" is needed for MacPorts'
+##          octave-devel @3.3.52_1+gcc44 on MacOS X 10.6.4. However, this option
+##          breaks other platforms. See MacPorts Ticket #26640.
+## ==============================================================================
+
+homedir = pwd ();
+develdir = fileparts (which ("makefile_ncfsyn"));
+srcdir = [develdir, "/../src"];
+cd (srcdir);
+
 ## H-infinity loop shaping - continuous-time
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           slsb10id.cc \
@@ -20,3 +36,5 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           SB10ZD.f MA02AD.f SB02OD.f select.f MB01RX.f \
           MB02VD.f SB02OY.f SB02OW.f SB02OV.f SB02OU.f \
           SB02MR.f MA02GD.f SB02MV.f
+
+cd (homedir);
