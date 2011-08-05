@@ -119,6 +119,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   K = W1 * Ks * W2;
 
   if (nargout > 1)
+    ## FIXME: is this really the same thing as the dark side does?
     N = append (eye (p), Ks, Gs);
     M = [zeros(p,p), zeros(p,m),     eye(p);
              eye(p), zeros(p,m), zeros(p,p);
@@ -145,12 +146,12 @@ function W = __adjust_weighting__ (W, s)
     W = ss (eye (s));
   else
     W = ss (W);
-    %if (! isstable (W))
-    %  error ("ncfsyn: %s must be stable", inputname (1));
-    %endif
-    %if (! isminimumphase (W))
-    %  error ("ncfsyn: %s must be minimum-phase", inputname (1));
-    %endif
+    ## if (! isstable (W))
+    ##   error ("ncfsyn: %s must be stable", inputname (1));
+    ## endif
+    ## if (! isminimumphase (W))
+    ##   error ("ncfsyn: %s must be minimum-phase", inputname (1));
+    ## endif
     [p, m] = size (W);
     if (m == s && p == s)      # model is of correct size
       return;

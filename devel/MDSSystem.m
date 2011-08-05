@@ -1,5 +1,5 @@
 % ===============================================================================
-% Robust Control of a Mass-Damper-Spring System
+% Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
 % ===============================================================================
 % Reference: Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
 %            Robust Control Design with Matlab, Springer 2005
@@ -61,11 +61,13 @@ D21 = [            0,            0,            0 ];
 
 D22 = [            0 ];
 
-inname = {'u_m', 'u_c', 'u_k', 'u'};             % input names
-outname = {'y_m', 'y_c', 'y_k', 'y'};            % output names
+inname = {'u_m', 'u_c', 'u_k', 'u'};   % input names
+outname = {'y_m', 'y_c', 'y_k', 'y'};  % output names
 
 G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], ...
             'inputname', inname, 'outputname', outname);
+
+G = G_nom(4, 4);                       % extract output y and input u
 
 
 % ===============================================================================
@@ -76,7 +78,7 @@ G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], ...
 [delta_m, delta_c, delta_k] = ndgrid ([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]);
 
 % Bode Plots of Perturbed Plants
-w = logspace (-1, 1, 100);                       % frequency vector
+w = logspace (-1, 1, 100);             % frequency vector
 figure (1)
 
 for k = 1 : numel (delta_m)
@@ -91,7 +93,7 @@ endfor
 
 
 % ===============================================================================
-% Mixed Sensitivity H-infinity Controller Design
+% Mixed Sensitivity H-infinity Controller Design (S over KS Method)
 % ===============================================================================
 %                                    +-------+
 %             +--------------------->|  W_p  |----------> e_p
@@ -108,47 +110,47 @@ endfor
 %        +-----------------------------------------+
 
 % Weighting Functions
-s = tf ('s');                                    % transfer function variable
-W_p = 0.95 * (s^2 + 1.8*s + 10) / (s^2 + 8.0*s + 0.01);
-W_u = 10^-2;
+s = tf ('s');                          % transfer function variable
+W_p = 0.95 * (s^2 + 1.8*s + 10) / (s^2 + 8.0*s + 0.01);  % performance weighting
+W_u = 10^-2;                           % control weighting
 
-% Mixed Sensitivity H-infinity Controller Design
-G = G_nom(4, 4);                                 % extract output y and input u
+% Synthesis
+K = mixsyn (G, W_p, W_u);              % mixed-sensitivity H-infinity synthesis
 
-[K, N, gamma] = mixsyn (G, W_p, W_u);
+% Interconnections
+L = G * K;                             % open loop
+T = feedback (L);                      % closed loop
 
-L = G * K;                                       % open loop
-T = feedback (L);                                % closed loop
-
+% Plotting
 figure (2)
-sigma (T)
+sigma (T)                              % singular values
 
 figure (3)
-sigma (N)
-
-norm (N, inf)
-
-figure (4)
-step (T)
+step (T)                               % step response
 
 
 % ===============================================================================
 % H-infinity Loop-Shaping Design
 % ===============================================================================
 
-W1 = 8 * (2*s + 1) / (0.9*s);                    % precompensator
-W2 = 1;                                          % postcompensator
-factor = 1.1;                                    % suboptimal controller
+% Settings
+W1 = 8 * (2*s + 1) / (0.9*s);          % precompensator
+W2 = 1;                                % postcompensator
+factor = 1.1;                          % suboptimal controller
 
-% Compute the suboptimal positive feedback controller
-K = ncfsyn (G, W1, W2, factor);                  % positive feedback controller
-[K, N, gamma, info] = ncfsyn (G, W1, W2, factor)
+% Synthesis
+K = ncfsyn (G, W1, W2, factor);        % positive feedback controller
 
-K = -K;                                          % negative feedback controller
-L = G * K;                                       % open loop
-T = feedback (L);                                % closed loop
+% Interconnections
+K = -K;                                % negative feedback controller
+L = G * K;                             % open loop
+T = feedback (L);                      % closed loop
+
+% Plotting
+figure (4)
+sigma (T)                              % singular values
 
 figure (5)
-step (T)
+step (T)                               % step response
 
 % ===============================================================================

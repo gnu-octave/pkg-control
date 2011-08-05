@@ -1,3 +1,4 @@
+## H-infinity loop shaping - continuous-time
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           slsb10id.cc \
           SB10ID.f SB02RD.f select.f SB10JD.f MB02VD.f \
@@ -7,11 +8,13 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           MB01RX.f SB03MX.f SB03SX.f MB01RY.f SB03QY.f \
           SB03QX.f SB03MY.f SB04PX.f SB03MV.f SB03MW.f
 
+## H-infinity loop shaping - discrete-time - strictly proper case
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           slsb10kd.cc \
           SB10KD.f SB02OD.f select.f SB02OY.f SB02OW.f \
           SB02OV.f SB02MV.f SB02OU.f SB02MR.f
 
+## H-infinity loop shaping - discrete-time - proper case
 mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           slsb10zd.cc \
           SB10ZD.f MA02AD.f SB02OD.f select.f MB01RX.f \
