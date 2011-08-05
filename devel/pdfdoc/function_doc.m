@@ -23,6 +23,7 @@ for k = 1:numel (list {1}.provides)
         
         for k=1:numel(functions)
                 [TEXT, FORMAT] = get_help_text (functions(k));
+                fprintf (fid, '@subsection %s\n', functions{k});
                 fprintf (fid,TEXT);
         end
         

@@ -1,4 +1,5 @@
 @section Examples and Demos
+@subsection BMWengine
 
  @deftypefn{Function File} {@var{sys} =} BMWengine ()
  @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"scaled"})
@@ -39,6 +40,7 @@
  @end group
  @end example
  @end deftypefn
+@subsection Boeing707
 
  @deftypefn {Function File} {@var{sys} =} Boeing707 ()
  Creates a linearized state-space model of a Boeing 707-321 aircraft
@@ -59,12 +61,14 @@
  @strong{Reference}: R. Brockhaus: @cite{Flugregelung} (Flight
  Control), Springer, 1994.
  @end deftypefn
+@subsection MDSSystem
  ===============================================================================
  Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
  ===============================================================================
  Reference: Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
             Robust Control Design with Matlab, Springer 2005
  ===============================================================================
+@subsection optiPID
  ===============================================================================
  optiPID                          Lukas Reichlin                       July 2009
  ===============================================================================
@@ -72,6 +76,7 @@
  Required OCTAVE Packages: control, optim (and its dependencies)
  Required MATLAB Toolboxes: Control, Optimization
  ===============================================================================
+@subsection WestlandLynx
 
  @deftypefn{Function File} {@var{sys} =} WestlandLynx ()
  Model of the Westland Lynx Helicopter about hover.
@@ -111,6 +116,7 @@
  @end example
  @end deftypefn
 @section Linear Time Invariant Models
+@subsection dss
 
  @deftypefn {Function File} {@var{sys} =} dss (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} dss (@var{d})
@@ -155,6 +161,7 @@
 
  @seealso{ss, tf}
  @end deftypefn
+@subsection frd
 
  @deftypefn {Function File} {@var{sys} =} frd (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} frd (@var{sys}, @var{w})
@@ -188,6 +195,7 @@
 
  @seealso{dss, ss, tf}
  @end deftypefn
+@subsection ss
 
  @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
@@ -261,6 +269,7 @@
 
  @seealso{tf, dss}
  @end deftypefn
+@subsection tf
 
  @deftypefn {Function File} {@var{s} =} tf (@var{"s"})
  @deftypefnx {Function File} {@var{z} =} tf (@var{"z"}, @var{tsam})
@@ -318,6 +327,7 @@
  @seealso{ss, dss}
  @end deftypefn
 @section Model Data Access
+@subsection @lti/dssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
  @deftypefnx {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
@@ -352,6 +362,7 @@
  a zero is returned.
  @end table
  @end deftypefn
+@subsection @lti/frdata
 
  @deftypefn {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys})
  @deftypefnx {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys}, @var{"vector"})
@@ -380,16 +391,19 @@
  a zero is returned.
  @end table
  @end deftypefn
+@subsection @lti/get
 
  @deftypefn {Function File} get (@var{sys})
  @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
  Access property values of LTI objects.
  @end deftypefn
+@subsection @lti/set
 
  @deftypefn {Function File} set (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} set (@var{sys}, @var{"property"}, @var{value})
  Set or modify properties of LTI objects.
  @end deftypefn
+@subsection @lti/ssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}] =} ssdata (@var{sys})
  Access state-space model data.
@@ -417,17 +431,20 @@
  a zero is returned.
  @end table
  @end deftypefn
+@subsection @lti/tfdata
 
  @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
  @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
  Access transfer function data.
  @end deftypefn
 @section Model Conversions
+@subsection @lti/c2d
 
  @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
  @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
  Convert the continuous lti model into its discrete time equivalent.
  @end deftypefn
+@subsection @lti/prescale
 
  @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
  Prescale state-space model.
@@ -467,23 +484,28 @@
  @end group
  @end example
  @end deftypefn
+@subsection @lti/xperm
 
  @deftypefn {Function File} {@var{sys} =} xperm (@var{sys}, @var{st_idx})
  Reorder states in state-space models.
  @end deftypefn
 @section Model Interconnections
+@subsection @lti/append
 
  @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2})
  Group LTI models by appending their inputs and outputs.
  @end deftypefn
+@subsection @lti/blkdiag
 
  @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2})
  Block-diagonal concatenation of LTI models.
  @end deftypefn
+@subsection @lti/connect
 
  @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
  Arbitrary interconnections between the inputs and outputs of an LTI model.
  @end deftypefn
+@subsection @lti/feedback
 
  @deftypefn {Function File} {@var{sys} =} feedback (@var{sys1})
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{"+"})
@@ -506,6 +528,7 @@
  @end group
  @end example
  @end deftypefn
+@subsection @lti/lft
 
  @deftypefn {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2}, @var{nu}, @var{ny})
@@ -576,6 +599,7 @@
  @end group
  @end example
  @end deftypefn
+@subsection @lti/mconnect
 
  @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
  @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
@@ -619,6 +643,7 @@
  @end group
  @end example
  @end deftypefn
+@subsection @lti/parallel
 
  @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
  Parallel connection of two LTI systems.
@@ -640,6 +665,7 @@
  @end group
  @end example
  @end deftypefn
+@subsection @lti/series
 
  @deftypefn {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
@@ -674,11 +700,13 @@
  @end example
  @end deftypefn
 @section Model Characteristics
+@subsection ctrb
 
  @deftypefn {Function File} {@var{co} =} ctrb (@var{sys})
  @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
  Controllability matrix.
  @end deftypefn
+@subsection @lti/dcgain
 
  @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
  DC gain of LTI model.
@@ -698,6 +726,7 @@
 
  @seealso{freqresp}
  @end deftypefn
+@subsection gram
 
  @deftypefn {Function File} {@var{W} =} gram (@var{sys}, @var{mode})
  @deftypefnx {Function File} {@var{Wc} =} gram (@var{a}, @var{b})
@@ -710,6 +739,7 @@
  i.e., @var{Wc} satisfies @math{a Wc + m Wc' + b b' = 0}.
 
  @end deftypefn
+@subsection hsvd
 
  @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
  @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{alpha})
@@ -718,10 +748,12 @@
  Uses SLICOT AB13AD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
+@subsection @lti/isct
 
  @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
  Determine whether LTI model is a continuous-time system.
  @end deftypefn
+@subsection isctrb
 
  @deftypefn {Function File} {@var{bool} =} isctrb (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isctrb (@var{sys}, @var{tol})
@@ -757,6 +789,7 @@
 
  @seealso{isobsv}
  @end deftypefn
+@subsection isdetectable
 
  @deftypefn {Function File} {@var{bool} =} isdetectable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{sys}, @var{tol})
@@ -802,16 +835,19 @@
  See @command{isstabilizable} for description of computational method.
  @seealso{isstabilizable, isstable, isctrb, isobsv}
  @end deftypefn
+@subsection @lti/isdt
 
  @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
  Determine whether LTI model is a discrete-time system.
  @end deftypefn
+@subsection @lti/isminimumphase
 
  @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
  Determine whether LTI system is minimum phase.
  If a square system @var{P} is minimum-phase, its inverse @var{P^-1} is stable.
  @end deftypefn
+@subsection isobsv
 
  @deftypefn {Function File} {@var{bool} =} isobsv (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isobsv (@var{sys}, @var{tol})
@@ -847,10 +883,12 @@
 
  @seealso{isctrb}
  @end deftypefn
+@subsection @lti/issiso
 
  @deftypefn {Function File} {@var{bool} =} issiso (@var{sys})
  Determine whether LTI model is single-input/single-output (SISO).
  @end deftypefn
+@subsection isstabilizable
 
  @deftypefn {Function File} {@var{bool} =} isstabilizable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{sys}, @var{tol})
@@ -906,11 +944,13 @@
  @end example
  @seealso{isdetectable, isstable, isctrb, isobsv}
  @end deftypefn
+@subsection @lti/isstable
 
  @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
  Determine whether LTI system is stable.
  @end deftypefn
+@subsection @lti/norm
 
  @deftypefn {Function File} {@var{gain} =} norm (@var{sys}, @var{2})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
@@ -919,37 +959,44 @@
  Uses SLICOT AB13BD and AB13DD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
+@subsection obsv
 
  @deftypefn {Function File} {@var{ob} =} obsv (@var{sys})
  @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
  Observability matrix.
  @end deftypefn
+@subsection @lti/pole
 
  @deftypefn {Function File} {@var{p} =} pole (@var{sys})
  Compute poles of LTI system.
  @end deftypefn
+@subsection pzmap
 
  @deftypefn {Function File} pzmap (@var{sys})
  @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
  Plot the poles and zeros of an LTI system in the complex plane.
  @end deftypefn
+@subsection @lti/size
 
  @deftypefn {Function File} {@var{nvec} =} size (@var{ltisys})
  @deftypefnx {Function File} {@var{n} =} size (@var{ltisys}, @var{idx})
  @deftypefnx {Function File} {[@var{ny}, @var{nu}] =} size (@var{ltisys})
  LTI model size, i.e. number of outputs and inputs.
  @end deftypefn
+@subsection @lti/zero
 
  @deftypefn {Function File} {@var{z} =} zero (@var{sys})
  @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
  Compute transmission zeros and gain of LTI model.
  @end deftypefn
 @section Model Simplification
+@subsection @lti/minreal
 
  @deftypefn {Function File} {@var{sys} =} minreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} minreal (@var{sys}, @var{tol})
  Minimal realization or zero-pole cancellation of LTI models.
  @end deftypefn
+@subsection @lti/sminreal
 
  @deftypefn {Function File} {@var{sys} =} sminreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} sminreal (@var{sys}, @var{tol})
@@ -976,6 +1023,7 @@
  @seealso{minreal}
  @end deftypefn
 @section Time Domain Analysis
+@subsection covar
 
  @deftypefn{Function File} {[@var{p}, @var{q}] =} covar (@var{sys}, @var{w})
  Return the steady-state covariance.
@@ -998,6 +1046,7 @@
 
  @seealso{lyap, dlyap}
  @end deftypefn
+@subsection gensig
 
  @deftypefn{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau})
  @deftypefnx{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau}, @var{tfinal})
@@ -1032,6 +1081,7 @@
 
  @seealso{lsim}
  @end deftypefn
+@subsection impulse
 
  @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{t})
@@ -1068,6 +1118,7 @@
 
  @seealso{initial, lsim, step}
  @end deftypefn
+@subsection initial
 
  @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{t})
@@ -1116,6 +1167,7 @@
 
  @seealso{impulse, lsim, step}
  @end deftypefn
+@subsection lsim
 
  @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
@@ -1158,6 +1210,7 @@
 
  @seealso{impulse, initial, step}
  @end deftypefn
+@subsection step
 
  @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
@@ -1195,6 +1248,7 @@
  @seealso{impulse, initial, lsim}
  @end deftypefn
 @section Frequency Domain Analysis
+@subsection bode
 
  @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
@@ -1222,6 +1276,7 @@
 
  @seealso{nichols, nyquist, sigma}
  @end deftypefn
+@subsection bodemag
 
  @deftypefn {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys}, @var{w})
@@ -1247,6 +1302,7 @@
 
  @seealso{bode, nichols, nyquist, sigma}
  @end deftypefn
+@subsection @lti/freqresp
 
  @deftypefn{Function File} {@var{H} =} freqresp (@var{sys}, @var{w})
  Evaluate frequency response at given frequencies.
@@ -1269,6 +1325,7 @@
 
  @seealso{dcgain}
  @end deftypefn
+@subsection margin
 
  @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
  @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
@@ -1371,6 +1428,7 @@
 
  @seealso{roots}
  @end deftypefn
+@subsection nichols
 
  @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys}, @var{w})
@@ -1398,6 +1456,7 @@
 
  @seealso{bode, nyquist, sigma}
  @end deftypefn
+@subsection nyquist
 
  @deftypefn {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
  @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
@@ -1425,6 +1484,7 @@
 
  @seealso{bode, nichols, sigma}
  @end deftypefn
+@subsection sigma
 
  @deftypefn{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
@@ -1465,6 +1525,7 @@
  @seealso{bodemag, svd}
  @end deftypefn
 @section Pole Placement
+@subsection place
 
  @deftypefn {Function File} {@var{f} =} place (@var{sys}, @var{p})
  @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
@@ -1514,7 +1575,8 @@
  Place is also suitable to design estimator gains:
  @group
  L = place (A.', C.', p).'
- L = place (sys.', p).'   
+ L = place (sys.', p).'   @subsection rlocus
+
  @deftypefn {Function File} rlocus (@var{sys}) 
  @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}]) 
  Display root locus plot of the specified @acronym{SISO} system.
@@ -1551,6 +1613,7 @@
  @end example
  @end deftypefn
 @section Linear-Quadratic Control
+@subsection dlqr
 
  @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -1602,6 +1665,7 @@
  @end example
  @seealso{dare, care, lqr}
  @end deftypefn
+@subsection estim
 
  @deftypefn {Function File} {@var{est} =} estim (@var{sys}, @var{l})
  @deftypefnx {Function File} {@var{est} =} estim (@var{sys}, @var{l}, @var{sensors}, @var{known})
@@ -1627,6 +1691,7 @@
  @end table
  @seealso{kalman, place}
  @end deftypefn
+@subsection kalman
 
  @deftypefn {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -1678,6 +1743,7 @@
 
  @seealso{care, dare, estim, lqr}
  @end deftypefn
+@subsection lqr
 
  @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -1731,6 +1797,7 @@
  @seealso{care, dare, dlqr}
  @end deftypefn
 @section Robust Control
+@subsection augw
 
  @deftypefn{Function File} {@var{P} =} augw (@var{G}, @var{W1}, @var{W2}, @var{W3})
  Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
@@ -1808,6 +1875,7 @@
  @end example
  @seealso{h2syn, hinfsyn, mixsyn}
  @end deftypefn
+@subsection h2syn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
  H-2 control synthesis for LTI plant.
@@ -1862,6 +1930,7 @@
  @end example
  @seealso{augw, lqr, dlqr, kalman}
  @end deftypefn
+@subsection hinfsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
  @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
@@ -1920,6 +1989,7 @@
  @end example
  @seealso{augw, mixsyn}
  @end deftypefn
+@subsection mixsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
  Solve stacked S/KS/T H-inf problem.  Bound the largest singular values
@@ -2015,6 +2085,7 @@
  @end example
  @seealso{hinfsyn, augw}
  @end deftypefn
+@subsection ncfsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
  Normalized Coprime Factor (NCF) H-infinity synthesis.
@@ -2077,6 +2148,7 @@
  @end example
  @end deftypefn
 @section Matrix Equation Solvers
+@subsection care
 
  @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
@@ -2146,6 +2218,7 @@
  @end example
  @seealso{dare, lqr, dlqr, kalman}
  @end deftypefn
+@subsection dare
 
  @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
@@ -2215,6 +2288,7 @@
  @end example
  @seealso{care, lqr, dlqr, kalman}
  @end deftypefn
+@subsection dlyap
 
  @deftypefn{Function File} {@var{x} =} dlyap (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{c})
@@ -2236,6 +2310,7 @@
 
  @seealso{dlyapchol, lyap, lyapchol}
  @end deftypefn
+@subsection dlyapchol
 
  @deftypefn{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b}, @var{e})
@@ -2254,6 +2329,7 @@
 
  @seealso{dlyap, lyap, lyapchol}
  @end deftypefn
+@subsection lyap
 
  @deftypefn{Function File} {@var{x} =} lyap (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{x} =} lyap (@var{a}, @var{b}, @var{c})
@@ -2275,6 +2351,7 @@
 
  @seealso{lyapchol, dlyap, dlyapchol}
  @end deftypefn
+@subsection lyapchol
 
  @deftypefn{Function File} {@var{u} =} lyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} lyapchol (@var{a}, @var{b}, @var{e})
@@ -2294,44 +2371,58 @@
  @seealso{lyap, dlyap, dlyapchol}
  @end deftypefn
 @section Overloaded Operators
+@subsection @lti/horzcat
 
  Horizontal concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[lti1, lti2]".
+@subsection @lti/inv
 
  Inversion of LTI objects.
+@subsection @lti/minus
 
  Binary subtraction of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 - lti2".
+@subsection @lti/mldivide
 
  Matrix left division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "lti1  lti2".
+@subsection @lti/mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
  Used by Octave for "lti^int".
+@subsection @lti/mrdivide
 
  Matrix right division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "lti1 / lti2".
+@subsection @lti/mtimes
 
  Matrix multiplication of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 * lti2".
+@subsection @lti/plus
 
  Binary addition of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 + lti2".
  Operation is also known as "parallel connection".
+@subsection @lti/subsasgn
 
  Subscripted assignment for LTI objects.
  Used by Octave for "sys.property = value".
+@subsection @lti/subsref
 
  Subscripted reference for LTI objects.
  Used by Octave for "sys = sys(2:4, :)" or "val = sys.prop".
+@subsection @lti/transpose
 
  Transpose of LTI objects.  Used by Octave for "sys.'".
+@subsection @lti/uminus
 
  Unary minus of LTI object.  Used by Octave for "-lti".
+@subsection @lti/vertcat
 
  Vertical concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[lti1; lti2]".
 @section Miscellaneous
+@subsection strseq
 
  @deftypefn {Function File} {@var{strvec} =} strseq (@var{str}, @var{idx})
  Return a cell vector of indexed strings by appending the indices @var{idx}
@@ -2342,6 +2433,7 @@
  strseq ("u", [1, 2, 5]) = @{"u1"; "u2"; "u5"@}
  @end example
  @end deftypefn
+@subsection test_control
 
  @deftypefn {Script File} test_control
  Execute all available tests at once.
