@@ -327,7 +327,7 @@
  @seealso{ss, dss}
  @end deftypefn
 @section Model Data Access
-@subsection @lti/dssdata
+@subsection @@lti/dssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
  @deftypefnx {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
@@ -362,7 +362,7 @@
  a zero is returned.
  @end table
  @end deftypefn
-@subsection @lti/frdata
+@subsection @@lti/frdata
 
  @deftypefn {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys})
  @deftypefnx {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys}, @var{"vector"})
@@ -391,19 +391,19 @@
  a zero is returned.
  @end table
  @end deftypefn
-@subsection @lti/get
+@subsection @@lti/get
 
  @deftypefn {Function File} get (@var{sys})
  @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
  Access property values of LTI objects.
  @end deftypefn
-@subsection @lti/set
+@subsection @@lti/set
 
  @deftypefn {Function File} set (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} set (@var{sys}, @var{"property"}, @var{value})
  Set or modify properties of LTI objects.
  @end deftypefn
-@subsection @lti/ssdata
+@subsection @@lti/ssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}] =} ssdata (@var{sys})
  Access state-space model data.
@@ -431,20 +431,20 @@
  a zero is returned.
  @end table
  @end deftypefn
-@subsection @lti/tfdata
+@subsection @@lti/tfdata
 
  @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
  @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
  Access transfer function data.
  @end deftypefn
 @section Model Conversions
-@subsection @lti/c2d
+@subsection @@lti/c2d
 
  @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
  @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
  Convert the continuous lti model into its discrete time equivalent.
  @end deftypefn
-@subsection @lti/prescale
+@subsection @@lti/prescale
 
  @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
  Prescale state-space model.
@@ -484,28 +484,28 @@
  @end group
  @end example
  @end deftypefn
-@subsection @lti/xperm
+@subsection @@lti/xperm
 
  @deftypefn {Function File} {@var{sys} =} xperm (@var{sys}, @var{st_idx})
  Reorder states in state-space models.
  @end deftypefn
 @section Model Interconnections
-@subsection @lti/append
+@subsection @@lti/append
 
  @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2})
  Group LTI models by appending their inputs and outputs.
  @end deftypefn
-@subsection @lti/blkdiag
+@subsection @@lti/blkdiag
 
  @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2})
  Block-diagonal concatenation of LTI models.
  @end deftypefn
-@subsection @lti/connect
+@subsection @@lti/connect
 
  @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
  Arbitrary interconnections between the inputs and outputs of an LTI model.
  @end deftypefn
-@subsection @lti/feedback
+@subsection @@lti/feedback
 
  @deftypefn {Function File} {@var{sys} =} feedback (@var{sys1})
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{"+"})
@@ -528,7 +528,7 @@
  @end group
  @end example
  @end deftypefn
-@subsection @lti/lft
+@subsection @@lti/lft
 
  @deftypefn {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2}, @var{nu}, @var{ny})
@@ -599,7 +599,7 @@
  @end group
  @end example
  @end deftypefn
-@subsection @lti/mconnect
+@subsection @@lti/mconnect
 
  @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
  @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
@@ -643,7 +643,7 @@
  @end group
  @end example
  @end deftypefn
-@subsection @lti/parallel
+@subsection @@lti/parallel
 
  @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
  Parallel connection of two LTI systems.
@@ -665,7 +665,7 @@
  @end group
  @end example
  @end deftypefn
-@subsection @lti/series
+@subsection @@lti/series
 
  @deftypefn {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
@@ -706,7 +706,7 @@
  @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
  Controllability matrix.
  @end deftypefn
-@subsection @lti/dcgain
+@subsection @@lti/dcgain
 
  @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
  DC gain of LTI model.
@@ -748,7 +748,7 @@
  Uses SLICOT AB13AD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
-@subsection @lti/isct
+@subsection @@lti/isct
 
  @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
  Determine whether LTI model is a continuous-time system.
@@ -835,12 +835,12 @@
  See @command{isstabilizable} for description of computational method.
  @seealso{isstabilizable, isstable, isctrb, isobsv}
  @end deftypefn
-@subsection @lti/isdt
+@subsection @@lti/isdt
 
  @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
  Determine whether LTI model is a discrete-time system.
  @end deftypefn
-@subsection @lti/isminimumphase
+@subsection @@lti/isminimumphase
 
  @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
@@ -883,7 +883,7 @@
 
  @seealso{isctrb}
  @end deftypefn
-@subsection @lti/issiso
+@subsection @@lti/issiso
 
  @deftypefn {Function File} {@var{bool} =} issiso (@var{sys})
  Determine whether LTI model is single-input/single-output (SISO).
@@ -944,13 +944,13 @@
  @end example
  @seealso{isdetectable, isstable, isctrb, isobsv}
  @end deftypefn
-@subsection @lti/isstable
+@subsection @@lti/isstable
 
  @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
  Determine whether LTI system is stable.
  @end deftypefn
-@subsection @lti/norm
+@subsection @@lti/norm
 
  @deftypefn {Function File} {@var{gain} =} norm (@var{sys}, @var{2})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
@@ -965,7 +965,7 @@
  @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
  Observability matrix.
  @end deftypefn
-@subsection @lti/pole
+@subsection @@lti/pole
 
  @deftypefn {Function File} {@var{p} =} pole (@var{sys})
  Compute poles of LTI system.
@@ -976,27 +976,27 @@
  @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
  Plot the poles and zeros of an LTI system in the complex plane.
  @end deftypefn
-@subsection @lti/size
+@subsection @@lti/size
 
  @deftypefn {Function File} {@var{nvec} =} size (@var{ltisys})
  @deftypefnx {Function File} {@var{n} =} size (@var{ltisys}, @var{idx})
  @deftypefnx {Function File} {[@var{ny}, @var{nu}] =} size (@var{ltisys})
  LTI model size, i.e. number of outputs and inputs.
  @end deftypefn
-@subsection @lti/zero
+@subsection @@lti/zero
 
  @deftypefn {Function File} {@var{z} =} zero (@var{sys})
  @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
  Compute transmission zeros and gain of LTI model.
  @end deftypefn
 @section Model Simplification
-@subsection @lti/minreal
+@subsection @@lti/minreal
 
  @deftypefn {Function File} {@var{sys} =} minreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} minreal (@var{sys}, @var{tol})
  Minimal realization or zero-pole cancellation of LTI models.
  @end deftypefn
-@subsection @lti/sminreal
+@subsection @@lti/sminreal
 
  @deftypefn {Function File} {@var{sys} =} sminreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} sminreal (@var{sys}, @var{tol})
@@ -1302,7 +1302,7 @@
 
  @seealso{bode, nichols, nyquist, sigma}
  @end deftypefn
-@subsection @lti/freqresp
+@subsection @@lti/freqresp
 
  @deftypefn{Function File} {@var{H} =} freqresp (@var{sys}, @var{w})
  Evaluate frequency response at given frequencies.
@@ -2371,53 +2371,53 @@
  @seealso{lyap, dlyap, dlyapchol}
  @end deftypefn
 @section Overloaded Operators
-@subsection @lti/horzcat
+@subsection @@lti/horzcat
 
  Horizontal concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[lti1, lti2]".
-@subsection @lti/inv
+@subsection @@lti/inv
 
  Inversion of LTI objects.
-@subsection @lti/minus
+@subsection @@lti/minus
 
  Binary subtraction of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 - lti2".
-@subsection @lti/mldivide
+@subsection @@lti/mldivide
 
  Matrix left division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "lti1  lti2".
-@subsection @lti/mpower
+@subsection @@lti/mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
  Used by Octave for "lti^int".
-@subsection @lti/mrdivide
+@subsection @@lti/mrdivide
 
  Matrix right division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "lti1 / lti2".
-@subsection @lti/mtimes
+@subsection @@lti/mtimes
 
  Matrix multiplication of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 * lti2".
-@subsection @lti/plus
+@subsection @@lti/plus
 
  Binary addition of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "lti1 + lti2".
  Operation is also known as "parallel connection".
-@subsection @lti/subsasgn
+@subsection @@lti/subsasgn
 
  Subscripted assignment for LTI objects.
  Used by Octave for "sys.property = value".
-@subsection @lti/subsref
+@subsection @@lti/subsref
 
  Subscripted reference for LTI objects.
  Used by Octave for "sys = sys(2:4, :)" or "val = sys.prop".
-@subsection @lti/transpose
+@subsection @@lti/transpose
 
  Transpose of LTI objects.  Used by Octave for "sys.'".
-@subsection @lti/uminus
+@subsection @@lti/uminus
 
  Unary minus of LTI object.  Used by Octave for "-lti".
-@subsection @lti/vertcat
+@subsection @@lti/vertcat
 
  Vertical concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[lti1; lti2]".
