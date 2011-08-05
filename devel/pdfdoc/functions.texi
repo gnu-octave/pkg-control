@@ -60,6 +60,12 @@
  Control), Springer, 1994.
  @end deftypefn
  ===============================================================================
+ Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
+ ===============================================================================
+ Reference: Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
+            Robust Control Design with Matlab, Springer 2005
+ ===============================================================================
+ ===============================================================================
  optiPID                          Lukas Reichlin                       July 2009
  ===============================================================================
  Numerical Optimization of an A/H PID Controller
