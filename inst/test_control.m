@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.2
+## Version: 0.2.1
 
 ## test collection
 test ltimodels
@@ -30,6 +30,7 @@ test ltimodels
 ## robust control
 test hinfsyn
 test h2syn
+test ncfsyn
 
 ## ARE solvers
 test care

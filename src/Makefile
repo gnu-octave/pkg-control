@@ -3,7 +3,7 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
      sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct sltg01jd.oct \
      sltg01hd.oct sltg01id.oct slsg02ad.oct sltg04bx.oct sltb01id.oct \
-     sltg01ad.oct \
+     sltg01ad.oct slsb10id.oct slsb10kd.oct slsb10zd.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct
 
@@ -181,6 +181,29 @@ sltb01id.oct: sltb01id.cc
 sltg01ad.oct: sltg01ad.cc
 	mkoctfile sltg01ad.cc \
               TG01AD.f
+
+# H-infinity loop shaping - continuous-time
+slsb10id.oct: slsb10id.cc
+	mkoctfile slsb10id.cc \
+              SB10ID.f SB02RD.f select.f SB10JD.f MB02VD.f \
+              MA02GD.f SB02MS.f MA02ED.f SB02RU.f SB02SD.f \
+              MB01RU.f SB02QD.f SB02MV.f SB02MW.f SB02MR.f \
+              MA02AD.f MB02PD.f MB01SD.f MB01UD.f SB03SY.f \
+              MB01RX.f SB03MX.f SB03SX.f MB01RY.f SB03QY.f \
+              SB03QX.f SB03MY.f SB04PX.f SB03MV.f SB03MW.f
+
+# H-infinity loop shaping - discrete-time - strictly proper case
+slsb10kd.oct: slsb10kd.cc
+	mkoctfile slsb10kd.cc \
+              SB10KD.f SB02OD.f select.f SB02OY.f SB02OW.f \
+              SB02OV.f SB02MV.f SB02OU.f SB02MR.f
+
+# H-infinity loop shaping - discrete-time - proper case
+slsb10zd.oct: slsb10zd.cc
+	mkoctfile slsb10zd.cc \
+              SB10ZD.f MA02AD.f SB02OD.f select.f MB01RX.f \
+              MB02VD.f SB02OY.f SB02OW.f SB02OV.f SB02OU.f \
+              SB02MR.f MA02GD.f SB02MV.f
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc
