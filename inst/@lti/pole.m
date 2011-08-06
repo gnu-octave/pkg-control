@@ -18,6 +18,18 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{p} =} pole (@var{sys})
 ## Compute poles of LTI system.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item p
+## Poles of @var{sys}.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

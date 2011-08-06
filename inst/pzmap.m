@@ -19,6 +19,22 @@
 ## @deftypefn {Function File} pzmap (@var{sys})
 ## @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
 ## Plot the poles and zeros of an LTI system in the complex plane.
+## If no output arguments are given, the result is plotted on the screen.
+## Otherwise, the poles and zeros are computed and returned.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item p
+## Poles of @var{sys}.
+## @item z
+## Transmission zeros of @var{sys}.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
