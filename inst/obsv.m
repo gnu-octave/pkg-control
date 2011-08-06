@@ -33,7 +33,7 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item co
+## @item ob
 ## Observability matrix.
 ## @end table
 ##
