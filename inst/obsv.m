@@ -19,7 +19,45 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{ob} =} obsv (@var{sys})
 ## @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
+## Return observability matrix.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @item a
+## State transition matrix (n-by-n).
+## @item c
+## Measurement matrix (p-by-n).
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item co
 ## Observability matrix.
+## @end table
+##
+## @strong{Equation}
+## @iftex
+## @tex
+## $$ O_b = \left[ \matrix{  C       \cr
+##                           CA    \cr
+##                           CA^2  \cr
+##                           \vdots  \cr
+##                           CA^{n-1} } \right ] $$
+## @end tex
+## @end iftex
+## @ifinfo
+## @example
+## @group
+##      | C        |
+##      | CA       |
+## Ob = | CA^2     |
+##      | ...      |
+##      | CA^(n-1) |
+## @end group
+## @end example
+## @end ifinfo
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

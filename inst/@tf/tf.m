@@ -25,6 +25,8 @@
 ##
 ## @strong{Inputs}
 ## @table @var
+## @item sys
+## LTI model to be converted to transfer function.
 ## @item num
 ## Numerator or cell of numerators.  Each numerator must be a row vector
 ## containing the exponents of the polynomial in descending order.

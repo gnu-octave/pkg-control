@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,52 +16,74 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{nvec} =} size (@var{ltisys})
-## @deftypefnx {Function File} {@var{n} =} size (@var{ltisys}, @var{idx})
-## @deftypefnx {Function File} {[@var{ny}, @var{nu}] =} size (@var{ltisys})
+## @deftypefn {Function File} {@var{nvec} =} size (@var{sys})
+## @deftypefnx {Function File} {@var{n} =} size (@var{sys}, @var{dim})
+## @deftypefnx {Function File} {[@var{p}, @var{m}] =} size (@var{sys})
 ## LTI model size, i.e. number of outputs and inputs.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item dim
+## If given a second argument, @command{size} will return the size of the
+## corresponding dimension.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item nvec
+## Row vector.  The first element is the number of outputs (rows) and the second
+## element the number of inputs (columns).
+## @item n
+## Scalar value.  The size of the dimension @var{dim}.
+## @item p
+## Number of outputs.
+## @item m
+## Number of inputs.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function [n, varargout] = size (ltisys, idx = 0)
+function [n, varargout] = size (ltisys, dim = 0)
 
   if (nargin > 2)
     print_usage ();
   endif
 
-  ny = numel (ltisys.outname);  # WARNING: system matrices may change without
-  nu = numel (ltisys.inname);   #          being noticed by the i/o names!
+  p = numel (ltisys.outname);  # WARNING: system matrices may change without
+  m = numel (ltisys.inname);   #          being noticed by the i/o names!
 
-  switch (idx)
+  switch (dim)
     case 0
       switch (nargout)
         case 0
-          if (ny == 1)
+          if (p == 1)
             stry = "";
           else
             stry = "s";
           endif          
-          if (nu == 1)
+          if (m == 1)
             stru = "";
           else
             stru = "s";
           endif
           disp (sprintf ("LTI model with %d output%s and %d input%s.", ny, stry, nu, stru));
         case 1
-          n = [ny, nu];
+          n = [p, m];
         case 2
-          n = ny;
-          varargout{1} = nu;
+          n = p;
+          varargout{1} = m;
         otherwise
           print_usage ();
       endswitch
     case 1
-      n = ny;
+      n = p;
     case 2
-      n = nu;
+      n = m;
     otherwise
       print_usage ();
   endswitch

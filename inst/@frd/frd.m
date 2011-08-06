@@ -25,7 +25,8 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  If second argument @var{w} is omitted, the interesting
+## LTI model to be converted to frequency response data.
+## If second argument @var{w} is omitted, the interesting
 ## frequency range is calculated by the zeros and poles of @var{sys}.
 ## @item H
 ## Frequency response array (p-by-m-by-lw).  In the SISO case,

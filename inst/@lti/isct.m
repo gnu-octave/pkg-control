@@ -18,6 +18,20 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
 ## Determine whether LTI model is a continuous-time system.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item bool = 0
+## @var{sys} is a discrete-time system.
+## @item bool = 1
+## @var{sys} is a continuous-time system or a static gain.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

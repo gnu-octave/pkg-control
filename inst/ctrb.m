@@ -19,7 +19,36 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{co} =} ctrb (@var{sys})
 ## @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
+## Return controllability matrix.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI model.
+## @item a
+## State transition matrix (n-by-n).
+## @item b
+## Input matrix (n-by-m).
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item co
 ## Controllability matrix.
+## @end table
+##
+## @strong{Equation}
+## @iftex
+## @tex
+## $$ C_o = [ B AB A^2B \ldots A^{n-1}B ] $$
+## @end tex
+## @end iftex
+## @ifinfo
+## @example
+##              2       n-1
+## Co = [ B AB A B ... A   B ]
+## @end example
+## @end ifinfo
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

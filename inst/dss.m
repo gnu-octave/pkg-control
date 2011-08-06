@@ -24,6 +24,8 @@
 ##
 ## @strong{Inputs}
 ## @table @var
+## @item sys
+## LTI model to be converted to state-space.
 ## @item a
 ## State transition matrix (n-by-n).
 ## @item b
