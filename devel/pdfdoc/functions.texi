@@ -126,6 +126,8 @@
 
  @strong{Inputs}
  @table @var
+ @item sys
+ LTI model to be converted to state-space.
  @item a
  State transition matrix (n-by-n).
  @item b
@@ -172,7 +174,8 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  If second argument @var{w} is omitted, the interesting
+ LTI model to be converted to frequency response data.
+ If second argument @var{w} is omitted, the interesting
  frequency range is calculated by the zeros and poles of @var{sys}.
  @item H
  Frequency response array (p-by-m-by-lw).  In the SISO case,
@@ -207,6 +210,8 @@
 
  @strong{Inputs}
  @table @var
+ @item sys
+ LTI model to be converted to state-space.
  @item a
  State transition matrix (n-by-n).
  @item b
@@ -280,6 +285,8 @@
 
  @strong{Inputs}
  @table @var
+ @item sys
+ LTI model to be converted to transfer function.
  @item num
  Numerator or cell of numerators.  Each numerator must be a row vector
  containing the exponents of the polynomial in descending order.
@@ -704,7 +711,36 @@
 
  @deftypefn {Function File} {@var{co} =} ctrb (@var{sys})
  @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
+ Return controllability matrix.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @item a
+ State transition matrix (n-by-n).
+ @item b
+ Input matrix (n-by-m).
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item co
  Controllability matrix.
+ @end table
+
+ @strong{Equation}
+ @iftex
+ @tex
+ $$ C_o = [ B AB A^2B ldots A^{n-1}B ] $$
+ @end tex
+ @end iftex
+ @ifinfo
+ @example
+              2       n-1
+ Co = [ B AB A B ... A   B ]
+ @end example
+ @end ifinfo
  @end deftypefn
 @subsection @@lti/dcgain
 
@@ -752,6 +788,20 @@
 
  @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
  Determine whether LTI model is a continuous-time system.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI system.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item bool = 0
+ @var{sys} is a discrete-time system.
+ @item bool = 1
+ @var{sys} is a continuous-time system or a static gain.
+ @end table
  @end deftypefn
 @subsection isctrb
 
@@ -839,6 +889,20 @@
 
  @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
  Determine whether LTI model is a discrete-time system.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI system.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item bool = 0
+ @var{sys} is a continuous-time system.
+ @item bool = 1
+ @var{sys} is a discrete-time system or a static gain.
+ @end table
  @end deftypefn
 @subsection @@lti/isminimumphase
 
@@ -963,31 +1027,133 @@
 
  @deftypefn {Function File} {@var{ob} =} obsv (@var{sys})
  @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
+ Return observability matrix.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @item a
+ State transition matrix (n-by-n).
+ @item c
+ Measurement matrix (p-by-n).
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item ob
  Observability matrix.
+ @end table
+
+ @strong{Equation}
+ @iftex
+ @tex
+ $$ O_b = left[ matrix{  C       cr
+                           CA    cr
+                           CA^2  cr
+                           dots  cr
+                           CA^{n-1} } ight ] $$
+ @end tex
+ @end iftex
+ @ifinfo
+ @example
+ @group
+      | C        |
+      | CA       |
+ Ob = | CA^2     |
+      | ...      |
+      | CA^(n-1) |
+ @end group
+ @end example
+ @end ifinfo
  @end deftypefn
 @subsection @@lti/pole
 
  @deftypefn {Function File} {@var{p} =} pole (@var{sys})
  Compute poles of LTI system.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item p
+ Poles of @var{sys}.
+ @end table
  @end deftypefn
 @subsection pzmap
 
  @deftypefn {Function File} pzmap (@var{sys})
  @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
  Plot the poles and zeros of an LTI system in the complex plane.
+ If no output arguments are given, the result is plotted on the screen.
+ Otherwise, the poles and zeros are computed and returned.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item p
+ Poles of @var{sys}.
+ @item z
+ Transmission zeros of @var{sys}.
+ @end table
  @end deftypefn
 @subsection @@lti/size
 
- @deftypefn {Function File} {@var{nvec} =} size (@var{ltisys})
- @deftypefnx {Function File} {@var{n} =} size (@var{ltisys}, @var{idx})
- @deftypefnx {Function File} {[@var{ny}, @var{nu}] =} size (@var{ltisys})
+ @deftypefn {Function File} {@var{nvec} =} size (@var{sys})
+ @deftypefnx {Function File} {@var{n} =} size (@var{sys}, @var{dim})
+ @deftypefnx {Function File} {[@var{p}, @var{m}] =} size (@var{sys})
  LTI model size, i.e. number of outputs and inputs.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI system.
+ @item dim
+ If given a second argument, @command{size} will return the size of the
+ corresponding dimension.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item nvec
+ Row vector.  The first element is the number of outputs (rows) and the second
+ element the number of inputs (columns).
+ @item n
+ Scalar value.  The size of the dimension @var{dim}.
+ @item p
+ Number of outputs.
+ @item m
+ Number of inputs.
+ @end table
  @end deftypefn
 @subsection @@lti/zero
 
  @deftypefn {Function File} {@var{z} =} zero (@var{sys})
  @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
  Compute transmission zeros and gain of LTI model.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item z
+ Transmission zeros of @var{sys}.
+ @item k
+ Gain of @var{sys}.
+ @end table
  @end deftypefn
 @section Model Simplification
 @subsection @@lti/minreal

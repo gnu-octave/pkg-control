@@ -126,7 +126,7 @@ figure (2)
 sigma (T)                              % singular values
 
 figure (3)
-step (T)                               % step response
+step (T, 10)                           % step response for 10 seconds
 
 
 % ===============================================================================
@@ -151,6 +151,6 @@ figure (4)
 sigma (T)                              % singular values
 
 figure (5)
-step (T)                               % step response
+step (T, 10)                           % step response for 10 seconds
 
 % ===============================================================================
