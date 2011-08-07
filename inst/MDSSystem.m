@@ -115,22 +115,22 @@ W_p = 0.95 * (s^2 + 1.8*s + 10) / (s^2 + 8.0*s + 0.01);  % performance weighting
 W_u = 10^-2;                           % control weighting
 
 % Synthesis
-K = mixsyn (G, W_p, W_u);              % mixed-sensitivity H-infinity synthesis
+K_mix = mixsyn (G, W_p, W_u);          % mixed-sensitivity H-infinity synthesis
 
 % Interconnections
-L = G * K;                             % open loop
-T = feedback (L);                      % closed loop
+L_mix = G * K_mix;                     % open loop
+T_mix = feedback (L_mix);              % closed loop
 
 % Plotting
 figure (2)
-sigma (T)                              % singular values
+sigma (T_mix)                          % singular values
 
 figure (3)
-step (T, 10)                           % step response for 10 seconds
+step (T_mix, 10)                       % step response for 10 seconds
 
 
 % ===============================================================================
-% H-infinity Loop-Shaping Design
+% H-infinity Loop-Shaping Design (Normalized Coprime Factor Perturbations)
 % ===============================================================================
 
 % Settings
@@ -139,18 +139,18 @@ W2 = 1;                                % postcompensator
 factor = 1.1;                          % suboptimal controller
 
 % Synthesis
-K = ncfsyn (G, W1, W2, factor);        % positive feedback controller
+K_ncf = ncfsyn (G, W1, W2, factor);    % positive feedback controller
 
 % Interconnections
-K = -K;                                % negative feedback controller
-L = G * K;                             % open loop
-T = feedback (L);                      % closed loop
+K_ncf = -K_ncf;                        % negative feedback controller
+L_ncf = G * K_ncf;                     % open loop
+T_ncf = feedback (L_ncf);              % closed loop
 
 % Plotting
 figure (4)
-sigma (T)                              % singular values
+sigma (T_ncf)                          % singular values
 
 figure (5)
-step (T, 10)                           % step response for 10 seconds
+step (T_ncf, 10)                       % step response for 10 seconds
 
 % ===============================================================================
