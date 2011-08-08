@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -24,6 +24,33 @@
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{"+"})
 ## Feedback connection of two LTI models.
 ##
+## @strong{Inputs}
+## @table @var
+## @item sys1
+## LTI model of forward transmission.  @code{[p1, m1] = size (sys1)}.
+## @item sys2
+## LTI model of backward transmission.
+## If not specified, an identity matrix of appropriate size is taken.
+## @item feedin
+## Vector containing indices of inputs to @var{sys1} which are involved in the feedback loop.
+## The number of @var{feedin} indices and outputs of @var{sys2} must be equal.
+## If not specified, @code{1:m1} is taken.
+## @item feedout
+## Vector containing indices of outputs from @var{sys1} which are to be connected to @var{sys2}.
+## The number of @var{feedout} indices and inputs of @var{sys2} must be equal.
+## If not specified, @code{1:p1} is taken.
+## @item "+"
+## Positive feedback sign.  If not specified, @var{"-"} for a negative feedback interconnection
+## is assumed.  @var{+1} and @var{-1} are possible as well, but only from the third argument
+## onward due to ambiguity.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## Resulting LTI model.
+## @end table
+##
 ## @strong{Block Diagram}
 ## @example
 ## @group
@@ -40,7 +67,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
@@ -51,7 +78,6 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
       if (p1 != m1)
         error ("feedback: argument must be a square system");
       endif
-
       sys2 = eye (p1);
       feedin = 1 : m1;
       feedout = 1 : p1;
@@ -61,13 +87,9 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
         if (p1 != m1)
           error ("feedback: first argument must be a square system");
         endif
-
         fbsign = __check_fbsign__ (sys2);
         sys2 = eye (p1);
-        feedin = 1 : m1;
-        feedout = 1 : p1;
       endif                         # sys = feedback (sys1, sys2)
-
       feedin = 1 : m1;
       feedout = 1 : p1;
 
