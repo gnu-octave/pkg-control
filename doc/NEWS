@@ -1,16 +1,20 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+control-2.1.53   Release Date: 2011-08-08   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** ncfsyn
-   -- Added support for McFarlane/Glover loop shaping design procedure.  ncfsyn
-      stands for Normalized Coprime Factor Synthesis.
+   -- Added support for McFarlane/Glover loop shaping design procedure.
+      "ncfsyn" stands for Normalized Coprime Factor Synthesis.
 
 ** MDSSystem
    -- Added example script which demonstrates the usage of the robust control
       commands "mixsyn" and "ncfsyn".
+
+** Texinfo help strings of several functions have been extended, although
+   documentation still leaves a lot to be desired.
+
 
 ===============================================================================
 control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
