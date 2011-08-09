@@ -37,7 +37,7 @@
 ## @item factor
 ## @code{factor = 1} implies that an optimal controller is required.
 ## @code{factor > 1} implies that a suboptimal controller is required,
-## achieving a performance taht is @var{factor} times less than optimal.
+## achieving a performance that is @var{factor} times less than optimal.
 ## Default value is 1.
 ## @end table
 ##
