@@ -181,20 +181,20 @@ For internal use only.")
         alfai.resize (n);
         beta.resize (n);
 
-        ColumnVector zeror (n);
-        ColumnVector zeroi (n);
+        ColumnVector poler (n);
+        ColumnVector polei (n);
 
-        zeror = quotient (alfar, beta);
-        zeroi = quotient (alfai, beta);
+        poler = quotient (alfar, beta);
+        polei = quotient (alfai, beta);
         
-        ComplexColumnVector zero (n, Complex ());
+        ComplexColumnVector pole (n, Complex ());
 
         for (octave_idx_type i = 0; i < n; i++)
-            zero.xelem (i) = Complex (zeror(i), zeroi(i));
+            pole.xelem (i) = Complex (poler(i), polei(i));
 
         // return value
         retval(0) = x;
-        retval(1) = zero;
+        retval(1) = pole;
     }
 
     return retval;
