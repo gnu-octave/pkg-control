@@ -24,9 +24,9 @@
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
-  [a, b, c, d] = ssdata (sys);                # system could be a descriptor model
+  [a, b, c, d, tsam, scaled] = ssdata (sys);  # system could be a descriptor model
 
-  [num, den, ign, igd, md, p, m] = sltb04bd (a, b, c, d);
+  [num, den, ign, igd, md, p, m] = sltb04bd (a, b, c, d, scaled);
 
   num = reshape (num, md, p, m);
   den = reshape (den, md, p, m);
@@ -43,7 +43,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
   num = cellfun (@(x, y) x(1:y+1), num, ign, "uniformoutput", false);
   den = cellfun (@(x, y) x(1:y+1), den, igd, "uniformoutput", false);
 
-  retsys = tf (num, den, get (sys, "tsam"));  # tsam needed to set appropriate tfvar
+  retsys = tf (num, den, tsam);               # tsam needed to set appropriate tfvar
   retlti = sys.lti;                           # preserve lti properties
   
   ## FIXME: sys = tf (ss (5))

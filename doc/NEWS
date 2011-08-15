@@ -1,6 +1,16 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   -- State-space to transfer function conversion uses now SLICOT TB04BD.
+   -- Conversion of MIMO models supported.
+   -- Usage: tf_sys = tf (ss_sys)
+
+
+===============================================================================
 control-2.1.53   Release Date: 2011-08-08   Release Manager: Lukas Reichlin
 ===============================================================================
 

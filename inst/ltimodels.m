@@ -1182,3 +1182,50 @@ endfunction
 %!assert (Co, Ce, 1e-4);
 %!assert (INFOo.SL, LSCALEe.', 1e-4);
 %!assert (INFOo.SR, RSCALEe.', 1e-4);
+
+
+## ss2tf conversion by Slicot TB04BD
+## Test provided by Slicot
+%!shared NUM, DEN, NUMe, DENe
+%! A = [ -1.0   0.0   0.0
+%!        0.0  -2.0   0.0
+%!        0.0   0.0  -3.0 ];
+%!
+%! B = [  0.0   1.0  -1.0
+%!        1.0   1.0   0.0 ].';
+%!
+%! C = [  0.0   1.0   1.0
+%!        1.0   1.0   1.0 ];
+%!
+%! D = [  1.0   0.0
+%!        0.0   1.0 ];
+%!
+%! [NUM, DEN] = tfdata (ss (A, B, C, D));
+%!
+%! NUMe = {[1, 5, 7], [1]; [1], [1, 5, 5]};
+%!
+%! DENe = {[1, 5, 6], [1, 2]; [1, 5, 6], [1, 3, 2]};
+%!
+%!assert (NUM, NUMe, 1e-4);
+%!assert (DEN, DENe, 1e-4);
+
+
+## ss2tf conversion by Slicot TB04BD
+## Trivial test
+%!shared NUM, DEN, NUMe, DENe
+%! A = [  0 ];
+%!
+%! B = [  1 ];
+%!
+%! C = [  1 ];
+%!
+%! D = [  0 ];
+%!
+%! [NUM, DEN] = tfdata (ss (A, B, C, D));
+%!
+%! NUMe = {[1]};
+%!
+%! DENe = {[1, 0]};
+%!
+%!assert (NUM, NUMe, 1e-4);
+%!assert (DEN, DENe, 1e-4);

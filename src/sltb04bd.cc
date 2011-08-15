@@ -59,7 +59,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
 
-    if (nargin != 4)
+    if (nargin != 5)
     {
         print_usage ();
     }
@@ -68,13 +68,18 @@ For internal use only.")
         // arguments in
         char jobd = 'D';
         char order = 'D';
-        // char order = 'I';
-        char equil = 'N';
+        char equil;
 
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
+        const int scaled = args(4).int_value ();
+
+        if (scaled == 0)
+            equil = 'S';
+        else
+            equil = 'N';
 
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs
