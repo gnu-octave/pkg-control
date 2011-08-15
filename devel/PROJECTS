@@ -59,8 +59,6 @@ State-Space Models:
 
   * Balancing: TB01TD ?
 
-  * Use SLICOT TB04BD for @ss/__sys2tf__.m
-
 ------------------------
 Transfer Function Models:
 ------------------------
