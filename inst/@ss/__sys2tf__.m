@@ -20,24 +20,28 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1.1
+## Version: 0.2
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
-  if (! issiso (sys))
-    error ("ss: ss2tf: MIMO case not implemented yet");
-  endif
+  [a, b, c, d] = ssdata (sys);                # system could be a descriptor model
 
-  if (isempty (sys.a))                        # static gain
-    num = sys.d;
-    den = 1;
-  else                                        # default case
-    [zer, gain] = zero (sys);
-    pol = pole (sys);
-    
-    num = gain * real (poly (zer));
-    den = real (poly (pol));
-  endif
+  [num, den, ign, igd, md, p, m] = sltb04bd (a, b, c, d);
+
+  num = reshape (num, md, p, m);
+  den = reshape (den, md, p, m);
+
+  num = mat2cell (num, md, ones(1,p), ones(1,m));
+  den = mat2cell (den, md, ones(1,p), ones(1,m));
+
+  num = squeeze (num);
+  den = squeeze (den);
+
+  ign = mat2cell (ign, ones(1,p), ones(1,m));
+  igd = mat2cell (igd, ones(1,p), ones(1,m));
+
+  num = cellfun (@(x, y) x(1:y+1), num, ign, "uniformoutput", false);
+  den = cellfun (@(x, y) x(1:y+1), den, igd, "uniformoutput", false);
 
   retsys = tf (num, den, get (sys, "tsam"));  # tsam needed to set appropriate tfvar
   retlti = sys.lti;                           # preserve lti properties

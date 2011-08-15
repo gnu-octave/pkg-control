@@ -71,7 +71,7 @@ function [n, varargout] = size (ltisys, dim = 0)
           else
             stru = "s";
           endif
-          disp (sprintf ("LTI model with %d output%s and %d input%s.", ny, stry, nu, stru));
+          disp (sprintf ("LTI model with %d output%s and %d input%s.", p, stry, m, stru));
         case 1
           n = [p, m];
         case 2

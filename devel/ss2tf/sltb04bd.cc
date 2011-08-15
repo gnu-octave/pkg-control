@@ -146,6 +146,9 @@ For internal use only.")
         retval(1) = gd;
         retval(2) = ignm;
         retval(3) = igdm;
+        retval(4) = octave_value (md);
+        retval(5) = octave_value (p);
+        retval(6) = octave_value (m);
     }
 
     return retval;
