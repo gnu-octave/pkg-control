@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,12 +20,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function display (sys)
 
   sysname = inputname (1);
-  [inname, outname] = __lti_data__ (sys.lti);
+  [inname, outname, tsam] = __lti_data__ (sys.lti);
 
   [inname, m] = __labels__ (inname, "u");
   [outname, p] = __labels__ (outname, "y");
@@ -40,7 +40,15 @@ function display (sys)
     endfor
   endfor
 
-  display (sys.lti);
+  display (sys.lti);  # display sampling time
+
+  if (tsam == -2)
+    disp ("Static gain.");
+  elseif (tsam == 0)
+    disp ("Continuous-time model.");
+  else
+    disp ("Discrete-time model.");
+  endif
 
 endfunction
 
