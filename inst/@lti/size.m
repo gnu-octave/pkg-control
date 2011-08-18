@@ -48,14 +48,14 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function [n, varargout] = size (ltisys, dim = 0)
+function [n, varargout] = size (sys, dim = 0)
 
   if (nargin > 2)
     print_usage ();
   endif
 
-  p = numel (ltisys.outname);  # WARNING: system matrices may change without
-  m = numel (ltisys.inname);   #          being noticed by the i/o names!
+  p = numel (sys.outname);  # WARNING: system matrices may change without
+  m = numel (sys.inname);   #          being noticed by the i/o names!
 
   switch (dim)
     case 0
