@@ -109,7 +109,64 @@ For internal use only.")
         
         double tol1 = args(20).double_value ();
         double tol2 = args(21).double_value ();
-        
+
+        switch (ijobv)
+        {
+            case 0:
+                jobv = 'N';
+                break;
+            case 1:
+                jobv = 'V';
+                break;
+            case 2:
+                jobv = 'I';
+                break;
+            case 3:
+                jobv = 'C';
+                break;
+            case 4:
+                jobv = 'R';
+                break;
+            default:
+                error ("slab09jd: argument jobv invalid");
+        }
+
+        switch (ijobw)
+        {
+            case 0:
+                jobw = 'N';
+                break;
+            case 1:
+                jobw = 'W';
+                break;
+            case 2:
+                jobw = 'I';
+                break;
+            case 3:
+                jobw = 'C';
+                break;
+            case 4:
+                jobw = 'R';
+                break;
+            default:
+                error ("slab09jd: argument jobw invalid");
+        }
+            
+        switch (ijobinv)
+        {
+            case 0:
+                jobinv = 'N';
+                break;
+            case 1:
+                jobinv = 'I';
+                break;
+            case 2:
+                jobinv = 'A';
+                break;
+            default:
+                error ("slab09jd: argument jobinv invalid");
+        }
+
         if (idico == 0)
             dico = 'C';
         else
@@ -120,6 +177,10 @@ For internal use only.")
         else
             equil = 'N';
 
+        if (iordsel == 0)
+            ordsel = 'F';
+        else
+            ordsel = 'A';
 
         int n = a.rows ();      // n: number of states
         int nv = av.rows ();
@@ -143,8 +204,7 @@ For internal use only.")
         int lddw = max (1, m);
 
         // arguments out
-        int ns = 0;
-
+        int ns;
         ColumnVector hsv (n);
 
         // workspace
@@ -238,11 +298,18 @@ For internal use only.")
             error ("hsvd: slab09jd: AB09JD returned info = %d", info);
 
         // resize
+        a.resize (nr, nr);
+        b.resize (nr, m);
+        c.resize (p, nr);
         hsv.resize (ns);
         
         // return values
-        retval(0) = hsv;
-        retval(1) = octave_value (ns);
+        retval(0) = a;
+        retval(1) = b;
+        retval(2) = c;
+        retval(3) = d;
+        // retval(0) = hsv;
+        // retval(1) = octave_value (ns);
     }
     
     return retval;
