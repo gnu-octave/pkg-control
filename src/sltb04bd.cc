@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 Transfer matrix of a given state-space representation (A,B,C,D),
-using the pole-zeros method.  Intended for @ss/__sys2tf__.m.
+using the pole-zeros method.
 Uses SLICOT TB04BD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 
