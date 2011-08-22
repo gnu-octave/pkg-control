@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+control-2.1.54   Release Date: 2011-08-22   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** tf
@@ -9,6 +9,10 @@ control-2.x.yy   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
       Conversion of MIMO models is now supported.  Usage: tf_sys = tf (ss_sys)
    -- Display an empty line between title and numerator for better readability.
    -- Display whether model is static, continuous- or discrete-time.
+
+** A PDF manual is included for the first time.  It is located inside the "doc"
+   folder.  It has been generated automatically from the Texinfo help strings
+   and is not yet completely sorted out.
 
 
 ===============================================================================
