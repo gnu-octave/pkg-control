@@ -36,6 +36,7 @@ function sys = __d2c__ (sys, tsam, method = "zoh")
         endif
       endif
 
+      error ("ss: d2c: zoh method not implemented yet");
       [n, m] = size (sys.b);       # n: states, m: inputs
 
       ## TODO: use SLICOT MB05OD

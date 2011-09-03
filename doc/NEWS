@@ -1,6 +1,18 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.1.55   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** @lti/c2d
+   -- Support for "tustin" method added.
+   -- Improved Texinfo string.
+
+** @lti/d2c
+   -- INDEX
+
+
+===============================================================================
 control-2.1.54   Release Date: 2011-08-22   Release Manager: Lukas Reichlin
 ===============================================================================
 

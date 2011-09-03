@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -18,12 +18,35 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
-## Convert the continuous lti model into its discrete time equivalent.
+## Convert the continuous lti model into its discrete-time equivalent.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Continuous-time LTI model.
+## @item tsam
+## Sampling time in seconds.
+## @item method
+## Optional conversion method.  If not specified, default method @var{"zoh"}
+## is taken.
+## @table @code
+## @item "zoh"
+## Zero-order hold or matrix exponential.
+## @item "tustin", "bilin"
+## Bilinear transformation or Tustin approximation.
+## @end table
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## Discrete-time LTI model.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = c2d (sys, tsam, method = "std")
 
@@ -33,6 +56,10 @@ function sys = c2d (sys, tsam, method = "std")
 
   if (! isa (sys, "lti"))
     error ("c2d: first argument is not an lti model");
+  endif
+
+  if (isdt (sys))
+    error ("c2d: system is already discrete-time");
   endif
 
   if (! issample (tsam))

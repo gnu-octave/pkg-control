@@ -19,6 +19,27 @@
 ## @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
 ## Convert the discrete lti model into its continuous-time equivalent.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Discrete-time LTI model.
+## @item method
+## Optional conversion method.  If not specified, default method @var{"zoh"}
+## is taken.
+## @table @code
+## @item "zoh"
+## Zero-order hold or matrix logarithm.
+## @item "tustin", "bilin"
+## Bilinear transformation or Tustin approximation.
+## @end table
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## Continuous-time LTI model.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -33,6 +54,10 @@ function sys = d2c (sys, method = "std")
 
   if (! isa (sys, "lti"))
     error ("d2c: first argument is not an lti model");
+  endif
+
+  if (isct (sys))
+    error ("d2c: system is already continuous-time");
   endif
 
   if (! ischar (method))
