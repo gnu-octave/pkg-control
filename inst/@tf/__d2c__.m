@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,23 +16,14 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert the continuous TF model into its discrete-time equivalent.
+## Convert the discrete TF model into its continuous-time equivalent.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
+## Created: September 2011
 ## Version: 0.1
 
-function sys = __c2d__ (sys, tsam, method = "zoh")
+function sys = __d2c__ (sys, tsam, method = "zoh")
 
-  [p, m] = size (sys);
-
-  ##switch (method)
-  ##  case {"zoh", "std"}
-      error ("tf: c2d: not implemented yet");
-
-  ##  otherwise
-  ##    error ("tf: c2d: %s is an invalid method", method);
-
-  ##endswitch
+  error ("tf: d2c: not implemented yet");
 
 endfunction

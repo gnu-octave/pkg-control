@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2011   Lukas F. Reichlin
+## Copyright (C) 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,19 +16,19 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert the continuous SS model into its discrete-time equivalent.
+## Convert the discrete SS model into its continuous-time equivalent.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
-## Version: 0.2
+## Created: September 2011
+## Version: 0.1
 
-function sys = __c2d__ (sys, tsam, method = "zoh")
+function sys = __d2c__ (sys, tsam, method = "zoh")
 
   switch (method)
     case {"zoh", "std"}
       if (! isempty (sys.e))
         if (rcond (sys.e) < eps)
-          error ("ss: c2d: zero-order hold method requires proper system");
+          error ("ss: d2c: zero-order hold method requires proper system");
         else
           sys.a = sys.e \ sys.a;
           sys.b = sys.e \ sys.b;
@@ -47,7 +47,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
     case {"tustin", "bilin"}
       if (! isempty (sys.e))
         if (rcond (sys.e) < eps)
-          error ("ss: c2d: tustin method requires proper system");
+          error ("ss: d2c: tustin method requires proper system");
         else
           sys.a = sys.e \ sys.a;
           sys.b = sys.e \ sys.b;
@@ -55,10 +55,10 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
         endif
       endif
 
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, false);
+      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, true);
 
     otherwise
-      error ("ss: c2d: %s is an invalid or missing method", method);
+      error ("ss: d2c: %s is an invalid or missing method", method);
 
   endswitch
 

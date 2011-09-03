@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,23 +16,30 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert the continuous TF model into its discrete-time equivalent.
+## @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
+## Convert the discrete lti model into its continuous-time equivalent.
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
+## Created: September 2011
 ## Version: 0.1
 
-function sys = __c2d__ (sys, tsam, method = "zoh")
+function sys = d2c (sys, method = "std")
 
-  [p, m] = size (sys);
+  if (nargin == 0 || nargin > 2)
+    print_usage ();
+  endif
 
-  ##switch (method)
-  ##  case {"zoh", "std"}
-      error ("tf: c2d: not implemented yet");
+  if (! isa (sys, "lti"))
+    error ("d2c: first argument is not an lti model");
+  endif
 
-  ##  otherwise
-  ##    error ("tf: c2d: %s is an invalid method", method);
+  if (! ischar (method))
+    error ("c2d: second argument is not a string");
+  endif
 
-  ##endswitch
+  sys = __d2c__ (sys, sys.tsam, method);
+  sys.tsam = 0;
 
 endfunction
