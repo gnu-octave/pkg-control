@@ -30,4 +30,5 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           TG01ID.f TB01XD.f MA02CD.f AB07MD.f TG01HX.f \
           MA02BD.f
 
+system ("rm *.o");
 cd (homedir);

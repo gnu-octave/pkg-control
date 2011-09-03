@@ -19,4 +19,5 @@ mkoctfile is_real_matrix.cc
 
 mkoctfile is_real_square_matrix.cc
 
+system ("rm *.o");
 cd (homedir);

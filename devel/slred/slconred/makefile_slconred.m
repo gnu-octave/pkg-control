@@ -15,3 +15,5 @@ mkoctfile SB16CD.f SB16CY.f AB09IX.f SB03OD.f MB02UD.f \
           AB09DD.f MA02AD.f MB03UD.f select.f SB03OU.f \
           MB01SD.f SB03OT.f MB04ND.f MB04OD.f SB03OR.f \
           SB03OY.f SB04PX.f MB04NY.f MB04OY.f SB03OV.f
+
+system ("rm *.o");

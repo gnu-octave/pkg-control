@@ -24,3 +24,5 @@ mkoctfile AB09HD.f TB01ID.f AB04MD.f TB01KD.f AB09HY.f \
           SB02MR.f SB02MS.f MB03QD.f SB02MU.f SB02MV.f \
           SB02MW.f MB04ND.f MB04OD.f MB03QY.f SB03OR.f \
           SB03OY.f SB04PX.f MB04NY.f MB04OY.f SB03OV.f
+
+system ("rm *.o");

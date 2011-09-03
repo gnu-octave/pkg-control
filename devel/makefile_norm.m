@@ -27,4 +27,5 @@ mkoctfile slab13dd.cc \
           MB04QF.f MB03YA.f MB03YD.f MB02RZ.f MB04QU.f \
           MB02SZ.f MB03YT.f
 
+system ("rm *.o");
 cd (homedir);

@@ -16,4 +16,5 @@ mkoctfile sltb04bd.cc \
           TB04BX.f MA02AD.f MB02RD.f MB01PD.f MB02SD.f \
           MB01QD.f
 
+system ("rm *.o");
 cd (homedir);

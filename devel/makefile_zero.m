@@ -24,4 +24,5 @@ mkoctfile slag08bd.cc \
 mkoctfile sltg04bx.cc \
           TG04BX.f MB02RD.f MB02SD.f
 
+system ("rm *.o");
 cd (homedir);

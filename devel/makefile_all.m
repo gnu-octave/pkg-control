@@ -27,4 +27,5 @@ makefile_ss2tf
 makefile_staircase
 makefile_zero
 
+system ("rm *.o");
 cd (homedir);

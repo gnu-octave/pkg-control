@@ -19,4 +19,5 @@ mkoctfile slsg02ad.cc \
           SG02AD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
           MB01SD.f MB02VD.f MB02PD.f MA02GD.f
 
+system ("rm *.o");
 cd (homedir);

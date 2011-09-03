@@ -31,4 +31,5 @@ mkoctfile slsb10zd.cc \
           MB02VD.f SB02OY.f SB02OW.f SB02OV.f SB02OU.f \
           SB02MR.f MA02GD.f SB02MV.f
 
+system ("rm *.o");
 cd (homedir);

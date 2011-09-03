@@ -21,4 +21,5 @@ mkoctfile slsg03bd.cc \
           SG03BD.f SG03BV.f SG03BU.f SG03BW.f SG03BX.f \
           SG03BY.f MB02UU.f MB02UV.f
 
+system ("rm *.o");
 cd (homedir);

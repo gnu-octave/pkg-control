@@ -19,4 +19,5 @@ mkoctfile sltb01id.cc \
 mkoctfile sltg01ad.cc \
           TG01AD.f
 
+system ("rm *.o");
 cd (homedir);

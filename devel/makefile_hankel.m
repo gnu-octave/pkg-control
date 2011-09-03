@@ -22,4 +22,5 @@ mkoctfile "-Wl,-framework" "-Wl,vecLib" \
           SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
           SB03OV.f
 
+system ("rm *.o");
 cd (homedir);

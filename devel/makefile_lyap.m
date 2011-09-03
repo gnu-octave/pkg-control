@@ -30,4 +30,5 @@ mkoctfile slsg03ad.cc \
           SG03AD.f MB01RW.f MB01RD.f SG03AX.f SG03AY.f \
           MB02UU.f MB02UV.f
 
+system ("rm *.o");
 cd (homedir);
