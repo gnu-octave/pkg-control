@@ -26,13 +26,13 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
 
   [p, m] = size (sys);
 
-  switch (method)
-    case {"zoh", "std"}
+  ##switch (method)
+  ##  case {"zoh", "std"}
       error ("tf: c2d: not implemented yet");
 
-    otherwise
-      error ("tf: c2d: %s is an invalid method", method);
+  ##  otherwise
+  ##    error ("tf: c2d: %s is an invalid method", method);
 
-  endswitch
+  ##endswitch
 
 endfunction

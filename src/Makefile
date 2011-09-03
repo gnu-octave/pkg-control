@@ -4,6 +4,7 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct sltg01jd.oct \
      sltg01hd.oct sltg01id.oct slsg02ad.oct sltg04bx.oct sltb01id.oct \
      sltg01ad.oct slsb10id.oct slsb10kd.oct slsb10zd.oct sltb04bd.oct \
+     slab04md.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct
 
@@ -211,6 +212,11 @@ sltb04bd.oct: sltb04bd.cc
               TB04BD.f MC01PY.f TB01ID.f TB01ZD.f MC01PD.f \
               TB04BX.f MA02AD.f MB02RD.f MB01PD.f MB02SD.f \
               MB01QD.f
+
+# bilinear transformation
+slab04md.oct: slab04md.cc
+	mkoctfile slab04md.cc \
+              AB04MD.f
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc
