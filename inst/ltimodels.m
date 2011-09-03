@@ -1232,6 +1232,7 @@ endfunction
 
 
 ## bilinear transformation
+## using oct-file directly
 %!shared Mo, Me
 %! A = [  1.0  0.5
 %!        0.5  1.0 ].';
@@ -1266,6 +1267,7 @@ endfunction
 
 
 ## bilinear transformation
+## user function
 %!shared Mo, Me
 %! A = [  1.0  0.5
 %!        0.5  1.0 ].';
@@ -1300,6 +1302,7 @@ endfunction
 
 
 ## bilinear transformation
+## both directions
 %!shared Mo, Me
 %! A = [  1.0  0.5
 %!        0.5  1.0 ];
