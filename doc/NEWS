@@ -10,6 +10,9 @@ control-2.1.55   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 
 ** @lti/d2c
    -- INDEX
+   
+** Conversion from descriptor to regular state-space is now performed by SLICOT
+   routine SB10JD.
 
 
 ===============================================================================

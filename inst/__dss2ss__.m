@@ -16,28 +16,21 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert the discrete SS model into its continuous-time equivalent.
+## Convert descriptor state-space system into regular state-space form.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
 ## Version: 0.1
 
-function sys = __d2c__ (sys, tsam, method = "zoh")
+function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
 
-  switch (method)
-    case {"zoh", "std"}
-      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-
-      error ("ss: d2c: zoh method not implemented yet");
-
-    case {"tustin", "bilin"}
-      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, true);
-      ## TODO: descriptor case
-
-    otherwise
-      error ("ss: d2c: %s is an invalid or missing method", method);
-
-  endswitch
+  if (isempty (e))
+    return;
+  elseif (rcond (e) < eps)  # check for singularity
+    error ("ss: dss2ss: descriptor matrice ""e"" singular");
+  else
+    [a, b, c, d] = slsb10jd (a, b, c, d, e);
+    e = [];
+  endif
 
 endfunction

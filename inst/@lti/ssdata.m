@@ -45,7 +45,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
 function [a, b, c, d, tsam, scaled] = ssdata (sys)
 
@@ -55,14 +55,7 @@ function [a, b, c, d, tsam, scaled] = ssdata (sys)
 
   [a, b, c, d, e, ~, scaled] = __sys_data__ (sys);
 
-  if (! isempty (e))
-    if (rcond (e) < eps)  # check for singularity
-      error ("ss: ssdata: descriptor matrice ""e"" singular");
-    endif
-
-    a = e \ a;
-    b = e \ b;
-  endif
+  [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e);
 
   tsam = sys.tsam;
 

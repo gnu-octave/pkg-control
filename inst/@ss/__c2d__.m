@@ -26,40 +26,20 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
 
   switch (method)
     case {"zoh", "std"}
-      if (! isempty (sys.e))
-        if (rcond (sys.e) < eps)
-          error ("ss: c2d: zero-order hold method requires proper system");
-        else
-          sys.a = sys.e \ sys.a;
-          sys.b = sys.e \ sys.b;
-          sys.e = [];              # require ordinary state-space model
-        endif
-      endif
-
+      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
       [n, m] = size (sys.b);       # n: states, m: inputs
-
       ## TODO: use SLICOT MB05OD
       tmp = expm ([sys.a*tsam, sys.b*tsam; zeros(m, n+m)]);
-
       sys.a = tmp (1:n, 1:n);      # F
       sys.b = tmp (1:n, n+(1:m));  # G
 
     case {"tustin", "bilin"}
-      if (! isempty (sys.e))
-        if (rcond (sys.e) < eps)
-          error ("ss: c2d: tustin method requires proper system");
-        else
-          sys.a = sys.e \ sys.a;
-          sys.b = sys.e \ sys.b;
-          sys.e = [];              # require ordinary state-space model
-        endif
-      endif
-
+      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
       [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, false);
+      ## TODO: descriptor case
 
     otherwise
       error ("ss: c2d: %s is an invalid or missing method", method);
-
   endswitch
 
 endfunction

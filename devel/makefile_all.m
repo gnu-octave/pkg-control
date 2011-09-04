@@ -12,6 +12,7 @@ srcdir = [develdir, "/../src"];
 cd (srcdir);
 
 makefile_chol
+makefile_conversions
 makefile_h2syn
 makefile_hankel
 makefile_helpers
@@ -23,7 +24,6 @@ makefile_ncfsyn
 makefile_norm
 makefile_place
 makefile_scale
-makefile_ss2tf
 makefile_staircase
 makefile_tustin
 makefile_zero
