@@ -27,17 +27,23 @@ function sys = __d2c__ (sys, tsam, method = "zoh")
   switch (method)
     case {"zoh", "std"}
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-
-      error ("ss: d2c: zoh method not implemented yet");
+      [n, m] = size (sys.b);       # n: states, m: inputs
+      tmp = logm ([sys.a, sys.b; zeros(m,n), eye(m)]) / tsam;
+      if (norm (imag (tmp), inf) > sqrt (eps))
+        warning ("ss: d2c: possibly inaccurate results");
+      endif
+      sys.a = real (tmp(1:n, 1:n));
+      sys.b = real (tmp(1:n, n+1:n+m));
 
     case {"tustin", "bilin"}
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
       [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, true);
       ## TODO: descriptor case
 
+    ## TODO: case "prewarp"
+
     otherwise
       error ("ss: d2c: %s is an invalid or missing method", method);
-
   endswitch
 
 endfunction

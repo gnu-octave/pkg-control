@@ -38,6 +38,8 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
       [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, false);
       ## TODO: descriptor case
 
+    ## TODO: case "prewarp"
+
     otherwise
       error ("ss: c2d: %s is an invalid or missing method", method);
   endswitch
