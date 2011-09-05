@@ -9,10 +9,13 @@ control-2.1.55   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
    -- Improved Texinfo string.
 
 ** @lti/d2c
-   -- INDEX
+   -- Discrete to continuous-time conversion added.  However, support is
+      limited to state-space models and the zero-order hold and tustin methods.
    
 ** Conversion from descriptor to regular state-space is now performed by SLICOT
-   routine SB10JD.
+   routine SB10JD.  Better numerical results are to be expected over the
+   previous naive inversion formula.  This conversion is used internally for
+   ssdata and some other functions.
 
 
 ===============================================================================

@@ -19,6 +19,7 @@ Model Data Access
   @lti/tfdata
 Model Conversions
   @lti/c2d
+  @lti/d2c
   @lti/prescale
   @lti/xperm
 Model Interconnections
