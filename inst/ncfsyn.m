@@ -161,7 +161,7 @@ function W = __adjust_weighting__ (W, s)
         W = append (W, tmp);   # stack SISO model s times
       endfor
     else                       # model is invalid
-      error ("ncfsyn: %s must have 1 or %d inputs", inputname (1), s);
+      error ("ncfsyn: %s must have 1 or %d inputs and outputs", inputname (1), s);
     endif
   endif
 
