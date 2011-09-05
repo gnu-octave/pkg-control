@@ -22,10 +22,10 @@
 ## Created: September 2011
 ## Version: 0.1
 
-function sys = __d2c__ (sys, tsam, method = "zoh")
+function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
 
-  switch (method)
-    case {"zoh", "std"}
+  switch (method(1))
+    case {"z", "s"}                # {"zoh", "std"}
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
       [n, m] = size (sys.b);       # n: states, m: inputs
       tmp = logm ([sys.a, sys.b; zeros(m,n), eye(m)]) / tsam;
@@ -35,12 +35,15 @@ function sys = __d2c__ (sys, tsam, method = "zoh")
       sys.a = real (tmp(1:n, 1:n));
       sys.b = real (tmp(1:n, n+1:n+m));
 
-    case {"tustin", "bilin"}
+    case {"t", "b", "p"}           # {"tustin", "bilin", "prewarp"}
+      if (method(1) == "p")        # prewarping
+        beta = w0 / tan (w0*tsam/2);
+      else
+        beta = 2/tsam;
+      endif
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, true);
+      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, true);
       ## TODO: descriptor case
-
-    ## TODO: case "prewarp"
 
     otherwise
       error ("ss: d2c: %s is an invalid or missing method", method);

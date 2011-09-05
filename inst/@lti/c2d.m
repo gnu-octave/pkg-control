@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
+## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{"prewarp"}, @var{w0})
 ## Convert the continuous lti model into its discrete-time equivalent.
 ##
 ## @strong{Inputs}
@@ -29,11 +30,13 @@
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
-## @table @code
+## @table @var
 ## @item "zoh"
 ## Zero-order hold or matrix exponential.
 ## @item "tustin", "bilin"
 ## Bilinear transformation or Tustin approximation.
+## @item "prewarp"
+## Bilinear transformation with pre-warping at frequency @var{w0}.
 ## @end table
 ## @end table
 ##
@@ -48,9 +51,9 @@
 ## Created: October 2009
 ## Version: 0.2
 
-function sys = c2d (sys, tsam, method = "std")
+function sys = c2d (sys, tsam, method = "std", w0 = 0)
 
-  if (nargin < 2 || nargin > 3)
+  if (nargin < 2 || nargin > 4)
     print_usage ();
   endif
 
@@ -70,7 +73,7 @@ function sys = c2d (sys, tsam, method = "std")
     error ("c2d: third argument is not a string");
   endif
 
-  sys = __c2d__ (sys, tsam, method);
+  sys = __c2d__ (sys, tsam, lower (method), w0);
   sys.tsam = tsam;
 
 endfunction

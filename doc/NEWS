@@ -5,12 +5,13 @@ control-2.1.55   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** @lti/c2d
-   -- Support for "tustin" method added.
+   -- Support for "tustin" and "prewarp" method added.
    -- Improved Texinfo string.
 
 ** @lti/d2c
    -- Discrete to continuous-time conversion added.  However, support is
-      limited to state-space models and the zero-order hold and tustin methods.
+      limited to state-space models and the zero-order hold, tustin and pre-
+      warping methods.
    
 ** Conversion from descriptor to regular state-space is now performed by SLICOT
    routine SB10JD.  Better numerical results are to be expected over the

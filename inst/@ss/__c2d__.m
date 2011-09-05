@@ -22,10 +22,10 @@
 ## Created: October 2009
 ## Version: 0.2
 
-function sys = __c2d__ (sys, tsam, method = "zoh")
+function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
-  switch (method)
-    case {"zoh", "std"}
+  switch (method(1))
+    case {"z", "s"}                # {"zoh", "std"}
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
       [n, m] = size (sys.b);       # n: states, m: inputs
       ## TODO: use SLICOT MB05OD
@@ -33,12 +33,15 @@ function sys = __c2d__ (sys, tsam, method = "zoh")
       sys.a = tmp (1:n, 1:n);      # F
       sys.b = tmp (1:n, n+(1:m));  # G
 
-    case {"tustin", "bilin"}
+    case {"t", "b", "p"}           # {"tustin", "bilin", "prewarp"}
+      if (method(1) == "p")        # prewarping
+        beta = w0 / tan (w0*tsam/2);
+      else
+        beta = 2/tsam;
+      endif
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, 2/tsam, false);
+      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, false);
       ## TODO: descriptor case
-
-    ## TODO: case "prewarp"
 
     otherwise
       error ("ss: c2d: %s is an invalid or missing method", method);

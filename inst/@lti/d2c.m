@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
+## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{"prewarp"}, @var{w0})
 ## Convert the discrete lti model into its continuous-time equivalent.
 ##
 ## @strong{Inputs}
@@ -27,11 +28,13 @@
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
-## @table @code
+## @table @var
 ## @item "zoh"
 ## Zero-order hold or matrix logarithm.
 ## @item "tustin", "bilin"
 ## Bilinear transformation or Tustin approximation.
+## @item "prewarp"
+## Bilinear transformation with pre-warping at frequency @var{w0}.
 ## @end table
 ## @end table
 ##
@@ -46,9 +49,9 @@
 ## Created: September 2011
 ## Version: 0.1
 
-function sys = d2c (sys, method = "std")
+function sys = d2c (sys, method = "std", w0 = 0)
 
-  if (nargin == 0 || nargin > 2)
+  if (nargin == 0 || nargin > 3)
     print_usage ();
   endif
 
@@ -64,7 +67,7 @@ function sys = d2c (sys, method = "std")
     error ("d2c: second argument is not a string");
   endif
 
-  sys = __d2c__ (sys, sys.tsam, method);
+  sys = __d2c__ (sys, sys.tsam, lower (method), w0);
   sys.tsam = 0;
 
 endfunction
