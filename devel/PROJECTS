@@ -13,10 +13,6 @@ General:
   * Multiplot feature for time and frequency response functions.
     sigma (sys1, sys2, ...), step (sys1, "b", sys2, "r", ...)
 
-  * Improve c2d, e.g. "tustin" option.
-
-  * Implement d2c.
-
   * Improve @lti/subsasgn.m
 
   * Improve @lti/parallel.m
@@ -47,6 +43,8 @@ General:
     -- Handle conflicting names for __sys_group__.
     -- Beware of indices not in ascending order.
 
+  * Fix PDF manual.  For unknown reasons, Texinfo produces an incomplete document.
+
 -----------------------
 Frequency Response Data:
 -----------------------
@@ -70,6 +68,8 @@ Transfer Function Models:
   * Use SLICOT (TD04AD?) for tf2ss conversion (@tf/__sys2ss__.m)
 
   * Implement c2d conversion (@tf/__c2d__.m)
+  
+  * Implement d2c conversion (@tf/__d2c__.m)
 
 ------
 Always:
