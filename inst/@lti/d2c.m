@@ -61,7 +61,7 @@ function sys = d2c (sys, method = "std")
   endif
 
   if (! ischar (method))
-    error ("c2d: second argument is not a string");
+    error ("d2c: second argument is not a string");
   endif
 
   sys = __d2c__ (sys, sys.tsam, method);
