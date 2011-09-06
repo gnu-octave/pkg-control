@@ -6,6 +6,7 @@ control-2.1.55   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 
 ** @lti/c2d
    -- Support for "tustin" and "prewarp" method added.
+   -- Transfer functions are now supported via the state-space methods.
    -- Improved Texinfo string.
 
 ** @lti/d2c
