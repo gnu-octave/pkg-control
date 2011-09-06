@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Discrete-time LTI model.
+## Discrete-time LTI model.  Only state-space models have been implemented so far.
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
@@ -65,6 +65,10 @@ function sys = d2c (sys, method = "std", w0 = 0)
 
   if (! ischar (method))
     error ("d2c: second argument is not a string");
+  endif
+
+  if (! issample (w0, 0))
+    error ("d2c: third argument is not a valid pre-warping frequency");
   endif
 
   sys = __d2c__ (sys, sys.tsam, lower (method), w0);

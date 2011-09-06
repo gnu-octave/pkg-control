@@ -1346,3 +1346,26 @@ endfunction
 %!
 %!assert (Mo, Me, 1e-4);
 
+
+## bilinear transformation with pre-warping
+## both directions
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  1.0  0.0
+%!        0.0 -1.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (d2c (c2d (ss (A, B, C, D), 2, "prewarp", 1000), "prewarp", 1000));
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [A, B; C, D];
+%!
+%!assert (Mo, Me, 1e-4);
+

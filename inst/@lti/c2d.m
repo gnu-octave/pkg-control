@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous-time LTI model.
+## Continuous-time LTI model.  Only state-space models have been implemented so far.
 ## @item tsam
 ## Sampling time in seconds.
 ## @item method
@@ -71,6 +71,10 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
 
   if (! ischar (method))
     error ("c2d: third argument is not a string");
+  endif
+
+  if (! issample (w0, 0))
+    error ("c2d: fourth argument is not a valid pre-warping frequency");
   endif
 
   sys = __c2d__ (sys, tsam, lower (method), w0);
