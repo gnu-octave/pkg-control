@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Discrete-time LTI model.  Only state-space models have been implemented so far.
+## Discrete-time LTI model.
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.

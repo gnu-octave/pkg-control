@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous-time LTI model.  Only state-space models have been implemented so far.
+## Continuous-time LTI model.
 ## @item tsam
 ## Sampling time in seconds.
 ## @item method

@@ -22,8 +22,21 @@
 ## Created: September 2011
 ## Version: 0.1
 
-function sys = __d2c__ (sys, tsam, method = "zoh")
+function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
 
-  error ("tf: d2c: not implemented yet");
+  [p, m] = size (sys);
+
+  for i = 1 : p
+    for j = 1 : m
+      idx = substruct ("()", {i, j});
+      tmp = subsref (sys, idx);
+      tmp = d2c (ss (tmp), method, w0);
+      [num, den] = tfdata (tmp, "tfpoly");
+      sys.num(i, j) = num;
+      sys.den(i, j) = den;
+    endfor
+  endfor
+
+  sys.tfvar = "s";
 
 endfunction

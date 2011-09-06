@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,19 +20,23 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function sys = __c2d__ (sys, tsam, method = "zoh")
+function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
   [p, m] = size (sys);
 
-  ##switch (method)
-  ##  case {"zoh", "std"}
-      error ("tf: c2d: not implemented yet");
+  for i = 1 : p
+    for j = 1 : m
+      idx = substruct ("()", {i, j});
+      tmp = subsref (sys, idx);
+      tmp = c2d (ss (tmp), tsam, method, w0);
+      [num, den] = tfdata (tmp, "tfpoly");
+      sys.num(i, j) = num;
+      sys.den(i, j) = den;
+    endfor
+  endfor
 
-  ##  otherwise
-  ##    error ("tf: c2d: %s is an invalid method", method);
-
-  ##endswitch
+  sys.tfvar = "z";
 
 endfunction
