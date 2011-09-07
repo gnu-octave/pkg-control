@@ -449,7 +449,63 @@
 
  @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
  @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
- Convert the continuous lti model into its discrete time equivalent.
+ @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{"prewarp"}, @var{w0})
+ Convert the continuous lti model into its discrete-time equivalent.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ Continuous-time LTI model.
+ @item tsam
+ Sampling time in seconds.
+ @item method
+ Optional conversion method.  If not specified, default method @var{"zoh"}
+ is taken.
+ @table @var
+ @item "zoh"
+ Zero-order hold or matrix exponential.
+ @item "tustin", "bilin"
+ Bilinear transformation or Tustin approximation.
+ @item "prewarp"
+ Bilinear transformation with pre-warping at frequency @var{w0}.
+ @end table
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Discrete-time LTI model.
+ @end table
+ @end deftypefn
+@subsection @@lti/d2c
+
+ @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
+ @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
+ @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{"prewarp"}, @var{w0})
+ Convert the discrete lti model into its continuous-time equivalent.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ Discrete-time LTI model.
+ @item method
+ Optional conversion method.  If not specified, default method @var{"zoh"}
+ is taken.
+ @table @var
+ @item "zoh"
+ Zero-order hold or matrix logarithm.
+ @item "tustin", "bilin"
+ Bilinear transformation or Tustin approximation.
+ @item "prewarp"
+ Bilinear transformation with pre-warping at frequency @var{w0}.
+ @end table
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Continuous-time LTI model.
+ @end table
  @end deftypefn
 @subsection @@lti/prescale
 

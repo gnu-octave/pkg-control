@@ -67,10 +67,6 @@ Transfer Function Models:
 
   * Use SLICOT (TD04AD?) for tf2ss conversion (@tf/__sys2ss__.m)
 
-  * Implement c2d conversion (@tf/__c2d__.m)
-  
-  * Implement d2c conversion (@tf/__d2c__.m)
-
 ------
 Always:
 ------
