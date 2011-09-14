@@ -62,7 +62,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
 
-    if (nargin != 5)
+    if (nargin != 3)
     {
         print_usage ();
     }
@@ -73,23 +73,28 @@ For internal use only.")
 
         NDArray ucoeff = args(0).array_value ();
         Matrix dcoeff = args(1).matrix_value ();
+        RowVector index = args(2).matrix_value ();
 
-        Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        Matrix d = args(3).matrix_value ();
-        const int scaled = args(4).int_value ();
+        int p = ucoeff.rows ();      // p: number of outputs
+        int m = ucoeff.columns ();   // m: number of inputs
+        int n = index.sum ();
 
-        int m = ucoeff.size (2);   // m: number of inputs
-        int p = ucoeff.size (1);   // p: number of outputs
-        int md = n + 1;
-
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        int lddcoe = max (1, p);     // TODO: handle case ucoeff.rows = 0
+        int lduco1 = max (1, p);
+        int lduco2 = max (1, m);
 
         // arguments out
+        int lda = max (1, n);
+        int ldb = max (1, n);
+        int ldc = max (1, m, p);
+        int ldd = max (1, p);
+        
+        Matrix a (lda, n);
+        Matrix b (ldb, max (m, p));
+        Matrix c (ldc, n);
+        Matrix d (ldd, m);
+
+
         int ldign = max (1, p);
         int ldigd = max (1, p);
         int lg = p * m * md;
