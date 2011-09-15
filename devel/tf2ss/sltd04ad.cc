@@ -73,15 +73,22 @@ For internal use only.")
 
         NDArray ucoeff = args(0).array_value ();
         Matrix dcoeff = args(1).matrix_value ();
-        Matrix index = args(2).matrix_value ();
+        Matrix indexd = args(2).matrix_value ();
 
         int p = ucoeff.rows ();      // p: number of outputs
         int m = ucoeff.columns ();   // m: number of inputs
-        int n = index.sum ();
 
         int lddcoe = max (1, p);     // TODO: handle case ucoeff.rows = 0
         int lduco1 = max (1, p);
         int lduco2 = max (1, m);
+        
+        int n = 0;
+        OCTAVE_LOCAL_BUFFER (int, index, p);
+        for (octave_idx_type i = 0; i < p; i++)
+        {
+            index[i] = indexd.xelem (i);
+            n += index[i];
+        }
 
         // arguments out
         int nr;
