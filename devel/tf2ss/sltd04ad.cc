@@ -40,7 +40,7 @@ extern "C"
                  (char& ROWCOL,
                   int& M, int& P,
                   int* INDEX,
-                  double* DCOEFF, int& LDDCOE
+                  double* DCOEFF, int& LDDCOE,
                   double* UCOEFF, int& LDUCO1, int& LDUCO2,
                   int& NR,
                   double* A, int& LDA,
@@ -73,7 +73,7 @@ For internal use only.")
 
         NDArray ucoeff = args(0).array_value ();
         Matrix dcoeff = args(1).matrix_value ();
-        RowVector index = args(2).matrix_value ();
+        Matrix index = args(2).matrix_value ();
 
         int p = ucoeff.rows ();      // p: number of outputs
         int m = ucoeff.columns ();   // m: number of inputs
@@ -84,6 +84,7 @@ For internal use only.")
         int lduco2 = max (1, m);
 
         // arguments out
+        int nr;
         int lda = max (1, n);
         int ldb = max (1, n);
         int ldc = max (1, m, p);
@@ -94,27 +95,13 @@ For internal use only.")
         Matrix c (ldc, n);
         Matrix d (ldd, m);
 
-
-        int ldign = max (1, p);
-        int ldigd = max (1, p);
-        int lg = p * m * md;
-
-        OCTAVE_LOCAL_BUFFER (int, ign, ldign*m);
-        OCTAVE_LOCAL_BUFFER (int, igd, ldigd*m);
-        
-        Matrix ignm (ldign, m);
-        Matrix igdm (ldigd, m);
-
-        RowVector gn (lg);
-        RowVector gd (lg);
-
         // tolerance
         double tol = 0;  // use default value
 
         // workspace
-        int ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 5)));
+        int ldwork = max (1, n + max (n, 3*m, 3*p));
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, n);
+        OCTAVE_LOCAL_BUFFER (int, iwork, n + max (m, p));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
@@ -139,19 +126,22 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("are: sltd04ad: exception in SLICOT subroutine TD04AD");
+            error ("tf2ss: sltd04ad: exception in SLICOT subroutine TD04AD");
 
         if (info != 0)
-            error ("are: sltd04ad: TD04AD returned info = %d", info);
+            error ("tf2ss: sltd04ad: TD04AD returned info = %d", info);
+
+        // resize
+        a.resize (nr, nr);
+        b.resize (nr, m);
+        c.resize (p, nr);
+        d.resize (p, m);
 
         // return values
-        retval(0) = gn;
-        retval(1) = gd;
-        retval(2) = ignm;
-        retval(3) = igdm;
-        retval(4) = octave_value (md);
-        retval(5) = octave_value (p);
-        retval(6) = octave_value (m);
+        retval(0) = a;
+        retval(1) = b;
+        retval(2) = c;
+        retval(3) = d;
     }
 
     return retval;
