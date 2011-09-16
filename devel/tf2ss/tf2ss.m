@@ -4,6 +4,9 @@ num = {[1, 5, 7], [1]; [1, 7], [1, 5, 5]};
 den = {[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]};
 sys = tf (num, den)
 
+sys = tf (1, [1, 0])
+sys = tf (1, [1, 1])
+
 % __conv__ (num{:})
 
   [p, m] = size (sys);
@@ -35,17 +38,22 @@ sys = tf (num, den)
 
   ucoeff = zeros (p, m, max_len_denc);
   dcoeff = zeros (p, max_len_denc);
-  index = (max_len_denc-1) * ones (p, 1);
+  index = len_denc-1;
 
   for i = 1 : p
+    len = len_denc(i)
+    dcoeff(i, 1:len) = denc{i};
     for j = 1 : m
-      len = len_numc(i,j);
-      ucoeff(i, j, max_len_denc-len+1 : max_len_denc) = numc{i,j};
+      ucoeff(i, j, len-len_numc(i,j)+1 : len) = numc{i,j};
     endfor
-    len = len_denc(i);
-    dcoeff(i, max_len_denc-len+1 : max_len_denc) = denc{i};
   endfor
-ucoeff, dcoeff, index
+numc, denc
+ucoeff(1,1,:)(:).'
+%ucoeff(1,2,:)(:).'
+%ucoeff(2,1,:)(:).'
+%ucoeff(2,2,:)(:).'
+dcoeff, index
+
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index);
 
   retsys = ss (a, b, c, d);
