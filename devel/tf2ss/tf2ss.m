@@ -4,10 +4,13 @@ num = {[1, 5, 7], [1]; [1, 7], [1, 5, 5]};
 den = {[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]};
 sys = tf (num, den)
 
+%{
 sys = tf (1, [1, 0])
 sys = tf (1, [1, 1])
 
-% __conv__ (num{:})
+sys = tf (1, conv ([1, 1, 1], [1, 4, 6, 4, 1]))
+sys = tf (WestlandLynx)
+%}
 
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
@@ -41,19 +44,20 @@ sys = tf (1, [1, 1])
   index = len_denc-1;
 
   for i = 1 : p
-    len = len_denc(i)
+    len = len_denc(i);
     dcoeff(i, 1:len) = denc{i};
     for j = 1 : m
       ucoeff(i, j, len-len_numc(i,j)+1 : len) = numc{i,j};
     endfor
   endfor
+%{
 numc, denc
 ucoeff(1,1,:)(:).'
 %ucoeff(1,2,:)(:).'
 %ucoeff(2,1,:)(:).'
 %ucoeff(2,2,:)(:).'
 dcoeff, index
-
+%}
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index);
 
   retsys = ss (a, b, c, d);
