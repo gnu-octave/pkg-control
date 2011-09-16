@@ -35,7 +35,7 @@ sys = tf (num, den)
 
   ucoeff = zeros (p, m, max_len_denc);
   dcoeff = zeros (p, max_len_denc);
-  index = max_len_denc * ones (p, 1);
+  index = (max_len_denc-1) * ones (p, 1);
 
   for i = 1 : p
     for j = 1 : m
@@ -45,7 +45,7 @@ sys = tf (num, den)
     len = len_denc(i);
     dcoeff(i, max_len_denc-len+1 : max_len_denc) = denc{i};
   endfor
-ucoeff, dcoeff
+ucoeff, dcoeff, index
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index);
 
   retsys = ss (a, b, c, d);
