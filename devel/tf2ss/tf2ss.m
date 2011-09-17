@@ -10,6 +10,9 @@ sys = tf (1, [1, 1])
 
 sys = tf (1, conv ([1, 1, 1], [1, 4, 6, 4, 1]))
 sys = tf (WestlandLynx)
+
+sys = tf ()
+sys = tf ("s")
 %}
 
   [p, m] = size (sys);
@@ -35,9 +38,10 @@ sys = tf (WestlandLynx)
   max_len_denc = max (len_denc(:));
 
   ## tfpoly ensures that there are no leading zeros
-  if (length (max_len_numc) > length (max_len_denc))
+  if (max_len_numc > max_len_denc)
     error ("tf: tf2ss: system must be proper");
   endif
+  ## TODO: check for each row individually!
 
   ucoeff = zeros (p, m, max_len_denc);
   dcoeff = zeros (p, max_len_denc);
