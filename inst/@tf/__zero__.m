@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,18 +20,18 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function [zer, gain] = __zero__ (sys)
 
   if (issiso (sys))
     num = get (sys.num{1});
     den = get (sys.den{1});
-
     zer = roots (num);
     gain = num(1) / den(1);
   else
-    error ("tf: zero: mimo case not implemented yet");
+    warning ("tf: zero: converting to minimal state-space for zeros of mimo tf");
+    [zer, gain] = zero (ss (sys));
   endif
 
 endfunction

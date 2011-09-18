@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,14 +20,15 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function pol = __pole__ (sys)
 
   if (issiso (sys))
     pol = roots (sys.den{1});
   else
-    error ("tf: pole: mimo case not implemented yet");
+    warning ("tf: pole: converting to minimal state-space for poles of mimo tf");
+    pol = pole (ss (sys));
   endif
 
 endfunction

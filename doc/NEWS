@@ -1,6 +1,21 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.2.0   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ss
+   -- Transfer function to state-space conversion uses now SLICOT TD04AD.
+      Conversion of MIMO models is now supported.  Usage: ss_sys = ss (tf_sys)
+
+** @lti/pole, @lti/zero
+   -- Computation of poles and zeros of MIMO transfer functions is now possible
+      via conversion to state-space.  Please note that the state-space
+      realization of SLICOT TD04AD is a minimal one.  Therefore certain poles
+      and zeros might be missing.
+
+
+===============================================================================
 control-2.1.55   Release Date: 2011-09-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
