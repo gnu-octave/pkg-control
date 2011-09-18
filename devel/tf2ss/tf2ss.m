@@ -2,7 +2,7 @@ function retsys = tf2ss ()
 
 num = {[1, 5, 7], [1]; [1, 7], [1, 5, 5]};
 den = {[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]};
-sys = tf (num, den)
+sys = tf (num, den);
 
 %{
 sys = tf (1, [1, 0])
@@ -14,7 +14,7 @@ sys = tf ()
 sys = tf ("s")
 %}
 
-sys = tf (WestlandLynx)
+sys = tf (WestlandLynx);
 tol = sqrt (eps)
 
   [p, m] = size (sys);
@@ -36,15 +36,13 @@ tol = sqrt (eps)
   len_numc = cellfun (@length, numc);
   len_denc = cellfun (@length, denc);
   
-  max_len_numc = max (len_numc(:));
-  max_len_denc = max (len_denc(:));
-
   ## tfpoly ensures that there are no leading zeros
-  if (max_len_numc > max_len_denc)
+  tmp = len_numc > repmat (len_denc, 1, m);
+  if (any (tmp(:)))
     error ("tf: tf2ss: system must be proper");
   endif
-  ## TODO: check for each row individually!
 
+  max_len_denc = max (len_denc(:));
   ucoeff = zeros (p, m, max_len_denc);
   dcoeff = zeros (p, max_len_denc);
   index = len_denc-1;
@@ -56,14 +54,7 @@ tol = sqrt (eps)
       ucoeff(i, j, len-len_numc(i,j)+1 : len) = numc{i,j};
     endfor
   endfor
-%{
-numc, denc
-ucoeff(1,1,:)(:).'
-%ucoeff(1,2,:)(:).'
-%ucoeff(2,1,:)(:).'
-%ucoeff(2,2,:)(:).'
-dcoeff, index
-%}
+
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
 
   retsys = ss (a, b, c, d);
