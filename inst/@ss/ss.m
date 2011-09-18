@@ -101,51 +101,51 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
   ## inferiorto ("frd");
   superiorto ("zpk", "tf", "double");
 
-  argc = 0;                           # initialize argument count
-  tsam = 0;                           # initialize sampling time
+  argc = 0;                             # initialize argument count
+  tsam = 0;                             # initialize sampling time
 
   if (nargin == 1)
-    if (isa (a, "ss"))                # already in ss form
+    if (isa (a, "ss"))                  # already in ss form  sys = ss (sssys)
       sys = a;
       return;
-    elseif (isa (a, "lti"))           # another lti object
+    elseif (isa (a, "lti"))             # another lti object  sys = ss (sys)
       [sys, alti] = __sys2ss__ (a);
-      sys.lti = alti;                 # preserve lti properties
+      sys.lti = alti;                   # preserve lti properties
       return;
-    elseif (is_real_matrix (a))       # static gain  sys = ss (5)
+    elseif (is_real_matrix (a))         # static gain  sys = ss (5), sys = ss (matrix)
       d = a;
       a = [];
     else
       print_usage ();
     endif
-  elseif (nargin > 4)                 # default case  sys = ss (a, b, c, d, "prop1", val1, ...)
-    argc = numel (varargin);          # number of additional arguments after d
-    if (issample (varargin{1}, -10))  # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
-      tsam = varargin{1};
-      argc--;
-      if (argc > 0)
-        varargin = varargin(2:end);
+  elseif (nargin > 4)                   # default case  sys = ss (a, b, c, d, "prop1", val1, ...)
+    argc = numel (varargin);            # number of additional arguments after d
+    if (issample (varargin{1}, -10))    # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
+      tsam = varargin{1};               # sampling time, could be 0 as well
+      argc--;                           # tsam is not a property-value pair
+      if (argc > 0)                     # if there are any properties and values ...
+        varargin = varargin(2:end);     # remove tsam from property-value list
       endif
     endif
-  endif                               # nothing to do for ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
+  endif                                 # nothing to do for ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
 
   [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
-  [p, m, n] = __ss_dim__ (a, b, c, d);
+  [p, m, n] = __ss_dim__ (a, b, c, d);  # determine number of outputs, inputs and states
 
-  stname = repmat ({""}, n, 1);
+  stname = repmat ({""}, n, 1);         # cell with empty state names
 
   ssdata = struct ("a", a, "b", b,
                    "c", c, "d", d,
                    "e", [],
                    "stname", {stname},
-                   "scaled", false);
+                   "scaled", false);    # struct for ss-specific data
 
-  ltisys = lti (p, m, tsam);
+  ltisys = lti (p, m, tsam);            # parent class for general lti data
 
-  sys = class (ssdata, "ss", ltisys);
+  sys = class (ssdata, "ss", ltisys);   # create ss object
 
-  if (argc > 0)
-    sys = set (sys, varargin{:});
+  if (argc > 0)                         # if there are any properties and values, ...
+    sys = set (sys, varargin{:});       # use the general set function
   endif
 
 endfunction

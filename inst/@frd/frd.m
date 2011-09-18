@@ -100,7 +100,7 @@ function sys = frd (H = [], w = [], varargin)
     otherwise                           # default case
       argc = numel (varargin);          # number of additional arguments after H and w
       if (issample (varargin{1}, -10))  # sys = frd (H, w, tsam, "prop1", val1, ...)
-        tsam = varargin{1};             # discrete-time
+        tsam = varargin{1};             # sampling time, could be 0 as well
         argc--;                         # tsam is not a property-value pair
         if (argc > 0)                   # if there are any properties and values ...
           varargin = varargin(2:end);   # remove tsam from property-value list
@@ -111,7 +111,7 @@ function sys = frd (H = [], w = [], varargin)
   endswitch
 
   [H, w] = __adjust_frd_data__ (H, w);
-  [p, m] = __frd_dim__ (H, w);
+  [p, m] = __frd_dim__ (H, w);          # determine number of outputs and inputs
 
   frdata = struct ("H", H, "w", w);     # struct for frd-specific data
   ltisys = lti (p, m, tsam);            # parent class for general lti data

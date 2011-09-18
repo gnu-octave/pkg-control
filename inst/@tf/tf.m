@@ -84,28 +84,28 @@ function sys = tf (num = {}, den = {}, varargin)
   ## inferiorto ("frd", "ss", "zpk");          # error if de-commented. bug in octave?
   superiorto ("double");
 
-  argc = 0;
+  argc = 0;                                    # initialize argument count
 
   switch (nargin)
-    case 0
-      tsam = -2;
-      tfvar = "x";                             # undefined
+    case 0                                     # sys = tf ()
+      tsam = -2;                               # undefined sampling time
+      tfvar = "x";                             # undefined transfer function variable
 
     case 1
-      if (isa (num, "tf"))                     # already in tf form
+      if (isa (num, "tf"))                     # already in tf form  sys = tf (tfsys)
         sys = num;
         return;
-      elseif (isa (num, "lti"))                # another lti object
+      elseif (isa (num, "lti"))                # another lti object  sys = tf (sys)
         [sys, numlti] = __sys2tf__ (num);
         sys.lti = numlti;                      # preserve lti properties
         return;
-      elseif (is_real_matrix (num))            # static gain
+      elseif (is_real_matrix (num))            # static gain  sys = tf (4), sys = tf (matrix)
         num = num2cell (num);
         num = __vec2tfpoly__ (num);
         [p, m] = size (num);
-        den = tfpolyones (p, m);
-        tsam = -2;
-        tfvar = "x";                           # undefined
+        den = tfpolyones (p, m);               # denominators are all 1
+        tsam = -2;                             # undefined sampling time
+        tfvar = "x";                           # undefined transfer function variable
       elseif (ischar (num))                    # s = tf ("s")
         tfvar = num;
         num = __vec2tfpoly__ ([1, 0]);
@@ -128,44 +128,39 @@ function sys = tf (num = {}, den = {}, varargin)
         tsam = 0;
       endif
 
-    otherwise                                  # default case
+    otherwise                                  # default case  sys = tf (num, den, ...)
       num = __vec2tfpoly__ (num);
       den = __vec2tfpoly__ (den);
-      argc = numel (varargin);
-
+      argc = numel (varargin);                 # number of additional arguments after num and den
       if (issample (varargin{1}, -10))         # sys = tf (num, den, tsam, "prop1", val1, ...)
-        tsam = varargin{1};
-        argc--;
-        
+        tsam = varargin{1};                    # sampling time, could be 0 as well
+        argc--;                                # tsam is not a property-value pair
         if (tsam == 0)
           tfvar = "s";
         else
           tfvar = "z";
         endif
-        
-        if (argc > 0)
-          varargin = varargin(2:end);
+        if (argc > 0)                          # if there are any properties and values ...
+          varargin = varargin(2:end);          # remove tsam from property-value list
         endif
       else                                     # sys = tf (num, den, "prop1", val1, ...)
-        tsam = 0;
+        tsam = 0;                              # continuous-time
         tfvar = "s";
       endif
-
   endswitch
 
-
-  [p, m] = __tf_dim__ (num, den);
+  [p, m] = __tf_dim__ (num, den);              # determine number of outputs and inputs
 
   tfdata = struct ("num", {num},
                    "den", {den},
-                   "tfvar", tfvar);
+                   "tfvar", tfvar);            # struct for tf-specific data
 
-  ltisys = lti (p, m, tsam);
+  ltisys = lti (p, m, tsam);                   # parent class for general lti data
 
-  sys = class (tfdata, "tf", ltisys);
+  sys = class (tfdata, "tf", ltisys);          # create tf object
 
-  if (argc > 0)
-    sys = set (sys, varargin{:});
+  if (argc > 0)                                # if there are any properties and values, ...
+    sys = set (sys, varargin{:});              # use the general set function
   endif
 
 endfunction
