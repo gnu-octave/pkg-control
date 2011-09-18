@@ -30,7 +30,7 @@ function [zer, gain] = __zero__ (sys)
     zer = roots (num);
     gain = num(1) / den(1);
   else
-    warning ("tf: zero: converting to minimal state-space for zeros of mimo tf");
+    warning ("tf: zero: converting to minimal state-space for zero computation of mimo tf");
     [zer, gain] = zero (ss (sys));
   endif
 
