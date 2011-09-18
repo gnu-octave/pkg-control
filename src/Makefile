@@ -4,7 +4,7 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct sltg01jd.oct \
      sltg01hd.oct sltg01id.oct slsg02ad.oct sltg04bx.oct sltb01id.oct \
      sltg01ad.oct slsb10id.oct slsb10kd.oct slsb10zd.oct sltb04bd.oct \
-     slab04md.oct slsb10jd.oct \
+     slab04md.oct slsb10jd.oct sltd04ad.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct
 
@@ -222,6 +222,12 @@ slab04md.oct: slab04md.cc
 slsb10jd.oct: slsb10jd.cc
 	mkoctfile slsb10jd.cc \
               SB10JD.f
+
+# transfer function to state-space conversion
+sltd04ad.oct: sltd04ad.cc
+	mkoctfile sltd04ad.cc \
+              TD04AD.f TD03AY.f TB01PD.f TB01XD.f AB07MD.f \
+              TB01UD.f TB01ID.f MB01PD.f MB03OY.f MB01QD.f
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc

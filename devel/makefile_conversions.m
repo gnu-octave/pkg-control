@@ -21,5 +21,10 @@ mkoctfile sltb04bd.cc \
 mkoctfile slsb10jd.cc \
           SB10JD.f
 
+## transfer function to state-space
+mkoctfile sltd04ad.cc \
+          TD04AD.f TD03AY.f TB01PD.f TB01XD.f AB07MD.f \
+          TB01UD.f TB01ID.f MB01PD.f MB03OY.f MB01QD.f
+
 system ("rm *.o");
 cd (homedir);
