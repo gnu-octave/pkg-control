@@ -62,7 +62,7 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
 
-    if (nargin != 3)
+    if (nargin != 4)
     {
         print_usage ();
     }
@@ -74,6 +74,7 @@ For internal use only.")
         NDArray ucoeff = args(0).array_value ();
         Matrix dcoeff = args(1).matrix_value ();
         Matrix indexd = args(2).matrix_value ();
+        double tol = args(3).double_value ();
 
         int p = ucoeff.rows ();      // p: number of outputs
         int m = ucoeff.columns ();   // m: number of inputs
@@ -101,9 +102,6 @@ For internal use only.")
         Matrix b (ldb, max (m, p));
         Matrix c (ldc, n);
         Matrix d (ldd, m);
-
-        // tolerance
-        double tol = 0;  // use default value
 
         // workspace
         int ldwork = max (1, n + max (n, 3*m, 3*p));

@@ -9,11 +9,13 @@ sys = tf (1, [1, 0])
 sys = tf (1, [1, 1])
 
 sys = tf (1, conv ([1, 1, 1], [1, 4, 6, 4, 1]))
-sys = tf (WestlandLynx)
 
 sys = tf ()
 sys = tf ("s")
 %}
+
+sys = tf (WestlandLynx)
+tol = sqrt (eps)
 
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
@@ -62,7 +64,7 @@ ucoeff(1,1,:)(:).'
 %ucoeff(2,2,:)(:).'
 dcoeff, index
 %}
-  [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index);
+  [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
 
   retsys = ss (a, b, c, d);
 
