@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -29,10 +29,12 @@
 ## LTI model to be converted to transfer function.
 ## @item num
 ## Numerator or cell of numerators.  Each numerator must be a row vector
-## containing the exponents of the polynomial in descending order.
+## containing the coefficients of the polynomial in descending powers of
+## the transfer function variable.
 ## @item den
 ## Denominator or cell of denominators.  Each denominator must be a row vector
-## containing the exponents of the polynomial in descending order.
+## containing the coefficients of the polynomial in descending powers of
+## the transfer function variable.
 ## @item tsam
 ## Sampling time in seconds.  If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
@@ -54,20 +56,49 @@
 ## octave:2> G = 1/(s+1)
 ##
 ## Transfer function "G" from input "u1" to output ...
+## 
 ##         1  
 ##  y1:  -----
 ##       s + 1
-##
+## 
+## Continuous-time model.
 ## octave:3> z = tf ("z", 0.2);
 ## octave:4> H = 0.095/(z-0.9)
 ## 
 ## Transfer function "H" from input "u1" to output ...
+## 
 ##        0.095 
 ##  y1:  -------
 ##       z - 0.9
 ## 
 ## Sampling time: 0.2 s
-## octave:5> 
+## Discrete-time model.
+## octave:5> num = @{[1, 5, 7], [1]; [1, 7], [1, 5, 5]@};
+## octave:6> den = @{[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]@};
+## octave:7> sys = tf (num, den)
+## 
+## Transfer function "sys" from input "u1" to output ...
+## 
+##       s^2 + 5 s + 7
+##  y1:  -------------
+##       s^2 + 5 s + 6
+## 
+##           s + 7    
+##  y2:  -------------
+##       s^2 + 8 s + 6
+## 
+## Transfer function "sys" from input "u2" to output ...
+## 
+##         1  
+##  y1:  -----
+##       s + 2
+## 
+##       s^2 + 5 s + 5
+##  y2:  -------------
+##       s^2 + 3 s + 2
+## 
+## Continuous-time model.
+## octave:8> 
 ## @end group
 ## @end example
 ##
@@ -76,7 +107,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.2.1
 
 function sys = tf (num = {}, den = {}, varargin)
 

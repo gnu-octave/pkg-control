@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -19,11 +19,34 @@
 ## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
 ## Access transfer function data.
+## Argument @var{sys} is not limited to transfer function models.
+## If @var{sys} is not a transfer function, it is converted automatically.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## Any type of LTI model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item num
+## Cell of numerator(s).  Each numerator is a row vector
+## containing the coefficients of the polynomial in descending powers of
+## the transfer function variable.
+## @item den
+## Cell of denominator(s).  Each denominator is a row vector
+## containing the coefficients of the polynomial in descending powers of
+## the transfer function variable.
+## @item tsam
+## Sampling time in seconds.  If @var{sys} is a continuous-time model,
+## a zero is returned.
+## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function [num, den, tsam] = tfdata (sys, rtype = "vector")
 
@@ -36,8 +59,8 @@ function [num, den, tsam] = tfdata (sys, rtype = "vector")
   tsam = sys.tsam;
 
   if (rtype(1) == "v")
-    num = cellfun ("@tfpoly/get", num, "uniformoutput", false);
-    den = cellfun ("@tfpoly/get", den, "uniformoutput", false);
+    num = cellfun (@get, num, "uniformoutput", false);
+    den = cellfun (@get, den, "uniformoutput", false);
   endif
 
 endfunction

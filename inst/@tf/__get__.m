@@ -26,10 +26,10 @@ function val = __get__ (sys, prop)
 
   switch (prop)  # {<internal name>, <user name>}
     case "num"
-      val = cellfun ("@tfpoly/get", sys.num, "uniformoutput", false);
+      val = cellfun (@get, sys.num, "uniformoutput", false);
 
     case "den"
-      val = cellfun ("@tfpoly/get", sys.den, "uniformoutput", false);
+      val = cellfun (@get, sys.den, "uniformoutput", false);
 
     case {"tfvar", "variable"}
       val = sys.tfvar;
