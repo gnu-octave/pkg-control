@@ -2638,7 +2638,7 @@
 @subsection @@lti/mldivide
 
  Matrix left division of LTI objects.  If necessary, object conversion
- is done by sys_group in mtimes.  Used by Octave for "lti1  lti2".
+ is done by sys_group in mtimes.  Used by Octave for "lti1 \ lti2".
 @subsection @@lti/mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
@@ -2688,6 +2688,6 @@
  @end deftypefn
 @subsection test_control
 
- @deftypefn {Script File} test_control
+ @deftypefn {Script File} {} test_control
  Execute all available tests at once.
  @end deftypefn

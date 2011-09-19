@@ -54,7 +54,7 @@ tol = sqrt (eps)
       ucoeff(i, j, len-len_numc(i,j)+1 : len) = numc{i,j};
     endfor
   endfor
-
+index, prod (index), eps*prod (index)
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
 
   retsys = ss (a, b, c, d);

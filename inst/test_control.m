@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Script File} test_control
+## @deftypefn {Script File} {} test_control
 ## Execute all available tests at once.
 ## @end deftypefn
 
