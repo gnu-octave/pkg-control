@@ -24,22 +24,27 @@
 ## @deftypefnx {Function File} {@var{sys} =} zpk @var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
 ## Create transfer function model from zero-pole-gain data.
+## This is just a stop-gap compatibility wrapper since zpk
+## models are not yet implemented.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
 ## LTI model to be converted to transfer function.
-## @item num
-## Numerator or cell of numerators.  Each numerator must be a row vector
-## containing the coefficients of the polynomial in descending powers of
-## the transfer function variable.
-## @item den
-## Denominator or cell of denominators.  Each denominator must be a row vector
-## containing the coefficients of the polynomial in descending powers of
-## the transfer function variable.
+## @item z
+## Cell of vectors containing the zeros for each channel.
+## z@{i,j@} contains the zeros from input j to output i.
+## In the SISO case, a single vector is accepted as well.
+## @item p
+## Cell of vectors containing the poles for each channel.
+## p@{i,j@} contains the poles from input j to output i.
+## In the SISO case, a single vector is accepted as well.
+## @item k
+## Matrix containing the gains for each channel.
+## k(i,j) contains the gain from input j to output i.
 ## @item tsam
-## Sampling time in seconds.  If @var{tsam} is not specified, a continuous-time
-## model is assumed.
+## Sampling time in seconds.  If @var{tsam} is not specified,
+## a continuous-time model is assumed.
 ## @item @dots{}
 ## Optional pairs of properties and values.
 ## Type @command{set (tf)} for more information.
@@ -50,12 +55,6 @@
 ## @item sys
 ## Transfer function model.
 ## @end table
-##
-## @strong{Example}
-## @example
-## @group
-## @end group
-## @end example
 ##
 ## @seealso{tf, ss, dss, frd}
 ## @end deftypefn
@@ -93,10 +92,13 @@ function sys = zpk (z = {}, p = {}, k = [], varargin)
       if (! iscell (p))
         p = {p};
       endif
+      if (! size_equal (z, p, k))
+        error ("zpk: arguments z, p and k must have equal dimensions");
+      endif
       num = cellfun (@(zer, gain) real (gain * poly (zer)), z, num2cell (k), "uniformoutput", false);
       den = cellfun (@(pol) real (poly (pol)), p, "uniformoutput", false);
       sys = tf (num, den, varargin{:});
-    endswitch
+  endswitch
 
 endfunction
 

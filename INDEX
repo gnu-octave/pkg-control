@@ -10,6 +10,7 @@ Linear Time Invariant Models
   frd
   ss
   tf
+  zpk
 Model Data Access
   @lti/dssdata
   @lti/frdata
