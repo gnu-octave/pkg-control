@@ -17,6 +17,7 @@ Model Data Access
   @lti/set
   @lti/ssdata
   @lti/tfdata
+  @lti/zpkdata
 Model Conversions
   @lti/c2d
   @lti/d2c
