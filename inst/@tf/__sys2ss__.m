@@ -24,6 +24,13 @@
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
+  ## TODO: determine appropriate tolerance from number of inputs
+  ##       (since we multiply all denominators in a row), index, ...
+  ##       default tolerance from TB01UD is TOLDEF = N*N*EPS 
+
+  ## SECRET WISH: a routine which accepts individual denominators for
+  ##              each channel and which supports descriptor systems
+
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
   
@@ -70,6 +77,7 @@ function [retsys, retlti] = __sys2ss__ (sys)
 endfunction
 
 
+## convolution for more than two arguments
 function vec = __conv__ (vec, varargin)
 
   if (nargin == 1)
