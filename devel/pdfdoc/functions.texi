@@ -1,66 +1,4 @@
-@section Examples and Demos
-@subsection BMWengine
-
- @deftypefn{Function File} {@var{sys} =} BMWengine ()
- @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"scaled"})
- @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"unscaled"})
- Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.
- @example
- @group
- OPERATING POINT
- Drosselklappenstellung     alpha_DK = 10.3 Grad
- Saugrohrdruck              p_s = 0.48 bar
- Motordrehzahl              n = 860 U/min
- Lambda-Messwert            lambda = 1.000
- Relativer Wandfilminhalt   nu = 1
-
- INPUTS
- U_1 Sollsignal Drosselklappenstellung   [Grad]
- U_2 Relative Einspritzmenge             [-]
- U_3 Zuendzeitpunkt                      [Grad KW]
- M_L Lastdrehmoment                      [Nm]
-
- STATES
- X_1 Drosselklappenstellung     [Grad]
- X_2 Saugrohrdruck              [bar]
- X_3 Motordrehzahl              [U/min]
- X_4 Messwert Lamba-Sonde       [-]
- X_5 Relativer Wandfilminhalt   [-]
-
- OUTPUTS
- Y_1 Motordrehzahl              [U/min]    
- Y_2 Messwert Lambda-Sonde      [-]
-
- SCALING
- U_1N, X_1N   1 Grad
- U_2N, X_4N, X_5N, Y_2N   0.05
- U_3N   1.6 Grad KW
- X_2N   0.05 bar
- X_3N, Y_1N   200 U/min
- @end group
- @end example
- @end deftypefn
-@subsection Boeing707
-
- @deftypefn {Function File} {@var{sys} =} Boeing707 ()
- Creates a linearized state-space model of a Boeing 707-321 aircraft
- at @var{v}=80 m/s 
- @iftex
- @tex
- ($M = 0.26$, $G_{a0} = -3^{circ}$, ${lpha}_0 = 4^{circ}$, ${kappa}= 50^{circ}$).
- @end tex
- @end iftex
- @ifinfo
- (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).
- @end ifinfo
-
- System inputs: (1) thrust and (2) elevator angle.
-
- System outputs:  (1) airspeed and (2) pitch angle.
-
- @strong{Reference}: R. Brockhaus: @cite{Flugregelung} (Flight
- Control), Springer, 1994.
- @end deftypefn
+@section Examples
 @subsection MDSSystem
  ===============================================================================
  Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
@@ -76,45 +14,6 @@
  Required OCTAVE Packages: control, optim (and its dependencies)
  Required MATLAB Toolboxes: Control, Optimization
  ===============================================================================
-@subsection WestlandLynx
-
- @deftypefn{Function File} {@var{sys} =} WestlandLynx ()
- Model of the Westland Lynx Helicopter about hover.
- @example
- @group
- INPUTS
- main rotor collective
- longitudinal cyclic
- lateral cyclic
- tail rotor collective
-
- STATES
- pitch attitude           theta       [rad]
- roll attitude            phi         [rad]
- roll rate (body-axis)    p           [rad/s]
- pitch rate (body-axis)   q           [rad/s]
- yaw rate                 xi          [rad/s]
- forward velocity         v_x         [ft/s]
- lateral velocity         v_y         [ft/s]
- vertical velocity        v_z         [ft/s]
-
- OUTPUTS
- heave velocity           H_dot       [ft/s]
- pitch attitude           theta       [rad]
- roll attitude            phi         [rad]
- heading rate             psi_dot     [rad/s]
- roll rate                p           [rad/s]
- pitch rate               q           [rad/s]
-
- Reference:
- Skogestad, S. and Postlethwaite I.
- Multivariable Feedback Control: Analysis and Design
- Second Edition
- Wiley 2005
- http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html
- @end group
- @end example
- @end deftypefn
 @section Linear Time Invariant Models
 @subsection dss
 
@@ -289,10 +188,12 @@
  LTI model to be converted to transfer function.
  @item num
  Numerator or cell of numerators.  Each numerator must be a row vector
- containing the exponents of the polynomial in descending order.
+ containing the coefficients of the polynomial in descending powers of
+ the transfer function variable.
  @item den
  Denominator or cell of denominators.  Each denominator must be a row vector
- containing the exponents of the polynomial in descending order.
+ containing the coefficients of the polynomial in descending powers of
+ the transfer function variable.
  @item tsam
  Sampling time in seconds.  If @var{tsam} is not specified, a continuous-time
  model is assumed.
@@ -314,24 +215,97 @@
  octave:2> G = 1/(s+1)
 
  Transfer function "G" from input "u1" to output ...
+ 
          1  
   y1:  -----
        s + 1
-
+ 
+ Continuous-time model.
  octave:3> z = tf ("z", 0.2);
  octave:4> H = 0.095/(z-0.9)
  
  Transfer function "H" from input "u1" to output ...
+ 
         0.095 
   y1:  -------
        z - 0.9
  
  Sampling time: 0.2 s
- octave:5> 
+ Discrete-time model.
+ octave:5> num = @{[1, 5, 7], [1]; [1, 7], [1, 5, 5]@};
+ octave:6> den = @{[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]@};
+ octave:7> sys = tf (num, den)
+ 
+ Transfer function "sys" from input "u1" to output ...
+ 
+       s^2 + 5 s + 7
+  y1:  -------------
+       s^2 + 5 s + 6
+ 
+           s + 7    
+  y2:  -------------
+       s^2 + 8 s + 6
+ 
+ Transfer function "sys" from input "u2" to output ...
+ 
+         1  
+  y1:  -----
+       s + 2
+ 
+       s^2 + 5 s + 5
+  y2:  -------------
+       s^2 + 3 s + 2
+ 
+ Continuous-time model.
+ octave:8> 
  @end group
  @end example
 
  @seealso{ss, dss}
+ @end deftypefn
+@subsection zpk
+
+ @deftypefn {Function File} {@var{s} =} zpk (@var{"s"})
+ @deftypefnx {Function File} {@var{z} =} zpk (@var{"z"}, @var{tsam})
+ @deftypefnx {Function File} {@var{sys} =} zpk (@var{sys})
+ @deftypefnx {Function File} {@var{sys} =} zpk (@var{k})
+ @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @dots{})
+ @deftypefnx {Function File} {@var{sys} =} zpk @var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
+ @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
+ Create transfer function model from zero-pole-gain data.
+ This is just a stop-gap compatibility wrapper since zpk
+ models are not yet implemented.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model to be converted to transfer function.
+ @item z
+ Cell of vectors containing the zeros for each channel.
+ z@{i,j@} contains the zeros from input j to output i.
+ In the SISO case, a single vector is accepted as well.
+ @item p
+ Cell of vectors containing the poles for each channel.
+ p@{i,j@} contains the poles from input j to output i.
+ In the SISO case, a single vector is accepted as well.
+ @item k
+ Matrix containing the gains for each channel.
+ k(i,j) contains the gain from input j to output i.
+ @item tsam
+ Sampling time in seconds.  If @var{tsam} is not specified,
+ a continuous-time model is assumed.
+ @item @dots{}
+ Optional pairs of properties and values.
+ Type @command{set (tf)} for more information.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Transfer function model.
+ @end table
+
+ @seealso{tf, ss, dss, frd}
  @end deftypefn
 @section Model Data Access
 @subsection @@lti/dssdata
@@ -443,6 +417,60 @@
  @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
  @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
  Access transfer function data.
+ Argument @var{sys} is not limited to transfer function models.
+ If @var{sys} is not a transfer function, it is converted automatically.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ Any type of LTI model.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item num
+ Cell of numerator(s).  Each numerator is a row vector
+ containing the coefficients of the polynomial in descending powers of
+ the transfer function variable.
+ @item den
+ Cell of denominator(s).  Each denominator is a row vector
+ containing the coefficients of the polynomial in descending powers of
+ the transfer function variable.
+ @item tsam
+ Sampling time in seconds.  If @var{sys} is a continuous-time model,
+ a zero is returned.
+ @end table
+ @end deftypefn
+@subsection @@lti/zpkdata
+
+ @deftypefn {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys})
+ @deftypefnx {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys}, @var{"v"})
+ Access zero-pole-gain data.
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ Any type of LTI model.
+ @item "v", "vector"
+ For SISO models, return @var{z} and @var{p} directly as column vectors
+ instead of cells containing a single column vector.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item z
+ Cell of column vectors containing the zeros for each channel.
+ z@{i,j@} contains the zeros from input j to output i.
+ @item p
+ Cell of column vectors containing the poles for each channel.
+ p@{i,j@} contains the poles from input j to output i.
+ @item k
+ Matrix containing the gains for each channel.
+ k(i,j) contains the gain from input j to output i.
+ @item tsam
+ Sampling time in seconds.  If @var{sys} is a continuous-time model,
+ a zero is returned.
+ @end table
  @end deftypefn
 @section Model Conversions
 @subsection @@lti/c2d
@@ -2690,4 +2718,105 @@
 
  @deftypefn {Script File} {} test_control
  Execute all available tests at once.
+ @end deftypefn
+@subsection BMWengine
+
+ @deftypefn{Function File} {@var{sys} =} BMWengine ()
+ @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"scaled"})
+ @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"unscaled"})
+ Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.
+ @example
+ @group
+ OPERATING POINT
+ Drosselklappenstellung     alpha_DK = 10.3 Grad
+ Saugrohrdruck              p_s = 0.48 bar
+ Motordrehzahl              n = 860 U/min
+ Lambda-Messwert            lambda = 1.000
+ Relativer Wandfilminhalt   nu = 1
+
+ INPUTS
+ U_1 Sollsignal Drosselklappenstellung   [Grad]
+ U_2 Relative Einspritzmenge             [-]
+ U_3 Zuendzeitpunkt                      [Grad KW]
+ M_L Lastdrehmoment                      [Nm]
+
+ STATES
+ X_1 Drosselklappenstellung     [Grad]
+ X_2 Saugrohrdruck              [bar]
+ X_3 Motordrehzahl              [U/min]
+ X_4 Messwert Lamba-Sonde       [-]
+ X_5 Relativer Wandfilminhalt   [-]
+
+ OUTPUTS
+ Y_1 Motordrehzahl              [U/min]    
+ Y_2 Messwert Lambda-Sonde      [-]
+
+ SCALING
+ U_1N, X_1N   1 Grad
+ U_2N, X_4N, X_5N, Y_2N   0.05
+ U_3N   1.6 Grad KW
+ X_2N   0.05 bar
+ X_3N, Y_1N   200 U/min
+ @end group
+ @end example
+ @end deftypefn
+@subsection Boeing707
+
+ @deftypefn {Function File} {@var{sys} =} Boeing707 ()
+ Creates a linearized state-space model of a Boeing 707-321 aircraft
+ at @var{v}=80 m/s 
+ @iftex
+ @tex
+ ($M = 0.26$, $G_{a0} = -3^{circ}$, ${lpha}_0 = 4^{circ}$, ${kappa}= 50^{circ}$).
+ @end tex
+ @end iftex
+ @ifinfo
+ (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).
+ @end ifinfo
+
+ System inputs: (1) thrust and (2) elevator angle.
+
+ System outputs:  (1) airspeed and (2) pitch angle.
+
+ @strong{Reference}: R. Brockhaus: @cite{Flugregelung} (Flight
+ Control), Springer, 1994.
+ @end deftypefn
+@subsection WestlandLynx
+
+ @deftypefn{Function File} {@var{sys} =} WestlandLynx ()
+ Model of the Westland Lynx Helicopter about hover.
+ @example
+ @group
+ INPUTS
+ main rotor collective
+ longitudinal cyclic
+ lateral cyclic
+ tail rotor collective
+
+ STATES
+ pitch attitude           theta       [rad]
+ roll attitude            phi         [rad]
+ roll rate (body-axis)    p           [rad/s]
+ pitch rate (body-axis)   q           [rad/s]
+ yaw rate                 xi          [rad/s]
+ forward velocity         v_x         [ft/s]
+ lateral velocity         v_y         [ft/s]
+ vertical velocity        v_z         [ft/s]
+
+ OUTPUTS
+ heave velocity           H_dot       [ft/s]
+ pitch attitude           theta       [rad]
+ roll attitude            phi         [rad]
+ heading rate             psi_dot     [rad/s]
+ roll rate                p           [rad/s]
+ pitch rate               q           [rad/s]
+
+ Reference:
+ Skogestad, S. and Postlethwaite I.
+ Multivariable Feedback Control: Analysis and Design
+ Second Edition
+ Wiley 2005
+ http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html
+ @end group
+ @end example
  @end deftypefn
