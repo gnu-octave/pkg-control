@@ -101,7 +101,8 @@ function sys = __sys_connect__ (sys, M)
   elseif (p == 4 && m == 3 && num{1,2} == 0 && num{1,3} == 0 \
           && num{2,1} == 0 && num{2,3} == 0 \
           && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 1 \
-          && num{4,1} == 0 && num{4,2} == 0 && num{4,3} == 1)
+          && num{4,1} == 0 && num{4,2} == 0 && num{4,3} == 1 \
+          && M == [0, 0, 1, 0; 0, 0, 0, 1; 0, 0, 0, 0])
     ## vertcat [sys1; sys2]
     sys.num(1,3) = num{1,1};
     sys.num(2,3) = num{2,2};
