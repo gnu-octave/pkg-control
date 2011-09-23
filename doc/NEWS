@@ -8,6 +8,12 @@ control-2.2.0   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
    -- Transfer function to state-space conversion uses now SLICOT TD04AD.
       Conversion of MIMO models is now supported.  Usage: ss_sys = ss (tf_sys)
 
+** tf
+   -- Support for interconnections of MIMO transfer functions.  This is done by
+      an internal conversion to a minimal state-space representation.  With the
+      current tf2ss and ss2tf conversions, only proper transfer function are
+      supported.  This limitation does not exist for SISO transfer functions.
+
 ** @lti/pole, @lti/zero
    -- Computation of poles and zeros of MIMO transfer functions is now possible
       via conversion to state-space.  Please note that the state-space
