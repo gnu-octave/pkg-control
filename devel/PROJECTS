@@ -43,7 +43,9 @@ General:
     -- Handle conflicting names for __sys_group__.
     -- Beware of indices not in ascending order.
 
-  * Fix PDF manual.  For unknown reasons, Texinfo produces an incomplete document.
+  * Fix PDF manual.
+    -- Clickable links in the table of contents.
+    -- @seealso comments
 
 -----------------------
 Frequency Response Data:
@@ -57,6 +59,11 @@ State-Space Models:
 
   * Balancing: TB01TD ?
 
+  * Support descriptor models for bilin and prewarp methods in c2d and d2c.
+  
+  * Find a descriptor state-space to transfer function conversion routine
+    which supports models with singular E matrix (@ss/__sys2tf__.m).
+
 ------------------------
 Transfer Function Models:
 ------------------------
@@ -65,7 +72,9 @@ Transfer Function Models:
 
   * MIMO tf interconnections (@tf/__sys_connect__.m)
 
-  * Use SLICOT (TD04AD?) for tf2ss conversion (@tf/__sys2ss__.m)
+  * Find a transfer function to descriptor state-space conversion routine
+    which supports non-proper models and individual denominators for
+    each input-output channel (@tf/__sys2ss__.m).
 
 ------
 Always:
