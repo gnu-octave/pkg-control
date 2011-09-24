@@ -1,19 +1,10 @@
 @section Examples
 @subsection MDSSystem
- ===============================================================================
- Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
- ===============================================================================
- Reference: Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
-            Robust Control Design with Matlab, Springer 2005
- ===============================================================================
+
+ Robust control of a mass-damper-spring system.
 @subsection optiPID
- ===============================================================================
- optiPID                          Lukas Reichlin                       July 2009
- ===============================================================================
- Numerical Optimization of an A/H PID Controller
- Required OCTAVE Packages: control, optim (and its dependencies)
- Required MATLAB Toolboxes: Control, Optimization
- ===============================================================================
+
+ Numerical optimization of a PID controller using an objective function.
 @section Linear Time Invariant Models
 @subsection dss
 
@@ -2655,18 +2646,18 @@
 @subsection @@lti/horzcat
 
  Horizontal concatenation of LTI objects.  If necessary, object conversion
- is done by sys_group.  Used by Octave for "[lti1, lti2]".
+ is done by sys_group.  Used by Octave for "[sys1, sys2]".
 @subsection @@lti/inv
 
  Inversion of LTI objects.
 @subsection @@lti/minus
 
  Binary subtraction of LTI objects.  If necessary, object conversion
- is done by sys_group.  Used by Octave for "lti1 - lti2".
+ is done by sys_group.  Used by Octave for "sys1 - sys2".
 @subsection @@lti/mldivide
 
  Matrix left division of LTI objects.  If necessary, object conversion
- is done by sys_group in mtimes.  Used by Octave for "lti1 \ lti2".
+ is done by sys_group in mtimes.  Used by Octave for "sys1 \ sys2".
 @subsection @@lti/mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
@@ -2674,15 +2665,15 @@
 @subsection @@lti/mrdivide
 
  Matrix right division of LTI objects.  If necessary, object conversion
- is done by sys_group in mtimes.  Used by Octave for "lti1 / lti2".
+ is done by sys_group in mtimes.  Used by Octave for "sys1 / sys2".
 @subsection @@lti/mtimes
 
  Matrix multiplication of LTI objects.  If necessary, object conversion
- is done by sys_group.  Used by Octave for "lti1 * lti2".
+ is done by sys_group.  Used by Octave for "sys1 * sys2".
 @subsection @@lti/plus
 
  Binary addition of LTI objects.  If necessary, object conversion
- is done by sys_group.  Used by Octave for "lti1 + lti2".
+ is done by sys_group.  Used by Octave for "sys1 + sys2".
  Operation is also known as "parallel connection".
 @subsection @@lti/subsasgn
 
@@ -2697,11 +2688,11 @@
  Transpose of LTI objects.  Used by Octave for "sys.'".
 @subsection @@lti/uminus
 
- Unary minus of LTI object.  Used by Octave for "-lti".
+ Unary minus of LTI object.  Used by Octave for "-sys".
 @subsection @@lti/vertcat
 
  Vertical concatenation of LTI objects.  If necessary, object conversion
- is done by sys_group.  Used by Octave for "[lti1; lti2]".
+ is done by sys_group.  Used by Octave for "[sys1; sys2]".
 @section Miscellaneous
 @subsection strseq
 

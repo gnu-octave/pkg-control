@@ -3,7 +3,7 @@
 % ===============================================================================
 % Objective Function
 % Reference: Guzzella, L. (2007) Analysis and Synthesis of SISO Control Systems.
-%            vdf, Zurich
+%            vdf Hochschulverlag, Zurich
 % ===============================================================================
 
 function J = optiPIDfun (C_par)

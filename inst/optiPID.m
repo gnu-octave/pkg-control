@@ -1,7 +1,12 @@
+%% -*- texinfo -*-
+%% Numerical optimization of a PID controller using an objective function.
+
 % ===============================================================================
 % optiPID                          Lukas Reichlin                       July 2009
 % ===============================================================================
 % Numerical Optimization of an A/H PID Controller
+% Reference: Guzzella, L. (2007) Analysis and Synthesis of SISO Control Systems.
+%            vdf Hochschulverlag, Zurich
 % Required OCTAVE Packages: control, optim (and its dependencies)
 % Required MATLAB Toolboxes: Control, Optimization
 % ===============================================================================

@@ -1,3 +1,6 @@
+%% -*- texinfo -*-
+%% Robust control of a mass-damper-spring system.
+
 % ===============================================================================
 % Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
 % ===============================================================================

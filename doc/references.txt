@@ -41,6 +41,11 @@ Optimal Control with Engineering Applications
 Springer
 2007
 
+Gu, D.W., Petkov, P.Hr. and Konstantinov, M.M.
+Robust Control with MATLAB
+Springer
+2005
+
 Guzzella, L.
 Analysis and Design of SISO Control Systems
 VDF Hochschulverlag ETH Zurich
