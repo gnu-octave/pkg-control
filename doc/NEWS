@@ -21,9 +21,12 @@ control-2.2.0   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
       and zeros might be missing.
 
 ** zpk, @lti/zpkdata
-   -- Included wrappers that create transfer function model from zero-pole-gain
+   -- Included wrappers that create transfer function models from zero-pole-gain
       data (zpk) and zero-pole-gain data from lti models (zpkdata).  They are
       stop-gap measures for compatibility until ZPK models are implemented.
+
+** doc/control.pdf
+   -- Revised PDF manual.
 
 
 ===============================================================================
