@@ -29,10 +29,12 @@
 ## If second argument @var{w} is omitted, the interesting
 ## frequency range is calculated by the zeros and poles of @var{sys}.
 ## @item H
-## Frequency response array (p-by-m-by-lw).  In the SISO case,
+## Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+## response from input j to output i at frequency k.  In the SISO case,
 ## a vector (lw-by-1) or (1-by-lw) is accepted as well.
 ## @item w
 ## Frequency vector (lw-by-1) in radian per second [rad/s].
+## Frequencies must be in ascending order.
 ## @item tsam
 ## Sampling time in seconds.  If @var{tsam} is not specified,
 ## a continuous-time model is assumed.

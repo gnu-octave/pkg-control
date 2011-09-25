@@ -17,6 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
+## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"vector"})
 ## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
 ## Access transfer function data.
 ## Argument @var{sys} is not limited to transfer function models.
@@ -26,6 +27,9 @@
 ## @table @var
 ## @item sys
 ## Any type of LTI model.
+## @item "v", "vector"
+## For SISO models, return @var{num} and @var{den} directly as column vectors
+## instead of cells containing a single column vector.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -34,10 +38,14 @@
 ## Cell of numerator(s).  Each numerator is a row vector
 ## containing the coefficients of the polynomial in descending powers of
 ## the transfer function variable.
+## num@{i,j@} contains the numerator polynomial from input j to output i.
+## In the SISO case, a single vector is possible as well.
 ## @item den
 ## Cell of denominator(s).  Each denominator is a row vector
 ## containing the coefficients of the polynomial in descending powers of
 ## the transfer function variable.
+## den@{i,j@} contains the denominator polynomial from input j to output i.
+## In the SISO case, a single vector is possible as well.
 ## @item tsam
 ## Sampling time in seconds.  If @var{sys} is a continuous-time model,
 ## a zero is returned.
@@ -46,9 +54,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
-function [num, den, tsam] = tfdata (sys, rtype = "vector")
+function [num, den, tsam] = tfdata (sys, rtype = "cell")
 
   if (! isa (sys, "tf"))
     sys = tf (sys);
@@ -58,9 +66,14 @@ function [num, den, tsam] = tfdata (sys, rtype = "vector")
 
   tsam = sys.tsam;
 
-  if (rtype(1) == "v")
+  if (lower (rtype(1)) != "t")                  # != tfpoly
     num = cellfun (@get, num, "uniformoutput", false);
     den = cellfun (@get, den, "uniformoutput", false);
+  endif
+
+  if (lower (rtype(1)) == "v" && issiso (sys))  # == vector
+    num = num{1};
+    den = den{1};
   endif
 
 endfunction

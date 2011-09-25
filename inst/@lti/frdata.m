@@ -34,10 +34,12 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item H
-## Frequency response array (p-by-m-by-lw).  In the SISO case,
+## Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+## response from input j to output i at frequency k.  In the SISO case,
 ## a vector (lw-by-1) is possible as well.
 ## @item w
 ## Frequency vector (lw-by-1) in radian per second [rad/s].
+## Frequencies are in ascending order.
 ## @item tsam
 ## Sampling time in seconds.  If @var{sys} is a continuous-time model,
 ## a zero is returned.

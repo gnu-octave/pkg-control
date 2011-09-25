@@ -31,10 +31,14 @@
 ## Numerator or cell of numerators.  Each numerator must be a row vector
 ## containing the coefficients of the polynomial in descending powers of
 ## the transfer function variable.
+## num@{i,j@} contains the numerator polynomial from input j to output i.
+## In the SISO case, a single vector is accepted as well.
 ## @item den
 ## Denominator or cell of denominators.  Each denominator must be a row vector
 ## containing the coefficients of the polynomial in descending powers of
 ## the transfer function variable.
+## den@{i,j@} contains the denominator polynomial from input j to output i.
+## In the SISO case, a single vector is accepted as well.
 ## @item tsam
 ## Sampling time in seconds.  If @var{tsam} is not specified, a continuous-time
 ## model is assumed.
