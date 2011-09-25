@@ -33,7 +33,8 @@ function [retsys, retlti] = __sys2ss__ (sys)
 
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
-  
+
+  ## new cells for the TF of same row denominators
   numc = cell (p, m);
   denc = cell (p, 1);
   
@@ -49,13 +50,16 @@ function [retsys, retlti] = __sys2ss__ (sys)
 
   len_numc = cellfun (@length, numc);
   len_denc = cellfun (@length, denc);
-  
+
+  ## check for properness  
   ## tfpoly ensures that there are no leading zeros
   tmp = len_numc > repmat (len_denc, 1, m);
   if (any (tmp(:)))
     error ("tf: tf2ss: system must be proper");
   endif
 
+  ## create arrays and fill in the data
+  ## in a way that Slicot TD04AD can use
   max_len_denc = max (len_denc(:));
   ucoeff = zeros (p, m, max_len_denc);
   dcoeff = zeros (p, max_len_denc);
@@ -72,7 +76,7 @@ function [retsys, retlti] = __sys2ss__ (sys)
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, sqrt (eps));
 
   retsys = ss (a, b, c, d);
-  retlti = sys.lti;   # preserve lti properties
+  retlti = sys.lti;   # preserve lti properties such as tsam
 
 endfunction
 
