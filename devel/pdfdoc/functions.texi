@@ -2,9 +2,15 @@
 @section MDSSystem
 
  Robust control of a mass-damper-spring system.
+ Type @code{which MDSSystem} to locate,
+ @code{edit MDSSystem} to open and simply
+ @code{MDSSystem} to run the example file.
 @section optiPID
 
  Numerical optimization of a PID controller using an objective function.
+ The objective function is located in the file @command{optiPIDfun}.
+ Type @code{which optiPID} to locate, @code{edit optiPID} to open
+ and simply @code{optiPID} to run the example file.
 @chapter Linear Time Invariant Models
 @section dss
 

@@ -1,5 +1,8 @@
 %% -*- texinfo -*-
 %% Numerical optimization of a PID controller using an objective function.
+%% The objective function is located in the file @command{optiPIDfun}.
+%% Type @code{which optiPID} to locate, @code{edit optiPID} to open
+%% and simply @code{optiPID} to run the example file.
 
 % ===============================================================================
 % optiPID                          Lukas Reichlin                       July 2009
