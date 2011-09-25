@@ -44,8 +44,8 @@ General:
     -- Beware of indices not in ascending order.
 
   * Fix PDF manual.
-    -- Clickable links in the table of contents.
     -- @seealso comments
+    -- Use TEX for formulas (iftex)
 
   * "horzcat" and "vertcat" are trivial operations for TF, FRD and ZPK models.
     Therefore model-specific commands (@tf/horzcat, @tf/vertcat, @frd/...)

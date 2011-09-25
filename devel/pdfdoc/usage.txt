@@ -6,6 +6,10 @@
 * Run control.tex 
 
 
+pdftex control.tex
+q
+
+
 tex control.tex
 q
 ???
