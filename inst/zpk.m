@@ -21,7 +21,7 @@
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{k})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @dots{})
-## @deftypefnx {Function File} {@var{sys} =} zpk @var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
 ## Create transfer function model from zero-pole-gain data.
 ## This is just a stop-gap compatibility wrapper since zpk
