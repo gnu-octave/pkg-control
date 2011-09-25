@@ -59,7 +59,10 @@
 ##
 ## imag (num(jw) den(-jw)) = 0
 ## imag (num(-jw) den(jw)) = 0
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Phase Margin
 ##           |num(jw)|
 ## |L(jw)| = |-------| = 1
@@ -74,8 +77,10 @@
 ## num(jw) num(-jw) - den(jw) den(-jw) = 0
 ##
 ## real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
-##
-##
+## @end group
+## @end example
+## @example
+## @group
 ## DISCRETE SYSTEMS
 ## Gain Margin
 ##                              jwT         log z
@@ -86,7 +91,10 @@
 ## den(z)   den(1/z)
 ##
 ## num(z) den(1/z) - num(1/z) den(z) = 0
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Phase Margin
 ##          |num(z)|
 ## |L(z)| = |------| = 1
@@ -99,7 +107,10 @@
 ## den(z)   den(1/z)
 ##
 ## num(z) num(1/z) - den(z) den(1/z) = 0
-##
+## @end group
+## @end example
+## @example
+## @group
 ## PS: How to get L(1/z)
 ##           4       3       2
 ## p(z) = a z  +  b z  +  c z  +  d z  +  e

@@ -8,7 +8,10 @@
 ## longitudinal cyclic
 ## lateral cyclic
 ## tail rotor collective
-##
+## @end group
+## @end example
+## @example
+## @group
 ## STATES
 ## pitch attitude           theta       [rad]
 ## roll attitude            phi         [rad]
@@ -18,7 +21,10 @@
 ## forward velocity         v_x         [ft/s]
 ## lateral velocity         v_y         [ft/s]
 ## vertical velocity        v_z         [ft/s]
-##
+## @end group
+## @end example
+## @example
+## @group
 ## OUTPUTS
 ## heave velocity           H_dot       [ft/s]
 ## pitch attitude           theta       [rad]
@@ -26,7 +32,10 @@
 ## heading rate             psi_dot     [rad/s]
 ## roll rate                p           [rad/s]
 ## pitch rate               q           [rad/s]
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Reference:
 ## Skogestad, S. and Postlethwaite I.
 ## Multivariable Feedback Control: Analysis and Design

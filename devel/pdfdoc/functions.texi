@@ -212,6 +212,10 @@
        s + 1
  
  Continuous-time model.
+ @end group
+ @end example
+ @example
+ @group
  octave:3> z = tf ("z", 0.2);
  octave:4> H = 0.095/(z-0.9)
  
@@ -223,6 +227,10 @@
  
  Sampling time: 0.2 s
  Discrete-time model.
+ @end group
+ @end example
+ @example
+ @group
  octave:5> num = @{[1, 5, 7], [1]; [1, 7], [1, 5, 5]@};
  octave:6> den = @{[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]@};
  octave:7> sys = tf (num, den)
@@ -556,11 +564,11 @@
  @strong{Equations}
  @example
  @group
- Es = Tl E Tr
- As = Tl A Tr
- Bs = Tl B
- Cs =    C Tr
- Ds =    D
+ Es = Tl * E * Tr
+ As = Tl * A * Tr
+ Bs = Tl * B
+ Cs =      C * Tr
+ Ds =      D
 
  For proper state-space models, Tl and Tr are inverse of each other.
  @end group
@@ -677,8 +685,10 @@
        :   +-----|  sys2  |<----+   :
        :         +--------+         :
        :............................:
-
-
+ @end group
+ @end example
+ @example
+ @group
        .............sys..............
        :         +--------+         :
        : u +---->|  sys1  |-----+ y :
@@ -690,8 +700,10 @@
  z2 <------------|        |<------------ w2
        :         +--------+         :
        :............................:
-
-
+ @end group
+ @end example
+ @example
+ @group
        .............sys..............
        :         +--------+         :
  w1 ------------>|        |------------> z1
@@ -790,8 +802,10 @@
      :................sys.................
 
  sys = series (sys1, sys2)
-
-
+ @end group
+ @end example
+ @example
+ @group
      .....................................
      :                   v2  +--------+  :
      :            ---------->|        |  :  y
@@ -1638,7 +1652,10 @@
 
  imag (num(jw) den(-jw)) = 0
  imag (num(-jw) den(jw)) = 0
-
+ @end group
+ @end example
+ @example
+ @group
  Phase Margin
            |num(jw)|
  |L(jw)| = |-------| = 1
@@ -1653,8 +1670,10 @@
  num(jw) num(-jw) - den(jw) den(-jw) = 0
 
  real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
-
-
+ @end group
+ @end example
+ @example
+ @group
  DISCRETE SYSTEMS
  Gain Margin
                               jwT         log z
@@ -1665,7 +1684,10 @@
  den(z)   den(1/z)
 
  num(z) den(1/z) - num(1/z) den(z) = 0
-
+ @end group
+ @end example
+ @example
+ @group
  Phase Margin
           |num(z)|
  |L(z)| = |------| = 1
@@ -1678,7 +1700,10 @@
  den(z)   den(1/z)
 
  num(z) num(1/z) - den(z) den(1/z) = 0
-
+ @end group
+ @end example
+ @example
+ @group
  PS: How to get L(1/z)
            4       3       2
  p(z) = a z  +  b z  +  c z  +  d z  +  e
@@ -2108,6 +2133,10 @@
  P = | 0  |  W3*G |     z3 =          W3 G u
      |----+-------|
      | I  |    -G |     e  =    r  -     G u
+ @end group
+ @end example
+ @example
+ @group
                                                        +------+  z1
              +---------------------------------------->|  W1  |----->
              |                                         +------+
@@ -2119,14 +2148,20 @@
         ^ -      +--------+        +--------+    |     +------+
         |                                        |
         +----------------------------------------+
-
+ @end group
+ @end example
+ @example
+ @group
                 +--------+
                 |        |-----> z1 (p1x1)          z1 = W1 e
   r (px1) ----->|  P(s)  |-----> z2 (p2x1)          z2 = W2 u
                 |        |-----> z3 (p3x1)          z3 = W3 y
   u (mx1) ----->|        |-----> e (px1)            e = r - y
                 +--------+
-
+ @end group
+ @end example
+ @example
+ @group
                 +--------+  
         r ----->|        |-----> z
                 |  P(s)  |
@@ -2136,7 +2171,10 @@
           |     +--------+     |
           +-----|  K(s)  |<----+
                 +--------+
-
+ @end group
+ @end example
+ @example
+ @group
  Reference:
  Skogestad, S. and Postlethwaite I.
  Multivariable Feedback Control: Analysis and Design
@@ -2308,6 +2346,10 @@
                                      | W1 S   |
  gamma = min||N(K)||             N = | W2 K S | = lft (P, K)
           K         inf              | W3 T   |
+ @end group
+ @end example
+ @example
+ @group
                                                        +------+  z1
              +---------------------------------------->|  W1  |----->
              |                                         +------+
@@ -2319,14 +2361,20 @@
         ^ -      +--------+        +--------+    |     +------+
         |                                        |
         +----------------------------------------+
-
+ @end group
+ @end example
+ @example
+ @group
                 +--------+
                 |        |-----> z1 (p1x1)          z1 = W1 e
   r (px1) ----->|  P(s)  |-----> z2 (p2x1)          z2 = W2 u
                 |        |-----> z3 (p3x1)          z3 = W3 y
   u (mx1) ----->|        |-----> e (px1)            e = r - y
                 +--------+
-
+ @end group
+ @end example
+ @example
+ @group
                 +--------+  
         r ----->|        |-----> z
                 |  P(s)  |
@@ -2336,17 +2384,26 @@
           |     +--------+     |
           +-----|  K(s)  |<----+
                 +--------+
-
+ @end group
+ @end example
+ @example
+ @group
                 +--------+      
         r ----->|  N(s)  |-----> z
                 +--------+
-
+ @end group
+ @end example
+ @example
+ @group
  Extended Plant:  P = augw (G, W1, W2, W3)
  Controller:      K = mixsyn (G, W1, W2, W3)
  Entire System:   N = lft (P, K)
  Open Loop:       L = G * K
  Closed Loop:     T = feedback (L)
-
+ @end group
+ @end example
+ @example
+ @group
  Reference:
  Skogestad, S. and Postlethwaite I.
  Multivariable Feedback Control: Analysis and Design
@@ -2472,7 +2529,10 @@
  G = R  (B'X + S')
 
  L = eig (A - B*G)
-
+ @end group
+ @end example
+ @example
+ @group
                      -1
  A'XE + E'XA - E'XB R   B'XE + Q = 0
 
@@ -2542,7 +2602,10 @@
  G = (B'XB + R)   (B'XA + S')
 
  L = eig (A - B*G)
-
+ @end group
+ @end example
+ @example
+ @group
                               -1
  A'XA - E'XE - A'XB (B'XB + R)   B'XA + Q = 0
 
@@ -2724,24 +2787,36 @@
  Motordrehzahl              n = 860 U/min
  Lambda-Messwert            lambda = 1.000
  Relativer Wandfilminhalt   nu = 1
-
+ @end group
+ @end example
+ @example
+ @group
  INPUTS
  U_1 Sollsignal Drosselklappenstellung   [Grad]
  U_2 Relative Einspritzmenge             [-]
  U_3 Zuendzeitpunkt                      [Grad KW]
  M_L Lastdrehmoment                      [Nm]
-
+ @end group
+ @end example
+ @example
+ @group
  STATES
  X_1 Drosselklappenstellung     [Grad]
  X_2 Saugrohrdruck              [bar]
  X_3 Motordrehzahl              [U/min]
  X_4 Messwert Lamba-Sonde       [-]
  X_5 Relativer Wandfilminhalt   [-]
-
+ @end group
+ @end example
+ @example
+ @group
  OUTPUTS
  Y_1 Motordrehzahl              [U/min]    
  Y_2 Messwert Lambda-Sonde      [-]
-
+ @end group
+ @end example
+ @example
+ @group
  SCALING
  U_1N, X_1N   1 Grad
  U_2N, X_4N, X_5N, Y_2N   0.05
@@ -2783,7 +2858,10 @@
  longitudinal cyclic
  lateral cyclic
  tail rotor collective
-
+ @end group
+ @end example
+ @example
+ @group
  STATES
  pitch attitude           theta       [rad]
  roll attitude            phi         [rad]
@@ -2793,7 +2871,10 @@
  forward velocity         v_x         [ft/s]
  lateral velocity         v_y         [ft/s]
  vertical velocity        v_z         [ft/s]
-
+ @end group
+ @end example
+ @example
+ @group
  OUTPUTS
  heave velocity           H_dot       [ft/s]
  pitch attitude           theta       [rad]
@@ -2801,7 +2882,10 @@
  heading rate             psi_dot     [rad/s]
  roll rate                p           [rad/s]
  pitch rate               q           [rad/s]
-
+ @end group
+ @end example
+ @example
+ @group
  Reference:
  Skogestad, S. and Postlethwaite I.
  Multivariable Feedback Control: Analysis and Design

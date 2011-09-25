@@ -44,11 +44,11 @@
 ## @strong{Equations}
 ## @example
 ## @group
-## Es = Tl E Tr
-## As = Tl A Tr
-## Bs = Tl B
-## Cs =    C Tr
-## Ds =    D
+## Es = Tl * E * Tr
+## As = Tl * A * Tr
+## Bs = Tl * B
+## Cs =      C * Tr
+## Ds =      D
 ##
 ## For proper state-space models, Tl and Tr are inverse of each other.
 ## @end group

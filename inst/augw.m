@@ -53,6 +53,10 @@
 ## P = | 0  |  W3*G |     z3 =          W3 G u
 ##     |----+-------|
 ##     | I  |    -G |     e  =    r  -     G u
+## @end group
+## @end example
+## @example
+## @group
 ##                                                       +------+  z1
 ##             +---------------------------------------->|  W1  |----->
 ##             |                                         +------+
@@ -64,14 +68,20 @@
 ##        ^ -      +--------+        +--------+    |     +------+
 ##        |                                        |
 ##        +----------------------------------------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                +--------+
 ##                |        |-----> z1 (p1x1)          z1 = W1 e
 ##  r (px1) ----->|  P(s)  |-----> z2 (p2x1)          z2 = W2 u
 ##                |        |-----> z3 (p3x1)          z3 = W3 y
 ##  u (mx1) ----->|        |-----> e (px1)            e = r - y
 ##                +--------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                +--------+  
 ##        r ----->|        |-----> z
 ##                |  P(s)  |
@@ -81,7 +91,10 @@
 ##          |     +--------+     |
 ##          +-----|  K(s)  |<----+
 ##                +--------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Reference:
 ## Skogestad, S. and Postlethwaite I.
 ## Multivariable Feedback Control: Analysis and Design

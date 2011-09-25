@@ -11,24 +11,36 @@
 ## Motordrehzahl              n = 860 U/min
 ## Lambda-Messwert            lambda = 1.000
 ## Relativer Wandfilminhalt   nu = 1
-##
+## @end group
+## @end example
+## @example
+## @group
 ## INPUTS
 ## U_1 Sollsignal Drosselklappenstellung   [Grad]
 ## U_2 Relative Einspritzmenge             [-]
 ## U_3 Zuendzeitpunkt                      [Grad KW]
 ## M_L Lastdrehmoment                      [Nm]
-##
+## @end group
+## @end example
+## @example
+## @group
 ## STATES
 ## X_1 Drosselklappenstellung     [Grad]
 ## X_2 Saugrohrdruck              [bar]
 ## X_3 Motordrehzahl              [U/min]
 ## X_4 Messwert Lamba-Sonde       [-]
 ## X_5 Relativer Wandfilminhalt   [-]
-##
+## @end group
+## @end example
+## @example
+## @group
 ## OUTPUTS
 ## Y_1 Motordrehzahl              [U/min]    
 ## Y_2 Messwert Lambda-Sonde      [-]
-##
+## @end group
+## @end example
+## @example
+## @group
 ## SCALING
 ## U_1N, X_1N   1 Grad
 ## U_2N, X_4N, X_5N, Y_2N   0.05

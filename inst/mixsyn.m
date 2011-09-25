@@ -61,6 +61,10 @@
 ##                                     | W1 S   |
 ## gamma = min||N(K)||             N = | W2 K S | = lft (P, K)
 ##          K         inf              | W3 T   |
+## @end group
+## @end example
+## @example
+## @group
 ##                                                       +------+  z1
 ##             +---------------------------------------->|  W1  |----->
 ##             |                                         +------+
@@ -72,14 +76,20 @@
 ##        ^ -      +--------+        +--------+    |     +------+
 ##        |                                        |
 ##        +----------------------------------------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                +--------+
 ##                |        |-----> z1 (p1x1)          z1 = W1 e
 ##  r (px1) ----->|  P(s)  |-----> z2 (p2x1)          z2 = W2 u
 ##                |        |-----> z3 (p3x1)          z3 = W3 y
 ##  u (mx1) ----->|        |-----> e (px1)            e = r - y
 ##                +--------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                +--------+  
 ##        r ----->|        |-----> z
 ##                |  P(s)  |
@@ -89,17 +99,26 @@
 ##          |     +--------+     |
 ##          +-----|  K(s)  |<----+
 ##                +--------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                +--------+      
 ##        r ----->|  N(s)  |-----> z
 ##                +--------+
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Extended Plant:  P = augw (G, W1, W2, W3)
 ## Controller:      K = mixsyn (G, W1, W2, W3)
 ## Entire System:   N = lft (P, K)
 ## Open Loop:       L = G * K
 ## Closed Loop:     T = feedback (L)
-##
+## @end group
+## @end example
+## @example
+## @group
 ## Reference:
 ## Skogestad, S. and Postlethwaite I.
 ## Multivariable Feedback Control: Analysis and Design

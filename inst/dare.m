@@ -66,7 +66,10 @@
 ## G = (B'XB + R)   (B'XA + S')
 ##
 ## L = eig (A - B*G)
-##
+## @end group
+## @end example
+## @example
+## @group
 ##                              -1
 ## A'XA - E'XE - A'XB (B'XB + R)   B'XA + Q = 0
 ##
