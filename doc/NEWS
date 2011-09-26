@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.2.0   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** ss
@@ -24,6 +24,11 @@ control-2.2.0   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
    -- Included wrappers that create transfer function models from zero-pole-gain
       data (zpk) and zero-pole-gain data from lti models (zpkdata).  They are
       stop-gap measures for compatibility until ZPK models are implemented.
+
+** @lti/tfdata
+   -- "vector" option added.  For SISO models, it returns numerator and
+      denominator directly as column vectors instead of cells containing a
+      single column vector.
 
 ** doc/control.pdf
    -- Revised PDF manual.

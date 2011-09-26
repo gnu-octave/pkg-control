@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## Matrix power of LTI objects.  The exponent must be an integer.
-## Used by Octave for "lti^int".
+## Used by Octave for "sys^int".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

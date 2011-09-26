@@ -2746,7 +2746,7 @@
 @section @@lti/mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
- Used by Octave for "lti^int".
+ Used by Octave for "sys^int".
 @section @@lti/mrdivide
 
  Matrix right division of LTI objects.  If necessary, object conversion
