@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT AB13BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -123,10 +123,12 @@ For internal use only.")
             
         if (info != 0)
             error ("lti: norm: slab13bd: AB13BD returned info = %d", info);
+
+        if (iwarn != 0)
+            warning ("lti: norm: slab13bd: AB13BD returned iwarn = %d", iwarn);
         
         // return value
         retval(0) = octave_value (norm);
-        retval(1) = octave_value (iwarn);
     }
     
     return retval;

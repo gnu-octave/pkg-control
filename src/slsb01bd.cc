@@ -127,13 +127,15 @@ For internal use only.")
             
         if (info != 0)
             error ("place: slsb01bd: SB01BD returned info = %d", info);
-        
+
+        if (iwarn != 0)
+            warning ("place: slsb01bd: %d violations of the numerical stability condition NORM(F) <= 100*NORM(A)/NORM(B)", iwarn);
+
         // return values
         retval(0) = f;
-        retval(1) = octave_value (iwarn);
-        retval(2) = octave_value (nfp);
-        retval(3) = octave_value (nap);
-        retval(4) = octave_value (nup);
+        retval(1) = octave_value (nfp);
+        retval(2) = octave_value (nap);
+        retval(3) = octave_value (nup);
     }
     
     return retval;

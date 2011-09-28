@@ -55,6 +55,7 @@ tol = sqrt (eps)
     endfor
   endfor
 index, prod (index), eps*prod (index)
+min (sqrt (eps), eps*prod (index))
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
 
   retsys = ss (a, b, c, d);

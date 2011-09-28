@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -18,8 +18,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{f} =} place (@var{sys}, @var{p})
 ## @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
-## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{sys}, @var{p}, @var{alpha})
-## @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
+## @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{sys}, @var{p}, @var{alpha})
+## @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
 ## Pole assignment for a given matrix pair (@var{A},@var{B}) such that @code{p = eig (A-B*F)}.
 ## If parameter @var{alpha} is specified, poles with real parts (continuous-time)
 ## or moduli (discrete-time) below @var{alpha} are left untouched.
@@ -48,13 +48,15 @@
 ## @table @var
 ## @item f
 ## State feedback gain matrix.
-## @item nfp
+## @item info
+## Structure containing additional information.
+## @item info.nfp
 ## The number of fixed poles, i.e. eigenvalues of @var{A} having
 ## real parts less than @var{alpha}, or moduli less than @var{alpha}.
 ## These eigenvalues are not modified by @command{place}.
-## @item nap
+## @item info.nap
 ## The number of assigned eigenvalues.  @code{nap = n-nfp-nup}.
-## @item nup
+## @item info.nup
 ## The number of uncontrollable eigenvalues detected by the
 ## eigenvalue assignment algorithm.
 ## @end table
@@ -72,9 +74,9 @@
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.3.1
+## Version: 0.4
 
-function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
+function [f, info] = place (a, b, p = [], alpha = [], tol = [])
 
   if (nargin < 2 || nargin > 5)
     print_usage ();
@@ -128,13 +130,10 @@ function [f, nfp, nap, nup] = place (a, b, p = [], alpha = [], tol = [])
     tol = 0;
   endif
 
-  [f, iwarn, nfp, nap, nup] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
+  [f, nfp, nap, nup] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
   f = -f;                          # A + B*F --> A - B*F
-  
-  if (iwarn)
-    warning ("place: %d violations of the numerical stability condition NORM(F) <= 100*NORM(A)/NORM(B)",
-              iwarn);
-  endif
+
+  info = struct ("nfp", nfp, "nap", nap, "nup", nup);
 
 endfunction
 

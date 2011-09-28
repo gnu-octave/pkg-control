@@ -26,7 +26,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.4.1
 
 function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
 
@@ -67,15 +67,10 @@ function gain = h2norm (sys)
   if (isstable (sys))
     [a, b, c, d] = ssdata (sys);
     discrete = ! isct (sys);
-    
     if (! discrete && any (d(:)))     # continuous and non-zero feedthrough
       gain = inf;
     else
-      [gain, iwarn] = slab13bd (a, b, c, d, discrete);
-    
-      if (iwarn)
-        warning ("lti: norm: slab13bd: iwarn = %d", iwarn);
-      endif
+      gain = slab13bd (a, b, c, d, discrete);
     endif
   else
     gain = inf;
