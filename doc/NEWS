@@ -1,6 +1,15 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** place
+   -- Return the number of fixed, assigned and uncontrollable poles in a single
+      "info" struct instead of three individual output arguments. 
+
+
+===============================================================================
 control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
 ===============================================================================
 
