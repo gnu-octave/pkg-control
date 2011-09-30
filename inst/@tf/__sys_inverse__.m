@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,27 +20,35 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __sys_inverse__ (sys)
 
-  [p, m] = size (sys);
+  nvec = size (sys);
+  num = sys.num;
+  den = sys.den;
 
-  ## TODO: inversion of MIMO TF models
-
-  if (p != 1 || m != 1)
-    error ("tf: sys_inverse: MIMO systems not supported yet");
+  if (all (nvec == 1))      # SISO
+    if (num{1,1} == 0)      # catch case num = 0
+      sys.num(1,1) = tfpoly (0);
+      sys.den(1,1) = tfpoly (1);
+    else
+      sys.num = den;
+      sys.den = num;
+    endif
+  elseif (all (nvec == 2))  # 2x2 MIMO
+    sys.num(1,1) = -den{1,1}*den{1,2}*den{2,1}*num{2,2};
+    sys.num(1,2) = den{1,1}*den{2,1}*den{2,2}*num{1,2};
+    sys.num(2,1) = den{1,1}*den{1,2}*den{2,2}*num{2,1};
+    sys.num(2,2) = -den{1,2}*den{2,1}*den{2,2}*num{1,1};  
+    sys.den(:) = den{1,1}*den{2,2}*num{1,2}*num{2,1} - den{1,2}*den{2,1}*num{1,1}*num{2,2};
+  else
+    ## I've calculated 3x3 systems with sage but the formula is quite long
+    error ("tf: sys_inverse: limited to SISO and 2x2 MIMO systems");
+    ## code below is useless unless there are tf2dss and dss2tf conversions
+    [num, den] = tfdata (inv (ss (sys)), "tfpoly");
+    sys.num = num;
+    sys.den = den;
   endif
-
-  den = sys.num;
-  num = sys.den;
-
-  if (den{1, 1} == 0)  # catch case den = 0
-    num{1, 1} = tfpoly (0);
-    den{1, 1} = tfpoly (1);
-  endif
-
-  sys.num = num;
-  sys.den = den;
 
 endfunction
