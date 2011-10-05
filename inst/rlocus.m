@@ -18,7 +18,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} rlocus (@var{sys}) 
-## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}]) 
+## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k}) 
 ## Display root locus plot of the specified @acronym{SISO} system.
 ##
 ## @strong{Inputs}
@@ -60,7 +60,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: December 2009
-## Version: 0.2
+## Version: 0.3
 
 ## TODO: Improve compatibility
 
@@ -72,15 +72,17 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     print_usage ();
   endif
 
+  if (! isa (sys, "lti") || ! issiso (sys))
+    error ("rlocus: first argument must be a SISO LTI model");
+  endif
+
   ## Convert the input to a transfer function if necessary
-  [num, den] = tfdata (sys);               # extract numerator/denom polyomials
-  num = num{:};
-  den = den{:};
+  [num, den] = tfdata (sys, "vector");     # extract numerator/denominator polynomials
   lnum = length (num);
   lden = length (den);
   ## equalize length of num, den polynomials
   if (lden < 2)
-    error ("system has no poles");
+    error ("rlocus: system has no poles");
   elseif (lnum < lden)
     num = [zeros(1,lden-lnum), num];       # so that derivative is shortened by one
   endif
@@ -139,7 +141,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   endif
   if (nargin > 1)
     if (increment <= 0)
-      error ("increment must be positive");
+      error ("rlocus: increment must be positive");
     else
       ngain = (maxk-mink)/increment;
     endif
