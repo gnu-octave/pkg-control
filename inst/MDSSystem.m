@@ -129,7 +129,7 @@ T_mix = feedback (L_mix);              % closed loop
 
 % Plotting
 figure (2)
-sigma (T_mix)                          % singular values
+bode (K_mix)                           % bode plot
 
 figure (3)
 step (T_mix, 10)                       % step response for 10 seconds
@@ -154,7 +154,7 @@ T_ncf = feedback (L_ncf);              % closed loop
 
 % Plotting
 figure (4)
-sigma (T_ncf)                          % singular values
+bode (K_ncf)                           % bode plot
 
 figure (5)
 step (T_ncf, 10)                       % step response for 10 seconds
