@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
@@ -45,22 +45,24 @@ function [retsys, retlti] = __sys2tf__ (sys)
     den = cellfun (@(x, y) x(1:y+1), den, igd, "uniformoutput", false);
   catch
     ## sys.e was probably singular, therefore ssdata failed.
-    ## The method below works for non-proper models, but it
-    ## requires the model to be SISO.
     warning ("ss: ss2tf: TB04BD failed, trying backup method now");
 
-    if (! issiso (sys))
-      error ("ss: ss2tf: backup method works for SISO models only");
-    endif
-
-    if (isempty (sys.a))                        # static gain
-      num = sys.d;
-      den = 1;
-    else                                        # default case
-      [zer, gain] = zero (sys);
-      pol = pole (sys);
-      num = gain * real (poly (zer));
-      den = real (poly (pol));
+    if (issiso (sys))
+      [num, den] = __siso_ss2tf__ (sys);
+    else
+      [p, m] = size (sys);
+      num = cell (p, m);
+      den = cell (p, m);
+      for i = 1 : p
+        for j = 1 : m
+          idx = substruct ("()", {i, j});
+          tmp = subsref (sys, idx);             # extract siso model
+          tmp = minreal (tmp);                  # irreducible descriptor representation
+          [n, d] = __siso_ss2tf__ (tmp);
+          num(i, j) = n;
+          den(i, j) = d;
+        endfor
+      endfor
     endif
     tsam = get (sys, "tsam");
   end_try_catch
@@ -69,5 +71,20 @@ function [retsys, retlti] = __sys2tf__ (sys)
   retlti = sys.lti;                             # preserve lti properties
   
   ## FIXME: sys = tf (ss (5))
+
+endfunction
+
+
+function [num, den] = __siso_ss2tf__ (sys)
+
+  if (isempty (sys.a))                          # static gain
+    num = sys.d;
+    den = 1;
+  else                                          # default case
+    [zer, gain] = zero (sys);
+    pol = pole (sys);
+    num = gain * real (poly (zer));
+    den = real (poly (pol));
+  endif
 
 endfunction
