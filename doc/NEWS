@@ -11,6 +11,9 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ** @lti/inv
    -- Support the inversion of 2x2 MIMO transfer functions.
 
+** tf
+   -- MIMO support for descriptor state-space to transfer function conversion.
+
 
 ===============================================================================
 control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
