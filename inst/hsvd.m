@@ -17,7 +17,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
-## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{alpha})
+## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{offset})
+## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"alpha"}, @var{alpha})
 ## Hankel singular values of the stable part of an LTI model.  If no output arguments are
 ## given, the Hankel singular values are displayed in a plot.
 ## Uses SLICOT AB13AD by courtesy of
@@ -26,31 +27,38 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2010
-## Version: 0.3
+## Version: 0.4
 
 function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
 
-  if (! nargin)
+  if (nargin != 1 && nargin != 3)
     print_usage ();
   endif
-  
+
   if (! isa (sys, "lti"))
     error ("hsvd: first argument must be an LTI system");
   endif
-  
-  if (! strcmp (tolower (prop(1)), "o"))
-    error ("hsvd: second argument invalid");
+
+  if (! is_real_scalar (val))
+    error ("hsvd: third argument must be a real scalar");
   endif
-  
+
   [a, b, c, ~, ~, scaled] = ssdata (sys);
 
   discrete = ! isct (sys);
-  
-  if (discrete)
-    alpha = 1 - val;
-  else
-    alpha = - val;
-  endif
+
+  switch (tolower (prop(1)))
+    case "o"                 # offset
+      if (discrete)
+        alpha = 1 - val;
+      else
+        alpha = - val;
+      endif
+    case "a"                 # alpha
+      alpha = val;
+    otherwise
+      error ("hsvd: second argument invalid");
+  endswitch
   
   [hsv, ns] = slab13ad (a, b, c, discrete, alpha, scaled);
   
@@ -89,7 +97,7 @@ endfunction
 %!        0.0000   0.0000  0.0000   0.0000  1.0000  0.0000  0.0000];
 %!
 %! sys = ss (a, b, c, [], "scaled", true);
-%! hsv = hsvd (sys);
+%! hsv = hsvd (sys, "alpha", 0.0);
 %!
 %! hsv_exp = [2.5139; 2.0846; 1.9178; 0.7666; 0.5473; 0.0253; 0.0246];
 %!
