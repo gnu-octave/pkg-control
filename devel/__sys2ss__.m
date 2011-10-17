@@ -42,13 +42,17 @@ function [retsys, retlti] = __sys2ss__ (sys)
   tmp = len_num > len_den;
   if (any (tmp(:)))
     ## separation into strictly proper and polynomial part
-    [numq, numr] = cellfun (@(x, y) deconv (x, y), num, den, "uniformoutput", false);
+    [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
     numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
     numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false);
     ## minimal state-space realization for the proper part
     [a1, b1, c1] = __proper_tf2ss__ (numr, den, p, m);
     e1 = eye (size (a1));
     ## minimal realization for the polynomial part
+    len_numq = cellfun (@length, numq);
+    max_len_numq = max (len_numq(:));
+    numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
+    
     [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m);
     ## assemble irreducible descriptor realization
     e = blkdiag (e1, e2);
