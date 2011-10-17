@@ -4,16 +4,22 @@ Summary of important user-visible changes for releases of the control package
 control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** tf
+   -- Fixed a nasty bug that prevented shortening of numerator and denominator
+      polynomials consisting solely of zeros.
+   -- MIMO support for descriptor state-space to transfer function conversion.
+      Usage: tf_sys = tf (dss_sys)
+
+** ss
+   -- Support conversion from non-proper transfer function to descriptor state-
+      space.  Usage: dss_sys = ss (tf_sys) 
+
 ** place
    -- Return the number of fixed, assigned and uncontrollable poles in a single
       "info" struct instead of three individual output arguments. 
 
-** @lti/inv
-   -- Support the inversion of 2x2 MIMO transfer functions.
-
-** tf
-   -- MIMO support for descriptor state-space to transfer function conversion.
-      Usage: tf_sys = tf (dss_sys)
+** inv
+   -- Support the inversion of MIMO transfer functions.
       
 ** rlocus
    -- Clarify usage statement in help string.
@@ -44,18 +50,18 @@ control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
    -- Fixed a cellfun statement that caused problems on MinGW32 builds and
       possibly some others.  (Reported by Bernhard Weller)
 
-** @lti/pole, @lti/zero
+** pole, zero
    -- Computation of poles and zeros of MIMO transfer functions is now possible
       via conversion to state-space.  Please note that the state-space
       realization of SLICOT TD04AD is a minimal one.  Therefore certain poles
       and zeros might be missing.
 
-** zpk, @lti/zpkdata
+** zpk, zpkdata
    -- Included wrappers that create transfer function models from zero-pole-gain
       data (zpk) and zero-pole-gain data from lti models (zpkdata).  They are
       stop-gap measures for compatibility until ZPK models are implemented.
 
-** @lti/tfdata
+** tfdata
    -- "vector" option added.  For SISO models, it returns numerator and
       denominator directly as column vectors instead of cells containing a
       single column vector.
@@ -68,12 +74,12 @@ control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
 control-2.1.55   Release Date: 2011-09-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** @lti/c2d
+** c2d
    -- Support for "tustin" and "prewarp" method added.
    -- Transfer functions are now supported via the state-space methods.
    -- Improved Texinfo string.
 
-** @lti/d2c
+** d2c
    -- Discrete to continuous-time conversion added.  However, support is
       limited to the zero-order hold, tustin and pre-warping methods.
    
@@ -121,11 +127,11 @@ control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
 ** hsvd
    -- Use scaling unless state-space model property "scaled" is set to true.
 
-** @lti/norm
+** norm
    -- Use scaling for computation of L-infinity norm unless state-space model
       property "scaled" is set to true.
       
-** @lti/minreal
+** minreal
    -- Use scaling for state-space and descriptor state-space models unless
       property "scaled" is set to true.
    -- More accurate results are to be expected for descriptor state-space
@@ -133,11 +139,11 @@ control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
       reduction occurs. This is achieved by saving the system matrices before
       each phase and restoring them if no order reduction took place.
   
-** @lti/zero
+** zero
    -- Use scaling for state-space and descriptor state-space models unless
       property "scaled" is set to true.
 
-** @lti/frdata
+** frdata
    -- The frequency response is now returned correctly as an array and not as a
       vector, unless the "vector" option is set and the system is single-input
       single-output.
@@ -159,11 +165,11 @@ control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
 ** ss
    -- Support for property "scaled".  By default, it is set to "false".
 
-** @lti/prescale
+** prescale
    -- Scaling for state-space models (SLICOT TB01ID) and descriptor models
       (SLICOT TG01AD).
    
-** @lti/freqresp
+** freqresp
    -- Scale state-space models using @lti/prescale.m if property "scaled" is
       set to "false".  Frequency response commands now perform automatic
       scaling unless model property "scaled" is set to "true".
@@ -187,7 +193,7 @@ control-2.0.1   Release Date: 2011-03-06   Release Manager: Lukas Reichlin
    -- Support time vectors not starting at zero. (Thanks to Rob Frohne)
    -- Improved help text.
 
-** @lti/zero
+** zero
    -- The gain of descriptor state-space models is now computed correctly.
       (fingers crossed)
 
