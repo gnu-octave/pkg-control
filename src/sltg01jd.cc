@@ -23,7 +23,7 @@ Uses SLICOT TG01JD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -57,15 +57,15 @@ For internal use only.")
     int nargin = args.length ();
     octave_value_list retval;
     
-    if (nargin != 6)
+    if (nargin != 8)
     {
         print_usage ();
     }
     else
     {
         // arguments in
-        char job = 'I';
-        char systyp = 'R';
+        char job;
+        char systyp;
         char equil;
         
         Matrix a = args(0).matrix_value ();
@@ -74,11 +74,43 @@ For internal use only.")
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
         const int scaled = args(5).int_value ();
+        const int ijob = args(6).int_value ();
+        const int isystyp = args(7).int_value ();
         
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
+        
+        switch (ijob)
+        {
+            case 0:
+                job = 'I';
+                break;
+            case 1:
+                job = 'C';
+                break;
+            case 2:
+                job = 'O';
+                break;
+            default:
+                error ("sltg01jd: argument job invalid");
+        }
+
+        switch (isystyp)
+        {
+            case 0:
+                systyp = 'R';
+                break;
+            case 1:
+                systyp = 'S';
+                break;
+            case 2:
+                systyp = 'P';
+                break;
+            default:
+                error ("sltg01jd: argument systyp invalid");
+        }
 
         int n = a.rows ();      // n: number of states
         int m = b.columns ();   // m: number of inputs

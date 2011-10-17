@@ -36,7 +36,7 @@ function retsys = __minreal__ (sys, tol)
     [a, b, c] = sltb01pd (sys.a, sys.b, sys.c, tol, sys.scaled);
     retsys = ss (a, b, c, sys.d);
   else
-    [a, e, b, c] = sltg01jd (sys.a, sys.e, sys.b, sys.c, tol, sys.scaled);
+    [a, e, b, c] = sltg01jd (sys.a, sys.e, sys.b, sys.c, tol, sys.scaled, 0, 0);
     retsys = dss (a, b, c, sys.d, e);
   endif
 

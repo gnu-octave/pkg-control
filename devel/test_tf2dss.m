@@ -13,3 +13,4 @@ sys = tf (num, den)
 P = ss (sys)
 
 
+ss (inv (tf (Boeing707 )))

@@ -17,7 +17,11 @@
 
 ## -*- texinfo -*-
 ## TF to SS conversion.
+## Reference:
+## Varga, A.: Computation of irreducible generalized state-space realizations. 
+## Kybernetika, 26:89-106, 1990
 
+## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.3
@@ -71,7 +75,7 @@ endfunction
 
 ## transfer function to state-space conversion for proper models
 function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
-num, den
+
   ## new cells for the TF of same row denominators
   numc = cell (p, m);
   denc = cell (p, 1);
@@ -91,10 +95,10 @@ num, den
 
   ## check for properness  
   ## tfpoly ensures that there are no leading zeros
-  tmp = len_numc > repmat (len_denc, 1, m);
-  if (any (tmp(:)))
-    error ("tf: tf2ss: system must be proper");
-  endif
+  ## tmp = len_numc > repmat (len_denc, 1, m);
+  ## if (any (tmp(:)))
+  ##   error ("tf: tf2ss: system must be proper");
+  ## endif
 
   ## create arrays and fill in the data
   ## in a way that Slicot TD04AD can use
@@ -116,6 +120,7 @@ num, den
 endfunction
 
 
+## realization of the polynomial part according to Andras' paper
 function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
 
   len_numq = cellfun (@length, numq);
@@ -123,16 +128,18 @@ function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
   numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
   f = @(y) cellfun (@(x) x(y), numq);
   s = num2cell (1 : max_len_numq);
-  D = cellfun (f, s, "uniformoutput", false)
+  D = cellfun (f, s, "uniformoutput", false);
 
-  e2 = diag (ones (p*(max_len_numq-1), 1), -p)
-  a2 = eye (p*max_len_numq)
-  b2 = vertcat (D{:})
-  c2 = horzcat (zeros (p, p*(max_len_numq-1)), -eye (p))
+  e2 = diag (ones (p*(max_len_numq-1), 1), -p);
+  a2 = eye (p*max_len_numq);
+  b2 = vertcat (D{:});
+  c2 = horzcat (zeros (p, p*(max_len_numq-1)), -eye (p));
 
-  ## TODO: remove uncontrollable part
+  ## remove uncontrollable part
+  [a2, e2, b2, c2] = sltg01jd (a2, e2, b2, c2, 0.0, true, 1, 2);
 
 endfunction
+
 
 ## convolution for more than two arguments
 function vec = __conv__ (vec, varargin)
