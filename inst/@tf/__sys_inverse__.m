@@ -44,8 +44,6 @@ function sys = __sys_inverse__ (sys)
     sys.den(:) = den{1,1}*den{2,2}*num{1,2}*num{2,1} - den{1,2}*den{2,1}*num{1,1}*num{2,2};
   else
     ## I've calculated 3x3 systems with sage but the formula is quite long
-    error ("tf: sys_inverse: limited to SISO and 2x2 MIMO systems");
-    ## code below is useless unless there are tf2dss and dss2tf conversions
     [num, den] = tfdata (inv (ss (sys)), "tfpoly");
     sys.num = num;
     sys.den = den;
