@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,13 +21,15 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function p = __remove_leading_zeros__ (p)
 
   idx = find (p.poly != 0);
 
-  if (! isempty (idx) && idx(1) > 1)
+  if (isempty (idx))
+    p.poly = 0;
+  else
     p.poly = p.poly(idx(1) : end);  # p.poly(idx) would remove all zeros
   endif
 
