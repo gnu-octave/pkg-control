@@ -16,20 +16,20 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{bool} =} isctrb (@var{sys})
-## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{sys}, @var{tol})
-## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b})
-## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e})
-## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
-## @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
+## @deftypefn {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys})
+## @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys}, @var{tol})
+## @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b})
+## @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{e})
+## @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
+## @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
 ## Logical check for system controllability.
-## Uses SLICOT AB01OD and TG01HD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## For numerical reasons, @code{isctrb (sys)}
+## should be used instead of @code{rank (ctrb (sys))}.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## LTI model.  Descriptor state-space models are possible.
 ## @item a
 ## State transition matrix.
 ## @item b
@@ -46,16 +46,22 @@
 ## System is not controllable.
 ## @item bool = 1
 ## System is controllable.
+## @item ncon
+## Number of controllable states.
 ## @end table
+##
+## @strong{Algorithm}@*
+## Uses SLICOT AB01OD and TG01HD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @seealso{isobsv}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
-function bool = isctrb (a, b = [], e = [], tol = [])
+function [bool, ncont] = isctrb (a, b = [], e = [], tol = [])
 
   if (nargin < 1 || nargin > 4)
     print_usage ();
