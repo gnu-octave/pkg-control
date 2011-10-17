@@ -81,6 +81,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   lnum = length (num);
   lden = length (den);
   ## equalize length of num, den polynomials
+  ## TODO: handle case lnum > lden (non-proper models)
   if (lden < 2)
     error ("rlocus: system has no poles");
   elseif (lnum < lden)

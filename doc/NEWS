@@ -13,6 +13,19 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 
 ** tf
    -- MIMO support for descriptor state-space to transfer function conversion.
+      Usage: tf_sys = tf (dss_sys)
+      
+** rlocus
+   -- Clarify usage statement in help string.
+   -- Check whether system is SISO.
+
+** MDSSystem
+   -- Display bode plots of controllers instead of singular value plots of the
+      closed loops.
+
+** hsvd
+   -- Added option "alpha" to specify the alpha-stability boundary for the
+      eigenvalues of the state dynamics matrix A.
 
 
 ===============================================================================
@@ -28,6 +41,8 @@ control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
       an internal conversion to a minimal state-space representation.  With the
       current tf2ss and ss2tf conversions, only proper transfer function are
       supported.  This limitation does not exist for SISO transfer functions.
+   -- Fixed a cellfun statement that caused problems on MinGW32 builds and
+      possibly some others.  (Reported by Bernhard Weller)
 
 ** @lti/pole, @lti/zero
    -- Computation of poles and zeros of MIMO transfer functions is now possible
