@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -34,6 +34,44 @@ function [retsys, retlti] = __sys2ss__ (sys)
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
 
+  len_num = cellfun (@length, num);
+  len_den = cellfun (@length, den);
+
+  ## check for properness  
+  ## tfpoly ensures that there are no leading zeros
+  tmp = len_num > len_den;
+  if (any (tmp(:)))
+    ## separation into strictly proper and polynomial part
+    [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
+    numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
+    numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false);
+
+    ## minimal state-space realization for the proper part
+    [a1, b1, c1] = __proper_tf2ss__ (numr, den, p, m);
+    e1 = eye (size (a1));
+
+    ## minimal realization for the polynomial part   
+    [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m);
+
+    ## assemble irreducible descriptor realization
+    e = blkdiag (e1, e2);
+    a = blkdiag (a1, a2);
+    b = vertcat (b1, b2);
+    c = horzcat (c1, c2);
+    retsys = dss (a, b, c, [], e);
+  else
+    [a, b, c, d] = __proper_tf2ss__ (num, den, p, m);
+    retsys = ss (a, b, c, d);
+  endif
+
+  retlti = sys.lti;   # preserve lti properties such as tsam
+
+endfunction
+
+
+## transfer function to state-space conversion for proper models
+function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
+num, den
   ## new cells for the TF of same row denominators
   numc = cell (p, m);
   denc = cell (p, 1);
@@ -74,12 +112,27 @@ function [retsys, retlti] = __sys2ss__ (sys)
   endfor
 
   [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, sqrt (eps));
-
-  retsys = ss (a, b, c, d);
-  retlti = sys.lti;   # preserve lti properties such as tsam
-
+  
 endfunction
 
+
+function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
+
+  len_numq = cellfun (@length, numq);
+  max_len_numq = max (len_numq(:));
+  numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
+  f = @(y) cellfun (@(x) x(y), numq);
+  s = num2cell (1 : max_len_numq);
+  D = cellfun (f, s, "uniformoutput", false)
+
+  e2 = diag (ones (p*(max_len_numq-1), 1), -p)
+  a2 = eye (p*max_len_numq)
+  b2 = vertcat (D{:})
+  c2 = horzcat (zeros (p, p*(max_len_numq-1)), -eye (p))
+
+  ## TODO: remove uncontrollable part
+
+endfunction
 
 ## convolution for more than two arguments
 function vec = __conv__ (vec, varargin)
@@ -90,6 +143,19 @@ function vec = __conv__ (vec, varargin)
     for k = 1 : nargin-1
       vec = conv (vec, varargin{k});
     endfor
+  endif
+
+endfunction
+
+
+function p = __remove_leading_zeros__ (p)
+
+  idx = find (p != 0);
+
+  if (isempty (idx))
+    p = 0;
+  else
+    p = p(idx(1) : end);  # p(idx) would remove all zeros
   endif
 
 endfunction
