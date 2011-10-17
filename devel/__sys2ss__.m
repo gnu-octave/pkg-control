@@ -45,15 +45,14 @@ function [retsys, retlti] = __sys2ss__ (sys)
     [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
     numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
     numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false);
+
     ## minimal state-space realization for the proper part
     [a1, b1, c1] = __proper_tf2ss__ (numr, den, p, m);
     e1 = eye (size (a1));
-    ## minimal realization for the polynomial part
-    len_numq = cellfun (@length, numq);
-    max_len_numq = max (len_numq(:));
-    numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
-    
+
+    ## minimal realization for the polynomial part   
     [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m);
+
     ## assemble irreducible descriptor realization
     e = blkdiag (e1, e2);
     a = blkdiag (a1, a2);
@@ -72,7 +71,7 @@ endfunction
 
 ## transfer function to state-space conversion for proper models
 function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
-
+num, den
   ## new cells for the TF of same row denominators
   numc = cell (p, m);
   denc = cell (p, 1);
@@ -117,9 +116,21 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
 endfunction
 
 
-function [e, a, b, c] = __polynomial_tf2ss__ (num, p, m)
+function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
 
-  e = diag (ones (p-1, 1), -p);
+  len_numq = cellfun (@length, numq);
+  max_len_numq = max (len_numq(:));
+  numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
+  f = @(y) cellfun (@(x) x(y), numq);
+  s = num2cell (1 : max_len_numq);
+  D = cellfun (f, s, "uniformoutput", false)
+
+  e2 = diag (ones (p*max_len_numq, 1), -p);
+  a2 = eye (p*max_len_numq)
+  b2 = vertcat (D{:})
+  c2 = horzcat (zeros (p, (p-1)*max_len_numq), -eye (p))
+
+  ## TODO: remove uncontrollable part
 
 endfunction
 
