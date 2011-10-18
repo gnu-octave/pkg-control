@@ -14,13 +14,16 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
    -- Support conversion from non-proper transfer function to descriptor state-
       space.  Usage: dss_sys = ss (tf_sys) 
 
-** place
-   -- Return the number of fixed, assigned and uncontrollable poles in a single
-      "info" struct instead of three individual output arguments. 
+** c2d, d2c
+   -- Support bilinear transformation of descriptor state-space models.
 
 ** inv
    -- Support the inversion of MIMO transfer functions.  Inverses of 2x2 TFs are
       computed directly, larger models are computed internally in state-space.
+
+** place
+   -- Return the number of fixed, assigned and uncontrollable poles in a single
+      "info" struct instead of three individual output arguments. 
 
 ** rlocus
    -- Clarify usage statement in help string.

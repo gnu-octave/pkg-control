@@ -41,6 +41,7 @@
 ## _                       -1
 ## D = D + C * (beta*E - A)  * B
 
+## Special thanks to Andras Varga for the formulae.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2011
 ## Version: 0.1
@@ -48,17 +49,43 @@
 function [Ar, Br, Cr, Dr, Er] = __dss_bilin__ (A, B, C, D, E, beta, discrete)
 
   if (discrete)
-    Er = E + A;
+    EpA = E + A;
+    s2b = sqrt (2*beta);
+    if (rcond (EpA) < eps)
+      error ("d2c: E+A singular");
+    endif
+    CiEpA = C / EpA;
+    
+    Er = EpA;
     Ar = beta * (A - E);
-    Br = sqrt (2*beta) * B;
-    Cr = sqrt (2*beta) * C / (E + A) * E;
-    Dr = D - C / (E + A) * B;
+    Br = s2b * B;
+    Cr = s2b * CiEpA * E;
+    Dr = D - CiEpA * B;
+    
+    ## Er = E + A;
+    ## Ar = beta * (A - E);
+    ## Br = sqrt (2*beta) * B;
+    ## Cr = sqrt (2*beta) * C / (E + A) * E;
+    ## Dr = D - C / (E + A) * B;
   else
-    Er = beta*E - A;
+    bEmA = beta*E - A;
+    s2b = sqrt (2*beta);
+    if (rcond (bEmA) < eps)
+      error ("c2d: beta*E-A singular");
+    endif
+    CibEmA = C / bEmA;
+    
+    Er = bEmA;
     Ar = beta*E + A;
-    Br = sqrt (2*beta) * B;
-    Cr = sqrt (2*beta) * C / (beta*E - A) * E;
-    Dr = D + C / (beta*E - A) * B;
+    Br = s2b * B;
+    Cr = s2b * CibEmA * E;
+    Dr = D + CibEmA * B;
+    
+    ## Er = beta*E - A;
+    ## Ar = beta*E + A;
+    ## Br = sqrt (2*beta) * B;
+    ## Cr = sqrt (2*beta) * C / (beta*E - A) * E;
+    ## Dr = D + C / (beta*E - A) * B;
   endif
 
 endfunction

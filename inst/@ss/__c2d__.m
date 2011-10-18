@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
@@ -39,9 +39,11 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
       else
         beta = 2/tsam;
       endif
-      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, false);
-      ## TODO: descriptor case
+      if (isempty (sys.e))
+        [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, false);
+      else
+        [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, false);
+      endif
 
     otherwise
       error ("ss: c2d: %s is an invalid or missing method", method);

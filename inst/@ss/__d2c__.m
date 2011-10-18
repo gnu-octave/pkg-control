@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.1
+## Version: 0.2
 
 function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
 
@@ -41,9 +41,11 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
       else
         beta = 2/tsam;
       endif
-      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, true);
-      ## TODO: descriptor case
+      if (isempty (sys.e))
+        [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, true);
+      else
+        [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, true);
+      endif
 
     otherwise
       error ("ss: d2c: %s is an invalid or missing method", method);
