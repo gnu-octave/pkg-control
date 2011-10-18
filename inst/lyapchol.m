@@ -19,8 +19,6 @@
 ## @deftypefn{Function File} {@var{u} =} lyapchol (@var{a}, @var{b})
 ## @deftypefnx{Function File} {@var{u} =} lyapchol (@var{a}, @var{b}, @var{e})
 ## Compute Cholesky factor of continuous-time Lyapunov equations.
-## Uses SLICOT SB03OD and SG03BD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Equations}
 ## @example
@@ -30,6 +28,10 @@
 ## A U' U E'  +  E U' U A'  +  B B'  =  0      (Generalized Lyapunov Equation)
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Uses SLICOT SB03OD and SG03BD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @seealso{lyap, dlyap, dlyapchol}
 ## @end deftypefn

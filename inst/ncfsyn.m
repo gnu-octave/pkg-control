@@ -19,8 +19,6 @@
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
 ## Normalized Coprime Factor (NCF) H-infinity synthesis.
 ## Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
-## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -75,6 +73,10 @@
 ##        +-------------------------------------------------+
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

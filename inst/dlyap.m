@@ -20,8 +20,6 @@
 ## @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{c})
 ## @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{[]}, @var{e})
 ## Solve discrete-time Lyapunov or Sylvester equations.
-## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Equations}
 ## @example
@@ -33,6 +31,10 @@
 ## AXA' - EXE' + B = 0   (Generalized Lyapunov Equation)
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @seealso{dlyapchol, lyap, lyapchol}
 ## @end deftypefn

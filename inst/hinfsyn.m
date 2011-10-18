@@ -19,8 +19,6 @@
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
 ## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
 ## H-infinity control synthesis for LTI plant.
-## Uses SLICOT SB10FD and SB10DD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -71,6 +69,11 @@
 ##                +--------+
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Uses SLICOT SB10FD and SB10DD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
+##
 ## @seealso{augw, mixsyn}
 ## @end deftypefn
 

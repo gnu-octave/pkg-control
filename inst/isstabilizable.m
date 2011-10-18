@@ -28,8 +28,6 @@
 ## @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{e}, @var{tol}, @var{dflg})
 ## Logical check for system stabilizability.
 ## All unstable modes must be controllable or all uncontrollable states must be stable.
-## Uses SLICOT AB01OD and TG01HD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -57,7 +55,9 @@
 ## System is stabilizable.
 ## @end table
 ##
-## @strong{Method}
+## @strong{Algorithm}@*
+## Uses SLICOT AB01OD and TG01HD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
 ## @example
 ## @group
 ## * Calculate staircase form (SLICOT AB01OD)

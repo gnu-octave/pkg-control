@@ -18,8 +18,6 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
 ## Prescale state-space model.
-## Uses SLICOT TB01ID and TG01AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}.
 ## Frequency response commands perform automatic scaling unless model property
 ## @var{scaled} is set to @var{true}.
 ##
@@ -49,10 +47,14 @@
 ## Bs = Tl * B
 ## Cs =      C * Tr
 ## Ds =      D
-##
-## For proper state-space models, Tl and Tr are inverse of each other.
 ## @end group
 ## @end example
+##
+## For proper state-space models, @var{Tl} and @var{Tr} are inverse of each other.
+##
+## @strong{Algorithm}@*
+## Uses SLICOT TB01ID and TG01AD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

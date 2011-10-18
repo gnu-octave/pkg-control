@@ -560,8 +560,6 @@
 
  @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
  Prescale state-space model.
- Uses SLICOT TB01ID and TG01AD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}.
  Frequency response commands perform automatic scaling unless model property
  @var{scaled} is set to @var{true}.
 
@@ -591,10 +589,14 @@
  Bs = Tl * B
  Cs =      C * Tr
  Ds =      D
-
- For proper state-space models, Tl and Tr are inverse of each other.
  @end group
  @end example
+
+ For proper state-space models, @var{Tl} and @var{Tr} are inverse of each other.
+
+ @strong{Algorithm}@*
+ Uses SLICOT TB01ID and TG01AD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}.
  @end deftypefn
 @section @@lti/xperm
 
@@ -916,9 +918,12 @@
 @section hsvd
 
  @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
- @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{alpha})
+ @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{offset})
+ @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"alpha"}, @var{alpha})
  Hankel singular values of the stable part of an LTI model.  If no output arguments are
  given, the Hankel singular values are displayed in a plot.
+
+ @strong{Algorithm}@*
  Uses SLICOT AB13AD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
@@ -943,20 +948,20 @@
  @end deftypefn
 @section isctrb
 
- @deftypefn {Function File} {@var{bool} =} isctrb (@var{sys})
- @deftypefnx {Function File} {@var{bool} =} isctrb (@var{sys}, @var{tol})
- @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b})
- @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e})
- @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
- @deftypefnx {Function File} {@var{bool} =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
+ @deftypefn {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys})
+ @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys}, @var{tol})
+ @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b})
+ @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{e})
+ @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{[]}, @var{tol})
+ @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{a}, @var{b}, @var{e}, @var{tol})
  Logical check for system controllability.
- Uses SLICOT AB01OD and TG01HD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
+ For numerical reasons, @code{isctrb (sys)}
+ should be used instead of @code{rank (ctrb (sys))}.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ LTI model.  Descriptor state-space models are possible.
  @item a
  State transition matrix.
  @item b
@@ -973,7 +978,13 @@
  System is not controllable.
  @item bool = 1
  System is controllable.
+ @item ncon
+ Number of controllable states.
  @end table
+
+ @strong{Algorithm}@*
+ Uses SLICOT AB01OD and TG01HD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
 
  @seealso{isobsv}
  @end deftypefn
@@ -991,8 +1002,6 @@
  @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{a}, @var{c}, @var{e}, @var{tol}, @var{dflg})
  Logical test for system detectability.
  All unstable modes must be observable or all unobservable states must be stable.
- Uses SLICOT AB01OD and TG01HD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -1020,6 +1029,10 @@
  System is detectable.
  @end table
 
+
+ @strong{Algorithm}@*
+ Uses SLICOT AB01OD and TG01HD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
  See @command{isstabilizable} for description of computational method.
  @seealso{isstabilizable, isstable, isctrb, isobsv}
  @end deftypefn
@@ -1051,20 +1064,20 @@
  @end deftypefn
 @section isobsv
 
- @deftypefn {Function File} {@var{bool} =} isobsv (@var{sys})
- @deftypefnx {Function File} {@var{bool} =} isobsv (@var{sys}, @var{tol})
- @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c})
- @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{e})
- @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{[]}, @var{tol})
- @deftypefnx {Function File} {@var{bool} =} isobsv (@var{a}, @var{c}, @var{e}, @var{tol})
+ @deftypefn {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{sys})
+ @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{sys}, @var{tol})
+ @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{a}, @var{c})
+ @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{a}, @var{c}, @var{e})
+ @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{a}, @var{c}, @var{[]}, @var{tol})
+ @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{a}, @var{c}, @var{e}, @var{tol})
  Logical check for system observability.
- Uses SLICOT AB01OD and TG01HD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
+ For numerical reasons, @code{isobsv (sys)}
+ should be used instead of @code{rank (obsv (sys))}.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ LTI model.  Descriptor state-space models are possible.
  @item a
  State transition matrix.
  @item c
@@ -1081,7 +1094,13 @@
  System is not observable.
  @item bool = 1
  System is observable.
+ @item nobs
+ Number of observable states.
  @end table
+
+ @strong{Algorithm}@*
+ Uses SLICOT AB01OD and TG01HD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
 
  @seealso{isctrb}
  @end deftypefn
@@ -1104,8 +1123,6 @@
  @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{a}, @var{b}, @var{e}, @var{tol}, @var{dflg})
  Logical check for system stabilizability.
  All unstable modes must be controllable or all uncontrollable states must be stable.
- Uses SLICOT AB01OD and TG01HD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -1133,7 +1150,9 @@
  System is stabilizable.
  @end table
 
- @strong{Method}
+ @strong{Algorithm}@*
+ Uses SLICOT AB01OD and TG01HD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
  @example
  @group
  * Calculate staircase form (SLICOT AB01OD)
@@ -1158,6 +1177,8 @@
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf}, @var{tol})
  Return H-2 or L-inf norm of LTI model.
+
+ @strong{Algorithm}@*
  Uses SLICOT AB13BD and AB13DD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
@@ -1844,13 +1865,11 @@
 
  @deftypefn {Function File} {@var{f} =} place (@var{sys}, @var{p})
  @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
- @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{sys}, @var{p}, @var{alpha})
- @deftypefnx {Function File} {[@var{f}, @var{nfp}, @var{nap}, @var{nup}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
+ @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{sys}, @var{p}, @var{alpha})
+ @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
  Pole assignment for a given matrix pair (@var{A},@var{B}) such that @code{p = eig (A-B*F)}.
  If parameter @var{alpha} is specified, poles with real parts (continuous-time)
  or moduli (discrete-time) below @var{alpha} are left untouched.
- Uses SLICOT SB01BD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -1874,13 +1893,15 @@
  @table @var
  @item f
  State feedback gain matrix.
- @item nfp
+ @item info
+ Structure containing additional information.
+ @item info.nfp
  The number of fixed poles, i.e. eigenvalues of @var{A} having
  real parts less than @var{alpha}, or moduli less than @var{alpha}.
  These eigenvalues are not modified by @command{place}.
- @item nap
+ @item info.nap
  The number of assigned eigenvalues.  @code{nap = n-nfp-nup}.
- @item nup
+ @item info.nup
  The number of uncontrollable eigenvalues detected by the
  eigenvalue assignment algorithm.
  @end table
@@ -1893,11 +1914,15 @@
  L = place (sys.', p).'   # useful for discrete-time systems
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB01BD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section rlocus
 
  @deftypefn {Function File} rlocus (@var{sys}) 
- @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}[, @var{increment}, @var{min_k}, @var{max_k}]) 
+ @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k}) 
  Display root locus plot of the specified @acronym{SISO} system.
 
  @strong{Inputs}
@@ -2211,8 +2236,6 @@
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
  H-2 control synthesis for LTI plant.
- Uses SLICOT SB10HD and SB10ED by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -2260,6 +2283,11 @@
                 +--------+
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB10HD and SB10ED by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{augw, lqr, dlqr, kalman}
  @end deftypefn
 @section hinfsyn
@@ -2267,8 +2295,6 @@
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
  @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
  H-infinity control synthesis for LTI plant.
- Uses SLICOT SB10FD and SB10DD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -2319,6 +2345,11 @@
                 +--------+
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB10FD and SB10DD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{augw, mixsyn}
  @end deftypefn
 @section mixsyn
@@ -2441,8 +2472,6 @@
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
  Normalized Coprime Factor (NCF) H-infinity synthesis.
  Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
- Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -2497,6 +2526,10 @@
         +-------------------------------------------------+
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @chapter Matrix Equation Solvers
 @section care
@@ -2506,8 +2539,6 @@
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
  Solve continuous-time algebraic Riccati equation (ARE).
- Uses SLICOT SB02OD and SG02AD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -2570,6 +2601,11 @@
  L = eig (A - B*G, E)
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB02OD and SG02AD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{dare, lqr, dlqr, kalman}
  @end deftypefn
 @section dare
@@ -2579,8 +2615,6 @@
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
  Solve discrete-time algebraic Riccati equation (ARE).
- Uses SLICOT SB02OD and SG02AD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Inputs}
  @table @var
@@ -2643,6 +2677,11 @@
  L = eig (A - B*G, E)
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB02OD and SG02AD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{care, lqr, dlqr, kalman}
  @end deftypefn
 @section dlyap
@@ -2651,8 +2690,6 @@
  @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{c})
  @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{[]}, @var{e})
  Solve discrete-time Lyapunov or Sylvester equations.
- Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Equations}
  @example
@@ -2665,6 +2702,10 @@
  @end group
  @end example
 
+ @strong{Algorithm}@*
+ Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{dlyapchol, lyap, lyapchol}
  @end deftypefn
 @section dlyapchol
@@ -2672,8 +2713,6 @@
  @deftypefn{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b}, @var{e})
  Compute Cholesky factor of discrete-time Lyapunov equations.
- Uses SLICOT SB03OD and SG03BD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Equations}
  @example
@@ -2684,6 +2723,10 @@
  @end group
  @end example
 
+ @strong{Algorithm}@*
+ Uses SLICOT SB03OD and SG03BD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{dlyap, lyap, lyapchol}
  @end deftypefn
 @section lyap
@@ -2692,8 +2735,6 @@
  @deftypefnx{Function File} {@var{x} =} lyap (@var{a}, @var{b}, @var{c})
  @deftypefnx{Function File} {@var{x} =} lyap (@var{a}, @var{b}, @var{[]}, @var{e})
  Solve continuous-time Lyapunov or Sylvester equations.
- Uses SLICOT SB03MD, SB04MD and SG03AD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Equations}
  @example
@@ -2706,6 +2747,10 @@
  @end group
  @end example
 
+ @strong{Algorithm}@*
+ Uses SLICOT SB03MD, SB04MD and SG03AD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
  @seealso{lyapchol, dlyap, dlyapchol}
  @end deftypefn
 @section lyapchol
@@ -2713,8 +2758,6 @@
  @deftypefn{Function File} {@var{u} =} lyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} lyapchol (@var{a}, @var{b}, @var{e})
  Compute Cholesky factor of continuous-time Lyapunov equations.
- Uses SLICOT SB03OD and SG03BD by courtesy of
- @uref{http://www.slicot.org, NICONET e.V.}
 
  @strong{Equations}
  @example
@@ -2724,6 +2767,10 @@
  A U' U E'  +  E U' U A'  +  B B'  =  0      (Generalized Lyapunov Equation)
  @end group
  @end example
+
+ @strong{Algorithm}@*
+ Uses SLICOT SB03OD and SG03BD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
 
  @seealso{lyap, dlyap, dlyapchol}
  @end deftypefn

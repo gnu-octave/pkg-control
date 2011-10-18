@@ -21,6 +21,8 @@
 ## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"alpha"}, @var{alpha})
 ## Hankel singular values of the stable part of an LTI model.  If no output arguments are
 ## given, the Hankel singular values are displayed in a plot.
+##
+## @strong{Algorithm}@*
 ## Uses SLICOT AB13AD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
 ## @end deftypefn

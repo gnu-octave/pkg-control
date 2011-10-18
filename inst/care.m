@@ -21,8 +21,6 @@
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
 ## @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
 ## Solve continuous-time algebraic Riccati equation (ARE).
-## Uses SLICOT SB02OD and SG02AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -85,6 +83,11 @@
 ## L = eig (A - B*G, E)
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Uses SLICOT SB02OD and SG02AD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
+##
 ## @seealso{dare, lqr, dlqr, kalman}
 ## @end deftypefn
 
