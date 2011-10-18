@@ -19,8 +19,9 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
       "info" struct instead of three individual output arguments. 
 
 ** inv
-   -- Support the inversion of MIMO transfer functions.
-      
+   -- Support the inversion of MIMO transfer functions.  Inverses of 2x2 TFs are
+      computed directly, larger models are computed internally in state-space.
+
 ** rlocus
    -- Clarify usage statement in help string.
    -- Check whether system is SISO.
@@ -32,6 +33,10 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ** hsvd
    -- Added option "alpha" to specify the alpha-stability boundary for the
       eigenvalues of the state dynamics matrix A.
+
+** isctrb, isobsv
+   -- Return number of controllable/observable states as a second output
+      argument.
 
 
 ===============================================================================
