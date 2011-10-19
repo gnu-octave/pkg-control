@@ -15,7 +15,10 @@
 @author Lukas F. Reichlin
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2009-2011, Lukas F. Reichlin
+Copyright @copyright{} 2009-2011, Lukas F. Reichlin @email{lukas.reichlin@@gmail.com}
+
+This manual is generated automatically from the texinfo help strings
+of the package's functions.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -28,6 +31,42 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
+@page
+@chapheading Preface
+The @acronym{GNU} Octave control package from version 2 onwards was
+developed by Lukas F. Reichlin. It is intended as a replacement for
+control-1.0.11 by A. Scottedward Hodel and his students.
+
+@subheading Acknowledgments
+The author is indebted to several people and institutions who helped
+him to achieve his goals. I am particularly grateful to Luca Favatella
+who introduced me to Octave development as well as discussed and revised
+my early draft code with great patience. My continued support from the
+@acronym{FHNW} University of Applied Sciences of Northwestern Switzerland,
+where I could work on the control package as a semester project, has also
+been important. Furthermore, I thank the @acronym{SLICOT} authors
+Peter Benner, Vasile Sima and Andras Varga for their advice.
+
+
+It all began when
+margin
+optiPID
+Octave 3.2
+classes
+
+@acronym{SLICOT}
+
+@sp 5
+@subheading Using the help function
+Some functions of the control package are listed with a leading @code{@@lti/}.
+This is only needed to view the help text of the function, e.g. @w{@code{help norm}}
+shows the built-in function while @w{@code{help @@lti/norm}} shows the overloaded
+function for @acronym{LTI} systems. Note that there are @acronym{LTI} functions
+like @code{pole} that have no built-in equivalent.
+
+When just using the function, the leading @code{@@lti/} must @strong{not} be typed.
+Octave selects the right function automatically. So one can type @w{@code{norm (sys, inf)}}
+and @w{@code{norm (matrix, inf)}} regardless of the class of the argument.
 @end titlepage
 @c %*** End of TITLEPAGE
 
