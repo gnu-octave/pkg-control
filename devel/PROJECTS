@@ -26,12 +26,13 @@ General:
 
   * Implement zpk models and @zpset similar to @tfpoly.
 
-  * SLICOT model and controller reduction.  Separate control-reduction package?
+  * SLICOT model and controller reduction.  Under construction in extra/control-devel.
 
-  * SLICOT system identification.  Separate control-identification package?
+  * SLICOT system identification.  Under construction in extra/control-devel
 
-  * Check whether RASP-DESCRIPT Fortran routines are free software and include them
-    for dss system conversions and other stuff if possible.
+  * Descriptor support for pole placement command "place".
+  
+  * Implement mu-Synthesis command "dksyn".
 
   * Add input and output groups to LTI models.
     -- sys.ingroup.controls = [1, 3] (stored as a struct)
@@ -64,10 +65,8 @@ State-Space Models:
 
   * Balancing: TB01TD ?
 
-  * Support descriptor models for bilin and prewarp methods in c2d and d2c.
-  
-  * Find a descriptor state-space to transfer function conversion routine
-    which supports models with singular E matrix (@ss/__sys2tf__.m).
+  * Support descriptor models for bilin and prewarp methods in c2d and d2c
+    if beta*E - A or alpha*E + A are singular.
 
 ------------------------
 Transfer Function Models:
