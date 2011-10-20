@@ -9,6 +9,8 @@ control-2.2.1   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
       polynomials consisting solely of zeros.
    -- MIMO support for descriptor state-space to transfer function conversion.
       Usage: tf_sys = tf (dss_sys)
+   -- MIMO support for interconnections of non-proper transfer functions via
+      internal conversion to state-space.
 
 ** ss
    -- Support conversion from non-proper transfer function to descriptor state-
