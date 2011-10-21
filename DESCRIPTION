@@ -4,7 +4,7 @@ Date: 2011-09-26
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
 Title: Control Systems
-Description: Octave control systems package increasingly based on the SLICOT Fortran library
+Description: Octave control systems package based on the proven SLICOT library
 Depends: octave (>= 3.3.90)
 Autoload: yes
 License: GPL version 3 or later
