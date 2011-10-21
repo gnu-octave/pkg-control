@@ -19,7 +19,7 @@
 ## @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C}, @var{TOL})
 ## If Co=ctrb(A,B) has rank r <= n = SIZE(A,1), then there is a 
 ## similarity transformation Tc such that Tc = [t1 t2] where t1
-## is the controlable subspace and t2 is orthogonal to t1
+## is the controllable subspace and t2 is orthogonal to t1
 ##
 ## @example
 ## @group
