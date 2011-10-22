@@ -45,8 +45,6 @@ function [retsys, retlti] = __sys2tf__ (sys)
     den = cellfun (@(x, y) x(1:y+1), den, igd, "uniformoutput", false);
   catch
     ## sys.e was probably singular, therefore ssdata failed.
-    warning ("ss: ss2tf: TB04BD failed, trying backup method now");
-
     if (issiso (sys))
       [num, den] = __siso_ss2tf__ (sys);
     else
