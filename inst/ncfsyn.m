@@ -17,8 +17,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
-## Normalized Coprime Factor (NCF) H-infinity synthesis.
-## Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
+## Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
+## the McFarlane/Glover normalized coprime factor (NCF) loop shaping design procedure.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -46,7 +46,7 @@
 ## @item N
 ## State-space model of the closed loop depicted below.
 ## @item gamma
-## L-infinity norm of @var{N}.
+## L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
 ## @item info
 ## Structure containing additional information.
 ## @item info.emax

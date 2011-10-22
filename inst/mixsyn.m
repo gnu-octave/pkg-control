@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
-## Solve stacked S/KS/T H-inf problem.  Bound the largest singular values
+## Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
 ## of @var{S} (for performance), @var{K S} (to penalize large inputs) and
 ## @var{T} (for robustness and to avoid sensitivity to noise).
 ## In other words, the inputs r are excited by a harmonic test signal.
