@@ -44,7 +44,7 @@ function [retsys, retlti] = __sys2ss__ (sys)
   ## check for properness  
   ## tfpoly ensures that there are no leading zeros
   tmp = len_num > len_den;
-  if (any (tmp(:)))
+  if (any (tmp(:)))       # non-proper transfer function
     ## separation into strictly proper and polynomial part
     [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
     numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
@@ -63,12 +63,12 @@ function [retsys, retlti] = __sys2ss__ (sys)
     b = vertcat (b1, b2);
     c = horzcat (c1, c2);
     retsys = dss (a, b, c, [], e);
-  else
+  else                    # proper transfer function
     [a, b, c, d] = __proper_tf2ss__ (num, den, p, m);
     retsys = ss (a, b, c, d);
   endif
 
-  retlti = sys.lti;   # preserve lti properties such as tsam
+  retlti = sys.lti;       # preserve lti properties such as tsam
 
 endfunction
 
@@ -155,6 +155,7 @@ function vec = __conv__ (vec, varargin)
 endfunction
 
 
+## remove leading zeros from polynomial vector
 function p = __remove_leading_zeros__ (p)
 
   idx = find (p != 0);
