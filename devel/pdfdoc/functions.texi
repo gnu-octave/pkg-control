@@ -1060,7 +1060,9 @@
  @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
  Determine whether LTI system is minimum phase.
- If a square system @var{P} is minimum-phase, its inverse @var{P^-1} is stable.
+ The zeros must lie in the left complex half-plane.
+ The name minimum-phase refers to the fact that such a system has the
+ minimum possible phase lag for the given magnitude response |sys(jw)|.
  @end deftypefn
 @section isobsv
 
@@ -2355,7 +2357,7 @@
 @section mixsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
- Solve stacked S/KS/T H-inf problem.  Bound the largest singular values
+ Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
  of @var{S} (for performance), @var{K S} (to penalize large inputs) and
  @var{T} (for robustness and to avoid sensitivity to noise).
  In other words, the inputs r are excited by a harmonic test signal.
@@ -2470,8 +2472,8 @@
 @section ncfsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
- Normalized Coprime Factor (NCF) H-infinity synthesis.
- Compute positive feedback controller using the McFarlane/Glover Loop Shaping Design Procedure.
+ Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
+ the McFarlane/Glover normalized coprime factor (NCF) loop shaping design procedure.
 
  @strong{Inputs}
  @table @var
@@ -2499,7 +2501,7 @@
  @item N
  State-space model of the closed loop depicted below.
  @item gamma
- L-infinity norm of @var{N}.
+ L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
  @item info
  Structure containing additional information.
  @item info.emax

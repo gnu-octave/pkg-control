@@ -19,7 +19,9 @@
 ## @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
 ## Determine whether LTI system is minimum phase.
-## If a square system @var{P} is minimum-phase, its inverse @var{P^-1} is stable.
+## The zeros must lie in the left complex half-plane.
+## The name minimum-phase refers to the fact that such a system has the
+## minimum possible phase lag for the given magnitude response |sys(jw)|.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
