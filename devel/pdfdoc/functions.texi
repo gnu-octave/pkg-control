@@ -872,7 +872,7 @@
  @strong{Equation}
  @iftex
  @tex
- $$ C_o = [ B AB A^2B ldots A^{n-1}B ] $$
+ $$ C_o = [ B \ \ AB \ \ A^2B \ \ldots \ A^{n-1}B ] $$
  @end tex
  @end iftex
  @ifinfo
@@ -1209,11 +1209,11 @@
  @strong{Equation}
  @iftex
  @tex
- $$ O_b = left[ matrix{  C       cr
-                           CA    cr
-                           CA^2  cr
-                           dots  cr
-                           CA^{n-1} } ight ] $$
+ $$ O_b = \left[ \matrix{  C       \cr
+                             CA    \cr
+                             CA^2  \cr
+                             \vdots  \cr
+                             CA^{n-1} } \right ] $$
  @end tex
  @end iftex
  @ifinfo
