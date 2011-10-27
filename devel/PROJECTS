@@ -34,6 +34,10 @@ General:
   
   * Implement mu-Synthesis command "dksyn".
 
+  * Implement d2d.
+
+  * Implement balreal.
+
   * Add input and output groups to LTI models.
     -- sys.ingroup.controls = [1, 3] (stored as a struct)
     -- sys(:, "controls") (instead of sys(:, [1, 3]))
@@ -52,6 +56,8 @@ General:
     Therefore model-specific commands (@tf/horzcat, @tf/vertcat, @frd/...)
     which override the generic commands (@lti/horzcat, @lti/vertcat) could
     make practical sense.
+
+  * Display individual warnings/errors for iwarn/info in oct-files.
 
 -----------------------
 Frequency Response Data:
