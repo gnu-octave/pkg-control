@@ -12,6 +12,8 @@ c = [  0.0   2.0   1.0
 
 [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, 0.0)
 
+z\a*z
+
 a = [ 1     1
       4    -2 ];
 

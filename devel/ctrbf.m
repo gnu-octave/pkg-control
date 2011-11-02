@@ -1,18 +1,20 @@
-## Copyright (C) 2010 Benjamin Fernandez <mail@benjaminfernandez.info>
+## Copyright (C) 2010   Benjamin Fernandez 
+## Copyright (C) 2011   Lukas F. Reichlin
 ## 
-## This program is free software; you can redistribute it and/or modify
+## This file is part of LTI Syncope.
+##
+## LTI Syncope is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
+## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
+##
+## LTI Syncope is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU General Public License
-## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C})
@@ -43,28 +45,53 @@
 ## containing the number of controllable states.
 ## @end deftypefn
 
-## Author: Benjamin Fernandez <benjas@benjas-laptop>
+## Author: Benjamin Fernandez <mail@benjaminfernandez.info>
 ## Created: 2010-04-30
+## Version: 0.1
 
-function [Abar, Bbar, Cbar, T, K] = ctrbf (A, B, C, TOL)
+function [ac, bc, cc, z, ncont] = ctrbf (a, b, c, tol = [])
 
   if (nargin < 3 || nargin > 4)
     print_usage ();
   endif
 
-  if (nargin == 3)
-    TOL = length (A) * norm (A,1) * eps;
+  if (isempty (tol))
+    tol = 0;               # default tolerance
+  elseif (! is_real_scalar (tol))
+    error ("ctrbf: tol must be a real scalar");
   endif
 
-  Co         = ctrb (A, B);
-  [nrc, ncc] = size (Co);
-  rco        = rank (Co, TOL);
-  lr         = nrc - rco;
-  [U, S, V]  = svd (Co);
-  K          = U(:, 1:rco);  # Basis column space
-  T          = U;            # [B orth(B)]
-  Abar       = T \ A * T;
-  Bbar       = T \ B;
-  Cbar       = C * T;
+  [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, 0.0);
   
 endfunction
+
+%!shared Ao, Bo, Co, Zo, Ae, Be, Ce, Ze, NCONT
+%! A =  [ -1.0   0.0   0.0
+%!        -2.0  -2.0  -2.0
+%!        -1.0   0.0  -3.0 ];
+%!
+%! B =  [  1.0   0.0   0.0
+%!         0.0   2.0   1.0 ].';
+%!
+%! C =  [  0.0   2.0   1.0
+%!         1.0   0.0   0.0 ];
+%!
+%! [Ao, Bo, Co, Zo, NCONT] = ctrbf (A, B, C);
+%!
+%! Ae = [ -3.0000   2.2361
+%!         0.0000  -1.0000 ];
+%!
+%! Be = [  0.0000  -2.2361
+%!         1.0000   0.0000 ];
+%!
+%! Ce = [ -2.2361   0.0000
+%!         0.0000   1.0000 ];
+%!
+%! Ze = [  0.0000   1.0000   0.0000
+%!        -0.8944   0.0000  -0.4472
+%!        -0.4472   0.0000   0.8944 ];
+%!
+%!assert (Ao(1:NCONT, 1:NCONT), Ae, 1e-4);
+%!assert (Bo(1:NCONT, :), Be, 1e-4);
+%!assert (Co(:, 1:NCONT), Ce, 1e-4);
+%!assert (Zo, Ze, 1e-4);
