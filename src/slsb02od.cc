@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT SB02OD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: February 2010
-Version: 0.2.1
+Version: 0.3
 
 */
 
@@ -174,7 +174,38 @@ For internal use only.")
             error ("are: slsb02od: exception in SLICOT subroutine SB02OD");
 
         if (info != 0)
-            error ("are: slsb02od: SB02OD returned info = %d", info);
+        {
+            if (info < 0)
+                error ("are: slsb02od: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("are: 1: the computed extended matrix pencil is singular, "
+                               "possibly due to rounding errors");
+                    case 2:
+                        error ("are: 2: the QZ (or QR) algorithm failed");
+                    case 3:
+                        error ("are: 3: reordering of the (generalized) eigenvalues "
+                               "failed");
+                    case 4:
+                        error ("are: 4: after reordering, roundoff changed values of "
+                               "some complex eigenvalues so that leading eigenvalues "
+                               "in the (generalized) Schur form no longer satisfy "
+                               "the stability condition; this could also be caused "
+                               "due to scaling");
+                    case 5:
+                        error ("are: 5: the computed dimension of the solution does not "
+                               "equal N");
+                    case 6:
+                        error ("are: 6: a singular matrix was encountered during the "
+                               "computation of the solution matrix X");
+                    default:
+                        error ("are: unknown error, info = %d", info);
+                }
+            }
+        }
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
         alfar.resize (n);

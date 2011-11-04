@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT SG02AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: October 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -183,10 +183,44 @@ For internal use only.")
             error ("are: slsg02ad: exception in SLICOT subroutine SG02AD");
 
         if (iwarn != 0)
-            warning ("are: slsg02ad: solution may be inaccurate due to poor scaling or eigenvalues too close to the boundary of the stability domain");
+            warning ("are: slsg02ad: solution may be inaccurate due to poor scaling "
+                     "or eigenvalues too close to the boundary of the stability domain");
 
         if (info != 0)
-            error ("are: slsg02ad: SG02AD returned info = %d", info);
+        {
+            if (info < 0)
+                error ("are: slsg02ad: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("are: 1: the computed extended matrix pencil is singular, "
+                               "possibly due to rounding errors");
+                    case 2:
+                        error ("are: 2: the QZ algorithm failed");
+                    case 3:
+                        error ("are: 3: reordering of the generalized eigenvalues failed");
+                    case 4:
+                        error ("are: 4: after reordering, roundoff changed values of "
+                               "some complex eigenvalues so that leading eigenvalues "
+                               "in the generalized Schur form no longer satisfy the "
+                               "stability condition; this could also be caused due "
+                               "to scaling");
+                    case 5:
+                        error ("are: 5: the computed dimension of the solution does not "
+                               "equal N");
+                    case 6:
+                        error ("are: 6: the spectrum is too close to the boundary of "
+                               "the stability domain");
+                    case 7:
+                        error ("are: 7: a singular matrix was encountered during the "
+                               "computation of the solution matrix X");
+                    default:
+                        error ("are: unknown error, info = %d", info);
+                }
+            }
+        }
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
         alfar.resize (n);
