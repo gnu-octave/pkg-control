@@ -23,7 +23,7 @@ Uses SLICOT SB10ID by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: July 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -128,10 +128,34 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("hinfsyn: slsb10id: exception in SLICOT subroutine SB10ID");
+            error ("ncfsyn: slsb10id: exception in SLICOT subroutine SB10ID");
 
         if (info != 0)
-            error ("hinfsyn: slsb10id: SB10ID returned info = %d", info);
+        {
+            if (info < 0)
+                error ("ncfsyn: slsb10id: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("ncfsyn: 1: the X-Riccati equation is not solved successfully");
+                    case 2:
+                        error ("ncfsyn: 2: the Z-Riccati equation is not solved successfully");
+                    case 3:
+                        error ("ncfsyn: 3: the iteration to compute eigenvalues or singular "
+                               "values failed to converge");
+                    case 4:
+                        error ("ncfsyn: 4: the matrix Ip - D*Dk is singular");
+                    case 5:
+                        error ("ncfsyn: 5: the matrix Im - Dk*D is singular");
+                    case 6:
+                        error ("ncfsyn: 6: the closed-loop system is unstable");
+                    default:
+                        error ("ncfsyn: unknown error, info = %d", info);
+                }
+            }
+        }
 
         // resizing
         ak.resize (nk, nk);

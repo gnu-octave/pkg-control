@@ -23,7 +23,7 @@ Uses SLICOT SB10ZD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: August 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -134,7 +134,40 @@ For internal use only.")
             error ("hinfsyn: slsb10zd: exception in SLICOT subroutine SB10ZD");
 
         if (info != 0)
-            error ("hinfsyn: slsb10zd: SB10ZD returned info = %d", info);
+        {
+            if (info < 0)
+                error ("ncfsyn: slsb10zd: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("ncfsyn: 1: the P-Riccati equation is not solved successfully");
+                    case 2:
+                        error ("ncfsyn: 2: the Q-Riccati equation is not solved successfully");
+                    case 3:
+                        error ("ncfsyn: 3: the iteration to compute eigenvalues or singular "
+                               "values failed to converge");
+                    case 4:
+                        error ("ncfsyn: 4: the matrix (gamma^2-1)*In - P*Q is singular");
+                    case 5:
+                        error ("ncfsyn: 5: the matrix Rx + Bx'*X*Bx is singular");
+                    case 6:
+                        error ("ncfsyn: 6: the matrix Ip + D*Dk is singular");
+                    case 7:
+                        error ("ncfsyn: 7: the matrix Im + Dk*D is singular");
+                    case 8:
+                        error ("ncfsyn: 8: the matrix Ip - D*Dk is singular");
+                    case 9:
+                        error ("ncfsyn: 9: the matrix Im - Dk*D is singular");
+                    case 10:
+                        error ("ncfsyn: 10: the closed-loop system is unstable");
+                    default:
+                        error ("ncfsyn: unknown error, info = %d", info);
+                }
+            }
+        }
+
 
         // resizing
         ak.resize (n, n);
