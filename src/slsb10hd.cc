@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT SB10HD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -139,7 +139,32 @@ For internal use only.")
             error ("h2syn: slsb10hd: exception in SLICOT subroutine SB10HD");
 
         if (info != 0)
-            error ("h2syn: slsb10hd: SB10HD returned info = %d", info);
+        {
+            if (info < 0)
+                error ("h2syn: slsb10hd: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("h2syn: 1: the matrix D12 had not full column rank in "
+                               "respect to the tolerance TOL");
+                    case 2:
+                        error ("h2syn: 2: the matrix D21 had not full row rank in respect "
+                               "to the tolerance TOL");
+                    case 3:
+                        error ("h2syn: 3: the singular value decomposition (SVD) algorithm "
+                               "did not converge (when computing the SVD of one of "
+                               "the matrices D12 or D21)");
+                    case 4:
+                        error ("h2syn: 4: the X-Riccati equation was not solved successfully");
+                    case 5:
+                        error ("h2syn: 5: the Y-Riccati equation was not solved successfully");
+                    default:
+                        error ("h2syn: unknown error, info = %d", info);
+                }
+            }
+        }
         
         // return values
         retval(0) = ak;
