@@ -3,11 +3,11 @@
 ## ==============================================================================
 ## USAGE: * fetch control from Octave-Forge by svn
 ##        * add control/inst, control/src and control/devel to your Octave path
-##        * run makefile_*
+##        * run makefile_control
 ## ==============================================================================
 
 homedir = pwd ();
-develdir = fileparts (which ("makefile_all"));
+develdir = fileparts (which ("makefile_control"));
 srcdir = [develdir, "/../src"];
 cd (srcdir);
 
