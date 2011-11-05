@@ -1,6 +1,13 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.2.2   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved error messages for ARE solvers and robust control commands.
+
+
+===============================================================================
 control-2.2.1   Release Date: 2011-10-24   Release Manager: Lukas Reichlin
 ===============================================================================
 
