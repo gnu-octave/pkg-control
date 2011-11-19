@@ -50,6 +50,9 @@ control-2.2.1   Release Date: 2011-10-24   Release Manager: Lukas Reichlin
    -- Return number of controllable/observable states as a second output
       argument.
 
+** doc/control.pdf
+   -- Added preface to PDF manual.
+
 
 ===============================================================================
 control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
