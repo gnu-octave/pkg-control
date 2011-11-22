@@ -57,6 +57,10 @@
 ## @item info.nup
 ## The number of uncontrollable eigenvalues detected by the
 ## eigenvalue assignment algorithm.
+## @item info.z
+## The orthogonal matrix @var{z} reduces the closed-loop
+## system state matrix @code{A + B*F} to upper real Schur form.
+## Note the positive sign in @code{A + B*F}.
 ## @end table
 ##
 ## @strong{Note}
@@ -76,7 +80,7 @@
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.4
+## Version: 0.5
 
 function [f, info] = place (a, b, p = [], alpha = [], tol = [])
 
@@ -132,10 +136,10 @@ function [f, info] = place (a, b, p = [], alpha = [], tol = [])
     tol = 0;
   endif
 
-  [f, nfp, nap, nup] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
+  [f, nfp, nap, nup, z] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
   f = -f;                          # A + B*F --> A - B*F
 
-  info = struct ("nfp", nfp, "nap", nap, "nup", nup);
+  info = struct ("nfp", nfp, "nap", nap, "nup", nup, "z", z);
 
 endfunction
 

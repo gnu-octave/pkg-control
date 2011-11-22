@@ -23,7 +23,7 @@ Uses SLICOT SB01BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -94,8 +94,7 @@ For internal use only.")
         int nup;
         
         Matrix f (ldf, n);
-        
-        OCTAVE_LOCAL_BUFFER (double, z, ldz*n);
+        Matrix z (ldz, n);
         
         // workspace
         int ldwork = max (1, 5*m, 5*n, 2*n+4*m);
@@ -117,7 +116,7 @@ For internal use only.")
                   wr.fortran_vec (), wi.fortran_vec (),
                   nfp, nap, nup,
                   f.fortran_vec (), ldf,
-                  z, ldz,
+                  z.fortran_vec (), ldz,
                   tol,
                   dwork, ldwork,
                   iwarn, info));
@@ -128,14 +127,51 @@ For internal use only.")
         if (info != 0)
             error ("place: slsb01bd: SB01BD returned info = %d", info);
 
+        if (info != 0)
+        {
+            if (info < 0)
+                error ("place: slsb01bd: the %d-th argument had an invalid value", info);
+            else
+            {
+                switch (info)
+                {
+                    case 1:
+                        error ("place: 1: the reduction of A to a real Schur form failed.");
+                    case 2:
+                        error ("place: 2: a failure was detected during the ordering of the "
+                               "real Schur form of A, or in the iterative process "
+                               "for reordering the eigenvalues of Z'*(A + B*F)*Z "
+                               "along the diagonal.");
+                    case 3:
+                        error ("place: 3: the number of eigenvalues to be assigned is less "
+                               "than the number of possibly assignable eigenvalues; "
+                               "NAP eigenvalues have been properly assigned, "
+                               "but some assignable eigenvalues remain unmodified.");
+                    case 4:
+                        error ("place: 4: an attempt is made to place a complex conjugate "
+                               "pair on the location of a real eigenvalue. This "
+                               "situation can only appear when N-NFP is odd, "
+                               "NP > N-NFP-NUP is even, and for the last real "
+                               "eigenvalue to be modified there exists no available "
+                               "real eigenvalue to be assigned. However, NAP "
+                               "eigenvalues have been already properly assigned.");
+                    default:
+                        error ("place: unknown error, info = %d", info);
+                }
+            }
+        }
+
         if (iwarn != 0)
-            warning ("place: slsb01bd: %d violations of the numerical stability condition NORM(F) <= 100*NORM(A)/NORM(B)", iwarn);
+            warning ("place: slsb01bd: %d violations of the numerical stability condition "
+                     "NORM(F) <= 100*NORM(A)/NORM(B) occured during the "
+                     "assignment of eigenvalues.", iwarn);
 
         // return values
         retval(0) = f;
         retval(1) = octave_value (nfp);
         retval(2) = octave_value (nap);
         retval(3) = octave_value (nup);
+        retval(4) = z;
     }
     
     return retval;
