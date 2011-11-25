@@ -43,12 +43,12 @@
 ## $$ C_o = [ B \\ \\ AB \\ \\ A^2B \\ \\ldots \\ A^{n-1}B ] $$
 ## @end tex
 ## @end iftex
-## @ifinfo
+## @ifnottex
 ## @example
 ##              2       n-1
 ## Co = [ B AB A B ... A   B ]
 ## @end example
-## @end ifinfo
+## @end ifnottex
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

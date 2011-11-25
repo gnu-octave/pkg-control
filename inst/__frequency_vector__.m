@@ -26,9 +26,9 @@
 ## $ [ 10^{w_{min}}, 10^{w_{max}} ] $
 ## @end tex
 ## @end iftex
-## @ifinfo
+## @ifnottex
 ## [10^@var{wmin}, 10^@var{wmax}]
-## @end ifinfo
+## @end ifnottex
 ##
 ## Used by @command{__frequency_response__}
 ## @end deftypefn

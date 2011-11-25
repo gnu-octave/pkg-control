@@ -47,7 +47,7 @@
 ##                             CA^{n-1} } \\right ] $$
 ## @end tex
 ## @end iftex
-## @ifinfo
+## @ifnottex
 ## @example
 ## @group
 ##      | C        |
@@ -57,7 +57,7 @@
 ##      | CA^(n-1) |
 ## @end group
 ## @end example
-## @end ifinfo
+## @end ifnottex
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

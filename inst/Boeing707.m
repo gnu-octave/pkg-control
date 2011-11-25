@@ -24,9 +24,9 @@
 ## ($M = 0.26$, $G_{a0} = -3^{\circ}$, ${\alpha}_0 = 4^{\circ}$, ${\kappa}= 50^{\circ}$).
 ## @end tex
 ## @end iftex
-## @ifinfo
+## @ifnottex
 ## (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).
-## @end ifinfo
+## @end ifnottex
 ##
 ## System inputs: (1) thrust and (2) elevator angle.
 ##
