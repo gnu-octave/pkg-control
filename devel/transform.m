@@ -43,6 +43,10 @@
 ## @strong{Equations}
 ## @example
 ## @group
+## x = Tx * xt
+## u = Tu * ut
+## y = Ty * yt
+##
 ## At = Tx \ A * Tx
 ## Bt = Tx \ B * Tu
 ## Ct = Ty \ C * Tx
