@@ -1,3 +1,5 @@
+OCTAVE ?= octave
+
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
      slsb04qd.oct slsg03ad.oct slsb02od.oct slab13ad.oct slab01od.oct \
@@ -6,7 +8,11 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      sltg01ad.oct slsb10id.oct slsb10kd.oct slsb10zd.oct sltb04bd.oct \
      slab04md.oct slsb10jd.oct sltd04ad.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
-     is_real_square_matrix.oct
+     is_real_square_matrix.oct \
+     copy_NEWS
+
+copy_NEWS:
+	$(if $(shell $(OCTAVE) -q --eval "if (compare_versions (version (), \"3.6.0\", \"<\")) printf (\"true\"); endif"), mv ../NEWS ../doc/)
 
 # TODO: leading and trailing underscores for sl* functions
 #       (__sl*__.oct) would be nice, but this can be an issue
