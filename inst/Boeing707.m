@@ -21,7 +21,7 @@
 ## at @var{v}=80 m/s 
 ## @iftex
 ## @tex
-## ($M = 0.26$, $G_{a0} = -3^{\circ}$, ${\alpha}_0 = 4^{\circ}$, ${\kappa}= 50^{\circ}$).
+## ($M = 0.26$, $G_{a0} = -3^{\\circ}$, ${\\alpha}_0 = 4^{\\circ}$, ${\\kappa}= 50^{\\circ}$).
 ## @end tex
 ## @end iftex
 ## @ifnottex

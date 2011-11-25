@@ -1,0 +1,9 @@
+cd ~/control/devel/pdfdoc
+octave -q --eval \
+"function_doc"
+pdftex -interaction batchmode control.tex
+pdftex -interaction batchmode control.tex
+pdftex -interaction batchmode control.tex
+pdftex -interaction batchmode control.tex
+pdftex -interaction batchmode control.tex
+cd
