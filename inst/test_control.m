@@ -22,10 +22,24 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.2.1
+## Version: 0.3
 
 ## test collection
 test ltimodels
+
+## LTI methods
+test @lti/c2d
+test @lti/d2c
+test @lti/feedback
+test @lti/horzcat
+test @lti/inv
+test @lti/minreal
+test @lti/mtimes
+test @lti/norm
+test @lti/plus
+test @lti/prescale
+test @lti/sminreal
+test @lti/zero
 
 ## robust control
 test hinfsyn

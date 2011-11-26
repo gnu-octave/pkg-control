@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = mtimes (sys2, sys1)
 
@@ -72,3 +72,83 @@ endfunction
   sys = __sys_group__ (sys1, sys2);
 #}
 ## Don't forget to adapt @tf/__sys_connect__.m draft code
+
+
+## mtimes
+%!shared sysmat, sysmat_exp
+%! sys1 = ss ([0, 1; -3, -2], [0; 1], [-5, 1], [2]);
+%! sys2 = ss ([-10], [1], [-40], [5]);
+%! sys3 = sys2 * sys1;
+%! [A, B, C, D] = ssdata (sys3);
+%! sysmat = [A, B; C, D];
+%! A_exp = [ -10   -5    1
+%!             0    0    1
+%!             0   -3   -2 ];
+%! B_exp = [   2
+%!             0
+%!             1 ];
+%! C_exp = [ -40  -25    5 ];
+%! D_exp = [  10 ];
+%! sysmat_exp = [A_exp, B_exp; C_exp, D_exp];
+%!assert (sysmat, sysmat_exp)
+
+
+## Cascade inter-connection of two systems in state-space form
+## Test from SLICOT AB05MD
+## TODO: order of united state vector: consistency vs. compatibility?
+#%!shared M, Me
+#%! A1 = [ 1.0   0.0  -1.0
+#%!        0.0  -1.0   1.0
+#%!        1.0   1.0   2.0 ];
+#%!
+#%! B1 = [ 1.0   1.0   0.0
+#%!        2.0   0.0   1.0 ].';
+#%!
+#%! C1 = [ 3.0  -2.0   1.0
+#%!        0.0   1.0   0.0 ];
+#%!
+#%! D1 = [ 1.0   0.0
+#%!        0.0   1.0 ];
+#%!
+#%! A2 = [-3.0   0.0   0.0
+#%!        1.0   0.0   1.0
+#%!        0.0  -1.0   2.0 ];
+#%!
+#%! B2 = [ 0.0  -1.0   0.0
+#%!        1.0   0.0   2.0 ].';
+#%!
+#%! C2 = [ 1.0   1.0   0.0
+#%!        1.0   1.0  -1.0 ];
+#%!
+#%! D2 = [ 1.0   1.0
+#%!        0.0   1.0 ];
+#%!
+#%! sys1 = ss (A1, B1, C1, D1);
+#%! sys2 = ss (A2, B2, C2, D2);
+#%! sys = sys2 * sys1;
+#%! [A, B, C, D] = ssdata (sys);
+#%! M = [A, B; C, D];
+#%!
+#%! Ae = [ 1.0000   0.0000  -1.0000   0.0000   0.0000   0.0000
+#%!        0.0000  -1.0000   1.0000   0.0000   0.0000   0.0000
+#%!        1.0000   1.0000   2.0000   0.0000   0.0000   0.0000
+#%!        0.0000   1.0000   0.0000  -3.0000   0.0000   0.0000
+#%!       -3.0000   2.0000  -1.0000   1.0000   0.0000   1.0000
+#%!        0.0000   2.0000   0.0000   0.0000  -1.0000   2.0000 ];
+#%!
+#%! Be = [ 1.0000   2.0000
+#%!        1.0000   0.0000
+#%!        0.0000   1.0000
+#%!        0.0000   1.0000
+#%!       -1.0000   0.0000
+#%!        0.0000   2.0000 ];
+#%!
+#%! Ce = [ 3.0000  -1.0000   1.0000   1.0000   1.0000   0.0000
+#%!        0.0000   1.0000   0.0000   1.0000   1.0000  -1.0000 ];
+#%!
+#%! De = [ 1.0000   1.0000
+#%!        0.0000   1.0000 ];
+#%!
+#%! Me = [Ae, Be; Ce, De];
+#%!
+#%!assert (M, Me, 1e-4);

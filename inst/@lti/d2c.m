@@ -47,7 +47,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.1
+## Version: 0.2
 
 function sys = d2c (sys, method = "std", w0 = 0)
 
@@ -75,3 +75,72 @@ function sys = d2c (sys, method = "std", w0 = 0)
   sys.tsam = 0;
 
 endfunction
+
+
+## bilinear transformation
+## both directions
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  1.0  0.0
+%!        0.0 -1.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (d2c (c2d (ss (A, B, C, D), 2, "tustin"), "tustin"));
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [A, B; C, D];
+%!
+%!assert (Mo, Me, 1e-4);
+
+
+## zero-order hold
+## both directions
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  1.0  0.0
+%!        0.0 -1.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (d2c (c2d (ss (A, B, C, D), 2, "zoh"), "zoh"));
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [A, B; C, D];
+%!
+%!assert (Mo, Me, 1e-4);
+
+
+## bilinear transformation with pre-warping
+## both directions
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  1.0  0.0
+%!        0.0 -1.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (d2c (c2d (ss (A, B, C, D), 2, "prewarp", 1000), "prewarp", 1000));
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [A, B; C, D];
+%!
+%!assert (Mo, Me, 1e-4);

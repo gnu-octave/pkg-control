@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function retsys = inv (sys)
 
@@ -39,3 +39,46 @@ function retsys = inv (sys)
   ## TODO: handle i/o names
 
 endfunction
+
+
+## inverse of state-space models
+## test from SLICOT AB07ND
+## result differs intentionally from a commercial
+## implementation of an octave-like language
+%!shared M, Me
+%! A = [ 1.0   2.0   0.0
+%!       4.0  -1.0   0.0
+%!       0.0   0.0   1.0 ];
+%!
+%! B = [ 1.0   0.0
+%!       0.0   1.0
+%!       1.0   0.0 ];
+%!
+%! C = [ 0.0   1.0  -1.0
+%!       0.0   0.0   1.0 ];
+%!
+%! D = [ 4.0   0.0
+%!       0.0   1.0 ];
+%!
+%! sys = ss (A, B, C, D);
+%! sysinv = inv (sys);
+%! [Ai, Bi, Ci, Di] = ssdata (sysinv);
+%! M = [Ai, Bi; Ci, Di];
+%!
+%! Ae = [ 1.0000   1.7500   0.2500
+%!        4.0000  -1.0000  -1.0000
+%!        0.0000  -0.2500   1.2500 ];
+%!
+%! Be = [-0.2500   0.0000
+%!        0.0000  -1.0000
+%!       -0.2500   0.0000 ];
+%!
+%! Ce = [ 0.0000   0.2500  -0.2500
+%!        0.0000   0.0000   1.0000 ];
+%!
+%! De = [ 0.2500   0.0000
+%!        0.0000   1.0000 ];
+%!
+%! Me = [Ae, Be; Ce, De];  # Me = [Ae, -Be; -Ce, De];
+%!
+%!assert (M, Me, 1e-4);

@@ -67,7 +67,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
@@ -182,3 +182,82 @@ function fbsign = __check_fbsign__ (fbsign)
   endif
 
 endfunction
+
+
+## Feedback inter-connection of two systems in state-space form
+## Test from SLICOT AB05ND
+%!shared M, Me
+%! A1 = [ 1.0   0.0  -1.0
+%!        0.0  -1.0   1.0
+%!        1.0   1.0   2.0 ];
+%!
+%! B1 = [ 1.0   1.0   0.0
+%!        2.0   0.0   1.0 ].';
+%!
+%! C1 = [ 3.0  -2.0   1.0
+%!        0.0   1.0   0.0 ];
+%!
+%! D1 = [ 1.0   0.0
+%!        0.0   1.0 ];
+%!
+%! A2 = [-3.0   0.0   0.0
+%!        1.0   0.0   1.0
+%!        0.0  -1.0   2.0 ];
+%!
+%! B2 = [ 0.0  -1.0   0.0
+%!        1.0   0.0   2.0 ].';
+%!
+%! C2 = [ 1.0   1.0   0.0
+%!        1.0   1.0  -1.0 ];
+%!
+%! D2 = [ 1.0   1.0
+%!        0.0   1.0 ];
+%!
+%! sys1 = ss (A1, B1, C1, D1);
+%! sys2 = ss (A2, B2, C2, D2);
+%! sys = feedback (sys1, sys2);
+%! [A, B, C, D] = ssdata (sys);
+%! M = [A, B; C, D];
+%!
+%! Ae = [-0.5000  -0.2500  -1.5000  -1.2500  -1.2500   0.7500
+%!       -1.5000  -0.2500   0.5000  -0.2500  -0.2500  -0.2500
+%!        1.0000   0.5000   2.0000  -0.5000  -0.5000   0.5000
+%!        0.0000   0.5000   0.0000  -3.5000  -0.5000   0.5000
+%!       -1.5000   1.2500  -0.5000   1.2500   0.2500   1.2500
+%!        0.0000   1.0000   0.0000  -1.0000  -2.0000   3.0000 ];
+%!
+%! Be = [ 0.5000   0.7500
+%!        0.5000  -0.2500
+%!        0.0000   0.5000
+%!        0.0000   0.5000
+%!       -0.5000   0.2500
+%!        0.0000   1.0000 ];
+%!
+%! Ce = [ 1.5000  -1.2500   0.5000  -0.2500  -0.2500  -0.2500
+%!        0.0000   0.5000   0.0000  -0.5000  -0.5000   0.5000 ];
+%!
+%! De = [ 0.5000  -0.2500
+%!        0.0000   0.5000 ];
+%!
+%! Me = [Ae, Be; Ce, De];
+%!
+%!assert (M, Me, 1e-4);
+
+
+## sensitivity function
+## Note the correct physical meaning of the states.
+## Test would fail on a commercial octave clone
+## because of wrong signs of matrices B and C.
+## NOTE: Don't use T = I - S for complementary sensitivity,
+##       use T = feedback (L) instead!
+%!shared S1, S2
+%! P = ss (-2, 3, 4, 5);  # meaningless numbers
+%! C = ss (-1, 1, 1, 0);  # ditto
+%! L = P * C;
+%! I = eye (size (L));
+%! S1 = feedback (I, L*-I, "+");  # draw a block diagram for better understanding
+%! S2 = inv (I + L);
+%!assert (S1.a, S2.a, 1e-4);
+%!assert (S1.b, S2.b, 1e-4);
+%!assert (S1.c, S2.c, 1e-4);
+%!assert (S1.d, S2.d, 1e-4);

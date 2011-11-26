@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = sminreal (sys, tol = 0)
 
@@ -110,3 +110,33 @@ function c_idx = __controllable_states__ (a, b)
   endwhile
 
 endfunction
+
+
+## ss: sminreal
+%!shared B, C
+%!
+%! A = ss (-2, 3, 4, 5);
+%! B = A / A;
+%! C = sminreal (B);  # no states should be removed
+%!
+%!assert (C.a, B.a);
+%!assert (C.b, B.b);
+%!assert (C.c, B.c);
+%!assert (C.d, B.d);
+
+%!shared A, B, D, E
+%!
+%! A = ss (-1, 1, 1, 0);
+%! B = ss (-2, 3, 4, 5);
+%! C = [A, B];
+%! D = sminreal (C(:, 1));
+%! E = sminreal (C(:, 2));
+%!
+%!assert (D.a, A.a);
+%!assert (D.b, A.b);
+%!assert (D.c, A.c);
+%!assert (D.d, A.d);
+%!assert (E.a, B.a);
+%!assert (E.b, B.b);
+%!assert (E.c, B.c);
+%!assert (E.d, B.d);
