@@ -6,6 +6,13 @@ control-2.2.2   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 
 ** Improved error messages for place, ARE solvers and robust control commands.
 
+** Reorganized tests.  Most tests have been moved from "ltimodels" to the files
+   of the LTI methods being tested.  All available tests can be executed by
+   "test_control".
+
+** The NEWS file is handled correctly when using Octave version 3.6.
+   Type "news("control")" or "news control" to display the news (3.6 only).
+
 
 ===============================================================================
 control-2.2.1   Release Date: 2011-10-24   Release Manager: Lukas Reichlin
