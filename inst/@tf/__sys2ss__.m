@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.3.1
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -115,7 +115,8 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
     endfor
   endfor
 
-  [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, sqrt (eps));
+  tol = min (sqrt (eps), eps*prod (index));
+  [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
   
 endfunction
 

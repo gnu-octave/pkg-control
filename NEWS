@@ -13,6 +13,10 @@ control-2.2.2   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 ** The NEWS file is handled correctly when using Octave version 3.6.
    Type "news("control")" or "news control" to display the news (3.6 only).
 
+** ss
+   -- Revised default tolerance for transfer function to state-space conversion
+      by SLICOT TD04AD.
+
 
 ===============================================================================
 control-2.2.1   Release Date: 2011-10-24   Release Manager: Lukas Reichlin
