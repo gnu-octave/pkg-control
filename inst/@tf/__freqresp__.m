@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,11 +20,11 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
-  [num, den, tsam] = tfdata (sys);
+  [num, den, tsam] = tfdata (sys, "vector");
 
   if (isct (sys))  # continuous system
     s = num2cell (i * w);
@@ -32,9 +32,12 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     s = num2cell (exp (i * w * abs (tsam)));
   endif
 
-  f = @(z) cellfun (@(x, y) polyval (x, z) / polyval (y, z), num, den);
-
-  H = cellfun (f, s, "uniformoutput", false);
+  if (issiso (sys))
+    H = cellfun (@(z) polyval (num, z) / polyval (den, z), s, "uniformoutput", false);
+  else
+    f = @(z) cellfun (@(x, y) polyval (x, z) / polyval (y, z), num, den);
+    H = cellfun (f, s, "uniformoutput", false);
+  endif
 
   if (resptype)
     [p, m] = size (sys);
