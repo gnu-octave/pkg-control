@@ -6,16 +6,24 @@ control-2.2.2   Release Date: 2011-xx-yy   Release Manager: Lukas Reichlin
 
 ** Improved error messages for place, ARE solvers and robust control commands.
 
+** minreal, ss
+   -- Fixed a crash for descriptor models.  minreal for dss models as well as
+      conversion from non-proper transfer functions to descriptor state-space
+      models should work now as expected.
+
+** ss
+   -- Revised default tolerance for transfer function to state-space conversion
+      by SLICOT TD04AD.
+
+** Better performance when computing the frequency response of SISO transfer
+   function models.
+
 ** Reorganized tests.  Most tests have been moved from "ltimodels" to the files
    of the LTI methods being tested.  All available tests can be executed by
    "test_control".
 
 ** The NEWS file is handled correctly when using Octave version 3.6.
    Type "news("control")" or "news control" to display the news (3.6 only).
-
-** ss
-   -- Revised default tolerance for transfer function to state-space conversion
-      by SLICOT TD04AD.
 
 
 ===============================================================================
