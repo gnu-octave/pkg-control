@@ -23,7 +23,7 @@ Uses SLICOT TG01JD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -126,7 +126,15 @@ For internal use only.")
         else
             ldc = max (1, m, p);
 
-        b.resize (ldb, max (m, p));
+        a.resize (lda, n);
+        e.resize (lde, n);
+        
+        if (job == 'C')
+            b.resize (ldb, m);
+        else
+            b.resize (ldb, max (m, p));
+
+        c.resize (ldc, n);
 
         // arguments out
         int nr;
@@ -134,8 +142,14 @@ For internal use only.")
         
         // workspace
         int liwork = n + max (m, p);
+        int ldwork;
         // int ldwork = max (n, 2*m, 2*p);
-        int ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
+        // int ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
+        
+        if (equil == 'S')
+            ldwork = max (8*n, 2*m, 2*p);
+        else        // if EQUIL = 'N'
+            ldwork = max (n, 2*m, 2*p);
 
         // FIXME: larger ldwork should give better results,
         //        but it breaks the test that Slicot provides.
