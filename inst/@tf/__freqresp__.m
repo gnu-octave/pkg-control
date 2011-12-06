@@ -20,51 +20,52 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
   [num, den, tsam] = tfdata (sys, "vector");
 
   if (isct (sys))  # continuous system
-    s = num2cell (i * w);
+    s = i * w;
   else             # discrete system
-    s = num2cell (exp (i * w * abs (tsam)));
+    s = exp (i * w * abs (tsam));
   endif
+  
+  s = reshape (s, 1, 1, []);
 
   if (issiso (sys))
-    H = cellfun (@(z) polyval (num, z) / polyval (den, z), s, "uniformoutput", false);
+    H = polyval (num, s) ./ polyval (den, s);
   else
-    f = @(z) cellfun (@(x, y) polyval (x, z) / polyval (y, z), num, den);
-    H = cellfun (f, s, "uniformoutput", false);
+    H = cellfun (@(x, y) polyval (x, s) ./ polyval (y, s), num, den, "uniformoutput", false);
+    H = cell2mat (H);
   endif
 
   if (resptype)
     [p, m] = size (sys);
-
+    l = length (s); 
     if (m != p)
       error ("tf: freqresp: system must be square for response type %d", resptype);
-    endif
-
+    endif 
+    H = mat2cell (H, p, m, ones (1, l))(:);
     j = eye (p);
-
     switch (resptype)
       case 1     # inversed system
         H = cellfun (@inv, H, "uniformoutput", false);
-
       case 2     # inversed sensitivity
         H = cellfun (@(x) j + x, H, "uniformoutput", false);
-
       case 3     # inversed complementary sensitivity
         H = cellfun (@(x) j + inv (x), H, "uniformoutput", false);
-
       otherwise
         error ("tf: freqresp: invalid response type");
     endswitch
-  endif
-
-  if (! cellflag)
-    H = cat (3, H{:});
+    if (! cellflag)
+      H = cat (3, H{:});
+    endif
+  elseif (cellflag)
+    [p, m] = size (sys);
+    l = length (s);
+    H = mat2cell (H, p, m, ones (1, l))(:);
   endif
 
 endfunction

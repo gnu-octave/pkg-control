@@ -1,6 +1,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.y   Release Date: 201x-yy-zz   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved performance when computing the frequency response of transfer
+   function models by orders of magnitude.
+   
+
+===============================================================================
 control-2.2.2   Release Date: 2011-12-04   Release Manager: Lukas Reichlin
 ===============================================================================
 
