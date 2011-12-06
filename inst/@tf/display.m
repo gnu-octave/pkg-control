@@ -33,7 +33,7 @@ function display (sys)
   disp ("");
 
   for nu = 1 : m
-    disp (["Transfer function \"", sysname, "\" from input \"", inname{nu}, "\" to output ..."]);
+    disp (["Transfer function '", sysname, "' from input '", inname{nu}, "' to output ..."]);
     disp ("");
     for ny = 1 : p
       __disp_frac__ (sys.num{ny, nu}, sys.den{ny, nu}, sys.tfvar, outname{ny});

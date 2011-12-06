@@ -35,7 +35,7 @@ function display (sys)
   disp ("");
 
   for k = 1 : m
-    disp (["Frequency response \"", sysname, "\" from input \"", inname{k}, "\" to output ..."]);
+    disp (["Frequency response '", sysname, "' from input '", inname{k}, "' to output ..."]);
     disp ("");
     __disp_resp__ (sys.H(:,k,:), w, outname);
   endfor

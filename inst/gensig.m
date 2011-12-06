@@ -92,7 +92,7 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
     case "pu"
       u = double (rem (t, tau) < (1 - 1000*eps) * tsam);
     otherwise
-      error ("gensig: ""%s"" is an invalid signal type", sigtype);
+      error ("gensig: '%s' is an invalid signal type", sigtype);
   endswitch
 
 endfunction

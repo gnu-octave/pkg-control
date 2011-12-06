@@ -43,7 +43,7 @@ function retsys = set (sys, varargin)
 
   elseif (nargout == 0)  # set (sys, "prop1", val1, ...)
 
-    warning ("lti: set: use sys = get (sys, ""property1"", ...) to save changes");
+    warning ("lti: set: use sys = get (sys, 'property1', ...) to save changes");
     warning ("          octave does not support pass by reference");
 
   else                   # sys = set (sys, "prop1", val1, ...)
@@ -68,7 +68,7 @@ function retsys = set (sys, varargin)
         case {"tsam", "ts"}
           if (issample (val, -1))
             sys.tsam = val;
-            warning ("lti: set: use the editing of property ""%s"" with caution", prop);
+            warning ("lti: set: use the editing of property '%s' with caution", prop);
             warning ("          it may lead to corrupted models");
           else
             error ("lti: set: invalid sampling time");
@@ -79,7 +79,7 @@ function retsys = set (sys, varargin)
           if (ischar (val))
             sys.name = val;
           else
-            error ("lti: set: property ""name"" requires a string");
+            error ("lti: set: property 'name' requires a string");
           endif
 
         case "notes"
@@ -88,7 +88,7 @@ function retsys = set (sys, varargin)
           elseif (ischar (val))
             sys.notes = {val};
           else
-            error ("lti: set: property ""notes"" requires string or cell of strings");
+            error ("lti: set: property 'notes' requires string or cell of strings");
           endif
 
         case "userdata"

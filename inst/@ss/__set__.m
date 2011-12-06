@@ -57,7 +57,7 @@ function sys = __set__ (sys, prop, val)
       if (isscalar (val))
         sys.scaled = logical (val);
       else
-        error ("ss: set: property ""scaled"" must be a logical value");
+        error ("ss: set: property 'scaled' must be a logical value");
       endif
 
     otherwise
