@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -131,7 +131,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2009
-## Version: 0.8
+## Version: 0.9
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
@@ -151,11 +151,9 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   endif
 
   ## get transfer function
-  [num, den, tsam] = tfdata (sys);
+  [num, den, tsam] = tfdata (sys, "vector");
   continuous = isct (sys);
   tsam = abs (tsam);                                     # use 1 second as default if tsam == -1
-  num = num{1, 1};
-  den = den{1, 1};
 
 
   if (continuous)                                        # CONTINUOUS SYSTEM
@@ -347,14 +345,13 @@ function [gamma, w_gamma] = gm_filter (w, num, den, tsam, tol, continuous)
     w_gm = real (w(idx));
 
     if (continuous)
-      s = num2cell (i * w_gm);
+      s = i * w_gm;
     else
-      s = num2cell (exp (i * w_gm * tsam));
+      s = exp (i * w_gm * tsam);
     endif
 
-    f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);
-    gm = cellfun (@(x) inv (abs (x)), f_resp);
-    f_resp = [f_resp{:}];
+    f_resp = polyval (num, s) ./ polyval (den, s);
+    gm = (abs (f_resp)).^-1;
 
     ## find crossings between 0 and -1
     idx = find ((real (f_resp) < 0) & (real (f_resp) >= -1));
@@ -393,14 +390,13 @@ function [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous)
     w_pm = real (w(idx));
 
     if (continuous)
-      s = num2cell (i * w_pm);
+      s = i * w_pm;
     else
-      s = num2cell (exp (i * w_pm * tsam));
+      s = exp (i * w_pm * tsam);
     endif
 
-    f_resp = cellfun (@(x) polyval (num, x) / polyval (den, x), s, "uniformoutput", false);
-    pm = cellfun (@(x) 180 + arg (x) / pi * 180, f_resp);
-    f_resp = [f_resp{:}];
+    f_resp = polyval (num, s) ./ polyval (den, s);
+    pm = 180 + arg (f_resp) ./ pi .* 180;
 
     [phi, idx] = min (pm);
     w_phi = w_pm(idx);
