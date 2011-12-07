@@ -9,8 +9,8 @@ control-2.2.3   Release Date: 2011-12-07   Release Manager: Lukas Reichlin
    evaluate a polynomial at several values at once in a vectorized manner.)
 
 ** bode, bodemag, nichols, sigma
-   -- Fixed a hang when plotting pairs of purely imaginary pairs of poles or
-      zeros.  The hang was caused by nonsensical (Inf, NaN) axis values.
+   -- Fixed a hang when plotting pairs of purely imaginary poles or zeros.
+      The hang was caused by nonsensical (Inf, NaN) axis values.
       (Reported by Laurent Tissier)
 
 ** Use single instead of double quotes when displaying names of TF and FRD
