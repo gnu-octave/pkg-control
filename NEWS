@@ -1,12 +1,21 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.x.y   Release Date: 201x-yy-zz   Release Manager: Lukas Reichlin
+control-2.2.3   Release Date: 2011-12-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Improved performance when computing the frequency response of transfer
-   function models by orders of magnitude.
-   
+   function models by orders of magnitude.  (I realized that "polyval" can
+   evaluate a polynomial at several values at once in a vectorized manner.)
+
+** bode, bodemag, nichols, sigma
+   -- Fixed a hang when plotting pairs of purely imaginary pairs of poles or
+      zeros.  The hang was caused by nonsensical (Inf, NaN) axis values.
+      (Reported by Laurent Tissier)
+
+** Use single instead of double quotes when displaying names of TF and FRD
+   models.
+
 
 ===============================================================================
 control-2.2.2   Release Date: 2011-12-04   Release Manager: Lukas Reichlin
