@@ -58,6 +58,13 @@ General:
     make practical sense.
 
   * Display individual warnings/errors for iwarn/info in oct-files.
+  
+  * Airtight argument checking for oct-files.  Currently there are no checks
+    because LTI methods are "nice" to the oct-files.  But oct-files are by no
+    means private and privateness is no protection because one could easily
+    create an @lti folder in an user directory and fool octave.  This can
+    become a problem if - for example - someone sets up a public web interface
+    where people can try out octave through their web browsers.
 
 -----------------------
 Frequency Response Data:
