@@ -411,7 +411,7 @@ endfunction
 %!shared margin_c, margin_c_exp, margin_d, margin_d_exp
 %! sysc = tf ([24], [1, 6, 11, 6]);
 %! [gamma_c, phi_c, w_gamma_c, w_phi_c] = margin (sysc);
-%! sysd = tf (c2d (ss (sysc), 0.3));                     # c2d for tf not implemented yet
+%! sysd = c2d (sysc, 0.3);
 %! [gamma_d, phi_d, w_gamma_d, w_phi_d] = margin (sysd);
 %!
 %! margin_c = [gamma_c, phi_c, w_gamma_c, w_phi_c];
