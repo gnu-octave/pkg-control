@@ -36,11 +36,11 @@
 ## @end table
 ## @end deftypefn
 
-function axvec = __axis_margin__ (axdata, left, right)
+function axvec = __axis_margin__ (axdata)
 
   ## compute axis limits
-  minv = axdata(3);
-  maxv = axdata(4);
+  minv = axdata(1);
+  maxv = axdata(2);
   delv = (maxv-minv)/2;             # breadth of the plot
   midv = (minv + maxv)/2;           # midpoint of the plot
   axmid = [midv, midv];
@@ -58,6 +58,6 @@ function axvec = __axis_margin__ (axdata, left, right)
     endif
   endif
   
-  axvec = [left, right, axmid + axdel];
+  axvec = axmid + axdel;
 
 endfunction
