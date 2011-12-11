@@ -72,16 +72,14 @@ function [mag_r, pha_r, w_r] = bode (sys, w = [])
 
     subplot (2, 1, 1)
     semilogx (w, mag_db)
-    axis ("tight")
-    %ylim (__plot_margin__ (ylim));
+    axis (__axis_margin__ (axis, w(1), w(end)))
     grid ("on")
     title (["Bode Diagram of ", inputname(1)])
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)
     semilogx (w, pha)
-    axis ("tight")
-    %ylim (__plot_margin__ (ylim));
+    axis (__axis_margin__ (axis, w(1), w(end)))
     grid ("on")
     xlabel (xl_str)
     ylabel ("Phase [deg]")

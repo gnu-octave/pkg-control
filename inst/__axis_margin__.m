@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} __plot_margin__ (@var{axdata})
+## @deftypefn {Function File} {} __axis_margin__ (@var{axdata})
 ## Determine axis limits for 2-D data (column vectors); leaves a 10%
 ## margin around the plots.
 ## Inserts margins of +/- 0.1 if data is one-dimensional 
@@ -36,16 +36,11 @@
 ## @end table
 ## @end deftypefn
 
-function axvec = __plot_margin__ (axdata)
-
-  if (any (isinf (axdata)))
-    axvec = "tight";
-    return;
-  endif
+function axvec = __axis_margin__ (axdata, left, right)
 
   ## compute axis limits
-  minv = axdata(1);
-  maxv = axdata(2);
+  minv = axdata(3);
+  maxv = axdata(4);
   delv = (maxv-minv)/2;             # breadth of the plot
   midv = (minv + maxv)/2;           # midpoint of the plot
   axmid = [midv, midv];
@@ -63,6 +58,6 @@ function axvec = __plot_margin__ (axdata)
     endif
   endif
   
-  axvec = axmid + axdel;
+  axvec = [left, right, axmid + axdel];
 
 endfunction
