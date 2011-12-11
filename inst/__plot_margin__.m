@@ -38,6 +38,11 @@
 
 function axvec = __plot_margin__ (axdata)
 
+  if (any (isinf (axdata)))
+    axvec = "tight";
+    return;
+  endif
+
   ## compute axis limits
   minv = axdata(1);
   maxv = axdata(2);
@@ -45,6 +50,7 @@ function axvec = __plot_margin__ (axdata)
   midv = (minv + maxv)/2;           # midpoint of the plot
   axmid = [midv, midv];
   axdel = [-0.1, 0.1];              # default plot width (if less than 2-d data)
+  
   if (delv == 0)
     if (midv != 0)
       axdel = [-0.1*midv, 0.1*midv];
@@ -56,6 +62,7 @@ function axvec = __plot_margin__ (axdata)
       axdel = 1.1*[-delv,delv];
     endif
   endif
+  
   axvec = axmid + axdel;
 
 endfunction
