@@ -45,7 +45,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.3
+## Version: 0.4
 
 function [mag_r, pha_r, w_r] = bode (sys, w = [])
 
