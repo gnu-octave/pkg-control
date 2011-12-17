@@ -61,7 +61,7 @@ function [ac, bc, cc, z, ncont] = ctrbf (a, b, c, tol = [])
     error ("ctrbf: tol must be a real scalar");
   endif
 
-  [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, 0.0);
+  [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, tol);
   
 endfunction
 
