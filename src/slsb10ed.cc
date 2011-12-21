@@ -23,7 +23,7 @@ Uses SLICOT SB10ED by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -141,51 +141,33 @@ For internal use only.")
         if (f77_exception_encountered)
             error ("h2syn: slsb10ed: exception in SLICOT subroutine SB10ED");
 
-        if (info != 0)
-        {
-            if (info < 0)
-                error ("h2syn: slsb10ed: the %d-th argument had an invalid value", info);
-            else
-            {
-                switch (info)
-                {
-                    case 1:
-                        error ("h2syn: 1: the matrix [A-exp(j*Theta)*I, B2; C1, D12] "
-                               "had not full column rank in respect to the tolerance EPS");
-                    case 2:
-                        error ("h2syn: 2: the matrix [A-exp(j*Theta)*I, B1; C2, D21] "
-                               "had not full row rank in respect to the tolerance EPS");
-                    case 3:
-                        error ("h2syn: 3: the matrix D12 had not full column rank in "
-                               "respect to the tolerance TOL");
-                    case 4:
-                        error ("h2syn: 4: the matrix D21 had not full row rank in respect "
-                               "to the tolerance TOL");
-                    case 5:
-                        error ("h2syn: 5: the singular value decomposition (SVD) algorithm "
-                               "did not converge (when computing the SVD of one of the matrices "
-                               "[A-I, B2; C1, D12], [A-I, B1; C2, D21], D12 or D21)");
-                    case 6:
-                        error ("h2syn: 6: the X-Riccati equation was not solved successfully");
-                    case 7:
-                        error ("h2syn: 7: the matrix Im2 + B2'*X2*B2 is not positive "
-                               "definite, or it is numerically singular (with "
-                               "respect to the tolerance TOL)");
-                    case 8:
-                        error ("h2syn: 8: the Y-Riccati equation was not solved successfully");
-                    case 9:
-                        error ("h2syn: 9: the matrix Ip2 + C2*Y2*C2' is not positive "
-                               "definite, or it is numerically singular (with "
-                               "respect to the tolerance TOL)");
-                    case 10:
-                        error ("h2syn: 10: the matrix Im2 + DKHAT*D22 is singular, or its "
-                               "estimated condition number is larger than or equal "
-                               "to 1/TOL");
-                    default:
-                        error ("h2syn: unknown error, info = %d", info);
-                }
-            }
-        }
+        static const char* err_msg[] = {
+            "0: OK",
+            "1: the matrix [A-exp(j*Theta)*I, B2; C1, D12] "
+                "had not full column rank in respect to the tolerance EPS",
+            "2: the matrix [A-exp(j*Theta)*I, B1; C2, D21] "
+                "had not full row rank in respect to the tolerance EPS",
+            "3: the matrix D12 had not full column rank in "
+                "respect to the tolerance TOL",
+            "4: the matrix D21 had not full row rank in respect "
+                "to the tolerance TOL",
+            "5: the singular value decomposition (SVD) algorithm "
+                "did not converge (when computing the SVD of one of the matrices "
+                "[A-I, B2; C1, D12], [A-I, B1; C2, D21], D12 or D21)",
+            "6: the X-Riccati equation was not solved successfully",
+            "7: the matrix Im2 + B2'*X2*B2 is not positive "
+                "definite, or it is numerically singular (with "
+                "respect to the tolerance TOL)",
+            "8: the Y-Riccati equation was not solved successfully",
+            "9: the matrix Ip2 + C2*Y2*C2' is not positive "
+                "definite, or it is numerically singular (with "
+                "respect to the tolerance TOL)",
+            "10: the matrix Im2 + DKHAT*D22 is singular, or its "
+                "estimated condition number is larger than or equal "
+                "to 1/TOL"};
+
+        error_msg ("h2syn", info, 10, err_msg);
+
 
         // return values
         retval(0) = ak;

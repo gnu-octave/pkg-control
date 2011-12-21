@@ -23,7 +23,7 @@ Uses SLICOT SB10KD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: July 2011
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -126,32 +126,17 @@ For internal use only.")
         if (f77_exception_encountered)
             error ("ncfsyn: slsb10kd: exception in SLICOT subroutine SB10KD");
 
-        if (info != 0)
-        {
-            if (info < 0)
-                error ("ncfsyn: slsb10kd: the %d-th argument had an invalid value", info);
-            else
-            {
-                switch (info)
-                {
-                    case 1:
-                        error ("ncfsyn: 1: the P-Riccati equation is not solved successfully");
-                    case 2:
-                        error ("ncfsyn: 2: the Q-Riccati equation is not solved successfully");
-                    case 3:
-                        error ("ncfsyn: 3: the X-Riccati equation is not solved successfully");
-                    case 4:
-                        error ("ncfsyn: 4: the iteration to compute eigenvalues failed to "
-                               "converge");
-                    case 5:
-                        error ("ncfsyn: 5: the matrix Rx + Bx'*X*Bx is singular");
-                    case 6:
-                        error ("ncfsyn: 6: the closed-loop system is unstable");
-                    default:
-                        error ("ncfsyn: unknown error, info = %d", info);
-                }
-            }
-        }
+        static const char* err_msg[] = {
+            "0: OK",
+            "1: the P-Riccati equation is not solved successfully",
+            "2: the Q-Riccati equation is not solved successfully",
+            "3: the X-Riccati equation is not solved successfully",
+            "4: the iteration to compute eigenvalues failed to "
+                "converge",
+            "5: the matrix Rx + Bx'*X*Bx is singular",
+            "6: the closed-loop system is unstable"};
+
+        error_msg ("ncfsyn", info, 6, err_msg);
 
 
         // resizing

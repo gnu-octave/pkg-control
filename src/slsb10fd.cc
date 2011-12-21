@@ -23,7 +23,7 @@ Uses SLICOT SB10FD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: December 2009
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -146,49 +146,32 @@ For internal use only.")
         if (f77_exception_encountered)
             error ("hinfsyn: slsb10fd: exception in SLICOT subroutine SB10FD");
 
-        if (info != 0)
-        {
-            if (info < 0)
-                error ("hinfsyn: slsb10fd: the %d-th argument had an invalid value", info);
-            else
-            {
-                switch (info)
-                {
-                    case 1:
-                        error ("hinfsyn: 1: the matrix [A-j*omega*I, B2; C1, D12] had "
-                               "not full column rank in respect to the tolerance EPS");
-                    case 2:
-                        error ("hinfsyn: 2: the matrix [A-j*omega*I, B1; C2, D21] "
-                               "had not full row rank in respect to the tolerance EPS");
-                    case 3:
-                        error ("hinfsyn: 3: the matrix D12 had not full column rank in "
-                               "respect to the tolerance TOL");
-                    case 4:
-                        error ("hinfsyn: 4: the matrix D21 had not full row rank in respect "
-                               "to the tolerance TOL");
-                    case 5:
-                        error ("hinfsyn: 5: the singular value decomposition (SVD) algorithm "
-                               "did not converge (when computing the SVD of one of the matrices "
-                               "[A, B2; C1, D12], [A, B1; C2, D21], D12 or D21)");
-                    case 6:
-                        error ("hinfsyn: 6: the controller is not admissible (too small value "
-                               "of gamma)");
-                    case 7:
-                        error ("hinfsyn: 7: the X-Riccati equation was not solved "
-                               "successfully (the controller is not admissible or "
-                               "there are numerical difficulties)");
-                    case 8:
-                        error ("hinfsyn: 8: the Y-Riccati equation was not solved "
-                               "successfully (the controller is not admissible or "
-                               "there are numerical difficulties)");
-                    case 9:
-                        error ("hinfsyn: 9: the determinant of Im2 + Tu*D11HAT*Ty*D22 is "
-                               "zero [3]");
-                    default:
-                        error ("hinfsyn: unknown error, info = %d", info);
-                }
-            }
-        }
+        static const char* err_msg[] = {
+            "0: OK",
+            "1: the matrix [A-j*omega*I, B2; C1, D12] had "
+                "not full column rank in respect to the tolerance EPS",
+            "2: the matrix [A-j*omega*I, B1; C2, D21] "
+                "had not full row rank in respect to the tolerance EPS",
+            "3: the matrix D12 had not full column rank in "
+                "respect to the tolerance TOL",
+            "4: the matrix D21 had not full row rank in respect "
+                "to the tolerance TOL",
+            "5: the singular value decomposition (SVD) algorithm "
+                "did not converge (when computing the SVD of one of the matrices "
+                "[A, B2; C1, D12], [A, B1; C2, D21], D12 or D21)",
+            "6: the controller is not admissible (too small value "
+                "of gamma)",
+            "7: the X-Riccati equation was not solved "
+                "successfully (the controller is not admissible or "
+                "there are numerical difficulties)",
+            "8: the Y-Riccati equation was not solved "
+                "successfully (the controller is not admissible or "
+                "there are numerical difficulties)",
+            "9: the determinant of Im2 + Tu*D11HAT*Ty*D22 is "
+                "zero [3]"};
+
+        error_msg ("hinfsyn", info, 9, err_msg);
+
      
         // return values
         retval(0) = ak;

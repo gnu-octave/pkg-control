@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT SB01BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -124,47 +124,34 @@ For internal use only.")
         if (f77_exception_encountered)
             error ("place: slsb01bd: exception in SLICOT subroutine SB01BD");
             
-        if (info != 0)
-            error ("place: slsb01bd: SB01BD returned info = %d", info);
+        static const char* err_msg[] = {
+            "0: OK",
+            "1: the reduction of A to a real Schur form failed.",
+            "2: a failure was detected during the ordering of the "
+                "real Schur form of A, or in the iterative process "
+                "for reordering the eigenvalues of Z'*(A + B*F)*Z "
+                "along the diagonal.",
+            "3: the number of eigenvalues to be assigned is less "
+                "than the number of possibly assignable eigenvalues; "
+                "NAP eigenvalues have been properly assigned, "
+                "but some assignable eigenvalues remain unmodified.",
+            "4: an attempt is made to place a complex conjugate "
+                "pair on the location of a real eigenvalue. This "
+                "situation can only appear when N-NFP is odd, "
+                "NP > N-NFP-NUP is even, and for the last real "
+                "eigenvalue to be modified there exists no available "
+                "real eigenvalue to be assigned. However, NAP "
+                "eigenvalues have been already properly assigned."};
 
-        if (info != 0)
-        {
-            if (info < 0)
-                error ("place: slsb01bd: the %d-th argument had an invalid value", info);
-            else
-            {
-                switch (info)
-                {
-                    case 1:
-                        error ("place: 1: the reduction of A to a real Schur form failed.");
-                    case 2:
-                        error ("place: 2: a failure was detected during the ordering of the "
-                               "real Schur form of A, or in the iterative process "
-                               "for reordering the eigenvalues of Z'*(A + B*F)*Z "
-                               "along the diagonal.");
-                    case 3:
-                        error ("place: 3: the number of eigenvalues to be assigned is less "
-                               "than the number of possibly assignable eigenvalues; "
-                               "NAP eigenvalues have been properly assigned, "
-                               "but some assignable eigenvalues remain unmodified.");
-                    case 4:
-                        error ("place: 4: an attempt is made to place a complex conjugate "
-                               "pair on the location of a real eigenvalue. This "
-                               "situation can only appear when N-NFP is odd, "
-                               "NP > N-NFP-NUP is even, and for the last real "
-                               "eigenvalue to be modified there exists no available "
-                               "real eigenvalue to be assigned. However, NAP "
-                               "eigenvalues have been already properly assigned.");
-                    default:
-                        error ("place: unknown error, info = %d", info);
-                }
-            }
-        }
+        static const char* warn_msg[] = {
+            "0: OK",
+/* 0+%d: %d */  "violations of the numerical stability condition "
+                "NORM(F) <= 100*NORM(A)/NORM(B) occured during the "
+                "assignment of eigenvalues."};
 
-        if (iwarn != 0)
-            warning ("place: slsb01bd: %d violations of the numerical stability condition "
-                     "NORM(F) <= 100*NORM(A)/NORM(B) occured during the "
-                     "assignment of eigenvalues.", iwarn);
+        error_msg ("place", info, 4, err_msg);
+        warning_msg ("place", iwarn, 0, warn_msg, 0);
+
 
         // return values
         retval(0) = f;

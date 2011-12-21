@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010   Lukas F. Reichlin
+Copyright (C) 2010, 2011   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -21,7 +21,7 @@ Common code for oct-files.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: April 2010
-Version: 0.1
+Version: 0.3
 
 */
 
@@ -44,10 +44,52 @@ int max (int a, int b, int c, int d)
     return max (max (a, b), max (c, d));
 }
 
+int max (int a, int b, int c, int d, int e)
+{
+    return max (max (a, b, c, d), e);
+}
+
 int min (int a, int b)
 {
     if (a < b)
         return a;
     else
         return b;
+}
+
+void error_msg (const char name[], int index, int max, const char* msg[])
+{
+    if (index == 0)
+        return;
+
+    if (index < 0)
+        error ("%s: the %d-th argument had an invalid value", name, index);
+    else if (index <= max)
+        error ("%s: %s", name, msg[index]);
+    else
+        error ("%s: unknown error, info = %d", name, index);
+}
+
+void warning_msg (const char name[], int index, int max, const char* msg[])
+{
+    if (index == 0)
+        return;
+
+    if (index > 0 && index <= max)
+        warning ("%s: %s", name, msg[index]);
+    else
+        warning ("%s: unknown warning, iwarn = %d", name, index);
+}
+
+void warning_msg (const char name[], int index, int max, const char* msg[], int offset)
+{
+    if (index == 0)
+        return;
+
+    if (index > 0 && index <= max)
+        warning ("%s: %s", name, msg[index]);
+    else if (index > offset)
+        warning ("%s: %d+%d: %d %s", name, offset, index-offset, index-offset, msg[max+1]);
+    else
+        warning ("%s: unknown warning, iwarn = %d", name, index);
 }
