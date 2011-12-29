@@ -16,7 +16,8 @@ mkoctfile slab13ad.cc \
           MB03UD.f TB01LD.f SB03OU.f MB03QX.f select.f \
           SB03OT.f MB03QD.f MB04ND.f MB04OD.f MB03QY.f \
           SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
-          SB03OV.f
+          SB03OV.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
 cd (homedir);

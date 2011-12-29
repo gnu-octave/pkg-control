@@ -17,14 +17,16 @@ mkoctfile slsb10hd.cc \
           MB01SD.f SB02MS.f SB02MV.f SB02MW.f MA02AD.f \
           SB02QD.f MB02PD.f SB03QX.f SB03QY.f MB01RX.f \
           MB01RY.f SB03SX.f SB03SY.f select.f SB03MX.f \
-          SB03MY.f MB01UD.f SB03MV.f SB03MW.f SB04PX.f
+          SB03MY.f MB01UD.f SB03MV.f SB03MW.f SB04PX.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 mkoctfile slsb10ed.cc \
           SB10ED.f SB10SD.f SB10TD.f SB10PD.f MB01RX.f \
           SB02SD.f SB02OD.f MB01RU.f SB02OU.f SB02OV.f \
           SB02OW.f MB01RY.f SB02OY.f SB03SX.f SB03SY.f \
           MA02ED.f select.f SB03MX.f SB02MR.f SB02MV.f \
-          MB01UD.f SB03MV.f SB04PX.f
+          MB01UD.f SB03MV.f SB04PX.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
 cd (homedir);

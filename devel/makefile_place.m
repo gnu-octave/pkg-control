@@ -13,7 +13,8 @@ cd (srcdir);
 
 mkoctfile slsb01bd.cc \
           SB01BD.f MB03QD.f MB03QY.f SB01BX.f SB01BY.f \
-          select.f
+          select.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
 cd (homedir);

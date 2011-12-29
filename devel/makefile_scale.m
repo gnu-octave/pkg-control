@@ -13,11 +13,13 @@ cd (srcdir);
 
 ## scaling of state-space models
 mkoctfile sltb01id.cc \
-          TB01ID.f
+          TB01ID.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 ## scaling of descriptor state-space models
 mkoctfile sltg01ad.cc \
-          TG01AD.f
+          TG01AD.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
 cd (homedir);

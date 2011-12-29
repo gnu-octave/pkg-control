@@ -13,16 +13,19 @@ cd (srcdir);
 
 ## transmission zeros of state-space models
 mkoctfile slab08nd.cc \
-          AB08ND.f AB08NX.f TB01ID.f MB03OY.f MB03PY.f
+          AB08ND.f AB08NX.f TB01ID.f MB03OY.f MB03PY.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 ## transmission zeros of descriptor state-space models
 mkoctfile slag08bd.cc \
           AG08BD.f AG08BY.f TG01AD.f TB01XD.f MA02CD.f \
-          TG01FD.f MA02BD.f MB03OY.f
+          TG01FD.f MA02BD.f MB03OY.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 ## gain of descriptor state-space models
 mkoctfile sltg04bx.cc \
-          TG04BX.f MB02RD.f MB02SD.f
+          TG04BX.f MB02RD.f MB02SD.f \
+          "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
 cd (homedir);
