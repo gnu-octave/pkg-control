@@ -1,8 +1,8 @@
 OCTAVE ?= octave
 
-LAPACK_LIBS != mkoctfile -p LAPACK_LIBS
-BLAS_LIBS != mkoctfile -p BLAS_LIBS
-FLIBS != mkoctfile -p FLIBS
+LAPACK_LIBS = $$(mkoctfile -p LAPACK_LIBS)
+BLAS_LIBS = $$(mkoctfile -p BLAS_LIBS)
+FLIBS = $$(mkoctfile -p FLIBS)
 
 all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      slsb01bd.oct slsb10fd.oct slsb10dd.oct slsb03md.oct slsb04md.oct \
