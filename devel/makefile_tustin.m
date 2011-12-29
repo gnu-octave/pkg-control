@@ -14,6 +14,7 @@ cd (srcdir);
 ## bilinear transformation
 mkoctfile slab04md.cc \
           AB04MD.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");

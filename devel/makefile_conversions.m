@@ -16,17 +16,20 @@ mkoctfile sltb04bd.cc \
           TB04BD.f MC01PY.f TB01ID.f TB01ZD.f MC01PD.f \
           TB04BX.f MA02AD.f MB02RD.f MB01PD.f MB02SD.f \
           MB01QD.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 ## descriptor to regular state-space
 mkoctfile slsb10jd.cc \
           SB10JD.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 ## transfer function to state-space
 mkoctfile sltd04ad.cc \
           TD04AD.f TD03AY.f TB01PD.f TB01XD.f AB07MD.f \
           TB01UD.f TB01ID.f MB01PD.f MB03OY.f MB01QD.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");

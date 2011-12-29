@@ -18,6 +18,7 @@ mkoctfile slsb10hd.cc \
           SB02QD.f MB02PD.f SB03QX.f SB03QY.f MB01RX.f \
           MB01RY.f SB03SX.f SB03SY.f select.f SB03MX.f \
           SB03MY.f MB01UD.f SB03MV.f SB03MW.f SB04PX.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 mkoctfile slsb10ed.cc \
@@ -26,6 +27,7 @@ mkoctfile slsb10ed.cc \
           SB02OW.f MB01RY.f SB02OY.f SB03SX.f SB03SY.f \
           MA02ED.f select.f SB03MX.f SB02MR.f SB02MV.f \
           MB01UD.f SB03MV.f SB04PX.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");

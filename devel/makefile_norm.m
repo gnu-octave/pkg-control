@@ -17,6 +17,7 @@ mkoctfile slab13bd.cc \
           SB03OT.f MB04ND.f MB04OD.f MB03QX.f select.f \
           SB03OR.f MB04OX.f MB03QD.f SB03OY.f MA02AD.f \
           MB03QY.f SB04PX.f MB04NY.f MB04OY.f SB03OV.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 ## L-inf norm
@@ -27,6 +28,7 @@ mkoctfile slab13dd.cc \
           MB04TS.f UE01MD.f MB02RD.f MB02SD.f MB04QC.f \
           MB04QF.f MB03YA.f MB03YD.f MB02RZ.f MB04QU.f \
           MB02SZ.f MB03YT.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)" \
           "$(mkoctfile -p FLIBS)"
 

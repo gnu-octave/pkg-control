@@ -17,6 +17,7 @@ mkoctfile slab13ad.cc \
           SB03OT.f MB03QD.f MB04ND.f MB04OD.f MB03QY.f \
           SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
           SB03OV.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
 system ("rm *.o");
