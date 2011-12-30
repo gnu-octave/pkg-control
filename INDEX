@@ -32,6 +32,7 @@ Model Interconnections
   @lti/series
 Model Characteristics
   ctrb
+  ctrbf
   @lti/dcgain
   gram
   hsvd
@@ -46,6 +47,7 @@ Model Characteristics
   @lti/isstable
   @lti/norm
   obsv
+  obsvf
   @lti/pole
   pzmap
   @lti/size
