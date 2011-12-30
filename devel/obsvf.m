@@ -1,21 +1,25 @@
-## Copyright (C) 2010 Benjamin Fernandez
+## Copyright (C) 2010   Benjamin Fernandez 
+## Copyright (C) 2011   Lukas F. Reichlin
 ## 
-## This program is free software; you can redistribute it and/or modify
+## This file is part of LTI Syncope.
+##
+## LTI Syncope is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
+## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
+##
+## LTI Syncope is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU General Public License
-## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} obsvf (@var{A}, @var{B}, @var{C})
+## @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys})
+## @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys}, @var{tol})
+## @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} obsvf (@var{A}, @var{B}, @var{C})
 ## @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} obsvf (@var{A}, @var{B}, @var{C}, @var{TOL})
 ## If Ob=obsv(A,C) has rank r <= n = SIZE(A,1), then there is a 
 ## similarity transformation Tc such that To = [t1;t2] where t1 is c
@@ -45,26 +49,29 @@
 
 ## Author: Benjamin Fernandez <benjas@benjas-laptop>
 ## Created: 2010-05-02
+## Version: 0.1
 
-function [Abar, Bbar, Cbar, T, K] = obsvf (A, B, C, TOL)
+function [ac, bc, cc, z, ncont] = obsvf (a, b = [], c, tol = [])
 
-  if (nargin < 3 || nargin > 4)
+  if (nargin < 1 || nargin > 4)
     print_usage ();
   endif
-
-  if (nargin == 3)
-    TOL = length (A) * norm (A, 1) * eps;
+  
+  if (isa (a, "lti"))
+    if (nargin > 2)
+      print_usage ();
+    endif
+    [ac, bc, cc] = ctrbf (a.', b);      # [sysbar, z, ncont] = ctrbf (sys.', tol);
+    ac = ac.';
+    z = ncont = [];
+  else
+    if (nargin < 3)
+      print_usage ();
+    endif
+    [ac, tmp, cc, z, ncont] = ctrbf (a.', c.', b.', tol);
+    ac = ac.';
+    bc = cc.';
+    cc = tmp.';
   endif
-
-  Ob         = obsv (A, C);
-  [nro, nco] = size (Ob);
-  rob        = rank (Ob);
-  lr         = nco - rob;
-  [U, S, V]  = svd (Ob);
-  K          = V(:, 1:rob);  # Basis raw space
-  T          = V;            # [c; orth(c)];
-  Abar       = T \ A * T;
-  Bbar       = T \ B;
-  Cbar       = C * T;
 
 endfunction

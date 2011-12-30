@@ -30,5 +30,11 @@ mkoctfile sltg01id.cc \
           "$(mkoctfile -p LAPACK_LIBS)" \
           "$(mkoctfile -p BLAS_LIBS)"
 
+## controllable block Hessenberg realization
+mkoctfile sltb01ud.cc \
+          TB01UD.f MB01PD.f MB03OY.f MB01QD.f \
+          "$(mkoctfile -p LAPACK_LIBS)" \
+          "$(mkoctfile -p BLAS_LIBS)"
+
 system ("rm *.o");
 cd (homedir);

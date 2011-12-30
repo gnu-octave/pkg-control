@@ -17,7 +17,9 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C})
+## @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys})
+## @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys}, @var{tol})
+## @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C})
 ## @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C}, @var{TOL})
 ## If Co=ctrb(A,B) has rank r <= n = SIZE(A,1), then there is a 
 ## similarity transformation Tc such that Tc = [t1 t2] where t1
@@ -49,10 +51,27 @@
 ## Created: 2010-04-30
 ## Version: 0.1
 
-function [ac, bc, cc, z, ncont] = ctrbf (a, b, c, tol = [])
+function [ac, bc, cc, z, ncont] = ctrbf (a, b = [], c, tol = [])
 
-  if (nargin < 3 || nargin > 4)
+  if (nargin < 1 || nargin > 4)
     print_usage ();
+  endif
+  
+  islti = isa (a, "lti");
+  
+  if (islti)
+    if (nargin > 2)
+      print_usage ();
+    endif
+    sys = a;
+    tol = b;
+    [a, b, c] = ssdata (sys);
+  else
+    if (nargin < 3)
+      print_usage ();
+    endif
+    sys = ss (a, b, c);
+    [a, b, c] = ssdata (sys);
   endif
 
   if (isempty (tol))
@@ -62,6 +81,12 @@ function [ac, bc, cc, z, ncont] = ctrbf (a, b, c, tol = [])
   endif
 
   [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, tol);
+  
+  if (islti)
+    ac = set (sys, "a", ac, "b", bc, "c", cc, "scaled", false);
+    bc = z;
+    cc = ncont;
+  endif
   
 endfunction
 
