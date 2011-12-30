@@ -62,6 +62,7 @@ test lyapchol
 ## various oct-files
 test place
 test hsvd
+test ctrbf
 
 ## various m-files
 test margin
