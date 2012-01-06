@@ -4,11 +4,11 @@ Summary of important user-visible changes for releases of the control package
 control-2.2.4   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** Compatibility with Octave 3.6.0.  One must specify the libraries that
-   mkoctfile needs to link.  (Thanks to Marco Atzeri and Carlo De Falco)
+** Compatibility with Octave 3.6.0.  (The makefile must specify the libraries
+   that mkoctfile needs to link.  Thanks to Marco Atzeri and Carlo De Falco)
 
 ** ctrbf, obsvf
-   -- Added new functions to compute controllable and obsvervable block
+   -- Added new functions to compute controllable and observable block
       Hessenberg realizations based on SLICOT TB01UD.
       (Thanks to Benjamin Fernandez and Alexandre Felipe)
 
