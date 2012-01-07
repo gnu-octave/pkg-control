@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.2.4   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+control-2.2.4   Release Date: 2012-01-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Compatibility with Octave 3.6.0.  (The makefile must specify the libraries

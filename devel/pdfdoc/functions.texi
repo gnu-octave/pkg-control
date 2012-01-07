@@ -882,6 +882,37 @@
  @end example
  @end ifnottex
  @end deftypefn
+@section ctrbf
+
+ @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys})
+ @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys}, @var{tol})
+ @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C})
+ @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} ctrbf (@var{A}, @var{B}, @var{C}, @var{TOL})
+ If Co=ctrb(A,B) has rank r <= n = SIZE(A,1), then there is a 
+ similarity transformation Tc such that Tc = [t1 t2] where t1
+ is the controllable subspace and t2 is orthogonal to t1
+
+ @example
+ @group
+ Abar = Tc  A * Tc ,  Bbar = Tc  B ,  Cbar = C * Tc
+ @end group
+ @end example
+
+ and the transformed system has the form
+
+ @example
+ @group
+        | Ac    A12|           | Bc |
+ Abar = |----------|,   Bbar = | ---|,  Cbar = [Cc | Cnc].
+        | 0     Anc|           |  0 |
+ @end group
+ @end example
+                                     
+ where (Ac,Bc) is controllable, and Cc(sI-Ac)^(-1)Bc = C(sI-A)^(-1)B.
+ and the system is stabilizable if Anc has no eigenvalues in
+ the right half plane. The last output K is a vector of length n
+ containing the number of controllable states.
+ @end deftypefn
 @section @@lti/dcgain
 
  @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
@@ -1227,6 +1258,37 @@
  @end group
  @end example
  @end ifnottex
+ @end deftypefn
+@section obsvf
+
+ @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys})
+ @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys}, @var{tol})
+ @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} obsvf (@var{A}, @var{B}, @var{C})
+ @deftypefnx{Function File} {[@var{Abar}, @var{Bbar}, @var{Cbar}, @var{T}, @var{K}] =} obsvf (@var{A}, @var{B}, @var{C}, @var{TOL})
+ If Ob=obsv(A,C) has rank r <= n = SIZE(A,1), then there is a 
+ similarity transformation Tc such that To = [t1;t2] where t1 is c
+ and t2 is orthogonal to t1
+
+ @example
+ @group
+ Abar = To  A * To ,  Bbar = To  B ,  Cbar = C * To
+ @end group
+ @end example
+ 
+ and the transformed system has the form
+
+ @example
+ @group
+        | Ao     0 |           | Bo  |
+ Abar = |----------|,   Bbar = | --- |,  Cbar = [Co | 0 ].
+        | A21   Ano|           | Bno |
+ @end group
+ @end example
+                                                      
+ where (Ao,Bo) is observable, and Co(sI-Ao)^(-1)Bo = C(sI-A)^(-1)B. And 
+ system is detectable if Ano has no eigenvalues in the right 
+ half plane. The last output K is a vector of length n containing the 
+ number of observable states.
  @end deftypefn
 @section @@lti/pole
 

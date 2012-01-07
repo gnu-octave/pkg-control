@@ -1,11 +1,11 @@
 Name: Control
-Version: 2.2.3
-Date: 2011-12-07
+Version: 2.2.4
+Date: 2012-01-07
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
 Title: Control Systems
 Description: Octave control systems package based on the proven SLICOT library
-Depends: octave (>= 3.3.90)
+Depends: octave (>= 3.4.0)
 Autoload: yes
 License: GPL version 3 or later
 Url: http://octave.sf.net, http://www.slicot.org
