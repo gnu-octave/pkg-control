@@ -34,7 +34,8 @@ General:
   
   * Implement mu-Synthesis command "dksyn".
 
-  * Implement d2d.
+  * Implement d2d.  In general, d2c followed by c2d could be used, maybe one derives
+    direct formulae for the bilinear case.
 
   * Implement balreal.  Based on SLICOT AB09HY?
 
@@ -66,6 +67,18 @@ General:
     become a problem if - for example - someone sets up a public web interface
     where people can try out octave through their web browsers.
 
+  * With Octave 3.6.0, the "axis tight" bug for infinite values is fixed.
+    The code of the frequency response commands can be simplified quite a lot:
+    http://octave.svn.sourceforge.net/viewvc/octave/trunk/octave-forge/main/control/inst/bode.m?revision=9369&view=markup
+    Set dependency to octave (>= 3.6.0).  Wait until control-2.3.50 which
+    will integrate the model and controller reduction commands for the first time.
+    Don't forget margin.m.
+
+  * With Octave 3.6.0, arrayfun is now an oct-file like cellfun and not an
+    m-file anymore.  Therefore, many calls to cellfun (in combination with num2cell)
+    can be replaced by calls to arrayfun alone. Examples are strseq, ctrb and
+    @ss/__freqresp__.  Wait until control requires octave (>= 3.6.0).
+
 -----------------------
 Frequency Response Data:
 -----------------------
@@ -87,9 +100,11 @@ Transfer Function Models:
 
   * Support "z^-1" as tfvar (@tf and @tfpoly)
 
-  * Find a transfer function to descriptor state-space conversion routine
-    which supports non-proper models and individual denominators for
-    each input-output channel (@tf/__sys2ss__.m).
+  * Find a transfer function to state-space conversion routine which
+    supports individual denominators for each input-output channel
+    (@tf/__sys2ss__.m).  Support for non-proper descriptor state-space
+    systems would be nice, but otherwise Andras' trick that is already
+    used for the current solution is not bad either.
 
 ------
 Always:
