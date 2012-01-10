@@ -18,9 +18,10 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
 copy_NEWS:
 	$(if $(shell $(OCTAVE) -q --eval "if (compare_versions (version (), \"3.6.0\", \"<\")) printf (\"true\"); endif"), mv ../NEWS ../doc/)
 
-# TODO: leading and trailing underscores for sl* functions
+# TODO: Leading and trailing underscores for sl* functions
 #       (__sl*__.oct) would be nice, but this can be an issue
-#       for fortran compilers.
+#       for fortran compilers.  Private oct-files for the
+#       control package would be even better.
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc
