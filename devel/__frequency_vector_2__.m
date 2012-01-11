@@ -58,6 +58,9 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std")
   ## TODO: nyquist diagrams may need individual dec_min and dec_max
   ##       if curve goes to infinity
 
+  ## TODO: handle FRD models (they have fixed w), maybe frequency_response
+  ##       is a better place for this?
+
 endfunction
 
 
