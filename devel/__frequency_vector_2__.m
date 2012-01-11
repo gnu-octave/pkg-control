@@ -1,6 +1,6 @@
 ## Copyright (C) 1996, 2000, 2004, 2005, 2006, 2007
 ##               Auburn University. All rights reserved.
-##
+## Copyright (C) 2009 - 2012   Lukas F. Reichlin
 ##
 ## This program is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
@@ -26,9 +26,9 @@
 ## $ [ 10^{w_{min}}, 10^{w_{max}} ] $
 ## @end tex
 ## @end iftex
-## @ifinfo
+## @ifnottex
 ## [10^@var{wmin}, 10^@var{wmax}]
-## @end ifinfo
+## @end ifnottex
 ##
 ## Used by @command{__frequency_response__}
 ## @end deftypefn
@@ -37,57 +37,40 @@
 ## Date: October 2009
 ## Version: 0.2
 
-function w = __frequency_vector_2__ (sys_cell, wbounds = "std")
+function w = __frequency_vector__ (sys_cell, wbounds = "std")
 
   if (! iscell (sys_cell))
     sys_cell = {sys_cell}
   endif
 
-  zer = cellfun ("@lti/zero", varargin, "uniformoutput", false)
-  pol = cellfun ("@lti/pole", varargin, "uniformoutput", false)
+  idx = cellfun (@(x) isa (x, "lti"), sys_cell);
+  sys_cell = sys_cell(idx);
+  
+  [dec_min, dec_max, zp] = cellfun (@(x) __frequency_range__ (x, wbounds), sys_cell, "uniformoutput", false);
 
-%  zer = cat (1, zer{:})
-%  pol = cat (1, pol{:})
+  dec_min = min (cell2mat (dec_min));
+  dec_max = max (cell2mat (dec_max));
+  zp = horzcat (zp{:});
 
-  ct_idx = find (cellfun ("@lti/isct", varargin))
-  dt_idx = setdiff (1 : nargin-1, ct_idx)
+  w = logspace (dec_min, dec_max, 500);
+  w = unique ([w, zp]);                  # unique also sorts frequency vector
+  
+  ## TODO: nyquist diagrams may need individual dec_min and dec_max
+  ##       if curve goes to infinity
 
-  %if (length (dt_idx) > 0)
-    tsam = cellfun (@(x) abs (get (x, "tsam")), varargin(dt_idx))
-  %endif
-
-%  zer_ct = cat (1, zer{ct_idx})
-%  pol_ct = cat (1, pol{ct_idx})
-
-%  zer_dt = cat (1, zer{dt_idx})
-%  pol_dt = cat (1, pol{dt_idx})
-
-  zer_ct = reshape (cat (1, zer{ct_idx}), 1, [])
-  pol_ct = reshape (cat (1, pol{ct_idx}), 1, [])
-
-  zer_dt = reshape (cat (1, zer{dt_idx}), 1, [])
-  pol_dt = reshape (cat (1, pol{dt_idx}), 1, [])
+endfunction
 
 
-  if (length (ct_idx) > 0)      ## continuous
-    iip = find (abs(pol) > norm(pol)*eps);
-    iiz = find (abs(zer) > norm(zer)*eps);
-    czer = zer(iiz);
-    cpol = pol(iip);
-  endif
+function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
 
-%  zer = cat (1, zer{:})
-%  pol = cat (1, pol{:})
-
-
-%  zer = zero (sys);
-%  pol = pole (sys);
-%  tsam = abs (get (sys, "tsam"));        # tsam could be -1
-%  discrete = ! isct (sys);               # static gains (tsam = -2) are assumed continuous
+  zer = zero (sys);
+  pol = pole (sys);
+  tsam = abs (get (sys, "tsam"));        # tsam could be -1
+  discrete = ! isct (sys);               # static gains (tsam = -2) are assumed continuous
   
   ## make sure zer, pol are row vectors
-  pol = reshape (pol_ct, 1, [])
-  zer = reshape (zer, 1, [])
+  pol = reshape (pol, 1, []);
+  zer = reshape (zer, 1, []);
 
   ## check for natural frequencies away from omega = 0
   if (discrete)
@@ -160,12 +143,9 @@ function w = __frequency_vector_2__ (sys_cell, wbounds = "std")
     dec_max = log10 (pi/tsam);
   endif
 
-  ## create frequency vector
+  ## include zeros and poles for nice peaks in plots
   zp = [abs(zer), abs(pol)];
   idx = find (zp > 10^dec_min & zp < 10^dec_max);
   zp = zp(idx);
-
-  w = logspace (dec_min, dec_max, 500);
-  w = unique ([w, zp]);                  # unique also sorts frequency vector
 
 endfunction
