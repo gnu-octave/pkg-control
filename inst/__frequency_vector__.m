@@ -35,9 +35,9 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function w = __frequency_vector__ (sys, wbounds = "std")
+function w = __frequency_vector__ (sys, wbounds = "std", wmin, wmax)
 
   zer = zero (sys);
   pol = pole (sys);
@@ -117,6 +117,11 @@ function w = __frequency_vector__ (sys, wbounds = "std")
   ## run discrete frequency all the way to pi
   if (discrete)
     dec_max = log10 (pi/tsam);
+  endif
+
+  if (nargin == 4)                       # w = {wmin, wmax}  
+    dec_min = log10 (wmin);
+    dec_max = log10 (wmax);
   endif
 
   ## create frequency vector
