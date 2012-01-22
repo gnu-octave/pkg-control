@@ -131,7 +131,7 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("hinfsyn: slsb10zd: exception in SLICOT subroutine SB10ZD");
+            error ("ncfsyn: slsb10zd: exception in SLICOT subroutine SB10ZD");
 
         static const char* err_msg[] = {
             "0: OK",
