@@ -1,6 +1,19 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.2.5   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved Matlab compatibility for frequency response commands.  It is now
+   possible to specify a frequency range.  Example: bode (sys, {wmin, wmax})
+   where wmin and wmax denote frequencies in rad/s.
+
+** margin
+   -- Fixed a variable name such that discrete-time models are plotted
+      without an error. (Thanks to Renato Caldas)
+
+
+===============================================================================
 control-2.2.4   Release Date: 2012-01-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
