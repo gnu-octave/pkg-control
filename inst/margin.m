@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -131,7 +131,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2009
-## Version: 0.9
+## Version: 0.9.1
 
 function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
@@ -295,7 +295,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     if (continuous)
       xl_str = "Frequency [rad/s]";
     else
-      xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi/Ts);
+      xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi/tsam);
     endif
 
     subplot (2, 1, 1)
