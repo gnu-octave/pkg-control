@@ -42,8 +42,8 @@ test @lti/sminreal
 test @lti/zero
 
 ## robust control
-test hinfsyn
 test h2syn
+test hinfsyn
 test ncfsyn
 
 ## ARE solvers
@@ -52,22 +52,22 @@ test dare
 test kalman
 
 ## Lyapunov
-test lyap
-test dlyap
-test gram
 test covar
-test lyapchol
+test dlyap
 ## test dlyapchol  # TODO: add tests
+test gram
+test lyap
+test lyapchol
 
 ## various oct-files
-test place
-test hsvd
 test ctrbf
+test hsvd
+test place
 
 ## various m-files
-test margin
-test sigma
-test initial
 test ctrb
-test obsv
+test initial
 test issample
+test margin
+test obsv
+test sigma
