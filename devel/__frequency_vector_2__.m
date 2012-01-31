@@ -51,6 +51,10 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std")
   dec_min = min (cell2mat (dec_min));
   dec_max = max (cell2mat (dec_max));
   zp = horzcat (zp{:});
+  
+  ## include zeros and poles for nice peaks in plots
+  idx = find (zp > 10^dec_min & zp < 10^dec_max);
+  zp = zp(idx);
 
   w = logspace (dec_min, dec_max, 500);
   w = unique ([w, zp]);                  # unique also sorts frequency vector
@@ -148,7 +152,5 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
 
   ## include zeros and poles for nice peaks in plots
   zp = [abs(zer), abs(pol)];
-  idx = find (zp > 10^dec_min & zp < 10^dec_max);
-  zp = zp(idx);
 
 endfunction
