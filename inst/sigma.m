@@ -60,7 +60,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2009
-## Version: 0.5
+## Version: 0.6
 
 function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
 
@@ -80,11 +80,6 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
     ## convert to dB for plotting
     sv_db = 20 * log10 (sv);
 
-    ## determine axes
-    ax_vec = __axis_limits__ ([reshape(w, [], 1), reshape(min(sv_db, [], 1), [], 1);
-                              reshape(w, [], 1), reshape(max(sv_db, [], 1), [], 1)]);
-    ax_vec(1:2) = [min(w), max(w)];
-
     ## determine xlabel
     if (isct (sys))
       xl_str = "Frequency [rad/s]";
@@ -94,15 +89,12 @@ function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
 
     ## plot results
     semilogx (w, sv_db, "b")
-    ax = axis;
-    if (any (isinf (ax_vec)))  # catch case purely imaginary poles or zeros
-      ax_vec(3:4) = ax(3:4);
-    endif
-    axis (ax_vec)
+    axis ("tight")
+    ylim (__axis_margin__ (ylim))
+    grid ("on")
     title (["Singular Values of ", inputname(1)])
     xlabel (xl_str)
     ylabel ("Singular Values [dB]")
-    grid ("on")
   else            # return values
     sv_r = sv;
     w_r = reshape (w, [], 1);

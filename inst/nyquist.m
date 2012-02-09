@@ -48,7 +48,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.2
+## Version: 0.3
 
 function [re_r, im_r, w_r] = nyquist (sys, w = [])
 
@@ -65,10 +65,10 @@ function [re_r, im_r, w_r] = nyquist (sys, w = [])
   im = imag (H);
 
   if (! nargout)
-    ax_vec = __axis_limits__ ([re, im; re, -im]);
-
     plot (re, im, "b", re, -im, "r")
-    axis (ax_vec)
+    axis ("tight")
+    xlim (__axis_margin__ (xlim))
+    ylim (__axis_margin__ (ylim))
     grid ("on")
     title (["Nyquist Diagram of ", inputname(1)])
     xlabel ("Real Axis")

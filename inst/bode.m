@@ -48,7 +48,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.3
+## Version: 0.4
 
 function [mag_r, pha_r, w_r] = bode (sys, w = [])
 
@@ -67,12 +67,6 @@ function [mag_r, pha_r, w_r] = bode (sys, w = [])
   if (! nargout)
     mag_db = 20 * log10 (mag);
 
-    wv = [min(w), max(w)];
-    ax_vec_mag = __axis_limits__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
-    ax_vec_mag(1:2) = wv;
-    ax_vec_pha = __axis_limits__ ([reshape(w, [], 1), reshape(pha, [], 1)]);
-    ax_vec_pha(1:2) = wv;
-
     if (isct (sys))
       xl_str = "Frequency [rad/s]";
     else
@@ -81,18 +75,16 @@ function [mag_r, pha_r, w_r] = bode (sys, w = [])
 
     subplot (2, 1, 1)
     semilogx (w, mag_db)
-    ax = axis;
-    if (any (isinf (ax_vec_mag)))  # catch case purely imaginary poles or zeros
-      ax_vec_mag(3:4) = ax(3:4);
-    endif
-    axis (ax_vec_mag)
+    axis ("tight")
+    ylim (__axis_margin__ (ylim))
     grid ("on")
     title (["Bode Diagram of ", inputname(1)])
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)
     semilogx (w, pha)
-    axis (ax_vec_pha)
+    axis ("tight")
+    ylim (__axis_margin__ (ylim))
     grid ("on")
     xlabel (xl_str)
     ylabel ("Phase [deg]")
