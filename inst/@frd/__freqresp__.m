@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
@@ -28,8 +28,7 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
   if (! isempty (w))     # freqresp (frdsys, w), sigma (frdsys, w), ...
     tol = sqrt (eps);
-    w = num2cell (w);    # use oct-file cellfun instead of m-file arrayfun
-    w_idx = cellfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false);
+    w_idx = arrayfun (@(x) find (abs (w_sys - x) < tol), w, "uniformoutput", false);
     w_idx = vertcat (w_idx{:});
 
     ## NOTE: There are problems when cellfun uses "uniformoutput", true
