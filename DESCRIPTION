@@ -5,7 +5,7 @@ Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
 Title: Control Systems
 Description: Octave control systems package based on the proven SLICOT library
-Depends: octave (>= 3.4.0)
+Depends: octave (>= 3.6.0)
 Autoload: yes
 License: GPL version 3 or later
 Url: http://octave.sf.net, http://www.slicot.org

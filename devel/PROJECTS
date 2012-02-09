@@ -74,11 +74,6 @@ General:
     will integrate the model and controller reduction commands for the first time.
     Don't forget margin.m.
 
-  * With Octave 3.6.0, arrayfun is now an oct-file like cellfun and not an
-    m-file anymore.  Therefore, many calls to cellfun (in combination with num2cell)
-    can be replaced by calls to arrayfun alone. Examples are strseq, ctrb and
-    @ss/__freqresp__.  Wait until control requires octave (>= 3.6.0).
-
 -----------------------
 Frequency Response Data:
 -----------------------
