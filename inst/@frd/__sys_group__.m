@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function retsys = __sys_group__ (sys1, sys2)
 
@@ -53,11 +53,10 @@ function retsys = __sys_group__ (sys1, sys2)
   else                                       # differing frequency vectors
     ## find common frequencies
     retsys.w = w = intersect (sys1.w, sys2.w);
-    w = num2cell (w);
 
     ## indices of common frequencies
-    w1_idx = cellfun (@(x) find (sys1.w == x), w);
-    w2_idx = cellfun (@(x) find (sys2.w == x), w);
+    w1_idx = arrayfun (@(x) find (sys1.w == x), w);
+    w2_idx = arrayfun (@(x) find (sys2.w == x), w);
 
     ## extract common responses
     H1 = sys1.H(:, :, w1_idx);

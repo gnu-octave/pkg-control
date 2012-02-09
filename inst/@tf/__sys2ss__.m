@@ -128,8 +128,8 @@ function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
   max_len_numq = max (len_numq(:));
   numq = cellfun (@(x) prepad (x, max_len_numq, 0, 2), numq, "uniformoutput", false);
   f = @(y) cellfun (@(x) x(y), numq);
-  s = num2cell (1 : max_len_numq);
-  D = cellfun (f, s, "uniformoutput", false);
+  s = 1 : max_len_numq;
+  D = arrayfun (f, s, "uniformoutput", false);
 
   e2 = diag (ones (p*(max_len_numq-1), 1), -p);
   a2 = eye (p*max_len_numq);

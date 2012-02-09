@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ## This file is part of LTI Syncope.
@@ -53,7 +53,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function co = ctrb (a, b)
 
@@ -71,9 +71,9 @@ function co = ctrb (a, b)
   endif
 
   n = rows (a);          # number of states
-  k = num2cell (0:n-1);  # exponents for a
+  k = 0:n-1;             # exponents for a
 
-  tmp = cellfun (@(x) a^x*b, k, "uniformoutput", false);
+  tmp = arrayfun (@(x) a^x*b, k, "uniformoutput", false);
 
   co = horzcat (tmp{:});
 

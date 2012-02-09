@@ -1,4 +1,4 @@
-## Copyright (C) 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
-## Version: 0.1
+## Version: 0.2
 
 function display (sys)
 
@@ -123,13 +123,12 @@ function str = __vec2str__ (vec, post)
   vec = vec(:);
   tmp = isfinite (vec);
   tmp = abs (vec(tmp & vec != 0));
-  vec = num2cell (vec);
   if (isempty (tmp) || min (tmp) < 1e-3 || max (tmp) > 1e4)
-    str = cellfun (@(x) sprintf ("%.3e", x), vec, "uniformoutput", false);
+    str = arrayfun (@(x) sprintf ("%.3e", x), vec, "uniformoutput", false);
   elseif (all (floor (tmp) == tmp))
-    str = cellfun (@(x) sprintf ("%d", x), vec, "uniformoutput", false);
+    str = arrayfun (@(x) sprintf ("%d", x), vec, "uniformoutput", false);
   else
-    str = cellfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
+    str = arrayfun (@(x) sprintf ("%.4f", x), vec, "uniformoutput", false);
   endif
   str = strjust (char (str), "right");
   if (nargin > 1)

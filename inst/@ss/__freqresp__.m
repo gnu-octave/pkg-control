@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
 
@@ -35,25 +35,25 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
   endif
 
   if (isct (sys))  # continuous system
-    s = num2cell (i * w);
+    s = i * w;
   else             # discrete system
-    s = num2cell (exp (i * w * abs (tsam)));
+    s = exp (i * w * abs (tsam));
   endif
 
   switch (resptype)
     case 0         # default system
-      H = cellfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
+      H = arrayfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
 
     case 1         # inversed system
-      H = cellfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
+      H = arrayfun (@(x) inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     case 2         # inversed sensitivity
       j = eye (columns (b));
-      H = cellfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
+      H = arrayfun (@(x) j + c/(x*e - a)*b + d, s, "uniformoutput", false);
 
     case 3         # inversed complementary sensitivity
       j = eye (columns (b));
-      H = cellfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
+      H = arrayfun (@(x) j + inv (c/(x*e - a)*b + d), s, "uniformoutput", false);
 
     otherwise
       error ("ss: freqresp: invalid response type");
