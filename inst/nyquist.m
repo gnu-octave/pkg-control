@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -28,6 +28,9 @@
 ## @item w
 ## Optional vector of frequency values.  If @var{w} is not specified,
 ## it is calculated by the zeros and poles of the system.
+## Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
+## where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
+## in rad/s.
 ## @end table
 ##
 ## @strong{Outputs}
