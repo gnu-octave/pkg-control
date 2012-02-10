@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.3
+## Version: 0.4
 
 function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 
@@ -35,20 +35,21 @@ function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 
   endif
 
   if (isa (sys, "frd"))
-    if (isempty (w))
-      w = get (sys, "w");
-    else
+    if (! isempty (w))
       warning ("frequency_response: second argument w is ignored");
     endif
+    w = get (sys, "w");
+    H = __freqresp__ (sys, [], resptype, cellflag);
   elseif (isempty (w))  # find interesting frequency range w if not specified
     w = __frequency_vector__ (sys, wbounds);
+    H = __freqresp__ (sys, w, resptype, cellflag);
   elseif (iscell (w) && numel (w) == 2 && issample (w{1}) && issample (w{2}))
     w = __frequency_vector__ (sys, wbounds, w{1}, w{2});
+    H = __freqresp__ (sys, w, resptype, cellflag);
   elseif (! is_real_vector (w))
     error ("frequency_response: second argument w must be a vector of frequencies");
+  else
+    H = __freqresp__ (sys, w, resptype, cellflag);
   endif
-
-  ## frequency response
-  H = __freqresp__ (sys, w, resptype, cellflag);
 
 endfunction
