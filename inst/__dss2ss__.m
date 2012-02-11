@@ -27,7 +27,7 @@ function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
   if (isempty (e))
     return;
   elseif (rcond (e) < eps)  # check for singularity
-    error ("ss: dss2ss: descriptor matrice ""e"" singular");
+    error ("ss: dss2ss: descriptor matrice 'e' singular");
   else
     [a, b, c, d] = slsb10jd (a, b, c, d, e);
     e = [];
