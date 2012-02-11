@@ -1,6 +1,17 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Require Octave version 3.6.0 or better.  (The frequency response plotting
+   commands have been simplified.  They now use the fixed "axis tight" command.
+   This is a first step towards multiple systems in one plot,
+   e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
+   new "arrayfun" function which became a faster oct-file instead of an m-file)
+
+
+===============================================================================
 control-2.2.5   Release Date: 2012-02-09   Release Manager: Lukas Reichlin
 ===============================================================================
 
