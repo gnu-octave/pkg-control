@@ -41,12 +41,7 @@ function retsys = set (sys, varargin)
       retsys = sys;      # would lead to unwanted output when using
     endif                # set (sys)
 
-  elseif (nargout == 0)  # set (sys, "prop1", val1, ...)
-
-    warning ("lti: set: use sys = get (sys, 'property1', ...) to save changes");
-    warning ("          octave does not support pass by reference");
-
-  else                   # sys = set (sys, "prop1", val1, ...)
+  else                   # set (sys, "prop1", val1, ...), sys = set (sys, "prop1", val1, ...)
 
     if (rem (nargin-1, 2))
       error ("lti: set: properties and values must come in pairs");
@@ -99,7 +94,11 @@ function retsys = set (sys, varargin)
       endswitch
     endfor
 
-    retsys = sys;
+    if (nargout == 0)    # set (sys, "prop1", val1, ...)
+      assignin ("caller", inputname (1), sys);
+    else                 # sys = set (sys, "prop1", val1, ...)
+      retsys = sys;
+    endif
 
   endif
 
