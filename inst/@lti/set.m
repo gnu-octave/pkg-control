@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -17,13 +17,18 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} set (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} set (@var{sys}, @var{"property"}, @var{value})
+## @deftypefnx {Function File} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
+## @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
 ## Set or modify properties of LTI objects.
+## If no return argument @var{retsys} is specified, the modified LTI object is stored
+## in input argument @var{sys}.  @command{set} can handle multiple properties in one call:
+## @code{set (sys, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
+## @code{set (sys)} prints a list of the object's property names.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function retsys = set (sys, varargin)
 
