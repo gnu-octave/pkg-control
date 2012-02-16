@@ -10,6 +10,10 @@ control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
    e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
    new "arrayfun" function which became a faster oct-file instead of an m-file)
 
+** get
+   -- The get command doesn't need a return argument anymore.
+      set (sys, "key", value)  is now equivalent to  sys = set (sys, "key", value).
+
 
 ===============================================================================
 control-2.2.5   Release Date: 2012-02-09   Release Manager: Lukas Reichlin
