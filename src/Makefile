@@ -31,7 +31,7 @@ slicotlibrary.a: slicot.tar.gz
 	mkoctfile *.f \
 	${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
 	ar -r slicotlibrary.a *.o
-	rm -rf *.o *.f *.oct slicot
+	rm -rf *.o *.f AB01MD.oct slicot
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc slicotlibrary.a
