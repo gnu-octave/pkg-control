@@ -12,7 +12,14 @@ srcdir = [develdir, "/../src"];
 cd (srcdir);
 
 system ("rm -rf *.o slsb03od.oct slsg03bd.oct");
-system ("make slsb03od.oct slsg03bd.oct")
+system ("make slsb03od.oct slsg03bd.oct");
 
 system ("rm -rf *.o");
 cd (homedir);
+
+%{
+system ("rm -rf *.o ");
+system ("make ");
+
+system ("rm -rf *.o");
+%}
