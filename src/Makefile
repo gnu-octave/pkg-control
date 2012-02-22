@@ -23,15 +23,24 @@ copy_NEWS:
 #       for fortran compilers.  Private oct-files for the
 #       control package would be even better.
 
+slicotlibrary.a: slicot.tar.gz
+	tar -xzf slicot.tar.gz
+	mv slicot/src/*.f .
+	mv slicot/src_aux/*.f .
+	mkoctfile *.f \
+	${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
+	ar -r slicotlibrary.a *.o
+	rm -rf *.o *.f *.oct slicot
+
 # transmission zeros of state-space models
-slab08nd.oct: slab08nd.cc
-	mkoctfile slab08nd.cc \
+slab08nd.oct: slab08nd.cc slicotlibrary.a
+	mkoctfile slab08nd.cc slicotlibrary.a \
               AB08ND.f AB08NX.f TB01ID.f MB03OY.f MB03PY.f \
               ${LAPACK_LIBS} ${BLAS_LIBS}	
 
 # L-infinity norm
-slab13dd.oct: slab13dd.cc
-	mkoctfile slab13dd.cc \
+slab13dd.oct: slab13dd.cc slicotlibrary.a
+	mkoctfile slab13dd.cc slicotlibrary.a \
               AB13DD.f MA02AD.f MB01SD.f MB03XD.f TB01ID.f \
               TG01AD.f TG01BD.f AB13DX.f MA01AD.f MA02ID.f \
               MB03XP.f MB04DD.f MB04QB.f MB04TB.f MB03XU.f \
@@ -41,8 +50,8 @@ slab13dd.oct: slab13dd.cc
               ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
 
 # H-2 controller synthesis - continuous-time
-slsb10hd.oct: slsb10hd.cc
-	mkoctfile slsb10hd.cc \
+slsb10hd.oct: slsb10hd.cc slicotlibrary.a
+	mkoctfile slsb10hd.cc slicotlibrary.a \
               SB10HD.f SB10UD.f SB10VD.f SB10WD.f SB02RD.f \
               MB01RU.f SB02SD.f MA02ED.f SB02RU.f SB02MR.f \
               MB01SD.f SB02MS.f SB02MV.f SB02MW.f MA02AD.f \
@@ -52,8 +61,8 @@ slsb10hd.oct: slsb10hd.cc
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-2 controller synthesis - discrete-time
-slsb10ed.oct: slsb10ed.cc
-	mkoctfile slsb10ed.cc \
+slsb10ed.oct: slsb10ed.cc slicotlibrary.a
+	mkoctfile slsb10ed.cc slicotlibrary.a \
               SB10ED.f SB10SD.f SB10TD.f SB10PD.f MB01RX.f \
               SB02SD.f SB02OD.f MB01RU.f SB02OU.f SB02OV.f \
               SB02OW.f MB01RY.f SB02OY.f SB03SX.f SB03SY.f \
@@ -62,8 +71,8 @@ slsb10ed.oct: slsb10ed.cc
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-2 norm
-slab13bd.oct: slab13bd.cc
-	mkoctfile slab13bd.cc \
+slab13bd.oct: slab13bd.cc slicotlibrary.a
+	mkoctfile slab13bd.cc slicotlibrary.a \
               AB13BD.f SB08DD.f SB03OU.f SB01FY.f TB01LD.f \
               SB03OT.f MB04ND.f MB04OD.f MB03QX.f select.f \
               SB03OR.f MB04OX.f MB03QD.f SB03OY.f MA02AD.f \
@@ -71,15 +80,15 @@ slab13bd.oct: slab13bd.cc
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Pole assignment
-slsb01bd.oct: slsb01bd.cc
-	mkoctfile slsb01bd.cc \
+slsb01bd.oct: slsb01bd.cc slicotlibrary.a
+	mkoctfile slsb01bd.cc slicotlibrary.a \
               SB01BD.f MB03QD.f MB03QY.f SB01BX.f SB01BY.f \
               select.f \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-inf controller synthesis - continuous-time
-slsb10fd.oct: slsb10fd.cc
-	mkoctfile slsb10fd.cc \
+slsb10fd.oct: slsb10fd.cc slicotlibrary.a
+	mkoctfile slsb10fd.cc slicotlibrary.a \
               SB10FD.f SB10PD.f SB10QD.f SB10RD.f SB02RD.f \
               MB01RU.f MB01RX.f MA02AD.f SB02SD.f MA02ED.f \
               SB02RU.f SB02MR.f MB01SD.f SB02MS.f SB02MV.f \
@@ -89,8 +98,8 @@ slsb10fd.oct: slsb10fd.cc
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-inf controller synthesis - discrete-time
-slsb10dd.oct: slsb10dd.cc
-	mkoctfile slsb10dd.cc \
+slsb10dd.oct: slsb10dd.cc slicotlibrary.a
+	mkoctfile slsb10dd.cc slicotlibrary.a \
               SB10DD.f MB01RU.f MB01RX.f SB02SD.f SB02OD.f \
               MA02AD.f SB02OU.f SB02OV.f SB02OW.f MB01RY.f \
               SB02OY.f SB03SX.f SB03SY.f MA02ED.f select.f \
@@ -99,184 +108,135 @@ slsb10dd.oct: slsb10dd.cc
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Lyapunov equations
-slsb03md.oct: slsb03md.cc
-	mkoctfile slsb03md.cc \
+slsb03md.oct: slsb03md.cc slicotlibrary.a
+	mkoctfile slsb03md.cc slicotlibrary.a \
               SB03MD.f select.f SB03MX.f SB03MY.f MB01RD.f \
               SB03MV.f SB03MW.f SB04PX.f \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Sylvester equations - continuous-time
-slsb04md.oct: slsb04md.cc
-	mkoctfile slsb04md.cc \
-              SB04MD.f SB04MU.f SB04MY.f SB04MR.f SB04MW.f \
+slsb04md.oct: slsb04md.cc slicotlibrary.a
+	mkoctfile slsb04md.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Sylvester equations - discrete-time
-slsb04qd.oct: slsb04qd.cc
-	mkoctfile slsb04qd.cc \
-              SB04QD.f SB04QU.f SB04QY.f SB04MW.f SB04QR.f \
+slsb04qd.oct: slsb04qd.cc slicotlibrary.a
+	mkoctfile slsb04qd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # generalized Lyapunov equations
-slsg03ad.oct: slsg03ad.cc
-	mkoctfile slsg03ad.cc \
-              SG03AD.f MB01RW.f MB01RD.f SG03AX.f SG03AY.f \
-              MB02UU.f MB02UV.f \
+slsg03ad.oct: slsg03ad.cc slicotlibrary.a
+	mkoctfile slsg03ad.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # algebraic Riccati equations
-slsb02od.oct: slsb02od.cc
-	mkoctfile slsb02od.cc \
-              SB02OD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
-              SB02MR.f SB02MV.f \
+slsb02od.oct: slsb02od.cc slicotlibrary.a
+	mkoctfile slsb02od.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Hankel singular values
-slab13ad.oct: slab13ad.cc
-	mkoctfile slab13ad.cc \
-              AB13AD.f TB01ID.f TB01KD.f AB13AX.f MA02DD.f \
-              MB03UD.f TB01LD.f SB03OU.f MB03QX.f select.f \
-              SB03OT.f MB03QD.f MB04ND.f MB04OD.f MB03QY.f \
-              SB03OR.f SB03OY.f SB04PX.f MB04NY.f MB04OY.f \
-              SB03OV.f \
+slab13ad.oct: slab13ad.cc slicotlibrary.a
+	mkoctfile slab13ad.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # staircase form using orthogonal transformations
-slab01od.oct: slab01od.cc
-	mkoctfile slab01od.cc \
-              AB01OD.f AB01ND.f MB03OY.f MB01PD.f MB01QD.f \
+slab01od.oct: slab01od.cc slicotlibrary.a
+	mkoctfile slab01od.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # minimal realization of state-space models
-sltb01pd.oct: sltb01pd.cc
-	mkoctfile sltb01pd.cc \
-              TB01PD.f TB01XD.f TB01ID.f AB07MD.f TB01UD.f \
-              MB03OY.f MB01PD.f MB01QD.f \
+sltb01pd.oct: sltb01pd.cc slicotlibrary.a
+	mkoctfile sltb01pd.cc slicotlibrary.a \
               $(LAPACK_LIBS) $(BLAS_LIBS)
 
 # Cholesky factor of Lyapunov equations
-slsb03od.oct: slsb03od.cc
-	mkoctfile slsb03od.cc \
-              SB03OD.f select.f SB03OU.f SB03OT.f MB04ND.f \
-              MB04OD.f SB03OR.f SB03OY.f SB04PX.f MB04NY.f \
-              MB04OY.f SB03OV.f \
+slsb03od.oct: slsb03od.cc slicotlibrary.a
+	mkoctfile slsb03od.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # Cholesky factor of generalized Lyapunov equations
-slsg03bd.oct: slsg03bd.cc
-	mkoctfile slsg03bd.cc \
-              SG03BD.f SG03BV.f SG03BU.f SG03BW.f SG03BX.f \
-              SG03BY.f MB02UU.f MB02UV.f \
+slsg03bd.oct: slsg03bd.cc slicotlibrary.a
+	mkoctfile slsg03bd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # transmission zeros of descriptor state-space models
-slag08bd.oct: slag08bd.cc
-	mkoctfile slag08bd.cc \
-              AG08BD.f AG08BY.f TG01AD.f TB01XD.f MA02CD.f \
-              TG01FD.f MA02BD.f MB03OY.f \
+slag08bd.oct: slag08bd.cc slicotlibrary.a
+	mkoctfile slag08bd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # minimal realization of descriptor state-space models
-sltg01jd.oct: sltg01jd.cc
-	mkoctfile sltg01jd.cc \
-              TG01JD.f TG01AD.f TB01XD.f MA02CD.f TG01HX.f \
+sltg01jd.oct: sltg01jd.cc slicotlibrary.a
+	mkoctfile sltg01jd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # controllability staircase form of descriptor state-space models
-sltg01hd.oct: sltg01hd.cc
-	mkoctfile sltg01hd.cc \
-              TG01HD.f TG01HX.f \
+sltg01hd.oct: sltg01hd.cc slicotlibrary.a
+	mkoctfile sltg01hd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # observability staircase form of descriptor state-space models
-sltg01id.oct: sltg01id.cc
-	mkoctfile sltg01id.cc \
-              TG01ID.f TB01XD.f MA02CD.f AB07MD.f TG01HX.f \
-              MA02BD.f \
+sltg01id.oct: sltg01id.cc slicotlibrary.a
+	mkoctfile sltg01id.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # solution of algebraic Riccati equations for descriptor systems
-slsg02ad.oct: slsg02ad.cc
-	mkoctfile slsg02ad.cc \
-              SG02AD.f SB02OU.f SB02OV.f SB02OW.f SB02OY.f \
-              MB01SD.f MB02VD.f MB02PD.f MA02GD.f \
+slsg02ad.oct: slsg02ad.cc slicotlibrary.a
+	mkoctfile slsg02ad.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # gain of descriptor state-space models
-sltg04bx.oct: sltg04bx.cc
-	mkoctfile sltg04bx.cc \
-              TG04BX.f MB02RD.f MB02SD.f \
+sltg04bx.oct: sltg04bx.cc slicotlibrary.a
+	mkoctfile sltg04bx.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # scaling of state-space models
-sltb01id.oct: sltb01id.cc
-	mkoctfile sltb01id.cc \
-              TB01ID.f \
+sltb01id.oct: sltb01id.cc slicotlibrary.a
+	mkoctfile sltb01id.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # scaling of descriptor state-space models
-sltg01ad.oct: sltg01ad.cc
-	mkoctfile sltg01ad.cc \
-              TG01AD.f \
+sltg01ad.oct: sltg01ad.cc slicotlibrary.a
+	mkoctfile sltg01ad.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-infinity loop shaping - continuous-time
-slsb10id.oct: slsb10id.cc
-	mkoctfile slsb10id.cc \
-              SB10ID.f SB02RD.f select.f SB10JD.f MB02VD.f \
-              MA02GD.f SB02MS.f MA02ED.f SB02RU.f SB02SD.f \
-              MB01RU.f SB02QD.f SB02MV.f SB02MW.f SB02MR.f \
-              MA02AD.f MB02PD.f MB01SD.f MB01UD.f SB03SY.f \
-              MB01RX.f SB03MX.f SB03SX.f MB01RY.f SB03QY.f \
-              SB03QX.f SB03MY.f SB04PX.f SB03MV.f SB03MW.f \
+slsb10id.oct: slsb10id.cc slicotlibrary.a
+	mkoctfile slsb10id.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-infinity loop shaping - discrete-time - strictly proper case
-slsb10kd.oct: slsb10kd.cc
-	mkoctfile slsb10kd.cc \
-              SB10KD.f SB02OD.f select.f SB02OY.f SB02OW.f \
-              SB02OV.f SB02MV.f SB02OU.f SB02MR.f \
+slsb10kd.oct: slsb10kd.cc slicotlibrary.a
+	mkoctfile slsb10kd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # H-infinity loop shaping - discrete-time - proper case
-slsb10zd.oct: slsb10zd.cc
-	mkoctfile slsb10zd.cc \
-              SB10ZD.f MA02AD.f SB02OD.f select.f MB01RX.f \
-              MB02VD.f SB02OY.f SB02OW.f SB02OV.f SB02OU.f \
-              SB02MR.f MA02GD.f SB02MV.f \
+slsb10zd.oct: slsb10zd.cc slicotlibrary.a
+	mkoctfile slsb10zd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # State-space to transfer function conversion
-sltb04bd.oct: sltb04bd.cc
-	mkoctfile sltb04bd.cc \
-              TB04BD.f MC01PY.f TB01ID.f TB01ZD.f MC01PD.f \
-              TB04BX.f MA02AD.f MB02RD.f MB01PD.f MB02SD.f \
-              MB01QD.f \
+sltb04bd.oct: sltb04bd.cc slicotlibrary.a
+	mkoctfile sltb04bd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # bilinear transformation
-slab04md.oct: slab04md.cc
-	mkoctfile slab04md.cc \
-              AB04MD.f \
+slab04md.oct: slab04md.cc slicotlibrary.a
+	mkoctfile slab04md.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # descriptor to regular state-space conversion
-slsb10jd.oct: slsb10jd.cc
-	mkoctfile slsb10jd.cc \
-              SB10JD.f \
+slsb10jd.oct: slsb10jd.cc slicotlibrary.a
+	mkoctfile slsb10jd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # transfer function to state-space conversion
-sltd04ad.oct: sltd04ad.cc
-	mkoctfile sltd04ad.cc \
-              TD04AD.f TD03AY.f TB01PD.f TB01XD.f AB07MD.f \
-              TB01UD.f TB01ID.f MB01PD.f MB03OY.f MB01QD.f \
+sltd04ad.oct: sltd04ad.cc slicotlibrary.a
+	mkoctfile sltd04ad.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # controllable block Hessenberg realization
-sltb01ud.oct: sltb01ud.cc
-	mkoctfile sltb01ud.cc \
-              TB01UD.f MB01PD.f MB03OY.f MB01QD.f \
+sltb01ud.oct: sltb01ud.cc slicotlibrary.a
+	mkoctfile sltb01ud.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # helpers
