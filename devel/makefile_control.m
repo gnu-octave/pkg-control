@@ -11,6 +11,7 @@ develdir = fileparts (which ("makefile_control"));
 srcdir = [develdir, "/../src"];
 cd (srcdir);
 
+%{
 makefile_chol
 makefile_conversions
 makefile_h2syn
@@ -27,5 +28,10 @@ makefile_scale
 makefile_staircase
 makefile_tustin
 makefile_zero
+%}
+
+% system ("make clean");
+system ("make -j4 all");
+system ("rm *.o");
 
 cd (homedir);

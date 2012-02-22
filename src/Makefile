@@ -253,4 +253,7 @@ is_real_square_matrix.oct: is_real_square_matrix.cc
 	mkoctfile is_real_square_matrix.cc
 
 clean:
-	rm *.o core octave-core *.oct *~
+	rm -rf *.o core octave-core *.oct *~ *.f slicot
+
+realclean: clean
+	rm -rf *.a
