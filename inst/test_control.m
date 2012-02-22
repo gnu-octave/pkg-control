@@ -1,4 +1,4 @@
-## Copyright (C) 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.3
+## Version: 0.4
 
 ## test collection
 test ltimodels
@@ -58,6 +58,21 @@ test dlyap
 test gram
 test lyap
 test lyapchol
+
+## model order reduction
+test bstmodred
+test btamodred
+test hnamodred
+## test spamodred  # TODO: create test case
+
+## controller order reduction
+test btaconred
+test cfconred
+test fwcfconred
+## test spaconred  # TODO: create test case
+
+## identification
+test fitfrd
 
 ## various oct-files
 test ctrbf

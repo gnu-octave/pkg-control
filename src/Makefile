@@ -10,7 +10,9 @@ all: slab08nd.oct slab13dd.oct slsb10hd.oct slsb10ed.oct slab13bd.oct \
      sltb01pd.oct slsb03od.oct slsg03bd.oct slag08bd.oct sltg01jd.oct \
      sltg01hd.oct sltg01id.oct slsg02ad.oct sltg04bx.oct sltb01id.oct \
      sltg01ad.oct slsb10id.oct slsb10kd.oct slsb10zd.oct sltb04bd.oct \
-     slab04md.oct slsb10jd.oct sltd04ad.oct sltb01ud.oct \
+     slab04md.oct slsb10jd.oct sltd04ad.oct sltb01ud.oct slab09hd.oct \
+     slab09id.oct slab09jd.oct slsb16ad.oct slsb16bd.oct slsb16cd.oct \
+     slsb10yd.oct \
      is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
      is_real_square_matrix.oct \
      copy_NEWS
@@ -201,6 +203,41 @@ sltd04ad.oct: sltd04ad.cc slicotlibrary.a
 # controllable block Hessenberg realization
 sltb01ud.oct: sltb01ud.cc slicotlibrary.a
 	mkoctfile sltb01ud.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# balanced stochastic truncation model reduction
+slab09hd.oct: slab09hd.cc slicotlibrary.a
+	mkoctfile slab09hd.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# balanced truncation & singular perturbation approximation model reduction
+slab09id.oct: slab09id.cc slicotlibrary.a
+	mkoctfile slab09id.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# hankel-norm approximation model reduction
+slab09jd.oct: slab09jd.cc slicotlibrary.a
+	mkoctfile slab09jd.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# balanced truncation & singular perturbation approximation controller reduction
+slsb16ad.oct: slsb16ad.cc slicotlibrary.a
+	mkoctfile slsb16ad.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# coprime factorization state-feedback controller reduction
+slsb16bd.oct: slsb16bd.cc slicotlibrary.a
+	mkoctfile slsb16bd.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# frequency-weighted coprime factorization state-feedback controller reduction
+slsb16cd.oct: slsb16cd.cc slicotlibrary.a
+	mkoctfile slsb16cd.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS}
+
+# fit state-space model to frequency response data
+slsb10yd.oct: slsb10yd.cc slicotlibrary.a
+	mkoctfile slsb10yd.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS}
 
 # helpers
