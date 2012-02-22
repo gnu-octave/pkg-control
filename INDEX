@@ -91,6 +91,18 @@ Matrix Equation Solvers
   dlyapchol
   lyap
   lyapchol
+Model Reduction
+  bstmodred
+  btamodred
+  hnamodred
+  spamodred
+Controller Reduction
+  btaconred
+  cfconred
+  fwcfconred
+  spaconred
+System Identification
+  fitfrd
 Overloaded Operators
   @lti/horzcat
   @lti/inv
@@ -106,6 +118,7 @@ Overloaded Operators
   @lti/uminus
   @lti/vertcat
 Miscellaneous
+  options
   strseq
   test_control
   BMWengine
