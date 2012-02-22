@@ -30,7 +30,7 @@ makefile_tustin
 makefile_zero
 %}
 
-% system ("make clean");
+system ("make clean");
 system ("make -j4 all");
 system ("rm *.o");
 
