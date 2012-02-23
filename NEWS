@@ -4,6 +4,14 @@ Summary of important user-visible changes for releases of the control package
 control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** Added new functions for frequency-weighted model and controller order
+   reduction:
+   
+     bstmodred      btaconred
+     btamodred      cfconred
+     hnamodred      fwcfconred
+     spamodred      spaconred
+
 ** Require Octave version 3.6.0 or better.  (The frequency response plotting
    commands have been simplified.  They now use the fixed "axis tight" command.
    This is a first step towards multiple systems in one plot,
@@ -13,6 +21,9 @@ control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ** get
    -- The get command doesn't need a return argument anymore.
       set (sys, "key", value)  is now equivalent to  sys = set (sys, "key", value).
+
+** Revised package installation.  The new solution compiles the SLICOT library
+   in a less barbaric way and brings along faster compile times.
 
 
 ===============================================================================
