@@ -48,9 +48,7 @@ Ti_AH = Tu * 0.59 * exp ( -1.30 * kappa  +  0.38 * kappa^2 )
 Td_AH = Tu * 0.15 * exp ( -1.40 * kappa  +  0.56 * kappa^2 )
 tau_AH = Td_AH / 10
 
-numC_AH = kp_AH * [Ti_AH * Td_AH,  Ti_AH,  1];
-denC_AH = conv ([Ti_AH, 0], [tau_AH^2,  2 * tau_AH,  1]);
-C_AH = tf (numC_AH, denC_AH);
+C_AH = optiPIDctrl (kp_AH, Ti_AH, Td_AH, tau_AH);
 
 % Initial Values
 C_par_0 = [kp_AH; Ti_AH; Td_AH];
@@ -71,9 +69,7 @@ Ti_opt = C_par_opt(2)
 Td_opt = C_par_opt(3)
 tau_opt = Td_opt / 10
 
-numC_opt = kp_opt * [Ti_opt * Td_opt,  Ti_opt,  1];
-denC_opt = conv ([Ti_opt, 0], [tau_opt^2,  2 * tau_opt,  1]);
-C_opt = tf (numC_opt, denC_opt);
+C_opt = optiPIDctrl (kp_opt, Ti_opt, Td_opt, tau_opt);
 
 % Open Loop
 L_AH = P * C_AH;

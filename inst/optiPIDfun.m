@@ -18,9 +18,7 @@ function J = optiPIDfun (C_par)
   tau = Td / 10;
 
   % PID Controller with Roll-Off
-  numC = kp * [Ti*Td, Ti, 1];
-  denC = conv ([Ti, 0], [tau^2, 2*tau, 1]);
-  C = tf (numC, denC);
+  C = optiPIDctrl (kp, Ti, Td, tau);
 
   % Open Loop
   L = P * C;
