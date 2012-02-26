@@ -23,7 +23,10 @@ control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
       set (sys, "key", value)  is now equivalent to  sys = set (sys, "key", value).
 
 ** Revised package installation.  The new solution compiles the SLICOT library
-   in a less barbaric way and brings along faster compile times.
+   in a less barbaric way and creates only a single oct-file containing all the
+   SLICOT routines.  This also brings along faster compile times.
+   (Special thanks to Hans Buchmann, Carlo De Falco and Michael Goffioul for
+   their advice)
 
 
 ===============================================================================
