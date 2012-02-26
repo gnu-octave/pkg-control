@@ -64,7 +64,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slab08nd", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slab08nd", "control_slicot_functions.oct");    
 DEFUN_DLD (slab08nd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB08ND Release 5.0\n\

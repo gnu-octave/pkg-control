@@ -1,4 +1,4 @@
-#define SLICOTCONTROL	"control_slicot_functions"
+//#define SLICOTCONTROL	"control_slicot_functions"
 
 #include <octave/oct.h>
 #include "common.cc"

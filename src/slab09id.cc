@@ -61,7 +61,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slab09id", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slab09id", "control_slicot_functions.oct");    
 DEFUN_DLD (slab09id, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09ID Release 5.0\n\

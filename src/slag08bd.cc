@@ -64,7 +64,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slag08bd", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slag08bd", "control_slicot_functions.oct");    
 DEFUN_DLD (slag08bd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AG08BD Release 5.0\n\

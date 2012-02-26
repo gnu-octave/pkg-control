@@ -51,7 +51,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltg01id", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltg01id", "control_slicot_functions.oct");    
 DEFUN_DLD (sltg01id, args, nargout, "Slicot TG01ID Release 5.0")
 {
     int nargin = args.length ();

@@ -52,7 +52,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsg03ad", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsg03ad", "control_slicot_functions.oct");    
 DEFUN_DLD (slsg03ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SG03AD Release 5.0\n\

@@ -49,7 +49,7 @@ extern "C"
                   int& INFO);
 }
  
-// PKG_ADD: autoload ("slab01od", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slab01od", "control_slicot_functions.oct");    
 DEFUN_DLD (slab01od, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB01OD Release 5.0\n\

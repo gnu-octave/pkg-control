@@ -46,7 +46,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltg01ad", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltg01ad", "control_slicot_functions.oct");    
 DEFUN_DLD (sltg01ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TG01AD Release 5.0\n\

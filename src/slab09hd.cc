@@ -51,7 +51,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slab09hd", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slab09hd", "control_slicot_functions.oct");    
 DEFUN_DLD (slab09hd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09HD Release 5.0\n\

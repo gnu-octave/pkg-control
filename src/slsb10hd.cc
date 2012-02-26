@@ -52,7 +52,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10hd", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsb10hd", "control_slicot_functions.oct");    
 DEFUN_DLD (slsb10hd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10HD Release 5.0\n\

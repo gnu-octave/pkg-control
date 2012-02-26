@@ -48,7 +48,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb01bd", SLICOTCONTROL".oct");     
+// PKG_ADD: autoload ("slsb01bd", "control_slicot_functions.oct");     
 DEFUN_DLD (slsb01bd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB01BD Release 5.0\n\

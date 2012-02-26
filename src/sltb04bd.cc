@@ -50,7 +50,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltb04bd", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltb04bd", "control_slicot_functions.oct");    
 DEFUN_DLD (sltb04bd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB04BD Release 5.0\n\

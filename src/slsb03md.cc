@@ -48,7 +48,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb03md", SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsb03md", "control_slicot_functions.oct");    
 DEFUN_DLD (slsb03md, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB03MD Release 5.0\n\
