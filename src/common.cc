@@ -26,6 +26,8 @@ Version: 0.3
 */
 
 
+#include <octave/oct.h>
+
 int max (int a, int b)
 {
     if (a > b)

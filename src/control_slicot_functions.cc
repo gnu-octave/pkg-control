@@ -1,9 +1,4 @@
-/* TODO: * create common.h
- *       * add common.cc to makefile (control_slicot_functions.oct)
- */
-
-#include <octave/oct.h>
-#include "common.cc"    // common code for all functions of the oct-file
+#include "common.h"     // common code for all functions of the oct-file
 
 #include "slab08nd.cc"  // transmission zeros of state-space models
 #include "slab13dd.cc"  // L-infinity norm

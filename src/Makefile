@@ -28,7 +28,7 @@ slicotlibrary.a: slicot.tar.gz
 
 # slicot functions
 control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a
-	mkoctfile control_slicot_functions.cc slicotlibrary.a \
+	mkoctfile control_slicot_functions.cc common.cc slicotlibrary.a \
               ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
 
 # helpers
