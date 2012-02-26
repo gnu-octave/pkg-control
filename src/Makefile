@@ -5,19 +5,12 @@ BLAS_LIBS := $(shell mkoctfile -p BLAS_LIBS)
 FLIBS := $(shell mkoctfile -p FLIBS)
 
 all: control_slicot_functions.oct \
-     is_real_scalar.oct is_real_vector.oct is_real_matrix.oct \
-     is_real_square_matrix.oct \
-     copy_NEWS
+     is_real_scalar.oct \
+     is_real_vector.oct \
+     is_real_matrix.oct \
+     is_real_square_matrix.oct
 
-copy_NEWS:
-	$(if $(shell $(OCTAVE) -q --eval "if (compare_versions (version (), \"3.6.0\", \"<\")) printf (\"true\"); endif"), mv ../NEWS ../doc/)
-
-# TODO: Leading and trailing underscores for sl* functions
-#       (__sl*__.oct) would be nice, but this can be an issue
-#       for fortran compilers.  Private oct-files for the
-#       control package would be even better.
-
-# TODO: Create a single oct-file control_slicot.oct
+# TODO: Private oct-files for control package.
 
 # unpack and compile SLICOT library
 # Note that TG04BX is a custom routine.
