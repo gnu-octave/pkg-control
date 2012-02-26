@@ -25,6 +25,13 @@ copy_NEWS:
 #       for fortran compilers.  Private oct-files for the
 #       control package would be even better.
 
+# TODO: Create a single oct-file control_slicot.oct
+
+# unpack and compile SLICOT library
+# Note that TG04BX is a custom routine.
+# It has the extension .fortran such that
+# it is not deleted by rm *.f when using
+# the developer makefile makefile_control.m
 slicotlibrary.a: slicot.tar.gz
 	tar -xzf slicot.tar.gz
 	mv slicot/src/*.f .
