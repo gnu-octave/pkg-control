@@ -30,7 +30,7 @@ Version: 0.4
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include <complex>
-//#include "common.cc"
+#include "common.h"
 
 extern "C"
 { 

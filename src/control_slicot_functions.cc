@@ -1,5 +1,3 @@
-#include "common.h"     // common code for all functions of the oct-file
-
 #include "slab08nd.cc"  // transmission zeros of state-space models
 #include "slab13dd.cc"  // L-infinity norm
 #include "slsb10hd.cc"  // H-2 controller synthesis - continuous-time

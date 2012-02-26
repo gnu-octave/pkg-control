@@ -29,7 +29,7 @@ Version: 0.5
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-//#include "common.cc"
+#include "common.h"
 #include <complex>
 #include <xpow.h>
 
