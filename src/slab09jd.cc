@@ -59,7 +59,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload (slab09jd, SLICOTCONTROL".oct");         
+// PKG_ADD: autoload ("slab09jd", SLICOTCONTROL".oct");         
 DEFUN_DLD (slab09jd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09JD Release 5.0\n\

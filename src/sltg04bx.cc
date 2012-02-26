@@ -46,7 +46,7 @@ extern "C"
                   int* IWORK);
 }
 
-// PKG_ADD: autoload (sltg04bx, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltg04bx", SLICOTCONTROL".oct");    
 DEFUN_DLD (sltg04bx, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TG04BX Release 5.0\n\

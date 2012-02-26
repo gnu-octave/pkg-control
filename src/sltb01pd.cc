@@ -46,7 +46,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (sltb01pd, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltb01pd", SLICOTCONTROL".oct");    
 DEFUN_DLD (sltb01pd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB01PD Release 5.0\n\

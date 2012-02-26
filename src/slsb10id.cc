@@ -51,7 +51,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (slsb10id, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsb10id", SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb10id, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10ID Release 5.0\n\

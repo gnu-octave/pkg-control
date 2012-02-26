@@ -51,7 +51,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (sltg01hd, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltg01hd", SLICOTCONTROL".oct");    
 DEFUN_DLD (sltg01hd, args, nargout, "Slicot TG01HD Release 5.0")
 {
     int nargin = args.length ();

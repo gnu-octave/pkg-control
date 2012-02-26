@@ -44,7 +44,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (slsb04md, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsb04md", SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb04md, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB04MD Release 5.0\n\

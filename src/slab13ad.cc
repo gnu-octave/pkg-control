@@ -46,7 +46,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (slab13ad, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slab13ad", SLICOTCONTROL".oct");    
 DEFUN_DLD (slab13ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13AD Release 5.0\n\

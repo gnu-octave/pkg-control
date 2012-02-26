@@ -56,7 +56,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload (slsb16ad, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("slsb16ad", SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb16ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB16AD Release 5.0\n\

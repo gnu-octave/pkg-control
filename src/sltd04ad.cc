@@ -53,7 +53,7 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload (sltd04ad, SLICOTCONTROL".oct");    
+// PKG_ADD: autoload ("sltd04ad", SLICOTCONTROL".oct");    
 DEFUN_DLD (sltd04ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TD04AD Release 5.0\n\
