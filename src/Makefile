@@ -30,10 +30,10 @@ slicotlibrary.a: slicot.tar.gz
 	mv slicot/src/*.f .
 	mv slicot/src_aux/*.f .
 	cp TG04BX.fortran TG04BX.f
-	mkoctfile *.f \
+	mkoctfile -c *.f \
 	${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
 	ar -r slicotlibrary.a *.o
-	rm -rf *.o *.f AB01MD.oct slicot
+	rm -rf *.o *.f slicot
 
 # transmission zeros of state-space models
 slab08nd.oct: slab08nd.cc slicotlibrary.a
