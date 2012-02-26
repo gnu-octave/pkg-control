@@ -30,8 +30,7 @@ slicotlibrary.a: slicot.tar.gz
 	mv slicot/src/*.f .
 	mv slicot/src_aux/*.f .
 	cp TG04BX.fortran TG04BX.f
-	mkoctfile -c *.f \
-	${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
+	mkoctfile -c *.f
 	ar -r slicotlibrary.a *.o
 	rm -rf *.o *.f slicot
 
