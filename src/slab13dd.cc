@@ -30,7 +30,7 @@ Version: 0.4
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include <complex>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -50,7 +50,8 @@ extern "C"
                   Complex* CWORK, int& LCWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slab13dd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slab13dd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13DD Release 5.0\n\

@@ -29,7 +29,7 @@ Version: 0.1
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -48,7 +48,8 @@ extern "C"
                   double* DWORK, int& LDWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (sltb01ud, SLICOTCONTROL".oct");    
 DEFUN_DLD (sltb01ud, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB01UD Release 5.0\n\

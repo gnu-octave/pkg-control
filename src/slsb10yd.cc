@@ -30,7 +30,7 @@ Version: 0.1
 #include <octave/oct.h>
 #include <f77-fcn.h>
 #include <complex>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -49,7 +49,8 @@ extern "C"
                   Complex* ZWORK, int& LZWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slsb10yd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb10yd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10YD Release 5.0\n\

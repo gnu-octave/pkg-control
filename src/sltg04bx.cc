@@ -27,7 +27,7 @@ Version: 0.1
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 #include <complex>
 #include <xpow.h>
 
@@ -45,7 +45,8 @@ extern "C"
                   double& GAIN,
                   int* IWORK);
 }
-  
+
+// PKG_ADD: autoload (sltg04bx, SLICOTCONTROL".oct");    
 DEFUN_DLD (sltg04bx, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TG04BX Release 5.0\n\

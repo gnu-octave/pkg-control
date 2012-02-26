@@ -29,7 +29,7 @@ Version: 0.1
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -50,7 +50,8 @@ extern "C"
                   int* IWORK, double* DWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (sltg01hd, SLICOTCONTROL".oct");    
 DEFUN_DLD (sltg01hd, args, nargout, "Slicot TG01HD Release 5.0")
 {
     int nargin = args.length ();

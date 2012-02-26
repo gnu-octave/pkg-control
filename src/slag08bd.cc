@@ -29,7 +29,7 @@ Version: 0.3
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 #include <complex>
 #include <xpow.h>
 
@@ -63,7 +63,8 @@ extern "C"
                   double* WORK, int& LWORK,
                   int& INFO);
 }
-  
+
+// PKG_ADD: autoload (slag08bd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slag08bd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AG08BD Release 5.0\n\

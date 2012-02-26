@@ -29,7 +29,7 @@ Version: 0.2
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -51,7 +51,8 @@ extern "C"
                   double* DWORK, int& LDWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slsg03ad, SLICOTCONTROL".oct");    
 DEFUN_DLD (slsg03ad, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SG03AD Release 5.0\n\

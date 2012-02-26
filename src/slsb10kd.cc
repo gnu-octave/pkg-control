@@ -29,7 +29,7 @@ Version: 0.3
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -49,7 +49,8 @@ extern "C"
                   bool* BWORK,
                   int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slsb10kd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb10kd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10KD Release 5.0\n\

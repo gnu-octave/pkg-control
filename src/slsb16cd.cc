@@ -29,7 +29,7 @@ Version: 0.1
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -50,7 +50,8 @@ extern "C"
                   double* DWORK, int& LDWORK,
                   int& IWARN, int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slsb16cd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slsb16cd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB16CD Release 5.0\n\

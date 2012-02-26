@@ -29,7 +29,7 @@ Version: 0.4
 
 #include <octave/oct.h>
 #include <f77-fcn.h>
-#include "common.cc"
+//#include "common.cc"
 
 extern "C"
 { 
@@ -46,7 +46,8 @@ extern "C"
                      int& IWARN,
                      int& INFO);
 }
-     
+
+// PKG_ADD: autoload (slab13bd, SLICOTCONTROL".oct");    
 DEFUN_DLD (slab13bd, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13BD Release 5.\n\
