@@ -11,8 +11,8 @@ develdir = fileparts (which ("makefile_control"));
 srcdir = [develdir, "/../src"];
 cd (srcdir);
 
-system ("make realclean");  # recompile slicotlibrary.a
-## system ("make clean");
+## system ("make realclean");  # recompile slicotlibrary.a
+system ("make clean");
 system ("make -j4 all");
 system ("rm *.o");
 
