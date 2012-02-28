@@ -56,7 +56,9 @@
 ## @item info.Ks
 ## Controller for shaped plant.  @code{Ks = ncfsyn (Gs)}.
 ## @item info.rcond
-## Estimates of the reciprocal condition numbers of the Riccati equations.
+## Estimates of the reciprocal condition numbers of the Riccati equations
+## and a few other things.  For details, see the description of the
+## corresponding SLICOT algorithm.
 ## @end table
 ##
 ## @strong{Block Diagram of N}
