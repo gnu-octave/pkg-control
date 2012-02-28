@@ -60,7 +60,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: December 2009
-## Version: 0.3
+## Version: 0.4
 
 ## TODO: Improve compatibility
 
@@ -103,8 +103,8 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
 
 
   ## compute real axis break points and corresponding gains
-  dnum = polyderiv (num);
-  dden = polyderiv (den);
+  dnum = polyder (num);
+  dden = polyder (den);
   brkp = conv (den, dnum) - conv (num, dden);
   real_ax_pts = roots (brkp);
   real_ax_pts = real_ax_pts(find (imag (real_ax_pts) == 0));
