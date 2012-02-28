@@ -41,6 +41,13 @@
 ## State-space model of the lower LFT of @var{P} and @var{K}.
 ## @item gamma
 ## H-2 norm of @var{N}.
+## @item rcond
+## Vector @var{rcond} contains estimates of the reciprocal condition
+## numbers of the matrices which are to be inverted and
+## estimates of the reciprocal condition numbers of the
+## Riccati equations which have to be solved during the
+## computation of the controller @var{K}.  For details,
+## see the description of the corresponding SLICOT algorithm.
 ## @end table
 ##
 ## @strong{Block Diagram}

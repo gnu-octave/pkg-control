@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
 ## Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
 ## of @var{S} (for performance), @var{K S} (to penalize large inputs) and
 ## @var{T} (for robustness and to avoid sensitivity to noise).
@@ -52,6 +52,13 @@
 ## State-space model of the lower LFT of @var{P} and @var{K}.
 ## @item gamma
 ## L-infinity norm of @var{N}.
+## @item rcond
+## Vector @var{rcond} contains estimates of the reciprocal condition
+## numbers of the matrices which are to be inverted and
+## estimates of the reciprocal condition numbers of the
+## Riccati equations which have to be solved during the
+## computation of the controller @var{K}.  For details,
+## see the description of the corresponding SLICOT algorithm.
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -127,6 +134,12 @@
 ## Chapter 3.8: General Control Problem Formulation
 ## @end group
 ## @end example
+##
+## @strong{Algorithm}@*
+## Relies on commands @command{augw} and @command{hinfsyn},
+## which use SLICOT SB10FD and SB10DD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
+##
 ## @seealso{hinfsyn, augw}
 ## @end deftypefn
 
@@ -134,7 +147,7 @@
 ## Created: December 2009
 ## Version: 0.1
 
-function [K, N, gamma] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
+function [K, N, gamma, rcond] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   if (nargin == 0)
     print_usage ();
@@ -144,6 +157,6 @@ function [K, N, gamma] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   P = augw (G, W1, W2, W3);
   
-  [K, N, gamma] = hinfsyn (P, p, m, varargin{:});
+  [K, N, gamma, rcond] = hinfsyn (P, p, m, varargin{:});
 
 endfunction
