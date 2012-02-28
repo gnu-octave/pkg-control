@@ -18,9 +18,10 @@ control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
    e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
    new "arrayfun" function which became a faster oct-file instead of an m-file)
 
-** get
-   -- The get command doesn't need a return argument anymore.
-      set (sys, "key", value)  is now equivalent to  sys = set (sys, "key", value).
+** set
+   -- The set command doesn't need a return argument anymore in order to save
+      the modified values.  set (sys, "key", value)  is now equivalent to
+      sys = set (sys, "key", value).
 
 ** Revised package installation.  The new solution compiles the SLICOT library
    in a less barbaric way and creates only a single oct-file containing all the
