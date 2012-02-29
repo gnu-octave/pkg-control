@@ -11,8 +11,13 @@ function J = optiPIDfun (C_par)
   % Global Variables
   global P t dt mu_1 mu_2 mu_3
 
-  % Function Argument -> PID Controller with Roll-Off
-  C = optiPIDctrl (num2cell (C_par){:});
+  % Function Argument -> Controller Parameters
+  kp = C_par(1);
+  Ti = C_par(2);
+  Td = C_par(3);
+
+  % PID Controller with Roll-Off
+  C = optiPIDctrl (kp, Ti, Td);
 
   % Open Loop
   L = P * C;

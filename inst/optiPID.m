@@ -66,7 +66,6 @@ disp ('optiPID: optimized PID controller parameters:');
 kp_opt = C_par_opt(1)
 Ti_opt = C_par_opt(2)
 Td_opt = C_par_opt(3)
-tau_opt = Td_opt / 10
 
 C_opt = optiPIDctrl (kp_opt, Ti_opt, Td_opt);
 
