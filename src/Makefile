@@ -1,5 +1,3 @@
-OCTAVE ?= octave
-
 LAPACK_LIBS := $(shell mkoctfile -p LAPACK_LIBS)
 BLAS_LIBS := $(shell mkoctfile -p BLAS_LIBS)
 FLIBS := $(shell mkoctfile -p FLIBS)
