@@ -2,6 +2,8 @@ control >> Control Theory
 Examples
   MDSSystem
   optiPID
+  Anderson
+  Madievski
 Linear Time Invariant Models
   dss
   frd
