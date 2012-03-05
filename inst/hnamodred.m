@@ -245,12 +245,15 @@
 ## performed on system @var{G} prior to order reduction.
 ## Default value is true if @code{G.scaled == false} and
 ## false if @code{G.scaled == true}.
+## Note that for @acronym{MIMO} models, proper scaling of both inputs and outputs
+## is of utmost importance.  The input and output scaling can @strong{not}
+## be done by the equilibration option or the @command{prescale} command
+## because these functions perform state transformations only.
+## Furthermore, signals should not be scaled simply to a certain range.
+## For all inputs (or outputs), a certain change should be of the same
+## importance for the model.
 ## @end table
 ##
-##
-## UNSTABLE (from bstmodred)
-##
-## MIMO (from bstmodred)
 ##
 ## Approximation Properties:
 ## @itemize @bullet

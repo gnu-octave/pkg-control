@@ -183,21 +183,15 @@
 ## This is done by state transformations.
 ## Default value is true if @code{G.scaled == false} and
 ## false if @code{G.scaled == true}.
-## Note that for @acronym{MIMO} models,.
-## @end table
-##
-## For @acronym{MIMO} models, proper scaling of both inputs and outputs
+## Note that for @acronym{MIMO} models, proper scaling of both inputs and outputs
 ## is of utmost importance.  The input and output scaling can @strong{not}
 ## be done by the equilibration option or the @command{prescale} command
 ## because these functions perform state transformations only.
-## Signals should not be scaled simply to the range of, say, -1 to +1.
-## For all inputs (or outputs), a change from +1 to +2 should be of the
-## same importance for the model.
-## Think of a chemical reactor, the importance could be the cost to control this
-## reactor.  Then a change on each input from +1.5 to +2.0 would cost 50$.
-## Otherwise, important behaviour of @var{G} could be neglected just because
-## the corresponding signals have smaller numbers than those of other,
-## less important effects of @var{G}.
+## Furthermore, signals should not be scaled simply to a certain range.
+## For all inputs (or outputs), a certain change should be of the same
+## importance for the model.
+## @end table
+##
 ##
 ## Approximation Properties:
 ## @itemize @bullet
