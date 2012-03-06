@@ -151,7 +151,7 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
     error ("fwcfconred: keys and values must come in pairs");
   endif
 
-  [a, b, c, d, tsam, scaled] = ssdata (G);
+  [a, b, c, d, tsam] = ssdata (G);
   [p, m] = size (G);
   n = rows (a);
   [mf, nf] = size (F);
@@ -173,7 +173,6 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
   tol1 = 0.0;
   jobcf = 1;
   jobmr = 1;                                       # balancing-free BTA
-  equil = scaled && scaledc;
   ordsel = 1;
   ncr = 0;
   negfb = true;                                    # A-BK, A-LC Hurwitz
