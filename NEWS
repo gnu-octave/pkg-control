@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+control-2.3.50   Release Date: 2012-03-06   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Added new functions for frequency-weighted model and controller order
@@ -12,22 +12,33 @@ control-2.3.50   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
      hnamodred      fwcfconred
      spamodred      spaconred
 
-** Require Octave version 3.6.0 or better.  (The frequency response plotting
-   commands have been simplified.  They now use the fixed "axis tight" command.
-   This is a first step towards multiple systems in one plot,
-   e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
-   new "arrayfun" function which became a faster oct-file instead of an m-file)
+** Anderson, Madievski
+   -- Added two examples for controller reduction.  The m-files are named after
+      the authors of the corresponding papers.
+
+** fitfrd
+   -- Added function to fit frequency response data with a state-space model.
 
 ** set
    -- The set command doesn't need a return argument anymore in order to save
       the modified values.  set (sys, "key", value)  is now equivalent to
       sys = set (sys, "key", value).
 
-** Revised package installation.  The new solution compiles the SLICOT library
-   in a less barbaric way and creates only a single oct-file containing all the
-   SLICOT routines.  This also brings along faster compile times.
+** Require Octave version 3.6.0 or better.  (The frequency response plotting
+   commands have been simplified.  They now use the fixed "axis tight" command.
+   This is a first step towards multiple systems in one plot,
+   e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
+   new "arrayfun" function which became a faster oct-file instead of an m-file)
+
+** Revised package installation and cleanup efforts under the hood.
+   The new solution compiles the SLICOT library in a less barbaric way and
+   creates only a single oct-file containing all the SLICOT routines.
+   This also brings along faster compile times.
    (Special thanks to Hans Buchmann, Carlo De Falco and Michael Goffioul for
    their advice)
+
+** doc/control.pdf
+   -- Extended PDF manual.
 
 
 ===============================================================================

@@ -82,6 +82,7 @@ Linear-Quadratic Control
   lqr
 Robust Control
   augw
+  fitfrd
   h2syn
   hinfsyn
   mixsyn
@@ -103,8 +104,6 @@ Controller Reduction
   cfconred
   fwcfconred
   spaconred
-System Identification
-  fitfrd
 Overloaded Operators
   @lti/horzcat
   @lti/inv
