@@ -26,13 +26,11 @@ General:
 
   * Implement zpk models and @zpset similar to @tfpoly.
 
-  * SLICOT model and controller reduction.  Under construction in extra/control-devel.
-
   * SLICOT system identification.  Under construction in extra/control-devel
 
   * Descriptor support for pole placement command "place".
   
-  * Implement mu-Synthesis command "dksyn".
+  * Implement mu-Synthesis command "dksyn" using  muHopt.f.
 
   * Implement d2d.  In general, d2c followed by c2d could be used, maybe one derives
     direct formulae for the bilinear case.
