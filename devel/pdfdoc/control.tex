@@ -8,6 +8,27 @@
 @c @afourwide
 @c %**end of header
 
+
+@c The following macro is used for the on-line help system, but we don't
+@c want lots of `See also: foo, bar, and baz' strings cluttering the
+@c printed manual (that information should be in the supporting text for
+@c each group of functions and variables).
+
+@macro seealso {args}
+@iftex
+@vskip 2pt
+@end iftex
+@ifnottex
+@c Texinfo @sp should work but in practice produces ugly results for HTML.
+@c A simple blank line produces the correct behavior. 
+@c @sp 1
+
+@end ifnottex
+@noindent
+@strong{See also:} \args\.
+@end macro
+
+
 @c %*** Start of TITLEPAGE
 @titlepage
 @title control @value{VERSION}
