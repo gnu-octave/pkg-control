@@ -39,3 +39,17 @@
 #include "slsb16bd.cc"  // coprime factorization state-feedback controller reduction
 #include "slsb16cd.cc"  // frequency-weighted coprime factorization state-feedback controller reduction
 #include "slsb10yd.cc"  // fit state-space model to frequency response data
+
+
+// stub function to avoid gen_doc_cache warning upon package installation
+DEFUN_DLD (control_slicot_functions, args, nargout,
+   "-*- texinfo -*-\n\
+Slicot Release 5.0\n\
+No argument checking.\n\
+For internal use only.")
+{
+    octave_value_list retval;
+    error ("control_slicot_functions: for internal use only");
+    return retval;
+}
+
