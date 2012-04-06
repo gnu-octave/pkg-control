@@ -21,7 +21,7 @@ slicotlibrary.a: slicot.tar.gz
 	mv slicot/src_aux/*.f .
 	cp TG04BX.fortran TG04BX.f
 	mkoctfile -c *.f
-	ar -r slicotlibrary.a *.o
+	ar -rc slicotlibrary.a *.o
 	rm -rf *.o *.f slicot
 
 # slicot functions
