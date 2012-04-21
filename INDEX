@@ -13,6 +13,7 @@ Linear Time Invariant Models
   zpk
 Model Data Access
   @lti/dssdata
+  @lti/filtdata
   @lti/frdata
   @lti/get
   @lti/set

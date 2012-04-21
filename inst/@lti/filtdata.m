@@ -1,4 +1,4 @@
-## Copyright (C) 2011   Lukas F. Reichlin
+## Copyright (C) 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,41 +16,51 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys})
-## @deftypefnx {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys}, @var{"v"})
-## Access zero-pole-gain data.
+## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys})
+## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys}, @var{"vector"})
+## Access discrete-time transfer function data in DSP format.
+## Argument @var{sys} is not limited to transfer function models.
+## If @var{sys} is not a transfer function, it is converted automatically.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of LTI model.
+## Any type of discrete-time LTI model.
 ## @item "v", "vector"
-## For SISO models, return @var{z} and @var{p} directly as column vectors
+## For SISO models, return @var{num} and @var{den} directly as column vectors
 ## instead of cells containing a single column vector.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item z
-## Cell of column vectors containing the zeros for each channel.
-## z@{i,j@} contains the zeros from input j to output i.
-## @item p
-## Cell of column vectors containing the poles for each channel.
-## p@{i,j@} contains the poles from input j to output i.
-## @item k
-## Matrix containing the gains for each channel.
-## k(i,j) contains the gain from input j to output i.
+## @item num
+## Cell of numerator(s).  Each numerator is a row vector
+## containing the coefficients of the polynomial in ascending powers of z^-1.
+## num@{i,j@} contains the numerator polynomial from input j to output i.
+## In the SISO case, a single vector is possible as well.
+## @item den
+## Cell of denominator(s).  Each denominator is a row vector
+## containing the coefficients of the polynomial in descending powers of z^-1.
+## den@{i,j@} contains the denominator polynomial from input j to output i.
+## In the SISO case, a single vector is possible as well.
 ## @item tsam
-## Sampling time in seconds.  If @var{sys} is a continuous-time model,
-## a zero is returned.
+## Sampling time in seconds.  If @var{tsam} is not specified, -1 is returned.
 ## @end table
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2011
+## Created: April 2012
 ## Version: 0.1
 
 function [num, den, tsam] = filtdata (sys, rtype = "cell")
+
+  if (nargin > 2)
+    print_usage ();
+  endif
+
+  if (! isdt (sys))
+    error ("lti: filtdata: require discrete-time system");
+  endif
 
   [num, den, tsam] = tfdata (sys);
   

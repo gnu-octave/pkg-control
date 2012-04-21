@@ -81,6 +81,7 @@ test place
 
 ## various m-files
 test ctrb
+test filt
 test initial
 test issample
 test margin

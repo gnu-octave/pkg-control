@@ -121,15 +121,15 @@ function sys = filt (num = {}, den = {}, tsam = -1, varargin)
 
 endfunction
 
-
-function p = __remove_trailing_zeros__ (p)
-
-  idx = find (p != 0);
-  
-  if (isempty (idx))
-    p = 0;
-  else
-    p = p(1 : idx(end));
-  endif
-
-endfunction
+%!shared num, den, n1, d1, n2, d2, n2e, d2e
+%! num = [0, 3];
+%! den = [1, 4, 2];
+%! sys = filt (num, den);
+%! [n1, d1] = filtdata (sys, "vector");
+%! [n2, d2] = tfdata (sys, "vector");
+%! n2e = [3, 0];
+%! d2e = [1, 4, 2];
+%!assert (n1, num, 1e-4);
+%!assert (d1, den, 1e-4);
+%!assert (n2, n2e, 1e-4);
+%!assert (d2, d2e, 1e-4);
