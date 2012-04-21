@@ -66,11 +66,11 @@
 function sys = zpk (z = {}, p = {}, k = [], varargin)
 
   switch (nargin)
-    case 0
+    case 0              # sys = zpk ()
       sys = tf ();
       return;
 
-    case 1
+    case 1              # sys = zpk (sys), sys = zpk (k), s = zpk ("s")
       if (isa (z, "lti") || is_real_matrix (z) || ischar (z))
         sys = tf (z);
         return;
@@ -78,14 +78,15 @@ function sys = zpk (z = {}, p = {}, k = [], varargin)
         print_usage ();
       endif
 
-    case 2
+    case 2              # z = zpk ("z", tsam)
       if (ischar (z) && issample (p, -1))
         sys = tf (z, p);
+        return;
       else
         print_usage ();
       endif
 
-    otherwise
+    otherwise           # sys = zpk (z, p, k, ...)
       if (! iscell (z))
         z = {z};
       endif
