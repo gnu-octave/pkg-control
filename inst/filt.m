@@ -75,35 +75,49 @@
 
 function sys = filt (num = {}, den = {}, tsam = -1, varargin)
 
-  if (! iscell (num))
-    num = {num};
-  endif
-  
-  if (! iscell (den))
-    den = {den};
-  endif
+  switch (nargin)
+    case 0              # filt ()
+      sys = tf ();
+      return;
 
-  ## convert from z^-1 to z
-  ## expand each channel by z^x, where x is the largest exponent of z^-1 (z^-x)
+    case 1              # filt (sys), filt (matrix)
+      if (isa (num, "lti") || is_real_matrix (num))
+        sys = tf (num);
+        return;
+      else
+        print_usage ();
+      endif
 
-  ## remove trailing zeros
-  ## such that polynomials are as short as possible
-  num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
-  den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
+    otherwise           # filt (num, den, ...)
+      if (! iscell (num))
+        num = {num};
+      endif
+      if (! iscell (den))
+        den = {den};
+      endif
 
-  ## make numerator and denominator polynomials equally long
-  ## by adding trailing zeros
-  lnum = cellfun (@length, num, "uniformoutput", false);
-  lden = cellfun (@length, den, "uniformoutput", false);
+      ## convert from z^-1 to z
+      ## expand each channel by z^x, where x is the largest exponent of z^-1 (z^-x)
 
-  lmax = cellfun (@max, lnum, lden, "uniformoutput", false);
+      ## remove trailing zeros
+      ## such that polynomials are as short as possible
+      num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
+      den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
 
-  num = cellfun (@postpad, num, lmax, "uniformoutput", false);
-  den = cellfun (@postpad, den, lmax, "uniformoutput", false);
+      ## make numerator and denominator polynomials equally long
+      ## by adding trailing zeros
+      lnum = cellfun (@length, num, "uniformoutput", false);
+      lden = cellfun (@length, den, "uniformoutput", false);
 
-  ## use standard tf constructor
-  ## sys is stored and displayed in standard z form, not z^-1
-  sys = tf (num, den, tsam, varargin{:});
+      lmax = cellfun (@max, lnum, lden, "uniformoutput", false);
+
+      num = cellfun (@postpad, num, lmax, "uniformoutput", false);
+      den = cellfun (@postpad, den, lmax, "uniformoutput", false);
+
+      ## use standard tf constructor
+      ## sys is stored and displayed in standard z form, not z^-1
+      sys = tf (num, den, tsam, varargin{:});
+  endswitch
 
 endfunction
 
