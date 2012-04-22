@@ -40,7 +40,7 @@
 ## In the SISO case, a single vector is possible as well.
 ## @item den
 ## Cell of denominator(s).  Each denominator is a row vector
-## containing the coefficients of the polynomial in descending powers of z^-1.
+## containing the coefficients of the polynomial in ascending powers of z^-1.
 ## den@{i,j@} contains the denominator polynomial from input j to output i.
 ## In the SISO case, a single vector is possible as well.
 ## @item tsam
@@ -79,7 +79,7 @@ function [num, den, tsam] = filtdata (sys, rtype = "cell")
   num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
   den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
 
-  if (lower (rtype(1)) == "v" && issiso (sys))
+  if (strncmpi (rtype, "v", 1) && issiso (sys))
     num = num{1};
     den = den{1};
   endif
