@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -54,7 +54,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.4
+## Version: 0.5
 
 function [num, den, tsam] = tfdata (sys, rtype = "cell")
 
@@ -66,12 +66,12 @@ function [num, den, tsam] = tfdata (sys, rtype = "cell")
 
   tsam = sys.tsam;
 
-  if (lower (rtype(1)) != "t")                  # != tfpoly
+  if (! strncmpi (rtype, "t", 1))                # != tfpoly
     num = cellfun (@get, num, "uniformoutput", false);
     den = cellfun (@get, den, "uniformoutput", false);
   endif
 
-  if (lower (rtype(1)) == "v" && issiso (sys))  # == vector
+  if (strncmpi (rtype, "v", 1) && issiso (sys))  # == vector
     num = num{1};
     den = den{1};
   endif

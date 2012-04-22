@@ -33,7 +33,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function W = gram (argin1, argin2)
 
@@ -43,7 +43,6 @@ function W = gram (argin1, argin2)
 
   if (ischar (argin2))     # the function was called as "gram (sys, mode)"
     sys = argin1;
-    argin2 = lower (argin2);
 
     if (! isa (sys, "lti"))
       error ("gram: first argument must be an LTI model");
@@ -51,10 +50,10 @@ function W = gram (argin1, argin2)
 
     [a, b, c] = ssdata (sys);
 
-    if (strcmp (argin2, "o"))
+    if (strncmpi (argin2, "o", 1))
       a = a.';
       b = c.';
-    elseif (! strcmp (argin2, "c"))
+    elseif (! strncmpi (argin2, "c", 1))
       print_usage ();
     endif
   else                     # the function was called as "gram (a, b)"

@@ -1,4 +1,4 @@
-## Copyright (C) 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -48,7 +48,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.2
+## Version: 0.3
 
 function [H, w, tsam] = frdata (sys, rtype = "array")
 
@@ -60,7 +60,7 @@ function [H, w, tsam] = frdata (sys, rtype = "array")
 
   tsam = sys.tsam;
 
-  if (lower (rtype(1)) == "v" && issiso (sys))
+  if (strncmpi (rtype, "v", 1) && issiso (sys))
     H = reshape (H, [], 1);
   endif
 

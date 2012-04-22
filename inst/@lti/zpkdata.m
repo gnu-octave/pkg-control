@@ -58,7 +58,7 @@ function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
   p = cellfun (@roots, den, "uniformoutput", false);
   k = cellfun (@(n,d) n(1)/d(1), num, den);
 
-  if (lower (rtype(1)) == "v" && issiso (sys))
+  if (strncmpi (rtype, "v", 1) && issiso (sys))
     z = z{1};
     p = p{1};
   endif
