@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __sys_inverse__ (sys)
 
@@ -49,12 +49,12 @@ function sys = __sys_inverse__ (sys)
 
   else                                   # proper ss
 
-    di = inv (d);
+    bid = b / d;
 
-    sys.a = a - b * di * c;
-    sys.b = -b * di;
-    sys.c = di * c;
-    sys.d = di;
+    sys.a = a - bid * c;
+    sys.b = -bid;
+    sys.c = d \ c;
+    sys.d = inv (d);
 
   endif
 
