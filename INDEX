@@ -107,6 +107,7 @@ Controller Reduction
   fwcfconred
   spaconred
 Overloaded Operators
+  @lti/ctranspose
   @lti/horzcat
   @lti/inv
   @lti/minus
