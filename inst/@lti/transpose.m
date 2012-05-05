@@ -17,6 +17,8 @@
 
 ## -*- texinfo -*-
 ## Transpose of LTI objects.  Used by Octave for "sys.'".
+## Useful for dual problems, i.e. controllability and observability
+## or designing estimator gains with @command{lqr} and @command {place}.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
