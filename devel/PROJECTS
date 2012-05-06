@@ -91,8 +91,6 @@ State-Space Models:
 Transfer Function Models:
 ------------------------
 
-  * Support "z^-1" as tfvar (@tf and @tfpoly)
-
   * Find a transfer function to state-space conversion routine which
     supports individual denominators for each input-output channel
     (@tf/__sys2ss__.m).  Support for non-proper descriptor state-space
