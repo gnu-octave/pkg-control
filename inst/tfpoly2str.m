@@ -27,13 +27,21 @@
 
 function str = tfpoly2str (p, tfvar = "x")
 
+  ## TODO: simplify this ugly code
+
   str = "";
 
   lp = numel (p);
 
-  if (lp > 0)
-    ## first element (lowest order 0)
-    a = p(1);
+  if (lp > 0)               # first element (lowest order)
+    idx = find (p);         # first non-zero element
+    if (isempty (idx))
+      str = "0";
+      return;
+    else
+      idx = idx(1);
+    endif
+    a = p(idx);
 
     if (a < 0)
       cs = "-";
@@ -41,11 +49,18 @@ function str = tfpoly2str (p, tfvar = "x")
       cs = "";
     endif
     
-    str = [cs, num2str(abs (a), 4)];
+    if (idx == 1)
+      str = [cs, num2str(abs (a), 4)];
+    else
+      if (abs (a) == 1)
+        str = [cs, __variable__(tfvar, idx-1)];
+      else
+        str = [cs, __coefficient__(a), " ", __variable__(tfvar, idx-1)];
+      endif
+    endif
 
-    if (lp > 1)
-      ## remaining elements of higher order
-      for k = 2 : lp
+    if (lp > idx)           # remaining elements of higher order
+      for k = idx+1 : lp
         a = p(k);
 
         if (a != 0)
@@ -84,6 +99,6 @@ endfunction
 
 function str = __variable__ (tfvar, n)
 
-    str = [tfvar, "^-", num2str(n)];
+  str = [tfvar, "^-", num2str(n)];
 
 endfunction

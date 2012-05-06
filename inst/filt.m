@@ -57,9 +57,9 @@
 ## 
 ## Transfer function 'H' from input 'u1' to output ...
 ## 
-##            3 z     
-##  y1:  -------------
-##       z^2 + 4 z + 2
+##             3 z^-1       
+##  y1:  -------------------
+##       1 + 4 z^-1 + 2 z^-2
 ## 
 ## Sampling time: unspecified
 ## Discrete-time model.
