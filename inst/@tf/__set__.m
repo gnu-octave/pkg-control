@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __set__ (sys, prop, val)
 
@@ -40,6 +40,13 @@ function sys = __set__ (sys, prop, val)
         sys.tfvar = val;
       else
         error ("tf: set: invalid transfer function variable");
+      endif
+
+    case "inv"
+      if (islogical (val))
+        sys.inv = logical (val);
+      else
+        error ("tf: set: property 'inv' must be a logical");
       endif
 
     otherwise

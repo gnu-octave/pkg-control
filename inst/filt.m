@@ -116,7 +116,7 @@ function sys = filt (num = {}, den = {}, tsam = -1, varargin)
 
       ## use standard tf constructor
       ## sys is stored and displayed in standard z form, not z^-1
-      sys = tf (num, den, tsam, varargin{:});
+      sys = tf (num, den, tsam, "inv", true, varargin{:});
   endswitch
 
 endfunction

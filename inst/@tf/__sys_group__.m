@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function retsys = __sys_group__ (sys1, sys2)
 
@@ -59,6 +59,10 @@ function retsys = __sys_group__ (sys1, sys2)
     retsys.tfvar = sys2.tfvar;
   else
     retsys.tfvar = sys1.tfvar;
+  endif
+
+  if (sys1.inv && sys2.inv)
+    retsys.inv = true;
   endif
 
 endfunction

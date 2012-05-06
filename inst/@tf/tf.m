@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -119,7 +119,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2.1
+## Version: 0.3
 
 function sys = tf (num = {}, den = {}, varargin)
 
@@ -196,7 +196,8 @@ function sys = tf (num = {}, den = {}, varargin)
 
   tfdata = struct ("num", {num},
                    "den", {den},
-                   "tfvar", tfvar);            # struct for tf-specific data
+                   "tfvar", tfvar,
+                   "inv", false);              # struct for tf-specific data
 
   ltisys = lti (p, m, tsam);                   # parent class for general lti data
 

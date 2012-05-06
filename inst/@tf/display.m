@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
 function display (sys)
 
@@ -31,12 +31,19 @@ function display (sys)
   [outname, p] = __labels__ (outname, "y");
 
   disp ("");
+  
+  if (sys.inv)
+    [num, den] = filtdata (sys);
+  else
+    num = sys.num;
+    den = sys.den;
+  endif
 
   for nu = 1 : m
     disp (["Transfer function '", sysname, "' from input '", inname{nu}, "' to output ..."]);
     disp ("");
     for ny = 1 : p
-      __disp_frac__ (sys.num{ny, nu}, sys.den{ny, nu}, sys.tfvar, outname{ny});
+      __disp_frac__ (num{ny, nu}, den{ny, nu}, sys.tfvar, outname{ny});
     endfor
   endfor
 
@@ -56,10 +63,12 @@ endfunction
 function __disp_frac__ (num, den, tfvar, name)
 
   MAX_LEN = 12;  # max length of output name
+  
+  tfp = isa (num, "tfpoly");
 
-  if (num == 0)
+  if (tfp && num == 0)
     str = [" ", name, ":  0"];
-  elseif (den == 1)
+  elseif (tfp && den == 1)
     str = [" ", name, ":  "];
     numstr = tfpoly2str (num, tfvar);
     str = [str, numstr];
