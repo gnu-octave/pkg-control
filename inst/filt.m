@@ -78,11 +78,13 @@ function sys = filt (num = {}, den = {}, tsam = -1, varargin)
   switch (nargin)
     case 0              # filt ()
       sys = tf ();
+      ## sys.inv = true;
       return;
 
     case 1              # filt (sys), filt (matrix)
       if (isa (num, "lti") || is_real_matrix (num))
         sys = tf (num);
+        ## sys.inv = true;  # would be a problem for continuous-time LTI models
         return;
       else
         print_usage ();
@@ -115,7 +117,9 @@ function sys = filt (num = {}, den = {}, tsam = -1, varargin)
       den = cellfun (@postpad, den, lmax, "uniformoutput", false);
 
       ## use standard tf constructor
-      ## sys is stored and displayed in standard z form, not z^-1
+      ## sys is stored in standard z form, not z^-1
+      ## so we can mix it with regular transfer function models
+      ## property "inv", true displays sys in z^-1 form
       sys = tf (num, den, tsam, "inv", true, varargin{:});
   endswitch
 

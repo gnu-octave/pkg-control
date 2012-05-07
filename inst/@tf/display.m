@@ -66,9 +66,11 @@ function __disp_frac__ (num, den, tfvar, name)
   
   tfp = isa (num, "tfpoly");
 
-  if (tfp && num == 0)
+  if (num == tfpoly (0))
     str = [" ", name, ":  0"];
-  elseif (tfp && den == 1)
+  elseif ((tfp && den == 1) || (! tfp && isequal (den, 1)))
+  ## elseif (den == tfpoly (1)) doesn't work because it
+  ## would mistakingly accept non-tfpoly denominators like [0, 1]
     str = [" ", name, ":  "];
     numstr = tfpoly2str (num, tfvar);
     str = [str, numstr];
