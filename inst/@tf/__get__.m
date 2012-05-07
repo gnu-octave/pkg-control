@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function val = __get__ (sys, prop)
 
@@ -33,6 +33,9 @@ function val = __get__ (sys, prop)
 
     case {"tfvar", "variable"}
       val = sys.tfvar;
+
+    case "inv"
+      val = sys.inv;
 
     otherwise
       error ("tf: get: invalid property name");

@@ -43,10 +43,10 @@ function sys = __set__ (sys, prop, val)
       endif
 
     case "inv"
-      if (islogical (val))
+      if (isscalar (val))
         sys.inv = logical (val);
       else
-        error ("tf: set: property 'inv' must be a logical");
+        error ("tf: set: property 'inv' must be a scalar logical");
       endif
 
     otherwise
