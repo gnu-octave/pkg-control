@@ -30,12 +30,14 @@ function [props, vals] = __property_names__ (sys, flg)
   ## cell vector of tf-specific properties
   props = {"num";
            "den";
-           "tfvar"};
+           "tfvar";
+           "inv"};
 
   ## cell vector of tf-specific assignable values
   vals = {"p-by-m cell array of row vectors (m = number of inputs)";
           "p-by-m cell array of row vectors (p = number of outputs)";
-          "string (usually s or z)"};
+          "string (usually s or z)";
+          "logical (true for negative powers of TF variable)"};
 
   if (nargin == 1)
     [ltiprops, ltivals] = __property_names__ (sys.lti);

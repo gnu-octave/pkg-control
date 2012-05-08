@@ -43,10 +43,12 @@ function sys = __set__ (sys, prop, val)
       endif
 
     case "inv"
-      if (isscalar (val))
-        sys.inv = logical (val);
-      else
+      if (! isdt (sys))
+        error ("tf: set: property 'inv' requires discrete-time system");
+      elseif (! isscalar (val))
         error ("tf: set: property 'inv' must be a scalar logical");
+      else
+        sys.inv = logical (val);
       endif
 
     otherwise
