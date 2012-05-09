@@ -4,11 +4,25 @@ Summary of important user-visible changes for releases of the control package
 control-2.3.51   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** filt, filtdata
+** filt, filtdata, tf
    -- Added function "filt" to specify disrete-time transfer functions in DSP
-      format.
+      format, i.e. z^-1.
    -- Added function "filtdata" to return any type of discrete-time LTI model
       in DSP format.
+   -- tf models have a new property "inv".  To display a discrete-time TF sys
+      in z^-1, set  sys.inv=true.  In order to switch to z, set  sys.inv=false.
+      "filt" sets property "inv" to true (z^-1) by default, while "tf" uses
+      false (z) as default value.
+      
+** ctranspose
+   Conjugate transpose or pertransposition of LTI objects.
+   Used by Octave for "sys’".  For a transfer-function matrix G, G’ denotes the
+   conjugate of G given by G.’(-s) for a continuous-time system or G.’(1/z) for
+   a discrete-time system.  The frequency response of the pertransposition of G
+   is the Hermitian (conjugate) transpose of G(jw),
+   i.e. freqresp (G’, w) = freqresp (G, w)’.
+   WARNING: Do NOT use this for dual problems, use the transpose "sys.’"
+   (note the dot) instead.
 
 
 ===============================================================================
