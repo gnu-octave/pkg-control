@@ -61,7 +61,7 @@ function retsys = __sys_group__ (sys1, sys2)
     retsys.tfvar = sys1.tfvar;
   endif
 
-  if (sys1.inv && sys2.inv)
+  if (sys1.inv || sys2.inv)
     retsys.inv = true;
   endif
 
