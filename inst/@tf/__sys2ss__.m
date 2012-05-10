@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3.1
+## Version: 0.4
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -81,13 +81,20 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
   denc = cell (p, 1);
   
   ## multiply all denominators in a row and
-  ## update each numerator accordingly 
+  ## update each numerator accordingly
+  ## except for single-input models and those
+  ## with equal denominators in a row
   for i = 1 : p
-    denc(i) = __conv__ (den{i,:});
-    for j = 1 : m
-      idx = setdiff (1:m, j);
-      numc(i,j) = __conv__ (num{i,j}, den{i,idx});
-    endfor
+    if (m == 1 || isequal (den{i,:}))
+      denc(i) = den{i,1};
+      numc(i,:) = num{i,:};
+    else
+      denc(i) = __conv__ (den{i,:});
+      for j = 1 : m
+        idx = setdiff (1:m, j);
+        numc(i,j) = __conv__ (num{i,j}, den{i,idx});
+      endfor
+    endif
   endfor
 
   len_numc = cellfun (@length, numc);
