@@ -73,7 +73,7 @@ function sys = mconnect (sys, M, in_idx, out_idx = ":")
   [mrows, mcols] = size (M);
 
   if (p != mcols || m != mrows)
-    error ("mconnect: second argument must be a (%dx&d) matrix", m, p);
+    error ("mconnect: second argument must be a (%dx%d) matrix", m, p);
   endif
 
   if (! is_real_matrix (M))
