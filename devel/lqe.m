@@ -65,7 +65,7 @@
 ## L = eig (A - B*G)
 ## @end group
 ## @end example
-## @seealso{care, dare, dlqr}
+## @seealso{lqr, care, dare, dlqe}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -1,7 +1,7 @@
 MKOCTFILE ?= mkoctfile
 
-# LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
-# BLAS_LIBS := $(shell $(MKOCTFILE) -p BLAS_LIBS)
+LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
+BLAS_LIBS := $(shell $(MKOCTFILE) -p BLAS_LIBS)
 FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 
 all: control_slicot_functions.oct \
@@ -26,25 +26,10 @@ slicotlibrary.a: slicot.tar.gz
 	ar -rc slicotlibrary.a *.o
 	rm -rf *.o *.f slicot
 
-# reference lapack is just included for debugging purposes
-# it will be removed again before an official release of the control package
-lapacklibrary.a: lapack-3.4.1.tgz
-	tar -xzf lapack-3.4.1.tgz
-	mv lapack-3.4.1/BLAS/SRC/*.f .
-	mv lapack-3.4.1/INSTALL/*.f .
-	mv lapack-3.4.1/SRC/*.f .
-	$(MKOCTFILE) -c *.f
-	ar -rc lapacklibrary.a *.o
-	rm -rf *.o *.f lapack-3.4.1
-
 # slicot functions
-control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a lapacklibrary.a
-	$(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a lapacklibrary.a \
-              ${FLIBS}
-# slicot functions
-#control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a
-#	$(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a \
-#              ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
+control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a
+	$(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a \
+              ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc
@@ -60,7 +45,7 @@ is_real_square_matrix.oct: is_real_square_matrix.cc
 	$(MKOCTFILE) is_real_square_matrix.cc
 
 clean:
-	rm -rf *.o core octave-core *.oct *~ *.f slicot lapack-3.4.1
+	rm -rf *.o core octave-core *.oct *~ *.f slicot
 
 realclean: clean
 	rm -rf *.a

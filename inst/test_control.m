@@ -18,6 +18,21 @@
 ## -*- texinfo -*-
 ## @deftypefn {Script File} {} test_control
 ## Execute all available tests at once.
+## The Octave control package is based on the @uref{http://www.slicot.org, SLICOT} library.
+## SLICOT needs a LAPACK library which is also a prerequisite for Octave itself.
+## In case of failing test, it is highly recommended to use
+## @uref{http://www.netlib.org/lapack/, Netlib's reference LAPACK}
+## for building Octave.  Using ATLAS may lead to sign changes
+## in some entries in the state-space matrices.
+## In general, these sign changes are not 'wrong' and can be regarded as
+## the result of state transformations.  Such state transformations
+## (but not input/output transformations) have no influence on the
+## input-output behaviour of the system.  For better numerics,
+## the control package uses such transformations by default when
+## calculating the frequency responses and a few other things.
+## However, arguments like the Hankel singular Values (HSV) must not change.
+## Differing HSVs and failing algorithms are known for using Framework Accelerate
+## from Mac OS X 10.7.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

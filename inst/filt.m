@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @var{tsam}, @dots{})
-## Create discrete transfer function model from data in DSP format.
+## Create discrete-time transfer function model from data in DSP format.
 ##
 ## @strong{Inputs}
 ## @table @var

@@ -56,7 +56,7 @@ C_par_0 = [kp_AH; Ti_AH; Td_AH];
 if (exist ('fminsearch'))
   warning ('optiPID: optimization starts, please be patient ...');
 else
-  error ('optiPID: please install optim package to proceed');
+  error ('optiPID: please load/install optim package to proceed');
 end
 
 C_par_opt = fminsearch (@optiPIDfun, C_par_0);
