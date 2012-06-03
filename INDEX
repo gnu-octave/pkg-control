@@ -120,6 +120,7 @@ Overloaded Operators
   @lti/subsref
   @lti/transpose
   @lti/uminus
+  @lti/uplus
   @lti/vertcat
 Miscellaneous
   options
