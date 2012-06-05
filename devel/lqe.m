@@ -16,12 +16,12 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{sys}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{sys}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefn {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{sys}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{sys}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
 ## Linear-quadratic estimator.
 ##
 ## @strong{Inputs}
@@ -79,7 +79,7 @@ function [l, p, e] = lqe (a, g, c, q = [], r = [], s = [])
   endif
 
   if (isa (a, "lti"))
-    [l, p, e] = lqr (a.', g, c, q);         # lqe (sys.', q, r, s), g=I, works like  lqr (sys.', q, r, s).'
+    [l, p, e] = lqr (a.', g, c, q);         # lqe (sys, q, r, s), g=I, works like  lqr (sys.', q, r, s).'
   elseif (isempty (g))
     [l, p, e] = lqr (a.', c.', q, r, s);    # lqe (a, [], c, q, r, s), g=I, works like  lqr (a.', c.', q, r, s).'
   elseif (isempty (s))

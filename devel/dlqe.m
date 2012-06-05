@@ -16,13 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{[]}, @var{e})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{a}, @var{b}, @var{q}, @var{r}, @var{s}, @var{e})
-## Linear-quadratic regulator.
+## @deftypefn {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
+## Linear-quadratic estimator for discrete-time systems.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -78,7 +76,9 @@ function [l, p, z, e] = dlqe (a, g, c, q, r, s = [])
     print_usage ();
   endif
 
-  if (isempty (s))
+  if (isempty (g))
+    [~, p, e] = dlqr (a.', c.', q, r, s);   # dlqe (a, [], c, q, r, s), g=I
+  elseif (isempty (s))
     [~, p, e] = dlqr (a.', c.', g*q*g.', r);
   else
     [~, p, e] = dlqr (a.', c.', g*q*g.', r, g*s);
