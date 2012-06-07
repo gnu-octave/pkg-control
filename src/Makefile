@@ -3,6 +3,7 @@ MKOCTFILE ?= mkoctfile
 LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
 BLAS_LIBS := $(shell $(MKOCTFILE) -p BLAS_LIBS)
 FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
+LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 all: control_slicot_functions.oct \
      is_real_scalar.oct \
@@ -28,8 +29,8 @@ slicotlibrary.a: slicot.tar.gz
 
 # slicot functions
 control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a
-	$(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a \
-              ${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}
+	LFLAGS="$(LFLAGS)" \
+    $(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc
