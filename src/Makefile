@@ -1,8 +1,8 @@
 MKOCTFILE ?= mkoctfile
 
-LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
-BLAS_LIBS := $(shell $(MKOCTFILE) -p BLAS_LIBS)
-FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
+LAPACK_LIBS ?= $(shell $(MKOCTFILE) -p LAPACK_LIBS)
+BLAS_LIBS ?= $(shell $(MKOCTFILE) -p BLAS_LIBS)
+FLIBS ?= $(shell $(MKOCTFILE) -p FLIBS)
 LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 all: control_slicot_functions.oct \
