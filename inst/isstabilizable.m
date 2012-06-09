@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -73,7 +73,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3.1
+## Version: 0.4
 
 function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
 
@@ -109,7 +109,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
     auncont = ac(uncont_idx, uncont_idx);
 
     ## calculate poles of uncontrollable part
-    eigw = eig (auncont);
+    pol = eig (auncont);
   else
     ## controllability staircase form - output matrix c has no influence
     [ac, ec, ~, ~, ~, ~, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
@@ -120,10 +120,15 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
     euncont = ec(uncont_idx, uncont_idx);
 
     ## calculate poles of uncontrollable part
-    eigw = eig (auncont, euncont);
+    pol = eig (auncont, euncont);
+    
+    ## remove infinite poles
+    tolinf = norm ([auncont, euncont], 2);
+    idx = find (abs (pol) < tolinf/eps);
+    pol = pol(idx);
   endif
 
   ## check whether uncontrollable poles are stable
-  bool = __is_stable__ (eigw, ! dflg, tol);
+  bool = __is_stable__ (pol, ! dflg, tol);
 
 endfunction

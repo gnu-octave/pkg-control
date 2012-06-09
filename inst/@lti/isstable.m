@@ -31,9 +31,9 @@ function bool = isstable (sys, tol = 0)
     print_usage ();
   endif
 
-  eigw = pole (sys);
+  pol = pole (sys);
   ct = isct (sys);
 
-  bool = __is_stable__ (eigw, ct, tol);
+  bool = __is_stable__ (pol, ct, tol);
 
 endfunction

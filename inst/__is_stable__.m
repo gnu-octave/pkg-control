@@ -22,12 +22,12 @@
 ## Created: December 2010
 ## Version: 0.1
 
-function bool = __is_stable__ (eigw, ct = true, tol = 0)
+function bool = __is_stable__ (pol, ct = true, tol = 0)
 
   if (ct)  # continuous-time
-    bool = all (real (eigw) < -tol*(1 + abs (eigw)));
+    bool = all (real (pol) < -tol*(1 + abs (pol)));
   else     # discrete-time
-    bool = all (abs (eigw) < 1 - tol);
+    bool = all (abs (pol) < 1 - tol);
   endif
 
 endfunction
