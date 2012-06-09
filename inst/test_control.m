@@ -54,6 +54,7 @@ test @lti/norm
 test @lti/plus
 test @lti/prescale
 test @lti/sminreal
+test @lti/subsref
 test @lti/zero
 
 ## robust control

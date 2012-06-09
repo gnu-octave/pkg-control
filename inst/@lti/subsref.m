@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
 function a = subsref (a, s)
 
@@ -50,3 +50,11 @@ function a = subsref (a, s)
   a = subsref (a, s(2:end));
 
 endfunction
+
+
+## lti: subsref
+%!shared a
+%! s = tf ("s");
+%! G = (s+1)*s*5/(s+1)/(s^2+s+1);
+%! a = G(1,1).num{1,1}(1);
+%!assert (a, 5, 1e-4);
