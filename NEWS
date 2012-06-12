@@ -27,6 +27,9 @@ control-2.3.51   Release Date: 2012-06-03   Release Manager: Lukas Reichlin
 ** test_control
    Add a few remarks to the help text regarding the severity of failing tests.
 
+** Makefile fixed to work with non-standard linker options e.g on
+   Apple.
+
 
 ===============================================================================
 control-2.3.50   Release Date: 2012-03-06   Release Manager: Lukas Reichlin
