@@ -275,9 +275,9 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     gamma_db = 20 * log10 (gamma);
 
     wv = [min(w), max(w)];
-    ax_vec_mag = __axis_limits__ ([reshape(w, [], 1), reshape(mag_db, [], 1)]);
+    ax_vec_mag = __axis_limits__ ([w(:), mag_db(:)]);
     ax_vec_mag(1:2) = wv;
-    ax_vec_pha = __axis_limits__ ([reshape(w, [], 1), reshape(pha, [], 1)]);
+    ax_vec_pha = __axis_limits__ ([w(:), pha(:)]);
     ax_vec_pha(1:2) = wv;
 
     wgm = [w_gamma, w_gamma];
