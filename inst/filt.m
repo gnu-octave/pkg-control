@@ -37,7 +37,7 @@
 ## default value -1 (unspecified) is taken.
 ## @item @dots{}
 ## Optional pairs of properties and values.
-## Type @command{set (tf)} for more information.
+## Type @command{set (filt)} for more information.
 ## @end table
 ##
 ## @strong{Outputs}
