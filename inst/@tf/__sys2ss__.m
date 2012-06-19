@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.4.1
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -87,7 +87,7 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
   for i = 1 : p
     if (m == 1 || isequal (den{i,:}))
       denc(i) = den{i,1};
-      numc(i,:) = num{i,:};
+      numc(i,:) = num(i,:);
     else
       denc(i) = __conv__ (den{i,:});
       for j = 1 : m
