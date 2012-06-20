@@ -27,29 +27,29 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous or discrete-time LTI model.
+## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
-## State transition matrix of discrete-time system.
+## State transition matrix of discrete-time system (n-by-n).
 ## @item b
-## Input matrix of discrete-time system.
+## Input matrix of discrete-time system (n-by-m).
 ## @item q
-## State weighting matrix.
+## State weighting matrix (n-by-n).
 ## @item r
-## Input weighting matrix.
+## Input weighting matrix (m-by-m).
 ## @item s
-## Optional cross term matrix.  If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term matrix (n-by-m).  If @var{s} is not specified, a zero matrix is assumed.
 ## @item e
-## Optional descriptor matrix.  If @var{e} is not specified, an identity matrix is assumed.
+## Optional descriptor matrix (n-by-n).  If @var{e} is not specified, an identity matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item g
-## State feedback matrix.
+## State feedback matrix (m-by-n).
 ## @item x
-## Unique stabilizing solution of the discrete-time Riccati equation.
+## Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
 ## @item l
-## Closed-loop poles.
+## Closed-loop poles (n-by-1).
 ## @end table
 ##
 ## @strong{Equations}
