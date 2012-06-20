@@ -26,31 +26,31 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous or discrete-time LTI model.
+## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
-## State transition matrix of discrete-time system.
+## State transition matrix of discrete-time system (n-by-n).
 ## @item g
-## Process noise matrix of discrete-time system.
+## Process noise matrix of discrete-time system (n-by-.).
 ## @item c
-## Measurement matrix of discrete-time system.
+## Measurement matrix of discrete-time system (p-by-n).
 ## @item q
-## Process noise covariance matrix
+## Process noise covariance matrix (.-by-.).
 ## @item r
-## Measurement noise covariance matrix.
+## Measurement noise covariance matrix (p-by-p).
 ## @item s
-## Optional cross term covariance matrix, s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term covariance matrix (n-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item l
-## Kalman filter gain matrix.
+## Kalman filter gain matrix (n-by-p).
 ## @item p
-## Unique stabilizing solution of the discrete-time Riccati equation.
+## Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
 ## @item z
-## Error covariance, cov(x(k|k)-x)
+## Error covariance (n-by-n), cov(x(k|k)-x)
 ## @item e
-## Closed-loop poles.
+## Closed-loop poles (n-by-1).
 ## @end table
 ##
 ## @strong{Equations}
