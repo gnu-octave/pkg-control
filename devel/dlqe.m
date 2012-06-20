@@ -1,4 +1,5 @@
 ## Copyright (C) 2012   Lukas F. Reichlin
+## Copyright (C) 2012   Megan Zagrobelny
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,50 +21,55 @@
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
-## Linear-quadratic estimator for discrete-time systems.
+## Kalman filter for discrete-time systems.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
 ## Continuous or discrete-time LTI model.
 ## @item a
-## State transition matrix of continuous-time system.
-## @item b
-## Input matrix of continuous-time system.
+## State transition matrix of discrete-time system.
+## @item g
+## Process noise matrix of discrete-time system.
+## @item c
+## Measurement matrix of discrete-time system.
 ## @item q
-## State weighting matrix.
+## Process noise covariance matrix
 ## @item r
-## Input weighting matrix.
+## Measurement noise covariance matrix.
 ## @item s
-## Optional cross term matrix.  If @var{s} is not specified, a zero matrix is assumed.
-## @item e
-## Optional descriptor matrix.  If @var{e} is not specified, an identity matrix is assumed.
+## Optional cross term covariance matrix, s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item g
-## State feedback matrix.
-## @item x
-## Unique stabilizing solution of the continuous-time Riccati equation.
 ## @item l
+## Kalman filter gain matrix.
+## @item p
+## Unique stabilizing solution of the discrete-time Riccati equation.
+## @item z
+## Error covariance, cov(x(k|k)-x)
+## @item e
 ## Closed-loop poles.
 ## @end table
 ##
 ## @strong{Equations}
 ## @example
 ## @group
-## .
-## x = A x + B u,   x(0) = x0
+## x[k|k] = x[k|k-1] + L(y[k] - Cx[k|k-1] -Du[k])
 ##
-##         inf
-## J(x0) = INT (x' Q x  +  u' R u  +  2 x' S u)  dt
-##          0
+## x[k+1|k] = Ax[k|k] + Bu[k] for S=0
 ##
-## L = eig (A - B*G)
+## x[k+1|k] = Ax[k|k] + Bu[k] + G*S*(C*P*C' + R)^-1*(y[k] - C*x[k|k-1]) for non-zero S
+##          
+##
+## E = eig(A - A*L*C) for S=0
+## 
+## E = eig(A - A*L*C - G*S*(C*P*C' + Rv)^-1*C) for non-zero S
+##  
 ## @end group
 ## @end example
-## @seealso{care, dare, dlqr}
+## @seealso{dare, care, dlqr, lqr, lqe}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
