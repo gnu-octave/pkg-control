@@ -7,7 +7,11 @@ control-2.3.52   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ** Fixed a silly mistake in MIMO transfer function to state-space conversion.
    The bug has been introduced with control-2.3.51.
    (Thanks to Jim Rawlings for providing the test case)
-      
+
+** dlqe, lqe
+   Added new functions for linear quadratic estimators.
+   (Thanks to Megan Zagrobelny)
+
 
 ===============================================================================
 control-2.3.51   Release Date: 2012-06-03   Release Manager: Lukas Reichlin

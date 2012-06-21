@@ -78,9 +78,11 @@ Pole Placement
   place
   rlocus
 Linear-Quadratic Control
+  dlqe
   dlqr
   estim
   kalman
+  lqe
   lqr
 Robust Control
   augw
