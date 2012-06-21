@@ -47,7 +47,7 @@ W = q2 * B * B.';
 V = 1;
 
 F = lqr (G, Q, R)
-L = lqr (G.', W, V).'
+L = lqe (G, W, V)
 
 % Coprime Factorization using Balanced Truncation Approximation
 figure (1)

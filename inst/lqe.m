@@ -89,8 +89,14 @@ function [l, p, e] = lqe (a, g, c, q = [], r = [], s = [])
     [l, p, e] = lqr (a.', g, c, q);         # lqe (sys, q, r, s), g=I, works like  lqr (sys.', q, r, s).'
   elseif (isempty (g))
     [l, p, e] = lqr (a.', c.', q, r, s);    # lqe (a, [], c, q, r, s), g=I, works like  lqr (a.', c.', q, r, s).'
+  elseif (columns (g) != rows (q) || ! issquare (q))
+    error ("lqe: matrices g(%dx%d) and q(%dx%d) have incompatible dimensions", \
+            rows (g), columns (g), rows (q), columns (q));
   elseif (isempty (s))
     [l, p, e] = lqr (a.', c.', g*q*g.', r);
+  elseif (columns (g) != rows (s))
+    error ("lqe: matrices g(%dx%d) and s(%dx%d) have incompatible dimensions", \
+            rows (g), columns (g), rows (s), columns (s));
   else
     [l, p, e] = lqr (a.', c.', g*q*g.', r, g*s);
   endif
