@@ -17,10 +17,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefn {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
 ## Kalman filter for discrete-time systems.
 ##
 ## @example
@@ -33,8 +33,6 @@
 ##
 ## @strong{Inputs}
 ## @table @var
-## @item sys
-## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
 ## State transition matrix of discrete-time system (n-by-n).
 ## @item g
@@ -46,7 +44,8 @@
 ## @item r
 ## Measurement noise covariance matrix (p-by-p).
 ## @item s
-## Optional cross term covariance matrix (g-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term covariance matrix (g-by-p), s = cov(w,v).
+## If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -55,6 +54,7 @@
 ## Kalman filter gain matrix (n-by-p).
 ## @item p
 ## Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
+## Symmetric matrix.
 ## @item z
 ## Error covariance (n-by-n), cov(x(k|k)-x)
 ## @item e

@@ -49,7 +49,8 @@
 ## @item r
 ## Measurement noise covariance matrix (p-by-p).
 ## @item s
-## Optional cross term covariance matrix (g-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term covariance matrix (g-by-p), s = cov(w,v).
+## If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -58,6 +59,8 @@
 ## Kalman filter gain matrix (n-by-p).
 ## @item p
 ## Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
+## Symmetric matrix.  If @var{sys} is a discrete-time model, the solution of the
+## corresponding discrete-time Riccati equation is returned.
 ## @item e
 ## Closed-loop poles (n-by-1).
 ## @end table
@@ -102,5 +105,8 @@ function [l, p, e] = lqe (a, g, c, q = [], r = [], s = [])
   endif
 
   l = l.';
+  
+  ## NOTE: for discrete-time sys, the solution L' from DARE
+  ##       is different to L from DLQE (a, s)
 
 endfunction
