@@ -23,6 +23,14 @@
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
 ## Kalman filter for discrete-time systems.
 ##
+## @example
+## @group
+## x[k] = Ax[k] + Bu[k] + Gw[k]   (State equation)
+## y[k] = Cx[k] + Du[k] + v[k]    (Measurement Equation)
+## E(w) = 0, E(v) = 0, cov(w) = Q, cov(v) = R, cov(w,v) = S
+## @end group
+## @end example
+##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
@@ -30,15 +38,15 @@
 ## @item a
 ## State transition matrix of discrete-time system (n-by-n).
 ## @item g
-## Process noise matrix of discrete-time system (n-by-.).
+## Process noise matrix of discrete-time system (n-by-g).
 ## @item c
 ## Measurement matrix of discrete-time system (p-by-n).
 ## @item q
-## Process noise covariance matrix (.-by-.).
+## Process noise covariance matrix (g-by-g).
 ## @item r
 ## Measurement noise covariance matrix (p-by-p).
 ## @item s
-## Optional cross term covariance matrix (n-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
+## Optional cross term covariance matrix (g-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -89,14 +97,9 @@ function [l, p, z, e] = dlqe (a, g, c, q, r, s = [])
   else
     [~, p, e] = dlqr (a.', c.', g*q*g.', r, g*s);
   endif
-
-  ## k computed by dlqr would be
-  ## k = (r + c*p*c.') \ (c*p*a.' + s.')
-  ## such that  l = a \ k.'
-  ## what about the s term?
     
   l = p*c.' / (c*p*c.' + r);
-  ## z = p - p*c.' / (c*p*c.' + r) * c*p;
+
   z = p - l*c*p;
 
 endfunction

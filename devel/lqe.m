@@ -1,4 +1,5 @@
 ## Copyright (C) 2012   Lukas F. Reichlin
+## Copyright (C) 2012   Megan Zagrobelny
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,50 +23,56 @@
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
-## Linear-quadratic estimator.
+## Kalman filter for continuous-time systems.
+##
+## @example
+## @group
+## .
+## x = Ax + Bu + Gw   (State equation)
+## y = Cx + Du + v    (Measurement Equation)
+## E(w) = 0, E(v) = 0, cov(w) = Q, cov(v) = R, cov(w,v) = S
+## @end group
+## @end example
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous or discrete-time LTI model.
+## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
-## State transition matrix of continuous-time system.
-## @item b
-## Input matrix of continuous-time system.
+## State transition matrix of continuous-time system (n-by-n).
+## @item g
+## Process noise matrix of continuous-time system (n-by-g).
+## @item c
+## Measurement matrix of continuous-time system (p-by-n).
 ## @item q
-## State weighting matrix.
+## Process noise covariance matrix (g-by-g).
 ## @item r
-## Input weighting matrix.
+## Measurement noise covariance matrix (p-by-p).
 ## @item s
-## Optional cross term matrix.  If @var{s} is not specified, a zero matrix is assumed.
-## @item e
-## Optional descriptor matrix.  If @var{e} is not specified, an identity matrix is assumed.
+## Optional cross term covariance matrix (g-by-p), s = cov(w,v)  If @var{s} is not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item l
-## Observer gain matrix.
+## Kalman filter gain matrix (n-by-p).
 ## @item p
-## Unique stabilizing solution of the continuous-time Riccati equation.
+## Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
 ## @item e
-## Closed-loop poles.
+## Closed-loop poles (n-by-1).
 ## @end table
 ##
 ## @strong{Equations}
 ## @example
 ## @group
 ## .
-## x = A x + B u,   x(0) = x0
+## x = Ax + Bu + L(y - Cx -Du)          
 ##
-##         inf
-## J(x0) = INT (x' Q x  +  u' R u  +  2 x' S u)  dt
-##          0
-##
-## L = eig (A - B*G)
+## E = eig(A - L*C)
+## 
 ## @end group
 ## @end example
-## @seealso{lqr, care, dare, dlqe}
+## @seealso{dare, care, dlqr, lqr, dlqe}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
