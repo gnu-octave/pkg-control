@@ -91,17 +91,17 @@ function [m, p, z, e] = dlqe (a, g, c, q, r, s = [])
   endif
 
   if (isempty (g))
-    [~, p, e] = dlqr (a.', c.', q, r, s);   # dlqe (a, [], c, q, r, s), g=I
+    [p, e] = dare (a.', c.', q, r, s);   # dlqe (a, [], c, q, r, s), g=I
   elseif (columns (g) != rows (q) || ! issquare (q))
     error ("dlqe: matrices g(%dx%d) and q(%dx%d) have incompatible dimensions", \
             rows (g), columns (g), rows (q), columns (q));
   elseif (isempty (s))
-    [~, p, e] = dlqr (a.', c.', g*q*g.', r);
+    [p, e] = dare (a.', c.', g*q*g.', r);
   elseif (columns (g) != rows (s))
     error ("dlqe: matrices g(%dx%d) and s(%dx%d) have incompatible dimensions", \
             rows (g), columns (g), rows (s), columns (s));
   else
-    [~, p, e] = dlqr (a.', c.', g*q*g.', r, g*s);
+    [p, e] = dare (a.', c.', g*q*g.', r, g*s);
   endif
     
   m = p*c.' / (c*p*c.' + r);
