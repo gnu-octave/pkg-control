@@ -17,10 +17,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefn {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
+## @deftypefnx {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r})
+## @deftypefnx {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
 ## Kalman filter for discrete-time systems.
 ##
 ## @example
@@ -50,7 +50,7 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item l
+## @item m
 ## Kalman filter gain matrix (n-by-p).
 ## @item p
 ## Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
@@ -64,16 +64,16 @@
 ## @strong{Equations}
 ## @example
 ## @group
-## x[k|k] = x[k|k-1] + L(y[k] - Cx[k|k-1] -Du[k])
+## x[k|k] = x[k|k-1] + M(y[k] - Cx[k|k-1] - Du[k])
 ##
 ## x[k+1|k] = Ax[k|k] + Bu[k] for S=0
 ##
 ## x[k+1|k] = Ax[k|k] + Bu[k] + G*S*(C*P*C' + R)^-1*(y[k] - C*x[k|k-1]) for non-zero S
 ##          
 ##
-## E = eig(A - A*L*C) for S=0
+## E = eig(A - A*M*C) for S=0
 ## 
-## E = eig(A - A*L*C - G*S*(C*P*C' + Rv)^-1*C) for non-zero S
+## E = eig(A - A*M*C - G*S*(C*P*C' + Rv)^-1*C) for non-zero S
 ##  
 ## @end group
 ## @end example
@@ -84,7 +84,7 @@
 ## Created: April 2012
 ## Version: 0.1
 
-function [l, p, z, e] = dlqe (a, g, c, q, r, s = [])
+function [m, p, z, e] = dlqe (a, g, c, q, r, s = [])
 
   if (nargin < 5 || nargin > 6)
     print_usage ();
@@ -104,8 +104,9 @@ function [l, p, z, e] = dlqe (a, g, c, q, r, s = [])
     [~, p, e] = dlqr (a.', c.', g*q*g.', r, g*s);
   endif
     
-  l = p*c.' / (c*p*c.' + r);
+  m = p*c.' / (c*p*c.' + r);
 
-  z = p - l*c*p;
+  z = p - m*c*p;
+  z = (z + z.') / 2;
 
 endfunction
