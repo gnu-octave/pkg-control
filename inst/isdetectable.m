@@ -39,6 +39,7 @@
 ## Measurement matrix.
 ## @item e
 ## Descriptor matrix.
+## If @var{e} is empty @code{[]} or not specified, an identity matrix is assumed.
 ## @item tol
 ## Optional tolerance for stability.  Default value is 0.
 ## @item dflg = 0

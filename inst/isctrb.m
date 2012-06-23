@@ -36,6 +36,7 @@
 ## Input matrix.
 ## @item e
 ## Descriptor matrix.
+## If @var{e} is empty @code{[]} or not specified, an identity matrix is assumed.
 ## @item tol
 ## Optional roundoff parameter.  Default value is 0.
 ## @end table

@@ -42,6 +42,7 @@
 ## State transition matrix of continuous-time system (n-by-n).
 ## @item g
 ## Process noise matrix of continuous-time system (n-by-g).
+## If @var{g} is empty @code{[]}, an identity matrix is assumed.
 ## @item c
 ## Measurement matrix of continuous-time system (p-by-n).
 ## @item q
@@ -50,7 +51,7 @@
 ## Measurement noise covariance matrix (p-by-p).
 ## @item s
 ## Optional cross term covariance matrix (g-by-p), s = cov(w,v).
-## If @var{s} is not specified, a zero matrix is assumed.
+## If @var{s} is empty @code{[]} or not specified, a zero matrix is assumed.
 ## @end table
 ##
 ## @strong{Outputs}
