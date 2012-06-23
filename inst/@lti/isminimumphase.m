@@ -22,6 +22,29 @@
 ## The zeros must lie in the left complex half-plane.
 ## The name minimum-phase refers to the fact that such a system has the
 ## minimum possible phase lag for the given magnitude response |sys(jw)|.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item tol
+## Optional tolerance.  Default value is 0.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item bool = 0
+## System is not minimum phase.
+## @item bool = 1
+## System is minimum phase.
+## @end table
+##
+## @example
+## @group
+##   real (z) < -tol*(1 + abs (z))    continuous-time
+##   abs (z) < 1 - tol                discrete-time
+## @end group
+## @end example
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

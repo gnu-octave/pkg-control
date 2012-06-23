@@ -19,6 +19,29 @@
 ## @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
 ## Determine whether LTI system is stable.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## LTI system.
+## @item tol
+## Optional tolerance for stability.  Default value is 0.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item bool = 0
+## System is not stable.
+## @item bool = 1
+## System is stable.
+## @end table
+##
+## @example
+## @group
+##   real (p) < -tol*(1 + abs (p))    continuous-time
+##   abs (p) < 1 - tol                discrete-time
+## @end group
+## @end example
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
