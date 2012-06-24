@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.3.52   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+control-2.3.52   Release Date: 2012-06-24   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Fixed a silly mistake in MIMO transfer function to state-space conversion.
