@@ -14,6 +14,9 @@ list = pkg ("describe", pack_name);
 % Open output file
 fid = fopen ("functions.texi", "w");
 
+fprintf (fid, '@c This file is generated automatically\n');
+fprintf (fid, '@c Do not edit\n\n');
+
 for k = 1:numel (list {1}.provides)
         
         group = list {1}.provides{k};
