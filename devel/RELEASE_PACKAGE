@@ -7,6 +7,7 @@ USAGE: * adapt all paths to your machine
        * update NEWS
        * adapt version number in control.tex
        * update doc/control.pdf
+       * update doc/control.tex  &  doc/functions.texi
        * copy-paste entire block at once to the terminal
        * follow instructions on <http://octave.sourceforge.net/developers.html>
 
