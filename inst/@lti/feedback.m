@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -67,7 +67,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
+## Version: 0.6
 
 function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
@@ -127,7 +127,7 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
     error ("feedback: range of feedin indices exceeds dimensions of sys1");
   endif
 
-  if (any (feedin > p1 | feedin < 1))
+  if (any (feedout > p1 | feedout < 1))
     error ("feedback: range of feedout indices exceeds dimensions of sys1");
   endif
 
