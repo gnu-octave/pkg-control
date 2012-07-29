@@ -144,7 +144,7 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   if (isempty (x0))
     x0 = zeros (n, 1);
   elseif (n != length (x0) || ! is_real_vector (x0))
-    error ("initial: x0 must be a vector with %d elements", n);
+    error ("lsim: x0 must be a vector with %d elements", n);
   endif
 
   x = reshape (x0, [], 1);                      # make sure that x is a column vector
