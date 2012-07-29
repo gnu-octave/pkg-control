@@ -110,6 +110,14 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
   endswitch
 
+  if (! is_real_vector (feedin) || ! isequal (feedin, abs (fix (feedin))))
+    error ("feedback: require 'feedin' to be a vector of integers");
+  endif
+
+  if (! is_real_vector (feedout) || ! isequal (feedout, abs (fix (feedout))))
+    error ("feedback: require 'feedout' to be a vector of integers");
+  endif
+
   [p2, m2] = size (sys2);
 
   l_feedin = length (feedin);
