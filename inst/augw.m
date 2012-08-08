@@ -93,16 +93,12 @@
 ##                +--------+
 ## @end group
 ## @end example
-## @example
-## @group
-## Reference:
-## Skogestad, S. and Postlethwaite I.
-## Multivariable Feedback Control: Analysis and Design
-## Second Edition
-## Wiley 2005
-## Chapter 3.8: General Control Problem Formulation
-## @end group
-## @end example
+##
+## @strong{References}@*
+## [1] Skogestad, S. and Postlethwaite I. (2005)
+## @cite{Multivariable Feedback Control: Analysis and Design:
+## Second Edition}.  Wiley.
+##
 ## @seealso{h2syn, hinfsyn, mixsyn}
 ## @end deftypefn
 

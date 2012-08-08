@@ -211,23 +211,23 @@
 ##
 ## @strong{References}@*
 ## [1] Enns, D.
-## Model reduction with balanced realizations: An error bound
-## and a frequency weighted generalization.
+## @cite{Model reduction with balanced realizations: An error bound
+## and a frequency weighted generalization}.
 ## Proc. 23-th CDC, Las Vegas, pp. 127-132, 1984.
 ##
 ## [2] Lin, C.-A. and Chiu, T.-Y.
-## Model reduction via frequency-weighted balanced realization.
+## @cite{Model reduction via frequency-weighted balanced realization}.
 ## Control Theory and Advanced Technology, vol. 8,
 ## pp. 341-351, 1992.
 ##
 ## [3] Sreeram, V., Anderson, B.D.O and Madievski, A.G.
-## New results on frequency weighted balanced reduction
-## technique.
+## @cite{New results on frequency weighted balanced reduction
+## technique}.
 ## Proc. ACC, Seattle, Washington, pp. 4004-4009, 1995.
 ##
 ## [4] Varga, A. and Anderson, B.D.O.
-## Square-root balancing-free methods for the frequency-weighted
-## balancing related model reduction.
+## @cite{Square-root balancing-free methods for the frequency-weighted
+## balancing related model reduction}.
 ## (report in preparation)
 ##
 ##

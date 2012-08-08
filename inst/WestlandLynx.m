@@ -34,14 +34,12 @@
 ## pitch rate               q           [rad/s]
 ## @end group
 ## @end example
-## @example
-## @group
-## Reference:
-## Skogestad, S. and Postlethwaite I.
-## Multivariable Feedback Control: Analysis and Design
-## Second Edition
-## Wiley 2005
-## http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html
+##
+## @strong{References}@*
+## [1] Skogestad, S. and Postlethwaite I. (2005)
+## @cite{Multivariable Feedback Control: Analysis and Design:
+## Second Edition}.  Wiley.
+## @url{http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html}
 ## @end group
 ## @end example
 ## @end deftypefn

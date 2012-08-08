@@ -124,21 +124,16 @@
 ## Closed Loop:     T = feedback (L)
 ## @end group
 ## @end example
-## @example
-## @group
-## Reference:
-## Skogestad, S. and Postlethwaite I.
-## Multivariable Feedback Control: Analysis and Design
-## Second Edition
-## Wiley 2005
-## Chapter 3.8: General Control Problem Formulation
-## @end group
-## @end example
 ##
 ## @strong{Algorithm}@*
 ## Relies on commands @command{augw} and @command{hinfsyn},
 ## which use SLICOT SB10FD and SB10DD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
+##
+## @strong{References}@*
+## [1] Skogestad, S. and Postlethwaite I. (2005)
+## @cite{Multivariable Feedback Control: Analysis and Design:
+## Second Edition}.  Wiley.
 ##
 ## @seealso{hinfsyn, augw}
 ## @end deftypefn
