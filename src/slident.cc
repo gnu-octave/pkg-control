@@ -86,7 +86,7 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slident", "devel_slicot_functions.oct");
+// PKG_ADD: autoload ("slident", "control_slicot_functions.oct");
 DEFUN_DLD (slident, args, nargout,
    "-*- texinfo -*-\n\
 Slicot IB01AD Release 5.0\n\
