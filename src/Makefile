@@ -52,6 +52,9 @@ is_real_matrix.oct: is_real_matrix.cc
 is_real_square_matrix.oct: is_real_square_matrix.cc
 	$(MKOCTFILE) is_real_square_matrix.cc
 
+is_matrix.oct: is_matrix.cc
+	$(MKOCTFILE) is_matrix.cc
+
 clean:
 	rm -rf *.o core octave-core *.oct *~ *.f slicot
 
