@@ -4,6 +4,13 @@ Summary of important user-visible changes for releases of the control package
 control-2.3.53   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** Added new functions for system identification, including:
+   
+     arx        iddata       ifft
+     moen4      detrend      nkshift
+     moesp      fft          plot
+     n4sid      filter       resample
+
 ** feedback
    Fixed an argument check which caused false positive error messages.
    It was a copy-paste mistake affecting non-square systems.
