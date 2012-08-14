@@ -15,7 +15,8 @@ all: control_slicot_functions.oct \
      is_real_scalar.oct \
      is_real_vector.oct \
      is_real_matrix.oct \
-     is_real_square_matrix.oct
+     is_real_square_matrix.oct \
+     is_matrix.oct
 
 # TODO: Private oct-files for control package.
 

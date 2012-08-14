@@ -108,7 +108,27 @@ Controller Reduction
   cfconred
   fwcfconred
   spaconred
-Overloaded Operators
+Experimental Data Handling
+  iddata
+  @iddata/cat
+  @iddata/detrend
+  @iddata/diff
+  @iddata/fft
+  @iddata/filter
+  @iddata/get
+  @iddata/ifft
+  @iddata/merge
+  @iddata/nkshift
+  @iddata/plot
+  @iddata/resample
+  @iddata/set
+  @iddata/size
+System Identification
+  arx
+  moen4
+  moesp
+  n4sid
+Overloaded LTI Operators
   @lti/ctranspose
   @lti/horzcat
   @lti/inv
@@ -124,6 +144,11 @@ Overloaded Operators
   @lti/uminus
   @lti/uplus
   @lti/vertcat
+Overloaded IDDATA Operators
+  @iddata/horzcat
+  @iddata/subsasgn
+  @iddata/subsref
+  @iddata/vertcat
 Miscellaneous
   options
   strseq

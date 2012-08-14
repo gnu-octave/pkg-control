@@ -103,3 +103,10 @@ test issample
 test margin
 test obsv
 test sigma
+
+## identification
+test @iddata/iddata
+test @iddata/cat
+test @iddata/detrend
+test @iddata/fft
+test moen4

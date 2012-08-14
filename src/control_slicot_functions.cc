@@ -39,6 +39,9 @@
 #include "slsb16bd.cc"  // coprime factorization state-feedback controller reduction
 #include "slsb16cd.cc"  // frequency-weighted coprime factorization state-feedback controller reduction
 #include "slsb10yd.cc"  // fit state-space model to frequency response data
+#include "slident.cc"   // system identification
+#include "slib01cd.cc"  // compute initial state vector
+#include "slib01ad.cc"  // compute singular values
 
 
 // stub function to avoid gen_doc_cache warning upon package installation
