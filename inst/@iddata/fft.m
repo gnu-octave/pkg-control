@@ -88,7 +88,10 @@ endfunction
 %!shared DATD, Y, U
 %! Y = 1:10;
 %! U = 20:-2:1;
+%! W = warning ("query", "iddata:transpose");
+%! warning ("off", W.identifier);
 %! DAT = iddata (Y, U);
 %! DATD = fft (DAT);
+%! warning (W.identifier, W.state);
 %!assert (DATD.y{1}, Y, 1e-10);
 %!assert (DATD.u{1}, U, 1e-10);
