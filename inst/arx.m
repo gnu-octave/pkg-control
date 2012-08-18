@@ -25,7 +25,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item dat
-## iddata set containing the measurements, i.e. time-domain signals.
+## iddata identification dataset containing the measurements, i.e. time-domain signals.
 ## @item n
 ## The desired order of the resulting model @var{sys}.
 ## @item @dots{}

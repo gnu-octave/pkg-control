@@ -15,7 +15,8 @@ General:
 
   * Improve @lti/subsasgn.m
 
-  * Improve @lti/parallel.m
+  * Improve @lti/parallel.m by implementing "complicated" case
+    sys = parallel (sys1, sys2, in1, in2, out1, out2)
 
   * n-th order approximation of time delay  exp (tau*s)
     sys = pade (tau, n)
@@ -48,7 +49,6 @@ General:
     -- Beware of indices not in ascending order.
 
   * Fix PDF manual.
-    -- @seealso comments
     -- Use TEX for formulas (iftex)
 
   * "horzcat" and "vertcat" are trivial operations for TF, FRD and ZPK models.
