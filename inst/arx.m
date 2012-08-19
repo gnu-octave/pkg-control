@@ -91,6 +91,9 @@ function [sys, varargout] = arx (dat, varargin)
     error ("arx: first argument must be a time-domain iddata dataset");
   endif
 
+  ## p: outputs,  m: inputs,  ex: experiments
+  [~, p, m, ex] = size (dat);           # dataset dimensions
+
   if (is_real_scalar (varargin{1}))     # arx (dat, n, ...)
     varargin = horzcat (varargin(2:end), {"na"}, varargin(1), {"nb"}, varargin(1));
   endif
@@ -105,27 +108,10 @@ function [sys, varargout] = arx (dat, varargin)
     error ("arx: keys and values must come in pairs");
   endif
 
-
-  ## p: outputs,  m: inputs,  ex: experiments
-  [~, p, m, ex] = size (dat);           # dataset dimensions
-
-  ## extract data  
-  Y = dat.y;
-  U = dat.u;
-  tsam = dat.tsam;
-
-  ## multi-experiment data requires equal sampling times  
-  if (ex > 1 && ! isequal (tsam{:}))
-    error ("arx: require equally sampled experiments");
-  else
-    tsam = tsam{1};
-  endif
-  
-  
   ## default arguments
   na = [];
-  nb = [];      % ???
-  nk = [];
+  nb = [];
+  nk = 0;
 
   ## handle keys and values
   for k = 1 : 2 : nkv
@@ -138,12 +124,31 @@ function [sys, varargout] = arx (dat, varargin)
       case "nb"
         nb = val;
       case "nk"
-        error ("nk");
+        if (issample (val, 0) && fix (val) == val)  # individual, channel-wise nk not supported yet
+          nk = val;
+        else
+          error ("arx: argument 'nk' must be a positive integer");
+        endif
       otherwise
         warning ("arx: invalid property name '%s' ignored", key);
     endswitch
   endfor
 
+  if (any (nk(:) != 0))
+    dat = nkshift (dat, nk);
+  endif
+
+  ## extract data  
+  Y = dat.y;
+  U = dat.u;
+  tsam = dat.tsam;
+
+  ## multi-experiment data requires equal sampling times  
+  if (ex > 1 && ! isequal (tsam{:}))
+    error ("arx: require equally sampled experiments");
+  else
+    tsam = tsam{1};
+  endif
 
   if (is_real_scalar (na, nb))
     na = repmat (na, p, 1);                         # na(p-by-1)
@@ -184,11 +189,11 @@ function [sys, varargout] = arx (dat, varargin)
     ThetaB = Theta(na(i)+1:end);                            # all polynomials from B are in one column vector
     B = mat2cell (ThetaB, nb(i,:));                         # now separate the polynomials, one for each input
     B = reshape (B, 1, []);                                 # make B a row cell (1-by-m)
-    B = cellfun (@(x) [0; x], B, "uniformoutput", false);   # b0 = 0 (leading zero required by filt)
+    B = cellfun (@(B) [zeros(1+nk, 1); B], B, "uniformoutput", false);  # b0 = 0 (leading zero required by filt)
 
     ## add error inputs
     Be = repmat ({0}, 1, p);                                # there are as many error inputs as system outputs (p)
-    Be(i) = 1;                                              # inputs m+1:m+p are zero, except m+i which is one
+    Be(i) = [zeros(1,nk), 1];                               # inputs m+1:m+p are zero, except m+i which is one
     num(i, :) = [B, Be];                                    # numerator polynomials for output i, individual for each input
     den(i, :) = repmat ({A}, 1, m+p);                       # in a row (output i), all inputs have the same denominator polynomial
   endfor
@@ -218,33 +223,33 @@ function [sys, varargout] = arx (dat, varargin)
 endfunction
 
 
-function theta = __theta__ (phi, y, i, n)
+function Theta = __theta__ (Phi, Y, i, n)
     
-  if (numel (phi) == 1)                             # single-experiment dataset
+  if (numel (Phi) == 1)                             # single-experiment dataset
     ## use "square-root algorithm"
-    A = horzcat (phi{1}, y{1}(n(i)+1:end, i));      # [Phi, Y]
+    A = horzcat (Phi{1}, Y{1}(n(i)+1:end, i));      # [Phi, Y]
     R0 = triu (qr (A, 0));                          # 0 for economy-size R (without zero rows)
     R1 = R0(1:end-1, 1:end-1);                      # R1 is triangular - can we exploit this in R1\R2?
     R2 = R0(1:end-1, end);
-    theta = __ls_svd__ (R1, R2);                    # R1 \ R2
+    Theta = __ls_svd__ (R1, R2);                    # R1 \ R2
     
     ## Theta = Phi \ Y(n+1:end, :);                 # naive formula
-    ## theta = __ls_svd__ (phi{1}, y{1}(n(i)+1:end, i));
+    ## Theta = __ls_svd__ (Phi{1}, Y{1}(n(i)+1:end, i));
   else                                              # multi-experiment dataset
     ## TODO: find more sophisticated formula than
     ## Theta = (Phi1' Phi1 + Phi2' Phi2 + ...) \ (Phi1' Y1 + Phi2' Y2 + ...)
     
     ## covariance matrix C = (Phi1' Phi + Phi2' Phi2 + ...)
-    tmp = cellfun (@(Phi) Phi.' * Phi, phi, "uniformoutput", false);
-    rc = cellfun (@rcond, tmp); # C auch noch testen? QR oder SVD?
+    tmp = cellfun (@(Phi) Phi.' * Phi, Phi, "uniformoutput", false);
+    ## rc = cellfun (@rcond, tmp);                     # also test C? QR or SVD?
     C = plus (tmp{:});
 
     ## PhiTY = (Phi1' Y1 + Phi2' Y2 + ...)
-    tmp = cellfun (@(Phi, Y) Phi.' * Y(n(i)+1:end, i), phi, y, "uniformoutput", false);
+    tmp = cellfun (@(Phi, Y) Phi.' * Y(n(i)+1:end, i), Phi, Y, "uniformoutput", false);
     PhiTY = plus (tmp{:});
     
     ## pseudoinverse  Theta = C \ Phi'Y
-    theta = __ls_svd__ (C, PhiTY);
+    Theta = __ls_svd__ (C, PhiTY);
   endif
   
 endfunction
