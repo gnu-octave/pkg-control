@@ -21,7 +21,7 @@
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
 ## Singular values of frequency response.  If no output arguments are given,
-## the singular value plot is printed on the screen;
+## the singular value plot is printed on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var

@@ -16,13 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {@var{Ms} =} sensitivity (@var{L})
-## @deftypefnx{Function File} {@var{Ms} =} sensitivity (@var{P}, @var{C})
-## @deftypefnx{Function File} {@var{Ms} =} sensitivity (@var{P}, @var{C1}, @var{C2}, @dots{})
-## Return sensitivity margin @var{Ms}.  The quantity @var{Ms} is
-## simply the inverse of the shortest distance from the Nyquist
-## curve to the critical point -1.  Reasonable values of @var{Ms}
-## are in the range from 1.3 to 2.
+## @deftypefn{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{L})
+## @deftypefnx{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{P}, @var{C})
+## @deftypefnx{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{P}, @var{C1}, @var{C2}, @dots{})
+## Return sensitivity margin @var{Ms}.
+## The quantity @var{Ms} is simply the inverse of the shortest
+## distance from the Nyquist curve to the critical point -1.
+## Reasonable values of @var{Ms} are in the range from 1.3 to 2.
+## If no output arguments are given, the critical distance 1/Ms
+## is plotted on a Nyquist diagram. 
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -42,9 +44,15 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item Ms
-## Sensitivity margin @var{Ms} as defined in [1].  Scalar value.
+## Sensitivity margin @var{Ms} as defined in [1].
+## Scalar value.
 ## If several controllers are specified, @var{Ms} becomes
-## a vector with as many entries as controllers.
+## a row vector with as many entries as controllers.
+## @item ws
+## The frequency [rad/s] corresponding to the sensitivity peak.
+## Scalar value.
+## If several controllers are specified, @var{ws} becomes
+## a row vector with as many entries as controllers.
 ## @end table
 ##
 ## @strong{Algorithm}@*
@@ -64,7 +72,7 @@
 ## Created: August 2012
 ## Version: 0.1
 
-function Ms = sensitivity (G, varargin)
+function [ret, ws] = sensitivity (G, varargin)
 
   ## TODO: show nyquist diagram of L with circle
   ##       center (-1, 0) and radius equal to the
@@ -74,14 +82,42 @@ function Ms = sensitivity (G, varargin)
   if (nargin == 0)
     print_usage ();
   elseif (nargin == 1)              # L := G
-    I = eye (size (G));
-    S = feedback (I, G);            # S = inv (I + G),  S = feedback (I, G*-I, "+")
-    Ms = norm (S, inf);
+    L = G;
+    I = eye (size (L));
+    S = feedback (I, L);            # S = inv (I + L),  S = feedback (I, L*-I, "+")
+    [Ms, ws] = norm (S, inf);
   else                              # P := G,  C := varargin
     L = cellfun (@(C) G*C, varargin, "uniformoutput", false);
     I = cellfun (@(L) eye (size (L)), L, "uniformoutput", false);
     S = cellfun (@feedback, I, L, "uniformoutput", false);
-    Ms = cellfun (@(S) norm (S, inf), S);
+    [Ms, ws] = cellfun (@(S) norm (S, inf), S);
+  endif
+
+  if (nargout == 0)
+    ## TODO: don't show entire Nyquist curve if critical distance becomes small on plot
+    if (length (Ms) > 1)
+      error ("sensitivity: plotting only works for a single controller");
+    endif
+    if (iscell (L))
+      L = L{1};
+    endif
+    [H, w] = __frequency_response__ (L, [], false, 0, "ext");
+    H = H(:);
+    re = real (H);
+    im = imag (H);
+    Hs = freqresp (L, ws);
+    res = real (Hs);
+    ims = imag (Hs);
+    plot (re, im, "b", [-1, res], [0, ims], "r")
+    axis ("equal")
+    xlim (__axis_margin__ (xlim))
+    ylim (__axis_margin__ (ylim))
+    grid ("on")
+    title (sprintf ("Sensitivity Ms = %g (at %g rad/s)", Ms, ws))
+    xlabel ("Real Axis")
+    ylabel ("Imaginary Axis")
+  else
+    ret = Ms;
   endif
 
 endfunction
