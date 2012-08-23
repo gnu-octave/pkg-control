@@ -19,7 +19,10 @@
 ## @deftypefn{Function File} {@var{Ms} =} sensitivity (@var{L})
 ## @deftypefnx{Function File} {@var{Ms} =} sensitivity (@var{P}, @var{C})
 ## @deftypefnx{Function File} {@var{Ms} =} sensitivity (@var{P}, @var{C1}, @var{C2}, @dots{})
-## Return sensitivity margin @var{Ms}.
+## Return sensitivity margin @var{Ms}.  The quantity @var{Ms} is
+## simply the inverse of the shortest distance from the Nyquist
+## curve to the critical point -1.  Reasonable values of @var{Ms}
+## are in the range from 1.3 to 2.
 ##
 ## @strong{Inputs}
 ## @table @var
