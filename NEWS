@@ -11,6 +11,9 @@ control-2.3.53   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
      moesp      fft          plot
      n4sid      filter       resample
 
+** sensitivity
+   Added new function to compute and plot the sensitivity margin Ms.
+
 ** feedback
    Fixed an argument check which caused false positive error messages.
    It was a copy-paste mistake affecting non-square systems.
