@@ -23,6 +23,19 @@
 ## The quantity @var{Ms} is simply the inverse of the shortest
 ## distance from the Nyquist curve to the critical point -1.
 ## Reasonable values of @var{Ms} are in the range from 1.3 to 2.
+## @iftex
+## @tex
+## $$ M_s = ||S(j\\omega)||_{\\infty} $$
+## @end tex
+## @end iftex
+## @ifnottex
+##
+## @example
+## Ms = ||S(jw)||
+##               inf
+## @end example
+##
+## @end ifnottex
 ## If no output arguments are given, the critical distance 1/Ms
 ## is plotted on a Nyquist diagram. 
 ##
