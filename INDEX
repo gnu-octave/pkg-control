@@ -73,6 +73,7 @@ Frequency Domain Analysis
   margin
   nichols
   nyquist
+  sensitivity
   sigma
 Pole Placement
   place
