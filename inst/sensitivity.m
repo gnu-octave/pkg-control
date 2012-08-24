@@ -87,11 +87,6 @@
 
 function [ret, ws] = sensitivity (G, varargin)
 
-  ## TODO: show nyquist diagram of L with circle
-  ##       center (-1, 0) and radius equal to the
-  ##       shortest distance 1/Ms, frequency w is
-  ##       [Ms, w] = norm (S, inf)
-
   if (nargin == 0)
     print_usage ();
   elseif (nargin == 1)              # L := G
@@ -111,9 +106,13 @@ function [ret, ws] = sensitivity (G, varargin)
     if (length (Ms) > 1)
       error ("sensitivity: plotting only works for a single controller");
     endif
+    if (! issiso (L))
+      error ("sensitivity: Nyquist plot requires SISO systems");
+    endif
     if (iscell (L))
       L = L{1};
     endif
+
     [H, w] = __frequency_response__ (L, [], false, 0, "ext");
     H = H(:);
     re = real (H);
@@ -121,6 +120,7 @@ function [ret, ws] = sensitivity (G, varargin)
     Hs = freqresp (L, ws);
     res = real (Hs);
     ims = imag (Hs);
+    
     plot (re, im, "b", [-1, res], [0, ims], "r")
     axis ("equal")
     xlim (__axis_margin__ (xlim))
