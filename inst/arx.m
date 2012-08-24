@@ -22,6 +22,19 @@
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{'na'}, @var{na}, @var{'nb'}, @var{nb})
 ## Estimate ARX model using QR factorization.
 ##
+## @iftex
+## @tex
+## $$ A(q) \\, y(t) = B(q) \\, u(t) \\, + \\, e(t) $$
+## @end tex
+## @end iftex
+## @ifnottex
+##
+## @example
+## A(q) y(t) = B(q) u(t) + e(t)
+## @end example
+##
+## @end ifnottex
+##
 ## @strong{Inputs}
 ## @table @var
 ## @item dat
@@ -58,6 +71,12 @@
 ## @item 'nb'
 ## Order of the polynomial B(q)+1 and number of zeros+1.
 ## @var{nb} <= @var{na}.
+##
+## @item 'nk'
+## Input-output delay specified as number of sampling instants.
+## Scalar positive integer.  This corresponds to a call to command
+## @command{nkshift}, followed by padding the B polynomial with
+## @var{nk} leading zeros.
 ## @end table
 ##
 ##
@@ -118,16 +137,14 @@ function [sys, varargout] = arx (dat, varargin)
     key = lower (varargin{k});
     val = varargin{k+1};
     switch (key)
-      ## TODO: proper argument checking
       case "na"
-        na = val;
+        na = __check_n__ (val, "na");
       case "nb"
-        nb = val;
+        nb = __check_n__ (val, "nb");
       case "nk"
-        if (issample (val, 0) && fix (val) == val)  # individual, channel-wise nk not supported yet
-          nk = val;
-        else
-          error ("arx: argument 'nk' must be a positive integer");
+        nk = __check_n__ (val, "nk");
+        if (! issample (val, 0))
+          error ("arx: channel-wise 'nk' matrices not supported yet");
         endif
       otherwise
         warning ("arx: invalid property name '%s' ignored", key);
@@ -279,5 +296,14 @@ function x = __ls_svd__ (A, b)
   S = S(1:r);
   U = U(:, 1:r);
   x = V * (S .\ (U' * b));                          # U' is the conjugate transpose
+
+endfunction
+
+
+function val = __check_n__ (val, str = "n")
+  
+  if (! is_real_matrix (val) || fix (val) != val)
+    error ("arx: argument '%s' must be a positive integer", str);
+  endif
 
 endfunction
