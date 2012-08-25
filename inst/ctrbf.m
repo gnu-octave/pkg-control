@@ -27,7 +27,7 @@
 ##
 ## @example
 ## @group
-## Abar = Tc \ A * Tc ,  Bbar = Tc \ B ,  Cbar = C * Tc
+## Abar = Tc \\ A * Tc ,  Bbar = Tc \\ B ,  Cbar = C * Tc
 ## @end group
 ## @end example
 ##

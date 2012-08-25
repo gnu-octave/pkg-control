@@ -27,7 +27,7 @@
 ##
 ## @example
 ## @group
-## Abar = To \ A * To ,  Bbar = To \ B ,  Cbar = C * To
+## Abar = To \\ A * To ,  Bbar = To \\ B ,  Cbar = C * To
 ## @end group
 ## @end example
 ## 
