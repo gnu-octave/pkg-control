@@ -18,9 +18,11 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
 ## @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
-## Gain and phase margin of a system.  If no output arguments are given, both gain and phase margin
-## are plotted on a bode diagram.  Otherwise, the margins and their corresponding frequencies are
-## computed and returned.
+## Gain and phase margin of a system.
+## If no output arguments are given, both gain and phase margin are plotted on a bode diagram.
+## Otherwise, the margins and their corresponding frequencies are computed and returned.
+## A more robust criterion to assess the stability of a feedback system is the sensitivity Ms
+## computed by command @command{sensitivity}.
 ##
 ## @strong{Inputs}
 ## @table @var

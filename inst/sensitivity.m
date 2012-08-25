@@ -37,7 +37,10 @@
 ##
 ## @end ifnottex
 ## If no output arguments are given, the critical distance 1/Ms
-## is plotted on a Nyquist diagram. 
+## is plotted on a Nyquist diagram.
+## In contrast to gain and phase margin as computed by command
+## @command{margin}, the sensitivity @var{Ms} is a more robust
+## criterion to assess the stability of a feedback system.
 ##
 ## @strong{Inputs}
 ## @table @var
