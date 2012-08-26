@@ -19,8 +19,9 @@
 ## @deftypefn {Script File} {} test_control
 ## Execute all available tests at once.
 ## The Octave control package is based on the @uref{http://www.slicot.org, @acronym{SLICOT}} library.
-## @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisite for Octave itself.
-## In case of failing test, it is highly recommended to use
+## @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisites
+## for Octave itself.
+## In case of failing tests, it is highly recommended to use
 ## @uref{http://www.netlib.org/blas/, Netlib's reference @acronym{BLAS}} and
 ## @uref{http://www.netlib.org/lapack/, @acronym{LAPACK}}
 ## for building Octave.  Using @acronym{ATLAS} may lead to sign changes
