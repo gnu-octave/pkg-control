@@ -40,8 +40,7 @@
 ## @cite{Multivariable Feedback Control: Analysis and Design:
 ## Second Edition}.  Wiley.
 ## @url{http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html}
-## @end group
-## @end example
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
