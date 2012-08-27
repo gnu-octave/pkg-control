@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.3.53   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+control-2.3.53   Release Date: 2012-08-27   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Added new functions for system identification, including:

@@ -995,7 +995,7 @@
 
  @example
  @group
- Abar = Tc  A * Tc ,  Bbar = Tc  B ,  Cbar = C * Tc
+ Abar = Tc \ A * Tc ,  Bbar = Tc \ B ,  Cbar = C * Tc
  @end group
  @end example
 
@@ -1422,7 +1422,7 @@
 
  @example
  @group
- Abar = To  A * To ,  Bbar = To  B ,  Cbar = C * To
+ Abar = To \ A * To ,  Bbar = To \ B ,  Cbar = C * To
  @end group
  @end example
  
@@ -1875,9 +1875,11 @@
 
  @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
  @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
- Gain and phase margin of a system.  If no output arguments are given, both gain and phase margin
- are plotted on a bode diagram.  Otherwise, the margins and their corresponding frequencies are
- computed and returned.
+ Gain and phase margin of a system.
+ If no output arguments are given, both gain and phase margin are plotted on a bode diagram.
+ Otherwise, the margins and their corresponding frequencies are computed and returned.
+ A more robust criterion to assess the stability of a feedback system is the sensitivity Ms
+ computed by command @command{sensitivity}.
 
  @strong{Inputs}
  @table @var
@@ -2047,6 +2049,75 @@
 
  @seealso{bode, nichols, sigma}
  @end deftypefn
+@section sensitivity
+
+ @deftypefn{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{L})
+ @deftypefnx{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{P}, @var{C})
+ @deftypefnx{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{P}, @var{C1}, @var{C2}, @dots{})
+ Return sensitivity margin @var{Ms}.
+ The quantity @var{Ms} is simply the inverse of the shortest
+ distance from the Nyquist curve to the critical point -1.
+ Reasonable values of @var{Ms} are in the range from 1.3 to 2.
+ @iftex
+ @tex
+ $$ M_s = ||S(j\omega)||_{\infty} $$
+ @end tex
+ @end iftex
+ @ifnottex
+
+ @example
+ Ms = ||S(jw)||
+               inf
+ @end example
+
+ @end ifnottex
+ If no output arguments are given, the critical distance 1/Ms
+ is plotted on a Nyquist diagram.
+ In contrast to gain and phase margin as computed by command
+ @command{margin}, the sensitivity @var{Ms} is a more robust
+ criterion to assess the stability of a feedback system.
+
+ @strong{Inputs}
+ @table @var
+ @item L
+ Open loop transfer function.
+ @var{L} can be any type of LTI system, but it must be square.
+ @item P
+ Plant model.  Any type of LTI system.
+ @item C
+ Controller model.  Any type of LTI system.
+ @item C1, C2, @dots{}
+ If several controllers are specified, command @command{sensitivity}
+ computes the sensitivity @var{Ms} for each of them in combination
+ with plant @var{P}.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item Ms
+ Sensitivity margin @var{Ms} as defined in [1].
+ Scalar value.
+ If several controllers are specified, @var{Ms} becomes
+ a row vector with as many entries as controllers.
+ @item ws
+ The frequency [rad/s] corresponding to the sensitivity peak.
+ Scalar value.
+ If several controllers are specified, @var{ws} becomes
+ a row vector with as many entries as controllers.
+ @end table
+
+ @strong{Algorithm}@*
+ Uses SLICOT AB13DD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
+ @strong{References}@*
+ [1] Astr@"om, K. and H@"agglund, T. (1995)
+ PID Controllers:
+ Theory, Design and Tuning,
+ Second Edition.
+ Instrument Society of America.
+
+ @end deftypefn
 @section sigma
 
  @deftypefn{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
@@ -2054,7 +2125,7 @@
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
  Singular values of frequency response.  If no output arguments are given,
- the singular value plot is printed on the screen;
+ the singular value plot is printed on the screen.
 
  @strong{Inputs}
  @table @var
@@ -2582,16 +2653,12 @@
                 +--------+
  @end group
  @end example
- @example
- @group
- Reference:
- Skogestad, S. and Postlethwaite I.
- Multivariable Feedback Control: Analysis and Design
- Second Edition
- Wiley 2005
- Chapter 3.8: General Control Problem Formulation
- @end group
- @end example
+
+ @strong{References}@*
+ [1] Skogestad, S. and Postlethwaite I. (2005)
+ @cite{Multivariable Feedback Control: Analysis and Design:
+ Second Edition}.  Wiley.
+
  @seealso{h2syn, hinfsyn, mixsyn}
  @end deftypefn
 @section fitfrd
@@ -2875,21 +2942,16 @@
  Closed Loop:     T = feedback (L)
  @end group
  @end example
- @example
- @group
- Reference:
- Skogestad, S. and Postlethwaite I.
- Multivariable Feedback Control: Analysis and Design
- Second Edition
- Wiley 2005
- Chapter 3.8: General Control Problem Formulation
- @end group
- @end example
 
  @strong{Algorithm}@*
  Relies on commands @command{augw} and @command{hinfsyn},
  which use SLICOT SB10FD and SB10DD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
+
+ @strong{References}@*
+ [1] Skogestad, S. and Postlethwaite I. (2005)
+ @cite{Multivariable Feedback Control: Analysis and Design:
+ Second Edition}.  Wiley.
 
  @seealso{hinfsyn, augw}
  @end deftypefn
@@ -3572,23 +3634,23 @@
 
  @strong{References}@*
  [1] Enns, D.
- Model reduction with balanced realizations: An error bound
- and a frequency weighted generalization.
+ @cite{Model reduction with balanced realizations: An error bound
+ and a frequency weighted generalization}.
  Proc. 23-th CDC, Las Vegas, pp. 127-132, 1984.
 
  [2] Lin, C.-A. and Chiu, T.-Y.
- Model reduction via frequency-weighted balanced realization.
+ @cite{Model reduction via frequency-weighted balanced realization}.
  Control Theory and Advanced Technology, vol. 8,
  pp. 341-351, 1992.
 
  [3] Sreeram, V., Anderson, B.D.O and Madievski, A.G.
- New results on frequency weighted balanced reduction
- technique.
+ @cite{New results on frequency weighted balanced reduction
+ technique}.
  Proc. ACC, Seattle, Washington, pp. 4004-4009, 1995.
 
  [4] Varga, A. and Anderson, B.D.O.
- Square-root balancing-free methods for the frequency-weighted
- balancing related model reduction.
+ @cite{Square-root balancing-free methods for the frequency-weighted
+ balancing related model reduction}.
  (report in preparation)
 
 
@@ -4036,23 +4098,23 @@
 
  @strong{References}@*
  [1] Enns, D.
- Model reduction with balanced realizations: An error bound
- and a frequency weighted generalization.
+ @cite{Model reduction with balanced realizations: An error bound
+ and a frequency weighted generalization}.
  Proc. 23-th CDC, Las Vegas, pp. 127-132, 1984.
 
  [2] Lin, C.-A. and Chiu, T.-Y.
- Model reduction via frequency-weighted balanced realization.
+ @cite{Model reduction via frequency-weighted balanced realization}.
  Control Theory and Advanced Technology, vol. 8,
  pp. 341-351, 1992.
 
  [3] Sreeram, V., Anderson, B.D.O and Madievski, A.G.
- New results on frequency weighted balanced reduction
- technique.
+ @cite{New results on frequency weighted balanced reduction
+ technique}.
  Proc. ACC, Seattle, Washington, pp. 4004-4009, 1995.
 
  [4] Varga, A. and Anderson, B.D.O.
- Square-root balancing-free methods for the frequency-weighted
- balancing related model reduction.
+ @cite{Square-root balancing-free methods for the frequency-weighted
+ balancing related model reduction}.
  (report in preparation)
 
 
@@ -4682,7 +4744,1072 @@
  Uses SLICOT SB16AD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
-@chapter Overloaded Operators
+@chapter Experimental Data Handling
+@section iddata
+
+ @deftypefn{Function File} {@var{dat} =} iddata (@var{y})
+ @deftypefnx{Function File} {@var{dat} =} iddata (@var{y}, @var{u})
+ @deftypefnx{Function File} {@var{dat} =} iddata (@var{y}, @var{u}, @var{tsam}, @dots{})
+ @deftypefnx{Function File} {@var{dat} =} iddata (@var{y}, @var{u}, @var{[]}, @dots{})
+ Create identification dataset of output and input signals.
+
+ @strong{Inputs}
+ @table @var
+ @item y
+ Real matrix containing the output signal in time-domain.
+ For a system with @var{p} outputs and @var{n} samples,
+ @var{y} is a n-by-p matrix.
+ For data from multiple experiments, @var{y} becomes a
+ e-by-1 or 1-by-e cell vector of n(i)-by-p matrices,
+ where @var{e} denotes the number of experiments
+ and n(i) the individual number of samples for each experiment.
+ @item u
+ Real matrix containing the input signal in time-domain.
+ For a system with @var{m} inputs and @var{n} samples,
+ @var{u} is a n-by-m matrix.
+ For data from multiple experiments, @var{u} becomes a
+ e-by-1 or 1-by-e cell vector of n(i)-by-m matrices,
+ where @var{e} denotes the number of experiments
+ and n(i) the individual number of samples for each experiment.
+ If @var{u} is not specified or an empy element @code{[]} is passed,
+ @var{dat} becomes a time series dataset.
+ @item tsam
+ Sampling time.  If not specified, default value -1 (unspecified) is taken.
+ For multi-experiment data, @var{tsam} becomes a
+ e-by-1 or 1-by-e cell vector containing individual
+ sampling times for each experiment.  If a scalar @var{tsam}
+ is provided, then all experiments have the same sampling time.
+ @item @dots{}
+ Optional pairs of properties and values.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item dat
+ iddata identification dataset.
+ @end table
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'expname'
+ The name of the experiments in @var{dat}.
+ Cell vector of length e containing strings.
+ Default names are @code{@{'exp1', 'exp2', ...@}}
+
+ @item 'y'
+ Output signals.  See 'Inputs' for details.
+
+ @item 'outname'
+ The name of the output channels in @var{dat}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'outunit'
+ The units of the output channels in @var{dat}.
+ Cell vector of length p containing strings.
+
+ @item 'u'
+ Input signals.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{dat}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'inunit'
+ The units of the input channels in @var{dat}.
+ Cell vector of length m containing strings.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'timeunit'
+ The units of the sampling times in @var{dat}.
+ Cell vector of length e containing strings.
+
+ @item 'name'
+ String containing the name of the dataset.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
+ @end table
+ @end deftypefn
+@section @@iddata/cat
+
+ @deftypefn {Function File} {@var{dat} =} cat (@var{dim}, @var{dat1}, @var{dat2}, @dots{})
+ Concatenate iddata sets along dimension @var{dim}.
+
+ @strong{Inputs}
+ @table @var
+ @item dim
+ Dimension along which the concatenation takes place.
+ @table @var
+ @item 1
+ Concatenate samples.
+ The samples are concatenated in the following way:
+ @code{dat.y@{e@} = [dat1.y@{e@}; dat2.y@{e@}; @dots{}]}
+ @code{dat.u@{e@} = [dat1.u@{e@}; dat2.u@{e@}; @dots{}]}
+ where @var{e} denotes the experiment.
+ The number of experiments, outputs and inputs must be equal for all datasets.
+ Equivalent to @command{vertcat}.
+
+ @item 2
+ Concatenate inputs and outputs.
+ The outputs and inputs are concatenated in the following way:
+ @code{dat.y@{e@} = [dat1.y@{e@}, dat2.y@{e@}, @dots{}]}
+ @code{dat.u@{e@} = [dat1.u@{e@}, dat2.u@{e@}, @dots{}]}
+ where @var{e} denotes the experiment.
+ The number of experiments and samples must be equal for all datasets.
+ Equivalent to @command{horzcat}.
+
+ @item 3
+ Concatenate experiments.
+ The experiments are concatenated in the following way:
+ @code{dat.y = [dat1.y; dat2.y; @dots{}]}
+ @code{dat.u = [dat1.u; dat2.u; @dots{}]}
+ The number of outputs and inputs must be equal for all datasets.
+ Equivalent to @command{merge}.
+ @end table
+
+ @item dat1, dat2, @dots{}
+ iddata sets to be concatenated.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item dat
+ Concatenated iddata set.
+ @end table
+
+ @seealso{horzcat, merge, vertcat}
+ @end deftypefn
+@section @@iddata/detrend
+
+ @deftypefn {Function File} {@var{dat} =} detrend (@var{dat})
+ @deftypefnx {Function File} {@var{dat} =} detrend (@var{dat}, @var{ord})
+ Detrend outputs and inputs of dataset @var{dat} by
+ removing the best fit of a polynomial of order @var{ord}.
+ If @var{ord} is not specified, default value 0 is taken.
+ This corresponds to removing a constant.
+ @end deftypefn
+@section @@iddata/diff
+
+ @deftypefn {Function File} {@var{dat} =} diff (@var{dat})
+ @deftypefnx {Function File} {@var{dat} =} diff (@var{dat}, @var{k})
+ Return @var{k}-th difference of outputs and inputs of dataset @var{dat}.
+ If @var{k} is not specified, default value 1 is taken.
+ @end deftypefn
+@section @@iddata/fft
+
+ @deftypefn {Function File} {@var{dat} =} fft (@var{dat})
+ @deftypefnx {Function File} {@var{dat} =} fft (@var{dat}, @var{n})
+ Transform iddata objects from time to frequency domain
+ using a Fast Fourier Transform (FFT) algorithm.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set containing signals in time-domain.
+ @item n
+ Length of the FFT transformations.  If @var{n} does not match
+ the signal length, the signals in @var{dat} are shortened or
+ padded with zeros.  @var{n} is a vector with as many elements
+ as there are experiments in @var{dat} or a scalar with a common
+ length for all experiments.
+ If not specified, the signal lengths are taken as default values.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item dat
+ iddata identification dataset in frequency-domain.
+ In order to preserve signal power and noise level,
+ the FFTs are normalized by dividing each transform
+ by the square root of the signal length.
+ The frequency values are distributed equally from 0
+ to the Nyquist frequency.  The Nyquist frequency is
+ only included for even signal lengths.
+ @end table
+
+ @end deftypefn
+@section @@iddata/filter
+
+ @deftypefn {Function File} {@var{dat} =} filter (@var{dat}, @var{sys})
+ @deftypefnx {Function File} {@var{dat} =} filter (@var{dat}, @var{b}, @var{a})
+ Filter output and input signals of dataset @var{dat}.
+ The filter is specified either by @acronym{LTI} system @var{sys}
+ or by transfer function polynomials @var{b} and @var{a} as described
+ in the help text of the built-in filter command.  Type @code{help filter}
+ for more information.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata identification dataset containing signals in time-domain.
+ @item sys
+ @acronym{LTI} object containing the discrete-time filter.
+ @item b
+ Numerator polynomial of the discrete-time filter.
+ Must be a row vector containing the coefficients
+ of the polynomial in ascending powers of z^-1.
+ @item a
+ Denominator polynomial of the discrete-time filter.
+ Must be a row vector containing the coefficients
+ of the polynomial in ascending powers of z^-1.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item dat
+ iddata identification dataset with filtered 
+ output and input signals.
+ @end table
+
+ @end deftypefn
+@section @@iddata/get
+
+ @deftypefn {Function File} get (@var{dat})
+ @deftypefnx {Function File} {@var{value} =} get (@var{dat}, @var{"property"})
+ @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{dat}, @var{"prop1"}, @var{"prop2"}, @dots{})
+ Access property values of iddata objects.
+ Type @command{get(dat)} to display a list of available properties.
+ @end deftypefn
+@section @@iddata/ifft
+
+ @deftypefn {Function File} {@var{dat} =} ifft (@var{dat})
+ Transform iddata objects from frequency to time domain.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set containing signals in frequency domain.
+ The frequency values must be distributed equally from 0
+ to the Nyquist frequency.  The Nyquist frequency is
+ only included for even signal lengths.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item dat
+ iddata identification dataset in time domain.
+ In order to preserve signal power and noise level,
+ the FFTs are normalized by multiplying each transform
+ by the square root of the signal length.
+ @end table
+
+ @end deftypefn
+@section @@iddata/merge
+
+ @deftypefn {Function File} {@var{dat} =} merge (@var{dat1}, @var{dat2}, @dots{})
+ Concatenate experiments of iddata datasets.
+ The experiments are concatenated in the following way:
+ @code{dat.y = [dat1.y; dat2.y; @dots{}]}
+ @code{dat.u = [dat1.u; dat2.u; @dots{}]}
+ The number of outputs and inputs must be equal for all datasets.
+ @end deftypefn
+@section @@iddata/nkshift
+
+ @deftypefn {Function File} {@var{dat} =} nkshift (@var{dat}, @var{nk})
+ @deftypefnx {Function File} {@var{dat} =} nkshift (@var{dat}, @var{nk}, @var{'append'})
+ Shift input channels of dataset @var{dat} according to integer @var{nk}.
+ A positive value of @var{nk} means that the input channels are delayed
+ @var{nk} samples.  By default, both input and output signals are shortened
+ by @var{nk} samples.
+ If a third argument @var{'append'} is passed, the output signals are left
+ untouched while @var{nk} zeros are appended to the (shortened) input signals
+ such that the number of samples in @var{dat} remains constant.
+ @end deftypefn
+@section @@iddata/plot
+
+ @deftypefn {Function File} plot (@var{dat})
+ Plot signals of iddata identification datasets on the screen.
+ The signals are plotted experiment-wise, either in time- or
+ frequency-domain.  For multi-experiment datasets,
+ press any key to switch to the next experiment.
+ If the plot of a single experiment should be saved by the
+ @command{print} command, use @code{plot(dat(:,:,:,exp))},
+ where @var{exp} denotes the desired experiment.
+ @end deftypefn
+@section @@iddata/resample
+
+ @deftypefn {Function File} {@var{dat} =} resample (@var{dat}, @var{p}, @var{q})
+ @deftypefnx {Function File} {@var{dat} =} resample (@var{dat}, @var{p}, @var{q}, @var{n})
+ @deftypefnx {Function File} {@var{dat} =} resample (@var{dat}, @var{p}, @var{q}, @var{h})
+ Change the sample rate of the output and input signals in dataset @var{dat}
+ by a factor of @code{p/q}.  This is performed using a polyphase algorithm.
+ The anti-aliasing @acronym{FIR} filter can be specified as follows:
+ Either by order @var{n} (scalar) with default value 0.  The band edges
+ are then chosen automatically.  Or by impulse response @var{h} (vector).
+ Requires the signal package to be installed.
+
+ @strong{Algorithm}@*
+ Uses commands @command{fir1} and @command{resample}
+ from the signal package.
+
+ @strong{References}@*
+ [1] J. G. Proakis and D. G. Manolakis,
+ Digital Signal Processing: Principles, Algorithms, and Applications,
+ 4th ed., Prentice Hall, 2007. Chap. 6
+
+ [2] A. V. Oppenheim, R. W. Schafer and J. R. Buck,
+ Discrete-time signal processing, Signal processing series,
+ Prentice-Hall, 1999
+
+ @end deftypefn
+@section @@iddata/set
+
+ @deftypefn {Function File} set (@var{dat})
+ @deftypefnx {Function File} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
+ @deftypefnx {Function File} {@var{dat} =} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
+ Set or modify properties of iddata objects.
+ If no return argument @var{dat} is specified, the modified LTI object is stored
+ in input argument @var{dat}.  @command{set} can handle multiple properties in one call:
+ @code{set (dat, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
+ @code{set (dat)} prints a list of the object's property names.
+ @end deftypefn
+@section @@iddata/size
+
+ @deftypefn {Function File} {@var{nvec} =} size (@var{dat})
+ @deftypefnx {Function File} {@var{ndim} =} size (@var{dat}, @var{dim})
+ @deftypefnx {Function File} {[@var{n}, @var{p}, @var{m}, @var{e}] =} size (@var{dat})
+ Return dimensions of iddata set @var{dat}.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set.
+ @item dim
+ If given a second argument, @command{size} will return the size of the
+ corresponding dimension.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item nvec
+ Row vector.  The first element is the total number of samples (rows of dat.y and dat.u).
+ The second element is the number of outputs (columns of dat.y) and the third element
+ the number of inputs (columns of dat.u).  The fourth element is the number of experiments.
+ @item ndim
+ Scalar value.  The size of the dimension @var{dim}.
+ @item n
+ Row vector containing the number of samples of each experiment.
+ @item p
+ Number of outputs.
+ @item m
+ Number of inputs.
+ @item e
+ Number of experiments.
+ @end table
+ @end deftypefn
+@chapter System Identification
+@section arx
+
+ @deftypefn {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @var{opt}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{opt}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{'na'}, @var{na}, @var{'nb'}, @var{nb})
+ Estimate ARX model using QR factorization.
+
+ @iftex
+ @tex
+ $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
+ @end tex
+ @end iftex
+ @ifnottex
+
+ @example
+ A(q) y(t) = B(q) u(t) + e(t)
+ @end example
+
+ @end ifnottex
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata identification dataset containing the measurements, i.e. time-domain signals.
+ @item n
+ The desired order of the resulting model @var{sys}.
+ @item @dots{}
+ Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+ @item opt
+ Optional struct with keys as field names.
+ Struct @var{opt} can be created directly or
+ by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+ @end table
+
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Discrete-time transfer function model.
+ If the second output argument @var{x0} is returned,
+ @var{sys} becomes a state-space model.
+ @item x0
+ Initial state vector.  If @var{dat} is a multi-experiment dataset,
+ @var{x0} becomes a cell vector containing an initial state vector
+ for each experiment.
+ @end table
+
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'na'
+ Order of the polynomial A(q) and number of poles.
+
+ @item 'nb'
+ Order of the polynomial B(q)+1 and number of zeros+1.
+ @var{nb} <= @var{na}.
+
+ @item 'nk'
+ Input-output delay specified as number of sampling instants.
+ Scalar positive integer.  This corresponds to a call to command
+ @command{nkshift}, followed by padding the B polynomial with
+ @var{nk} leading zeros.
+ @end table
+
+
+ @strong{Algorithm}@*
+ Uses the formulae given in [1] on pages 318-319,
+ 'Solving for the LS Estimate by QR Factorization'.
+ For the initial conditions, SLICOT IB01CD is used by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
+ @strong{References}@*
+ [1] Ljung, L. (1999)
+ System Identification - Theory for the User
+ Second Edition
+ Prentice Hall, New Jersey.
+
+ @end deftypefn
+@section moen4
+
+ @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @var{n}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @var{opt}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @var{n}, @var{opt}, @dots{})
+ Estimate state-space model using combined subspace method:
+ @acronym{MOESP} algorithm for finding the matrices A and C,
+ and @acronym{N4SID} algorithm for finding the matrices B and D.
+ If no output arguments are given, the singular values are
+ plotted on the screen in order to estimate the system order.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set containing the measurements, i.e. time-domain signals.
+ @item n
+ The desired order of the resulting state-space system @var{sys}.
+ If not specified, @var{n} is chosen automatically according
+ to the singular values and tolerances.
+ @item @dots{}
+ Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+ @item opt
+ Optional struct with keys as field names.
+ Struct @var{opt} can be created directly or
+ by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+ @end table
+
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Discrete-time state-space model.
+ @item x0
+ Initial state vector.  If @var{dat} is a multi-experiment dataset,
+ @var{x0} becomes a cell vector containing an initial state vector
+ for each experiment.
+ @item info
+ Struct containing additional information.
+ @table @var
+ @item info.K
+ Kalman gain matrix.
+ @item info.Q
+ State covariance matrix.
+ @item info.Ry
+ Output covariance matrix.
+ @item info.S
+ State-output cross-covariance matrix.
+ @item info.L
+ Noise variance matrix factor. LL'=Ry.
+ @end table
+ @end table
+
+
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'n'
+ The desired order of the resulting state-space system @var{sys}.
+ @var{s} > @var{n} > 0.
+
+ @item 's'
+ The number of block rows @var{s} in the input and output
+ block Hankel matrices to be processed.  @var{s} > 0.
+ In the MOESP theory, @var{s} should be larger than @var{n},
+ the estimated dimension of state vector.
+
+ @item 'alg', 'algorithm'
+ Specifies the algorithm for computing the triangular
+ factor R, as follows:
+ @table @var
+ @item 'C'
+ Cholesky algorithm applied to the correlation
+ matrix of the input-output data.  Default method.
+ @item 'F'
+ Fast QR algorithm.
+ @item 'Q'
+ QR algorithm applied to the concatenated block
+ Hankel matrices.
+ @end table
+
+ @item 'tol'
+ Absolute tolerance used for determining an estimate of
+ the system order.  If  @var{tol} >= 0,  the estimate is
+ indicated by the index of the last singular value greater
+ than or equal to @var{tol}.  (Singular values less than @var{tol}
+ are considered as zero.)  When  @var{tol} = 0,  an internally
+ computed default value,  @var{tol} = @var{s}*@var{eps}*SV(1),  is used,
+ where  SV(1)  is the maximal singular value, and @var{eps} is
+ the relative machine precision.
+ When @var{tol} < 0,  the estimate is indicated by the
+ index of the singular value that has the largest
+ logarithmic gap to its successor.  Default value is 0.
+
+ @item 'rcond'
+ The tolerance to be used for estimating the rank of
+ matrices. If the user sets @var{rcond} > 0,  the given value
+ of @var{rcond} is used as a lower bound for the reciprocal
+ condition number;  an m-by-n matrix whose estimated
+ condition number is less than  1/@var{rcond}  is considered to
+ be of full rank.  If the user sets @var{rcond} <= 0,  then an
+ implicitly computed, default tolerance, defined by
+ @var{rcond} = m*n*@var{eps},  is used instead, where @var{eps} is the
+ relative machine precision.  Default value is 0.
+
+ @item 'confirm'
+ Specifies whether or not the user's confirmation of the
+ system order estimate is desired, as follows:
+ @table @var
+ @item true
+ User's confirmation.
+ @item false
+ No confirmation.  Default value.
+ @end table
+
+ @item 'noiseinput'
+ The desired type of noise input channels.
+ @table @var
+ @item 'n'
+ No error inputs.  Default value.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k $$
+ $$ y_k = C x_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k]
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @item 'e'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and noise channels e
+ with covariance matrix @var{Ry}.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K e_k $$
+ $$ y_k = C x_k + D u_k + e_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K e[k]
+ y[k]   = C x[k] + D u[k] +   e[k]
+ @end example
+ @end ifnottex
+
+ @item 'v'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and white noise channels v
+ with identity covariance matrix.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K L v_k $$
+ $$ y_k = C x_k + D u_k + L v_k $$
+ $$ e = L v, \ L L^T = R_y $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K L v[k]
+ y[k]   = C x[k] + D u[k] +   L v[k]
+ e = L v,  L L' = Ry
+ @end example
+ @end ifnottex
+
+ @item 'k'
+ Return @var{sys} as a Kalman predictor for simulation.
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = A \widehat{x}_k + B u_k + K (y_k - \widehat{y}_k) $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^          ^                        ^
+ x[k+1] = A x[k] + B u[k] + K(y[k] - y[k])
+ ^          ^
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = (A-KC) \widehat{x}_k + (B-KD) u_k + K y_k $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k + 0 y_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^               ^
+ x[k+1] = (A-KC) x[k] + (B-KD) u[k] + K y[k]
+ ^          ^
+ y[k]   = C x[k] + D u[k] + 0 y[k]
+ @end example
+ @end ifnottex
+ @end table
+ @end table
+
+
+ @strong{Algorithm}@*
+ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
+ @end deftypefn
+@section moesp
+
+ @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @var{n}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @var{opt}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @var{n}, @var{opt}, @dots{})
+ Estimate state-space model using @acronym{MOESP} algorithm.
+ @acronym{MOESP}: Multivariable Output Error State sPace.
+ If no output arguments are given, the singular values are
+ plotted on the screen in order to estimate the system order.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set containing the measurements, i.e. time-domain signals.
+ @item n
+ The desired order of the resulting state-space system @var{sys}.
+ If not specified, @var{n} is chosen automatically according
+ to the singular values and tolerances.
+ @item @dots{}
+ Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+ @item opt
+ Optional struct with keys as field names.
+ Struct @var{opt} can be created directly or
+ by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+ @end table
+
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Discrete-time state-space model.
+ @item x0
+ Initial state vector.  If @var{dat} is a multi-experiment dataset,
+ @var{x0} becomes a cell vector containing an initial state vector
+ for each experiment.
+ @item info
+ Struct containing additional information.
+ @table @var
+ @item info.K
+ Kalman gain matrix.
+ @item info.Q
+ State covariance matrix.
+ @item info.Ry
+ Output covariance matrix.
+ @item info.S
+ State-output cross-covariance matrix.
+ @item info.L
+ Noise variance matrix factor. LL'=Ry.
+ @end table
+ @end table
+
+
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'n'
+ The desired order of the resulting state-space system @var{sys}.
+ @var{s} > @var{n} > 0.
+
+ @item 's'
+ The number of block rows @var{s} in the input and output
+ block Hankel matrices to be processed.  @var{s} > 0.
+ In the MOESP theory, @var{s} should be larger than @var{n},
+ the estimated dimension of state vector.
+
+ @item 'alg', 'algorithm'
+ Specifies the algorithm for computing the triangular
+ factor R, as follows:
+ @table @var
+ @item 'C'
+ Cholesky algorithm applied to the correlation
+ matrix of the input-output data.  Default method.
+ @item 'F'
+ Fast QR algorithm.
+ @item 'Q'
+ QR algorithm applied to the concatenated block
+ Hankel matrices.
+ @end table
+
+ @item 'tol'
+ Absolute tolerance used for determining an estimate of
+ the system order.  If  @var{tol} >= 0,  the estimate is
+ indicated by the index of the last singular value greater
+ than or equal to @var{tol}.  (Singular values less than @var{tol}
+ are considered as zero.)  When  @var{tol} = 0,  an internally
+ computed default value,  @var{tol} = @var{s}*@var{eps}*SV(1),  is used,
+ where  SV(1)  is the maximal singular value, and @var{eps} is
+ the relative machine precision.
+ When @var{tol} < 0,  the estimate is indicated by the
+ index of the singular value that has the largest
+ logarithmic gap to its successor.  Default value is 0.
+
+ @item 'rcond'
+ The tolerance to be used for estimating the rank of
+ matrices. If the user sets @var{rcond} > 0,  the given value
+ of @var{rcond} is used as a lower bound for the reciprocal
+ condition number;  an m-by-n matrix whose estimated
+ condition number is less than  1/@var{rcond}  is considered to
+ be of full rank.  If the user sets @var{rcond} <= 0,  then an
+ implicitly computed, default tolerance, defined by
+ @var{rcond} = m*n*@var{eps},  is used instead, where @var{eps} is the
+ relative machine precision.  Default value is 0.
+
+ @item 'confirm'
+ Specifies whether or not the user's confirmation of the
+ system order estimate is desired, as follows:
+ @table @var
+ @item true
+ User's confirmation.
+ @item false
+ No confirmation.  Default value.
+ @end table
+
+ @item 'noiseinput'
+ The desired type of noise input channels.
+ @table @var
+ @item 'n'
+ No error inputs.  Default value.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k $$
+ $$ y_k = C x_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k]
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @item 'e'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and noise channels e
+ with covariance matrix @var{Ry}.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K e_k $$
+ $$ y_k = C x_k + D u_k + e_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K e[k]
+ y[k]   = C x[k] + D u[k] +   e[k]
+ @end example
+ @end ifnottex
+
+ @item 'v'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and white noise channels v
+ with identity covariance matrix.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K L v_k $$
+ $$ y_k = C x_k + D u_k + L v_k $$
+ $$ e = L v, \ L L^T = R_y $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K L v[k]
+ y[k]   = C x[k] + D u[k] +   L v[k]
+ e = L v,  L L' = Ry
+ @end example
+ @end ifnottex
+
+ @item 'k'
+ Return @var{sys} as a Kalman predictor for simulation.
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = A \widehat{x}_k + B u_k + K (y_k - \widehat{y}_k) $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^          ^                        ^
+ x[k+1] = A x[k] + B u[k] + K(y[k] - y[k])
+ ^          ^
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = (A-KC) \widehat{x}_k + (B-KD) u_k + K y_k $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k + 0 y_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^               ^
+ x[k+1] = (A-KC) x[k] + (B-KD) u[k] + K y[k]
+ ^          ^
+ y[k]   = C x[k] + D u[k] + 0 y[k]
+ @end example
+ @end ifnottex
+ @end table
+ @end table
+
+
+ @strong{Algorithm}@*
+ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
+ @end deftypefn
+@section n4sid
+
+ @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @var{n}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @var{opt}, @dots{})
+ @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @var{n}, @var{opt}, @dots{})
+ Estimate state-space model using @acronym{N4SID} algorithm.
+ @acronym{N4SID}: Numerical algorithm for Subspace State Space System IDentification.
+ If no output arguments are given, the singular values are
+ plotted on the screen in order to estimate the system order.
+
+ @strong{Inputs}
+ @table @var
+ @item dat
+ iddata set containing the measurements, i.e. time-domain signals.
+ @item n
+ The desired order of the resulting state-space system @var{sys}.
+ If not specified, @var{n} is chosen automatically according
+ to the singular values and tolerances.
+ @item @dots{}
+ Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+ @item opt
+ Optional struct with keys as field names.
+ Struct @var{opt} can be created directly or
+ by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+ @end table
+
+
+ @strong{Outputs}
+ @table @var
+ @item sys
+ Discrete-time state-space model.
+ @item x0
+ Initial state vector.  If @var{dat} is a multi-experiment dataset,
+ @var{x0} becomes a cell vector containing an initial state vector
+ for each experiment.
+ @item info
+ Struct containing additional information.
+ @table @var
+ @item info.K
+ Kalman gain matrix.
+ @item info.Q
+ State covariance matrix.
+ @item info.Ry
+ Output covariance matrix.
+ @item info.S
+ State-output cross-covariance matrix.
+ @item info.L
+ Noise variance matrix factor. LL'=Ry.
+ @end table
+ @end table
+
+
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'n'
+ The desired order of the resulting state-space system @var{sys}.
+ @var{s} > @var{n} > 0.
+
+ @item 's'
+ The number of block rows @var{s} in the input and output
+ block Hankel matrices to be processed.  @var{s} > 0.
+ In the MOESP theory, @var{s} should be larger than @var{n},
+ the estimated dimension of state vector.
+
+ @item 'alg', 'algorithm'
+ Specifies the algorithm for computing the triangular
+ factor R, as follows:
+ @table @var
+ @item 'C'
+ Cholesky algorithm applied to the correlation
+ matrix of the input-output data.  Default method.
+ @item 'F'
+ Fast QR algorithm.
+ @item 'Q'
+ QR algorithm applied to the concatenated block
+ Hankel matrices.
+ @end table
+
+ @item 'tol'
+ Absolute tolerance used for determining an estimate of
+ the system order.  If  @var{tol} >= 0,  the estimate is
+ indicated by the index of the last singular value greater
+ than or equal to @var{tol}.  (Singular values less than @var{tol}
+ are considered as zero.)  When  @var{tol} = 0,  an internally
+ computed default value,  @var{tol} = @var{s}*@var{eps}*SV(1),  is used,
+ where  SV(1)  is the maximal singular value, and @var{eps} is
+ the relative machine precision.
+ When @var{tol} < 0,  the estimate is indicated by the
+ index of the singular value that has the largest
+ logarithmic gap to its successor.  Default value is 0.
+
+ @item 'rcond'
+ The tolerance to be used for estimating the rank of
+ matrices. If the user sets @var{rcond} > 0,  the given value
+ of @var{rcond} is used as a lower bound for the reciprocal
+ condition number;  an m-by-n matrix whose estimated
+ condition number is less than  1/@var{rcond}  is considered to
+ be of full rank.  If the user sets @var{rcond} <= 0,  then an
+ implicitly computed, default tolerance, defined by
+ @var{rcond} = m*n*@var{eps},  is used instead, where @var{eps} is the
+ relative machine precision.  Default value is 0.
+
+ @item 'confirm'
+ Specifies whether or not the user's confirmation of the
+ system order estimate is desired, as follows:
+ @table @var
+ @item true
+ User's confirmation.
+ @item false
+ No confirmation.  Default value.
+ @end table
+
+ @item 'noiseinput'
+ The desired type of noise input channels.
+ @table @var
+ @item 'n'
+ No error inputs.  Default value.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k $$
+ $$ y_k = C x_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k]
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @item 'e'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and noise channels e
+ with covariance matrix @var{Ry}.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K e_k $$
+ $$ y_k = C x_k + D u_k + e_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K e[k]
+ y[k]   = C x[k] + D u[k] +   e[k]
+ @end example
+ @end ifnottex
+
+ @item 'v'
+ Return @var{sys} as a (p-by-m+p) state-space model with
+ both measured input channels u and white noise channels v
+ with identity covariance matrix.
+ @iftex
+ @tex
+ $$ x_{k+1} = A x_k + B u_k + K L v_k $$
+ $$ y_k = C x_k + D u_k + L v_k $$
+ $$ e = L v, \ L L^T = R_y $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ x[k+1] = A x[k] + B u[k] + K L v[k]
+ y[k]   = C x[k] + D u[k] +   L v[k]
+ e = L v,  L L' = Ry
+ @end example
+ @end ifnottex
+
+ @item 'k'
+ Return @var{sys} as a Kalman predictor for simulation.
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = A \widehat{x}_k + B u_k + K (y_k - \widehat{y}_k) $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^          ^                        ^
+ x[k+1] = A x[k] + B u[k] + K(y[k] - y[k])
+ ^          ^
+ y[k]   = C x[k] + D u[k]
+ @end example
+ @end ifnottex
+
+ @iftex
+ @tex
+ $$ \widehat{x}_{k+1} = (A-KC) \widehat{x}_k + (B-KD) u_k + K y_k $$
+ $$ \widehat{y}_k = C \widehat{x}_k + D u_k + 0 y_k $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ ^               ^
+ x[k+1] = (A-KC) x[k] + (B-KD) u[k] + K y[k]
+ ^          ^
+ y[k]   = C x[k] + D u[k] + 0 y[k]
+ @end example
+ @end ifnottex
+ @end table
+ @end table
+
+
+ @strong{Algorithm}@*
+ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+
+ @end deftypefn
+@chapter Overloaded LTI Operators
 @section @@lti/ctranspose
 
  Conjugate transpose or pertransposition of LTI objects.
@@ -4750,6 +5877,37 @@
 
  Vertical concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[sys1; sys2]".
+@chapter Overloaded IDDATA Operators
+@section @@iddata/horzcat
+
+ @deftypefn {Function File} {@var{dat} =} [@var{dat1}, @var{dat2}, @dots{}]
+ @deftypefnx {Function File} {@var{dat} =} horzcat (@var{dat1}, @var{dat2}, @dots{})
+ Horizontal concatenation of iddata datasets.
+ The outputs and inputs are concatenated in the following way:
+ @code{dat.y@{e@} = [dat1.y@{e@}, dat2.y@{e@}, @dots{}]}
+ @code{dat.u@{e@} = [dat1.u@{e@}, dat2.u@{e@}, @dots{}]}
+ where @var{e} denotes the experiment.
+ The number of experiments and samples must be equal for all datasets.
+ @end deftypefn
+@section @@iddata/subsasgn
+
+ Subscripted assignment for iddata objects.
+ Used by Octave for "dat.property = value".
+@section @@iddata/subsref
+
+ Subscripted reference for iddata objects.
+ Used by Octave for "dat = dat(2:4, :)" or "val = dat.prop".
+@section @@iddata/vertcat
+
+ @deftypefn {Function File} {@var{dat} =} [@var{dat1}; @var{dat2}; @dots{}]
+ @deftypefnx {Function File} {@var{dat} =} vertcat (@var{dat1}, @var{dat2}, @dots{})
+ Vertical concatenation of iddata datasets.
+ The samples are concatenated in the following way:
+ @code{dat.y@{e@} = [dat1.y@{e@}; dat2.y@{e@}; @dots{}]}
+ @code{dat.u@{e@} = [dat1.u@{e@}; dat2.u@{e@}; @dots{}]}
+ where @var{e} denotes the experiment.
+ The number of experiments, outputs and inputs must be equal for all datasets.
+ @end deftypefn
 @chapter Miscellaneous
 @section options
 
@@ -4809,20 +5967,22 @@
 
  @deftypefn {Script File} {} test_control
  Execute all available tests at once.
- The Octave control package is based on the @uref{http://www.slicot.org, SLICOT} library.
- SLICOT needs a LAPACK library which is also a prerequisite for Octave itself.
- In case of failing test, it is highly recommended to use
- @uref{http://www.netlib.org/lapack/, Netlib's reference LAPACK}
- for building Octave.  Using ATLAS may lead to sign changes
- in some entries in the state-space matrices.
+ The Octave control package is based on the @uref{http://www.slicot.org, @acronym{SLICOT}} library.
+ @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisites
+ for Octave itself.
+ In case of failing tests, it is highly recommended to use
+ @uref{http://www.netlib.org/blas/, Netlib's reference @acronym{BLAS}} and
+ @uref{http://www.netlib.org/lapack/, @acronym{LAPACK}}
+ for building Octave.  Using @acronym{ATLAS} may lead to sign changes
+ in some entries of the state-space matrices.
  In general, these sign changes are not 'wrong' and can be regarded as
  the result of state transformations.  Such state transformations
  (but not input/output transformations) have no influence on the
  input-output behaviour of the system.  For better numerics,
  the control package uses such transformations by default when
  calculating the frequency responses and a few other things.
- However, arguments like the Hankel singular Values (HSV) must not change.
- Differing HSVs and failing algorithms are known for using Framework Accelerate
+ However, arguments like the Hankel singular Values (@acronym{HSV}) must not change.
+ Differing @acronym{HSV}s and failing algorithms are known for using Framework Accelerate
  from Mac OS X 10.7.
  @end deftypefn
 @section BMWengine
@@ -4936,14 +6096,12 @@
  pitch rate               q           [rad/s]
  @end group
  @end example
- @example
- @group
- Reference:
- Skogestad, S. and Postlethwaite I.
- Multivariable Feedback Control: Analysis and Design
- Second Edition
- Wiley 2005
- http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html
+
+ @strong{References}@*
+ [1] Skogestad, S. and Postlethwaite I. (2005)
+ @cite{Multivariable Feedback Control: Analysis and Design:
+ Second Edition}.  Wiley.
+ @url{http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html}
  @end group
  @end example
  @end deftypefn
