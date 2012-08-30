@@ -109,11 +109,11 @@ function [ret, ws] = sensitivity (G, varargin)
     if (length (Ms) > 1)
       error ("sensitivity: plotting only works for a single controller");
     endif
-    if (! issiso (L))
-      error ("sensitivity: Nyquist plot requires SISO systems");
-    endif
     if (iscell (L))
       L = L{1};
+    endif
+    if (! issiso (L))
+      error ("sensitivity: Nyquist plot requires SISO systems");
     endif
 
     [H, w] = __frequency_response__ (L, [], false, 0, "ext");

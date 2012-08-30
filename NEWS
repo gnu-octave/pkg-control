@@ -7,6 +7,10 @@ control-2.3.54   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ** plot
    A selection of experiments from iddata identification datasets can be
    plotted by  plot (dat, exp)  instead of  plot (dat(:,:,:,exp)).
+
+** sensitivity
+   Fixed a problem where an error was raised about an undefined function
+   "issiso".
    
 
 ===============================================================================
