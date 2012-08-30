@@ -17,23 +17,37 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} plot (@var{dat})
+## @deftypefnx {Function File} plot (@var{dat}, @var{exp})
 ## Plot signals of iddata identification datasets on the screen.
 ## The signals are plotted experiment-wise, either in time- or
 ## frequency-domain.  For multi-experiment datasets,
 ## press any key to switch to the next experiment.
 ## If the plot of a single experiment should be saved by the
-## @command{print} command, use @code{plot(dat(:,:,:,exp))},
+## @command{print} command, use @code{plot(dat,exp)},
 ## where @var{exp} denotes the desired experiment.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.1
+## Version: 0.2
 
-function plot (dat)
+function plot (dat, exp = ":")
 
-  [n, p, m, e] = size (dat);
+  if (nargin > 2)       # nargin == 0  is handled by built-in plot
+    print_usage ();
+  endif
+
+  if (nargin == 2 && ! is_real_vector (exp))
+    error ("iddata: plot: second argument must be a vector of indices");
+  endif 
+
   expname = __labels__ (dat.expname, "exp");
+  expname = expname(exp);
+  
+  idx = substruct ("()", {":", ":", ":", exp});  
+  dat = subsref (dat, idx);
+  
+  [n, p, m, e] = size (dat);
 
   if (dat.timedomain)
     if (m == 0)         # time series
