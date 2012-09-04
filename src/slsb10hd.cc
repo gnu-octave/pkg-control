@@ -52,8 +52,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10hd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb10hd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb10hd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb10hd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10HD Release 5.0\n\
 No argument checking.\n\
@@ -137,7 +137,7 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("h2syn: slsb10hd: exception in SLICOT subroutine SB10HD");
+            error ("h2syn: __sl_sb10hd__: exception in SLICOT subroutine SB10HD");
 
         static const char* err_msg[] = {
             "0: OK",

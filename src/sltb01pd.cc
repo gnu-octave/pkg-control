@@ -46,8 +46,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltb01pd", "control_slicot_functions.oct");    
-DEFUN_DLD (sltb01pd, args, nargout,
+// PKG_ADD: autoload ("__sl_tb01pd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tb01pd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB01PD Release 5.0\n\
 No argument checking.\n\
@@ -120,10 +120,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("ss: minreal: sltb01pd: exception in SLICOT subroutine TB01PD");
+            error ("ss: minreal: __sl_tb01pd__: exception in SLICOT subroutine TB01PD");
             
         if (info != 0)
-            error ("ss: minreal: sltb01pd: TB01PD returned info = %d", info);
+            error ("ss: minreal: __sl_tb01pd__: TB01PD returned info = %d", info);
 
         // resize
         a.resize (nr, nr);

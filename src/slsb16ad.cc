@@ -56,8 +56,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb16ad", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb16ad, args, nargout,
+// PKG_ADD: autoload ("__sl_sb16ad__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb16ad__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB16AD Release 5.0\n\
 No argument checking.\n\
@@ -145,7 +145,7 @@ For internal use only.")
                 jobmr = 'P';
                 break;
             default:
-                error ("slsb16ad: argument jobmr invalid");
+                error ("__sl_sb16ad__: argument jobmr invalid");
         }
 
         switch (iweight)
@@ -163,7 +163,7 @@ For internal use only.")
                 weight = 'P';
                 break;
             default:
-                error ("slsb16ad: argument weight invalid");
+                error ("__sl_sb16ad__: argument weight invalid");
         }
 
         int n = a.rows ();      // n: number of states

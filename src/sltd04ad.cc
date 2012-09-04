@@ -53,8 +53,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltd04ad", "control_slicot_functions.oct");    
-DEFUN_DLD (sltd04ad, args, nargout,
+// PKG_ADD: autoload ("__sl_td04ad__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_td04ad__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TD04AD Release 5.0\n\
 No argument checking.\n\
@@ -132,10 +132,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("tf2ss: sltd04ad: exception in SLICOT subroutine TD04AD");
+            error ("tf2ss: __sl_td04ad__: exception in SLICOT subroutine TD04AD");
 
         if (info != 0)
-            error ("tf2ss: sltd04ad: TD04AD returned info = %d", info);
+            error ("tf2ss: __sl_td04ad__: TD04AD returned info = %d", info);
 
         // resize
         a.resize (nr, nr);

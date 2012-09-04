@@ -63,7 +63,7 @@ function [u, scale] = lyapchol (a, b, e)
                 inputname (1), inputname (2));
       endif
 
-      [u, scale] = slsb03od (a.', b.', false);
+      [u, scale] = __sl_sb03od__ (a.', b.', false);
 
       ## NOTE: TRANS = 'T' not suitable because we need U' U, not U U'
 
@@ -87,7 +87,7 @@ function [u, scale] = lyapchol (a, b, e)
                 inputname (1), inputname (2), inputname (3));
       endif
 
-      [u, scale] = slsg03bd (a.', e.', b.', false);
+      [u, scale] = __sl_sg03bd__ (a.', e.', b.', false);
 
       ## NOTE: TRANS = 'T' not suitable because we need U' U, not U U'
 

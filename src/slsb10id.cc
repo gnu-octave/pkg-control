@@ -51,8 +51,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10id", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb10id, args, nargout,
+// PKG_ADD: autoload ("__sl_sb10id__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb10id__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10ID Release 5.0\n\
 No argument checking.\n\
@@ -129,7 +129,7 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("ncfsyn: slsb10id: exception in SLICOT subroutine SB10ID");
+            error ("ncfsyn: __sl_sb10id__: exception in SLICOT subroutine SB10ID");
 
         static const char* err_msg[] = {
             "0: OK",

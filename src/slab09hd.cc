@@ -51,8 +51,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slab09hd", "control_slicot_functions.oct");    
-DEFUN_DLD (slab09hd, args, nargout,
+// PKG_ADD: autoload ("__sl_ab09hd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab09hd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09HD Release 5.0\n\
 No argument checking.\n\
@@ -105,7 +105,7 @@ For internal use only.")
                 job = 'P';
                 break;
             default:
-                error ("slab09hd: argument job invalid");
+                error ("__sl_ab09hd__: argument job invalid");
         }
 
         if (idico == 0)

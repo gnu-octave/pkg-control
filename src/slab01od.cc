@@ -49,8 +49,8 @@ extern "C"
                   int& INFO);
 }
  
-// PKG_ADD: autoload ("slab01od", "control_slicot_functions.oct");    
-DEFUN_DLD (slab01od, args, nargout,
+// PKG_ADD: autoload ("__sl_ab01od__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab01od__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB01OD Release 5.0\n\
 No argument checking.\n\
@@ -118,10 +118,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("slab01od: exception in SLICOT subroutine AB01OD");
+            error ("__sl_ab01od__: exception in SLICOT subroutine AB01OD");
             
         if (info != 0)
-            error ("slab01od: AB01OD returned info = %d", info);
+            error ("__sl_ab01od__: AB01OD returned info = %d", info);
 
         // resize
         a.resize (n, n);

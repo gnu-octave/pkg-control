@@ -14,7 +14,7 @@ d = [  1.0   0.0
 [p, m] = size (d);
 md = 4
 
-[gn, gd, ign, igd] = sltb04bd (a, b, c, d)
+[gn, gd, ign, igd] = __sl_tb04bd__ (a, b, c, d)
 
 num = reshape (gn, md, p, m)
 den = reshape (gd, md, p, m)
@@ -53,7 +53,7 @@ denc{1,1,2}
 %num = gn(1:ign+1)
 %den = gd(1:igd+1)
 %{
-[gn, gd, ign, igd] = sltb04bd (-2, 3, 4, 5)
+[gn, gd, ign, igd] = __sl_tb04bd__ (-2, 3, 4, 5)
 
 
 % for i = 1 : size (gn, 1)
@@ -68,16 +68,16 @@ P = tf (1, [1 5 11 14 11 5 1]);
 
 S = ss (P);
 
-[num, den, ign, igd] = sltb04bd (S.a, S.b, S.c, S.d)
+[num, den, ign, igd] = __sl_tb04bd__ (S.a, S.b, S.c, S.d)
 
 P
 
 
 
-[num, den, ign, igd] = sltb04bd (0, 1, 1, 0)
+[num, den, ign, igd] = __sl_tb04bd__ (0, 1, 1, 0)
 
 
 sys = WestlandLynx;
 
-[num, den, ign, igd] = sltb04bd (sys.a, sys.b, sys.c, sys.d);
+[num, den, ign, igd] = __sl_tb04bd__ (sys.a, sys.b, sys.c, sys.d);
 %}

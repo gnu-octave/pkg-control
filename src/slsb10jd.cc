@@ -45,8 +45,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10jd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb10jd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb10jd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb10jd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10JD Release 5.0\n\
 No argument checking.\n\
@@ -102,10 +102,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("slsb10jd: exception in SLICOT subroutine SB10JD");
+            error ("__sl_sb10jd__: exception in SLICOT subroutine SB10JD");
 
         if (info != 0)
-            error ("slsb10jd: SB10JD returned info = %d", info);
+            error ("__sl_sb10jd__: SB10JD returned info = %d", info);
 
         // resize
         a.resize (nsys, nsys);

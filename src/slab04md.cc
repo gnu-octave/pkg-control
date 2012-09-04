@@ -47,8 +47,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slab04md", "control_slicot_functions.oct");    
-DEFUN_DLD (slab04md, args, nargout,
+// PKG_ADD: autoload ("__sl_ab04md__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab04md__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB04MD Release 5.0\n\
 No argument checking.\n\
@@ -113,10 +113,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("slab04md: exception in SLICOT subroutine AB04MD");
+            error ("__sl_ab04md__: exception in SLICOT subroutine AB04MD");
 
         if (info != 0)
-            error ("slab04md: AB04MD returned info = %d", info);
+            error ("__sl_ab04md__: AB04MD returned info = %d", info);
         
         // return values
         retval(0) = a;

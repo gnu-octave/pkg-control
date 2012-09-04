@@ -27,12 +27,12 @@
 function [retsys, lscale, rscale] = __prescale__ (sys, optarg = 0.0)
 
   if (isempty (sys.e))
-    [a, b, c, ~, scale] = sltb01id (sys.a, sys.b, sys.c, optarg);
+    [a, b, c, ~, scale] = __sl_tb01id__ (sys.a, sys.b, sys.c, optarg);
     retsys = ss (a, b, c, sys.d);
     lscale = scale.^-1;
     rscale = scale;
   else
-    [a, e, b, c, lscale, rscale] = sltg01ad (sys.a, sys.e, sys.b, sys.c, optarg);
+    [a, e, b, c, lscale, rscale] = __sl_tg01ad__ (sys.a, sys.e, sys.b, sys.c, optarg);
     retsys = dss (a, b, c, sys.d, e);
   endif
   

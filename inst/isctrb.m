@@ -89,9 +89,9 @@ function [bool, ncont] = isctrb (a, b = [], e = [], tol = [])
   endif
 
   if (isempty (e))
-    [~, ~, ~, ncont] = slab01od (a, b, tol);
+    [~, ~, ~, ncont] = __sl_ab01od__ (a, b, tol);
   else
-    [~, ~, ~, ~, ~, ~, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
+    [~, ~, ~, ~, ~, ~, ncont] = __sl_tg01hd__ (a, e, b, zeros (1, columns (a)), tol);
   endif
 
   bool = (ncont == rows (a));

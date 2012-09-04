@@ -159,18 +159,18 @@ function [x, l, g] = care (a, b, q, r, s = [], e = [])
   ## solve the riccati equation
   if (isempty (e))
     if (isempty (s))
-      [x, l] = slsb02od (a, b, q, r, b, false, false);
+      [x, l] = __sl_sb02od__ (a, b, q, r, b, false, false);
       g = r \ (b.'*x);          # gain matrix
     else
-      [x, l] = slsb02od (a, b, q, r, s, false, true);
+      [x, l] = __sl_sb02od__ (a, b, q, r, s, false, true);
       g = r \ (b.'*x + s.');    # gain matrix
     endif
   else
     if (isempty (s))
-      [x, l] = slsg02ad (a, e, b, q, r, b, false, false);
+      [x, l] = __sl_sg02ad__ (a, e, b, q, r, b, false, false);
       g = r \ (b.'*x*e);        # gain matrix
     else
-      [x, l] = slsg02ad (a, e, b, q, r, s, false, true);
+      [x, l] = __sl_sg02ad__ (a, e, b, q, r, s, false, true);
       g = r \ (b.'*x*e + s.');  # gain matrix
     endif
   endif

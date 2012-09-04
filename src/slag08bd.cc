@@ -64,8 +64,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slag08bd", "control_slicot_functions.oct");    
-DEFUN_DLD (slag08bd, args, nargout,
+// PKG_ADD: autoload ("__sl_ag08bd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ag08bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AG08BD Release 5.0\n\
 No argument checking.\n\
@@ -154,10 +154,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("dss: zero: slag08bd: exception in SLICOT subroutine AG08BD");
+            error ("dss: zero: __sl_ag08bd__: exception in SLICOT subroutine AG08BD");
             
         if (info != 0)
-            error ("dss: zero: slag08bd: AG08BD returned info = %d", info);
+            error ("dss: zero: __sl_ag08bd__: AG08BD returned info = %d", info);
 
 
         // DGGEV Part
@@ -197,10 +197,10 @@ For internal use only.")
                   info2));
                                  
         if (f77_exception_encountered)
-            error ("dss: zero: slag08bd: exception in LAPACK subroutine DGGEV");
+            error ("dss: zero: __sl_ag08bd__: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
-            error ("dss: zero: slag08bd: DGGEV returned info = %d", info2);
+            error ("dss: zero: __sl_ag08bd__: DGGEV returned info = %d", info2);
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
         // LAPACK DGGEV.f says:

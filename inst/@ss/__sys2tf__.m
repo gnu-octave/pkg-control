@@ -27,7 +27,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
   try
     [a, b, c, d, tsam, scaled] = ssdata (sys);  # system could be a descriptor model
 
-    [num, den, ign, igd, md, p, m] = sltb04bd (a, b, c, d, scaled);
+    [num, den, ign, igd, md, p, m] = __sl_tb04bd__ (a, b, c, d, scaled);
 
     num = reshape (num, md, p, m);
     den = reshape (den, md, p, m);

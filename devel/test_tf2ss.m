@@ -15,5 +15,5 @@ ucoeff(1,2,:) = u12;
 ucoeff(2,1,:) = u21;
 ucoeff(2,2,:) = u22;
    
-[a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, 0)
+[a, b, c, d] = __sl_td04ad__ (ucoeff, dcoeff, index, 0)
 

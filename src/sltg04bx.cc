@@ -46,8 +46,8 @@ extern "C"
                   int* IWORK);
 }
 
-// PKG_ADD: autoload ("sltg04bx", "control_slicot_functions.oct");    
-DEFUN_DLD (sltg04bx, args, nargout,
+// PKG_ADD: autoload ("__sl_tg04bx__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tg04bx__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TG04BX Release 5.0\n\
 No argument checking.\n\
@@ -108,7 +108,7 @@ For internal use only.")
                   iwork));
                   
         if (f77_exception_encountered)
-            error ("dss: zero: sltg04bx: exception in TG04BX");
+            error ("dss: zero: __sl_tg04bx__: exception in TG04BX");
 
         // return values
         retval(0) = octave_value (gain);

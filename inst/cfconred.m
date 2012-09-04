@@ -260,8 +260,8 @@ function [Kr, info] = cfconred (G, F, L, varargin)
   endif
 
   ## perform model order reduction
-  [acr, bcr, ccr, dcr, ncr, hsv] = slsb16bd (a, b, c, d, dt, equil, ncr, ordsel, jobd, jobmr, \
-                                             F, L, jobcf, tol1, tol2);
+  [acr, bcr, ccr, dcr, ncr, hsv] = __sl_sb16bd__ (a, b, c, d, dt, equil, ncr, ordsel, jobd, jobmr, \
+                                                  F, L, jobcf, tol1, tol2);
   
   ## assemble reduced order controller
   Kr = ss (acr, bcr, ccr, dcr, tsam);

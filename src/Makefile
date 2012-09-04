@@ -11,7 +11,7 @@ FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
 LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
-all: control_slicot_functions.oct \
+all: __control_slicot_functions__.oct \
      is_real_scalar.oct \
      is_real_vector.oct \
      is_real_matrix.oct \
@@ -35,9 +35,9 @@ slicotlibrary.a: slicot.tar.gz
 	rm -rf *.o *.f slicot
 
 # slicot functions
-control_slicot_functions.oct: control_slicot_functions.cc slicotlibrary.a
+__control_slicot_functions__.oct: __control_slicot_functions__.cc slicotlibrary.a
 	LFLAGS="$(LFLAGS)" \
-    $(MKOCTFILE) control_slicot_functions.cc common.cc slicotlibrary.a
+    $(MKOCTFILE) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helpers
 is_real_scalar.oct: is_real_scalar.cc

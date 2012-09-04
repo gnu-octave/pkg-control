@@ -103,7 +103,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
 
   if (isempty (e))
     ## controllability staircase form
-    [ac, ~, ~, ncont] = slab01od (a, b, tol);
+    [ac, ~, ~, ncont] = __sl_ab01od__ (a, b, tol);
 
     ## extract uncontrollable part of staircase form
     uncont_idx = ncont+1 : rows (a);
@@ -113,7 +113,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
     pol = eig (auncont);
   else
     ## controllability staircase form - output matrix c has no influence
-    [ac, ec, ~, ~, ~, ~, ncont] = sltg01hd (a, e, b, zeros (1, columns (a)), tol);
+    [ac, ec, ~, ~, ~, ~, ncont] = __sl_tg01hd__ (a, e, b, zeros (1, columns (a)), tol);
 
     ## extract uncontrollable part of staircase form
     uncont_idx = ncont+1 : rows (a);

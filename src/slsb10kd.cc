@@ -50,8 +50,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10kd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb10kd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb10kd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb10kd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10KD Release 5.0\n\
 No argument checking.\n\

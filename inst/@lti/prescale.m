@@ -103,7 +103,7 @@ endfunction
 %!
 %! MAXRED = 0.0;
 %!
-%! [Ao, Bo, Co, MAXREDo, SCALEo] = sltb01id (A, B, C, MAXRED);
+%! [Ao, Bo, Co, MAXREDo, SCALEo] = __sl_tb01id__ (A, B, C, MAXRED);
 %!
 %! Ae = [    0.0000000D+00  0.1000000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00
 %!          -0.1580000D+03 -0.1257000D+04  0.0000000D+00  0.0000000D+00  0.0000000D+00
@@ -156,7 +156,7 @@ endfunction
 %!
 %! TRESH = 0.0;
 %!
-%! [Ao, Eo, Bo, Co, LSCALEo, RSCALEo] = sltg01ad (A, E, B, C, TRESH);
+%! [Ao, Eo, Bo, Co, LSCALEo, RSCALEo] = __sl_tg01ad__ (A, E, B, C, TRESH);
 %!
 %! Ae = [ -1.0000    0.0000    0.0000    0.3000
 %!         0.0000    0.0000    1.0000    2.0000

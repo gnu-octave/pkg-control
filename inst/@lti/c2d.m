@@ -98,7 +98,7 @@ endfunction
 %! D = [  1.0  0.0
 %!        0.0 -1.0 ].';
 %!
-%! [Ao, Bo, Co, Do] = slab04md (A, B, C, D, 1.0, 1.0, false);
+%! [Ao, Bo, Co, Do] = __sl_ab04md__ (A, B, C, D, 1.0, 1.0, false);
 %!
 %! Ae = [ -1.0000  -4.0000
 %!        -4.0000  -1.0000 ];

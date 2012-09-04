@@ -49,8 +49,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltb01ud", "control_slicot_functions.oct");    
-DEFUN_DLD (sltb01ud, args, nargout,
+// PKG_ADD: autoload ("__sl_tb01ud__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tb01ud__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB01UD Release 5.0\n\
 No argument checking.\n\
@@ -118,10 +118,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("sltb01ud: exception in SLICOT subroutine TB01UD");
+            error ("__sl_tb01ud__: exception in SLICOT subroutine TB01UD");
             
         if (info != 0)
-            error ("sltb01ud: TB01UD returned info = %d", info);
+            error ("__sl_tb01ud__: TB01UD returned info = %d", info);
 
         // resize
         a.resize (n, n);

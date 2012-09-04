@@ -52,8 +52,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slib01cd", "control_slicot_functions.oct");
-DEFUN_DLD (slib01cd, args, nargout,
+// PKG_ADD: autoload ("__sl_ib01cd__", "__control_slicot_functions__.oct");
+DEFUN_DLD (__sl_ib01cd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot IB01CD Release 5.0\n\
 No argument checking.\n\
@@ -161,7 +161,7 @@ For internal use only.")
 
 
             if (f77_exception_encountered)
-                error ("slib01cd: exception in SLICOT subroutine IB01CD");
+                error ("__sl_ib01cd__: exception in SLICOT subroutine IB01CD");
 
             static const char* err_msg_c[] = {
                 "0: OK",
@@ -185,8 +185,8 @@ For internal use only.")
                     "and/or  B and D  could be inaccurate"};
 
 
-            error_msg ("slib01cd", info_c, 2, err_msg_c);
-            warning_msg ("slib01cd", iwarn_c, 6, warn_msg_c);
+            error_msg ("__sl_ib01cd__", info_c, 2, err_msg_c);
+            warning_msg ("__sl_ib01cd__", iwarn_c, 6, warn_msg_c);
             
             x0_cell.elem(i) = x0;       // add x0 from the current experiment to cell of initial state vectors
         }

@@ -50,8 +50,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltb04bd", "control_slicot_functions.oct");    
-DEFUN_DLD (sltb04bd, args, nargout,
+// PKG_ADD: autoload ("__sl_tb04bd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tb04bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB04BD Release 5.0\n\
 No argument checking.\n\
@@ -136,10 +136,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("are: sltb04bd: exception in SLICOT subroutine TB04BD");
+            error ("are: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
 
         if (info != 0)
-            error ("are: sltb04bd: TB04BD returned info = %d", info);
+            error ("are: __sl_tb04bd__: TB04BD returned info = %d", info);
 
         for (octave_idx_type i = 0; i < ldign*m; i++)
             ignm.xelem (i) = ign[i];

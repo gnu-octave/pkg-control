@@ -44,8 +44,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb04md", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb04md, args, nargout,
+// PKG_ADD: autoload ("__sl_sb04md__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb04md__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB04MD Release 5.0\n\
 No argument checking.\n\
@@ -98,10 +98,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("lyap: slsb04md: exception in SLICOT subroutine SB04MD");
+            error ("lyap: __sl_sb04md__: exception in SLICOT subroutine SB04MD");
 
         if (info != 0)
-            error ("lyap: slsb04md: SB04MD returned info = %d", info);
+            error ("lyap: __sl_sb04md__: SB04MD returned info = %d", info);
         
         // return values
         retval(0) = c;

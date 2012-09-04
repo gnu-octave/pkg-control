@@ -278,7 +278,7 @@ function [Gr, info] = bstmodred (G, varargin)
   endfor
   
   ## perform model order reduction
-  [ar, br, cr, dr, nr, hsv, ns] = slab09hd (a, b, c, d, dt, scaled, job, nr, ordsel, alpha, beta, \
+  [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09hd__ (a, b, c, d, dt, scaled, job, nr, ordsel, alpha, beta, \
                                             tol1, tol2);
 
   ## assemble reduced order model

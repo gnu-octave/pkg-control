@@ -72,7 +72,7 @@ function gain = h2norm (sys)
     if (! discrete && any (d(:)))     # continuous and non-zero feedthrough
       gain = inf;
     else
-      gain = slab13bd (a, b, c, d, discrete);
+      gain = __sl_ab13bd__ (a, b, c, d, discrete);
     endif
   else
     gain = inf;
@@ -88,14 +88,14 @@ function [gain, wpeak] = linfnorm (sys, tol = 0.01)
   tol = max (tol, 100*eps);
   
   if (isempty (e))
-    [fpeak, gpeak] = slab13dd (a, a, b, c, d, discrete, false, tol, scaled);  # TODO: avoid dummy argument
+    [fpeak, gpeak] = __sl_ab13dd__ (a, a, b, c, d, discrete, false, tol, scaled);  # TODO: avoid dummy argument
   else
     if (rcond (e) < eps)
       gain = inf;
       wpeak = inf;
       return;
     else
-      [fpeak, gpeak] = slab13dd (a, e, b, c, d, discrete, true, tol, scaled);
+      [fpeak, gpeak] = __sl_ab13dd__ (a, e, b, c, d, discrete, true, tol, scaled);
     endif
   endif
   

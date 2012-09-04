@@ -52,8 +52,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb16bd", "control_slicot_functions.oct");         
-DEFUN_DLD (slsb16bd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb16bd__", "__control_slicot_functions__.oct");         
+DEFUN_DLD (__sl_sb16bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB16BD Release 5.0\n\
 No argument checking.\n\
@@ -136,7 +136,7 @@ For internal use only.")
                 jobmr = 'P';
                 break;
             default:
-                error ("slsb16bd: argument jobmr invalid");
+                error ("__sl_sb16bd__: argument jobmr invalid");
         }
 
 

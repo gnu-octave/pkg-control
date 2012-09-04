@@ -48,8 +48,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltg01jd", "control_slicot_functions.oct");    
-DEFUN_DLD (sltg01jd, args, nargout,
+// PKG_ADD: autoload ("__sl_tg01jd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tg01jd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TG01JD Release 5.0\n\
 No argument checking.\n\
@@ -95,7 +95,7 @@ For internal use only.")
                 job = 'O';
                 break;
             default:
-                error ("sltg01jd: argument job invalid");
+                error ("__sl_tg01jd__: argument job invalid");
         }
 
         switch (isystyp)
@@ -110,7 +110,7 @@ For internal use only.")
                 systyp = 'P';
                 break;
             default:
-                error ("sltg01jd: argument systyp invalid");
+                error ("__sl_tg01jd__: argument systyp invalid");
         }
 
         int n = a.rows ();      // n: number of states
@@ -191,10 +191,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("dss: minreal: sltg01jd: exception in SLICOT subroutine TG01JD");
+            error ("dss: minreal: __sl_tg01jd__: exception in SLICOT subroutine TG01JD");
             
         if (info != 0)
-            error ("dss: minreal: sltg01jd: TG01JD returned info = %d", info);
+            error ("dss: minreal: __sl_tg01jd__: TG01JD returned info = %d", info);
 
         // resize
         a.resize (nr, nr);

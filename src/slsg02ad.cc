@@ -60,8 +60,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slsg02ad", "control_slicot_functions.oct");    
-DEFUN_DLD (slsg02ad, args, nargout,
+// PKG_ADD: autoload ("__sl_sg02ad__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sg02ad__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SG02AD Release 5.0\n\
 No argument checking.\n\
@@ -181,7 +181,7 @@ For internal use only.")
                   iwarn, info));
 
         if (f77_exception_encountered)
-            error ("are: slsg02ad: exception in SLICOT subroutine SG02AD");
+            error ("are: __sl_sg02ad__: exception in SLICOT subroutine SG02AD");
 
         static const char* err_msg[] = {
             "0: OK",

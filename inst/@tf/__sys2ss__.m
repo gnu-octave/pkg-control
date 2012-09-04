@@ -123,7 +123,7 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
   endfor
 
   tol = min (sqrt (eps), eps*prod (index));
-  [a, b, c, d] = sltd04ad (ucoeff, dcoeff, index, tol);
+  [a, b, c, d] = __sl_td04ad__ (ucoeff, dcoeff, index, tol);
   
 endfunction
 
@@ -144,7 +144,7 @@ function [e2, a2, b2, c2] = __polynomial_tf2ss__ (numq, p, m)
   c2 = horzcat (zeros (p, p*(max_len_numq-1)), -eye (p));
 
   ## remove uncontrollable part
-  [a2, e2, b2, c2] = sltg01jd (a2, e2, b2, c2, 0.0, true, 1, 2);
+  [a2, e2, b2, c2] = __sl_tg01jd__ (a2, e2, b2, c2, 0.0, true, 1, 2);
 
 endfunction
 

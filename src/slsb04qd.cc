@@ -44,8 +44,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb04qd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb04qd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb04qd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb04qd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB04QD Release 5.0\n\
 No argument checking.\n\
@@ -98,10 +98,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("dlyap: slsb04qd: exception in SLICOT subroutine SB04QD");
+            error ("dlyap: __sl_sb04qd__: exception in SLICOT subroutine SB04QD");
 
         if (info != 0)
-            error ("dlyap: slsb04qd: SB04QD returned info = %d", info);
+            error ("dlyap: __sl_sb04qd__: SB04QD returned info = %d", info);
         
         // return values
         retval(0) = c;

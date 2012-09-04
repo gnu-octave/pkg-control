@@ -59,8 +59,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slab09jd", "control_slicot_functions.oct");         
-DEFUN_DLD (slab09jd, args, nargout,
+// PKG_ADD: autoload ("__sl_ab09jd__", "__control_slicot_functions__.oct");         
+DEFUN_DLD (__sl_ab09jd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09JD Release 5.0\n\
 No argument checking.\n\
@@ -128,7 +128,7 @@ For internal use only.")
                 jobv = 'R';
                 break;
             default:
-                error ("slab09jd: argument jobv invalid");
+                error ("__sl_ab09jd__: argument jobv invalid");
         }
 
         switch (ijobw)
@@ -149,7 +149,7 @@ For internal use only.")
                 jobw = 'R';
                 break;
             default:
-                error ("slab09jd: argument jobw invalid");
+                error ("__sl_ab09jd__: argument jobw invalid");
         }
             
         switch (ijobinv)
@@ -164,7 +164,7 @@ For internal use only.")
                 jobinv = 'A';
                 break;
             default:
-                error ("slab09jd: argument jobinv invalid");
+                error ("__sl_ab09jd__: argument jobinv invalid");
         }
 
         if (idico == 0)

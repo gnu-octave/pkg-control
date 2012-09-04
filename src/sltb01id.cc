@@ -44,8 +44,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltb01id", "control_slicot_functions.oct");    
-DEFUN_DLD (sltb01id, args, nargout,
+// PKG_ADD: autoload ("__sl_tb01id__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tb01id__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot TB01ID Release 5.0\n\
 No argument checking.\n\
@@ -97,10 +97,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("ss: prescale: sltb01id: exception in SLICOT subroutine TB01ID");
+            error ("ss: prescale: __sl_tb01id__: exception in SLICOT subroutine TB01ID");
             
         if (info != 0)
-            error ("ss: prescale: sltb01id: TB01ID returned info = %d", info);
+            error ("ss: prescale: __sl_tb01id__: TB01ID returned info = %d", info);
 
 
         // return values

@@ -62,7 +62,7 @@ function [x, scale] = dlyap (a, b, c, e)
                 inputname (1), inputname (2));
       endif
 
-      [x, scale] = slsb03md (a, -b, true);     # AXA' - X = -B
+      [x, scale] = __sl_sb03md__ (a, -b, true);     # AXA' - X = -B
   
       ## x /= scale;                           # 0 < scale <= 1
   
@@ -80,7 +80,7 @@ function [x, scale] = dlyap (a, b, c, e)
                 rows (a), columns (b), inputname (3));
       endif
 
-      x = slsb04qd (-a, b, c);                 # AXB' - X = -C
+      x = __sl_sb04qd__ (-a, b, c);                 # AXB' - X = -C
 
     case 4                                     # generalized Lyapunov equation
           
@@ -106,7 +106,7 @@ function [x, scale] = dlyap (a, b, c, e)
                 inputname (2));
       endif
 
-      [x, scale] = slsg03ad (a, e, -b, true);  # AXA' - EXE' = -B
+      [x, scale] = __sl_sg03ad__ (a, e, -b, true);  # AXA' - EXE' = -B
       
       ## x /= scale;                           # 0 < scale <= 1
 

@@ -50,8 +50,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb10yd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsb10yd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb10yd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sb10yd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB10YD Release 5.0\n\
 No argument checking.\n\
@@ -143,10 +143,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("fitfrd: slsb10yd: exception in SLICOT subroutine SB10YD");
+            error ("fitfrd: __sl_sb10yd__: exception in SLICOT subroutine SB10YD");
             
         if (info != 0)
-            error ("fitfrd: slsb10yd: SB10YD returned info = %d", info);
+            error ("fitfrd: __sl_sb10yd__: SB10YD returned info = %d", info);
         
         // return values
         retval(0) = a;

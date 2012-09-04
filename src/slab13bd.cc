@@ -47,8 +47,8 @@ extern "C"
                      int& INFO);
 }
 
-// PKG_ADD: autoload ("slab13bd", "control_slicot_functions.oct");    
-DEFUN_DLD (slab13bd, args, nargout,
+// PKG_ADD: autoload ("__sl_ab13bd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab13bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13BD Release 5.\n\
 No argument checking.\n\
@@ -120,13 +120,13 @@ For internal use only.")
                          info);
 
         if (f77_exception_encountered)
-            error ("lti: norm: slab13bd: exception in SLICOT subroutine AB13BD");
+            error ("lti: norm: __sl_ab13bd__: exception in SLICOT subroutine AB13BD");
             
         if (info != 0)
-            error ("lti: norm: slab13bd: AB13BD returned info = %d", info);
+            error ("lti: norm: __sl_ab13bd__: AB13BD returned info = %d", info);
 
         if (iwarn != 0)
-            warning ("lti: norm: slab13bd: AB13BD returned iwarn = %d", iwarn);
+            warning ("lti: norm: __sl_ab13bd__: AB13BD returned iwarn = %d", iwarn);
         
         // return value
         retval(0) = octave_value (norm);

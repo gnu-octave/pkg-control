@@ -51,8 +51,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("sltg01id", "control_slicot_functions.oct");    
-DEFUN_DLD (sltg01id, args, nargout, "Slicot TG01ID Release 5.0")
+// PKG_ADD: autoload ("__sl_tg01id__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_tg01id__, args, nargout, "Slicot TG01ID Release 5.0")
 {
     int nargin = args.length ();
     octave_value_list retval;
@@ -126,10 +126,10 @@ DEFUN_DLD (sltg01id, args, nargout, "Slicot TG01ID Release 5.0")
                   info));
 
         if (f77_exception_encountered)
-            error ("sltg01id: exception in SLICOT subroutine TG01ID");
+            error ("__sl_tg01id__: exception in SLICOT subroutine TG01ID");
             
         if (info != 0)
-            error ("sltg01id: TG01ID returned info = %d", info);
+            error ("__sl_tg01id__: TG01ID returned info = %d", info);
 
         // resize
         a.resize (n, n);

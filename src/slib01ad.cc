@@ -50,8 +50,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slib01ad", "control_slicot_functions.oct");
-DEFUN_DLD (slib01ad, args, nargout,
+// PKG_ADD: autoload ("__sl_ib01ad__", "__control_slicot_functions__.oct");
+DEFUN_DLD (__sl_ib01ad__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot IB01AD Release 5.0\n\
 No argument checking.\n\
@@ -111,7 +111,7 @@ For internal use only.")
                 meth_b = 'C';
                 break;
             default:
-                error ("slib01ad: argument 'meth' invalid");
+                error ("__sl_ib01ad__: argument 'meth' invalid");
         }
 
         switch (ialg)
@@ -126,7 +126,7 @@ For internal use only.")
                 alg = 'Q';
                 break;
             default:
-                error ("slib01ad: argument 'alg' invalid");
+                error ("__sl_ib01ad__: argument 'alg' invalid");
         }
 
         if (meth_a == 'M')
@@ -159,7 +159,7 @@ For internal use only.")
         else if (meth_a == 'N' || (meth_a == 'M' && jobd == 'N'))
             ldr = 2*(m+l)*nobr;
         else
-            error ("slib01ad: could not handle 'ldr' case");
+            error ("__sl_ib01ad__: could not handle 'ldr' case");
         
         Matrix r (ldr, 2*(m+l)*nobr);
         ColumnVector sv (l*nobr);
@@ -190,12 +190,12 @@ For internal use only.")
             if (batch == 'O')
             {
                 if (nsmp < 2*(m+l+1)*nobr - 1)
-                    error ("slident: require NSMP >= 2*(M+L+1)*NOBR - 1");
+                    error ("__sl_ident__: require NSMP >= 2*(M+L+1)*NOBR - 1");
             }
             else
             {
                 if (nsmp < 2*nobr)
-                    error ("slident: require NSMP >= 2*NOBR");
+                    error ("__sl_ident__: require NSMP >= 2*NOBR");
             }
         
             int ldu;

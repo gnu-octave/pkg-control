@@ -61,8 +61,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slab09id", "control_slicot_functions.oct");    
-DEFUN_DLD (slab09id, args, nargout,
+// PKG_ADD: autoload ("__sl_ab09id__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab09id__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB09ID Release 5.0\n\
 No argument checking.\n\
@@ -157,7 +157,7 @@ For internal use only.")
                 job = 'P';
                 break;
             default:
-                error ("slab09id: argument job invalid");
+                error ("__sl_ab09id__: argument job invalid");
         }
 
         switch (iweight)
@@ -175,7 +175,7 @@ For internal use only.")
                 weight = 'B';
                 break;
             default:
-                error ("slab09id: argument weight invalid");
+                error ("__sl_ab09id__: argument weight invalid");
         }
 
         int n = a.rows ();      // n: number of states

@@ -48,8 +48,8 @@ extern "C"
                   int& IWARN, int& INFO);
 }
 
-// PKG_ADD: autoload ("slsb01bd", "control_slicot_functions.oct");     
-DEFUN_DLD (slsb01bd, args, nargout,
+// PKG_ADD: autoload ("__sl_sb01bd__", "__control_slicot_functions__.oct");     
+DEFUN_DLD (__sl_sb01bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SB01BD Release 5.0\n\
 No argument checking.\n\
@@ -123,7 +123,7 @@ For internal use only.")
                   iwarn, info));
 
         if (f77_exception_encountered)
-            error ("place: slsb01bd: exception in SLICOT subroutine SB01BD");
+            error ("place: __sl_sb01bd__: exception in SLICOT subroutine SB01BD");
             
         static const char* err_msg[] = {
             "0: OK",

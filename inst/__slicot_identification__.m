@@ -153,7 +153,7 @@ function [sys, x0, info] = __slicot_identification__ (method, nout, dat, varargi
 
   if (nout == 0)
     ## compute singular values
-    [sv, nrec] = slib01ad (dat.y, dat.u, nobr, n, meth, alg, conct, ctrl, rcond, tol);
+    [sv, nrec] = __sl_ib01ad__ (dat.y, dat.u, nobr, n, meth, alg, conct, ctrl, rcond, tol);
 
     ## there is no 'logbar' function
     svl = log10 (sv);
@@ -170,7 +170,7 @@ function [sys, x0, info] = __slicot_identification__ (method, nout, dat, varargi
     grid on
   else
     ## perform system identification
-    [a, b, c, d, q, ry, s, k, x0] = slident (dat.y, dat.u, nobr, n, meth, alg, conct, ctrl, rcond, tol);
+    [a, b, c, d, q, ry, s, k, x0] = __sl_ident__ (dat.y, dat.u, nobr, n, meth, alg, conct, ctrl, rcond, tol);
 
     ## compute noise variance matrix factor L
     ## L L' = Ry,  e = L v

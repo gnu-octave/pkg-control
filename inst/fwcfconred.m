@@ -225,8 +225,8 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
   endif
 
   ## perform model order reduction
-  [acr, bcr, ccr, ncr, hsv] = slsb16cd (a, b, c, d, dt, ncr, ordsel, jobd, jobmr, \
-                                        F, L, jobcf, tol1);
+  [acr, bcr, ccr, ncr, hsv] = __sl_sb16cd__ (a, b, c, d, dt, ncr, ordsel, jobd, jobmr, \
+                                             F, L, jobcf, tol1);
 
   ## assemble reduced order controller
   Kr = ss (acr, bcr, ccr, [], tsam);

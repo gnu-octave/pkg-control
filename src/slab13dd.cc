@@ -51,8 +51,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slab13dd", "control_slicot_functions.oct");    
-DEFUN_DLD (slab13dd, args, nargout,
+// PKG_ADD: autoload ("__sl_ab13dd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab13dd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13DD Release 5.0\n\
 No argument checking.\n\
@@ -145,10 +145,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("lti: norm: slab13dd: exception in SLICOT subroutine AB13DD");
+            error ("lti: norm: __sl_ab13dd__: exception in SLICOT subroutine AB13DD");
             
         if (info != 0)
-            error ("lti: norm: slab13dd: AB13DD returned info = %d", info);
+            error ("lti: norm: __sl_ab13dd__: AB13DD returned info = %d", info);
         
         // return values
         retval(0) = fpeak;

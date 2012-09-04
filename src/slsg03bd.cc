@@ -48,8 +48,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slsg03bd", "control_slicot_functions.oct");    
-DEFUN_DLD (slsg03bd, args, nargout,
+// PKG_ADD: autoload ("__sl_sg03bd__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_sg03bd__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot SG03BD Release 5.0\n\
 No argument checking.\n\
@@ -125,10 +125,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("lyap: slsg03bd: exception in SLICOT subroutine SG03BD");
+            error ("lyap: __sl_sg03bd__: exception in SLICOT subroutine SG03BD");
 
         if (info != 0)
-            error ("lyap: slsg03bd: SG03BD returned info = %d", info);
+            error ("lyap: __sl_sg03bd__: SG03BD returned info = %d", info);
 
         // resize
         b.resize (n, n);

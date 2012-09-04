@@ -110,11 +110,11 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   ## synthesis
   if (isct (Gs))               # continuous-time
-    [ak, bk, ck, dk, rcond] = slsb10id (a, b, c, d, factor);
+    [ak, bk, ck, dk, rcond] = __sl_sb10id__ (a, b, c, d, factor);
   elseif (any (d(:)))          # discrete-time, d != 0
-    [ak, bk, ck, dk, rcond] = slsb10zd (a, b, c, d, factor, 0.0);
+    [ak, bk, ck, dk, rcond] = __sl_sb10zd__ (a, b, c, d, factor, 0.0);
   else                         # discrete-time, d == 0
-    [ak, bk, ck, dk, rcond] = slsb10kd (a, b, c, factor);
+    [ak, bk, ck, dk, rcond] = __sl_sb10kd__ (a, b, c, factor);
   endif
 
   ## controller
@@ -198,7 +198,7 @@ endfunction
 %!    
 %! FACTOR = 1.0;
 %!
-%! [AK, BK, CK, DK, RCOND] = slsb10id (A, B, C, D, FACTOR);
+%! [AK, BK, CK, DK, RCOND] = __sl_sb10id__ (A, B, C, D, FACTOR);
 %!
 %! AKe = [ -39.0671    9.9293   22.2322  -27.4113   43.8655
 %!          -6.6117    3.0006   11.0878  -11.4130   15.4269
@@ -304,7 +304,7 @@ endfunction
 %!    
 %! FACTOR = 1.1;
 %!
-%! [AK, BK, CK, DK, RCOND] = slsb10kd (A, B, C, FACTOR);
+%! [AK, BK, CK, DK, RCOND] = __sl_sb10kd__ (A, B, C, FACTOR);
 %!
 %! AKe = [  0.0337   0.0222   0.0858   0.1264  -0.1872   0.1547
 %!          0.4457   0.0668  -0.2255  -0.3204  -0.4548  -0.0691
@@ -414,7 +414,7 @@ endfunction
 %!    
 %! FACTOR = 1.1;
 %!
-%! [AK, BK, CK, DK, RCOND] = slsb10zd (A, B, C, D, FACTOR, 0.0);
+%! [AK, BK, CK, DK, RCOND] = __sl_sb10zd__ (A, B, C, D, FACTOR, 0.0);
 %!
 %! AKe = [  1.0128   0.5101  -0.1546   1.1300   3.3759   0.4911
 %!         -2.1257  -1.4517  -0.4486   0.3493  -1.5506  -1.4296

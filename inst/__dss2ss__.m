@@ -29,7 +29,7 @@ function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
   elseif (rcond (e) < eps)  # check for singularity
     error ("ss: dss2ss: descriptor matrice 'e' singular");
   else
-    [a, b, c, d] = slsb10jd (a, b, c, d, e);
+    [a, b, c, d] = __sl_sb10jd__ (a, b, c, d, e);
     e = [];
   endif
 

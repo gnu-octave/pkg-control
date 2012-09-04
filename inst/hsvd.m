@@ -62,7 +62,7 @@ function hsv_r = hsvd (sys, prop = "offset", val = 1e-8)
       error ("hsvd: second argument invalid");
   endswitch
   
-  [hsv, ns] = slab13ad (a, b, c, discrete, alpha, scaled);
+  [hsv, ns] = __sl_ab13ad__ (a, b, c, discrete, alpha, scaled);
   
   if (nargout)
     hsv_r = hsv;

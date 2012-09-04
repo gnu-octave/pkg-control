@@ -136,7 +136,7 @@ function [f, info] = place (a, b, p = [], alpha = [], tol = [])
     tol = 0;
   endif
 
-  [f, nfp, nap, nup, z] = slsb01bd (a, b, wr, wi, discrete, alpha, tol);
+  [f, nfp, nap, nup, z] = __sl_sb01bd__ (a, b, wr, wi, discrete, alpha, tol);
   f = -f;                          # A + B*F --> A - B*F
 
   info = struct ("nfp", nfp, "nap", nap, "nup", nup, "z", z);

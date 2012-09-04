@@ -81,7 +81,7 @@ function [sys, n] = fitfrd (dat, n, flag = 0)
     error ("fitfrd: require n <= length (dat.w)");
   endif
   
-  [a, b, c, d, n] = slsb10yd (real (H), imag (H), w, n, dt, logical (flag));
+  [a, b, c, d, n] = __sl_sb10yd__ (real (H), imag (H), w, n, dt, logical (flag));
   
   sys = ss (a, b, c, d, tsam);
 

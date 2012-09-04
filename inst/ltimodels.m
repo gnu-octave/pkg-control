@@ -128,7 +128,7 @@ endfunction
 %! A = A.';  # There's a little mistake in the example
 %!           # program of routine AB01OD in SLICOT 5.0
 %!
-%! [Ac, Bc, U, ncont] = slab01od (A, B, tol);
+%! [Ac, Bc, U, ncont] = __sl_ab01od__ (A, B, tol);
 %!
 %! Ace = [ 12.8848   3.2345  11.8211   3.3758  -0.8982
 %!          4.4741 -12.5544   5.3509   5.9403   1.4360
@@ -178,7 +178,7 @@ endfunction
 %!
 %! tol = 0;
 %!
-%! [ac, ec, bc, cc, q, z, ncont] = sltg01hd (a, e, b, c, tol);
+%! [ac, ec, bc, cc, q, z, ncont] = __sl_tg01hd__ (a, e, b, c, tol);
 %!
 %! ncont_e = 3;
 %!
@@ -267,7 +267,7 @@ endfunction
 %!
 %! tol = 0;
 %!
-%! [ao, eo, bo, co, q, z, nobsv] = sltg01id (a, e, b, c, tol);
+%! [ao, eo, bo, co, q, z, nobsv] = __sl_tg01id__ (a, e, b, c, tol);
 %!
 %! nobsv_e = 3;
 %!
@@ -391,7 +391,7 @@ endfunction
 %! UCOEFF(2,1,:) = u21;
 %! UCOEFF(2,2,:) = u22;
 %!
-%! [Ao, Bo, Co, Do] = sltd04ad (UCOEFF, DCOEFF, INDEX, 0);
+%! [Ao, Bo, Co, Do] = __sl_td04ad__ (UCOEFF, DCOEFF, INDEX, 0);
 %!
 %! Ae = [  0.5000  -0.8028   0.9387
 %!         4.4047  -2.3380   2.5076

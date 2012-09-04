@@ -42,7 +42,7 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
         beta = 2/tsam;
       endif
       if (isempty (sys.e))
-        [sys.a, sys.b, sys.c, sys.d] = slab04md (sys.a, sys.b, sys.c, sys.d, 1, beta, true);
+        [sys.a, sys.b, sys.c, sys.d] = __sl_ab04md__ (sys.a, sys.b, sys.c, sys.d, 1, beta, true);
       else
         [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, true);
       endif

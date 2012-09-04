@@ -80,7 +80,7 @@ function [ac, bc, cc, z, ncont] = ctrbf (a, b = [], c, tol = [])
     error ("ctrbf: tol must be a real scalar");
   endif
 
-  [ac, bc, cc, z, ncont] = sltb01ud (a, b, c, tol);
+  [ac, bc, cc, z, ncont] = __sl_tb01ud__ (a, b, c, tol);
   
   if (islti)
     ac = set (sys, "a", ac, "b", bc, "c", cc, "scaled", false);

@@ -46,8 +46,8 @@ extern "C"
                   int& INFO);
 }
 
-// PKG_ADD: autoload ("slab13ad", "control_slicot_functions.oct");    
-DEFUN_DLD (slab13ad, args, nargout,
+// PKG_ADD: autoload ("__sl_ab13ad__", "__control_slicot_functions__.oct");    
+DEFUN_DLD (__sl_ab13ad__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot AB13AD Release 5.0\n\
 No argument checking.\n\
@@ -120,10 +120,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("hsvd: slab13ad: exception in SLICOT subroutine AB13AD");
+            error ("hsvd: __sl_ab13ad__: exception in SLICOT subroutine AB13AD");
             
         if (info != 0)
-            error ("hsvd: slab13ad: AB13AD returned info = %d", info);
+            error ("hsvd: __sl_ab13ad__: AB13AD returned info = %d", info);
 
         // resize
         hsv.resize (ns);

@@ -159,7 +159,7 @@ function [Gr, info] = __modred_ab09id__ (method, varargin)
   
   
   ## perform model order reduction
-  [ar, br, cr, dr, nr, hsv, ns] = slab09id (a, b, c, d, dt, equil, nr, ordsel, alpha, job, \
+  [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09id__ (a, b, c, d, dt, equil, nr, ordsel, alpha, job, \
                                             av, bv, cv, dv, \
                                             aw, bw, cw, dw, \
                                             weight, jobc, jobo, alphac, alphao, \

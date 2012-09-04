@@ -159,18 +159,18 @@ function [x, l, g] = dare (a, b, q, r, s = [], e = [])
   ## solve the riccati equation
   if (isempty (e))
     if (isempty (s))
-      [x, l] = slsb02od (a, b, q, r, b, true, false);
+      [x, l] = __sl_sb02od__ (a, b, q, r, b, true, false);
       g = (r + b.'*x*b) \ (b.'*x*a);        # gain matrix
     else
-      [x, l] = slsb02od (a, b, q, r, s, true, true);
+      [x, l] = __sl_sb02od__ (a, b, q, r, s, true, true);
       g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix
     endif
   else
     if (isempty (s))
-      [x, l] = slsg02ad (a, e, b, q, r, b, true, false);
+      [x, l] = __sl_sg02ad__ (a, e, b, q, r, b, true, false);
       g = (r + b.'*x*b) \ (b.'*x*a);        # gain matrix
     else
-      [x, l] = slsg02ad (a, e, b, q, r, s, true, true);
+      [x, l] = __sl_sg02ad__ (a, e, b, q, r, s, true, true);
       g = (r + b.'*x*b) \ (b.'*x*a + s.');  # gain matrix
     endif
   endif

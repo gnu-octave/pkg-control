@@ -4,7 +4,7 @@ minreal (Pi)
 
 %{
  ** On entry to TG01JD parameter number 20 had an illegal value
-error: sltg01jd: exception encountered in Fortran subroutine tg01jd_
+error: __sl_tg01jd__: exception encountered in Fortran subroutine tg01jd_
 error: called from:
 error:   /Users/lukas/control/inst/@ss/__minreal__.m at line 39, column 19
 error:   /Users/lukas/control/inst/@lti/minreal.m at line 38, column 7

@@ -45,14 +45,14 @@
 
 
 // stub function to avoid gen_doc_cache warning upon package installation
-DEFUN_DLD (control_slicot_functions, args, nargout,
+DEFUN_DLD (__control_slicot_functions__, args, nargout,
    "-*- texinfo -*-\n\
 Slicot Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
     octave_value_list retval;
-    error ("control_slicot_functions: for internal use only");
+    error ("__control_slicot_functions__: for internal use only");
     return retval;
 }
 
