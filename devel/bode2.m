@@ -59,22 +59,30 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
 %  endif
 
   [H, w] = __frequency_response_2__ (false, 0, "std", false, varargin{:});
-
-  H = reshape (H, [], 1);
-  mag = abs (H);
-  pha = unwrap (arg (H)) * 180 / pi;
+  
+  H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  mag = cellfun (@abs, H, "uniformoutput", false);
+  pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = 20 * log10 (mag);
+    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
 
-    if (isct (sys))
+    w_cell = repmat ({w}, 1, numel (H));
+    
+    mag_args = vertcat (w_cell, mag_db)(:);
+    pha_args = vertcat (w_cell, pha)(:);
+
+    %mag_args = cellfun (@horzcat, {w}, mag_db, "uniformoutput", false);
+    %pha_args = cellfun (@horzcat, {w}, pha, "uniformoutput", false);
+    
+    %if (isct (sys))
       xl_str = "Frequency [rad/s]";
-    else
-      xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi / get (sys, "tsam"));
-    endif
+    %else
+    %  xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi / get (sys, "tsam"));
+    %endif
 
     subplot (2, 1, 1)
-    semilogx (w, mag_db)
+    semilogx (mag_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
@@ -82,15 +90,15 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)
-    semilogx (w, pha)
+    semilogx (pha_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
     xlabel (xl_str)
     ylabel ("Phase [deg]")
   else
-    mag_r = mag;
-    pha_r = pha;
+    mag_r = mag{1};
+    pha_r = pha{1};
     w_r = w;
   endif
 

@@ -26,21 +26,24 @@
 % function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 function [H, w] = __frequency_response_2__ (mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false, varargin)
 
-  sys_vec = cellfun (@(x) isa (x, "lti"), varargin)  # true or false
-  sys_idx = find (sys_vec)
+  sys_idx = cellfun (@isa, varargin, {"lti"});  # true or false
+  w_idx = cellfun (@is_real_vector, varargin);  # look for frequency vectors
+  % ? = cellfun (@iscell, varargin)
+  % varargin(?)   (end)
 
-  w_vec = cellfun (@is_real_vector, varargin)
-  w_idx = find (w_vec)
 
 %  w_idx(end)
 
-  if (isempty (w_idx))
-    w = __frequency_vector_2__ (wbounds, varargin{sys_idx})
+  if (! any (w_idx))
+    w = __frequency_vector_2__ (varargin(sys_idx), wbounds);
   endif
 
-varargin{sys_idx}
+%varargin{sys_idx}
 
 
+  H = cellfun (@__freqresp__, varargin(sys_idx), {w}, {resptype}, {cellflag}, "uniformoutput", false);
+
+%{
   ## check arguments
   if(! isa (sys, "lti"))
     error ("frequency_response: first argument sys must be an LTI system");
@@ -67,5 +70,7 @@ varargin{sys_idx}
   else
     H = __freqresp__ (sys, w, resptype, cellflag);
   endif
+  
+%}
 
 endfunction

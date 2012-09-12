@@ -37,7 +37,7 @@
 ## Date: October 2009
 ## Version: 0.2
 
-function w = __frequency_vector__ (sys_cell, wbounds = "std")
+function w = __frequency_vector_2__ (sys_cell, wbounds = "std")
 
   if (! iscell (sys_cell))
     sys_cell = {sys_cell}
