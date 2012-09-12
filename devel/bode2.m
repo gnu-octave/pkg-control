@@ -54,9 +54,9 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
 
   ## TODO: multiplot feature:   bode (sys1, "b", sys2, "r", ...)
 
-%  if (nargin == 0 || nargin > 2)
-%    print_usage ();
-%  endif
+  if (nargin == 0)
+    print_usage ();
+  endif
 
   [H, w] = __frequency_response_2__ (false, 0, "std", false, varargin{:});
   
@@ -71,9 +71,6 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
     
     mag_args = vertcat (w_cell, mag_db)(:);
     pha_args = vertcat (w_cell, pha)(:);
-
-    %mag_args = cellfun (@horzcat, {w}, mag_db, "uniformoutput", false);
-    %pha_args = cellfun (@horzcat, {w}, pha, "uniformoutput", false);
     
     %if (isct (sys))
       xl_str = "Frequency [rad/s]";
