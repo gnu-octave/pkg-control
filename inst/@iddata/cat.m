@@ -231,7 +231,7 @@ function bool = compare_strings (str, varargin)
 
   if (nargin > 1)
     ## compare n-th string of first cell with n-th string of remaining cells
-    tmp = cellfun (@(x) strcmp (str, x), varargin, "uniformoutput", false);
+    tmp = cellfun (@strcmp, {str}, varargin, "uniformoutput", false);
     ## check whether all strings of each pair are equal
     tmp = cellfun (@all, tmp);
     ## check whether all pairs are equal

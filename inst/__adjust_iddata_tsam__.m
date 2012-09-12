@@ -34,7 +34,7 @@ function tsam = __adjust_iddata_tsam__ (tsam, e)
     tsam = {tsam};
   endif
 
-  tmp = cellfun (@(x) issample (x, -1), tsam);
+  tmp = cellfun (@issample, tsam, {-1});
   
   if (any (! tmp))
     error ("iddata: invalid sampling time");

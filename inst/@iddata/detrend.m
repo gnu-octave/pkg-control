@@ -40,8 +40,8 @@ function dat = detrend (dat, ord = 0)
 
   [n, p, m] = size (dat);
 
-  dat.y = cellfun (@(y) detrend (y, ord), dat.y, "uniformoutput", false);
-  dat.u = cellfun (@(u) detrend (u, ord), dat.u, "uniformoutput", false);
+  dat.y = cellfun (@detrend, dat.y, {ord}, "uniformoutput", false);
+  dat.u = cellfun (@detrend, dat.u, {ord}, "uniformoutput", false);
 
   ## if a MIMO experiment has only 1 sample, detrend works
   ## row-wisely instead of column-wisely

@@ -66,7 +66,7 @@ function dat = resample (dat, p, q, n = 0)
     error ("iddata: resample: fourth argument invalid");
   endif
 
-  dat.y = cellfun (@(y) resample (y, p, q, h), dat.y, "uniformoutput", false);
-  dat.u = cellfun (@(u) resample (u, p, q, h), dat.u, "uniformoutput", false);
+  dat.y = cellfun (@resample, dat.y, {p}, {q}, {h}, "uniformoutput", false);
+  dat.u = cellfun (@resample, dat.u, {p}, {q}, {h}, "uniformoutput", false);
 
 endfunction
