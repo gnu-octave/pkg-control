@@ -37,7 +37,7 @@
 ## Date: October 2009
 ## Version: 0.2
 
-function w = __frequency_vector_2__ (sys_cell, wbounds = "std")
+function w = __frequency_vector_2__ (sys_cell, wbounds = "std", wmin, wmax)
 
   if (! iscell (sys_cell))
     sys_cell = {sys_cell}
@@ -48,8 +48,16 @@ function w = __frequency_vector_2__ (sys_cell, wbounds = "std")
   
   [dec_min, dec_max, zp] = cellfun (@(x) __frequency_range__ (x, wbounds), sys_cell, "uniformoutput", false);
 
-  dec_min = min (cell2mat (dec_min));
-  dec_max = max (cell2mat (dec_max));
+  if (nargin == 2)
+    dec_min = min (cell2mat (dec_min));
+    dec_max = max (cell2mat (dec_max));
+  elseif (nargin == 4)                       # w = {wmin, wmax}  
+    dec_min = log10 (wmin);
+    dec_max = log10 (wmax);
+  else
+    print_usage ();
+  endif
+
   zp = horzcat (zp{:});
   
   ## include zeros and poles for nice peaks in plots

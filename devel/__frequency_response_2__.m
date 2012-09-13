@@ -24,24 +24,33 @@
 ## Version: 0.4
 
 % function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
-function [H, w] = __frequency_response_2__ (mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false, varargin)
+function [H, w] = __frequency_response_2__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 
-  sys_idx = cellfun (@isa, varargin, {"lti"});  # true or false
-  w_idx = cellfun (@is_real_vector, varargin);  # look for frequency vectors
-  % ? = cellfun (@iscell, varargin)
-  % varargin(?)   (end)
+  sys_idx = cellfun (@isa, args, {"lti"});  # true or false
+  w_idx = cellfun (@is_real_vector, args);  # look for frequency vectors
+  c_idx = cellfun (@iscell, args);
+  % args(?)   (end)
 
 
 %  w_idx(end)
 
-  if (! any (w_idx))
-    w = __frequency_vector_2__ (varargin(sys_idx), wbounds);
+  if (any (c_idx))
+    w = args(c_idx){end};
+    if (numel (w) == 2 && issample (w{1}) && issample (w{2}))
+      w = __frequency_vector_2__ (args(sys_idx), wbounds, w{1}, w{2});
+    else
+      error ("frequency_response: invalid cell");
+    endif
+  elseif (any (w_idx))
+    w = args(w_idx){end};
+  else
+    w = __frequency_vector_2__ (args(sys_idx), wbounds);
   endif
 
-%varargin{sys_idx}
+%args{sys_idx}
 
 
-  H = cellfun (@__freqresp__, varargin(sys_idx), {w}, {resptype}, {cellflag}, "uniformoutput", false);
+  H = cellfun (@__freqresp__, args(sys_idx), {w}, {resptype}, {cellflag}, "uniformoutput", false);
 
 %{
   ## check arguments
