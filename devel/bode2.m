@@ -48,11 +48,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.5
 
 function [mag_r, pha_r, w_r] = bode2 (varargin)
-
-  ## TODO: multiplot feature:   bode (sys1, "b", sys2, "r", ...)
 
   if (nargin == 0)
     print_usage ();
@@ -67,23 +65,23 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
   if (! nargout)
     mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
 
-    %w_cell = repmat ({w}, 1, numel (H));
+    style = repmat ({""}, 1, numel (H));
     
-    mag_args = vertcat (w, mag_db)(:);
-    pha_args = vertcat (w, pha)(:);
-    
-    %if (isct (sys))
-      xl_str = "Frequency [rad/s]";
-    %else
-    %  xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi / get (sys, "tsam"));
-    %endif
+    tmp = cellfun (@ischar, varargin);
+    char_idx = find (tmp);
+    char_idx = char_idx(1:min (numel (H), end));
+
+    style(1:length (char_idx)) = varargin(char_idx);
+
+    mag_args = vertcat (w, mag_db, style)(:);
+    pha_args = vertcat (w, pha, style)(:);
 
     subplot (2, 1, 1)
     semilogx (mag_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title (["Bode Diagram of ", inputname(1)])
+    title ("Bode Diagram")
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)
@@ -91,7 +89,7 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    xlabel (xl_str)
+    xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
   else
     mag_r = mag{1};

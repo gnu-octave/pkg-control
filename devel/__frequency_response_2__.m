@@ -21,10 +21,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.5
 
-% function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 function [H, w] = __frequency_response_2__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
+
+  %if (! iscell (args))
+  %  args = {args};
+  %endif
 
   sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
   w_idx = cellfun (@is_real_vector, args);      # look for frequency vectors
@@ -33,6 +36,12 @@ function [H, w] = __frequency_response_2__ (args, mimoflag = 0, resptype = 0, wb
   sys_cell = args(sys_idx);                     # extract LTI models
   frd_idx = cellfun (@isa, sys_cell, {"frd"});  # look for FRD models
 
+  ## check arguments
+  if (! mimoflag && ! all (cellfun (@issiso, sys_cell)))
+    error ("frequency_response: require SISO systems");
+  endif
+
+  ## determine frequencies
   if (any (r_idx))                              # if there are frequency ranges
     r = args(r_idx){end};                       # take the last one
     if (numel (r) == 2 && issample (r{1}) && issample (r{2}))
@@ -55,10 +64,6 @@ function [H, w] = __frequency_response_2__ (args, mimoflag = 0, resptype = 0, wb
   ## save frequency vectors of FRD models in w
   w_frd = cellfun (@get, sys_cell(frd_idx), {"w"}, "uniformoutput", false);
   w(frd_idx) = w_frd;
-%w
-%w = get (sys, "w");
-
-%args{sys_idx}
 
 %{
   ## check arguments
