@@ -11,7 +11,10 @@ control-2.3.54   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ** sensitivity
    Fixed a problem where an error was raised about an undefined function
    "issiso".
-   
+
+** All SLICOT function names have now leading and trailing underscores to
+   emphasize their private nature.
+
 
 ===============================================================================
 control-2.3.53   Release Date: 2012-08-27   Release Manager: Lukas Reichlin

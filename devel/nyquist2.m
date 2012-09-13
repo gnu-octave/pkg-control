@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,9 +16,9 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
-## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
-## Bode diagram of frequency response.  If no output arguments are given,
+## @deftypefn {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
+## @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
+## Nyquist diagram of frequency response.  If no output arguments are given,
 ## the response is printed on the screen.
 ##
 ## @strong{Inputs}
@@ -35,65 +35,50 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item mag
-## Vector of magnitude.  Has length of frequency vector @var{w}.
-## @item pha
-## Vector of phase.  Has length of frequency vector @var{w}.
+## @item re
+## Vector of real parts.  Has length of frequency vector @var{w}.
+## @item im
+## Vector of imaginary parts.  Has length of frequency vector @var{w}.
 ## @item w
 ## Vector of frequency values used.
 ## @end table
 ##
-## @seealso{nichols, nyquist, sigma}
+## @seealso{bode, nichols, sigma}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.5
+## Version: 0.4
 
-function [mag_r, pha_r, w_r] = bode2 (varargin)
+function [re_r, im_r, w_r] = nyquist2 (varargin)
 
   if (nargin == 0)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response_2__ (varargin, false, 0, "std", false);
-  
+  [H, w] = __frequency_response_2__ (varargin, false, 0, "ext");
+
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
-  mag = cellfun (@abs, H, "uniformoutput", false);
-  pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
+  re = cellfun (@real, H, "uniformoutput", false);
+  im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
+    args = {};
+    for k = 1 : numel (H)
+      args = cat (2, args, re{k}, im{k}, "-", re{k}, -im{k}, "-.");
+    endfor
 
-    style = repmat ({""}, 1, numel (H));
-    
-    tmp = cellfun (@ischar, varargin);
-    char_idx = find (tmp);
-    char_idx = char_idx(1:min (numel (H), end));
-
-    style(1:length (char_idx)) = varargin(char_idx);
-
-    mag_args = vertcat (w, mag_db, style)(:);
-    pha_args = vertcat (w, pha, style)(:);
-
-    subplot (2, 1, 1)
-    semilogx (mag_args{:})
+    plot (args{:})
     axis ("tight")
+    xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title ("Bode Diagram")
-    ylabel ("Magnitude [dB]")
-
-    subplot (2, 1, 2)
-    semilogx (pha_args{:})
-    axis ("tight")
-    ylim (__axis_margin__ (ylim))
-    grid ("on")
-    xlabel ("Frequency [rad/s]")
-    ylabel ("Phase [deg]")
+    title ("Nyquist Diagram")
+    xlabel ("Real Axis")
+    ylabel ("Imaginary Axis")
   else
-    mag_r = mag{1};
-    pha_r = pha{1};
+    re_r = re{1};
+    im_r = im{1};
     w_r = w{1};
   endif
 
