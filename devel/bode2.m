@@ -67,10 +67,10 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
   if (! nargout)
     mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
 
-    w_cell = repmat ({w}, 1, numel (H));
+    %w_cell = repmat ({w}, 1, numel (H));
     
-    mag_args = vertcat (w_cell, mag_db)(:);
-    pha_args = vertcat (w_cell, pha)(:);
+    mag_args = vertcat (w, mag_db)(:);
+    pha_args = vertcat (w, pha)(:);
     
     %if (isct (sys))
       xl_str = "Frequency [rad/s]";

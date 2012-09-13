@@ -26,31 +26,39 @@
 % function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 function [H, w] = __frequency_response_2__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 
-  sys_idx = cellfun (@isa, args, {"lti"});  # true or false
-  w_idx = cellfun (@is_real_vector, args);  # look for frequency vectors
-  c_idx = cellfun (@iscell, args);
-  % args(?)   (end)
+  sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
+  w_idx = cellfun (@is_real_vector, args);      # look for frequency vectors
+  r_idx = cellfun (@iscell, args);              # look for frequency ranges {wmin, wmax}
+  
+  sys_cell = args(sys_idx);                     # extract LTI models
+  frd_idx = cellfun (@isa, sys_cell, {"frd"});  # look for FRD models
 
-
-%  w_idx(end)
-
-  if (any (c_idx))
-    w = args(c_idx){end};
-    if (numel (w) == 2 && issample (w{1}) && issample (w{2}))
-      w = __frequency_vector_2__ (args(sys_idx), wbounds, w{1}, w{2});
+  if (any (r_idx))                              # if there are frequency ranges
+    r = args(r_idx){end};                       # take the last one
+    if (numel (r) == 2 && issample (r{1}) && issample (r{2}))
+      w = __frequency_vector_2__ (sys_cell, wbounds, r{1}, r{2});
     else
       error ("frequency_response: invalid cell");
     endif
-  elseif (any (w_idx))
+  elseif (any (w_idx))                          # are there any frequency vectors?
     w = args(w_idx){end};
-  else
-    w = __frequency_vector_2__ (args(sys_idx), wbounds);
+  else                                          # there are neither frequency ranges nor vectors
+    w = __frequency_vector_2__ (sys_cell, wbounds);
   endif
 
+  w = repmat ({w}, 1, numel (sys_cell));        # return cell of frequency vectors
+  w(frd_idx) = {[]};                            # freqresp returns all frequencies of FRD models for w=[]
+
+  ## compute frequency response H for all LTI models
+  H = cellfun (@__freqresp__, sys_cell, w, {resptype}, {cellflag}, "uniformoutput", false);
+
+  ## save frequency vectors of FRD models in w
+  w_frd = cellfun (@get, sys_cell(frd_idx), {"w"}, "uniformoutput", false);
+  w(frd_idx) = w_frd;
+%w
+%w = get (sys, "w");
+
 %args{sys_idx}
-
-
-  H = cellfun (@__freqresp__, args(sys_idx), {w}, {resptype}, {cellflag}, "uniformoutput", false);
 
 %{
   ## check arguments

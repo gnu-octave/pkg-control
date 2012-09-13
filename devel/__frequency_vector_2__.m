@@ -46,7 +46,7 @@ function w = __frequency_vector_2__ (sys_cell, wbounds = "std", wmin, wmax)
   idx = cellfun (@(x) isa (x, "lti"), sys_cell);
   sys_cell = sys_cell(idx);
   
-  [dec_min, dec_max, zp] = cellfun (@(x) __frequency_range__ (x, wbounds), sys_cell, "uniformoutput", false);
+  [dec_min, dec_max, zp] = cellfun (@__frequency_range__, sys_cell, {wbounds}, "uniformoutput", false);
 
   if (nargin == 2)
     dec_min = min (cell2mat (dec_min));
@@ -78,6 +78,14 @@ endfunction
 
 function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
 
+  if (isa (sys, "frd"))
+    w = get (sys, "w");
+    dec_min = log10 (w(1));
+    dec_max = log10 (w(end));
+    zp = [];
+    return;
+  endif
+    
   zer = zero (sys);
   pol = pole (sys);
   tsam = abs (get (sys, "tsam"));        # tsam could be -1
