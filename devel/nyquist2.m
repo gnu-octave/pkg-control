@@ -63,12 +63,19 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
   im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
-    args = {};
-    for k = 1 : numel (H)
-      args = cat (2, args, re{k}, im{k}, "-", re{k}, -im{k}, "-.");
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
+
+    len = numel (H);  
+    plot_args = {};
+    legend_args = cell (len, 1);
+    
+    for k = 1:len
+      plot_args = cat (2, plot_args, re{k}, im{k}, "-", re{k}, -im{k}, "-.");
+      legend_args{k} = inputname(sys_idx(k));
     endfor
 
-    plot (args{:})
+    h = plot (plot_args{:});
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
@@ -76,6 +83,7 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
     title ("Nyquist Diagram")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+    legend (h(1:2:2*len), legend_args)
   else
     re_r = re{1};
     im_r = im{1};
