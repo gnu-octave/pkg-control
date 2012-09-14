@@ -86,17 +86,27 @@ resptype = 0;
     len = numel (H);  
     plot_args = {};
     legend_args = cell (len, 1);
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
 
     for k = 1:len
+      col = colororder(1+rem (k-1, rc), :);
       if (k == len)
         lim = nargin;
       else
         lim = sys_idx(k+1);
       endif
       style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      plot_args = cat (2, plot_args, w(k), sv_db(k), style);
+      if (isempty (style))
+        plot_args = cat (2, plot_args, w(k), sv_db(k), {"-", "color", col});
+      else
+        plot_args = cat (2, plot_args, w(k), sv_db(k), style);
+      endif
       legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
     endfor
+
+    ## FIXME: legend color is mostly blue if the first system is MIMO
+    ##        maybe we can plot each line of sv individually
 
     ## plot results
     semilogx (plot_args{:})
