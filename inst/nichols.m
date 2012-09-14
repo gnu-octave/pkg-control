@@ -48,37 +48,56 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.5
 
-function [mag_r, pha_r, w_r] = nichols (sys, w = [])
+function [mag_r, pha_r, w_r] = nichols (varargin)
 
-  ## TODO: multiplot feature:   nichols (sys1, "b", sys2, "r", ...)
-
-  if (nargin == 0 || nargin > 2)
+  if (nargin == 0)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (sys, w, false, 0, "ext");
+  [H, w] = __frequency_response__ (varargin, false, 0, "ext");
 
-  H = reshape (H, [], 1);
-  mag = abs (H);
-  pha = unwrap (arg (H)) * 180 / pi;
+  H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  mag = cellfun (@abs, H, "uniformoutput", false);
+  pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = 20 * log10 (mag);
+    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
     
-    plot (pha, mag_db)
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
+
+    len = numel (H);  
+    plot_args = {};
+    legend_args = cell (len, 1);
+
+    for k = 1:len
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      plot_args = cat (2, plot_args, pha(k), mag_db(k), style);
+      legend_args{k} = inputname(sys_idx(k));  # watch out for nichols (lticell{:})
+    endfor
+
+    plot (plot_args{:})
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title (["Nichols Chart of ", inputname(1)])
+    title ("Nichols Chart")
     xlabel ("Phase [deg]")
     ylabel ("Magnitude [dB]")
+    legend (legend_args)
   else
-    mag_r = mag;
-    pha_r = pha;
-    w_r = w;
+    mag_r = mag{1};
+    pha_r = pha{1};
+    w_r = w{1};
   endif
 
 endfunction
