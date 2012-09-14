@@ -17,4 +17,5 @@ nyquist2 (C_AH, C_opt)
 
 
 figure (5)
-nyquist2 (C_AH, "r-", C_opt, "b:")
+nyquist2 (C_AH, "xr", C_opt, "ob")
+legend ("Test C_AH", "Test C_opt")
