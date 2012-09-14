@@ -46,40 +46,53 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.5
 
-function [mag_r, w_r] = bodemag (sys, w = [])
+function [mag_r, w_r] = bodemag (varargin)
 
-  ## TODO: multiplot feature:   bodemag (sys1, "b", sys2, "r", ...)
-
-  if (nargin == 0 || nargin > 2)
+  if (nargin == 0)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (sys, w, false, 0, "std");
+  [H, w] = __frequency_response__ (varargin, false, 0, "std");
 
-  H = reshape (H, [], 1);
-  mag = abs (H);
+  H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  mag = cellfun (@abs, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = 20 * log10 (mag);
+    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
 
-    if (isct (sys))
-      xl_str = "Frequency [rad/s]";
-    else
-      xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi / get (sys, "tsam"));
-    endif
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
 
-    semilogx (w, mag_db)
+    len = numel (H);  
+    mag_args = {};
+    legend_args = cell (len, 1);
+
+    for k = 1:len
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      mag_args = cat (2, mag_args, w(k), mag_db(k), style);
+      legend_args{k} = inputname(sys_idx(k));  # watch out for bode (lticell{:})
+    endfor
+
+    semilogx (mag_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title (["Bode Magnitude Diagram of ", inputname(1)])
-    xlabel (xl_str)
+    title ("Bode Magnitude Diagram")
+    xlabel ("Frequency [rad/s]")
     ylabel ("Magnitude [dB]")
+    legend (legend_args)
   else
-    mag_r = mag;
-    w_r = w;
+    mag_r = mag{1};
+    w_r = w{1};
   endif
 
 endfunction
