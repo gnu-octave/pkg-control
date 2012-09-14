@@ -65,17 +65,24 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
   if (! nargout)
     tmp = cellfun (@isa, varargin, {"lti"});
     sys_idx = find (tmp);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
 
     len = numel (H);  
-    plot_args = {};
+    plot_args_pos = {};
+    plot_args_neg = {};
     legend_args = cell (len, 1);
-    
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+
     for k = 1:len
-      plot_args = cat (2, plot_args, re{k}, im{k}, "-", re{k}, -im{k}, "-.");
+      col = colororder(1+rem (k-1, rc), :);
+      plot_args_pos = cat (2, plot_args_pos, re{k}, im{k}, {"-", "color", col});
+      plot_args_neg = cat (2, plot_args_neg, re{k}, -im{k}, {"-.", "color", col});
       legend_args{k} = inputname(sys_idx(k));
     endfor
 
-    h = plot (plot_args{:});
+    h = plot (plot_args_pos{:}, plot_args_neg{:});
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
@@ -83,7 +90,8 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
     title ("Nyquist Diagram")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
-    legend (h(1:2:2*len), legend_args)
+    legend (h(1:len), legend_args)
+    % legend (h(1:2:2*len), legend_args)
   else
     re_r = re{1};
     im_r = im{1};
