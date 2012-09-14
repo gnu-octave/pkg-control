@@ -42,7 +42,7 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
   isc = iscell (sys_cell);
 
   if (! isc)                                    # __sys2frd__ methods pass LTI models not in cells
-    sys_cell = {sys_cell}
+    sys_cell = {sys_cell};
   endif
 
   idx = cellfun (@(x) isa (x, "lti"), sys_cell);
@@ -53,14 +53,12 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
 
   if (strcmpi (wbounds, "std"))                 # plots with explicit frequencies
 
-    if (nargin == 2)
-      dec_min = min (cell2mat (dec_min));
-      dec_max = max (cell2mat (dec_max));
-    elseif (nargin == 4)                        # w = {wmin, wmax}  
+    if (nargin == 4)                        # w = {wmin, wmax}  
       dec_min = log10 (wmin);
       dec_max = log10 (wmax);
     else
-      print_usage ();
+      dec_min = min (cell2mat (dec_min));
+      dec_max = max (cell2mat (dec_max));
     endif
 
     zp = horzcat (zp{:});

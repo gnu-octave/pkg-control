@@ -50,7 +50,7 @@
 ## Created: November 2009
 ## Version: 0.4
 
-function [re_r, im_r, w_r] = nyquist2 (varargin)
+function [re_r, im_r, w_r] = nyquist (varargin)
 
   if (nargin == 0)
     print_usage ();
