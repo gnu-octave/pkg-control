@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -39,37 +39,66 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
-function [pol_r, zer_r] = pzmap (sys)
+function [pol_r, zer_r] = pzmap (varargin)
 
-  ## TODO: multiplot feature:   pzmap (sys1, "b", sys2, "r", ...)
-
-  if (nargin != 1)
+  if (nargin == 0)
     print_usage ();
   endif
 
-  if (! isa (sys, "lti"))
-    error ("pzmap: argument must be an LTI system");
-  endif
+  sys_idx = cellfun (@isa, varargin, {"lti"});      # look for LTI models
 
-  pol = pole (sys);
-  zer = zero (sys);
+  pol = cellfun (@pole, varargin(sys_idx), "uniformoutput", false);
+  zer = cellfun (@zero, varargin(sys_idx), "uniformoutput", false);
 
   if (! nargout)
-    pol_re = real (pol);
-    pol_im = imag (pol);
-    zer_re = real (zer);
-    zer_im = imag (zer);
+    pol_re = cellfun (@real, pol, "uniformoutput", false);
+    pol_im = cellfun (@imag, pol, "uniformoutput", false);
+    zer_re = cellfun (@real, zer, "uniformoutput", false);
+    zer_im = cellfun (@imag, zer, "uniformoutput", false);
+    
+    sys_idx = find (sys_idx);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
 
-    plot (pol_re, pol_im, "xb", zer_re, zer_im, "or")
+    len = numel (pol);
+    pol_args = {};
+    zer_args = {};
+    legend_args = cell (len, 1);
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+    
+    for k = 1 : len
+      col = colororder(1+rem (k-1, rc), :);
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      if (isempty (style))
+        pol_args = cat (2, pol_args, pol_re{k}, pol_im{k}, {"x", "color", col});
+        zer_args = cat (2, zer_args, zer_re{k}, zer_im{k}, {"o", "color", col});
+      else
+        pol_args = cat (2, pol_args, pol_re{k}, pol_im{k}, style);
+        zer_args = cat (2, zer_args, zer_re{k}, zer_im{k}, style);     
+      endif
+      
+      ## FIXME: try to combine "x", "o" and style for custom colors
+      
+      legend_args{k} = inputname(sys_idx(k));
+    endfor
+
+    h = plot (pol_args{:}, zer_args{:});
     grid ("on")  
-    title (["Pole-Zero Map of ", inputname(1)])
+    title ("Pole-Zero Map")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+    legend (h(1:len), legend_args)
   else
-    pol_r = pol;
-    zer_r = zer;
+    pol_r = pol{1};
+    zer_r = zer{1};
   endif
   
 endfunction
