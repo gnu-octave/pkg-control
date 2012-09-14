@@ -127,13 +127,6 @@ K_mix = mixsyn (G, W_p, W_u);          % mixed-sensitivity H-infinity synthesis
 L_mix = G * K_mix;                     % open loop
 T_mix = feedback (L_mix);              % closed loop
 
-% Plotting
-figure (2)
-bode (K_mix)                           % bode plot
-
-figure (3)
-step (T_mix, 10)                       % step response for 10 seconds
-
 
 % ===============================================================================
 % H-infinity Loop-Shaping Design (Normalized Coprime Factor Perturbations)
@@ -152,11 +145,16 @@ K_ncf = -K_ncf;                        % negative feedback controller
 L_ncf = G * K_ncf;                     % open loop
 T_ncf = feedback (L_ncf);              % closed loop
 
-% Plotting
-figure (4)
-bode (K_ncf)                           % bode plot
+% ===============================================================================
 
-figure (5)
+% Plotting
+figure (2)
+bode (K_mix, K_ncf)                    % bode plot
+
+figure (3)
+step (T_mix, 10)                       % step response for 10 seconds
+
+figure (4)
 step (T_ncf, 10)                       % step response for 10 seconds
 
 % ===============================================================================
