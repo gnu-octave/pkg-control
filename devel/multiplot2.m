@@ -90,8 +90,8 @@ w = {1e-2, 1e1};
 
 % Bode Plot of Controller
 figure (1)
-bode2 (K, Kr4, Kr2, w)
-title ('Bode Diagrams of K and Kr')
+bode (K, Kr4, Kr2, w)
+% title ('Bode Diagrams of K and Kr')
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'location', 'southwest')
 
 %{    
