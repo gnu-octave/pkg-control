@@ -21,35 +21,47 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 0.5
 
-function [H, w] = __frequency_response__ (sys, w = [], mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
+function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
+
+  %if (! iscell (args))
+  %  args = {args};
+  %endif
+
+  sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
+  w_idx = cellfun (@is_real_vector, args);      # look for frequency vectors
+  r_idx = cellfun (@iscell, args);              # look for frequency ranges {wmin, wmax}
+  
+  sys_cell = args(sys_idx);                     # extract LTI models
+  frd_idx = cellfun (@isa, sys_cell, {"frd"});  # look for FRD models
 
   ## check arguments
-  if(! isa (sys, "lti"))
-    error ("frequency_response: first argument sys must be an LTI system");
+  if (! mimoflag && ! all (cellfun (@issiso, sys_cell)))
+    error ("frequency_response: require SISO systems");
   endif
 
-  if (! mimoflag && ! issiso (sys))
-    error ("frequency_response: require SISO system");
-  endif
-
-  if (isa (sys, "frd"))
-    if (! isempty (w))
-      warning ("frequency_response: second argument w is ignored");
+  ## determine frequencies
+  if (any (r_idx))                              # if there are frequency ranges
+    r = args(r_idx){end};                       # take the last one
+    if (numel (r) == 2 && issample (r{1}) && issample (r{2}))
+      w = __frequency_vector__ (sys_cell, wbounds, r{1}, r{2});
+    else
+      error ("frequency_response: invalid cell");
     endif
-    w = get (sys, "w");
-    H = __freqresp__ (sys, [], resptype, cellflag);
-  elseif (isempty (w))  # find interesting frequency range w if not specified
-    w = __frequency_vector__ (sys, wbounds);
-    H = __freqresp__ (sys, w, resptype, cellflag);
-  elseif (iscell (w) && numel (w) == 2 && issample (w{1}) && issample (w{2}))
-    w = __frequency_vector__ (sys, wbounds, w{1}, w{2});
-    H = __freqresp__ (sys, w, resptype, cellflag);
-  elseif (! is_real_vector (w))
-    error ("frequency_response: second argument w must be a vector of frequencies");
-  else
-    H = __freqresp__ (sys, w, resptype, cellflag);
+  elseif (any (w_idx))                          # are there any frequency vectors?
+    w = args(w_idx){end};
+  else                                          # there are neither frequency ranges nor vectors
+    w = __frequency_vector__ (sys_cell, wbounds);
   endif
+
+  w_frd = w(frd_idx);                           # temporarily save frequency vectors of FRD models
+  w(frd_idx) = {[]};                            # freqresp returns all frequencies of FRD models for w=[]
+
+  ## compute frequency response H for all LTI models
+  H = cellfun (@__freqresp__, sys_cell, w, {resptype}, {cellflag}, "uniformoutput", false);
+
+  ## restore frequency vectors of FRD models in w
+  w(frd_idx) = w_frd;
 
 endfunction

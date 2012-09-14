@@ -48,35 +48,68 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.3
+## Version: 0.4
 
-function [re_r, im_r, w_r] = nyquist (sys, w = [])
+function [re_r, im_r, w_r] = nyquist2 (varargin)
 
-  ## TODO: multiplot feature:   nyquist (sys1, "b", sys2, "r", ...)
-
-  if (nargin == 0 || nargin > 2)
+  if (nargin == 0)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (sys, w, false, 0, "ext");
+  [H, w] = __frequency_response__ (varargin, false, 0, "ext");
 
-  H = reshape (H, [], 1);
-  re = real (H);
-  im = imag (H);
+  H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  re = cellfun (@real, H, "uniformoutput", false);
+  im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
-    plot (re, im, "b", re, -im, "r")
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
+
+    len = numel (H);  
+    pos_args = {};
+    neg_args = {};
+    legend_args = cell (len, 1);
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+
+    for k = 1:len
+      col = colororder(1+rem (k-1, rc), :);
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      if (isempty (style))
+        pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col});
+        neg_args = cat (2, neg_args, re{k}, -im{k}, {"-.", "color", col});
+      else
+        pos_args = cat (2, pos_args, re{k}, im{k}, style);
+        neg_args = cat (2, neg_args, re{k}, -im{k}, style);      
+      endif
+      legend_args{k} = inputname(sys_idx(k));
+    endfor
+    
+    ## FIXME: pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col}, style);
+    ##        doesn't work!  it would be nice to have default arguments that can be
+    ##        (partially) overwritten by user-specified plot styles.
+
+    h = plot (pos_args{:}, neg_args{:});
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title (["Nyquist Diagram of ", inputname(1)])
+    title ("Nyquist Diagram")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+    legend (h(1:len), legend_args)
   else
-    re_r = re;
-    im_r = im;
-    w_r = w;
+    re_r = re{1};
+    im_r = im{1};
+    w_r = w{1};
   endif
 
 endfunction
