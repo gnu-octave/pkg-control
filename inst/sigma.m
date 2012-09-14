@@ -60,44 +60,56 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2009
-## Version: 0.6
+## Version: 0.7
 
-function [sv_r, w_r] = sigma (sys, w = [], resptype = 0)
+function [sv_r, w_r] = sigma (varargin)
 
-  ## TODO: multiplot feature:   sigma (sys1, "b", sys2, "r", ...)
-
-  if (nargin == 0 || nargin > 3)
+  if (nargin == 0)
     print_usage ();
   endif
+resptype = 0;
+  [H, w] = __frequency_response__ (varargin, true, resptype, "std", true);
 
-  [H, w] = __frequency_response__ (sys, w, true, resptype, "std", true);
-
-  sv = cellfun (@svd, H, "uniformoutput", false);
-  sv = horzcat (sv{:});
+  sv = cellfun (@(H) cellfun (@svd, H, "uniformoutput", false), H, "uniformoutput", false);
+  sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);
 
   if (! nargout)  # plot the information
 
     ## convert to dB for plotting
-    sv_db = 20 * log10 (sv);
+    sv_db = cellfun (@(sv) 20 * log10 (sv), sv, "uniformoutput", false);
 
-    ## determine xlabel
-    if (isct (sys))
-      xl_str = "Frequency [rad/s]";
-    else
-      xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi / get (sys, "tsam"));
-    endif
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
+    tmp = cellfun (@ischar, varargin);
+    style_idx = find (tmp);
+
+    len = numel (H);  
+    plot_args = {};
+    legend_args = cell (len, 1);
+
+    for k = 1:len
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      plot_args = cat (2, plot_args, w(k), sv_db(k), style);
+      legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
+    endfor
 
     ## plot results
-    semilogx (w, sv_db, "b")
+    semilogx (plot_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
-    title (["Singular Values of ", inputname(1)])
-    xlabel (xl_str)
+    title ("Singular Values")
+    xlabel ("Frequency [rad/s]")
     ylabel ("Singular Values [dB]")
+    legend (legend_args)
   else            # return values
-    sv_r = sv;
-    w_r = reshape (w, [], 1);
+    sv_r = sv{1};
+    w_r = reshape (w{1}, [], 1);
   endif
 
 endfunction
