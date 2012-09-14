@@ -35,43 +35,67 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function w = __frequency_vector_2__ (sys_cell, wbounds = "std", wmin, wmax)
 
-  if (! iscell (sys_cell))
+  isc = iscell (sys_cell);
+
+  if (! isc)                                    # __sys2frd__ methods pass LTI models not in cells
     sys_cell = {sys_cell}
   endif
 
   idx = cellfun (@(x) isa (x, "lti"), sys_cell);
   sys_cell = sys_cell(idx);
+  len = numel (sys_cell);
   
   [dec_min, dec_max, zp] = cellfun (@__frequency_range__, sys_cell, {wbounds}, "uniformoutput", false);
 
-  if (nargin == 2)
-    dec_min = min (cell2mat (dec_min));
-    dec_max = max (cell2mat (dec_max));
-  elseif (nargin == 4)                       # w = {wmin, wmax}  
-    dec_min = log10 (wmin);
-    dec_max = log10 (wmax);
+  if (strcmpi (wbounds, "std"))                 # plots with explicit frequencies
+
+    if (nargin == 2)
+      dec_min = min (cell2mat (dec_min));
+      dec_max = max (cell2mat (dec_max));
+    elseif (nargin == 4)                        # w = {wmin, wmax}  
+      dec_min = log10 (wmin);
+      dec_max = log10 (wmax);
+    else
+      print_usage ();
+    endif
+
+    zp = horzcat (zp{:});
+
+    ## include zeros and poles for nice peaks in plots
+    idx = find (zp > 10^dec_min & zp < 10^dec_max);
+    zp = zp(idx);
+
+    w = logspace (dec_min, dec_max, 500);
+    w = unique ([w, zp]);                       # unique also sorts frequency vector
+
+    w = repmat ({w}, 1, len);                   # return cell of frequency vectors
+
+  elseif (strcmpi (wbounds, "ext"))             # plots with implicit frequencies
+
+    if (nargin == 4)
+      dec_min = repmat ({log10 (wmin)}, 1, len);
+      dec_max = repmat ({log10 (wmax)}, 1, len);
+    endif
+
+    idx = cellfun (@(zp, dec_min, dec_max) find (zp > 10^dec_min & zp < 10^dec_max), \
+                   zp, dec_min, dec_max, "uniformoutput", false);
+    zp = cellfun (@(zp, idx) zp(idx), zp, idx, "uniformoutput", false);
+
+    w = cellfun (@logspace, dec_min, dec_max, {500}, "uniformoutput", false);
+    w = cellfun (@(w, zp) unique ([w, zp]), w, zp, "uniformoutput", false);
+    ## unique also sorts frequency vector
+
   else
-    print_usage ();
+    error ("frequency_vector: invalid argument 'wbounds'");
   endif
 
-  zp = horzcat (zp{:});
-  
-  ## include zeros and poles for nice peaks in plots
-  idx = find (zp > 10^dec_min & zp < 10^dec_max);
-  zp = zp(idx);
-
-  w = logspace (dec_min, dec_max, 500);
-  w = unique ([w, zp]);                  # unique also sorts frequency vector
-  
-  ## TODO: nyquist diagrams may need individual dec_min and dec_max
-  ##       if curve goes to infinity
-
-  ## TODO: handle FRD models (they have fixed w), maybe frequency_response
-  ##       is a better place for this?
+  if (! isc)                                    # for __sys2frd__ methods 
+    w = w{1};
+  endif
 
 endfunction
 
@@ -88,8 +112,8 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
     
   zer = zero (sys);
   pol = pole (sys);
-  tsam = abs (get (sys, "tsam"));        # tsam could be -1
-  discrete = ! isct (sys);               # static gains (tsam = -2) are assumed continuous
+  tsam = abs (get (sys, "tsam"));               # tsam could be -1
+  discrete = ! isct (sys);                      # static gains (tsam = -2) are assumed continuous
   
   ## make sure zer, pol are row vectors
   pol = reshape (pol, 1, []);
@@ -132,8 +156,8 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
   
   if (isempty (iip) && isempty (iiz))
     ## no poles/zeros away from omega = 0; pick defaults
-    dec_min = 0;                         # -1
-    dec_max = 2;                         # 3
+    dec_min = 0;                                # -1
+    dec_max = 2;                                # 3
   else
     dec_min = floor (log10 (min (abs ([cpol, czer]))));
     dec_max = ceil (log10 (max (abs ([cpol, czer]))));
@@ -141,7 +165,7 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
 
   ## expand to show the entirety of the "interesting" portion of the plot
   switch (wbounds)
-    case "std"                           # standard
+    case "std"                                  # standard
       if (dec_min == dec_max)
         dec_min -= 2;
         dec_max += 2;
@@ -149,8 +173,8 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
         dec_min--;
         dec_max++;
       endif
-    case "ext"                           # extended (for nyquist)
-      if (any (abs (pol) < sqrt (eps)))  # look for integrators
+    case "ext"                                  # extended (for nyquist)
+      if (any (abs (pol) < sqrt (eps)))         # look for integrators
         ## dec_min -= 0.5;
         dec_max += 2;
       else 
