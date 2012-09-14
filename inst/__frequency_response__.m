@@ -50,7 +50,7 @@ function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbou
       error ("frequency_response: invalid cell");
     endif
   elseif (any (w_idx))                          # are there any frequency vectors?
-    w = args(w_idx){end};
+    w = args(w_idx)(end);
   else                                          # there are neither frequency ranges nor vectors
     w = __frequency_vector__ (sys_cell, wbounds);
   endif

@@ -86,30 +86,7 @@ Tr2 = feedback (Lr2);
 w = {1e-2, 1e1};
 
 % Bode Plot of Controller
-[mag, pha, w] = bode (K, w);
-[magr4, phar4, wr4] = bode (Kr4, w);
-[magr2, phar2, wr2] = bode (Kr2, w);
-
-mag = 20 * log10 (mag);
-magr4 = 20 * log10 (magr4);
-magr2 = 20 * log10 (magr2);
-
-figure (1)
-subplot (2, 1, 1)
-semilogx (w, mag, wr4, magr4, wr2, magr2)
-axis ('tight')
-ylim (__axis_margin__ (ylim))
-grid ('on')
-title ('Bode Diagrams of K and Kr')
-ylabel ('Magnitude [dB]')
-
-subplot (2, 1, 2)
-semilogx (w, pha, wr4, phar4, wr2, phar2)
-axis ('tight')
-ylim (__axis_margin__ (ylim))
-grid ('on')
-xlabel ('Frequency [rad/s]')
-ylabel ('Phase [deg]')
+bode (K, Kr4, Kr2, w)
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'location', 'southwest')
     
 % Step Response of Closed Loop
