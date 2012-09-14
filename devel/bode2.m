@@ -65,16 +65,27 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
   if (! nargout)
     mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
 
-    style = repmat ({""}, 1, numel (H));
-    
+    tmp = cellfun (@isa, varargin, {"lti"});
+    sys_idx = find (tmp);
     tmp = cellfun (@ischar, varargin);
-    char_idx = find (tmp);
-    char_idx = char_idx(1:min (numel (H), end));
+    style_idx = find (tmp);
 
-    style(1:length (char_idx)) = varargin(char_idx);
+    len = numel (H);  
+    mag_args = {};
+    pha_args = {};
+    legend_args = cell (len, 1);
 
-    mag_args = vertcat (w, mag_db, style)(:);
-    pha_args = vertcat (w, pha, style)(:);
+    for k = 1:len
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      mag_args = cat (2, mag_args, w(k), mag_db(k), style);
+      pha_args = cat (2, pha_args, w(k), pha(k), style);
+      legend_args{k} = inputname(sys_idx(k));
+    endfor
 
     subplot (2, 1, 1)
     semilogx (mag_args{:})
@@ -91,6 +102,7 @@ function [mag_r, pha_r, w_r] = bode2 (varargin)
     grid ("on")
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
+    legend (legend_args)
   else
     mag_r = mag{1};
     pha_r = pha{1};

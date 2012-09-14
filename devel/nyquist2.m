@@ -69,8 +69,8 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
     style_idx = find (tmp);
 
     len = numel (H);  
-    plot_args_pos = {};
-    plot_args_neg = {};
+    pos_args = {};
+    neg_args = {};
     legend_args = cell (len, 1);
     colororder = get (gca, "colororder");
     rc = rows (colororder);
@@ -84,16 +84,20 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
       endif
       style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       if (isempty (style))
-        plot_args_pos = cat (2, plot_args_pos, re{k}, im{k}, {"-", "color", col});
-        plot_args_neg = cat (2, plot_args_neg, re{k}, -im{k}, {"-.", "color", col});
+        pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col});
+        neg_args = cat (2, neg_args, re{k}, -im{k}, {"-.", "color", col});
       else
-        plot_args_pos = cat (2, plot_args_pos, re{k}, im{k}, style);
-        plot_args_neg = cat (2, plot_args_neg, re{k}, -im{k}, style);      
+        pos_args = cat (2, pos_args, re{k}, im{k}, style);
+        neg_args = cat (2, neg_args, re{k}, -im{k}, style);      
       endif
       legend_args{k} = inputname(sys_idx(k));
     endfor
+    
+    ## FIXME: pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col}, style);
+    ##        doesn't work!  it would be nice to have default arguments that can be
+    ##        (partially) overwritten by user-specified plot styles.
 
-    h = plot (plot_args_pos{:}, plot_args_neg{:});
+    h = plot (pos_args{:}, neg_args{:});
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
