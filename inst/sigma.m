@@ -105,18 +105,19 @@ resptype = 0;
       legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
     endfor
 
-    ## FIXME: legend color is mostly blue if the first system is MIMO
-    ##        maybe we can plot each line of sv individually
+    ## adjust line colors in legend  
+    idx = horzcat (1, cellfun (@rows, sv_db)(1:end-1));
+    idx = cumsum (idx);
 
     ## plot results
-    semilogx (plot_args{:})
+    h = semilogx (plot_args{:});
     axis ("tight")
     ylim (__axis_margin__ (ylim))
     grid ("on")
     title ("Singular Values")
     xlabel ("Frequency [rad/s]")
     ylabel ("Singular Values [dB]")
-    legend (legend_args)
+    legend (h(idx), legend_args)
   else            # return values
     sv_r = sv{1};
     w_r = reshape (w{1}, [], 1);
