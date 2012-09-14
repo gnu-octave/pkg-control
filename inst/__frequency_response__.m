@@ -25,9 +25,11 @@
 
 function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
 
-  %if (! iscell (args))
-  %  args = {args};
-  %endif
+  isc = iscell (args);
+
+  if (! isc)
+    args = {args};
+  endif
 
   sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
   w_idx = cellfun (@(x) is_real_vector (x) && length (x) > 1, args);  # look for frequency vectors
@@ -64,5 +66,10 @@ function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbou
 
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;
+
+  if (! isc)                                    # for old non-multiplot functions
+    H = H{1};
+    w = w{1};
+  endif
 
 endfunction

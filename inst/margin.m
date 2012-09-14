@@ -269,7 +269,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
   if (nargout == 0)                                      # show bode diagram
 
-    [H, w] = __frequency_response__ (sys, [], false, 0, "std");
+    [H, w] = __frequency_response__ (sys, false, 0, "std");
 
     H = reshape (H, [], 1);
     mag_db = 20 * log10 (abs (H));
@@ -301,14 +301,14 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     endif
 
     subplot (2, 1, 1)
-    semilogx (w, mag_db, "b", wv, [0, 0], ":k", wgm, mgmh, ":k", wgm, mgm, "r", wpm, mpm, ":k")
+    semilogx (w, mag_db, "b", wv, [0, 0], "-.k", wgm, mgmh, "-.k", wgm, mgm, "r", wpm, mpm, "-.k")
     axis (ax_vec_mag)
     grid ("on")
     title (title_str)
     ylabel ("Magnitude [dB]")
 
     subplot (2, 1, 2)
-    semilogx (w, pha, "b", wv, [-180, -180], ":k", wgm, pgm, ":k", wpm, ppmh, ":k", wpm, ppm, "r")
+    semilogx (w, pha, "b", wv, [-180, -180], "-.k", wgm, pgm, "-.k", wpm, ppmh, "-.k", wpm, ppm, "r")
     axis (ax_vec_pha)
     grid ("on")
     xlabel (xl_str)
