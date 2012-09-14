@@ -14,3 +14,7 @@ bode2 (5*C_AH, '*r', C_AH, 'xb', C_opt, 'ok')
 
 figure (4)
 nyquist2 (C_AH, C_opt)
+
+
+figure (5)
+nyquist2 (C_AH, "r-", C_opt, "b:")

@@ -64,9 +64,9 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
 
   if (! nargout)
     tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
+    sys_idx = find (tmp)
     tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
+    style_idx = find (tmp)
 
     len = numel (H);  
     plot_args_pos = {};
@@ -77,11 +77,17 @@ function [re_r, im_r, w_r] = nyquist2 (varargin)
 
     for k = 1:len
       col = colororder(1+rem (k-1, rc), :);
-      plot_args_pos = cat (2, plot_args_pos, re{k}, im{k}, {"-", "color", col});
-      plot_args_neg = cat (2, plot_args_neg, re{k}, -im{k}, {"-.", "color", col});
+      if (k == len)
+        lim = nargin;
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim))
+      plot_args_pos = cat (2, plot_args_pos, re{k}, im{k}, {"-", "color", col}, style);
+      plot_args_neg = cat (2, plot_args_neg, re{k}, -im{k}, {"-.", "color", col}, style);
       legend_args{k} = inputname(sys_idx(k));
     endfor
-
+%plot_args_pos
     h = plot (plot_args_pos{:}, plot_args_neg{:});
     axis ("tight")
     xlim (__axis_margin__ (xlim))
