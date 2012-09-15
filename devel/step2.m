@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -54,7 +54,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 % function [y_r, t_r, x_r] = step2 (sys, tfinal = [], dt = [])
 function [y_r, t_r, x_r] = step2 (varargin)
@@ -72,9 +72,9 @@ function [y_r, t_r, x_r] = step2 (varargin)
   [y, t, x] = __time_response__ ("step", varargin, ! nargout);
 
   if (nargout)
-    y_r = y;
-    t_r = t;
-    x_r = x;
+    y_r = y{1};
+    t_r = t{1};
+    x_r = x{1};
   endif
 
 endfunction

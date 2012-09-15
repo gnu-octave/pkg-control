@@ -1,13 +1,19 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.3.54   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+control-2.3.54   Release Date: 2012-09-15   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Multiplot feature for frequency-domain plotting:
    
      bode       nichols     pzmap
      bodemag    nyquist     sigma
+
+   The functions above support calls like 
+   sigma (sys1, sys2, ...), nyquist (sys1, 'b', sys2, 'r', ...),
+   bode (sys1, '-k', sys2, '-.k', sys3, ':k', {wmin, wmax}).
+   Time domain functions are not yet multiplot ready, but they will follow in
+   control-2.4.0.
 
 ** plot
    A selection of experiments from iddata identification datasets can be

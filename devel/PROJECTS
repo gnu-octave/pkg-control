@@ -10,8 +10,8 @@ grep FIXME and/or TODO for more information
 General:
 -------
 
-  * Multiplot feature for time and frequency response functions.
-    sigma (sys1, sys2, ...), step (sys1, "b", sys2, "r", ...)
+  * Multiplot feature for time response functions and lsim.
+    impulse (sys1, sys2, ...), step (sys1, "b", sys2, "r", ...)
 
   * Improve @lti/subsasgn.m
 
@@ -27,7 +27,8 @@ General:
 
   * Implement zpk models and @zpset similar to @tfpoly.
 
-  * SLICOT system identification.  Under construction in extra/control-devel
+  * SLICOT non-linear system identification.
+    idnlmodel class and simulation of Wiener models with SLICOT.
 
   * Descriptor support for pole placement command "place".
   
@@ -55,6 +56,8 @@ General:
     Therefore model-specific commands (@tf/horzcat, @tf/vertcat, @frd/...)
     which override the generic commands (@lti/horzcat, @lti/vertcat) could
     make practical sense.
+
+  * Support more than two arguments in __sys_group__.
 
   * Display individual warnings/errors for iwarn/info in oct-files.
   

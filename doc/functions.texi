@@ -1461,6 +1461,8 @@
 @section pzmap
 
  @deftypefn {Function File} pzmap (@var{sys})
+ @deftypefnx {Function File} pzmap (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} pzmap (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
  Plot the poles and zeros of an LTI system in the complex plane.
  If no output arguments are given, the result is plotted on the screen.
@@ -1790,7 +1792,11 @@
 @chapter Frequency Domain Analysis
 @section bode
 
- @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
+ @deftypefn {Function File} bode (@var{sys})
+ @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} bode (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
  Bode diagram of frequency response.  If no output arguments are given,
  the response is printed on the screen.
@@ -1821,7 +1827,11 @@
  @end deftypefn
 @section bodemag
 
- @deftypefn {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
+ @deftypefn {Function File} bodemag (@var{sys})
+ @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} bodemag (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys}, @var{w})
  Bode magnitude diagram of frequency response.  If no output arguments are given,
  the response is printed on the screen.
@@ -1989,7 +1999,11 @@
  @end deftypefn
 @section nichols
 
- @deftypefn {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
+ @deftypefn {Function File} nichols (@var{sys})
+ @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys}, @var{w})
  Nichols chart of frequency response.  If no output arguments are given,
  the response is printed on the screen.
@@ -2020,7 +2034,11 @@
  @end deftypefn
 @section nyquist
 
- @deftypefn {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
+ @deftypefn {Function File} nyquist (@var{sys})
+ @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} nyquist (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
  @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
  Nyquist diagram of frequency response.  If no output arguments are given,
  the response is printed on the screen.
@@ -2120,7 +2138,11 @@
  @end deftypefn
 @section sigma
 
- @deftypefn{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
+ @deftypefn {Function File} sigma (@var{sys})
+ @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
@@ -5025,12 +5047,13 @@
 @section @@iddata/plot
 
  @deftypefn {Function File} plot (@var{dat})
+ @deftypefnx {Function File} plot (@var{dat}, @var{exp})
  Plot signals of iddata identification datasets on the screen.
  The signals are plotted experiment-wise, either in time- or
  frequency-domain.  For multi-experiment datasets,
  press any key to switch to the next experiment.
  If the plot of a single experiment should be saved by the
- @command{print} command, use @code{plot(dat(:,:,:,exp))},
+ @command{print} command, use @code{plot(dat,exp)},
  where @var{exp} denotes the desired experiment.
  @end deftypefn
 @section @@iddata/resample
@@ -6102,6 +6125,5 @@
  @cite{Multivariable Feedback Control: Analysis and Design:
  Second Edition}.  Wiley.
  @url{http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html}
- @end group
- @end example
+
  @end deftypefn
