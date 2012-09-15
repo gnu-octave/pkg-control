@@ -86,7 +86,11 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
       endif
       style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       plot_args = cat (2, plot_args, pha(k), mag_db(k), style);
-      legend_args{k} = inputname(sys_idx(k));  # watch out for nichols (lticell{:})
+      try
+        legend_args{k} = inputname(sys_idx(k));
+      catch
+        legend_args{k} = "";
+      end_try_catch
     endfor
 
     plot (plot_args{:})

@@ -94,7 +94,11 @@ function [re_r, im_r, w_r] = nyquist (varargin)
         pos_args = cat (2, pos_args, re{k}, im{k}, style);
         neg_args = cat (2, neg_args, re{k}, -im{k}, style);      
       endif
-      legend_args{k} = inputname(sys_idx(k));
+      try
+        legend_args{k} = inputname(sys_idx(k));
+      catch
+        legend_args{k} = "";
+      end_try_catch
     endfor
     
     ## FIXME: pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col}, style);

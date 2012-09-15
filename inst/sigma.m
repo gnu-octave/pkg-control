@@ -106,7 +106,11 @@ resptype = 0;
       else
         plot_args = cat (2, plot_args, w(k), sv_db(k), style);
       endif
-      legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
+      try
+        legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
+      catch
+        legend_args{k} = "";
+      end_try_catch
     endfor
 
     ## adjust line colors in legend  

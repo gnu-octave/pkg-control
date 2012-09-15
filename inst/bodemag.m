@@ -73,7 +73,7 @@ function [mag_r, w_r] = bodemag (varargin)
 
     len = numel (H);  
     mag_args = {};
-    legend_args = cell (len, 1);
+    legend_args = {};
 
     for k = 1:len
       if (k == len)
@@ -83,7 +83,9 @@ function [mag_r, w_r] = bodemag (varargin)
       endif
       style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       mag_args = cat (2, mag_args, w(k), mag_db(k), style);
-      legend_args{k} = inputname(sys_idx(k));  # watch out for bode (lticell{:})
+      try
+        legend_args = cat (2, legend_args, inputname(sys_idx(k)));  # watch out for bodemag (lticell{:})
+      end_try_catch
     endfor
 
     semilogx (mag_args{:})

@@ -86,11 +86,14 @@ function [pol_r, zer_r] = pzmap (varargin)
         pol_args = cat (2, pol_args, pol_re{k}, pol_im{k}, style);
         zer_args = cat (2, zer_args, zer_re{k}, zer_im{k}, style);     
       endif
-      
-      ## FIXME: try to combine "x", "o" and style for custom colors
-      
-      legend_args{k} = inputname(sys_idx(k));
+      try
+        legend_args{k} = inputname(sys_idx(k));
+      catch
+        legend_args{k} = "";
+      end_try_catch
     endfor
+      
+    ## FIXME: try to combine "x", "o" and style for custom colors
 
     h = plot (pol_args{:}, zer_args{:});
     grid ("on")  

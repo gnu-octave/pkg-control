@@ -77,7 +77,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     len = numel (H);  
     mag_args = {};
     pha_args = {};
-    legend_args = cell (len, 1);
+    legend_args = {};
 
     for k = 1:len
       if (k == len)
@@ -88,7 +88,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
       style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       mag_args = cat (2, mag_args, w(k), mag_db(k), style);
       pha_args = cat (2, pha_args, w(k), pha(k), style);
-      legend_args{k} = inputname(sys_idx(k));  # watch out for bode (lticell{:})
+      try
+        legend_args = cat (2, legend_args, inputname(sys_idx(k)));  # watch out for bode (lticell{:})
+      end_try_catch
     endfor
 
     subplot (2, 1, 1)
