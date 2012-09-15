@@ -35,6 +35,7 @@ function [y, t, x_arr] = __time_response_2__ (resptype, args)
   tmp = cellfun (@is_real_matrix, args);
   vec_idx = find (tmp);
   n_vec = length (vec_idx)
+  n_sys = length (sys_cell)
   
   if (n_vec >= 1)
     arg = args{vec_idx(1)};
@@ -57,8 +58,6 @@ function [y, t, x_arr] = __time_response_2__ (resptype, args)
   tmp = (@c2d, sys_cell(ct_idx), dt, {"zoh"}, "uniformoutput", false)
   sys_dt_cell(ct_idx) = tmp;
 
-
-endfunction
 %{
   if (! isa (sys, "ss"))
     sys = ss (sys);                                    # sys must be proper
@@ -98,6 +97,141 @@ endfunction
   t = reshape (0 : dt : tfinal, [], 1);
   l_t = length (t);
 %}  
+
+  if (plotflag)                                        # display plot
+    switch (resptype)
+      case "initial"
+        str = "Response to Initial Conditions";
+        cols = 1;
+      case "step"
+        str = "Step Response";
+        cols = m;
+      case "impulse"
+        str = "Impulse Response";
+        cols = m;
+      otherwise
+        error ("time_response: invalid response type");
+    endswitch
+  
+    for i = 1 : n_sys
+      t = t{i};
+      y = y{i};
+      discrete = ! ct_idx(i);
+      if (discrete)                                      # discrete system
+        for k = 1 : p
+          for j = 1 : cols
+            subplot (p, cols, (k-1)*cols+j);
+            stairs (t, y(:, k, j));
+            hold on;
+            grid ("on");
+            if (i == n_sys && k == 1 && j == 1)
+              title (str);
+            endif
+            if (i == n_sys && j == 1)
+              ylabel (sprintf ("Amplitude %s", outname{k}));
+            endif
+          endfor
+        endfor
+      else                                               # continuous system
+        for k = 1 : p
+          for j = 1 : cols
+            subplot (p, cols, (k-1)*cols+j);
+            plot (t, y(:, k, j));
+            hold on;
+            grid ("on");
+            if (i == n_sys && k == 1 && j == 1)
+              title (str);
+            endif
+            if (i == n_sys && j == 1)
+              ylabel (sprintf ("Amplitude %s", outname{k}));
+            endif
+          endfor
+        endfor
+      endif
+    endfor
+    xlabel ("Time [s]");
+    hold off;
+  endif
+
+%{  
+  if (plotflag)                                        # display plot
+
+    ## TODO: Set correct titles, especially for multi-input systems
+
+    stable = isstable (sys);
+    outname = get (sys, "outname");
+    outname = __labels__ (outname, "y_");
+
+    if (strcmp (resptype, "initial"))
+      cols = 1;
+    else
+      cols = m;
+    endif
+
+    if (discrete)                                      # discrete system
+      for k = 1 : p
+        for j = 1 : cols
+
+          subplot (p, cols, (k-1)*cols+j);
+
+          if (stable)
+            stairs (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
+          else
+            stairs (t, y(:, k, j));
+          endif
+
+          grid ("on");
+
+          if (k == 1 && j == 1)
+            title (str);
+          endif
+
+          if (j == 1)
+            ylabel (sprintf ("Amplitude %s", outname{k}));
+          endif
+
+        endfor
+      endfor
+
+      xlabel ("Time [s]");
+
+    else                                               # continuous system
+      for k = 1 : p
+        for j = 1 : cols
+
+          subplot (p, cols, (k-1)*cols+j);
+
+          if (stable)
+            plot (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
+          else
+            plot (t, y(:, k, j));
+          endif
+
+          grid ("on");
+
+          if (k == 1 && j == 1)
+            title (str);
+          endif
+
+          if (j == 1)
+            ylabel (sprintf ("Amplitude %s", outname{k}));
+          endif
+
+        endfor
+      endfor
+
+      xlabel ("Time [s]");
+
+    endif 
+  endif
+
+endfunction
+%}
+
+endfunction
+
+
+
 
 function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
 
@@ -207,80 +341,9 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
 endfunction
 
-%{  
-  if (plotflag)                                        # display plot
 
-    ## TODO: Set correct titles, especially for multi-input systems
+function 
 
-    stable = isstable (sys);
-    outname = get (sys, "outname");
-    outname = __labels__ (outname, "y_");
-
-    if (strcmp (resptype, "initial"))
-      cols = 1;
-    else
-      cols = m;
-    endif
-
-    if (discrete)                                      # discrete system
-      for k = 1 : p
-        for j = 1 : cols
-
-          subplot (p, cols, (k-1)*cols+j);
-
-          if (stable)
-            stairs (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
-          else
-            stairs (t, y(:, k, j));
-          endif
-
-          grid ("on");
-
-          if (k == 1 && j == 1)
-            title (str);
-          endif
-
-          if (j == 1)
-            ylabel (sprintf ("Amplitude %s", outname{k}));
-          endif
-
-        endfor
-      endfor
-
-      xlabel ("Time [s]");
-
-    else                                               # continuous system
-      for k = 1 : p
-        for j = 1 : cols
-
-          subplot (p, cols, (k-1)*cols+j);
-
-          if (stable)
-            plot (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
-          else
-            plot (t, y(:, k, j));
-          endif
-
-          grid ("on");
-
-          if (k == 1 && j == 1)
-            title (str);
-          endif
-
-          if (j == 1)
-            ylabel (sprintf ("Amplitude %s", outname{k}));
-          endif
-
-        endfor
-      endfor
-
-      xlabel ("Time [s]");
-
-    endif 
-  endif
-
-endfunction
-%}
 
 
 % function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
