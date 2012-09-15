@@ -21,12 +21,12 @@ svn export control ~/octave/__TEMP__/control
 rm -R ~/octave/__TEMP__/control/devel
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
-tar czf control-2.3.53.tar.gz control/
-md5 control-2.3.53.tar.gz
-md5 control-2.3.53.tar.gz > md5_control_pkg.txt
-uuencode control-2.3.53.tar.gz < control-2.3.53.tar.gz > control-2.3.53.tar.gz.uue
+tar czf control-2.3.54.tar.gz control/
+md5 control-2.3.54.tar.gz
+md5 control-2.3.54.tar.gz > md5_control_pkg.txt
+uuencode control-2.3.54.tar.gz < control-2.3.54.tar.gz > control-2.3.54.tar.gz.uue
 octave -q --eval \
-"pkg install control-2.3.53.tar.gz"
+"pkg install control-2.3.54.tar.gz"
 octave -q --eval \
 "pkg load generate_html; generate_package_html ('control', 'control-html', 'octave-forge')"
 tar czf control-html.tar.gz control-html
@@ -41,7 +41,7 @@ Aftermath
 =====================================================================================
 
 rm -R ~/octave/__TEMP__
-rm -R ~/octave/control-2.3.53
+rm -R ~/octave/control-2.3.54
 
 
 =====================================================================================
