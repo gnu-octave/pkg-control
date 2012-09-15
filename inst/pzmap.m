@@ -17,6 +17,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} pzmap (@var{sys})
+## @deftypefnx {Function File} pzmap (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} pzmap (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
 ## @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
 ## Plot the poles and zeros of an LTI system in the complex plane.
 ## If no output arguments are given, the result is plotted on the screen.

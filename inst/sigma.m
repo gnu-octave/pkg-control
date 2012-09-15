@@ -16,7 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
+## @deftypefn {Function File} sigma (@var{sys})
+## @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+## @deftypefnx {Function File} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})

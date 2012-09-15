@@ -16,7 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
+## @deftypefn {Function File} nyquist (@var{sys})
+## @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+## @deftypefnx {Function File} nyquist (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
 ## @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
 ## Nyquist diagram of frequency response.  If no output arguments are given,
 ## the response is printed on the screen.

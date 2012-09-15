@@ -16,7 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
+## @deftypefn {Function File} bodemag (@var{sys})
+## @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+## @deftypefnx {Function File} bodemag (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys}, @var{w})
 ## Bode magnitude diagram of frequency response.  If no output arguments are given,
 ## the response is printed on the screen.
