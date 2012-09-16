@@ -23,7 +23,7 @@
 ## Version: 0.3
 
 % function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
-function [y, t, x_arr] = __time_response_2__ (resptype, args)
+function [y, t, x] = __time_response_2__ (resptype, args)
 
   sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
   sys_cell = cellfun (@ss, args(sys_idx));      # system must be proper
@@ -96,7 +96,25 @@ function [y, t, x_arr] = __time_response_2__ (resptype, args)
   ## time vector
   t = reshape (0 : dt : tfinal, [], 1);
   l_t = length (t);
-%}  
+%}
+
+%function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
+%function [y, x_arr] = __step_response__ (sys_dt, t)
+%function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
+
+  switch (resptype)
+    case "initial"
+      [y, x] = cellfun (@__initial_response__, sys_cell, sys_dt_cell, t, {x0} or x0);
+    case "step"
+      [y, x] = cellfun (@__step_response__, sys_dt_cell, t);
+    case "impulse"
+      [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t);
+    otherwise
+      error ("time_response: invalid response type");
+  endswitch
+
+
+
 
   if (plotflag)                                        # display plot
     switch (resptype)
