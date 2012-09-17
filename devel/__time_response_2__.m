@@ -104,11 +104,11 @@ function [y, t, x] = __time_response_2__ (resptype, args)
 
   switch (resptype)
     case "initial"
-      [y, x] = cellfun (@__initial_response__, sys_cell, sys_dt_cell, t, {x0} or x0);
+      [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0} or x0, "uniformoutput", false);
     case "step"
-      [y, x] = cellfun (@__step_response__, sys_dt_cell, t);
+      [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
     case "impulse"
-      [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t);
+      [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t, "uniformoutput", false);
     otherwise
       error ("time_response: invalid response type");
   endswitch
@@ -251,10 +251,9 @@ endfunction
 
 
 
-function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
+function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
 
-  [A, B, C, D] = ssdata (sys);
-  [F, G] = ssdata (sys_dt);
+  [F, G, C, D] = ssdata (sys_dt);
 
   n = rows (F);                                        # number of states
   m = columns (G);                                     # number of inputs
@@ -314,8 +313,8 @@ endfunction
 
 function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
-  [A, B, C, D, dt] = ssdata (sys);
-  [F, G] = ssdata (sys_dt);
+  [~, B, ~, ~, dt] = ssdata (sys);
+  [F, G, C, D] = ssdata (sys_dt);
   discrete = ! isct (sys);
 
   n = rows (F);                                        # number of states
