@@ -34,8 +34,8 @@ function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
 
   tmp = cellfun (@is_real_matrix, args);
   vec_idx = find (tmp);
-  n_vec = length (vec_idx)
-  n_sys = length (sys_cell)
+  n_vec = length (vec_idx);
+  n_sys = length (sys_cell);
   
   %if (n_vec >= 1)
   %  arg = args{vec_idx(1)};
@@ -47,14 +47,14 @@ function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
   tfinal = [];
   dt = {[]};
 
-  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, dt, "uniformoutput", false);
+  %[tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, dt, "uniformoutput", false);
+
+  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, "uniformoutput", false);
   
   tfinal = max ([tfinal{:}]);
  
-  % __sim_horizon__ (sys, tfinal, dt);
- 
- 
-  %hier sim_horizon
+dt 
+
   
   ct_idx = cellfun (@isct, sys_cell);
   sys_dt_cell = sys_cell;
@@ -143,33 +143,41 @@ function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
   
     for i = 1 : n_sys
       discrete = ! ct_idx(i);
-      if (discrete)                                      # discrete system
+      if (discrete)                                      # discrete-time system
         for k = 1 : p
           for j = 1 : cols
             subplot (p, cols, (k-1)*cols+j);
             stairs (t{i}, y{i}(:, k, j));
             hold on;
-            grid ("on");
-            if (i == n_sys && k == 1 && j == 1)
-              title (str);
-            endif
-            if (i == n_sys && j == 1)
-              ylabel (outname{k});
+            grid on;
+            if (i == n_sys)
+              axis tight;
+              ylim (__axis_margin__ (ylim))
+              if (j == 1)
+                ylabel (outname{k});
+                if (k == 1)
+                  title (str);
+                endif
+              endif
             endif
           endfor
         endfor
-      else                                               # continuous system
+      else                                               # continuous-time system
         for k = 1 : p
           for j = 1 : cols
             subplot (p, cols, (k-1)*cols+j);
             plot (t{i}, y{i}(:, k, j));
             hold on;
-            grid ("on");
-            if (i == n_sys && k == 1 && j == 1)
-              title (str);
-            endif
-            if (i == n_sys && j == 1)
-              ylabel (outname{k});
+            grid on;
+            if (i == n_sys)
+              axis tight
+              ylim (__axis_margin__ (ylim))
+              if (j == 1)
+                ylabel (outname{k});
+                if (k == 1)
+                  title (str);
+                endif
+              endif
             endif
           endfor
         endfor
@@ -305,8 +313,10 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   T_DEF = 10;                                          # default simulation time
 
   ev = pole (sys);
-  n = length (ev);
-  discrete = ! isct (sys);
+  n = length (ev);              # number of states/poles
+  continuous = isct (sys);
+  discrete = ! continuous;
+  Ts = get (sys, "tsam");
 
   if (discrete)
     ## perform bilinear transformation on poles in z
@@ -334,14 +344,14 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
       tfinal = T_DEF;
     endif
 
-    if (! discrete)
+    if (continuous)
       dt = tfinal / N_DEF;
     endif
   else
     ev = ev(find (ev));
     ev_max = max (abs (ev));
 
-    if (! discrete)
+    if (continuous)
       dt = 0.2 * pi / ev_max;
     endif
 
@@ -354,7 +364,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
       tfinal = yy * ceil (tfinal / yy);
     endif
 
-    if (! discrete)
+    if (continuous)
       N = tfinal / dt;
 
       if (N < N_MIN)
@@ -367,8 +377,8 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     endif
   endif
 
-  if (! isempty (Ts))                                  # catch case cont. system with dt specified
-    dt = Ts;
-  endif
+  %if (! isempty (Ts))                                  # catch case cont. system with dt specified
+  %  dt = Ts;
+  %endif
 
 endfunction

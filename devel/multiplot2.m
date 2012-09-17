@@ -72,7 +72,6 @@ K = ss (Ac, Bc, Cc, Dc);
 Kr4 = spaconred (P, K, 4, 'feedback', '-')
 Kr2 = spaconred (P, K, 2, 'feedback', '-')
 
-%{
 % Open Loop
 L = P * K;
 Lr4 = P * Kr4;
@@ -82,7 +81,6 @@ Lr2 = P * Kr2;
 T = feedback (L);
 Tr4 = feedback (Lr4);
 Tr2 = feedback (Lr2);
-%}
 
 % Frequency Range
 w = {1e-2, 1e1};
@@ -93,6 +91,10 @@ figure (1)
 bode (K, Kr4, Kr2, w)
 % title ('Bode Diagrams of K and Kr')
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'location', 'southwest')
+
+% Step Response of Closed Loop
+figure (2)
+step2 (T, Tr4, Tr2)
 
 %{    
 % Step Response of Closed Loop
