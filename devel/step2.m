@@ -69,7 +69,7 @@ function [y_r, t_r, x_r] = step2 (varargin)
   
   %sys_names = arrayfun (@inputname, sys_idx);
 
-  [y, t, x] = __time_response__ ("step", varargin, ! nargout);
+  [y, t, x] = __time_response_2__ ("step", varargin, ! nargout);
 
   if (nargout)
     y_r = y{1};

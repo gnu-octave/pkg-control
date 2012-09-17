@@ -23,10 +23,10 @@
 ## Version: 0.3
 
 % function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
-function [y, t, x] = __time_response_2__ (resptype, args)
+function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
 
   sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
-  sys_cell = cellfun (@ss, args(sys_idx));      # system must be proper
+  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);      # convert to state-space
 
   if (! size_equal (sys_cell{:}))
     error ("%s: models must have equal sizes", resptype);
@@ -37,25 +37,28 @@ function [y, t, x] = __time_response_2__ (resptype, args)
   n_vec = length (vec_idx)
   n_sys = length (sys_cell)
   
-  if (n_vec >= 1)
-    arg = args{vec_idx(1)};
-    
-  endif
+  %if (n_vec >= 1)
+  %  arg = args{vec_idx(1)};
+  %  
+  %endif
 
   ## extract tfinal/t, dt, x0
 
-  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, dt);
+  tfinal = [];
+  dt = {[]};
+
+  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, dt, "uniformoutput", false);
   
-  tfinal = max (tfinal);
+  tfinal = max ([tfinal{:}]);
  
   % __sim_horizon__ (sys, tfinal, dt);
  
  
-  hier sim_horizon
+  %hier sim_horizon
   
-  ct_idx = cellfun (@isct, sys_cell)
+  ct_idx = cellfun (@isct, sys_cell);
   sys_dt_cell = sys_cell;
-  tmp = (@c2d, sys_cell(ct_idx), dt, {"zoh"}, "uniformoutput", false)
+  tmp = cellfun (@c2d, sys_cell(ct_idx), dt, {"zoh"}, "uniformoutput", false);
   sys_dt_cell(ct_idx) = tmp;
 
 %{
@@ -98,13 +101,18 @@ function [y, t, x] = __time_response_2__ (resptype, args)
   l_t = length (t);
 %}
 
+
+  ## time vector
+  t = @cellfun (@(dt) reshape (0 : dt : tfinal, [], 1), dt, "uniformoutput", false);
+
+
 %function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
 %function [y, x_arr] = __step_response__ (sys_dt, t)
 %function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
   switch (resptype)
     case "initial"
-      [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0} or x0, "uniformoutput", false);
+      %[y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0} or x0, "uniformoutput", false);
     case "step"
       [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
     case "impulse"
@@ -114,9 +122,8 @@ function [y, t, x] = __time_response_2__ (resptype, args)
   endswitch
 
 
-
-
   if (plotflag)                                        # display plot
+    [p, m] = size (sys_cell{1});
     switch (resptype)
       case "initial"
         str = "Response to Initial Conditions";
@@ -130,23 +137,24 @@ function [y, t, x] = __time_response_2__ (resptype, args)
       otherwise
         error ("time_response: invalid response type");
     endswitch
+    
+    outname = get (sys_cell{end}, "outname");
+    outname = __labels__ (outname, "y");
   
     for i = 1 : n_sys
-      t = t{i};
-      y = y{i};
       discrete = ! ct_idx(i);
       if (discrete)                                      # discrete system
         for k = 1 : p
           for j = 1 : cols
             subplot (p, cols, (k-1)*cols+j);
-            stairs (t, y(:, k, j));
+            stairs (t{i}, y{i}(:, k, j));
             hold on;
             grid ("on");
             if (i == n_sys && k == 1 && j == 1)
               title (str);
             endif
             if (i == n_sys && j == 1)
-              ylabel (sprintf ("Amplitude %s", outname{k}));
+              ylabel (outname{k});
             endif
           endfor
         endfor
@@ -154,14 +162,14 @@ function [y, t, x] = __time_response_2__ (resptype, args)
         for k = 1 : p
           for j = 1 : cols
             subplot (p, cols, (k-1)*cols+j);
-            plot (t, y(:, k, j));
+            plot (t{i}, y{i}(:, k, j));
             hold on;
             grid ("on");
             if (i == n_sys && k == 1 && j == 1)
               title (str);
             endif
             if (i == n_sys && j == 1)
-              ylabel (sprintf ("Amplitude %s", outname{k}));
+              ylabel (outname{k});
             endif
           endfor
         endfor
@@ -171,81 +179,6 @@ function [y, t, x] = __time_response_2__ (resptype, args)
     hold off;
   endif
 
-%{  
-  if (plotflag)                                        # display plot
-
-    ## TODO: Set correct titles, especially for multi-input systems
-
-    stable = isstable (sys);
-    outname = get (sys, "outname");
-    outname = __labels__ (outname, "y_");
-
-    if (strcmp (resptype, "initial"))
-      cols = 1;
-    else
-      cols = m;
-    endif
-
-    if (discrete)                                      # discrete system
-      for k = 1 : p
-        for j = 1 : cols
-
-          subplot (p, cols, (k-1)*cols+j);
-
-          if (stable)
-            stairs (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
-          else
-            stairs (t, y(:, k, j));
-          endif
-
-          grid ("on");
-
-          if (k == 1 && j == 1)
-            title (str);
-          endif
-
-          if (j == 1)
-            ylabel (sprintf ("Amplitude %s", outname{k}));
-          endif
-
-        endfor
-      endfor
-
-      xlabel ("Time [s]");
-
-    else                                               # continuous system
-      for k = 1 : p
-        for j = 1 : cols
-
-          subplot (p, cols, (k-1)*cols+j);
-
-          if (stable)
-            plot (t, [y(:, k, j), yfinal(k, j) * ones(l_t, 1)]);
-          else
-            plot (t, y(:, k, j));
-          endif
-
-          grid ("on");
-
-          if (k == 1 && j == 1)
-            title (str);
-          endif
-
-          if (j == 1)
-            ylabel (sprintf ("Amplitude %s", outname{k}));
-          endif
-
-        endfor
-      endfor
-
-      xlabel ("Time [s]");
-
-    endif 
-  endif
-
-endfunction
-%}
-
 endfunction
 
 
@@ -253,7 +186,7 @@ endfunction
 
 function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
 
-  [F, G, C, D] = ssdata (sys_dt);
+  [F, G, C, D] = ssdata (sys_dt);           # system must be proper
 
   n = rows (F);                                        # number of states
   m = columns (G);                                     # number of inputs
@@ -283,7 +216,7 @@ endfunction
 
 function [y, x_arr] = __step_response__ (sys_dt, t)
 
-  [F, G, C, D] = ssdata (sys_dt);
+  [F, G, C, D] = ssdata (sys_dt);       # system must be proper
 
   n = rows (F);                                        # number of states
   m = columns (G);                                     # number of inputs
@@ -313,8 +246,8 @@ endfunction
 
 function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
-  [~, B, ~, ~, dt] = ssdata (sys);
-  [F, G, C, D] = ssdata (sys_dt);
+  [~, B] = ssdata (sys);
+  [F, G, C, D, dt] = ssdata (sys_dt);           # system must be proper
   discrete = ! isct (sys);
 
   n = rows (F);                                        # number of states
@@ -359,9 +292,6 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 endfunction
 
 
-function 
-
-
 
 % function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
 function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
@@ -376,6 +306,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ev = pole (sys);
   n = length (ev);
+  discrete = ! isct (sys);
 
   if (discrete)
     ## perform bilinear transformation on poles in z
