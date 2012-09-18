@@ -62,14 +62,23 @@ function [y_r, t_r, x_r] = step2 (varargin)
   if (nargin == 0)
     print_usage ();
   endif
-  
-  %tmp = cellfun (@isa, varargin, {"lti"});
-  %sys_idx = find (tmp);
 
-  
-  %sys_names = arrayfun (@inputname, sys_idx);
+  if (nargout)
+    sysname = {};
+  else  
+    sys_idx = find (cellfun (@isa, varargin, {"lti"}));
+    len = length (sys_idx);
+    sysname = cell (len, 1);
+    for k = 1 : len
+      try
+        sysname{k} = inputname(sys_idx(k));
+      catch
+        sysname{k} = "";
+      end_try_catch
+    endfor
+  endif
 
-  [y, t, x] = __time_response_2__ ("step", varargin, ! nargout);
+  [y, t, x] = __time_response_2__ ("step", varargin, sysname, ! nargout);
 
   if (nargout)
     y_r = y{1};

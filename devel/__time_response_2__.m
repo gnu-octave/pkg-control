@@ -23,7 +23,7 @@
 ## Version: 0.3
 
 % function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
-function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
+function [y, t, x] = __time_response_2__ (resptype, args, sysname, plotflag)
 
   sys_idx = cellfun (@isa, args, {"lti"});                          # look for LTI models
   sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
@@ -188,6 +188,9 @@ dt
       endif
     endfor
     xlabel ("Time [s]");
+    if (p == 1 && m == 1)
+      legend (sysname)
+    endif
     hold off;
   endif
 
