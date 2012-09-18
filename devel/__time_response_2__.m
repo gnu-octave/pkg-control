@@ -25,8 +25,8 @@
 % function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
 function [y, t, x] = __time_response_2__ (resptype, args, plotflag)
 
-  sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
-  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);      # convert to state-space
+  sys_idx = cellfun (@isa, args, {"lti"});                          # look for LTI models
+  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
 
   if (! size_equal (sys_cell{:}))
     error ("%s: models must have equal sizes", resptype);
@@ -63,18 +63,18 @@ dt
 
 %{
   if (! isa (sys, "ss"))
-    sys = ss (sys);                                    # sys must be proper
+    sys = ss (sys);                                     # sys must be proper
   endif
 
-  if (is_real_vector (tfinal) && length (tfinal) > 1)  # time vector t passed
-    dt = tfinal(2) - tfinal(1);                        # assume that t is regularly spaced
+  if (is_real_vector (tfinal) && length (tfinal) > 1)   # time vector t passed
+    dt = tfinal(2) - tfinal(1);                         # assume that t is regularly spaced
     tfinal = tfinal(end);
   endif
 
   [A, B, C, D, tsam] = ssdata (sys);
 
-  discrete = ! isct (sys);                             # static gains are treated as analog systems
-  tsam = abs (tsam);                                   # use 1 second if tsam is unspecified (-1)
+  discrete = ! isct (sys);                              # static gains are treated as analog systems
+  tsam = abs (tsam);                                    # use 1 second if tsam is unspecified (-1)
 
   if (discrete)
     if (! isempty (dt))
@@ -90,11 +90,11 @@ dt
     sys = c2d (sys, dt, "zoh");
   endif
 
-  [F, G] = ssdata (sys);                               # matrices C and D don't change
+  [F, G] = ssdata (sys);                                # matrices C and D don't change
 
-  n = rows (F);                                        # number of states
-  m = columns (G);                                     # number of inputs
-  p = rows (C);                                        # number of outputs
+  n = rows (F);                                         # number of states
+  m = columns (G);                                      # number of inputs
+  p = rows (C);                                         # number of outputs
 
   ## time vector
   t = reshape (0 : dt : tfinal, [], 1);
@@ -122,7 +122,7 @@ dt
   endswitch
 
 
-  if (plotflag)                                        # display plot
+  if (plotflag)                                         # display plot
     [p, m] = size (sys_cell{1});
     switch (resptype)
       case "initial"
@@ -141,40 +141,40 @@ dt
     outname = get (sys_cell{end}, "outname");
     outname = __labels__ (outname, "y");
   
-    for i = 1 : n_sys
-      discrete = ! ct_idx(i);
-      if (discrete)                                      # discrete-time system
-        for k = 1 : p
-          for j = 1 : cols
-            subplot (p, cols, (k-1)*cols+j);
-            stairs (t{i}, y{i}(:, k, j));
+    for k = 1 : n_sys                                   # for every system
+      discrete = ! ct_idx(k);
+      if (discrete)                                     # discrete-time system
+        for i = 1 : p                                   # for every output
+          for j = 1 : cols                              # for every input (except for initial where cols=1)
+            subplot (p, cols, (i-1)*cols+j);
+            stairs (t{k}, y{k}(:, i, j));
             hold on;
             grid on;
-            if (i == n_sys)
+            if (k == n_sys)
               axis tight;
               ylim (__axis_margin__ (ylim))
               if (j == 1)
-                ylabel (outname{k});
-                if (k == 1)
+                ylabel (outname{i});
+                if (i == 1)
                   title (str);
                 endif
               endif
             endif
           endfor
         endfor
-      else                                               # continuous-time system
-        for k = 1 : p
-          for j = 1 : cols
-            subplot (p, cols, (k-1)*cols+j);
-            plot (t{i}, y{i}(:, k, j));
+      else                                              # continuous-time system
+        for i = 1 : p                                   # for every output
+          for j = 1 : cols                              # for every input (except for initial where cols=1)
+            subplot (p, cols, (i-1)*cols+j);
+            plot (t{k}, y{k}(:, i, j));
             hold on;
             grid on;
-            if (i == n_sys)
+            if (k == n_sys)
               axis tight
               ylim (__axis_margin__ (ylim))
               if (j == 1)
-                ylabel (outname{k});
-                if (k == 1)
+                ylabel (outname{i});
+                if (i == 1)
                   title (str);
                 endif
               endif
@@ -194,11 +194,11 @@ endfunction
 
 function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
 
-  [F, G, C, D] = ssdata (sys_dt);           # system must be proper
+  [F, G, C, D] = ssdata (sys_dt);                       # system must be proper
 
-  n = rows (F);                                        # number of states
-  m = columns (G);                                     # number of inputs
-  p = rows (C);                                        # number of outputs
+  n = rows (F);                                         # number of states
+  m = columns (G);                                      # number of inputs
+  p = rows (C);                                         # number of outputs
   l_t = length (t);
 
   ## preallocate memory
@@ -206,7 +206,7 @@ function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
   x_arr = zeros (l_t, n);
 
   ## initial conditions
-  x = reshape (x0, [], 1);                         # make sure that x is a column vector
+  x = reshape (x0, [], 1);                              # make sure that x is a column vector
 
   if (n != length (x0) || ! is_real_vector (x0))
     error ("initial: x0 must be a real vector with %d elements", n);
@@ -226,16 +226,16 @@ function [y, x_arr] = __step_response__ (sys_dt, t)
 
   [F, G, C, D] = ssdata (sys_dt);       # system must be proper
 
-  n = rows (F);                                        # number of states
-  m = columns (G);                                     # number of inputs
-  p = rows (C);                                        # number of outputs
+  n = rows (F);                                         # number of states
+  m = columns (G);                                      # number of inputs
+  p = rows (C);                                         # number of outputs
   l_t = length (t);
 
   ## preallocate memory
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
-  for j = 1 : m                                    # for every input channel
+  for j = 1 : m                                         # for every input channel
     ## initial conditions
     x = zeros (n, 1);
     u = zeros (m, 1);
@@ -255,30 +255,30 @@ endfunction
 function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
   [~, B] = ssdata (sys);
-  [F, G, C, D, dt] = ssdata (sys_dt);           # system must be proper
+  [F, G, C, D, dt] = ssdata (sys_dt);                   # system must be proper
   discrete = ! isct (sys);
 
-  n = rows (F);                                        # number of states
-  m = columns (G);                                     # number of inputs
-  p = rows (C);                                        # number of outputs
+  n = rows (F);                                         # number of states
+  m = columns (G);                                      # number of inputs
+  p = rows (C);                                         # number of outputs
   l_t = length (t);
 
   ## preallocate memory
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
-  for j = 1 : m                                    # for every input channel
+  for j = 1 : m                                         # for every input channel
     ## initial conditions
     u = zeros (m, 1);
     u(j) = 1;
 
     if (discrete)
-      x = zeros (n, 1);                            # zero by definition 
+      x = zeros (n, 1);                                 # zero by definition 
       y(1, :, j) = D * u / dt;
       x_arr(1, :, j) = x;
       x = G * u / dt;
     else
-      x = B * u;                                   # B, not G!
+      x = B * u;                                        # B, not G!
       y(1, :, j) = C * x;
       x_arr(1, :, j) = x;
       x = F * x;
@@ -306,14 +306,14 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 
-  TOL = 1.0e-10;                                       # values below TOL are assumed to be zero
-  N_MIN = 50;                                          # min number of points
-  N_MAX = 2000;                                        # max number of points
-  N_DEF = 1000;                                        # default number of points
-  T_DEF = 10;                                          # default simulation time
+  TOL = 1.0e-10;                                        # values below TOL are assumed to be zero
+  N_MIN = 50;                                           # min number of points
+  N_MAX = 2000;                                         # max number of points
+  N_DEF = 1000;                                         # default number of points
+  T_DEF = 10;                                           # default simulation time
 
   ev = pole (sys);
-  n = length (ev);              # number of states/poles
+  n = length (ev);                                      # number of states/poles
   continuous = isct (sys);
   discrete = ! continuous;
   Ts = get (sys, "tsam");
