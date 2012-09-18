@@ -140,14 +140,18 @@ dt
     
     outname = get (sys_cell{end}, "outname");
     outname = __labels__ (outname, "y");
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
   
     for k = 1 : n_sys                                   # for every system
+      color = colororder(1+rem (k-1, rc), :);
+      style = {"-", "color", color};
       discrete = ! ct_idx(k);
       if (discrete)                                     # discrete-time system
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             subplot (p, cols, (i-1)*cols+j);
-            stairs (t{k}, y{k}(:, i, j));
+            stairs (t{k}, y{k}(:, i, j), style{:});
             hold on;
             grid on;
             if (k == n_sys)
@@ -166,7 +170,7 @@ dt
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             subplot (p, cols, (i-1)*cols+j);
-            plot (t{k}, y{k}(:, i, j));
+            plot (t{k}, y{k}(:, i, j), style{:});
             hold on;
             grid on;
             if (k == n_sys)
