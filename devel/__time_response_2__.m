@@ -128,12 +128,15 @@ dt
       case "initial"
         str = "Response to Initial Conditions";
         cols = 1;
+        yfinal = zeros (p, 1);
       case "step"
         str = "Step Response";
         cols = m;
+        yfinal = dcgain (sys_cell{1});
       case "impulse"
         str = "Impulse Response";
         cols = m;
+        yfinal = zeros (p, m);
       otherwise
         error ("time_response: invalid response type");
     endswitch
@@ -170,7 +173,12 @@ dt
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             subplot (p, cols, (i-1)*cols+j);
-            plot (t{k}, y{k}(:, i, j), style{:});
+            if (n_sys == 1 && isstable (sys_cell{1}))
+              plot (t{k}, y{k}(:, i, j), style{:}, [t{k}(1), t{k}(end)], repmat (yfinal(i,j), 1, 2));
+              ## TODO: plot final value first such that its line doesn't overprint the response
+            else
+              plot (t{k}, y{k}(:, i, j), style{:});
+            endif
             hold on;
             grid on;
             if (k == n_sys)
