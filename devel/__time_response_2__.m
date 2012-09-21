@@ -105,14 +105,13 @@ dt
   ## time vector
   t = @cellfun (@(dt) reshape (0 : dt : tfinal, [], 1), dt, "uniformoutput", false);
 
-
-%function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
-%function [y, x_arr] = __step_response__ (sys_dt, t)
-%function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
+  ## function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
+  ## function [y, x_arr] = __step_response__ (sys_dt, t)
+  ## function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
   switch (resptype)
     case "initial"
-      %[y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0} or x0, "uniformoutput", false);
+      [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0}, "uniformoutput", false);
     case "step"
       [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
     case "impulse"
@@ -128,15 +127,15 @@ dt
       case "initial"
         str = "Response to Initial Conditions";
         cols = 1;
-        yfinal = zeros (p, 1);
+        ## yfinal = zeros (p, 1);
       case "step"
         str = "Step Response";
         cols = m;
-        yfinal = dcgain (sys_cell{1});
+        ## yfinal = dcgain (sys_cell{1});
       case "impulse"
         str = "Impulse Response";
         cols = m;
-        yfinal = zeros (p, m);
+        ## yfinal = zeros (p, m);
       otherwise
         error ("time_response: invalid response type");
     endswitch
@@ -173,12 +172,12 @@ dt
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             subplot (p, cols, (i-1)*cols+j);
-            if (n_sys == 1 && isstable (sys_cell{1}))
-              plot (t{k}, y{k}(:, i, j), style{:}, [t{k}(1), t{k}(end)], repmat (yfinal(i,j), 1, 2));
-              ## TODO: plot final value first such that its line doesn't overprint the response
-            else
-              plot (t{k}, y{k}(:, i, j), style{:});
-            endif
+            ##if (n_sys == 1 && isstable (sys_cell{1}))
+            ##  plot (t{k}, y{k}(:, i, j), style{:}, [t{k}(1), t{k}(end)], repmat (yfinal(i,j), 1, 2));
+            ##  ## TODO: plot final value first such that its line doesn't overprint the response
+            ##else
+            plot (t{k}, y{k}(:, i, j), style{:});
+            ##endif
             hold on;
             grid on;
             if (k == n_sys)
