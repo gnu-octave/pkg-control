@@ -15,5 +15,6 @@ cd (srcdir);
 system ("make clean");
 system ("make -j1 all");
 system ("rm *.o");
+system ("rm *.d");
 
 cd (homedir);
