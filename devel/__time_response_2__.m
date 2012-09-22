@@ -106,7 +106,7 @@ function [y, t, x] = __time_response_2__ (response, args, sysname, plotflag)
 
   [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
-dt
+
   ct_idx = cellfun (@isct, sys_cell);
   sys_dt_cell = sys_cell;
   tmp = cellfun (@c2d, sys_cell(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
@@ -165,7 +165,7 @@ dt
       style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       if (isempty (style))
         color = colororder(1+rem (k-1, rc), :);
-        style = {"-", "color", color};   
+        style = {"color", color};   
       endif
       discrete = ! ct_idx(k);
       if (discrete)                                     # discrete-time system
