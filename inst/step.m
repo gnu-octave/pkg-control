@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -54,22 +54,35 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function [y_r, t_r, x_r] = step (sys, tfinal = [], dt = [])
+function [y_r, t_r, x_r] = step2 (varargin)
 
-  ## TODO: multiplot feature:   step (sys1, "b", sys2, "r", ...)
-
-  if (nargin == 0 || nargin > 3)
+  if (nargin == 0)
     print_usage ();
   endif
 
-  [y, t, x] = __time_response__ (sys, "step", ! nargout, tfinal, dt, [], inputname (1));
+  if (nargout)
+    sysname = {};
+  else  
+    sys_idx = find (cellfun (@isa, varargin, {"lti"}));
+    len = length (sys_idx);
+    sysname = cell (len, 1);
+    for k = 1 : len
+      try
+        sysname{k} = inputname(sys_idx(k));
+      catch
+        sysname{k} = "";
+      end_try_catch
+    endfor
+  endif
+
+  [y, t, x] = __time_response_2__ ("step", varargin, sysname, ! nargout);
 
   if (nargout)
-    y_r = y;
-    t_r = t;
-    x_r = x;
+    y_r = y{1};
+    t_r = t{1};
+    x_r = x{1};
   endif
 
 endfunction
