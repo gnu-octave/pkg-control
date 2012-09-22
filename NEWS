@@ -1,6 +1,22 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.4.0   Release Date: 2012-09-xx   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Multiplot feature for time-domain plotting:
+   
+     impulse    lsim
+     initial    step
+
+** Anderson, Madievski, MDSSystem, optiPID
+   Updated example scripts to use new multiplot feature.
+
+** doc/control.pdf
+   Updated PDF manual.
+
+
+===============================================================================
 control-2.3.54   Release Date: 2012-09-15   Release Manager: Lukas Reichlin
 ===============================================================================
 
