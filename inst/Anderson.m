@@ -50,31 +50,22 @@ F = lqr (G, Q, R)
 L = lqe (G, W, V)
 
 % Coprime Factorization using Balanced Truncation Approximation
+Kr = arrayfun (@(k) cfconred (G, F, L, k), 8:-1:2, 'uniformoutput', false);  % 'method', 'bfsr-bta'
+T = cellfun (@(Kr) feedback (G*Kr), Kr, 'uniformoutput', false);
+
 figure (1)
-for k = 8:-1:2
-  Kr = cfconred (G, F, L, k);   % 'method', 'bfsr-bta'
-  T = feedback (G*Kr);
-  step (T, 200)
-  hold on
-endfor
-hold off
+step (T{:}, 200)
 
 % Coprime Factorization using Singular Perturbation Approximation
+Kr = arrayfun (@(k) cfconred (G, F, L, k, 'method', 'bfsr-spa'), 8:-1:2, 'uniformoutput', false);
+T = cellfun (@(Kr) feedback (G*Kr), Kr, 'uniformoutput', false);
+
 figure (2)
-for k = 8:-1:2
-  Kr = cfconred (G, F, L, k, 'method', 'bfsr-spa');
-  T = feedback (G*Kr);
-  step (T, 200)
-  hold on
-endfor
-hold off
+step (T{:}, 200)
 
 % Frequency-Weighted Coprime Factorization using BTA
+Kr = arrayfun (@(k) fwcfconred (G, F, L, k), 8:-1:2, 'uniformoutput', false);
+T = cellfun (@(Kr) feedback (G*Kr), Kr, 'uniformoutput', false);
+
 figure (3)
-for k = 8:-1:2
-  Kr = fwcfconred (G, F, L, k);
-  T = feedback (G*Kr);
-  step (T, 300)
-  hold on
-endfor
-hold off
+step (T{:}, 200)
