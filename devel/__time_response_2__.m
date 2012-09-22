@@ -25,17 +25,16 @@
 % function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
 function [y, t, x] = __time_response_2__ (resptype, args, sysname, plotflag)
 
-  sys_idx = cellfun (@isa, args, {"lti"});                          # look for LTI models
+  sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
   sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
 
   if (! size_equal (sys_cell{:}))
     error ("%s: models must have equal sizes", resptype);
   endif
 
-  tmp = cellfun (@is_real_matrix, args);
-  vec_idx = find (tmp);
-  n_vec = length (vec_idx);
-  n_sys = length (sys_cell);
+  vec_idx = find (cellfun (@is_real_matrix, args));     # indices of vector arguments
+  n_vec = length (vec_idx);                             # number of vector arguments
+  n_sys = length (sys_cell);                            # number of LTI systems
   
   %if (n_vec >= 1)
   %  arg = args{vec_idx(1)};
@@ -140,6 +139,7 @@ dt
         error ("time_response: invalid response type");
     endswitch
     
+    style_idx = find (cellfun (@ischar, args));
     outname = get (sys_cell{end}, "outname");
     outname = __labels__ (outname, "y");
     colororder = get (gca, "colororder");
@@ -147,7 +147,16 @@ dt
   
     for k = 1 : n_sys                                   # for every system
       color = colororder(1+rem (k-1, rc), :);
-      style = {"-", "color", color};
+      if (k == n_sys)
+        lim = numel (args);
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      if (isempty (style))
+        style = {"-", "color", color};   
+      endif
+      style
       discrete = ! ct_idx(k);
       if (discrete)                                     # discrete-time system
         for i = 1 : p                                   # for every output
