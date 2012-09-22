@@ -68,4 +68,4 @@ Kr = arrayfun (@(k) fwcfconred (G, F, L, k), 8:-1:2, 'uniformoutput', false);
 T = cellfun (@(Kr) feedback (G*Kr), Kr, 'uniformoutput', false);
 
 figure (3)
-step (T{:}, 200)
+step (T{:}, 300)
