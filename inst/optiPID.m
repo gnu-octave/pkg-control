@@ -88,15 +88,8 @@ disp ('optiPID: gain margin gamma [-] and phase margin phi [deg]:');
 [gamma_opt, phi_opt] = margin (L_opt)
 
 % Plot Step Response
-[y_AH, t_AH] = step (T_AH, t);
-[y_opt, t_opt] = step (T_opt, t);
-
 figure (1)
-plot (t_AH, y_AH, 'b', t_opt, y_opt, 'r')
-grid ('on')
-title ('Step Response')
-xlabel ('Time [s]')
-ylabel ('Output [-]')
-legend ('A/H', 'Optimized', 'Location', 'SouthEast')
+step (T_AH, 'b', T_opt, 'r', t)
+legend ('Astroem/Haegglund PID', 'Optimized PID', 'Location', 'SouthEast')
 
 % ===============================================================================
