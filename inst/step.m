@@ -56,7 +56,7 @@
 ## Created: October 2009
 ## Version: 0.2
 
-function [y_r, t_r, x_r] = step2 (varargin)
+function [y_r, t_r, x_r] = step (varargin)
 
   if (nargin == 0)
     print_usage ();
@@ -77,7 +77,7 @@ function [y_r, t_r, x_r] = step2 (varargin)
     endfor
   endif
 
-  [y, t, x] = __time_response_2__ ("step", varargin, sysname, ! nargout);
+  [y, t, x] = __time_response__ ("step", varargin, sysname, ! nargout);
 
   if (nargout)
     y_r = y{1};
