@@ -86,18 +86,11 @@ Tr2 = feedback (Lr2);
 w = {1e-2, 1e1};
 
 % Bode Plot of Controller
+figure (1)
 bode (K, Kr4, Kr2, w)
-legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'location', 'southwest')
+legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'Location', 'SouthWest')
     
 % Step Response of Closed Loop
-[y, t] = step (T, 100);
-[yr4, tr4] = step (Tr4, 100);
-[yr2, tr2] = step (Tr2, 100);
-
 figure (2)
-plot (t, y, tr4, yr4, tr2, yr2)
-grid ('on')
-title ('Step Response of Closed Loop')
-xlabel ('Time [s]')
-ylabel ('Output [-]')
+step (T, Tr4, Tr2, 100)
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'Location', 'SouthEast')
