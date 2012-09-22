@@ -22,84 +22,95 @@
 ## Created: October 2009
 ## Version: 0.3
 
-% function [y, t, x_arr] = __time_response_2__ (sys, resptype, plotflag, tfinal, dt, x0, sysname)
-function [y, t, x] = __time_response_2__ (resptype, args, sysname, plotflag)
+% function [y, t, x_arr] = __time_response_2__ (sys, response, plotflag, tfinal, dt, x0, sysname)
+function [y, t, x] = __time_response_2__ (response, args, sysname, plotflag)
 
   sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
   sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
 
   if (! size_equal (sys_cell{:}))
-    error ("%s: models must have equal sizes", resptype);
+    error ("%s: models must have equal sizes", response);
   endif
 
-  vec_idx = find (cellfun (@is_real_matrix, args));     # indices of vector arguments
-  n_vec = length (vec_idx);                             # number of vector arguments
-  n_sys = length (sys_cell);                            # number of LTI systems
-  
-  %if (n_vec >= 1)
-  %  arg = args{vec_idx(1)};
-  %  
-  %endif
-
-  ## extract tfinal/t, dt, x0
+  vec_idx = find (cellfun (@is_real_matrix, args));                 # indices of vector arguments
+  n_vec = length (vec_idx);                                         # number of vector arguments
+  n_sys = length (sys_cell);                                        # number of LTI systems
 
   tfinal = [];
-  dt = {[]};
+  dt = [];
+  x0 = [];
 
-  %[tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, dt, "uniformoutput", false);
+  ## extract tfinal/t, dt, x0 from args
+  if (strcmpi (response, "initial"))
+    if (n_vec < 1)
+      error ("initial: require initial state vector 'x0'");
+    else                                                            # initial state vector x0 specified
+      arg = args{vec_idx(1)};
+      if (is_real_vector (arg))
+        x0 = arg;
+      else
+        error ("initial: initial state vector 'x0' must be a vector of real values");
+      endif
+      if (n_vec > 1)                                                # tfinal or time vector t specified
+        arg = args{vec_idx(2)};
+        if (issample (arg))
+          tfinal = arg;
+        elseif (isempty (arg))
+          ## tfinal = [];                                           # nothing to do here
+        elseif (is_real_vector (arg))
+          dt = abs (arg(2) - arg(1));                               # assume that t is regularly spaced
+          tfinal = arg(end);
+        else  
+          warning ("initial: argument number %d ignored", vec_idx(2));
+        endif
+        if (n_vec > 2)                                              # sampling time dt specified
+          arg = args{vec_idx(3)};
+          if (issample (arg))
+            dt = arg;
+          else
+            warning ("initial: argument number %d ignored", vec_idx(3));
+          endif
+          if (n_vec > 3)
+            warning ("initial: ignored");
+          endif
+        endif
+      endif
+    endif 
+  else                                                              # step or impulse response
+    if (n_vec > 0)                                                  # tfinal or time vector t specified
+      arg = args{vec_idx(1)};
+      if (issample (arg))
+        tfinal = arg;
+      elseif (isempty (arg))
+        ## tfinal = [];                                             # nothing to do here
+      elseif (is_real_vector (arg))
+        dt = abs (arg(2) - arg(1));                                 # assume that t is regularly spaced
+        tfinal = arg(end);
+      else  
+        warning ("%s: argument number %d ignored", response, vec_idx(1));
+      endif
+      if (n_vec > 1)                                                # sampling time dt specified
+        arg = args{vec_idx(2)};
+        if (issample (arg))
+          dt = arg;
+        else
+          warning ("%s: argument number %d ignored", response, vec_idx(2));
+        endif
+        if (n_vec > 2)
+          warning ("%s: ignored", response);
+        endif
+      endif
+    endif
+  endif
+  ## TODO: share common code between initial and step/impulse
 
-  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, "uniformoutput", false);
-  
+  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
- 
-dt 
-
-  
+dt
   ct_idx = cellfun (@isct, sys_cell);
   sys_dt_cell = sys_cell;
-  tmp = cellfun (@c2d, sys_cell(ct_idx), dt, {"zoh"}, "uniformoutput", false);
+  tmp = cellfun (@c2d, sys_cell(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
   sys_dt_cell(ct_idx) = tmp;
-
-%{
-  if (! isa (sys, "ss"))
-    sys = ss (sys);                                     # sys must be proper
-  endif
-
-  if (is_real_vector (tfinal) && length (tfinal) > 1)   # time vector t passed
-    dt = tfinal(2) - tfinal(1);                         # assume that t is regularly spaced
-    tfinal = tfinal(end);
-  endif
-
-  [A, B, C, D, tsam] = ssdata (sys);
-
-  discrete = ! isct (sys);                              # static gains are treated as analog systems
-  tsam = abs (tsam);                                    # use 1 second if tsam is unspecified (-1)
-
-  if (discrete)
-    if (! isempty (dt))
-      warning ("time_response: argument dt has no effect on sampling time of discrete system");
-    endif
-
-    dt = tsam;
-  endif
-
-  [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, dt);
-
-  if (! discrete)
-    sys = c2d (sys, dt, "zoh");
-  endif
-
-  [F, G] = ssdata (sys);                                # matrices C and D don't change
-
-  n = rows (F);                                         # number of states
-  m = columns (G);                                      # number of inputs
-  p = rows (C);                                         # number of outputs
-
-  ## time vector
-  t = reshape (0 : dt : tfinal, [], 1);
-  l_t = length (t);
-%}
-
 
   ## time vector
   t = @cellfun (@(dt) reshape (0 : dt : tfinal, [], 1), dt, "uniformoutput", false);
@@ -108,7 +119,7 @@ dt
   ## function [y, x_arr] = __step_response__ (sys_dt, t)
   ## function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
-  switch (resptype)
+  switch (response)
     case "initial"
       [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0}, "uniformoutput", false);
     case "step"
@@ -122,7 +133,7 @@ dt
 
   if (plotflag)                                         # display plot
     [p, m] = size (sys_cell{1});
-    switch (resptype)
+    switch (response)
       case "initial"
         str = "Response to Initial Conditions";
         cols = 1;
@@ -146,7 +157,6 @@ dt
     rc = rows (colororder);
   
     for k = 1 : n_sys                                   # for every system
-      color = colororder(1+rem (k-1, rc), :);
       if (k == n_sys)
         lim = numel (args);
       else
@@ -154,9 +164,9 @@ dt
       endif
       style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       if (isempty (style))
+        color = colororder(1+rem (k-1, rc), :);
         style = {"-", "color", color};   
       endif
-      style
       discrete = ! ct_idx(k);
       if (discrete)                                     # discrete-time system
         for i = 1 : p                                   # for every output
@@ -211,8 +221,6 @@ dt
   endif
 
 endfunction
-
-
 
 
 function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
@@ -279,6 +287,7 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
   [~, B] = ssdata (sys);
   [F, G, C, D, dt] = ssdata (sys_dt);                   # system must be proper
+  dt = abs (dt);                                        # use 1 second if tsam is unspecified (-1)
   discrete = ! isct (sys);
 
   n = rows (F);                                         # number of states
@@ -323,8 +332,6 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 endfunction
 
 
-
-% function [tfinal, dt] = __sim_horizon__ (A, discrete, tfinal, Ts)
 function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
@@ -339,9 +346,9 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   n = length (ev);                                      # number of states/poles
   continuous = isct (sys);
   discrete = ! continuous;
-  Ts = get (sys, "tsam");
 
   if (discrete)
+    dt = Ts = abs (get (sys, "tsam"));
     ## perform bilinear transformation on poles in z
     for k = 1 : n
       pol = ev(k);
@@ -400,8 +407,8 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     endif
   endif
 
-  %if (! isempty (Ts))                                  # catch case cont. system with dt specified
-  %  dt = Ts;
-  %endif
+  if (continuous && ! isempty (Ts))                     # catch case cont. system with dt specified
+    dt = Ts;
+  endif
 
 endfunction
