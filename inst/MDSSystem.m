@@ -145,16 +145,17 @@ K_ncf = -K_ncf;                        % negative feedback controller
 L_ncf = G * K_ncf;                     % open loop
 T_ncf = feedback (L_ncf);              % closed loop
 
+
+% ===============================================================================
+% Plot Results
 % ===============================================================================
 
-% Plotting
+% Bode Plot
 figure (2)
-bode (K_mix, K_ncf)                    % bode plot
+bode (K_mix, K_ncf)
 
+% Step Response
 figure (3)
-step (T_mix, 10)                       % step response for 10 seconds
-
-figure (4)
-step (T_ncf, 10)                       % step response for 10 seconds
+step (T_mix, T_ncf, 10)                % step response for 10 seconds
 
 % ===============================================================================
