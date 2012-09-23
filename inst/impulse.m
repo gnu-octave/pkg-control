@@ -16,7 +16,13 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
+## @deftypefn{Function File} impulse (@var{sys})
+## @deftypefnx{Function File} impulse (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx{Function File} impulse (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{t})
+## @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal})
+## @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal}, @var{dt})

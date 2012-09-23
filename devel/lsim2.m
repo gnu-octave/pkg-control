@@ -16,7 +16,14 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
+## @deftypefn{Function File} lsim (@var{sys}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{[]}, @var{method})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0}, @var{method})
+## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{[]}, @var{method})
@@ -177,35 +184,33 @@ function [y_r, t_r, x_r] = lsim (varargin)
       endif
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
-            subplot (p, 1, i);
-            plot (t{k}, y{k}(:, i), style{:});
-            hold on;
-            grid on;
-            if (k == n_sys)
-              axis tight
-              ylim (__axis_margin__ (ylim))
-              ylabel (outname{i});
-              if (i == 1)
-                title (str);
-              endif
+          subplot (p, 1, i);
+          plot (t{k}, y{k}(:, i), style{:});
+          hold on;
+          grid on;
+          if (k == n_sys)
+            axis tight
+            ylim (__axis_margin__ (ylim))
+            ylabel (outname{i});
+            if (i == 1)
+              title (str);
             endif
-          endfor
+          endif
         endfor
       else                                              # discrete-time system
         for i = 1 : p                                   # for every output
-            subplot (p, 1, i);
-            stairs (t{k}, y{k}(:, i), style{:});
-            hold on;
-            grid on;
-            if (k == n_sys)
-              axis tight;
-              ylim (__axis_margin__ (ylim))
-              ylabel (outname{i});
-              if (i == 1)
-                  title (str);
-              endif
+          subplot (p, 1, i);
+          stairs (t{k}, y{k}(:, i), style{:});
+          hold on;
+          grid on;
+          if (k == n_sys)
+            axis tight;
+            ylim (__axis_margin__ (ylim))
+            ylabel (outname{i});
+            if (i == 1)
+              title (str);
             endif
-          endfor
+          endif
         endfor
       endif
     endfor
