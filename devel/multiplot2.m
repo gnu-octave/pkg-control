@@ -94,7 +94,7 @@ legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'location', 'southwest
 
 % Step Response of Closed Loop
 figure (2)
-step2 (T, Tr4, Tr2)
+step (T, Tr4, Tr2)
 
 %{    
 % Step Response of Closed Loop
