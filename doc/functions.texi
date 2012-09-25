@@ -1625,7 +1625,13 @@
  @end deftypefn
 @section impulse
 
- @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
+ @deftypefn{Function File} impulse (@var{sys})
+ @deftypefnx{Function File} impulse (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx{Function File} impulse (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{t})
+ @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal})
+ @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal}, @var{dt})
@@ -1662,7 +1668,13 @@
  @end deftypefn
 @section initial
 
- @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0})
+ @deftypefn{Function File} initial (@var{sys}, @var{x0})
+ @deftypefnx{Function File} initial (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{x0})
+ @deftypefnx{Function File} initial (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{x0})
+ @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{t})
+ @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal})
+ @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal}, @var{dt})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal}, @var{dt})
@@ -1711,7 +1723,14 @@
  @end deftypefn
 @section lsim
 
- @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
+ @deftypefn{Function File} lsim (@var{sys}, @var{u})
+ @deftypefnx{Function File} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
+ @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
+ @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
+ @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
+ @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{[]}, @var{method})
+ @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0}, @var{method})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{[]}, @var{method})
@@ -1754,7 +1773,13 @@
  @end deftypefn
 @section step
 
- @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys})
+ @deftypefn{Function File} step (@var{sys})
+ @deftypefnx{Function File} step (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx{Function File} step (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{t})
+ @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal})
+ @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal}, @var{dt})
