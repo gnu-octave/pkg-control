@@ -130,6 +130,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
   if (nargout == 0)                             # plot information
     [p, m] = size (sys_cell{1});
     style_idx = find (cellfun (@ischar, varargin));
+    ct_idx = cellfun (@isct, sys_cell);
     str = "Linear Simulation Results";
     outname = get (sys_cell{end}, "outname");
     outname = __labels__ (outname, "y");
@@ -140,11 +141,11 @@ function [y_r, t_r, x_r] = lsim (varargin)
 
     for k = 1 : n_sys                                   # for every system
       if (k == n_sys)
-        lim = numel (args);
+        lim = nargin;
       else
         lim = sys_idx(k+1);
       endif
-      style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
       if (isempty (style))
         color = colororder(1+rem (k-1, rc), :);
         style = {"color", color};   
