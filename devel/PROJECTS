@@ -10,9 +10,6 @@ grep FIXME and/or TODO for more information
 General:
 -------
 
-  * Multiplot feature for time response functions and lsim.
-    impulse (sys1, sys2, ...), step (sys1, "b", sys2, "r", ...)
-
   * Improve @lti/subsasgn.m
 
   * Improve @lti/parallel.m by implementing "complicated" case
@@ -68,12 +65,7 @@ General:
     become a problem if - for example - someone sets up a public web interface
     where people can try out octave through their web browsers.
 
-  * With Octave 3.6.0, the "axis tight" bug for infinite values is fixed.
-    The code of the frequency response commands can be simplified quite a lot:
-    http://octave.svn.sourceforge.net/viewvc/octave/trunk/octave-forge/main/control/inst/bode.m?revision=9369&view=markup
-    Set dependency to octave (>= 3.6.0).  Wait until control-2.3.50 which
-    will integrate the model and controller reduction commands for the first time.
-    Don't forget margin.m.
+  * Use "axis tight" and multiplot for margin.m.
 
 -----------------------
 Frequency Response Data:
