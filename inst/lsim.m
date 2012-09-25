@@ -95,8 +95,8 @@ function [y_r, t_r, x_r] = lsim (varargin)
   else
     arg = varargin{mat_idx(1)};
     if (is_real_vector (arg))
-      u = reshape (u, [], 1);                     # allow row vectors for single-input systems
-    elseif (is_real_matrix (u));
+      u = reshape (arg, [], 1);                     # allow row vectors for single-input systems
+    elseif (is_real_matrix (arg));
       u = arg;
     else
       error ("lsim: input signal 'u' must be an array of real numbers");
@@ -191,6 +191,10 @@ function [y_r, t_r, x_r] = lsim (varargin)
       legend (sysname)
     endif
     hold off;
+  else                  # return values
+    y_r = y{1};
+    t_r = t{1};
+    x_r = x{1};
   endif
   
 endfunction
