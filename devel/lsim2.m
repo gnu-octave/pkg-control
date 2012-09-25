@@ -76,16 +76,41 @@ function [y_r, t_r, x_r] = lsim (varargin)
     print_usage ();
   endif
 
-  sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
-  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
+  sys_idx = find (cellfun (@isa, varargin, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
+  sys_cell = cellfun (@ss, varargin(sys_idx), "uniformoutput", false);  # convert to state-space
 
   if (! size_equal (sys_cell{:}))
     error ("lsim: models must have equal sizes");
   endif
 
-  mat_idx = find (cellfun (@is_real_matrix, args));                 # indices of matrix arguments
+  mat_idx = find (cellfun (@is_real_matrix, varargin));                 # indices of matrix arguments
   n_mat = length (mat_idx);                                         # number of vector arguments
   n_sys = length (sys_cell);                                        # number of LTI systems
+
+  t = [];
+  x0 = [];
+  method = "zoh";
+
+  if (n_mat < 1)
+    error ("lsim: require input signal 'u'");
+  else
+    arg = varargin{mat_idx(1)};
+    if (is_real_vector (arg))
+      u = reshape (u, [], 1);                     # allow row vectors for single-input systems
+    elseif (is_real_matrix (u));
+      u = arg;
+    else
+      error ("lsim: input signal 'u' must be an array of real numbers");
+    endif
+    if (n_mat > 1)                                  # time vector t
+      arg = varargin{mat_idx(2)};
+      if (is_real_vector (arg) || isempty (arg))
+        t = arg;
+      else
+        error ("lsim: time vector 't' must be real-valued or empty");
+      endif
+    endif
+  endif
 
 
   ## function [y, x_arr] = __linear_simulation__ (sys_dt, u, t, x0)
