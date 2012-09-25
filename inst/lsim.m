@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,7 +16,14 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
+## @deftypefn{Function File} lsim (@var{sys}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{[]}, @var{method})
+## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0}, @var{method})
+## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{[]}, @var{method})
@@ -60,51 +67,141 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
-function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
+function [y_r, t_r, x_r] = lsim (varargin)
 
-  ## TODO: multiplot feature:   lsim (sys1, "b", sys2, "r", ..., u, t)
-
-  if (nargin < 2 || nargin > 5)
+  if (nargin < 2)
     print_usage ();
   endif
 
-  if (! isa (sys, "ss"))
-    sys = ss (sys);                             # sys must be proper
+  sys_idx = find (cellfun (@isa, varargin, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
+  sys_cell = cellfun (@ss, varargin(sys_idx), "uniformoutput", false);  # convert to state-space
+
+  if (! size_equal (sys_cell{:}))
+    error ("lsim: models must have equal sizes");
   endif
 
-  if (is_real_vector (u))
-    u = reshape (u, [], 1);                     # allow row vectors for single-input systems
-  elseif (! is_real_matrix (u))
-    error ("lsim: input signal u must be an array of real numbers");
-  endif
-  
-  if (! is_real_vector (t) && ! isempty (t))
-    error ("lsim: time vector t must be real or empty");
-  endif
-  
-  discrete = ! isct (sys);                      # static gains are treated as continuous-time systems
-  tsam = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
-  urows = rows (u);
-  ucols = columns (u);
+  mat_idx = find (cellfun (@is_real_matrix, varargin));                 # indices of matrix arguments
+  n_mat = length (mat_idx);                                         # number of vector arguments
+  n_sys = length (sys_cell);                                        # number of LTI systems
 
-  if (discrete)                                 # discrete system
-    if (isempty (t))                            # lsim (sys, u)
-      dt = tsam;
-      tinitial = 0;
-      tfinal = tsam * (urows - 1);
-    elseif (length (t) == 1)                    # lsim (sys, u, tfinal)
-      dt = tsam;
-      tinitial = 0;
-      tfinal = t;
-    else                                        # lsim (sys, u, t, ...)
-      warning ("lsim: spacing of time vector has no effect on sampling time of discrete system");
-      dt = tsam;
-      tinitial = t(1);
-      tfinal = t(end);
+  t = [];
+  x0 = [];
+  % method = "zoh";
+
+  if (n_mat < 1)
+    error ("lsim: require input signal 'u'");
+  else
+    arg = varargin{mat_idx(1)};
+    if (is_real_vector (arg))
+      u = reshape (u, [], 1);                     # allow row vectors for single-input systems
+    elseif (is_real_matrix (u));
+      u = arg;
+    else
+      error ("lsim: input signal 'u' must be an array of real numbers");
     endif
-  else                                          # continuous system
+    if (n_mat > 1)                                  # time vector t
+      arg = varargin{mat_idx(2)};
+      if (is_real_vector (arg) || isempty (arg))
+        t = arg;
+      else
+        error ("lsim: time vector 't' must be real-valued or empty");
+      endif
+      if (n_mat > 2)                                # initial state vector x0
+        arg = varargin{mat_idx(3)};
+        if (is_real_vector (arg))
+          x0 = arg;
+        else
+          error ("lsim: initial state vector 'x0' must be a real-valued vector");
+        endif
+        if (n_mat > 3)
+          warning ("lsim: ignored");
+        endif
+      endif
+    endif
+  endif
+
+  ## function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
+  
+  [y, t, x] = cellfun (@__linear_simulation__, sys_cell, {u}, {t}, {x0}, "uniformoutput", false);
+
+
+  if (nargout == 0)                             # plot information
+    [p, m] = size (sys_cell{1});
+    style_idx = find (cellfun (@ischar, varargin));
+    str = "Linear Simulation Results";
+    outname = get (sys_cell{end}, "outname");
+    outname = __labels__ (outname, "y");
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+
+    sysname = cell (n_sys, 1);
+
+    for k = 1 : n_sys                                   # for every system
+      if (k == n_sys)
+        lim = numel (args);
+      else
+        lim = sys_idx(k+1);
+      endif
+      style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
+      if (isempty (style))
+        color = colororder(1+rem (k-1, rc), :);
+        style = {"color", color};   
+      endif
+      try
+        sysname{k} = inputname(sys_idx(k));
+      catch
+        sysname{k} = "";
+      end_try_catch
+      if (ct_idx(k))                                    # continuous-time system                                           
+        for i = 1 : p                                   # for every output
+          subplot (p, 1, i);
+          plot (t{k}, y{k}(:, i), style{:});
+          hold on;
+          grid on;
+          if (k == n_sys)
+            axis tight
+            ylim (__axis_margin__ (ylim))
+            ylabel (outname{i});
+            if (i == 1)
+              title (str);
+            endif
+          endif
+        endfor
+      else                                              # discrete-time system
+        for i = 1 : p                                   # for every output
+          subplot (p, 1, i);
+          stairs (t{k}, y{k}(:, i), style{:});
+          hold on;
+          grid on;
+          if (k == n_sys)
+            axis tight;
+            ylim (__axis_margin__ (ylim))
+            ylabel (outname{i});
+            if (i == 1)
+              title (str);
+            endif
+          endif
+        endfor
+      endif
+    endfor
+    xlabel ("Time [s]");
+    if (p == 1 && m == 1)
+      legend (sysname)
+    endif
+    hold off;
+  endif
+  
+endfunction
+
+
+function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
+
+  method = "zoh";
+  [urows, ucols] = size (u);
+
+  if (isct (sys))                               # continuous-time system
     if (isempty (t))                            # lsim (sys, u, [], ...)
       error ("lsim: invalid time vector");
     elseif (length (t) == 1)                    # lsim (sys, u, tfinal, ...)
@@ -117,28 +214,41 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
       tfinal = t(end);
     endif
     sys = c2d (sys, dt, method);                # convert to discrete-time model
+  else                                          # discrete-time system
+    dt = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
+    if (isempty (t))                            # lsim (sys, u)
+      tinitial = 0;
+      tfinal = dt * (urows - 1);
+    elseif (length (t) == 1)                    # lsim (sys, u, tfinal)
+      tinitial = 0;
+      tfinal = t;
+    else                                        # lsim (sys, u, t, ...)
+      warning ("lsim: spacing of time vector has no effect on sampling time of discrete-time system");
+      tinitial = t(1);
+      tfinal = t(end);
+    endif
   endif
 
   [A, B, C, D] = ssdata (sys);
-
+  [p, m] = size (D);                            # number of outputs and inputs
   n = rows (A);                                 # number of states
-  m = columns (B);                              # number of inputs
-  p = rows (C);                                 # number of outputs
+  % len_t = length (t);
 
-  t = reshape (tinitial : dt : tfinal, [], 1);  # time vector
-  trows = length (t);
+  ## time vector
+  t = reshape (tinitial : dt : tfinal, [], 1);
+  len_t = length (t);
 
-  if (urows != trows)
-    error ("lsim: input vector u must have %d rows", trows);
+  if (urows != len_t)
+    error ("lsim: input vector u must have %d rows", len_t);
   endif
-  
+
   if (ucols != m)
     error ("lsim: input vector u must have %d columns", m);
   endif
 
   ## preallocate memory
-  y = zeros (trows, p);
-  x_arr = zeros (trows, n);
+  y = zeros (len_t, p);
+  x_arr = zeros (len_t, n);
 
   ## initial conditions
   if (isempty (x0))
@@ -150,44 +260,11 @@ function [y_r, t_r, x_r] = lsim (sys, u, t = [], x0 = [], method = "zoh")
   x = reshape (x0, [], 1);                      # make sure that x is a column vector
 
   ## simulation
-  for k = 1 : trows
+  for k = 1 : len_t
     y(k, :) = C * x  +  D * u(k, :).';
     x_arr(k, :) = x;
     x = A * x  +  B * u(k, :).';
   endfor
-
-  if (nargout == 0)                             # plot information
-    str = ["Linear Simulation Results of ", inputname(1)];
-    outname = get (sys, "outname");
-    outname = __labels__ (outname, "y_");
-    if (discrete)                               # discrete system
-      for k = 1 : p
-        subplot (p, 1, k);
-        stairs (t, y(:, k));
-        grid ("on");
-        if (k == 1)
-          title (str);
-        endif
-        ylabel (sprintf ("Amplitude %s", outname{k}));
-      endfor
-      xlabel ("Time [s]");
-    else                                        # continuous system
-      for k = 1 : p
-        subplot (p, 1, k);
-        plot (t, y(:, k));
-        grid ("on");
-        if (k == 1)
-          title (str);
-        endif
-        ylabel (sprintf ("Amplitude %s", outname{k}));
-      endfor
-      xlabel ("Time [s]");
-    endif
-  else                                          # return values
-    y_r = y;
-    t_r = t;
-    x_r = x_arr;
-  endif
 
 endfunction
 
