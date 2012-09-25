@@ -109,8 +109,17 @@ function [y_r, t_r, x_r] = lsim (varargin)
       else
         error ("lsim: time vector 't' must be real-valued or empty");
       endif
+      if (n_mat > 2)                                # initial state vector x0
+        arg = varargin{mat_idx(3)};
+        if (is_real_vector (arg))
+          x0 = arg;
+        else
+          error ("lsim: initial state vector 'x0' must be a real-valued vector");
+        endif
+      endif
     endif
   endif
+
 
 
   ## function [y, x_arr] = __linear_simulation__ (sys_dt, u, t, x0)
@@ -196,6 +205,8 @@ function [y_r, t_r, x_r] = lsim (varargin)
     colororder = get (gca, "colororder");
     rc = rows (colororder);
 
+    sysname = cell (n_sys, 1);
+
     for k = 1 : n_sys                                   # for every system
       if (k == n_sys)
         lim = numel (args);
@@ -207,6 +218,11 @@ function [y_r, t_r, x_r] = lsim (varargin)
         color = colororder(1+rem (k-1, rc), :);
         style = {"color", color};   
       endif
+      try
+        sysname{k} = inputname(sys_idx(k));
+      catch
+        sysname{k} = "";
+      end_try_catch
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           subplot (p, 1, i);
