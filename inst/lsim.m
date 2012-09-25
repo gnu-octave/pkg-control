@@ -71,6 +71,10 @@
 
 function [y_r, t_r, x_r] = lsim (varargin)
 
+  ## TODO: individual initial state vectors 'x0' for each system
+  ##       there would be conflicts with other arguments,
+  ##       maybe a cell {x0_1, x0_2, ..., x0_N} would be a solution?
+
   if (nargin < 2)
     print_usage ();
   endif
@@ -88,7 +92,6 @@ function [y_r, t_r, x_r] = lsim (varargin)
 
   t = [];
   x0 = [];
-  % method = "zoh";
 
   if (n_mat < 1)
     error ("lsim: require input signal 'u'");
@@ -237,7 +240,6 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
   [A, B, C, D] = ssdata (sys);
   [p, m] = size (D);                            # number of outputs and inputs
   n = rows (A);                                 # number of states
-  % len_t = length (t);
 
   ## time vector
   t = reshape (tinitial : dt : tfinal, [], 1);
