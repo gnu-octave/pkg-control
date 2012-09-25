@@ -21,13 +21,9 @@
 ## @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
 ## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
 ## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
-## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{[]}, @var{method})
-## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0}, @var{method})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
-## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{[]}, @var{method})
-## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0}, @var{method})
 ## Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
 ## the system response is plotted on the screen.
 ##
@@ -46,9 +42,6 @@
 ## is not specified, vector @var{t} is assumed to be @code{0 : tsam : tsam*(rows(u)-1)}.
 ## @item x0
 ## Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
-## @item method
-## Discretization method for continuous-time models.  Default value is zoh
-## (zero-order hold).  All methods from @code{c2d} are supported. 
 ## @end table
 ##
 ## @strong{Outputs}
