@@ -117,7 +117,7 @@ function [ret, ws] = sensitivity (G, varargin)
       error ("sensitivity: Nyquist plot requires SISO systems");
     endif
 
-    [H, w] = __frequency_response__ (L, [], false, 0, "ext");
+    [H, w] = __frequency_response__ (L, false, 0, "ext");
     H = H(:);
     re = real (H);
     im = imag (H);
