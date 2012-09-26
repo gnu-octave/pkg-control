@@ -45,10 +45,16 @@
 ## Frequency for the phase margin (in rad/s).
 ## @end table
 ##
+## @strong{Algorithm}@*
+## Uses command @command{roots} to calculate the frequencies
+## @var{w_gamma}, @var{w_phi} from special polynomials created
+## from the transfer function of @var{sys} as listed below
+## in section @guillemetleft{}Equations@guillemetright{}.
+##
 ## @strong{Equations}
 ## @example
 ## @group
-## CONTINUOUS SYSTEMS
+## CONTINUOUS-TIME SYSTEMS
 ## Gain Margin
 ##         _               _
 ## L(jw) = L(jw)      BTW: L(jw) = L(-jw) = conj (L(jw))
@@ -83,7 +89,7 @@
 ## @end example
 ## @example
 ## @group
-## DISCRETE SYSTEMS
+## DISCRETE-TIME SYSTEMS
 ## Gain Margin
 ##                              jwT         log z
 ## L(z) = L(1/z)      BTW: z = e    --> w = -----
@@ -128,7 +134,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{roots}
+## @seealso{sensitivity, roots}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -158,7 +164,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
   tsam = abs (tsam);                                     # use 1 second as default if tsam == -1
 
 
-  if (continuous)                                        # CONTINUOUS SYSTEM
+  if (continuous)                                        # CONTINUOUS-TIME SYSTEM
 
     ## create polynomials s -> jw
     l_num = length (num);
@@ -195,7 +201,7 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous);
 
 
-  else                                                   # DISCRETE SYSTEM
+  else                                                   # DISCRETE-TIME SYSTEM
 
     ## create polynomials z -> 1/z
     l_num = length (num);
