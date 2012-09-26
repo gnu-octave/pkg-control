@@ -58,25 +58,41 @@
 ## octave:2> b = [10; 11; 12];
 ## octave:3> stname = @{"V", "A", "kJ"@};
 ## octave:4> sys = ss (a, b, [], [], "stname", stname)
+## @end group
+## @end example
 ## 
+## @example
+## @group
 ## sys.a =
 ##         V   A  kJ
 ##    V    1   2   3
 ##    A    4   5   6
 ##    kJ   7   8   9
+## @end group
+## @end example
 ## 
+## @example
+## @group
 ## sys.b =
 ##        u1
 ##    V   10
 ##    A   11
 ##    kJ  12
+## @end group
+## @end example
 ## 
+## @example
+## @group
 ## sys.c =
 ##         V   A  kJ
 ##    y1   1   0   0
 ##    y2   0   1   0
 ##    y3   0   0   1
+## @end group
+## @end example
 ## 
+## @example
+## @group
 ## sys.d =
 ##        u1
 ##    y1   0

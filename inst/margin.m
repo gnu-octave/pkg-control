@@ -107,7 +107,10 @@
 ##          |num(z)|
 ## |L(z)| = |------| = 1
 ##          |den(z)|
-##
+## @end group
+## @end example
+## @example
+## @group
 ## L(z) L(1/z) = 1
 ##
 ## num(z)   num(1/z)
