@@ -44,6 +44,9 @@
 ## @item dt
 ## Optional sampling time.  Be sure to choose it small enough to capture transient
 ## phenomena.  If not specified, it is calculated by the poles of the system.
+## @item 'style'
+## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+## black line.  See @command{help plot} for details.
 ## @end table
 ##
 ## @strong{Outputs}

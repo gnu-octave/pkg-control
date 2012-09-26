@@ -42,6 +42,9 @@
 ## is not specified, vector @var{t} is assumed to be @code{0 : tsam : tsam*(rows(u)-1)}.
 ## @item x0
 ## Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
+## @item 'style'
+## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+## black line.  See @command{help plot} for details.
 ## @end table
 ##
 ## @strong{Outputs}

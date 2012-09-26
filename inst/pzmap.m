@@ -28,6 +28,9 @@
 ## @table @var
 ## @item sys
 ## LTI model.
+## @item 'style'
+## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+## black line.  See @command{help plot} for details.
 ## @end table
 ##
 ## @strong{Outputs}

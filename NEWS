@@ -16,6 +16,9 @@ control-2.4.0   Release Date: 2012-09-26   Release Manager: Lukas Reichlin
 ** Anderson, Madievski, MDSSystem, optiPID
    Updated example scripts to use new multiplot feature.
 
+** sensitivity
+   Fixed a problem with plotting, introduced with control-2.3.54.
+
 ** doc/control.pdf
    Updated PDF manual.
 

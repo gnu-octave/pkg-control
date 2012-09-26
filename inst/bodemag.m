@@ -35,6 +35,9 @@
 ## Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
 ## where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
 ## in rad/s.
+## @item 'style'
+## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+## black line.  See @command{help plot} for details.
 ## @end table
 ##
 ## @strong{Outputs}
