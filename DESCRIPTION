@@ -4,7 +4,7 @@ Date: 2012-09-26
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
 Title: Control Systems
-Description: Octave control systems package based on the proven SLICOT library
+Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT library
 Depends: octave (>= 3.6.0)
 Autoload: yes
 License: GPLv3+

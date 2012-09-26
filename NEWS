@@ -12,6 +12,8 @@ control-2.4.0   Release Date: 2012-09-26   Release Manager: Lukas Reichlin
    Supported are now function calls like
    impulse (sys1, sys2, ...), step (sys1, 'b', sys2, 'r', ...)
    lsim (sys1, '-k', sys2, '--k', u), initial (sys, sys2, x0)
+   The multiplot feature for frequency-domain plotting has already been
+   introduced with control-2.3.54.
 
 ** Anderson, Madievski, MDSSystem, optiPID
    Updated example scripts to use new multiplot feature.

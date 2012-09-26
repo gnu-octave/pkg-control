@@ -203,25 +203,41 @@
  octave:2> b = [10; 11; 12];
  octave:3> stname = @{"V", "A", "kJ"@};
  octave:4> sys = ss (a, b, [], [], "stname", stname)
+ @end group
+ @end example
  
+ @example
+ @group
  sys.a =
          V   A  kJ
     V    1   2   3
     A    4   5   6
     kJ   7   8   9
+ @end group
+ @end example
  
+ @example
+ @group
  sys.b =
         u1
     V   10
     A   11
     kJ  12
+ @end group
+ @end example
  
+ @example
+ @group
  sys.c =
          V   A  kJ
     y1   1   0   0
     y2   0   1   0
     y3   0   0   1
+ @end group
+ @end example
  
+ @example
+ @group
  sys.d =
         u1
     y1   0
@@ -309,7 +325,11 @@
  octave:5> num = @{[1, 5, 7], [1]; [1, 7], [1, 5, 5]@};
  octave:6> den = @{[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]@};
  octave:7> sys = tf (num, den)
+ @end group
+ @end example
  
+ @example
+ @group
  Transfer function "sys" from input "u1" to output ...
  
        s^2 + 5 s + 7
@@ -319,7 +339,11 @@
            s + 7    
   y2:  -------------
        s^2 + 8 s + 6
+ @end group
+ @end example
  
+ @example
+ @group
  Transfer function "sys" from input "u2" to output ...
  
          1  
@@ -1472,6 +1496,9 @@
  @table @var
  @item sys
  LTI model.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1651,6 +1678,9 @@
  @item dt
  Optional sampling time.  Be sure to choose it small enough to capture transient
  phenomena.  If not specified, it is calculated by the poles of the system.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1696,6 +1726,9 @@
  @item dt
  Optional sampling time.  Be sure to choose it small enough to capture transient
  phenomena.  If not specified, it is calculated by the poles of the system.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1728,13 +1761,9 @@
  @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
  @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
  @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
- @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{[]}, @var{method})
- @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0}, @var{method})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
- @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{[]}, @var{method})
- @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0}, @var{method})
  Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
  the system response is plotted on the screen.
 
@@ -1753,9 +1782,9 @@
  is not specified, vector @var{t} is assumed to be @code{0 : tsam : tsam*(rows(u)-1)}.
  @item x0
  Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
- @item method
- Discretization method for continuous-time models.  Default value is zoh
- (zero-order hold).  All methods from @code{c2d} are supported. 
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1799,6 +1828,9 @@
  @item dt
  Optional sampling time.  Be sure to choose it small enough to capture transient
  phenomena.  If not specified, it is calculated by the poles of the system.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1836,6 +1868,9 @@
  Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
  where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
  in rad/s.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1871,6 +1906,9 @@
  Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
  where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
  in rad/s.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -1937,10 +1975,16 @@
  Frequency for the phase margin (in rad/s).
  @end table
 
+ @strong{Algorithm}@*
+ Uses command @command{roots} to calculate the frequencies
+ @var{w_gamma}, @var{w_phi} from special polynomials created
+ from the transfer function of @var{sys} as listed below
+ in section @guillemetleft{}Equations@guillemetright{}.
+
  @strong{Equations}
  @example
  @group
- CONTINUOUS SYSTEMS
+ CONTINUOUS-TIME SYSTEMS
  Gain Margin
          _               _
  L(jw) = L(jw)      BTW: L(jw) = L(-jw) = conj (L(jw))
@@ -1975,7 +2019,7 @@
  @end example
  @example
  @group
- DISCRETE SYSTEMS
+ DISCRETE-TIME SYSTEMS
  Gain Margin
                               jwT         log z
  L(z) = L(1/z)      BTW: z = e    --> w = -----
@@ -1993,7 +2037,10 @@
           |num(z)|
  |L(z)| = |------| = 1
           |den(z)|
-
+ @end group
+ @end example
+ @example
+ @group
  L(z) L(1/z) = 1
 
  num(z)   num(1/z)
@@ -2020,7 +2067,7 @@
  @end group
  @end example
 
- @seealso{roots}
+ @seealso{sensitivity, roots}
  @end deftypefn
 @section nichols
 
@@ -2043,6 +2090,9 @@
  Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
  where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
  in rad/s.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -2078,6 +2128,9 @@
  Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
  where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
  in rad/s.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
@@ -2152,6 +2205,7 @@
  @strong{Algorithm}@*
  Uses SLICOT AB13DD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
+ to calculate the infinity norm of the sensitivity function.
 
  @strong{References}@*
  [1] Astr@"om, K. and H@"agglund, T. (1995)
@@ -2194,6 +2248,9 @@
  @item ptype = 3
  Singular values of the frequency response @code{I + inv(H)}; i.e. inversed complementary
  sensitivity if @code{H = P * C}.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
  @end table
 
  @strong{Outputs}
