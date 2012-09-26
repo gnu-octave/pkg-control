@@ -74,6 +74,7 @@
 ## @strong{Algorithm}@*
 ## Uses SLICOT AB13DD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
+## to calculate the infinity norm of the sensitivity function.
 ##
 ## @strong{References}@*
 ## [1] Astr@"om, K. and H@"agglund, T. (1995)
