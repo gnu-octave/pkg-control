@@ -88,9 +88,8 @@
 ##
 ## @strong{References}@*
 ## [1] Ljung, L. (1999)
-## System Identification - Theory for the User
-## Second Edition
-## Prentice Hall, New Jersey.
+## @cite{System Identification: Theory for the User: Second Edition}.
+## Prentice Hall, New Jersey, USA.
 ##
 ## @end deftypefn
 

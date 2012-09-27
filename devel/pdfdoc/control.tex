@@ -90,11 +90,12 @@ from various people. The names of all contributors should be listed in the
 
 @sp 5
 @subheading Using the help function
-Some functions of the control package are listed with a leading @code{@@lti/}.
-This is only needed to view the help text of the function, e.g. @w{@code{help norm}}
-shows the built-in function while @w{@code{help @@lti/norm}} shows the overloaded
-function for @acronym{LTI} systems. Note that there are @acronym{LTI} functions
-like @code{pole} that have no built-in equivalent.
+Some functions of the control package are listed with the somewhat cryptic prefixes
+@code{@@lti/} or @code{@@iddata/}. These prefixes are only needed to view the help
+text of the function, e.g. @w{@code{help norm}} shows the built-in function while
+@w{@code{help @@lti/norm}} shows the overloaded function for @acronym{LTI} systems.
+Note that there are @acronym{LTI} functions like @code{pole} that have no built-in
+equivalent. The same is true for @acronym{IDDATA} functions like @code{nkshift}.
 
 When just using the function, the leading @code{@@lti/} must @strong{not} be typed.
 Octave selects the right function automatically. So one can type @w{@code{norm (sys, inf)}}
