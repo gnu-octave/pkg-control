@@ -62,6 +62,7 @@ into another language, under the same conditions as for modified versions.
 
 @page
 @unnumbered Preface
+@paragraphindent 0
 @c @chapheading Preface
 The @acronym{GNU} Octave control package from version 2 onwards was
 developed by Lukas F. Reichlin and is based on the proven open-source
@@ -81,7 +82,7 @@ synthesis methods.
 @end itemize
 
 @sp 3
-@subheading Acknowledgments
+@unnumberedsec Acknowledgments
 The author is indebted to several people and institutions who helped
 him to achieve his goals. I am particularly grateful to Luca Favatella
 who introduced me to Octave development as well as discussed and revised
@@ -96,7 +97,7 @@ from various people. The names of all contributors should be listed in the
 
 
 @sp 3
-@subheading Using the help function
+@unnumberedsec Using the help function
 Some functions of the control package are listed with the somewhat cryptic prefixes
 @code{@@lti/} or @code{@@iddata/}. These prefixes are only needed to view the help
 text of the function, e.g. @w{@code{help norm}} shows the built-in function while
@@ -110,7 +111,7 @@ and @w{@code{norm (matrix, inf)}} regardless of the class of the argument.
 
 
 @sp 3
-@subheading Bugs!
+@unnumberedsec Bugs!
 To err is human, and software is written by humans.
 Therefore, any larger piece of software is likely to contain bugs.
 If you find a bug in the control package, please take the time
@@ -121,9 +122,32 @@ Bug reports are to be sent to the Octave bug tracker, the mailing lists
 or directly to the author's e-mail: @email{lukas.reichlin@@gmail.com}
 
 
+@page
+@unnumberedsec Distribution
+The @acronym{GNU} Octave control package is @dfn{free} software.
+This means that everyone is free to use it and free to redistribute it
+on certain conditions.  The @acronym{GNU} Octave control package 
+is not, however, in the public domain.  It is copyrighted and there are
+restrictions on its distribution, but the restrictions are designed to 
+ensure that others will have the same freedom to use and redistribute 
+Octave that you have.  The precise conditions can be found in the 
+@acronym{GNU} General Public License that comes with the @acronym{GNU}
+Octave control package and that also appears in @ref{Copying}.
+
+To download a copy of control, please visit
+@url{http://octave.sourceforge.net/control/}.
+
+
 
 @c @chapter Function Reference
 @include functions.texi
-
 @end
+
+@include gpl.texi
+
+@c FIXME: Index is nonexistent
+@c @node Function Index
+@c @unnumbered Function Index
+@c @printindex fn
+
 @bye

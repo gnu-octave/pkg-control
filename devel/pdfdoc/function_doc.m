@@ -31,9 +31,18 @@ for k = 1:numel (list {1}.provides)
                 if (fun(1) == "@")
                   % fprintf (fid, '@subsection @%s\n', fun);
                   fprintf (fid, '@section @%s\n', fun);
+                  if (strncmp (fun, "@lti/", 5))
+                    fprintf (fid, '@findex %s\n', fun(6:end));
+                  elseif (strncmp (fun, "@iddata/", 8))
+                    fprintf (fid, '@findex %s\n', fun(9:end));
+                  else
+                    error ("function_doc: unknown class");
+                  endif
                 else
                   % fprintf (fid, '@subsection %s\n', fun);
+                  % fprintf (fid, '@node %s\n', fun);
                   fprintf (fid, '@section %s\n', fun);
+                  fprintf (fid, '@findex %s\n', fun);
                 endif
                 fprintf (fid,TEXT);
         end
