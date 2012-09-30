@@ -16,8 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} {@var{dat} =} [@var{dat1}; @var{dat2}; @dots{}]
-## @deftypefnx {Function File} {@var{dat} =} vertcat (@var{dat1}, @var{dat2}, @dots{})
+## @deftypefn {Function File} {@var{dat} =} vertcat (@var{dat1}, @var{dat2}, @dots{})
 ## Vertical concatenation of iddata datasets.
 ## The samples are concatenated in the following way:
 ## @code{dat.y@{e@} = [dat1.y@{e@}; dat2.y@{e@}; @dots{}]}
