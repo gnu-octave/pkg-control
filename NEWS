@@ -1,6 +1,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.4.1   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** doc/control.pdf
+   Revised PDF manual.  There is now a function index at the end of the manual.
+
+
+===============================================================================
 control-2.4.0   Release Date: 2012-09-26   Release Manager: Lukas Reichlin
 ===============================================================================
 
