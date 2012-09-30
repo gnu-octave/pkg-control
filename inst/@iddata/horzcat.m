@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{dat} =} [@var{dat1}, @var{dat2}, @dots{}]
+## @deftypefn {Function File} {} {@var{dat} =} [@var{dat1}, @var{dat2}, @dots{}]
 ## @deftypefnx {Function File} {@var{dat} =} horzcat (@var{dat1}, @var{dat2}, @dots{})
 ## Horizontal concatenation of iddata datasets.
 ## The outputs and inputs are concatenated in the following way:

@@ -16,10 +16,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} bode (@var{sys})
-## @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
-## @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
-## @deftypefnx {Function File} bode (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefn {Function File} {} bode (@var{sys})
+## @deftypefnx {Function File} {} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} {} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+## @deftypefnx {Function File} {} bode (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
 ## Bode diagram of frequency response.  If no output arguments are given,

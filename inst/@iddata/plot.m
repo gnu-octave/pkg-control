@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} plot (@var{dat})
-## @deftypefnx {Function File} plot (@var{dat}, @var{exp})
+## @deftypefn {Function File} {} plot (@var{dat})
+## @deftypefnx {Function File} {} plot (@var{dat}, @var{exp})
 ## Plot signals of iddata identification datasets on the screen.
 ## The signals are plotted experiment-wise, either in time- or
 ## frequency-domain.  For multi-experiment datasets,

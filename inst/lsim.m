@@ -16,11 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} lsim (@var{sys}, @var{u})
-## @deftypefnx{Function File} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
-## @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
-## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
-## @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
+## @deftypefn{Function File} {} lsim (@var{sys}, @var{u})
+## @deftypefnx{Function File} {} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
+## @deftypefnx{Function File} {} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
+## @deftypefnx{Function File} {} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
+## @deftypefnx{Function File} {} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})

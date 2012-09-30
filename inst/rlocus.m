@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} rlocus (@var{sys}) 
+## @deftypefn {Function File} {} rlocus (@var{sys}) 
 ## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k}) 
 ## Display root locus plot of the specified @acronym{SISO} system.
 ##

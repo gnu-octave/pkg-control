@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} set (@var{sys})
-## @deftypefnx {Function File} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
+## @deftypefn {Function File} {} set (@var{sys})
+## @deftypefnx {Function File} {} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
 ## @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
 ## Set or modify properties of LTI objects.
 ## If no return argument @var{retsys} is specified, the modified LTI object is stored

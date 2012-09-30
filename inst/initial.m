@@ -16,12 +16,12 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} initial (@var{sys}, @var{x0})
-## @deftypefnx{Function File} initial (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{x0})
-## @deftypefnx{Function File} initial (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{x0})
-## @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{t})
-## @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal})
-## @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal}, @var{dt})
+## @deftypefn{Function File} {} initial (@var{sys}, @var{x0})
+## @deftypefnx{Function File} {} initial (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{x0})
+## @deftypefnx{Function File} {} initial (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{x0})
+## @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{t})
+## @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal})
+## @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal}, @var{dt})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal})

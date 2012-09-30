@@ -16,10 +16,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} nichols (@var{sys})
-## @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
-## @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
-## @deftypefnx {Function File} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefn {Function File} {} nichols (@var{sys})
+## @deftypefnx {Function File} {} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx {Function File} {} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+## @deftypefnx {Function File} {} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys}, @var{w})
 ## Nichols chart of frequency response.  If no output arguments are given,

@@ -16,12 +16,12 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} step (@var{sys})
-## @deftypefnx{Function File} step (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
-## @deftypefnx{Function File} step (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
-## @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{t})
-## @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal})
-## @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+## @deftypefn{Function File} {} step (@var{sys})
+## @deftypefnx{Function File} {} step (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+## @deftypefnx{Function File} {} step (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+## @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{t})
+## @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{tfinal})
+## @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal})

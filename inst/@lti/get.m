@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} get (@var{sys})
+## @deftypefn {Function File} {} get (@var{sys})
 ## @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
 ## Access property values of LTI objects.
 ## @end deftypefn
