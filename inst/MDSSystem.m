@@ -85,17 +85,12 @@ G = G_nom(4, 4);                       % extract output y and input u
 
 % Bode Plots of Perturbed Plants
 w = logspace (-1, 1, 100);             % frequency vector
-figure (1)
+Delta = arrayfun (@(m, c, k) diag ([m, c, k]), delta_m(:), delta_c(:), delta_k(:), 'uniformoutput', false);
+G_per = cellfun (@lft, Delta, {G_nom}, 'uniformoutput', false);
 
-for k = 1 : numel (delta_m)
-  Delta = diag ([delta_m(k), delta_c(k), delta_k(k)]);
-  G_per = lft (Delta, G_nom);
-  bode (G_per, w)
-  subplot (2, 1, 1)
-  hold on
-  subplot (2, 1, 2)
-  hold on
-endfor
+figure (1)
+bode (G_per{:}, w)
+legend off
 
 
 % ===============================================================================
