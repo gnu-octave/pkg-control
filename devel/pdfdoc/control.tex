@@ -54,16 +54,12 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
-@end titlepage
-@c %*** End of TITLEPAGE
 
-@headings double
-@contents
 
 @page
-@unnumbered Preface
+@c @unnumbered Preface
 @paragraphindent 0
-@c @chapheading Preface
+@chapheading Preface
 The @acronym{GNU} Octave control package from version 2 onwards was
 developed by Lukas F. Reichlin and is based on the proven open-source
 library @acronym{SLICOT}. This new package is intended as a replacement
@@ -82,7 +78,7 @@ synthesis methods.
 @end itemize
 
 @sp 3
-@unnumberedsec Acknowledgments
+@heading Acknowledgments
 The author is indebted to several people and institutions who helped
 him to achieve his goals. I am particularly grateful to Luca Favatella
 who introduced me to Octave development as well as discussed and revised
@@ -97,7 +93,7 @@ from various people. The names of all contributors should be listed in the
 
 
 @sp 3
-@unnumberedsec Using the help function
+@heading Using the help function
 Some functions of the control package are listed with the somewhat cryptic prefixes
 @code{@@lti/} or @code{@@iddata/}. These prefixes are only needed to view the help
 text of the function, e.g. @w{@code{help norm}} shows the built-in function while
@@ -111,7 +107,7 @@ and @w{@code{norm (matrix, inf)}} regardless of the class of the argument.
 
 
 @sp 3
-@unnumberedsec Bugs!
+@heading Bugs!
 To err is human, and software is written by humans.
 Therefore, any larger piece of software is likely to contain bugs.
 If you find a bug in the control package, please take the time
@@ -123,7 +119,7 @@ or directly to the author's e-mail: @email{lukas.reichlin@@gmail.com}
 
 
 @page
-@unnumberedsec Distribution
+@heading Distribution
 The @acronym{GNU} Octave control package is @dfn{free} software.
 This means that everyone is free to use it and free to redistribute it
 on certain conditions.  The @acronym{GNU} Octave control package 
@@ -136,8 +132,11 @@ Octave control package and that also appears in @ref{Copying}.
 
 To download a copy of control, please visit
 @url{http://octave.sourceforge.net/control/}.
+@end titlepage
+@c %*** End of TITLEPAGE
 
-
+@headings double
+@contents
 
 @c @chapter Function Reference
 @include functions.texi
