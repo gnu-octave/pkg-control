@@ -91,7 +91,7 @@ function sys = WestlandLynx ()
 
   d0 = zeros (6, 4);
 
-  inname = {"main_coll", "long_cyc", "lat_cyc", "tail_coll"};
+  inname = {"main rotor collective", "longitudinal cyclic", "lateral cyclic", "tail rotor collective"};
   stname = {"theta", "phi", "p", "q", "xi", "v_x", "v_y", "v_z"};
   outname = {"H_dot", "theta", "phi", "psi_dot", "p", "q"};
 
