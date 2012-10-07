@@ -27,11 +27,11 @@
 ## @item sys
 ## LTI model to be converted to state-space.
 ## @item a
-## State transition matrix (n-by-n).
+## State matrix (n-by-n).
 ## @item b
 ## Input matrix (n-by-m).
 ## @item c
-## Measurement matrix (p-by-n).
+## Output matrix (p-by-n).
 ## @item d
 ## Feedthrough matrix (p-by-m).
 ## @item e
