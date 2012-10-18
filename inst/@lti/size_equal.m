@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} size_equal (@var{a}, @var{b}, @dots{})
 ## Return true if LTI models (and matrices) @var{a}, @var{b}, @dots{}
-## are of equal size.
+## are of equal size and false otherwise.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -29,10 +29,6 @@ function bool = size_equal (varargin)
 
   s = cellfun (@size, varargin, "uniformoutput", false);
   
-  if (numel (s) == 1 || isequal (s{:}))  # isequal errors out with only 1 argument, numel(s)==0 handled by built-in size_equal
-    bool = true;
-  else
-    bool = false;
-  endif
+  bool = (nargin == 1 || isequal (s{:}));  # isequal errors out with only 1 argument, nargin==0 handled by built-in size_equal
 
 endfunction
