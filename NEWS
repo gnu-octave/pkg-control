@@ -4,6 +4,13 @@ Summary of important user-visible changes for releases of the control package
 control-2.4.1   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** impulse, initial, lsim, step
+   These time response functions now error out correctly when the user tries to
+   plot multiple systems in one window with mismatching numbers of inputs and
+   outputs.  The problem was caused by Octave's built-in function "size_equal"
+   which gave false positives for LTI objects.  The problem is solved by
+   overloading the built-in function with a new LTI method "size_equal".
+
 ** doc/control.pdf
    Revised PDF manual.  There is now a function index at the end of the manual.
 
