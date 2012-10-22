@@ -28,6 +28,18 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal}, @var{dt})
 ## Ramp response of LTI system.
 ## If no output arguments are given, the response is printed on the screen.
+## @iftex
+## @tex
+## $$ r(t) = t \\, \\cdot \\, h(t) $$
+## @end tex
+## @end iftex
+## @ifnottex
+##
+## @example
+## r(t) = t * h(t)
+## @end example
+##
+## @end ifnottex
 ##
 ## @strong{Inputs}
 ## @table @var
