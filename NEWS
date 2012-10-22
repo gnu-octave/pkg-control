@@ -11,6 +11,10 @@ control-2.4.1   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
    which gave false positives for LTI objects.  The problem is solved by
    overloading the built-in function with a new LTI method "size_equal".
 
+** ramp
+   Added a new time domain analysis function "ramp" which plots/computes the
+   system's response to a ramp signal.
+
 ** doc/control.pdf
    Revised PDF manual.  There is now a function index at the end of the manual.
 

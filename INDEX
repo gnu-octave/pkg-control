@@ -65,6 +65,7 @@ Time Domain Analysis
   impulse
   initial
   lsim
+  ramp
   step
 Frequency Domain Analysis
   bode

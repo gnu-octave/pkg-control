@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
 
@@ -117,6 +117,7 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
   ## function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
   ## function [y, x_arr] = __step_response__ (sys_dt, t)
   ## function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
+  ## function [y, x_arr] = __ramp_response__ (sys_dt, t)
 
   switch (response)
     case "initial"
@@ -125,6 +126,8 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
       [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
     case "impulse"
       [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t, "uniformoutput", false);
+    case "ramp"
+      [y, x] = cellfun (@__ramp_response__, sys_dt_cell, t, "uniformoutput", false);
     otherwise
       error ("time_response: invalid response type");
   endswitch
@@ -145,6 +148,9 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
         str = "Impulse Response";
         cols = m;
         ## yfinal = zeros (p, m);
+      case "ramp"
+        str = "Ramp Response";
+        cols = m;
       otherwise
         error ("time_response: invalid response type");
     endswitch
@@ -321,6 +327,36 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
     y *= dt;
     x_arr *= dt;
   endif
+
+endfunction
+
+
+function [y, x_arr] = __ramp_response__ (sys_dt, t)
+
+  [F, G, C, D] = ssdata (sys_dt);       # system must be proper
+
+  n = rows (F);                                         # number of states
+  m = columns (G);                                      # number of inputs
+  p = rows (C);                                         # number of outputs
+  l_t = length (t);
+
+  ## preallocate memory
+  y = zeros (l_t, p, m);
+  x_arr = zeros (l_t, n, m);
+
+  for j = 1 : m                                         # for every input channel
+    ## initial conditions
+    x = zeros (n, 1);
+    u = zeros (m, l_t);
+    u(j, :) = t;
+
+    ## simulation
+    for k = 1 : l_t
+      y(k, :, j) = C * x + D * u(:, k);
+      x_arr(k, :, j) = x;
+      x = F * x + G * u(:, k);
+    endfor
+  endfor
 
 endfunction
 
