@@ -144,7 +144,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     if (increment <= 0)
       error ("rlocus: increment must be positive");
     else
-      ngain = (maxk-mink)/increment;
+      ngain = fix ((maxk-mink)/increment);
     endif
   else
     ngain = 30;
