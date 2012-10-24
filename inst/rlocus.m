@@ -25,12 +25,12 @@
 ## @table @var
 ## @item sys
 ## LTI model.  Must be a single-input and single-output (SISO) system.
+## @item increment
+## The increment used in computing gain values.
 ## @item min_k
 ## Minimum value of @var{k}.
 ## @item max_k
 ## Maximum value of @var{k}.
-## @item increment
-## The increment used in computing gain values.
 ## @end table
 ##
 ## @strong{Outputs}
