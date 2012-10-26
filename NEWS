@@ -17,6 +17,7 @@ control-2.4.1   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
 
 ** doc/control.pdf
    Revised PDF manual.  There is now a function index at the end of the manual.
+   Improved docstrings in several functions.
 
 
 ===============================================================================
