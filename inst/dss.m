@@ -50,6 +50,43 @@
 ## Descriptor state-space model.
 ## @end table
 ##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'a', 'b', 'c', 'd', 'e'
+## State-space matrices.  See 'Inputs' for details.
+##
+## @item 'stname'
+## The name of the states in @var{sys}.
+## Cell vector containing strings for each state.
+## Default names are @code{@{'x1', 'x2', ...@}}
+##
+## @item 'scaled'
+## Logical.  If set to true, no automatic scaling is used,
+## e.g. for frequency response plots.
+##
+## @item 'tsam'
+## Sampling time.  See 'Inputs' for details.
+##
+## @item 'inname'
+## The name of the input channels in @var{sys}.
+## Cell vector of length m containing strings.
+## Default names are @code{@{'u1', 'u2', ...@}}
+##
+## @item 'outname'
+## The name of the output channels in @var{sys}.
+## Cell vector of length p containing strings.
+## Default names are @code{@{'y1', 'y2', ...@}}
+##
+## @item 'name'
+## String containing the name of the model.
+##
+## @item 'notes'
+## String or cell of string containing comments.
+##
+## @item 'userdata'
+## Any data type.
+## @end table
+##
 ## @strong{Equations}
 ## @example
 ## @group

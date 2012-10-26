@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{s} =} tf (@var{"s"})
-## @deftypefnx {Function File} {@var{z} =} tf (@var{"z"}, @var{tsam})
+## @deftypefn {Function File} {@var{s} =} tf (@var{'s'})
+## @deftypefnx {Function File} {@var{z} =} tf (@var{'z'}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
@@ -53,13 +53,50 @@
 ## Transfer function model.
 ## @end table
 ##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'num'
+## Numerator.  See 'Inputs' for details.
+##
+## @item 'den'
+## Denominator.  See 'Inputs' for details.
+##
+## @item 'tfvar'
+## String containing the transfer function variable.
+##
+## @item 'inv'
+## Logical.  True for negative powers of the transfer function variable.
+##
+## @item 'tsam'
+## Sampling time.  See 'Inputs' for details.
+##
+## @item 'inname'
+## The name of the input channels in @var{sys}.
+## Cell vector of length m containing strings.
+## Default names are @code{@{'u1', 'u2', ...@}}
+##
+## @item 'outname'
+## The name of the output channels in @var{sys}.
+## Cell vector of length p containing strings.
+## Default names are @code{@{'y1', 'y2', ...@}}
+##
+## @item 'name'
+## String containing the name of the model.
+##
+## @item 'notes'
+## String or cell of string containing comments.
+##
+## @item 'userdata'
+## Any data type.
+## @end table
+##
 ## @strong{Example}
 ## @example
 ## @group
-## octave:1> s = tf ("s");
+## octave:1> s = tf ('s');
 ## octave:2> G = 1/(s+1)
 ##
-## Transfer function "G" from input "u1" to output ...
+## Transfer function 'G' from input 'u1' to output ...
 ## 
 ##         1  
 ##  y1:  -----
@@ -70,10 +107,10 @@
 ## @end example
 ## @example
 ## @group
-## octave:3> z = tf ("z", 0.2);
+## octave:3> z = tf ('z', 0.2);
 ## octave:4> H = 0.095/(z-0.9)
 ## 
-## Transfer function "H" from input "u1" to output ...
+## Transfer function 'H' from input 'u1' to output ...
 ## 
 ##        0.095 
 ##  y1:  -------
@@ -93,7 +130,7 @@
 ## 
 ## @example
 ## @group
-## Transfer function "sys" from input "u1" to output ...
+## Transfer function 'sys' from input 'u1' to output ...
 ## 
 ##       s^2 + 5 s + 7
 ##  y1:  -------------
@@ -107,7 +144,7 @@
 ## 
 ## @example
 ## @group
-## Transfer function "sys" from input "u2" to output ...
+## Transfer function 'sys' from input 'u2' to output ...
 ## 
 ##         1  
 ##  y1:  -----

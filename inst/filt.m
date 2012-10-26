@@ -46,6 +46,43 @@
 ## Discrete-time transfer function model.
 ## @end table
 ##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'num'
+## Numerator.  See 'Inputs' for details.
+##
+## @item 'den'
+## Denominator.  See 'Inputs' for details.
+##
+## @item 'tfvar'
+## String containing the transfer function variable.
+##
+## @item 'inv'
+## Logical.  True for negative powers of the transfer function variable.
+##
+## @item 'tsam'
+## Sampling time.  See 'Inputs' for details.
+##
+## @item 'inname'
+## The name of the input channels in @var{sys}.
+## Cell vector of length m containing strings.
+## Default names are @code{@{'u1', 'u2', ...@}}
+##
+## @item 'outname'
+## The name of the output channels in @var{sys}.
+## Cell vector of length p containing strings.
+## Default names are @code{@{'y1', 'y2', ...@}}
+##
+## @item 'name'
+## String containing the name of the model.
+##
+## @item 'notes'
+## String or cell of string containing comments.
+##
+## @item 'userdata'
+## Any data type.
+## @end table
+##
 ## @strong{Example}
 ## @example
 ## @group

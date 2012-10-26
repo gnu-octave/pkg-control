@@ -49,6 +49,37 @@
 ## Frequency response data object.
 ## @end table
 ##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'H'
+## Frequency response array.  See 'Inputs' for details.
+##
+## @item 'w'
+## Frequency vector.  See 'Inputs' for details.
+##
+## @item 'tsam'
+## Sampling time.  See 'Inputs' for details.
+##
+## @item 'inname'
+## The name of the input channels in @var{sys}.
+## Cell vector of length m containing strings.
+## Default names are @code{@{'u1', 'u2', ...@}}
+##
+## @item 'outname'
+## The name of the output channels in @var{sys}.
+## Cell vector of length p containing strings.
+## Default names are @code{@{'y1', 'y2', ...@}}
+##
+## @item 'name'
+## String containing the name of the model.
+##
+## @item 'notes'
+## String or cell of string containing comments.
+##
+## @item 'userdata'
+## Any data type.
+## @end table
+##
 ## @seealso{dss, ss, tf}
 ## @end deftypefn
 
