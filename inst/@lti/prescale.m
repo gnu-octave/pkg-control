@@ -17,14 +17,16 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
-## Prescale state-space model.
+## Scale state-space model.  The scaled model @var{scaledsys} is equivalent to
+## @var{sys}, but the state vector is scaled by diagonal transformation matrices
+## in order to increase the accuracy of subsequent numerical computations.
 ## Frequency response commands perform automatic scaling unless model property
 ## @var{scaled} is set to @var{true}.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Outputs}

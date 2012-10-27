@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 

@@ -18,32 +18,34 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
-## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{"prewarp"}, @var{w0})
-## Convert the continuous lti model into its discrete-time equivalent.
+## @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{'prewarp'}, @var{w0})
+## Convert the continuous @acronym{LTI} model into its discrete-time equivalent.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous-time LTI model.
+## Continuous-time @acronym{LTI} model.
 ## @item tsam
 ## Sampling time in seconds.
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
 ## @table @var
-## @item "zoh"
+## @item 'zoh'
 ## Zero-order hold or matrix exponential.
-## @item "tustin", "bilin"
+## @item 'tustin', 'bilin'
 ## Bilinear transformation or Tustin approximation.
-## @item "prewarp"
+## @item 'prewarp'
 ## Bilinear transformation with pre-warping at frequency @var{w0}.
+## @item 'matched'
+## Matched pole/zero method.
 ## @end table
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item sys
-## Discrete-time LTI model.
+## Discrete-time @acronym{LTI} model.
 ## @end table
 ## @end deftypefn
 
@@ -58,7 +60,7 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
   endif
 
   if (! isa (sys, "lti"))
-    error ("c2d: first argument is not an lti model");
+    error ("c2d: first argument is not an LTI model");
   endif
 
   if (isdt (sys))

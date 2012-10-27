@@ -18,22 +18,22 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
-## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{"prewarp"}, @var{w0})
-## Convert the discrete lti model into its continuous-time equivalent.
+## @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{'prewarp'}, @var{w0})
+## Convert the discrete @acronym{LTI} model into its continuous-time equivalent.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Discrete-time LTI model.
+## Discrete-time @acronym{LTI} model.
 ## @item method
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
 ## @table @var
-## @item "zoh"
+## @item 'zoh'
 ## Zero-order hold or matrix logarithm.
-## @item "tustin", "bilin"
+## @item 'tustin', 'bilin'
 ## Bilinear transformation or Tustin approximation.
-## @item "prewarp"
+## @item 'prewarp'
 ## Bilinear transformation with pre-warping at frequency @var{w0}.
 ## @end table
 ## @end table
@@ -41,7 +41,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item sys
-## Continuous-time LTI model.
+## Continuous-time @acronym{LTI} model.
 ## @end table
 ## @end deftypefn
 
@@ -56,7 +56,7 @@ function sys = d2c (sys, method = "std", w0 = 0)
   endif
 
   if (! isa (sys, "lti"))
-    error ("d2c: first argument is not an lti model");
+    error ("d2c: first argument is not an LTI model");
   endif
 
   if (isct (sys))
