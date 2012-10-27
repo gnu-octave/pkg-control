@@ -45,6 +45,14 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
         [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, false);
       endif
 
+    case "m"                       # "matched"
+      tmp = ss (c2d (zpk (sys), tsam, method));
+      sys.e = tmp.e;
+      sys.a = tmp.a;
+      sys.b = tmp.b;
+      sys.c = tmp.c;
+      sys.d = tmp.d;
+
     otherwise
       error ("ss: c2d: %s is an invalid or missing method", method);
   endswitch
