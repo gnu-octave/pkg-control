@@ -1,4 +1,4 @@
-## Copyright (C) 2011   Lukas F. Reichlin
+## Copyright (C) 2011, 2012   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.2
+## Version: 0.3
 
 function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
 
@@ -47,8 +47,16 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
         [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, true);
       endif
 
+    case "m"                       # "matched"
+      tmp = ss (d2c (zpk (sys), method));
+      sys.e = tmp.e;
+      sys.a = tmp.a;
+      sys.b = tmp.b;
+      sys.c = tmp.c;
+      sys.d = tmp.d;
+
     otherwise
-      error ("ss: d2c: %s is an invalid or missing method", method);
+      error ("ss: d2c: '%s' is an invalid or missing method", method);
   endswitch
 
 endfunction

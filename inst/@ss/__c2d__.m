@@ -54,7 +54,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
       sys.d = tmp.d;
 
     otherwise
-      error ("ss: c2d: %s is an invalid or missing method", method);
+      error ("ss: c2d: '%s' is an invalid or missing method", method);
   endswitch
 
 endfunction
