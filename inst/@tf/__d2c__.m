@@ -37,6 +37,7 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
       error ("tf: d2c: discrete-time poles and zeros at 0 not supported because log(0) is -Inf");
     endif
 
+    z_d_orig = z_d;
     z_d(abs (z_d+1) < sqrt (eps)) = [];
 
     p_c = log (p_d) / tsam;    
@@ -45,11 +46,11 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
     w_c = 0;
     w_d = 1;
     tol = sqrt (eps);
-    while (any (abs ([p; z] - w_d) < tol))
+    while (any (abs ([p_d; z_d_orig] - w_d) < tol))
       w_c += 0.1 / tsam;
     endwhile
     w_d = exp (w_c * tsam);
-    k_c = real (k_d * prod (w_d - z) / prod (w_d - p) * prod (w_c - p_c) / prod (w_c - z_c));
+    k_c = real (k_d * prod (w_d - z_d_orig) / prod (w_d - p_d) * prod (w_c - p_c) / prod (w_c - z_c));
 
     tmp = zpk (z_c, p_c, k_c);
     sys.num = tmp.num;
