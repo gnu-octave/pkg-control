@@ -35,6 +35,8 @@
 ## Bilinear transformation or Tustin approximation.
 ## @item 'prewarp'
 ## Bilinear transformation with pre-warping at frequency @var{w0}.
+## @item 'matched'
+## Matched pole/zero method.
 ## @end table
 ## @end table
 ##
