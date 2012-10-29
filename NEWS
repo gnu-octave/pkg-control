@@ -15,9 +15,9 @@ control-2.4.1   Release Date: 2012-xx-yy   Release Manager: Lukas Reichlin
    Added a new time domain analysis function "ramp" which plots/computes the
    system's response to a ramp signal.
 
-** c2d
+** c2d, d2c
    Added matched pole/zero discretization method "matched".
-   Usage:  Gd = c2d (Gc, Ts, 'matched')
+   Usage:  Gd = c2d (Gc, Ts, 'matched'),  Gc = d2c (Gd, 'matched')
 
 ** doc/control.pdf
    Revised PDF manual.  There is now a function index at the end of the manual.
