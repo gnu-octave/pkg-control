@@ -3,25 +3,30 @@
 
 @chapter Examples
 @section MDSSystem
+@findex MDSSystem
 
  Robust control of a mass-damper-spring system.
  Type @code{which MDSSystem} to locate,
  @code{edit MDSSystem} to open and simply
  @code{MDSSystem} to run the example file.
 @section optiPID
+@findex optiPID
 
  Numerical optimization of a PID controller using an objective function.
  The objective function is located in the file @command{optiPIDfun}.
  Type @code{which optiPID} to locate, @code{edit optiPID} to open
  and simply @code{optiPID} to run the example file.
 @section Anderson
+@findex Anderson
 
  Frequency-weighted coprime factorization controller reduction.
 @section Madievski
+@findex Madievski
 
  Frequency-weighted controller reduction.
 @chapter Linear Time Invariant Models
 @section dss
+@findex dss
 
  @deftypefn {Function File} {@var{sys} =} dss (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} dss (@var{d})
@@ -34,11 +39,11 @@
  @item sys
  LTI model to be converted to state-space.
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item b
  Input matrix (n-by-m).
  @item c
- Measurement matrix (p-by-n).
+ Output matrix (p-by-n).
  @item d
  Feedthrough matrix (p-by-m).
  @item e
@@ -57,6 +62,43 @@
  Descriptor state-space model.
  @end table
 
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'a', 'b', 'c', 'd', 'e'
+ State-space matrices.  See 'Inputs' for details.
+
+ @item 'stname'
+ The name of the states in @var{sys}.
+ Cell vector containing strings for each state.
+ Default names are @code{@{'x1', 'x2', ...@}}
+
+ @item 'scaled'
+ Logical.  If set to true, no automatic scaling is used,
+ e.g. for frequency response plots.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{sys}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'outname'
+ The name of the output channels in @var{sys}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'name'
+ String containing the name of the model.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
+ @end table
+
  @strong{Equations}
  @example
  @group
@@ -69,6 +111,7 @@
  @seealso{ss, tf}
  @end deftypefn
 @section filt
+@findex filt
 
  @deftypefn {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @dots{})
  @deftypefnx {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @var{tsam}, @dots{})
@@ -100,6 +143,43 @@
  Discrete-time transfer function model.
  @end table
 
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'num'
+ Numerator.  See 'Inputs' for details.
+
+ @item 'den'
+ Denominator.  See 'Inputs' for details.
+
+ @item 'tfvar'
+ String containing the transfer function variable.
+
+ @item 'inv'
+ Logical.  True for negative powers of the transfer function variable.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{sys}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'outname'
+ The name of the output channels in @var{sys}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'name'
+ String containing the name of the model.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
+ @end table
+
  @strong{Example}
  @example
  @group
@@ -123,6 +203,7 @@
  @seealso{tf}
  @end deftypefn
 @section frd
+@findex frd
 
  @deftypefn {Function File} {@var{sys} =} frd (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} frd (@var{sys}, @var{w})
@@ -157,9 +238,41 @@
  Frequency response data object.
  @end table
 
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'H'
+ Frequency response array.  See 'Inputs' for details.
+
+ @item 'w'
+ Frequency vector.  See 'Inputs' for details.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{sys}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'outname'
+ The name of the output channels in @var{sys}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'name'
+ String containing the name of the model.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
+ @end table
+
  @seealso{dss, ss, tf}
  @end deftypefn
 @section ss
+@findex ss
 
  @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
@@ -174,11 +287,11 @@
  @item sys
  LTI model to be converted to state-space.
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item b
  Input matrix (n-by-m).
  @item c
- Measurement matrix (p-by-n).
+ Output matrix (p-by-n).
  If @var{c} is empty @code{[]} or not specified, an identity matrix is assumed.
  @item d
  Feedthrough matrix (p-by-m).
@@ -194,6 +307,43 @@
  @table @var
  @item sys
  State-space model.
+ @end table
+
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'a', 'b', 'c', 'd', 'e'
+ State-space matrices.  See 'Inputs' for details.
+
+ @item 'stname'
+ The name of the states in @var{sys}.
+ Cell vector containing strings for each state.
+ Default names are @code{@{'x1', 'x2', ...@}}
+
+ @item 'scaled'
+ Logical.  If set to true, no automatic scaling is used,
+ e.g. for frequency response plots.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{sys}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'outname'
+ The name of the output channels in @var{sys}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'name'
+ String containing the name of the model.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
  @end table
 
  @strong{Example}
@@ -252,9 +402,10 @@
  @seealso{tf, dss}
  @end deftypefn
 @section tf
+@findex tf
 
- @deftypefn {Function File} {@var{s} =} tf (@var{"s"})
- @deftypefnx {Function File} {@var{z} =} tf (@var{"z"}, @var{tsam})
+ @deftypefn {Function File} {@var{s} =} tf (@var{'s'})
+ @deftypefnx {Function File} {@var{z} =} tf (@var{'z'}, @var{tsam})
  @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
  @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
@@ -290,13 +441,50 @@
  Transfer function model.
  @end table
 
+ @strong{Option Keys and Values}
+ @table @var
+ @item 'num'
+ Numerator.  See 'Inputs' for details.
+
+ @item 'den'
+ Denominator.  See 'Inputs' for details.
+
+ @item 'tfvar'
+ String containing the transfer function variable.
+
+ @item 'inv'
+ Logical.  True for negative powers of the transfer function variable.
+
+ @item 'tsam'
+ Sampling time.  See 'Inputs' for details.
+
+ @item 'inname'
+ The name of the input channels in @var{sys}.
+ Cell vector of length m containing strings.
+ Default names are @code{@{'u1', 'u2', ...@}}
+
+ @item 'outname'
+ The name of the output channels in @var{sys}.
+ Cell vector of length p containing strings.
+ Default names are @code{@{'y1', 'y2', ...@}}
+
+ @item 'name'
+ String containing the name of the model.
+
+ @item 'notes'
+ String or cell of string containing comments.
+
+ @item 'userdata'
+ Any data type.
+ @end table
+
  @strong{Example}
  @example
  @group
- octave:1> s = tf ("s");
+ octave:1> s = tf ('s');
  octave:2> G = 1/(s+1)
 
- Transfer function "G" from input "u1" to output ...
+ Transfer function 'G' from input 'u1' to output ...
  
          1  
   y1:  -----
@@ -307,10 +495,10 @@
  @end example
  @example
  @group
- octave:3> z = tf ("z", 0.2);
+ octave:3> z = tf ('z', 0.2);
  octave:4> H = 0.095/(z-0.9)
  
- Transfer function "H" from input "u1" to output ...
+ Transfer function 'H' from input 'u1' to output ...
  
         0.095 
   y1:  -------
@@ -330,7 +518,7 @@
  
  @example
  @group
- Transfer function "sys" from input "u1" to output ...
+ Transfer function 'sys' from input 'u1' to output ...
  
        s^2 + 5 s + 7
   y1:  -------------
@@ -344,7 +532,7 @@
  
  @example
  @group
- Transfer function "sys" from input "u2" to output ...
+ Transfer function 'sys' from input 'u2' to output ...
  
          1  
   y1:  -----
@@ -362,6 +550,7 @@
  @seealso{ss, dss}
  @end deftypefn
 @section zpk
+@findex zpk
 
  @deftypefn {Function File} {@var{s} =} zpk (@var{"s"})
  @deftypefnx {Function File} {@var{z} =} zpk (@var{"z"}, @var{tsam})
@@ -407,6 +596,7 @@
  @end deftypefn
 @chapter Model Data Access
 @section @@lti/dssdata
+@findex dssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
  @deftypefnx {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
@@ -442,6 +632,7 @@
  @end table
  @end deftypefn
 @section @@lti/filtdata
+@findex filtdata
 
  @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys})
  @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys}, @var{"vector"})
@@ -475,6 +666,7 @@
  @end table
  @end deftypefn
 @section @@lti/frdata
+@findex frdata
 
  @deftypefn {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys})
  @deftypefnx {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys}, @var{"vector"})
@@ -506,15 +698,17 @@
  @end table
  @end deftypefn
 @section @@lti/get
+@findex get
 
- @deftypefn {Function File} get (@var{sys})
+ @deftypefn {Function File} {} get (@var{sys})
  @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
  Access property values of LTI objects.
  @end deftypefn
 @section @@lti/set
+@findex set
 
- @deftypefn {Function File} set (@var{sys})
- @deftypefnx {Function File} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
+ @deftypefn {Function File} {} set (@var{sys})
+ @deftypefnx {Function File} {} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
  @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
  Set or modify properties of LTI objects.
  If no return argument @var{retsys} is specified, the modified LTI object is stored
@@ -523,6 +717,7 @@
  @code{set (sys)} prints a list of the object's property names.
  @end deftypefn
 @section @@lti/ssdata
+@findex ssdata
 
  @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}] =} ssdata (@var{sys})
  Access state-space model data.
@@ -551,6 +746,7 @@
  @end table
  @end deftypefn
 @section @@lti/tfdata
+@findex tfdata
 
  @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
  @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"vector"})
@@ -588,6 +784,7 @@
  @end table
  @end deftypefn
 @section @@lti/zpkdata
+@findex zpkdata
 
  @deftypefn {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys})
  @deftypefnx {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys}, @var{"v"})
@@ -620,78 +817,87 @@
  @end deftypefn
 @chapter Model Conversions
 @section @@lti/c2d
+@findex c2d
 
  @deftypefn {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam})
  @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{method})
- @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{"prewarp"}, @var{w0})
- Convert the continuous lti model into its discrete-time equivalent.
+ @deftypefnx {Function File} {@var{sys} =} c2d (@var{sys}, @var{tsam}, @var{'prewarp'}, @var{w0})
+ Convert the continuous @acronym{LTI} model into its discrete-time equivalent.
 
  @strong{Inputs}
  @table @var
  @item sys
- Continuous-time LTI model.
+ Continuous-time @acronym{LTI} model.
  @item tsam
  Sampling time in seconds.
  @item method
  Optional conversion method.  If not specified, default method @var{"zoh"}
  is taken.
  @table @var
- @item "zoh"
+ @item 'zoh'
  Zero-order hold or matrix exponential.
- @item "tustin", "bilin"
+ @item 'tustin', 'bilin'
  Bilinear transformation or Tustin approximation.
- @item "prewarp"
+ @item 'prewarp'
  Bilinear transformation with pre-warping at frequency @var{w0}.
+ @item 'matched'
+ Matched pole/zero method.
  @end table
  @end table
 
  @strong{Outputs}
  @table @var
  @item sys
- Discrete-time LTI model.
+ Discrete-time @acronym{LTI} model.
  @end table
  @end deftypefn
 @section @@lti/d2c
+@findex d2c
 
  @deftypefn {Function File} {@var{sys} =} d2c (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{method})
- @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{"prewarp"}, @var{w0})
- Convert the discrete lti model into its continuous-time equivalent.
+ @deftypefnx {Function File} {@var{sys} =} d2c (@var{sys}, @var{'prewarp'}, @var{w0})
+ Convert the discrete @acronym{LTI} model into its continuous-time equivalent.
 
  @strong{Inputs}
  @table @var
  @item sys
- Discrete-time LTI model.
+ Discrete-time @acronym{LTI} model.
  @item method
  Optional conversion method.  If not specified, default method @var{"zoh"}
  is taken.
  @table @var
- @item "zoh"
+ @item 'zoh'
  Zero-order hold or matrix logarithm.
- @item "tustin", "bilin"
+ @item 'tustin', 'bilin'
  Bilinear transformation or Tustin approximation.
- @item "prewarp"
+ @item 'prewarp'
  Bilinear transformation with pre-warping at frequency @var{w0}.
+ @item 'matched'
+ Matched pole/zero method.
  @end table
  @end table
 
  @strong{Outputs}
  @table @var
  @item sys
- Continuous-time LTI model.
+ Continuous-time @acronym{LTI} model.
  @end table
  @end deftypefn
 @section @@lti/prescale
+@findex prescale
 
  @deftypefn {Function File} {[@var{scaledsys}, @var{info}] =} prescale (@var{sys})
- Prescale state-space model.
+ Scale state-space model.  The scaled model @var{scaledsys} is equivalent to
+ @var{sys}, but the state vector is scaled by diagonal transformation matrices
+ in order to increase the accuracy of subsequent numerical computations.
  Frequency response commands perform automatic scaling unless model property
  @var{scaled} is set to @var{true}.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @end table
 
  @strong{Outputs}
@@ -724,27 +930,32 @@
  @uref{http://www.slicot.org, NICONET e.V.}.
  @end deftypefn
 @section @@lti/xperm
+@findex xperm
 
  @deftypefn {Function File} {@var{sys} =} xperm (@var{sys}, @var{st_idx})
  Reorder states in state-space models.
  @end deftypefn
 @chapter Model Interconnections
 @section @@lti/append
+@findex append
 
  @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2})
  Group LTI models by appending their inputs and outputs.
  @end deftypefn
 @section @@lti/blkdiag
+@findex blkdiag
 
  @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2})
  Block-diagonal concatenation of LTI models.
  @end deftypefn
 @section @@lti/connect
+@findex connect
 
  @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
  Arbitrary interconnections between the inputs and outputs of an LTI model.
  @end deftypefn
 @section @@lti/feedback
+@findex feedback
 
  @deftypefn {Function File} {@var{sys} =} feedback (@var{sys1})
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{"+"})
@@ -795,6 +1006,7 @@
  @end example
  @end deftypefn
 @section @@lti/lft
+@findex lft
 
  @deftypefn {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} lft (@var{sys1}, @var{sys2}, @var{nu}, @var{ny})
@@ -870,6 +1082,7 @@
  @end example
  @end deftypefn
 @section @@lti/mconnect
+@findex mconnect
 
  @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
  @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
@@ -914,6 +1127,7 @@
  @end example
  @end deftypefn
 @section @@lti/parallel
+@findex parallel
 
  @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
  Parallel connection of two LTI systems.
@@ -936,6 +1150,7 @@
  @end example
  @end deftypefn
 @section @@lti/series
+@findex series
 
  @deftypefn {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
@@ -973,6 +1188,7 @@
  @end deftypefn
 @chapter Model Characteristics
 @section ctrb
+@findex ctrb
 
  @deftypefn {Function File} {@var{co} =} ctrb (@var{sys})
  @deftypefnx {Function File} {@var{co} =} ctrb (@var{a}, @var{b})
@@ -1008,6 +1224,7 @@
  @end ifnottex
  @end deftypefn
 @section ctrbf
+@findex ctrbf
 
  @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys})
  @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} ctrbf (@var{sys}, @var{tol})
@@ -1039,6 +1256,7 @@
  containing the number of controllable states.
  @end deftypefn
 @section @@lti/dcgain
+@findex dcgain
 
  @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
  DC gain of LTI model.
@@ -1059,6 +1277,7 @@
  @seealso{freqresp}
  @end deftypefn
 @section gram
+@findex gram
 
  @deftypefn {Function File} {@var{W} =} gram (@var{sys}, @var{mode})
  @deftypefnx {Function File} {@var{Wc} =} gram (@var{a}, @var{b})
@@ -1072,6 +1291,7 @@
 
  @end deftypefn
 @section hsvd
+@findex hsvd
 
  @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
  @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{offset})
@@ -1084,6 +1304,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section @@lti/isct
+@findex isct
 
  @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
  Determine whether LTI model is a continuous-time system.
@@ -1103,6 +1324,7 @@
  @end table
  @end deftypefn
 @section isctrb
+@findex isctrb
 
  @deftypefn {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys})
  @deftypefnx {Function File} {[@var{bool}, @var{ncon}] =} isctrb (@var{sys}, @var{tol})
@@ -1146,6 +1368,7 @@
  @seealso{isobsv}
  @end deftypefn
 @section isdetectable
+@findex isdetectable
 
  @deftypefn {Function File} {@var{bool} =} isdetectable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isdetectable (@var{sys}, @var{tol})
@@ -1195,6 +1418,7 @@
  @seealso{isstabilizable, isstable, isctrb, isobsv}
  @end deftypefn
 @section @@lti/isdt
+@findex isdt
 
  @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
  Determine whether LTI model is a discrete-time system.
@@ -1214,6 +1438,7 @@
  @end table
  @end deftypefn
 @section @@lti/isminimumphase
+@findex isminimumphase
 
  @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
@@ -1246,6 +1471,7 @@
  @end example
  @end deftypefn
 @section isobsv
+@findex isobsv
 
  @deftypefn {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{sys})
  @deftypefnx {Function File} {[@var{bool}, @var{nobs}] =} isobsv (@var{sys}, @var{tol})
@@ -1289,11 +1515,13 @@
  @seealso{isctrb}
  @end deftypefn
 @section @@lti/issiso
+@findex issiso
 
  @deftypefn {Function File} {@var{bool} =} issiso (@var{sys})
  Determine whether LTI model is single-input/single-output (SISO).
  @end deftypefn
 @section isstabilizable
+@findex isstabilizable
 
  @deftypefn {Function File} {@var{bool} =} isstabilizable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstabilizable (@var{sys}, @var{tol})
@@ -1351,6 +1579,7 @@
  @seealso{isdetectable, isstable, isctrb, isobsv}
  @end deftypefn
 @section @@lti/isstable
+@findex isstable
 
  @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
@@ -1380,6 +1609,7 @@
  @end example
  @end deftypefn
 @section @@lti/norm
+@findex norm
 
  @deftypefn {Function File} {@var{gain} =} norm (@var{sys}, @var{2})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
@@ -1391,6 +1621,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section obsv
+@findex obsv
 
  @deftypefn {Function File} {@var{ob} =} obsv (@var{sys})
  @deftypefnx {Function File} {@var{ob} =} obsv (@var{a}, @var{c})
@@ -1435,6 +1666,7 @@
  @end ifnottex
  @end deftypefn
 @section obsvf
+@findex obsvf
 
  @deftypefn{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys})
  @deftypefnx{Function File} {[@var{sysbar}, @var{T}, @var{K}] =} obsvf (@var{sys}, @var{tol})
@@ -1466,6 +1698,7 @@
  number of observable states.
  @end deftypefn
 @section @@lti/pole
+@findex pole
 
  @deftypefn {Function File} {@var{p} =} pole (@var{sys})
  Compute poles of LTI system.
@@ -1483,10 +1716,11 @@
  @end table
  @end deftypefn
 @section pzmap
+@findex pzmap
 
- @deftypefn {Function File} pzmap (@var{sys})
- @deftypefnx {Function File} pzmap (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} pzmap (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} pzmap (@var{sys})
+ @deftypefnx {Function File} {} pzmap (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} pzmap (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
  Plot the poles and zeros of an LTI system in the complex plane.
  If no output arguments are given, the result is plotted on the screen.
@@ -1510,6 +1744,7 @@
  @end table
  @end deftypefn
 @section @@lti/size
+@findex size
 
  @deftypefn {Function File} {@var{nvec} =} size (@var{sys})
  @deftypefnx {Function File} {@var{n} =} size (@var{sys}, @var{dim})
@@ -1539,6 +1774,7 @@
  @end table
  @end deftypefn
 @section @@lti/zero
+@findex zero
 
  @deftypefn {Function File} {@var{z} =} zero (@var{sys})
  @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
@@ -1560,12 +1796,14 @@
  @end deftypefn
 @chapter Model Simplification
 @section @@lti/minreal
+@findex minreal
 
  @deftypefn {Function File} {@var{sys} =} minreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} minreal (@var{sys}, @var{tol})
  Minimal realization or zero-pole cancellation of LTI models.
  @end deftypefn
 @section @@lti/sminreal
+@findex sminreal
 
  @deftypefn {Function File} {@var{sys} =} sminreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} sminreal (@var{sys}, @var{tol})
@@ -1593,6 +1831,7 @@
  @end deftypefn
 @chapter Time Domain Analysis
 @section covar
+@findex covar
 
  @deftypefn{Function File} {[@var{p}, @var{q}] =} covar (@var{sys}, @var{w})
  Return the steady-state covariance.
@@ -1616,6 +1855,7 @@
  @seealso{lyap, dlyap}
  @end deftypefn
 @section gensig
+@findex gensig
 
  @deftypefn{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau})
  @deftypefnx{Function File} {[@var{u}, @var{t}] =} gensig (@var{sigtype}, @var{tau}, @var{tfinal})
@@ -1651,13 +1891,14 @@
  @seealso{lsim}
  @end deftypefn
 @section impulse
+@findex impulse
 
- @deftypefn{Function File} impulse (@var{sys})
- @deftypefnx{Function File} impulse (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx{Function File} impulse (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
- @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{t})
- @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal})
- @deftypefnx{Function File} impulse (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+ @deftypefn{Function File} {} impulse (@var{sys})
+ @deftypefnx{Function File} {} impulse (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx{Function File} {} impulse (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} {} impulse (@var{sys1}, @dots{}, @var{t})
+ @deftypefnx{Function File} {} impulse (@var{sys1}, @dots{}, @var{tfinal})
+ @deftypefnx{Function File} {} impulse (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal})
@@ -1697,13 +1938,14 @@
  @seealso{initial, lsim, step}
  @end deftypefn
 @section initial
+@findex initial
 
- @deftypefn{Function File} initial (@var{sys}, @var{x0})
- @deftypefnx{Function File} initial (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{x0})
- @deftypefnx{Function File} initial (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{x0})
- @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{t})
- @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal})
- @deftypefnx{Function File} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal}, @var{dt})
+ @deftypefn{Function File} {} initial (@var{sys}, @var{x0})
+ @deftypefnx{Function File} {} initial (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{x0})
+ @deftypefnx{Function File} {} initial (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{x0})
+ @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{t})
+ @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal})
+ @deftypefnx{Function File} {} initial (@var{sys1}, @dots{}, @var{x0}, @var{tfinal}, @var{dt})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal})
@@ -1755,12 +1997,13 @@
  @seealso{impulse, lsim, step}
  @end deftypefn
 @section lsim
+@findex lsim
 
- @deftypefn{Function File} lsim (@var{sys}, @var{u})
- @deftypefnx{Function File} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
- @deftypefnx{Function File} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
- @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
- @deftypefnx{Function File} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
+ @deftypefn{Function File} {} lsim (@var{sys}, @var{u})
+ @deftypefnx{Function File} {} lsim (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{u})
+ @deftypefnx{Function File} {} lsim (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'}, @var{u})
+ @deftypefnx{Function File} {} lsim (@var{sys1}, @dots{}, @var{u}, @var{t})
+ @deftypefnx{Function File} {} lsim (@var{sys1}, @dots{}, @var{u}, @var{t}, @var{x0})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
@@ -1800,14 +2043,74 @@
 
  @seealso{impulse, initial, step}
  @end deftypefn
-@section step
+@section ramp
+@findex ramp
 
- @deftypefn{Function File} step (@var{sys})
- @deftypefnx{Function File} step (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx{Function File} step (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
- @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{t})
- @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal})
- @deftypefnx{Function File} step (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+ @deftypefn{Function File} {} ramp (@var{sys})
+ @deftypefnx{Function File} {} ramp (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx{Function File} {} ramp (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} {} ramp (@var{sys1}, @dots{}, @var{t})
+ @deftypefnx{Function File} {} ramp (@var{sys1}, @dots{}, @var{tfinal})
+ @deftypefnx{Function File} {} ramp (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{t})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal})
+ @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal}, @var{dt})
+ Ramp response of LTI system.
+ If no output arguments are given, the response is printed on the screen.
+ @iftex
+ @tex
+ $$ r(t) = t \, \cdot \, h(t) $$
+ @end tex
+ @end iftex
+ @ifnottex
+
+ @example
+ r(t) = t * h(t)
+ @end example
+
+ @end ifnottex
+
+ @strong{Inputs}
+ @table @var
+ @item sys
+ LTI model.
+ @item t
+ Time vector.  Should be evenly spaced.  If not specified, it is calculated by
+ the poles of the system to reflect adequately the response transients.
+ @item tfinal
+ Optional simulation horizon.  If not specified, it is calculated by
+ the poles of the system to reflect adequately the response transients.
+ @item dt
+ Optional sampling time.  Be sure to choose it small enough to capture transient
+ phenomena.  If not specified, it is calculated by the poles of the system.
+ @item 'style'
+ Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
+ black line.  See @command{help plot} for details.
+ @end table
+
+ @strong{Outputs}
+ @table @var
+ @item y
+ Output response array.  Has as many rows as time samples (length of t)
+ and as many columns as outputs.
+ @item t
+ Time row vector.
+ @item x
+ State trajectories array.  Has @code{length (t)} rows and as many columns as states.
+ @end table
+
+ @seealso{impulse, initial, lsim, step}
+ @end deftypefn
+@section step
+@findex step
+
+ @deftypefn{Function File} {} step (@var{sys})
+ @deftypefnx{Function File} {} step (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx{Function File} {} step (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{t})
+ @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{tfinal})
+ @deftypefnx{Function File} {} step (@var{sys1}, @dots{}, @var{tfinal}, @var{dt})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal})
@@ -1848,11 +2151,12 @@
  @end deftypefn
 @chapter Frequency Domain Analysis
 @section bode
+@findex bode
 
- @deftypefn {Function File} bode (@var{sys})
- @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
- @deftypefnx {Function File} bode (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} bode (@var{sys})
+ @deftypefnx {Function File} {} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} bode (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} {} bode (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
  Bode diagram of frequency response.  If no output arguments are given,
@@ -1886,11 +2190,12 @@
  @seealso{nichols, nyquist, sigma}
  @end deftypefn
 @section bodemag
+@findex bodemag
 
- @deftypefn {Function File} bodemag (@var{sys})
- @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
- @deftypefnx {Function File} bodemag (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} bodemag (@var{sys})
+ @deftypefnx {Function File} {} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} bodemag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} {} bodemag (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{w}] =} bodemag (@var{sys}, @var{w})
  Bode magnitude diagram of frequency response.  If no output arguments are given,
@@ -1922,6 +2227,7 @@
  @seealso{bode, nichols, nyquist, sigma}
  @end deftypefn
 @section @@lti/freqresp
+@findex freqresp
 
  @deftypefn{Function File} {@var{H} =} freqresp (@var{sys}, @var{w})
  Evaluate frequency response at given frequencies.
@@ -1945,6 +2251,7 @@
  @seealso{dcgain}
  @end deftypefn
 @section margin
+@findex margin
 
  @deftypefn{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys})
  @deftypefnx{Function File} {[@var{gamma}, @var{phi}, @var{w_gamma}, @var{w_phi}] =} margin (@var{sys}, @var{tol})
@@ -2070,11 +2377,12 @@
  @seealso{sensitivity, roots}
  @end deftypefn
 @section nichols
+@findex nichols
 
- @deftypefn {Function File} nichols (@var{sys})
- @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
- @deftypefnx {Function File} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} nichols (@var{sys})
+ @deftypefnx {Function File} {} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} nichols (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} {} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
  @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys}, @var{w})
  Nichols chart of frequency response.  If no output arguments are given,
@@ -2108,11 +2416,12 @@
  @seealso{bode, nyquist, sigma}
  @end deftypefn
 @section nyquist
+@findex nyquist
 
- @deftypefn {Function File} nyquist (@var{sys})
- @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
- @deftypefnx {Function File} nyquist (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} nyquist (@var{sys})
+ @deftypefnx {Function File} {} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} nyquist (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} {} nyquist (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys})
  @deftypefnx {Function File} {[@var{re}, @var{im}, @var{w}] =} nyquist (@var{sys}, @var{w})
  Nyquist diagram of frequency response.  If no output arguments are given,
@@ -2146,6 +2455,7 @@
  @seealso{bode, nichols, sigma}
  @end deftypefn
 @section sensitivity
+@findex sensitivity
 
  @deftypefn{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{L})
  @deftypefnx{Function File} {[@var{Ms}, @var{ws}] =} sensitivity (@var{P}, @var{C})
@@ -2216,11 +2526,12 @@
 
  @end deftypefn
 @section sigma
+@findex sigma
 
- @deftypefn {Function File} sigma (@var{sys})
- @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
- @deftypefnx {Function File} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
- @deftypefnx {Function File} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
+ @deftypefn {Function File} {} sigma (@var{sys})
+ @deftypefnx {Function File} {} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
+ @deftypefnx {Function File} {} sigma (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{w})
+ @deftypefnx {Function File} {} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
@@ -2267,6 +2578,7 @@
  @end deftypefn
 @chapter Pole Placement
 @section place
+@findex place
 
  @deftypefn {Function File} {@var{f} =} place (@var{sys}, @var{p})
  @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
@@ -2279,7 +2591,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ Continuous- or discrete-time LTI system.
  @item a
  State transition matrix (n-by-n) of a continuous-time system.
  @item b
@@ -2329,8 +2641,9 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section rlocus
+@findex rlocus
 
- @deftypefn {Function File} rlocus (@var{sys}) 
+ @deftypefn {Function File} {} rlocus (@var{sys}) 
  @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k}) 
  Display root locus plot of the specified @acronym{SISO} system.
 
@@ -2338,12 +2651,12 @@
  @table @var
  @item sys
  LTI model.  Must be a single-input and single-output (SISO) system.
+ @item increment
+ The increment used in computing gain values.
  @item min_k
  Minimum value of @var{k}.
  @item max_k
  Maximum value of @var{k}.
- @item increment
- The increment used in computing gain values.
  @end table
 
  @strong{Outputs}
@@ -2367,6 +2680,7 @@
  @end deftypefn
 @chapter Linear-Quadratic Control
 @section dlqe
+@findex dlqe
 
  @deftypefn {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{m}, @var{p}, @var{z}, @var{e}] =} dlqe (@var{a}, @var{g}, @var{c}, @var{q}, @var{r}, @var{s})
@@ -2432,6 +2746,7 @@
  @seealso{dare, care, dlqr, lqr, lqe}
  @end deftypefn
 @section dlqr
+@findex dlqr
 
  @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} dlqr (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -2484,6 +2799,7 @@
  @seealso{dare, care, lqr}
  @end deftypefn
 @section estim
+@findex estim
 
  @deftypefn {Function File} {@var{est} =} estim (@var{sys}, @var{l})
  @deftypefnx {Function File} {@var{est} =} estim (@var{sys}, @var{l}, @var{sensors}, @var{known})
@@ -2510,6 +2826,7 @@
  @seealso{kalman, place}
  @end deftypefn
 @section kalman
+@findex kalman
 
  @deftypefn {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -2562,6 +2879,7 @@
  @seealso{care, dare, estim, lqr}
  @end deftypefn
 @section lqe
+@findex lqe
 
  @deftypefn {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -2625,6 +2943,7 @@
  @seealso{dare, care, dlqr, lqr, dlqe}
  @end deftypefn
 @section lqr
+@findex lqr
 
  @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqr (@var{sys}, @var{q}, @var{r}, @var{s})
@@ -2679,6 +2998,7 @@
  @end deftypefn
 @chapter Robust Control
 @section augw
+@findex augw
 
  @deftypefn{Function File} {@var{P} =} augw (@var{G}, @var{W1}, @var{W2}, @var{W3})
  Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
@@ -2766,6 +3086,7 @@
  @seealso{h2syn, hinfsyn, mixsyn}
  @end deftypefn
 @section fitfrd
+@findex fitfrd
 
  @deftypefn{Function File} {[@var{sys}, @var{n}] =} fitfrd (@var{dat}, @var{n})
  @deftypefnx{Function File} {[@var{sys}, @var{n}] =} fitfrd (@var{dat}, @var{n}, @var{flag})
@@ -2803,6 +3124,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section h2syn
+@findex h2syn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
  H-2 control synthesis for LTI plant.
@@ -2868,6 +3190,7 @@
  @seealso{augw, lqr, dlqr, kalman}
  @end deftypefn
 @section hinfsyn
+@findex hinfsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
  @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
@@ -2937,6 +3260,7 @@
  @seealso{augw, mixsyn}
  @end deftypefn
 @section mixsyn
+@findex mixsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
  Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
@@ -3060,6 +3384,7 @@
  @seealso{hinfsyn, augw}
  @end deftypefn
 @section ncfsyn
+@findex ncfsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
  Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
@@ -3127,6 +3452,7 @@
  @end deftypefn
 @chapter Matrix Equation Solvers
 @section care
+@findex care
 
  @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} care (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
@@ -3203,6 +3529,7 @@
  @seealso{dare, lqr, dlqr, kalman}
  @end deftypefn
 @section dare
+@findex dare
 
  @deftypefn {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r})
  @deftypefnx {Function File} {[@var{x}, @var{l}, @var{g}] =} dare (@var{a}, @var{b}, @var{q}, @var{r}, @var{s})
@@ -3279,6 +3606,7 @@
  @seealso{care, lqr, dlqr, kalman}
  @end deftypefn
 @section dlyap
+@findex dlyap
 
  @deftypefn{Function File} {@var{x} =} dlyap (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{x} =} dlyap (@var{a}, @var{b}, @var{c})
@@ -3303,6 +3631,7 @@
  @seealso{dlyapchol, lyap, lyapchol}
  @end deftypefn
 @section dlyapchol
+@findex dlyapchol
 
  @deftypefn{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} dlyapchol (@var{a}, @var{b}, @var{e})
@@ -3324,6 +3653,7 @@
  @seealso{dlyap, lyap, lyapchol}
  @end deftypefn
 @section lyap
+@findex lyap
 
  @deftypefn{Function File} {@var{x} =} lyap (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{x} =} lyap (@var{a}, @var{b}, @var{c})
@@ -3348,6 +3678,7 @@
  @seealso{lyapchol, dlyap, dlyapchol}
  @end deftypefn
 @section lyapchol
+@findex lyapchol
 
  @deftypefn{Function File} {@var{u} =} lyapchol (@var{a}, @var{b})
  @deftypefnx{Function File} {@var{u} =} lyapchol (@var{a}, @var{b}, @var{e})
@@ -3370,6 +3701,7 @@
  @end deftypefn
 @chapter Model Reduction
 @section bstmodred
+@findex bstmodred
 
  @deftypefn{Function File} {[@var{Gr}, @var{info}] =} bstmodred (@var{G}, @dots{})
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} bstmodred (@var{G}, @var{nr}, @dots{})
@@ -3542,6 +3874,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section btamodred
+@findex btamodred
 
  @deftypefn{Function File} {[@var{Gr}, @var{info}] =} btamodred (@var{G}, @dots{})
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} btamodred (@var{G}, @var{nr}, @dots{})
@@ -3763,6 +4096,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section hnamodred
+@findex hnamodred
 
  @deftypefn{Function File} {[@var{Gr}, @var{info}] =} hnamodred (@var{G}, @dots{})
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} hnamodred (@var{G}, @var{nr}, @dots{})
@@ -4023,6 +4357,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section spamodred
+@findex spamodred
 
  @deftypefn{Function File} {[@var{Gr}, @var{info}] =} spamodred (@var{G}, @dots{})
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} spamodred (@var{G}, @var{nr}, @dots{})
@@ -4228,6 +4563,7 @@
  @end deftypefn
 @chapter Controller Reduction
 @section btaconred
+@findex btaconred
 
  @deftypefn{Function File} {[@var{Kr}, @var{info}] =} btaconred (@var{G}, @var{K}, @dots{})
  @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} btaconred (@var{G}, @var{K}, @var{ncr}, @dots{})
@@ -4432,6 +4768,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section cfconred
+@findex cfconred
 
  @deftypefn{Function File} {[@var{Kr}, @var{info}] =} cfconred (@var{G}, @var{F}, @var{L}, @dots{})
  @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} cfconred (@var{G}, @var{F}, @var{L}, @var{ncr}, @dots{})
@@ -4550,6 +4887,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section fwcfconred
+@findex fwcfconred
 
  @deftypefn{Function File} {[@var{Kr}, @var{info}] =} fwcfconred (@var{G}, @var{F}, @var{L}, @dots{})
  @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} fwcfconred (@var{G}, @var{F}, @var{L}, @var{ncr}, @dots{})
@@ -4645,6 +4983,7 @@
  @uref{http://www.slicot.org, NICONET e.V.}
  @end deftypefn
 @section spaconred
+@findex spaconred
 
  @deftypefn{Function File} {[@var{Kr}, @var{info}] =} spaconred (@var{G}, @var{K}, @dots{})
  @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} spaconred (@var{G}, @var{K}, @var{ncr}, @dots{})
@@ -4850,6 +5189,7 @@
  @end deftypefn
 @chapter Experimental Data Handling
 @section iddata
+@findex iddata
 
  @deftypefn{Function File} {@var{dat} =} iddata (@var{y})
  @deftypefnx{Function File} {@var{dat} =} iddata (@var{y}, @var{u})
@@ -4942,6 +5282,7 @@
  @end table
  @end deftypefn
 @section @@iddata/cat
+@findex cat
 
  @deftypefn {Function File} {@var{dat} =} cat (@var{dim}, @var{dat1}, @var{dat2}, @dots{})
  Concatenate iddata sets along dimension @var{dim}.
@@ -4991,6 +5332,7 @@
  @seealso{horzcat, merge, vertcat}
  @end deftypefn
 @section @@iddata/detrend
+@findex detrend
 
  @deftypefn {Function File} {@var{dat} =} detrend (@var{dat})
  @deftypefnx {Function File} {@var{dat} =} detrend (@var{dat}, @var{ord})
@@ -5000,6 +5342,7 @@
  This corresponds to removing a constant.
  @end deftypefn
 @section @@iddata/diff
+@findex diff
 
  @deftypefn {Function File} {@var{dat} =} diff (@var{dat})
  @deftypefnx {Function File} {@var{dat} =} diff (@var{dat}, @var{k})
@@ -5007,6 +5350,7 @@
  If @var{k} is not specified, default value 1 is taken.
  @end deftypefn
 @section @@iddata/fft
+@findex fft
 
  @deftypefn {Function File} {@var{dat} =} fft (@var{dat})
  @deftypefnx {Function File} {@var{dat} =} fft (@var{dat}, @var{n})
@@ -5040,6 +5384,7 @@
 
  @end deftypefn
 @section @@iddata/filter
+@findex filter
 
  @deftypefn {Function File} {@var{dat} =} filter (@var{dat}, @var{sys})
  @deftypefnx {Function File} {@var{dat} =} filter (@var{dat}, @var{b}, @var{a})
@@ -5074,14 +5419,16 @@
 
  @end deftypefn
 @section @@iddata/get
+@findex get
 
- @deftypefn {Function File} get (@var{dat})
+ @deftypefn {Function File} {} get (@var{dat})
  @deftypefnx {Function File} {@var{value} =} get (@var{dat}, @var{"property"})
  @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{dat}, @var{"prop1"}, @var{"prop2"}, @dots{})
  Access property values of iddata objects.
  Type @command{get(dat)} to display a list of available properties.
  @end deftypefn
 @section @@iddata/ifft
+@findex ifft
 
  @deftypefn {Function File} {@var{dat} =} ifft (@var{dat})
  Transform iddata objects from frequency to time domain.
@@ -5106,6 +5453,7 @@
 
  @end deftypefn
 @section @@iddata/merge
+@findex merge
 
  @deftypefn {Function File} {@var{dat} =} merge (@var{dat1}, @var{dat2}, @dots{})
  Concatenate experiments of iddata datasets.
@@ -5115,6 +5463,7 @@
  The number of outputs and inputs must be equal for all datasets.
  @end deftypefn
 @section @@iddata/nkshift
+@findex nkshift
 
  @deftypefn {Function File} {@var{dat} =} nkshift (@var{dat}, @var{nk})
  @deftypefnx {Function File} {@var{dat} =} nkshift (@var{dat}, @var{nk}, @var{'append'})
@@ -5127,9 +5476,10 @@
  such that the number of samples in @var{dat} remains constant.
  @end deftypefn
 @section @@iddata/plot
+@findex plot
 
- @deftypefn {Function File} plot (@var{dat})
- @deftypefnx {Function File} plot (@var{dat}, @var{exp})
+ @deftypefn {Function File} {} plot (@var{dat})
+ @deftypefnx {Function File} {} plot (@var{dat}, @var{exp})
  Plot signals of iddata identification datasets on the screen.
  The signals are plotted experiment-wise, either in time- or
  frequency-domain.  For multi-experiment datasets,
@@ -5139,6 +5489,7 @@
  where @var{exp} denotes the desired experiment.
  @end deftypefn
 @section @@iddata/resample
+@findex resample
 
  @deftypefn {Function File} {@var{dat} =} resample (@var{dat}, @var{p}, @var{q})
  @deftypefnx {Function File} {@var{dat} =} resample (@var{dat}, @var{p}, @var{q}, @var{n})
@@ -5165,9 +5516,10 @@
 
  @end deftypefn
 @section @@iddata/set
+@findex set
 
- @deftypefn {Function File} set (@var{dat})
- @deftypefnx {Function File} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
+ @deftypefn {Function File} {} set (@var{dat})
+ @deftypefnx {Function File} {} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
  @deftypefnx {Function File} {@var{dat} =} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
  Set or modify properties of iddata objects.
  If no return argument @var{dat} is specified, the modified LTI object is stored
@@ -5176,6 +5528,7 @@
  @code{set (dat)} prints a list of the object's property names.
  @end deftypefn
 @section @@iddata/size
+@findex size
 
  @deftypefn {Function File} {@var{nvec} =} size (@var{dat})
  @deftypefnx {Function File} {@var{ndim} =} size (@var{dat}, @var{dim})
@@ -5211,13 +5564,13 @@
  @end deftypefn
 @chapter System Identification
 @section arx
+@findex arx
 
  @deftypefn {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @var{opt}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{opt}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{'na'}, @var{na}, @var{'nb'}, @var{nb})
  Estimate ARX model using QR factorization.
-
  @iftex
  @tex
  $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
@@ -5284,12 +5637,12 @@
 
  @strong{References}@*
  [1] Ljung, L. (1999)
- System Identification - Theory for the User
- Second Edition
- Prentice Hall, New Jersey.
+ @cite{System Identification: Theory for the User: Second Edition}.
+ Prentice Hall, New Jersey, USA.
 
  @end deftypefn
 @section moen4
+@findex moen4
 
  @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moen4 (@var{dat}, @var{n}, @dots{})
@@ -5499,6 +5852,7 @@
 
  @end deftypefn
 @section moesp
+@findex moesp
 
  @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} moesp (@var{dat}, @var{n}, @dots{})
@@ -5707,6 +6061,7 @@
 
  @end deftypefn
 @section n4sid
+@findex n4sid
 
  @deftypefn {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @dots{})
  @deftypefnx {Function File} {[@var{sys}, @var{x0}, @var{info}] =} n4sid (@var{dat}, @var{n}, @dots{})
@@ -5916,6 +6271,7 @@
  @end deftypefn
 @chapter Overloaded LTI Operators
 @section @@lti/ctranspose
+@findex ctranspose
 
  Conjugate transpose or pertransposition of LTI objects.
  Used by Octave for "sys'".
@@ -5928,65 +6284,79 @@
  @strong{WARNING:} Do @strong{NOT} use this for dual problems,
  use the transpose "sys.'" (note the dot) instead.
 @section @@lti/horzcat
+@findex horzcat
 
  Horizontal concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[sys1, sys2]".
 @section @@lti/inv
+@findex inv
 
  Inversion of LTI objects.
 @section @@lti/minus
+@findex minus
 
  Binary subtraction of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 - sys2".
 @section @@lti/mldivide
+@findex mldivide
 
  Matrix left division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "sys1 \ sys2".
 @section @@lti/mpower
+@findex mpower
 
  Matrix power of LTI objects.  The exponent must be an integer.
  Used by Octave for "sys^int".
 @section @@lti/mrdivide
+@findex mrdivide
 
  Matrix right division of LTI objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "sys1 / sys2".
 @section @@lti/mtimes
+@findex mtimes
 
  Matrix multiplication of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 * sys2".
 @section @@lti/plus
+@findex plus
 
  Binary addition of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 + sys2".
  Operation is also known as "parallel connection".
 @section @@lti/subsasgn
+@findex subsasgn
 
  Subscripted assignment for LTI objects.
  Used by Octave for "sys.property = value".
 @section @@lti/subsref
+@findex subsref
 
  Subscripted reference for LTI objects.
  Used by Octave for "sys = sys(2:4, :)" or "val = sys.prop".
 @section @@lti/transpose
+@findex transpose
 
  Transpose of LTI objects.  Used by Octave for "sys.'".
  Useful for dual problems, i.e. controllability and observability
  or designing estimator gains with @command{lqr} and @command{place}.
 @section @@lti/uminus
+@findex uminus
 
  Unary minus of LTI object.  Used by Octave for "-sys".
 @section @@lti/uplus
+@findex uplus
 
  Unary plus of LTI object.  Used by Octave for "+sys".
 @section @@lti/vertcat
+@findex vertcat
 
  Vertical concatenation of LTI objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[sys1; sys2]".
 @chapter Overloaded IDDATA Operators
 @section @@iddata/horzcat
+@findex horzcat
 
- @deftypefn {Function File} {@var{dat} =} [@var{dat1}, @var{dat2}, @dots{}]
- @deftypefnx {Function File} {@var{dat} =} horzcat (@var{dat1}, @var{dat2}, @dots{})
+ @deftypefn {Function File} {@var{dat} =} horzcat (@var{dat1}, @var{dat2}, @dots{})
  Horizontal concatenation of iddata datasets.
  The outputs and inputs are concatenated in the following way:
  @code{dat.y@{e@} = [dat1.y@{e@}, dat2.y@{e@}, @dots{}]}
@@ -5995,17 +6365,19 @@
  The number of experiments and samples must be equal for all datasets.
  @end deftypefn
 @section @@iddata/subsasgn
+@findex subsasgn
 
  Subscripted assignment for iddata objects.
  Used by Octave for "dat.property = value".
 @section @@iddata/subsref
+@findex subsref
 
  Subscripted reference for iddata objects.
  Used by Octave for "dat = dat(2:4, :)" or "val = dat.prop".
 @section @@iddata/vertcat
+@findex vertcat
 
- @deftypefn {Function File} {@var{dat} =} [@var{dat1}; @var{dat2}; @dots{}]
- @deftypefnx {Function File} {@var{dat} =} vertcat (@var{dat1}, @var{dat2}, @dots{})
+ @deftypefn {Function File} {@var{dat} =} vertcat (@var{dat1}, @var{dat2}, @dots{})
  Vertical concatenation of iddata datasets.
  The samples are concatenated in the following way:
  @code{dat.y@{e@} = [dat1.y@{e@}; dat2.y@{e@}; @dots{}]}
@@ -6015,6 +6387,7 @@
  @end deftypefn
 @chapter Miscellaneous
 @section options
+@findex options
 
  @deftypefn{Function File} {@var{opt} =} options (@var{"key1"}, @var{value1}, @var{"key2"}, @var{value2}, @dots{})
  Create options struct @var{opt} from a number of key and value pairs.
@@ -6058,6 +6431,7 @@
 
  @end deftypefn
 @section strseq
+@findex strseq
 
  @deftypefn {Function File} {@var{strvec} =} strseq (@var{str}, @var{idx})
  Return a cell vector of indexed strings by appending the indices @var{idx}
@@ -6069,6 +6443,7 @@
  @end example
  @end deftypefn
 @section test_control
+@findex test_control
 
  @deftypefn {Script File} {} test_control
  Execute all available tests at once.
@@ -6091,6 +6466,7 @@
  from Mac OS X 10.7.
  @end deftypefn
 @section BMWengine
+@findex BMWengine
 
  @deftypefn{Function File} {@var{sys} =} BMWengine ()
  @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"scaled"})
@@ -6144,6 +6520,7 @@
  @end example
  @end deftypefn
 @section Boeing707
+@findex Boeing707
 
  @deftypefn {Function File} {@var{sys} =} Boeing707 ()
  Creates a linearized state-space model of a Boeing 707-321 aircraft
@@ -6165,6 +6542,7 @@
  Control), Springer, 1994.
  @end deftypefn
 @section WestlandLynx
+@findex WestlandLynx
 
  @deftypefn{Function File} {@var{sys} =} WestlandLynx ()
  Model of the Westland Lynx Helicopter about hover.

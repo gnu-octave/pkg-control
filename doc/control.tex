@@ -5,7 +5,7 @@
 @c use chapter name instead of title in the header of even pages
 @c @settitle CACSD Tools for GNU Octave
 @afourpaper
-@set VERSION 2.4.0
+@set VERSION 2.4.1
 @finalout
 @c @afourwide
 @c %**end of header
@@ -54,7 +54,11 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
+
+
 @page
+@c @unnumbered Preface
+@paragraphindent 0
 @chapheading Preface
 The @acronym{GNU} Octave control package from version 2 onwards was
 developed by Lukas F. Reichlin and is based on the proven open-source
@@ -73,39 +77,77 @@ synthesis methods.
 @item Improved @acronym{MATLAB} compatibility.
 @end itemize
 
-@sp 5
-@subheading Acknowledgments
+@sp 3
+@heading Acknowledgment
 The author is indebted to several people and institutions who helped
 him to achieve his goals. I am particularly grateful to Luca Favatella
 who introduced me to Octave development as well as discussed and revised
-my early draft code with great patience. My continued support from the
-@acronym{FHNW} University of Applied Sciences Northwestern Switzerland,
-where I could work on the control package as a semester project, has also
-been important. Furthermore, I thank the @acronym{SLICOT} authors
-Peter Benner, Vasile Sima and Andras Varga for their advice.
+my early draft code with great patience. The continued support from the
+@acronym{FHNW} University of Applied Sciences Northwestern Switzerland
+has also been important. Namely, sincere thanks are given to my advisors,
+professors Hans Buchmann and J@"urg Peter Keller.
+Furthermore, I thank the @acronym{SLICOT} authors Peter Benner,
+Vasile Sima and Andras Varga for their advice.
 Finally, I appreciate the feedback, bug reports and patches I have received
 from various people. The names of all contributors should be listed in the
 @acronym{NEWS} file.
 
 
-@sp 5
-@subheading Using the help function
-Some functions of the control package are listed with a leading @code{@@lti/}.
-This is only needed to view the help text of the function, e.g. @w{@code{help norm}}
-shows the built-in function while @w{@code{help @@lti/norm}} shows the overloaded
-function for @acronym{LTI} systems. Note that there are @acronym{LTI} functions
-like @code{pole} that have no built-in equivalent.
+@sp 3
+@heading Using the help function
+Some functions of the control package are listed with the somewhat cryptic prefixes
+@code{@@lti/} or @code{@@iddata/}. These prefixes are only needed to view the help
+text of the function, e.g. @w{@code{help norm}} shows the built-in function while
+@w{@code{help @@lti/norm}} shows the overloaded function for @acronym{LTI} systems.
+Note that there are @acronym{LTI} functions like @code{pole} that have no built-in
+equivalent. The same is true for @acronym{IDDATA} functions like @code{nkshift}.
 
 When just using the function, the leading @code{@@lti/} must @strong{not} be typed.
 Octave selects the right function automatically. So one can type @w{@code{norm (sys, inf)}}
 and @w{@code{norm (matrix, inf)}} regardless of the class of the argument.
+
+
+@sp 3
+@heading Bugs!
+To err is human, and software is written by humans.
+Therefore, any larger piece of software is likely to contain bugs.
+If you find a bug in the control package, please take the time
+to report your findings!
+Feedback of any kind is highly appreciated by the author and
+vital for further enhancement of the software.
+Bug reports are to be sent to the Octave bug tracker, the mailing lists
+or directly to the author's e-mail: @email{lukas.reichlin@@gmail.com}
+
+
+@page
+@heading Distribution
+The @acronym{GNU} Octave control package is @dfn{free} software.
+This means that everyone is free to use it and free to redistribute it
+on certain conditions.  The @acronym{GNU} Octave control package 
+is not, however, in the public domain.  It is copyrighted and there are
+restrictions on its distribution, but the restrictions are designed to 
+ensure that others will have the same freedom to use and redistribute 
+Octave that you have.  The precise conditions can be found in the 
+@acronym{GNU} General Public License that comes with the @acronym{GNU}
+Octave control package and that also appears in @ref{Copying}.
+
+To download a copy of control, please visit
+@url{http://octave.sourceforge.net/control/}.
 @end titlepage
 @c %*** End of TITLEPAGE
 
 @headings double
 @contents
+
 @c @chapter Function Reference
 @include functions.texi
-
 @end
+
+@include gpl.texi
+
+@c FIXME: Index is nonexistent
+@node Function Index
+@unnumbered Function Index
+@printindex fn
+
 @bye
