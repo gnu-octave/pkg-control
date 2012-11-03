@@ -29,7 +29,7 @@
 ## @item sys
 ## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
-## State transition matrix of continuous-time system (n-by-n).
+## State matrix of continuous-time system (n-by-n).
 ## @item b
 ## Input matrix of continuous-time system (n-by-m).
 ## @item q

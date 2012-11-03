@@ -26,7 +26,7 @@
 ## @item sys
 ## LTI model.
 ## @item a
-## State transition matrix (n-by-n).
+## State matrix (n-by-n).
 ## @item b
 ## Input matrix (n-by-m).
 ## @end table

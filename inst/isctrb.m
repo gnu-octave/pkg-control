@@ -31,11 +31,11 @@
 ## @item sys
 ## LTI model.  Descriptor state-space models are possible.
 ## @item a
-## State transition matrix.
+## State matrix (n-by-n).
 ## @item b
-## Input matrix.
+## Input matrix (n-by-m).
 ## @item e
-## Descriptor matrix.
+## Descriptor matrix (n-by-n).
 ## If @var{e} is empty @code{[]} or not specified, an identity matrix is assumed.
 ## @item tol
 ## Optional roundoff parameter.  Default value is 0.

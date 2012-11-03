@@ -35,7 +35,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item a
-## State transition matrix (n-by-n).
+## State matrix (n-by-n).
 ## @item b
 ## Input matrix (n-by-m).
 ## @item c

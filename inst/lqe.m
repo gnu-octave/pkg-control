@@ -39,7 +39,7 @@
 ## @item sys
 ## Continuous or discrete-time LTI model (p-by-m, n states).
 ## @item a
-## State transition matrix of continuous-time system (n-by-n).
+## State matrix of continuous-time system (n-by-n).
 ## @item g
 ## Process noise matrix of continuous-time system (n-by-g).
 ## If @var{g} is empty @code{[]}, an identity matrix is assumed.
