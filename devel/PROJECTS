@@ -27,6 +27,14 @@ General:
   * SLICOT non-linear system identification.
     idnlmodel class and simulation of Wiener models with SLICOT.
 
+  * Implement various system identification routines:
+    -- armax
+    -- bj      (Box-Jenkins)
+    -- oe      (Output Error)
+    -- rarx    (Recursive ARX)
+    -- rarmax  (Recursive ARMAX)
+    Support MIMO and multi-experiment datasets if possible.
+
   * Descriptor support for pole placement command "place".
   
   * Implement mu-Synthesis command "dksyn" using  muHopt.f.
