@@ -49,7 +49,6 @@ extern "C"
                   double* DWORK, int& LDWORK,
                   int& INFO);
 
-                  
 
     int F77_FUNC (sb02rd, SB02RD)
                  (char& JOB, char& DICO,
@@ -65,7 +64,7 @@ extern "C"
                   double* Q, int& LDQ,
                   double* X, int& LDX,
                   double& SEP,
-                  double& RCOND, double& FERR
+                  double& RCOND, double& FERR,
                   double* WR, double* WI,
                   double* S, int& LDS,
                   int* IWORK,
@@ -93,6 +92,7 @@ For internal use only.")
         // SB02MT
 
         // arguments in
+        char dico;
         char jobg = 'G';
         char jobl;
         char fact = 'N';
@@ -137,7 +137,7 @@ For internal use only.")
         OCTAVE_LOCAL_BUFFER (int, iwork_a, m);
 
         int ldwork_a = max (2, 3*m, n*m);
-        OCTAVE_LOCAL_BUFFER (double, dwork, ldwork_a);
+        OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
 
 
         // error indicator
@@ -156,8 +156,8 @@ For internal use only.")
                   l.fortran_vec (), ldl,
                   ipiv, oufact,
                   g.fortran_vec (), ldg,
-                  iwork,
-                  dwork, ldwork,
+                  iwork_a,
+                  dwork_a, ldwork_a,
                   info));
 
 
@@ -186,18 +186,37 @@ For internal use only.")
         char trana = 'N';
         char scal = 'G';
         char sort = 'S';
-        char fact = 'N';
+        //char fact = 'N';
         char lyapun = 'O';
         
         int ldt = max (1, n);
         int ldv = max (1, n);
+        int ldx = max (1, n);
+        int lds = max (1, 2*n);
         
         // arguments out
+        Matrix x (ldx, n);
 
-
+        double sep;
+        double rcond;
+        double ferr;
+    
+        ColumnVector wr (2*n);
+        ColumnVector wi (2*n);
+        
         // unused output arguments
         Matrix t (ldt, n);
         Matrix v (ldv, n);
+        Matrix s (lds, 2*n);
+
+        // workspace
+        int liwork_b = max (2*n, n*n);
+        OCTAVE_LOCAL_BUFFER (int, iwork_b, liwork_b);
+
+        int ldwork_b = 5 + max (1, 4*n*n + 8*n);
+        OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
+
+        OCTAVE_LOCAL_BUFFER (bool, bwork_b, 2*n);
 
  
         // SLICOT routine SB02RD
@@ -218,14 +237,11 @@ For internal use only.")
                   rcond, ferr,
                   wr.fortran_vec (), wi.fortran_vec (),
                   s.fortran_vec (), lds,
-                  iwork,
-                  dwork, ldwork,
-                  bwork,
+                  iwork_b,
+                  dwork_b, ldwork_b,
+                  bwork_b,
                   info));
 
-  
-        
-        
 
         static const char* err_msg[] = {
             "0: OK",
@@ -251,26 +267,23 @@ For internal use only.")
 
         error_msg ("are", info, 7, err_msg);
 
+        // resize
+        x.resize (n, n);
+        wr.resize (n);
+        wi.resize (n);
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
-        alfar.resize (n);
-        alfai.resize (n);
-        beta.resize (n);
-
-        ColumnVector poler (n);
-        ColumnVector polei (n);
-
-        poler = quotient (alfar, beta);
-        polei = quotient (alfai, beta);
-        
         ComplexColumnVector pole (n, Complex ());
 
         for (octave_idx_type i = 0; i < n; i++)
-            pole.xelem (i) = Complex (poler(i), polei(i));
+            pole.xelem (i) = Complex (wr(i), wi(i));
 
         // return value
         retval(0) = x;
         retval(1) = pole;
+        retval(2) = octave_value (ferr);
+        retval(3) = octave_value (rcond);
+        retval(4) = octave_value (sep);
     }
 
     return retval;
