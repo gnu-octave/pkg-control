@@ -117,10 +117,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("lyap: __sl_sb03od__: exception in SLICOT subroutine SB03OD");
+            error ("lyapchol: __sl_sb03od__: exception in SLICOT subroutine SB03OD");
 
         if (info != 0)
-            error ("lyap: __sl_sb03od__: SB03OD returned info = %d", info);
+            error ("lyapchol: __sl_sb03od__: SB03OD returned info = %d", info);
 
         // resize
         b.resize (n, n);
