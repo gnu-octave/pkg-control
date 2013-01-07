@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011   Lukas F. Reichlin
+Copyright (C) 2011, 2013   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -26,7 +26,7 @@ Uses SLICOT TD04AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: August 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -93,7 +93,7 @@ For internal use only.")
         }
 
         // arguments out
-        int nr;
+        int nr = max (1, n);        // initialize to prevent crash if  info != 0
         int lda = max (1, n);
         int ldb = max (1, n);
         int ldc = max (1, m, p);
