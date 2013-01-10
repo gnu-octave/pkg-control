@@ -186,7 +186,6 @@ For internal use only.")
         char trana = 'N';
         char scal = 'G';
         char sort = 'S';
-        //char fact = 'N';
         char lyapun = 'O';
         
         int ldt = max (1, n);
