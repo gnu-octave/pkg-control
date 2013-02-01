@@ -7,7 +7,7 @@ control-2.x.y   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
 ** Fix crash in transfer function to state-space conversion.
    (Thanks to Thomas Vasileiou)
 
-**
+** Fix crash in minreal for state-space systems. (Thanks to Thomas Vasileiou)
 
 ===============================================================================
 control-2.4.1   Release Date: 2012-11-01   Release Manager: Lukas Reichlin

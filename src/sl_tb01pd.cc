@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010, 2011   Lukas F. Reichlin
+Copyright (C) 2010, 2011, 2013   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT TB01PD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -91,6 +91,7 @@ For internal use only.")
             ldc = max (1, m, p);
 
         b.resize (ldb, max (m, p));
+        c.resize (ldc, n);
 
         // arguments out
         int nr = 0;
