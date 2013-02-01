@@ -16,8 +16,8 @@ TODO:  * create a nice shell script for this task
 
 cd
 mkdir ~/octave/__TEMP__
-cd
-svn export control ~/octave/__TEMP__/control
+cd ~/control
+hg archive ~/octave/__TEMP__/control
 rm -R ~/octave/__TEMP__/control/devel
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
