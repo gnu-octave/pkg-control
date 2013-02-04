@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -30,6 +30,9 @@
 ## @table @var
 ## @item sys
 ## LTI model.  Descriptor state-space models are possible.
+## If @var{sys} is not a state-space model, it is converted to
+## a minimal state-space realization, so beware of pole-zero
+## cancellations which may lead to wrong results!
 ## @item a
 ## State matrix (n-by-n).
 ## @item b
@@ -60,7 +63,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function [bool, ncont] = isctrb (a, b = [], e = [], tol = [])
 
@@ -69,6 +72,9 @@ function [bool, ncont] = isctrb (a, b = [], e = [], tol = [])
   elseif (isa (a, "lti"))  # isctrb (sys), isctrb (sys, tol)
     if (nargin > 2)
       print_usage ();
+    endif
+    if (! isa (a, "ss"))
+      warning ("isctrb: converting to minimal state-space realization");
     endif
     tol = b;
     [a, b, c, d, e] = dssdata (a, []);

@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -32,7 +32,9 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## LTI system.  If @var{sys} is not a state-space system, it is converted to
+## a minimal state-space realization, so beware of pole-zero cancellations
+## which may lead to wrong results!
 ## @item a
 ## State transition matrix.
 ## @item b
@@ -74,7 +76,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
 
@@ -83,6 +85,9 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
   elseif (isa (a, "lti"))  # isstabilizable (sys), isstabilizable (sys, tol)
     if (nargin > 2)
       print_usage ();
+    endif
+    if (! isa (a, "ss"))
+      warning ("isstabilizable: converting to minimal state-space realization");
     endif
     tol = b;
     dflg = ! isct (a);
