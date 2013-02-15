@@ -1,13 +1,66 @@
 %% -*- texinfo -*-
-%% Frequency-weighted controller reduction.
+%% Demonstration of frequency-weighted controller reduction.
+%% The system considered in this example has been studied by Madievski and
+%% Anderson [1] and comprises four spinning disks.  The disks are connected by a
+%% flexible rod, a motor applies torque to the third disk, and the angular
+%% displacement of the first disk is the variable of interest. The state-space
+%% model of eighth order is non-minimumphase and unstable.
+%% The continuous-time LQG controller used in [1] is open-loop stable and of
+%% eighth order like the plant.  This eighth-order controller shall be reduced by
+%% frequency-weighted singular perturbation approximation (SPA).
+%% The major aim of this reduction is the preservation of the closed-loop
+%% transfer function.  This means that the error in approximation of the
+%% controller @var{K} by the reduced-order controller @var{Kr} is minimized by
+%% @iftex
+%% @tex
+%% $$ \\underset{K_r}{\\min} \\ || W \\ (K - K_r) \\ V ||_{\\infty} $$
+%% @end tex
+%% @end iftex
+%% @ifnottex
+%% @example
+%% min ||W (K-Kr) V||
+%%  Kr               inf
+%% @end example
+%% @end ifnottex
+%% where weights @var{W} and @var{V} are dictated by the requirement to preserve
+%% (as far as possible) the closed-loop transfer function.  In minimizing the
+%% error, they cause the approximation process for @var{K} to be more accurate at
+%% certain frequencies.  Suggested by [1] is the use of the following stability
+%% and performance enforcing weights:
+%% @iftex
+%% @tex
+%% $$ W = (I - G K)^{-1} G,  \\qquad V = (I - G K)^{-1} $$
+%% @end tex
+%% @end iftex
+%% @ifnottex
+%% @example
+%%              -1                      -1
+%% W = (I - G K)   G,      V = (I - G K)
+%% @end example
+%% @end ifnottex
+%% This example script reduces the eighth-order controller to orders four and two
+%% by the function call
+%% @code{Kr = spaconred (G, K, nr, 'feedback', '-')}
+%% where argument @var{nr} denotes the desired order (4 or 2).  The key-value
+%% pair @code{'feedback', '-'} allows the reduction of negative feedback
+%% controllers while the default setting expects positive feedback controllers.
+%% The frequency responses of the original and reduced-order controllers are
+%% depicted in figure 1, the step responses of the closed loop in figure 2.
+%% There is no visible difference between the step responses of the closed-loop
+%% systems with original (blue) and fourth order (green) controllers.
+%% The second order controller (red) causes ripples in the step response, but
+%% otherwise the behavior of the system is unaltered.  This leads to the
+%% conclusion that function @command{spaconred} is well suited to reduce the
+%% order of controllers considerably, while stability and performance are
+%% retained.
+%% @*@strong{Reference}@*
+%% [1] Madievski, A.G. and Anderson, B.D.O.
+%% @cite{Sampled-Data Controller Reduction Procedure},
+%% IEEE Transactions of Automatic Control,
+%% Vol. 40, No. 11, November 1995
 
 % ===============================================================================
 % Frequency Weighted Controller Reduction       Lukas Reichlin      December 2011
-% ===============================================================================
-% Reference: Madievski, A.G. and Anderson, B.D.O.
-%            Sampled-Data Controller Reduction Procedure
-%            IEEE Transactions of Automatic Control
-%            Vol. 40, No. 11, November 1995
 % ===============================================================================
 
 % Tabula Rasa
