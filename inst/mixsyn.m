@@ -17,12 +17,204 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
-## Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
-## of @var{S} (for performance), @var{K S} (to penalize large inputs) and
-## @var{T} (for robustness and to avoid sensitivity to noise).
-## In other words, the inputs r are excited by a harmonic test signal.
-## Then the algorithm tries to find a controller @var{K} which minimizes
-## the H-infinity norm calculated from the outputs z.
+## Solve stacked S/KS/T H-infinity problem.
+## Mixed-sensitivity is the name given to transfer function shaping problems in which
+## the sensitivity function
+## @iftex
+## @tex
+## $ S = (I + G K)^{-1} $
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##              -1
+## S = (I + G K)
+## @end example
+## @end ifnottex
+## is shaped along with one or more other closed-loop transfer functions such as @var{K S}
+## or the complementary sensitivity function
+## @iftex
+## @tex
+## $ T = I - S = (I + G K)^{-1} G K $
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##                      -1
+## T = I - S = (I + G K)
+## @end example
+## @end ifnottex
+## in a typical one degree-of-freedom configuration, where @var{G} denotes the plant and
+## @var{K} the (sub-)optimal controller to be found.  The shaping of multivariable
+## transfer functions is based on the idea that a satisfactory definition of gain
+## (range of gain) for a matrix transfer function is given by the singular values
+## @iftex
+## @tex
+## $\\sigma$
+## @end tex
+## @end iftex
+## @ifnottex
+## @sigma
+## @end ifnottex
+## of the transfer function. Hence the classical loop-shaping ideas of feedback design
+## can be generalized to multivariable systems.  In addition to the requirement that
+## @var{K} stabilizes @var{G}, the closed-loop objectives are as follows [1]:
+## @enumerate
+## @item For @emph{disturbance rejection} make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(S)$
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## small.
+## @item For @emph{noise attenuation} make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(T)$
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## small.
+## @item For @emph{reference tracking} make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(T) \\approx \\underline{\\sigma}(T) \\approx 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## @item For @emph{input usage (control energy) reduction} make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(K S)$
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## small.
+## @item For @emph{robust stability} in the presence of an additive perturbation
+## @iftex
+## @tex
+## $G_p = G + \\Delta$,
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(K S)$
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## small.
+## @item For @emph{robust stability} in the presence of a multiplicative output perturbation
+## @iftex
+## @tex
+## $G_p = (I + \\Delta) G$,
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(T)$
+## @end tex
+## @end iftex
+## @ifnottex
+## 
+## @end ifnottex
+## small.
+## @end enumerate
+## In order to find a robust controller for the so-called stacked
+## @iftex
+## @tex
+## $S/KS/T \\ H_{\\infty}$
+## @end tex
+## @end iftex
+## @ifnottex
+## S/KS/T H-infinity
+## @end ifnottex
+## problem, the user function @command{mixsyn} minimizes the following criterion
+## @iftex
+## @tex
+## $$ \\underset{K}{\\min} || N(K) ||_{\\infty}, \\quad N = | W_1 S; \\ W_2 K S; \\ W_3 T |$$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##                              | W1 S   |
+## min || N(K) ||           N = | W2 K S |
+##  K            oo             | W3 T   |
+## @end example
+## @end ifnottex
+## @code{[K, N] = mixsyn (G, W1, W2, W3)}.
+## The user-defined weighting functions @var{W1}, @var{W2} and @var{W3} bound the largest
+## singular values of the closed-loop transfer functions @var{S} (for performance),
+## @var{K S} (to penalize large inputs) and @var{T} (for robustness and to avoid
+## sensitivity to noise), respectively [1].
+## A few points are to be considered when choosing the weights.
+## The weigths @var{Wi} must all be proper and stable.  Therefore if one wishes,
+## for example, to minimize @var{S} at low frequencies by a weighting @var{W1} including
+## integral action, 
+## @iftex
+## @tex
+## $\\frac{1}{s}$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## 1
+## -
+## s
+## @end example
+## @end ifnottex
+## needs to be approximated by
+## @iftex
+## @tex
+## $\\frac{1}{s + \\epsilon}$, where $\\epsilon \\ll 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##   1
+## -----    where   e << 1.
+## s + e
+## @end example
+## @end ifnottex
+## Similarly one might be interested in weighting @var{K S} with a non-proper weight
+## @var{W2} to ensure that @var{K} is small outside the system bandwidth.
+## The trick here is to replace a non-proper term such as
+## @iftex
+## @tex
+## $ 1 + \\tau_1 s $ by $ \\frac{1 + \\tau_1 s}{1 + \\tau_2 s} $, where
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##                 1 + T1 s
+## 1 + T1 s   by   --------,   where   T2 << T1.
+##                 1 + T2 s
+## @end example
+## @end ifnottex
+## @iftex
+## @tex
+## $\\tau_2 \\ll \\tau_1$
+## @end tex
+## [1, 2]. 
+##
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -133,7 +325,10 @@
 ## @strong{References}@*
 ## [1] Skogestad, S. and Postlethwaite I. (2005)
 ## @cite{Multivariable Feedback Control: Analysis and Design:
-## Second Edition}.  Wiley.
+## Second Edition}.  Wiley, Chichester, England.@*
+## [2] Meinsma, G. (1995)
+## @cite{Unstable and nonproper weights in H-infinity control}
+## Automatica, Vol. 31, No. 11, pp. 1655-1658
 ##
 ## @seealso{hinfsyn, augw}
 ## @end deftypefn
