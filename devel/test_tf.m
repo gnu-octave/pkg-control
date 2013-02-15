@@ -27,9 +27,14 @@ d = tf (Boeing707);
 
 %c*d
 
-c+c
+%c+c
 %{
 [c, c]
 
 [c; c]
 %}
+
+numcel = {[1 2],[ 1]; [0], [1 -1]};
+dencel = {[1 1], [1 2 1]; [0], [4 1]};
+mm = tf (numcel, dencel)
+mms = ss (mm) # <- this crashed

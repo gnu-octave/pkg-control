@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2011, 2012   Lukas F. Reichlin
+## Copyright (C) 2009, 2011, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4.1
+## Version: 0.5
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -79,6 +79,10 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
   ## new cells for the TF of same row denominators
   numc = cell (p, m);
   denc = cell (p, 1);
+
+  ## set zero denominators to 1 for convolution
+  zero_idx = cellfun (@(x) all (x == 0), den);
+  den(zero_idx) = 1;
   
   ## multiply all denominators in a row and
   ## update each numerator accordingly
@@ -96,6 +100,9 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
       endfor
     endif
   endfor
+
+  ## set numerators to zero if their denominators are zero
+  numc(zero_idx) = 0;
 
   len_numc = cellfun (@length, numc);
   len_denc = cellfun (@length, denc);
