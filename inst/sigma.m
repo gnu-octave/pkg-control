@@ -22,8 +22,6 @@
 ## @deftypefnx {Function File} {} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
 ## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
-## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
-## @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
 ## Singular values of frequency response.  If no output arguments are given,
 ## the singular value plot is printed on the screen.
 ##
@@ -37,16 +35,6 @@
 ## Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
 ## where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
 ## in rad/s.
-## @item ptype = 0
-## Singular values of the frequency response @var{H} of system @var{sys}.  Default Value.
-## @item ptype = 1
-## Singular values of the frequency response @code{inv(H)}; i.e. inversed system.
-## @item ptype = 2
-## Singular values of the frequency response @code{I + H}; i.e. inversed sensitivity
-## (or return difference) if @code{H = P * C}.
-## @item ptype = 3
-## Singular values of the frequency response @code{I + inv(H)}; i.e. inversed complementary
-## sensitivity if @code{H = P * C}.
 ## @item 'style'
 ## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
 ## black line.  See @command{help plot} for details.
@@ -74,8 +62,8 @@ function [sv_r, w_r] = sigma (varargin)
   if (nargin == 0)
     print_usage ();
   endif
-resptype = 0;
-  [H, w] = __frequency_response__ (varargin, true, resptype, "std", true);
+
+  [H, w] = __frequency_response__ (varargin, true, "std", true);
 
   sv = cellfun (@(H) cellfun (@svd, H, "uniformoutput", false), H, "uniformoutput", false);
   sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);

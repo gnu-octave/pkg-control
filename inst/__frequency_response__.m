@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.5
 
-function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbounds = "std", cellflag = false)
+function [H, w] = __frequency_response__ (args, mimoflag = false, wbounds = "std", cellflag = false)
 
   isc = iscell (args);
 
@@ -62,7 +62,7 @@ function [H, w] = __frequency_response__ (args, mimoflag = 0, resptype = 0, wbou
   w(frd_idx) = {[]};                            # freqresp returns all frequencies of FRD models for w=[]
 
   ## compute frequency response H for all LTI models
-  H = cellfun (@__freqresp__, sys_cell, w, {resptype}, {cellflag}, "uniformoutput", false);
+  H = cellfun (@__freqresp__, sys_cell, w, {cellflag}, "uniformoutput", false);
 
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;

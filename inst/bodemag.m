@@ -61,7 +61,7 @@ function [mag_r, w_r] = bodemag (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (varargin, false, 0, "std");
+  [H, w] = __frequency_response__ (varargin, false, "std");
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);

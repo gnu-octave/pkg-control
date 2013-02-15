@@ -1,4 +1,4 @@
-## Copyright (C) 2010, 2012   Lukas F. Reichlin
+## Copyright (C) 2010, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,9 +20,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.2
+## Version: 0.3
 
-function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
+function H = __freqresp__ (sys, w, cellflag = false)
 
   [H, w_sys, tsam] = frdata (sys, "array");
 
@@ -41,41 +41,9 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     H = H(:, :, w_idx);
   endif
 
-  [p, m, l] = size (H);
-
-  if (resptype == 0)
-
-    if (cellflag)
-      H = mat2cell (H, p, m, ones (1, l))(:);
-    endif
-
-  else
-
-    if (m != p)
-      error ("tf: freqresp: system must be square for response type %d", resptype);
-    endif
-
+  if (cellflag)
+    [p, m, l] = size (H);
     H = mat2cell (H, p, m, ones (1, l))(:);
-    j = eye (p);
-
-    switch (resptype)
-      case 1             # inversed system
-        H = cellfun (@inv, H, "uniformoutput", false);
-
-      case 2             # inversed sensitivity
-        H = cellfun (@(x) j + x, H, "uniformoutput", false);
-
-      case 3             # inversed complementary sensitivity
-        H = cellfun (@(x) j + inv (x), H, "uniformoutput", false);
-
-      otherwise
-        error ("frd: freqresp: invalid response type");
-    endswitch
-
-    if (! cellflag)
-      H = cat (3, H{:});
-    endif
-
   endif
 
 endfunction

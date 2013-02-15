@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,9 +20,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
-function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
+function H = __freqresp__ (sys, w, cellflag = false)
 
   [num, den, tsam] = tfdata (sys, "vector");
 
@@ -41,28 +41,7 @@ function H = __freqresp__ (sys, w, resptype = 0, cellflag = false)
     H = cell2mat (H);
   endif
 
-  if (resptype)
-    [p, m] = size (sys);
-    l = length (s); 
-    if (m != p)
-      error ("tf: freqresp: system must be square for response type %d", resptype);
-    endif 
-    H = mat2cell (H, p, m, ones (1, l))(:);
-    j = eye (p);
-    switch (resptype)
-      case 1     # inversed system
-        H = cellfun (@inv, H, "uniformoutput", false);
-      case 2     # inversed sensitivity
-        H = cellfun (@(x) j + x, H, "uniformoutput", false);
-      case 3     # inversed complementary sensitivity
-        H = cellfun (@(x) j + inv (x), H, "uniformoutput", false);
-      otherwise
-        error ("tf: freqresp: invalid response type");
-    endswitch
-    if (! cellflag)
-      H = cat (3, H{:});
-    endif
-  elseif (cellflag)
+  if (cellflag)
     [p, m] = size (sys);
     l = length (s);
     H = mat2cell (H, p, m, ones (1, l))(:);
