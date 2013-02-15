@@ -32,7 +32,7 @@ function display (sys)
 
   disp ("");
   
-  if (sys.inv)
+  if (sys.inv && ! isct (sys))
     [num, den] = filtdata (sys);
   else
     num = sys.num;

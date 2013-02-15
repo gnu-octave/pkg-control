@@ -4,10 +4,13 @@ Summary of important user-visible changes for releases of the control package
 control-2.x.y   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** Fix crash in transfer function to state-space conversion.
-   (Thanks to Thomas Vasileiou)
+** Transfer function to state-space conversion (Thanks to Thomas Vasileiou):
+   -- Fix crash.
+   -- Fix bug if denominators are zero.
 
-** Fix crash in minreal for state-space systems. (Thanks to Thomas Vasileiou)
+** minreal 
+   Fix crash in minreal for state-space systems. (Thanks to Thomas Vasileiou)
+
 
 ===============================================================================
 control-2.4.1   Release Date: 2012-11-01   Release Manager: Lukas Reichlin
