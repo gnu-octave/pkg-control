@@ -54,7 +54,7 @@
 ## @end tex
 ## @end iftex
 ## @ifnottex
-## @sigma
+## 
 ## @end ifnottex
 ## of the transfer function. Hence the classical loop-shaping ideas of feedback design
 ## can be generalized to multivariable systems.  In addition to the requirement that
@@ -213,6 +213,7 @@
 ## @tex
 ## $\\tau_2 \\ll \\tau_1$
 ## @end tex
+## @end iftex
 ## [1, 2]. 
 ##
 ##
