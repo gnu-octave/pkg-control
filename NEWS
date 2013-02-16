@@ -1,7 +1,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.4.2   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
+control-2.4.2   Release Date: 2013-02-16   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** Transfer function to state-space conversion (Thanks to Thomas Vasileiou):
@@ -15,6 +15,9 @@ control-2.4.2   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
    The plot types 1, 2, 3 were no longer supported since the introduction of
    multi-system plots in control-2.3.54.  The help text is now updated
    accordingly and cruft is removed from the codebase.
+
+** mixsyn, ncfsyn, Madievski
+   Beef up help text.
 
 
 ===============================================================================

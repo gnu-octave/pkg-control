@@ -23,7 +23,65 @@
 @section Madievski
 @findex Madievski
 
- Frequency-weighted controller reduction.
+ Demonstration of frequency-weighted controller reduction.
+ The system considered in this example has been studied by Madievski and
+ Anderson [1] and comprises four spinning disks.  The disks are connected by a
+ flexible rod, a motor applies torque to the third disk, and the angular
+ displacement of the first disk is the variable of interest. The state-space
+ model of eighth order is non-minimumphase and unstable.
+ The continuous-time LQG controller used in [1] is open-loop stable and of
+ eighth order like the plant.  This eighth-order controller shall be reduced by
+ frequency-weighted singular perturbation approximation (SPA).
+ The major aim of this reduction is the preservation of the closed-loop
+ transfer function.  This means that the error in approximation of the
+ controller @var{K} by the reduced-order controller @var{Kr} is minimized by
+ @iftex
+ @tex
+ $$ \underset{K_r}{\min} \ || W \ (K - K_r) \ V ||_{\infty} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ min ||W (K-Kr) V||
+  Kr               inf
+ @end example
+ @end ifnottex
+ where weights @var{W} and @var{V} are dictated by the requirement to preserve
+ (as far as possible) the closed-loop transfer function.  In minimizing the
+ error, they cause the approximation process for @var{K} to be more accurate at
+ certain frequencies.  Suggested by [1] is the use of the following stability
+ and performance enforcing weights:
+ @iftex
+ @tex
+ $$ W = (I - G K)^{-1} G,  \qquad V = (I - G K)^{-1} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+              -1                      -1
+ W = (I - G K)   G,      V = (I - G K)
+ @end example
+ @end ifnottex
+ This example script reduces the eighth-order controller to orders four and two
+ by the function call
+ @code{Kr = spaconred (G, K, nr, 'feedback', '-')}
+ where argument @var{nr} denotes the desired order (4 or 2).  The key-value
+ pair @code{'feedback', '-'} allows the reduction of negative feedback
+ controllers while the default setting expects positive feedback controllers.
+ The frequency responses of the original and reduced-order controllers are
+ depicted in figure 1, the step responses of the closed loop in figure 2.
+ There is no visible difference between the step responses of the closed-loop
+ systems with original (blue) and fourth order (green) controllers.
+ The second order controller (red) causes ripples in the step response, but
+ otherwise the behavior of the system is unaltered.  This leads to the
+ conclusion that function @command{spaconred} is well suited to reduce the
+ order of controllers considerably, while stability and performance are
+ retained.
+ @*@strong{Reference}@*
+ [1] Madievski, A.G. and Anderson, B.D.O.
+ @cite{Sampled-Data Controller Reduction Procedure},
+ IEEE Transactions of Automatic Control,
+ Vol. 40, No. 11, November 1995
 @chapter Linear Time Invariant Models
 @section dss
 @findex dss
@@ -617,7 +675,7 @@
  @strong{Outputs}
  @table @var
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item b
  Input matrix (n-by-m).
  @item c
@@ -733,7 +791,7 @@
  @strong{Outputs}
  @table @var
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item b
  Input matrix (n-by-m).
  @item c
@@ -1199,7 +1257,7 @@
  @item sys
  LTI model.
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item b
  Input matrix (n-by-m).
  @end table
@@ -1340,12 +1398,15 @@
  @table @var
  @item sys
  LTI model.  Descriptor state-space models are possible.
+ If @var{sys} is not a state-space model, it is converted to
+ a minimal state-space realization, so beware of pole-zero
+ cancellations which may lead to wrong results!
  @item a
- State transition matrix.
+ State matrix (n-by-n).
  @item b
- Input matrix.
+ Input matrix (n-by-m).
  @item e
- Descriptor matrix.
+ Descriptor matrix (n-by-n).
  If @var{e} is empty @code{[]} or not specified, an identity matrix is assumed.
  @item tol
  Optional roundoff parameter.  Default value is 0.
@@ -1488,11 +1549,11 @@
  @item sys
  LTI model.  Descriptor state-space models are possible.
  @item a
- State transition matrix.
+ State matrix (n-by-n).
  @item c
- Measurement matrix.
+ Measurement matrix (p-by-n).
  @item e
- Descriptor matrix.
+ Descriptor matrix (n-by-n).
  If @var{e} is empty @code{[]} or not specified, an identity matrix is assumed.
  @item tol
  Optional roundoff parameter.  Default value is 0.
@@ -1539,7 +1600,9 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ LTI system.  If @var{sys} is not a state-space system, it is converted to
+ a minimal state-space realization, so beware of pole-zero cancellations
+ which may lead to wrong results!
  @item a
  State transition matrix.
  @item b
@@ -1632,7 +1695,7 @@
  @item sys
  LTI model.
  @item a
- State transition matrix (n-by-n).
+ State matrix (n-by-n).
  @item c
  Measurement matrix (p-by-n).
  @end table
@@ -2534,8 +2597,6 @@
  @deftypefnx {Function File} {} sigma (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys})
  @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w})
- @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{[]}, @var{ptype})
- @deftypefnx{Function File} {[@var{sv}, @var{w}] =} sigma (@var{sys}, @var{w}, @var{ptype})
  Singular values of frequency response.  If no output arguments are given,
  the singular value plot is printed on the screen.
 
@@ -2549,16 +2610,6 @@
  Alternatively, the cell @code{@{wmin, wmax@}} specifies a frequency range,
  where @var{wmin} and @var{wmax} denote minimum and maximum frequencies
  in rad/s.
- @item ptype = 0
- Singular values of the frequency response @var{H} of system @var{sys}.  Default Value.
- @item ptype = 1
- Singular values of the frequency response @code{inv(H)}; i.e. inversed system.
- @item ptype = 2
- Singular values of the frequency response @code{I + H}; i.e. inversed sensitivity
- (or return difference) if @code{H = P * C}.
- @item ptype = 3
- Singular values of the frequency response @code{I + inv(H)}; i.e. inversed complementary
- sensitivity if @code{H = P * C}.
  @item 'style'
  Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
  black line.  See @command{help plot} for details.
@@ -2593,7 +2644,7 @@
  @item sys
  Continuous- or discrete-time LTI system.
  @item a
- State transition matrix (n-by-n) of a continuous-time system.
+ State matrix (n-by-n) of a continuous-time system.
  @item b
  Input matrix (n-by-m) of a continuous-time system.
  @item p
@@ -2903,7 +2954,7 @@
  @item sys
  Continuous or discrete-time LTI model (p-by-m, n states).
  @item a
- State transition matrix of continuous-time system (n-by-n).
+ State matrix of continuous-time system (n-by-n).
  @item g
  Process noise matrix of continuous-time system (n-by-g).
  If @var{g} is empty @code{[]}, an identity matrix is assumed.
@@ -2958,7 +3009,7 @@
  @item sys
  Continuous or discrete-time LTI model (p-by-m, n states).
  @item a
- State transition matrix of continuous-time system (n-by-n).
+ State matrix of continuous-time system (n-by-n).
  @item b
  Input matrix of continuous-time system (n-by-m).
  @item q
@@ -3263,12 +3314,204 @@
 @findex mixsyn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
- Solve stacked S/KS/T H-infinity problem.  Bound the largest singular values
- of @var{S} (for performance), @var{K S} (to penalize large inputs) and
- @var{T} (for robustness and to avoid sensitivity to noise).
- In other words, the inputs r are excited by a harmonic test signal.
- Then the algorithm tries to find a controller @var{K} which minimizes
- the H-infinity norm calculated from the outputs z.
+ Solve stacked S/KS/T H-infinity problem.
+ Mixed-sensitivity is the name given to transfer function shaping problems in which
+ the sensitivity function
+ @iftex
+ @tex
+ $ S = (I + G K)^{-1} $
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+              -1
+ S = (I + G K)
+ @end example
+ @end ifnottex
+ is shaped along with one or more other closed-loop transfer functions such as @var{K S}
+ or the complementary sensitivity function
+ @iftex
+ @tex
+ $ T = I - S = (I + G K)^{-1} G K $
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                      -1
+ T = I - S = (I + G K)
+ @end example
+ @end ifnottex
+ in a typical one degree-of-freedom configuration, where @var{G} denotes the plant and
+ @var{K} the (sub-)optimal controller to be found.  The shaping of multivariable
+ transfer functions is based on the idea that a satisfactory definition of gain
+ (range of gain) for a matrix transfer function is given by the singular values
+ @iftex
+ @tex
+ $\sigma$
+ @end tex
+ @end iftex
+ @ifnottex
+ @sigma
+ @end ifnottex
+ of the transfer function. Hence the classical loop-shaping ideas of feedback design
+ can be generalized to multivariable systems.  In addition to the requirement that
+ @var{K} stabilizes @var{G}, the closed-loop objectives are as follows [1]:
+ @enumerate
+ @item For @emph{disturbance rejection} make
+ @iftex
+ @tex
+ $\overline{\sigma}(S)$
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ small.
+ @item For @emph{noise attenuation} make
+ @iftex
+ @tex
+ $\overline{\sigma}(T)$
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ small.
+ @item For @emph{reference tracking} make
+ @iftex
+ @tex
+ $\overline{\sigma}(T) \approx \underline{\sigma}(T) \approx 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ @item For @emph{input usage (control energy) reduction} make
+ @iftex
+ @tex
+ $\overline{\sigma}(K S)$
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ small.
+ @item For @emph{robust stability} in the presence of an additive perturbation
+ @iftex
+ @tex
+ $G_p = G + \Delta$,
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ make
+ @iftex
+ @tex
+ $\overline{\sigma}(K S)$
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ small.
+ @item For @emph{robust stability} in the presence of a multiplicative output perturbation
+ @iftex
+ @tex
+ $G_p = (I + \Delta) G$,
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ make
+ @iftex
+ @tex
+ $\overline{\sigma}(T)$
+ @end tex
+ @end iftex
+ @ifnottex
+ 
+ @end ifnottex
+ small.
+ @end enumerate
+ In order to find a robust controller for the so-called stacked
+ @iftex
+ @tex
+ $S/KS/T \ H_{\infty}$
+ @end tex
+ @end iftex
+ @ifnottex
+ S/KS/T H-infinity
+ @end ifnottex
+ problem, the user function @command{mixsyn} minimizes the following criterion
+ @iftex
+ @tex
+ $$ \underset{K}{\min} || N(K) ||_{\infty}, \quad N = | W_1 S; \ W_2 K S; \ W_3 T |$$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                              | W1 S   |
+ min || N(K) ||           N = | W2 K S |
+  K            oo             | W3 T   |
+ @end example
+ @end ifnottex
+ @code{[K, N] = mixsyn (G, W1, W2, W3)}.
+ The user-defined weighting functions @var{W1}, @var{W2} and @var{W3} bound the largest
+ singular values of the closed-loop transfer functions @var{S} (for performance),
+ @var{K S} (to penalize large inputs) and @var{T} (for robustness and to avoid
+ sensitivity to noise), respectively [1].
+ A few points are to be considered when choosing the weights.
+ The weigths @var{Wi} must all be proper and stable.  Therefore if one wishes,
+ for example, to minimize @var{S} at low frequencies by a weighting @var{W1} including
+ integral action, 
+ @iftex
+ @tex
+ $\frac{1}{s}$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ 1
+ -
+ s
+ @end example
+ @end ifnottex
+ needs to be approximated by
+ @iftex
+ @tex
+ $\frac{1}{s + \epsilon}$, where $\epsilon \ll 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+   1
+ -----    where   e << 1.
+ s + e
+ @end example
+ @end ifnottex
+ Similarly one might be interested in weighting @var{K S} with a non-proper weight
+ @var{W2} to ensure that @var{K} is small outside the system bandwidth.
+ The trick here is to replace a non-proper term such as
+ @iftex
+ @tex
+ $ 1 + \tau_1 s $ by $ \frac{1 + \tau_1 s}{1 + \tau_2 s} $, where
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                 1 + T1 s
+ 1 + T1 s   by   --------,   where   T2 << T1.
+                 1 + T2 s
+ @end example
+ @end ifnottex
+ @iftex
+ @tex
+ $\tau_2 \ll \tau_1$
+ @end tex
+ [1, 2]. 
+
 
  @strong{Inputs}
  @table @var
@@ -3379,7 +3622,10 @@
  @strong{References}@*
  [1] Skogestad, S. and Postlethwaite I. (2005)
  @cite{Multivariable Feedback Control: Analysis and Design:
- Second Edition}.  Wiley.
+ Second Edition}.  Wiley, Chichester, England.@*
+ [2] Meinsma, G. (1995)
+ @cite{Unstable and nonproper weights in H-infinity control}
+ Automatica, Vol. 31, No. 11, pp. 1655-1658
 
  @seealso{hinfsyn, augw}
  @end deftypefn
@@ -3388,7 +3634,180 @@
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
  Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
- the McFarlane/Glover normalized coprime factor (NCF) loop shaping design procedure.
+ the McFarlane/Glover loop shaping design procedure [1].
+ Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
+ of the nominal plant @var{G} are shaped to give a desired open-loop shape.
+ The nominal plant @var{G} and shaping functions @var{W1}, @var{W2} are combined to
+ form the shaped plant, @var{Gs} where @code{Gs = W2 G W1}.
+ We assume that @var{W1} and @var{W2} are such that @var{Gs} contains no hidden modes.
+ It is relatively easy to approximate the closed-loop requirements by the following
+ open-loop objectives [2]:
+ @enumerate
+ @item For @emph{disturbance rejection} make
+ @iftex
+ @tex
+ $\underline{\sigma}(W_2 G W_1)$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ 
+ @end example
+ @end ifnottex
+ large; valid for frequencies at which
+ @iftex
+ @tex
+ $\underline{\sigma}(G_S) \gg 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ 
+ @end example
+ @end ifnottex
+ @item For @emph{noise attenuation} make
+ @iftex
+ @tex
+ $\overline{\sigma}(W_2 G W_1)$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ small; valid for frequencies at which
+ @iftex
+ @tex
+ $\overline{\sigma}(G_S) \ll 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ @item For @emph{reference tracking} make
+ @iftex
+ @tex
+ $\underline{\sigma}(W_2 G W_1)$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ large; valid for frequencies at which
+ @iftex
+ @tex
+ $\underline{\sigma}(G_S) \gg 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ @item For @emph{robust stability} to a multiplicative output perturbation
+ @iftex
+ @tex
+ $G_p = (I + \Delta) G$, make
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ @iftex
+ @tex
+ $\overline{\sigma}(W_2 G W_1)$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+
+ @end example
+ @end ifnottex
+ small; valid for frequencies at which
+ @iftex
+ @tex
+ $\overline{\sigma}(G_S) \ll 1$.
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ .
+ @end example
+ @end ifnottex
+ @end enumerate
+ Then a stabilizing controller @var{Ks} is synthesized for shaped plant @var{Gs}.
+ The final positive feedback controller @var{K} is then constructed by combining
+ the
+ @iftex
+ @tex
+ $H_{\infty}$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ H-infinity
+ @end example
+ @end ifnottex
+ controller @var{Ks} with the shaping functions @var{W1} and @var{W2}
+ such that @code{K = W1 Ks W2}.
+ In [1] is stated further that the given robust stabilization objective can be
+ interpreted as a
+ @iftex
+ @tex
+ $H_{\infty}$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ H-infinity
+ @end example
+ @end ifnottex
+ problem formulation of minimizing the
+ @iftex
+ @tex
+ $H_{\infty}$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ H-infinity
+ @end example
+ @end ifnottex
+ norm of the frequency weighted gain from disturbances on the plant input and output
+ to the controller input and output as follows:
+ @iftex
+ @tex
+ $$ \underset{K}{\min} \, || N(K) ||_{\infty}, $$
+ $$ N = | W_{1}^{-1}; W_2 G | \ (I - K G)^{-1} \ | W_1, \ G W_{2}^{-1} | $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                               -1            -1            -1
+ min || N(K) ||   ,    N = | W1   | (I - K G)   | W1   G W2   |
+  K            oo          | W2 G |
+ @end example
+ @end ifnottex
+ @iftex
+ @tex
+ 
+ @end tex
+ @end iftex
+
+ @code{[K, N] = ncfsyn (G, W1, W2, f)}
+ The function @command{ncfsyn} - the somewhat cryptic name stands
+ for @emph{normalized coprime factorization synthesis} - allows the specification of
+ an additional argument, factor @var{f}.  Default value @code{f = 1} implies that an
+ optimal controller is required, whereas @code{f > 1} implies that a suboptimal
+ controller is required, achieving a performance that is @var{f} times less than optimal.
+
 
  @strong{Inputs}
  @table @var
@@ -3449,6 +3868,15 @@
  @strong{Algorithm}@*
  Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
  @uref{http://www.slicot.org, NICONET e.V.}
+
+ @strong{References}@*
+ [1] D. McFarlane and K. Glover, 
+ @cite{A Loop Shaping Design Procedure Using H-infinity Synthesis},
+ IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.@*
+ [2] S. Skogestad and I. Postlethwaite,
+ @cite{Multivariable Feedback Control: Analysis and Design:
+ Second Edition}.  Wiley, Chichester, England, 2005.@*
+
  @end deftypefn
 @chapter Matrix Equation Solvers
 @section care
