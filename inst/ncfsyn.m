@@ -18,7 +18,180 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
 ## Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
-## the McFarlane/Glover normalized coprime factor (NCF) loop shaping design procedure.
+## the McFarlane/Glover loop shaping design procedure [1].
+## Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
+## of the nominal plant @var{G} are shaped to give a desired open-loop shape.
+## The nominal plant @var{G} and shaping functions @var{W1}, @var{W2} are combined to
+## form the shaped plant, @var{Gs} where @code{Gs = W2 G W1}.
+## We assume that @var{W1} and @var{W2} are such that @var{Gs} contains no hidden modes.
+## It is relatively easy to approximate the closed-loop requirements by the following
+## open-loop objectives [2]:
+## @enumerate
+## @item For @emph{disturbance rejection} make
+## @iftex
+## @tex
+## $\\underline{\\sigma}(W_2 G W_1)$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## 
+## @end example
+## @end ifnottex
+## large; valid for frequencies at which
+## @iftex
+## @tex
+## $\\underline{\\sigma}(G_S) \\gg 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## 
+## @end example
+## @end ifnottex
+## @item For @emph{noise attenuation} make
+## @iftex
+## @tex
+## $\\overline{\\sigma}(W_2 G W_1)$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## small; valid for frequencies at which
+## @iftex
+## @tex
+## $\\overline{\\sigma}(G_S) \\ll 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## @item For @emph{reference tracking} make
+## @iftex
+## @tex
+## $\\underline{\\sigma}(W_2 G W_1)$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## large; valid for frequencies at which
+## @iftex
+## @tex
+## $\\underline{\\sigma}(G_S) \\gg 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## @item For @emph{robust stability} to a multiplicative output perturbation
+## @iftex
+## @tex
+## $G_p = (I + \\Delta) G$, make
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## @iftex
+## @tex
+## $\\overline{\\sigma}(W_2 G W_1)$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##
+## @end example
+## @end ifnottex
+## small; valid for frequencies at which
+## @iftex
+## @tex
+## $\\overline{\\sigma}(G_S) \\ll 1$.
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## .
+## @end example
+## @end ifnottex
+## @end enumerate
+## Then a stabilizing controller @var{Ks} is synthesized for shaped plant @var{Gs}.
+## The final positive feedback controller @var{K} is then constructed by combining
+## the
+## @iftex
+## @tex
+## $H_{\\infty}$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## H-infinity
+## @end example
+## @end ifnottex
+## controller @var{Ks} with the shaping functions @var{W1} and @var{W2}
+## such that @code{K = W1 Ks W2}.
+## In [1] is stated further that the given robust stabilization objective can be
+## interpreted as a
+## @iftex
+## @tex
+## $H_{\\infty}$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## H-infinity
+## @end example
+## @end ifnottex
+## problem formulation of minimizing the
+## @iftex
+## @tex
+## $H_{\\infty}$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+## H-infinity
+## @end example
+## @end ifnottex
+## norm of the frequency weighted gain from disturbances on the plant input and output
+## to the controller input and output as follows:
+## @iftex
+## @tex
+## $$ \\underset{K}{\\min} \\, || N(K) ||_{\\infty}, $$
+## $$ N = | W_{1}^{-1}; W_2 G | \\ (I - K G)^{-1} \\ | W_1, \\ G W_{2}^{-1} | $$
+## @end tex
+## @end iftex
+## @ifnottex
+## @example
+##                               -1            -1            -1
+## min || N(K) ||   ,    N = | W1   | (I - K G)   | W1   G W2   |
+##  K            oo          | W2 G |
+## @end example
+## @end ifnottex
+## @iftex
+## @tex
+## 
+## @end tex
+## @end iftex
+##
+## @code{[K, N] = ncfsyn (G, W1, W2, f)}
+## The function @command{ncfsyn} - the somewhat cryptic name stands
+## for @emph{normalized coprime factorization synthesis} - allows the specification of
+## an additional argument, factor @var{f}.  Default value @code{f = 1} implies that an
+## optimal controller is required, whereas @code{f > 1} implies that a suboptimal
+## controller is required, achieving a performance that is @var{f} times less than optimal.
+##
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -79,6 +252,15 @@
 ## @strong{Algorithm}@*
 ## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
+##
+## @strong{References}@*
+## [1] D. McFarlane and K. Glover, 
+## @cite{A Loop Shaping Design Procedure Using H-infinity Synthesis},
+## IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.@*
+## [2] S. Skogestad and I. Postlethwaite,
+## @cite{Multivariable Feedback Control: Analysis and Design:
+## Second Edition}.  Wiley, Chichester, England, 2005.@*
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
