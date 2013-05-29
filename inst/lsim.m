@@ -156,7 +156,9 @@ function [y_r, t_r, x_r] = lsim (varargin)
       end_try_catch
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
-          subplot (p, 1, i);
+          if (p != 1)
+            subplot (p, 1, i);
+          endif
           plot (t{k}, y{k}(:, i), style{:});
           hold on;
           grid on;
@@ -171,7 +173,9 @@ function [y_r, t_r, x_r] = lsim (varargin)
         endfor
       else                                              # discrete-time system
         for i = 1 : p                                   # for every output
-          subplot (p, 1, i);
+          if (p != 1)
+            subplot (p, 1, i);
+          endif
           stairs (t{k}, y{k}(:, i), style{:});
           hold on;
           grid on;
