@@ -8,6 +8,9 @@ control-2.4.3   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
    Don't use subplot for SISO models.  This allows the user to plot different
    responses on a single figure by calling subplot.  (Thanks to Matthias Meier)
 
+** optiPID
+   Beef up documentation.
+
 
 ===============================================================================
 control-2.4.2   Release Date: 2013-02-16   Release Manager: Lukas Reichlin
