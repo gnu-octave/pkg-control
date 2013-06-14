@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
 ## H-2 control synthesis for LTI plant.
 ##
 ## @strong{Inputs}
@@ -39,15 +39,17 @@
 ## State-space model of the H-2 optimal controller.
 ## @item N
 ## State-space model of the lower LFT of @var{P} and @var{K}.
-## @item gamma
+## @item info
+## Structure containing additional information.
+## @item info.gamma
 ## H-2 norm of @var{N}.
-## @item rcond
+## @item info.rcond
 ## Vector @var{rcond} contains estimates of the reciprocal condition
 ## numbers of the matrices which are to be inverted and
 ## estimates of the reciprocal condition numbers of the
 ## Riccati equations which have to be solved during the
 ## computation of the controller @var{K}.  For details,
-## see the description of the corresponding SLICOT algorithm.
+## see the description of the corresponding SLICOT routine.
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -82,7 +84,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.1
+## Version: 0.2
 
 function [K, varargout] = h2syn (P, nmeas, ncon)
 
@@ -141,10 +143,7 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     N = lft (P, K);
     varargout{1} = N;
     if (nargout > 2)
-      varargout{2} = norm (N, 2);
-      if (nargout > 3)
-        varargout{3} = rcond;
-      endif
+      varargout{2} = struct ("gamma", norm (N, 2), "rcond", rcond);
     endif
   endif
 

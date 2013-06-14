@@ -1,4 +1,4 @@
-## Copyright (C) 2011   Lukas F. Reichlin
+## Copyright (C) 2011, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
 ## Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
 ## the McFarlane/Glover loop shaping design procedure [1].
 ## Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
@@ -218,10 +218,10 @@
 ## State-space model of the H-infinity loop-shaping controller.
 ## @item N
 ## State-space model of the closed loop depicted below.
-## @item gamma
-## L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
 ## @item info
 ## Structure containing additional information.
+## @item info.gamma
+## L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
 ## @item info.emax
 ## Nugap robustness.  @code{emax = inv (gamma)}.
 ## @item info.Gs
@@ -231,7 +231,7 @@
 ## @item info.rcond
 ## Estimates of the reciprocal condition numbers of the Riccati equations
 ## and a few other things.  For details, see the description of the
-## corresponding SLICOT algorithm.
+## corresponding SLICOT routine.
 ## @end table
 ##
 ## @strong{Block Diagram of N}
@@ -265,7 +265,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2011
-## Version: 0.1
+## Version: 0.2
 
 function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
@@ -316,10 +316,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
     varargout{1} = N;
     if (nargout > 2)
       gamma = norm (N, inf);
-      varargout{2} = gamma;
-      if (nargout > 3)
-        varargout{3} = struct ("emax", inv (gamma), "Gs", Gs, "Ks", Ks, "rcond", rcond);
-      endif
+      varargout{2} = struct ("gamma", gamma, "emax", inv (gamma), "Gs", Gs, "Ks", Ks, "rcond", rcond);
     endif
   endif
 

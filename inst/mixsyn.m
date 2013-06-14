@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
 ## Solve stacked S/KS/T H-infinity problem.
 ## Mixed-sensitivity is the name given to transfer function shaping problems in which
 ## the sensitivity function
@@ -243,15 +243,17 @@
 ## State-space model of the H-infinity (sub-)optimal controller.
 ## @item N
 ## State-space model of the lower LFT of @var{P} and @var{K}.
-## @item gamma
+## @item info
+## Structure containing additional information.
+## @item info.gamma
 ## L-infinity norm of @var{N}.
-## @item rcond
+## @item info.rcond
 ## Vector @var{rcond} contains estimates of the reciprocal condition
 ## numbers of the matrices which are to be inverted and
 ## estimates of the reciprocal condition numbers of the
 ## Riccati equations which have to be solved during the
 ## computation of the controller @var{K}.  For details,
-## see the description of the corresponding SLICOT algorithm.
+## see the description of the corresponding SLICOT routine.
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -336,9 +338,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.1
+## Version: 0.2
 
-function [K, N, gamma, rcond] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
+function [K, N, info] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   if (nargin == 0)
     print_usage ();
@@ -348,6 +350,6 @@ function [K, N, gamma, rcond] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   P = augw (G, W1, W2, W3);
   
-  [K, N, gamma, rcond] = hinfsyn (P, p, m, varargin{:});
+  [K, N, info] = hinfsyn (P, p, m, varargin{:});
 
 endfunction
