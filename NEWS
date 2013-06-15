@@ -8,6 +8,10 @@ control-2.4.3   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
    Don't use subplot for SISO models.  This allows the user to plot different
    responses on a single figure by calling subplot.  (Thanks to Matthias Meier)
 
+** h2syn, hinfsyn, mixsyn, ncfsyn
+   Third return argument is now an info struct.
+   [K, N, info] = *syn (G, …)
+
 ** optiPID
    Beef up documentation.
 
