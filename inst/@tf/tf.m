@@ -159,7 +159,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{ss, dss}
+## @seealso{filt, ss, dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
