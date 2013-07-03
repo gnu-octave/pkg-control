@@ -40,7 +40,7 @@
 ## e-by-1 or 1-by-e cell vector of n(i)-by-m matrices,
 ## where @var{e} denotes the number of experiments
 ## and n(i) the individual number of samples for each experiment.
-## If @var{u} is not specified or an empy element @code{[]} is passed,
+## If @var{u} is not specified or an empty element @code{[]} is passed,
 ## @var{dat} becomes a time series dataset.
 ## @item tsam
 ## Sampling time.  If not specified, default value -1 (unspecified) is taken.
