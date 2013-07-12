@@ -19,6 +19,8 @@ mkdir ~/octave/__TEMP__
 cd ~/control
 hg archive ~/octave/__TEMP__/control
 rm -R ~/octave/__TEMP__/control/devel
+rm -R ~/octave/__TEMP__/control/.hg_archival.txt
+rm -R ~/octave/__TEMP__/control/.hgtags
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
 tar czf control-2.4.3.tar.gz control/
