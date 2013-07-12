@@ -1,4 +1,4 @@
-## Copyright (C) 2012   Lukas F. Reichlin
+## Copyright (C) 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: June 2012
-## Version: 0.1
+## Version: 0.2
 
 function dat = resample (dat, p, q, n = 0)
 
@@ -68,5 +68,7 @@ function dat = resample (dat, p, q, n = 0)
 
   dat.y = cellfun (@resample, dat.y, {p}, {q}, {h}, "uniformoutput", false);
   dat.u = cellfun (@resample, dat.u, {p}, {q}, {h}, "uniformoutput", false);
+  
+  dat.tsam = cellfun (@(tsam) tsam*q/p, dat.tsam, "uniformoutput", false);
 
 endfunction
