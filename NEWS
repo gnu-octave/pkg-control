@@ -1,8 +1,12 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.4.3   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
+control-2.4.3   Release Date: 2013-07-yy   Release Manager: Lukas Reichlin
 ===============================================================================
+
+** resample
+   The resample function for iddata sets now adjusts the sampling time
+   correctly after resampling.
 
 ** Time response functions (impulse, initial, lsim, ramp, step)
    Don't use subplot for SISO models.  This allows the user to plot different
