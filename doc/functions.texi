@@ -16,6 +16,166 @@
  The objective function is located in the file @command{optiPIDfun}.
  Type @code{which optiPID} to locate, @code{edit optiPID} to open
  and simply @code{optiPID} to run the example file.
+ In this example called @code{optiPID}, loosely based on [1], it is assumed
+ that the plant
+ @iftex
+ @tex
+ $$ P(s) = \frac{1}{(s^{2} + s + 1)\ (s + 1)^{4}} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                   1
+ P(s) = -----------------------
+        (s^2 + s + 1) (s + 1)^4 
+ @end example
+ @end ifnottex
+ is controlled by a PID controller with second-order roll-off
+ @iftex
+ @tex
+ $$ C(s) = k_p \ (1 + \frac{1}{T_i \ s} + T_d \ s) \ \frac{1}{(\tau \ s + 1)^{2}} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                  1                1
+ C(s) = Kp (1 + ---- + Td s) -------------
+                Ti s         (tau s + 1)^2
+ @end example
+ @end ifnottex
+ in the usual negative feedback structure
+ @iftex
+ @tex
+ $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) \ C(s)}{1 + P(s) \ C(s)} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+          L(s)       P(s) C(s)
+ T(s) = -------- = -------------
+        1 + L(s)   1 + P(s) C(s)
+ @end example
+ @end ifnottex
+ The plant P(s) is of higher order but benign.  The initial values for the
+ controller parameters
+ @iftex
+ @tex
+ $k_p$, $T_i$ and $T_d$
+ @end tex
+ @end iftex
+ @ifnottex
+ Kp, Ti and Td
+ @end ifnottex
+ are obtained by applying the
+ Astroem and Haegglund rules [2].  These values are to be improved using a
+ numerical optimization as shown below.
+ As with all numerical methods, this approach can never guarantee that a
+ proposed solution is a global minimum.  Therefore, good initial guesses for
+ the parameters to be optimized are very important.
+ The Octave command @code{fminsearch} computes the objective function @var{J},
+ which is chosen to be
+ @iftex
+ @tex
+ $$ J(k_p, T_i, T_d) = \mu_1 \cdot \int_0^{\infty} \! t \ |e(t)| \ dt \ + \ \mu_2 \cdot (|| y(t) ||_{\infty} - 1) \ + \ \mu_3 \cdot ||S(jw)||_{\infty} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+                      oo 
+ J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||   - 1)  +  mu3 ||S(jw)||
+                      0                               oo                       oo
+ @end example
+ @end ifnottex
+ This particular objective function penalizes the integral of time-weighted absolute error
+ @iftex
+ @tex
+ $$ ITAE = \int_0^{\infty} \! t \ |e(t)| \ dt $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+         oo 
+ ITAE = INT t |e(t)| dt
+         0             
+ @end example
+ @end ifnottex
+ and the maximum overshoot
+ @iftex
+ @tex
+ $$ y_{max} - 1 = || y(t) ||_{\infty} - 1 $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ y    - 1 = || y(t) ||   - 1
+  max                 oo
+ @end example
+ @end ifnottex
+ to a unity reference step
+ @iftex
+ @tex
+ $r(t) = \varepsilon (t)$
+ @end tex
+ @end iftex
+ in the time domain. In the frequency domain, the sensitivity
+ @iftex
+ @tex
+ $$ M_s = ||S(jw)||_{\infty} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+ Ms = ||S(jw)||
+               oo
+ @end example
+ @end ifnottex
+ is minimized for good robustness, where S(jw) denotes the @emph{sensitivity} transfer function
+ @iftex
+ @tex
+ $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s) \ C(s)} $$
+ @end tex
+ @end iftex
+ @ifnottex
+ @example
+            1            1
+ S(s) = -------- = -------------
+        1 + L(s)   1 + P(s) C(s)
+ @end example
+ @end ifnottex
+ The constants
+ @iftex
+ @tex
+ $\mu_1$, $\mu_2$ and $\mu_3$
+ @end tex
+ @end iftex
+ @ifnottex
+ mu1, mu2 and mu3
+ @end ifnottex
+ are @emph{relative weighting factors} or @guillemetleft{}tuning knobs@guillemetright{}
+ which reflect the importance of the different design goals. Varying these factors
+ corresponds to changing the emphasis from, say, high performance to good robustness.
+ The main advantage of this approach is the possibility to explore the tradeoffs of
+ the design problem in a systematic way.
+ In a first approach, all three design objectives are weigthed equally.
+ In subsequent iterations, the parameters
+ @iftex
+ @tex
+ $\mu_1 = 1$, $\mu_2 = 10$ and $\mu_3 = 20$
+ @end tex
+ @end iftex
+ @ifnottex
+ mu1 = 1, mu2 = 10 and mu3 = 20
+ @end ifnottex
+ are found to yield satisfactory closed-loop performance.  This controller results
+ in a system with virtually no overshoot and a phase margin of 64 degrees.
+ @*@strong{References}@*
+ [1] Guzzella, L.
+ @cite{Analysis and Design of SISO Control Systems},
+ VDF Hochschulverlag, ETH Zurich, 2007@*
+ [2] Astroem, K. and Haegglund, T.
+ @cite{PID Controllers: Theory, Design and Tuning},
+ Second Edition,
+ Instrument Society of America, 1995
 @section Anderson
 @findex Anderson
 
@@ -605,7 +765,7 @@
  @end group
  @end example
 
- @seealso{ss, dss}
+ @seealso{filt, ss, dss}
  @end deftypefn
 @section zpk
 @findex zpk
@@ -3177,7 +3337,7 @@
 @section h2syn
 @findex h2syn
 
- @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
+ @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
  H-2 control synthesis for LTI plant.
 
  @strong{Inputs}
@@ -3200,15 +3360,17 @@
  State-space model of the H-2 optimal controller.
  @item N
  State-space model of the lower LFT of @var{P} and @var{K}.
- @item gamma
+ @item info
+ Structure containing additional information.
+ @item info.gamma
  H-2 norm of @var{N}.
- @item rcond
+ @item info.rcond
  Vector @var{rcond} contains estimates of the reciprocal condition
  numbers of the matrices which are to be inverted and
  estimates of the reciprocal condition numbers of the
  Riccati equations which have to be solved during the
  computation of the controller @var{K}.  For details,
- see the description of the corresponding SLICOT algorithm.
+ see the description of the corresponding SLICOT routine.
  @end table
 
  @strong{Block Diagram}
@@ -3243,8 +3405,8 @@
 @section hinfsyn
 @findex hinfsyn
 
- @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
- @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
+ @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
+ @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
  H-infinity control synthesis for LTI plant.
 
  @strong{Inputs}
@@ -3270,15 +3432,17 @@
  State-space model of the H-infinity (sub-)optimal controller.
  @item N
  State-space model of the lower LFT of @var{P} and @var{K}.
- @item gamma
+ @item info
+ Structure containing additional information.
+ @item info.gamma
  L-infinity norm of @var{N}.
- @item rcond
+ @item info.rcond
  Vector @var{rcond} contains estimates of the reciprocal condition
  numbers of the matrices which are to be inverted and
  estimates of the reciprocal condition numbers of the
  Riccati equations which have to be solved during the
  computation of the controller @var{K}.  For details,
- see the description of the corresponding SLICOT algorithm.
+ see the description of the corresponding SLICOT routine.
  @end table
 
  @strong{Block Diagram}
@@ -3313,7 +3477,7 @@
 @section mixsyn
 @findex mixsyn
 
- @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{rcond}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
+ @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
  Solve stacked S/KS/T H-infinity problem.
  Mixed-sensitivity is the name given to transfer function shaping problems in which
  the sensitivity function
@@ -3540,15 +3704,17 @@
  State-space model of the H-infinity (sub-)optimal controller.
  @item N
  State-space model of the lower LFT of @var{P} and @var{K}.
- @item gamma
+ @item info
+ Structure containing additional information.
+ @item info.gamma
  L-infinity norm of @var{N}.
- @item rcond
+ @item info.rcond
  Vector @var{rcond} contains estimates of the reciprocal condition
  numbers of the matrices which are to be inverted and
  estimates of the reciprocal condition numbers of the
  Riccati equations which have to be solved during the
  computation of the controller @var{K}.  For details,
- see the description of the corresponding SLICOT algorithm.
+ see the description of the corresponding SLICOT routine.
  @end table
 
  @strong{Block Diagram}
@@ -3633,7 +3799,7 @@
 @section ncfsyn
 @findex ncfsyn
 
- @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
+ @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
  Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
  the McFarlane/Glover loop shaping design procedure [1].
  Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
@@ -3835,10 +4001,10 @@
  State-space model of the H-infinity loop-shaping controller.
  @item N
  State-space model of the closed loop depicted below.
- @item gamma
- L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
  @item info
  Structure containing additional information.
+ @item info.gamma
+ L-infinity norm of @var{N}.  @code{gamma = norm (N, inf)}.
  @item info.emax
  Nugap robustness.  @code{emax = inv (gamma)}.
  @item info.Gs
@@ -3848,7 +4014,7 @@
  @item info.rcond
  Estimates of the reciprocal condition numbers of the Riccati equations
  and a few other things.  For details, see the description of the
- corresponding SLICOT algorithm.
+ corresponding SLICOT routine.
  @end table
 
  @strong{Block Diagram of N}
@@ -5644,7 +5810,7 @@
  e-by-1 or 1-by-e cell vector of n(i)-by-m matrices,
  where @var{e} denotes the number of experiments
  and n(i) the individual number of samples for each experiment.
- If @var{u} is not specified or an empy element @code{[]} is passed,
+ If @var{u} is not specified or an empty element @code{[]} is passed,
  @var{dat} becomes a time series dataset.
  @item tsam
  Sampling time.  If not specified, default value -1 (unspecified) is taken.
