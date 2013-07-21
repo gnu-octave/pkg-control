@@ -1,4 +1,4 @@
-## Copyright (C) 2010, 2011, 2012   Lukas F. Reichlin
+## Copyright (C) 2010, 2011, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -39,7 +39,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.4
+## Version: 0.5
 
 ## test collection
 test ltimodels
@@ -57,6 +57,7 @@ test @lti/plus
 test @lti/prescale
 test @lti/sminreal
 test @lti/subsref
+test @lti/tzero
 test @lti/zero
 
 ## robust control

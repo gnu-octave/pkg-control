@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2011, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,6 +20,9 @@
 ## @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
 ## Compute invariant zeros and gain of LTI model.
 ## Invariant zeros are also known as Smith zeros.
+## To compute the transmission zeros, which are a
+## subset of the invariant zeros, use @command{tzero}.
+## See paper [1] for details.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -51,6 +54,7 @@
 ## a survey of the algebraic, geometric and complex-variable
 ## theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
 ##
+## @seealso{tzero}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
