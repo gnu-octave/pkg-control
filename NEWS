@@ -1,6 +1,18 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
+===============================================================================
+
+** zero
+   Fix documentation.  Function zero computes the invariant zeros, not the
+   transmission zeros.  (Thanks to Ferdinand Svaricek)
+
+** tzero
+   New function for computing the transmission zeros of a state-space model.
+
+
+===============================================================================
 control-2.4.3   Release Date: 2013-07-12   Release Manager: Lukas Reichlin
 ===============================================================================
 
