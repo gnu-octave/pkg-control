@@ -18,7 +18,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
-## Compute transmission zeros and gain of LTI model.
+## Compute invariant zeros and gain of LTI model.
+## Invariant zeros are also known as Smith zeros.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -29,15 +30,32 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item z
-## Transmission zeros of @var{sys}.
+## Invariant zeros of @var{sys} as defined in [1].
 ## @item k
 ## Gain of @var{sys}.
 ## @end table
+##
+## @strong{Algorithm}@*
+## For (descriptor) state-space models, @command{zero}
+## relies on SLICOT AB08ND and AG08BD by courtesy of
+## @uref{http://www.slicot.org, NICONET e.V.}
+## For @acro{SISO} transfer functions, @command{zero}
+## uses Octave's @command{roots}.
+## @acro{MIMO} transfer functions are converted to
+## a minimal state-space representation for the
+## computation of the zeros.
+##
+## @strong{Reference}@*
+## [1] MacFarlane, A. and Karcanias, N.
+## @cite{Poles and zeros of linear multivariable systems:
+## a survey of the algebraic, geometric and complex-variable
+## theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function [zer, gain] = zero (sys)
 
@@ -50,7 +68,7 @@ function [zer, gain] = zero (sys)
 endfunction
 
 
-## transmission zeros of state-space models
+## Invariant zeros of state-space models
 ##
 ## Results from the "Dark Side" 7.5 and 7.8
 ##
@@ -89,7 +107,7 @@ endfunction
 %!assert (z, z_exp, 1e-4);
 
 
-## transmission zeros of descriptor state-space models
+## Invariant zeros of descriptor state-space models
 %!shared z, z_exp
 %! A = [  1     0     0     0     0     0     0     0     0
 %!        0     1     0     0     0     0     0     0     0
@@ -163,3 +181,28 @@ endfunction
 %!assert (p_tf, zi_tf, 1e-4);
 %!assert (z_tf, pi_tf, 1e-4);
 %!assert (k_tf, inv (ki_tf), 1e-4);
+
+
+## Example taken from Paper [1]
+%!shared zo, ze
+%! A = diag ([1, 1, 3, -4, -1, 3]);
+%! 
+%! B = [  0,  -1
+%!       -1,   0
+%!        1,  -1
+%!        0,   0
+%!        0,   1
+%!       -1,  -1  ];
+%!        
+%! C = [  1,  0,  0,  1,  0,  0
+%!        0,  1,  0,  1,  0,  1
+%!        0,  0,  1,  0,  0,  1  ];
+%!         
+%! D = zeros (3, 2);
+%! 
+%! SYS = ss (A, B, C, D);
+%! zo = zero (SYS);
+%! 
+%! ze = [2; -1];
+%! 
+%!assert (zo, ze, 1e-4); 
