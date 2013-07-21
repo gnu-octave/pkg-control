@@ -30,6 +30,16 @@
 ## @item p
 ## Poles of @var{sys}.
 ## @end table
+##
+## @strong{Algorithm}@*
+## For (descriptor) state-space models, @command{pole}
+## relies on Octave's @command{eig}.
+## For @acro{SISO} transfer functions, @command{pole}
+## uses Octave's @command{roots}.
+## @acro{MIMO} transfer functions are converted to
+## a minimal state-space representation for the
+## computation of the poles.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
