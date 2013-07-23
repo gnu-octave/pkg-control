@@ -20,6 +20,9 @@
 ## Compute transmission zeros of LTI model.
 ## Transmission zeros are a subset of the invariant zeros
 ## as computed by @command{zero}.  See paper [1] for details.
+## In case you are not sure which zeros you need and you're
+## just looking for something like the @emph{vanilla} zeros,
+## use function @command{zero} instead.
 ##
 ## @strong{Inputs}
 ## @table @var

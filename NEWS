@@ -5,7 +5,7 @@ control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** zero
-   Fix documentation.  Function zero computes the invariant zeros, not the
+   Fix documentation.  Function "zero" computes the invariant zeros, not the
    transmission zeros.  (Thanks to Ferdinand Svaricek)
 
 ** tzero
