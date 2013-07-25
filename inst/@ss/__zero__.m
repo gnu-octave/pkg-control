@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -17,19 +17,19 @@
 
 ## -*- texinfo -*-
 ## Transmission zeros of SS object.
-## Uses SLICOT AB08ND by courtesy of
+## Uses SLICOT AB08ND and AG08BD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
-function [zer, gain] = __zero__ (sys, argc)
+function [zer, gain, rank] = __zero__ (sys, argc)
 
   if (isempty (sys.e))
-    [zer, gain] = __sl_ab08nd__ (sys.a, sys.b, sys.c, sys.d, sys.scaled);
+    [zer, gain, rank] = __sl_ab08nd__ (sys.a, sys.b, sys.c, sys.d, sys.scaled);
   else
-    zer = __sl_ag08bd__ (sys.a, sys.e, sys.b, sys.c, sys.d, sys.scaled);
+    [zer, rank] = __sl_ag08bd__ (sys.a, sys.e, sys.b, sys.c, sys.d, sys.scaled);
     if (argc > 1 && issiso (sys))
       pol = pole (sys);
       gain = __sl_tg04bx__ (sys.a, sys.e, sys.b, sys.c, sys.d, \

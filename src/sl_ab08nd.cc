@@ -219,6 +219,7 @@ For internal use only.")
         // return values
         retval(0) = zero;
         retval(1) = gain;
+        retval(2) = octave_value (rank);
     }
     
     return retval;

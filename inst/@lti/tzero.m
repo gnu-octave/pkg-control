@@ -17,6 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} tzero (@var{sys})
+## @deftypefnx {Function File} {[@var{z}, @var{rnk}] =} tzero (@var{sys})
 ## Compute transmission zeros of LTI model.
 ## Transmission zeros are a subset of the invariant zeros
 ## as computed by @command{zero}.  See paper [1] for details.
@@ -27,13 +28,15 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item z
 ## Transmission zeros of @var{sys} as defined in [1].
+## @item rnk
+## The normal rank of the system pencil (state-space models only).
 ## @end table
 ##
 ## @strong{Algorithm}@*
@@ -52,13 +55,13 @@
 ## Created: July 2013
 ## Version: 0.1
 
-function zer = tzero (sys)
+function [zer, rank] = tzero (sys)
 
   if (nargin > 1)
     print_usage ();
   endif
 
-  zer = zero (minreal (sys));
+  [zer, ~, rank] = zero (minreal (sys));
 
 endfunction
 

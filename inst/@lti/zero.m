@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
-## @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
+## @deftypefnx {Function File} {[@var{z}, @var{k}, @var{rnk}] =} zero (@var{sys})
 ## Compute invariant zeros and gain of LTI model.
 ## Invariant zeros are also known as Smith zeros.
 ## To compute the transmission zeros, which are a
@@ -27,7 +27,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -36,15 +36,17 @@
 ## Invariant zeros of @var{sys} as defined in [1].
 ## @item k
 ## Gain of @var{sys}.
+## @item rnk
+## The normal rank of the system pencil (state-space models only).
 ## @end table
 ##
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{zero}
 ## relies on SLICOT AB08ND and AG08BD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
-## For @acro{SISO} transfer functions, @command{zero}
+## For @acronym{SISO} transfer functions, @command{zero}
 ## uses Octave's @command{roots}.
-## @acro{MIMO} transfer functions are converted to
+## @acronym{MIMO} transfer functions are converted to
 ## a minimal state-space representation for the
 ## computation of the zeros.
 ##
@@ -61,13 +63,13 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [zer, gain] = zero (sys)
+function [zer, gain, rank] = zero (sys)
 
   if (nargin > 1)
     print_usage ();
   endif
 
-  [zer, gain] = __zero__ (sys, nargout);
+  [zer, gain, rank] = __zero__ (sys, nargout);
 
 endfunction
 

@@ -227,6 +227,7 @@ For internal use only.")
 
         // return values
         retval(0) = zero;
+        retval(1) = octave_value (nrank);
     }
     
     return retval;

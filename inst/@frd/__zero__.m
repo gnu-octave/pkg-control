@@ -22,7 +22,7 @@
 ## Created: October 2010
 ## Version: 0.1
 
-function [zer, gain] = __zero__ (sys)
+function [zer, gain, rank] = __zero__ (sys)
 
   error ("frd: zero: this is not possible");
 
