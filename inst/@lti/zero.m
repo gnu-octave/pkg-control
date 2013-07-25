@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{k}, @var{rnk}] =} zero (@var{sys})
-## Compute invariant zeros and gain of LTI model.
+## Compute invariant zeros and gain of @acronym{LTI} model.
 ## Invariant zeros are also known as Smith zeros.
 ## To compute the transmission zeros, which are a
 ## subset of the invariant zeros, use @command{tzero}.

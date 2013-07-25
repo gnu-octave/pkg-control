@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Transpose of LTI objects.  Used by Octave for "sys.'".
+## Transpose of @acronym{LTI} objects.  Used by Octave for "sys.'".
 ## Useful for dual problems, i.e. controllability and observability
 ## or designing estimator gains with @command{lqr} and @command{place}.
 

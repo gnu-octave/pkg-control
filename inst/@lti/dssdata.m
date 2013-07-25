@@ -25,7 +25,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of LTI model.
+## Any type of @acronym{LTI} model.
 ## @item []
 ## In case @var{sys} is not a dss model (descriptor matrix @var{e} empty),
 ## @code{dssdata (sys, [])} returns the empty element @code{e = []} whereas

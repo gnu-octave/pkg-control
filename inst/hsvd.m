@@ -19,7 +19,7 @@
 ## @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
 ## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{offset})
 ## @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"alpha"}, @var{alpha})
-## Hankel singular values of the stable part of an LTI model.  If no output arguments are
+## Hankel singular values of the stable part of an @acronym{LTI} model.  If no output arguments are
 ## given, the Hankel singular values are displayed in a plot.
 ##
 ## @strong{Algorithm}@*

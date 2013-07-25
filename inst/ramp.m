@@ -26,7 +26,7 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal}, @var{dt})
-## Ramp response of LTI system.
+## Ramp response of @acronym{LTI} system.
 ## If no output arguments are given, the response is printed on the screen.
 ## @iftex
 ## @tex
@@ -44,7 +44,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @item t
 ## Time vector.  Should be evenly spaced.  If not specified, it is calculated by
 ## the poles of the system to reflect adequately the response transients.

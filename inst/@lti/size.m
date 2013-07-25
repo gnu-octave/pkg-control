@@ -19,12 +19,12 @@
 ## @deftypefn {Function File} {@var{nvec} =} size (@var{sys})
 ## @deftypefnx {Function File} {@var{n} =} size (@var{sys}, @var{dim})
 ## @deftypefnx {Function File} {[@var{p}, @var{m}] =} size (@var{sys})
-## LTI model size, i.e. number of outputs and inputs.
+## @acronym{LTI} model size, i.e. number of outputs and inputs.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item dim
 ## If given a second argument, @command{size} will return the size of the
 ## corresponding dimension.

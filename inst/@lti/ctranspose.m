@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Conjugate transpose or pertransposition of LTI objects.
+## Conjugate transpose or pertransposition of @acronym{LTI} objects.
 ## Used by Octave for "sys'".
 ## For a transfer-function matrix G, G' denotes the conjugate
 ## of G given by G.'(-s) for a continuous-time system or G.'(1/z)

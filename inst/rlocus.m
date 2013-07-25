@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  Must be a single-input and single-output (SISO) system.
+## @acronym{LTI} model.  Must be a single-input and single-output (SISO) system.
 ## @item increment
 ## The increment used in computing gain values.
 ## @item min_k

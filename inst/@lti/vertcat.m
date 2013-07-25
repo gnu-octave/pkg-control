@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Vertical concatenation of LTI objects.  If necessary, object conversion
+## Vertical concatenation of @acronym{LTI} objects.  If necessary, object conversion
 ## is done by sys_group.  Used by Octave for "[sys1; sys2]".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

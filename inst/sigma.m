@@ -28,7 +28,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
+## @acronym{LTI} system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
 ## @item w
 ## Optional vector of frequency values.  If @var{w} is not specified,
 ## it is calculated by the zeros and poles of the system.

@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of LTI model.
+## Any type of @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Outputs}

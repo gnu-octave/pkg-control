@@ -28,7 +28,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model of the open-loop plant (A,B,C,D).
+## @acronym{LTI} model of the open-loop plant (A,B,C,D).
 ## It has m inputs, p outputs and n states.
 ## @item F
 ## Stabilizing state feedback matrix (m-by-n).

@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
-## Determine whether LTI system is minimum phase.
+## Determine whether @acronym{LTI} system is minimum phase.
 ## The zeros must lie in the left complex half-plane.
 ## The name minimum-phase refers to the fact that such a system has the
 ## minimum possible phase lag for the given magnitude response |sys(jw)|.
@@ -26,7 +26,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item tol
 ## Optional tolerance.  Default value is 0.
 ## @end table

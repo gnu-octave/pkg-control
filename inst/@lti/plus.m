@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Binary addition of LTI objects.  If necessary, object conversion
+## Binary addition of @acronym{LTI} objects.  If necessary, object conversion
 ## is done by sys_group.  Used by Octave for "sys1 + sys2".
 ## Operation is also known as "parallel connection".
 

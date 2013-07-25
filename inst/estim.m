@@ -23,7 +23,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @item l
 ## State feedback matrix.
 ## @item sensors

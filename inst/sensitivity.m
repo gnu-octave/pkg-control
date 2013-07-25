@@ -46,11 +46,11 @@
 ## @table @var
 ## @item L
 ## Open loop transfer function.
-## @var{L} can be any type of LTI system, but it must be square.
+## @var{L} can be any type of @acronym{LTI} system, but it must be square.
 ## @item P
-## Plant model.  Any type of LTI system.
+## Plant model.  Any type of @acronym{LTI} system.
 ## @item C
-## Controller model.  Any type of LTI system.
+## Controller model.  Any type of @acronym{LTI} system.
 ## @item C1, C2, @dots{}
 ## If several controllers are specified, command @command{sensitivity}
 ## computes the sensitivity @var{Ms} for each of them in combination

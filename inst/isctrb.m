@@ -29,7 +29,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  Descriptor state-space models are possible.
+## @acronym{LTI} model.  Descriptor state-space models are possible.
 ## If @var{sys} is not a state-space model, it is converted to
 ## a minimal state-space realization, so beware of pole-zero
 ## cancellations which may lead to wrong results!

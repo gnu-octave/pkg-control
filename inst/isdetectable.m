@@ -32,7 +32,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item a
 ## State transition matrix.
 ## @item c

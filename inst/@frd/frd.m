@@ -25,7 +25,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model to be converted to frequency response data.
+## @acronym{LTI} model to be converted to frequency response data.
 ## If second argument @var{w} is omitted, the interesting
 ## frequency range is calculated by the zeros and poles of @var{sys}.
 ## @item H

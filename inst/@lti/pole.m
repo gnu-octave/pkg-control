@@ -17,12 +17,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{p} =} pole (@var{sys})
-## Compute poles of LTI system.
+## Compute poles of @acronym{LTI} system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -34,9 +34,9 @@
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{pole}
 ## relies on Octave's @command{eig}.
-## For @acro{SISO} transfer functions, @command{pole}
+## For @acronym{SISO} transfer functions, @command{pole}
 ## uses Octave's @command{roots}.
-## @acro{MIMO} transfer functions are converted to
+## @acronym{MIMO} transfer functions are converted to
 ## a minimal state-space representation for the
 ## computation of the poles.
 ##

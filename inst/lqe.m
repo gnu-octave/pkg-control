@@ -37,7 +37,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous or discrete-time LTI model (p-by-m, n states).
+## Continuous or discrete-time @acronym{LTI} model (p-by-m, n states).
 ## @item a
 ## State matrix of continuous-time system (n-by-n).
 ## @item g

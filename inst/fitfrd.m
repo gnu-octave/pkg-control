@@ -24,7 +24,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item dat
-## LTI model containing frequency response data of a SISO system.
+## @acronym{LTI} model containing frequency response data of a SISO system.
 ## @item n
 ## The desired order of the system to be fitted.  @code{n <= length(dat.w)}.
 ## @item flag

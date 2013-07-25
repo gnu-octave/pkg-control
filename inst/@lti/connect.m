@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
-## Arbitrary interconnections between the inputs and outputs of an LTI model.
+## Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

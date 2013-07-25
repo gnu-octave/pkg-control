@@ -23,9 +23,9 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys1
-## Upper LTI model.
+## Upper @acronym{LTI} model.
 ## @item sys2
-## Lower LTI model.
+## Lower @acronym{LTI} model.
 ## @item nu
 ## The last nu inputs of @var{sys1} are connected with the first nu outputs of @var{sys2}.
 ## If not specified, @code{min (m1, p2)} is taken.
@@ -37,7 +37,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item sys
-## Resulting LTI model.
+## Resulting @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Block Diagram}

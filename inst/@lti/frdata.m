@@ -25,7 +25,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of LTI model.
+## Any type of @acronym{LTI} model.
 ## @item "v", "vector"
 ## In case @var{sys} is a SISO model, this option returns the frequency response
 ## as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).

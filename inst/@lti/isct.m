@@ -17,12 +17,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
-## Determine whether LTI model is a continuous-time system.
+## Determine whether @acronym{LTI} model is a continuous-time system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @end table
 ##
 ## @strong{Outputs}

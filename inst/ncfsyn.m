@@ -196,13 +196,13 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model of plant.
+## @acronym{LTI} model of plant.
 ## @item W1
-## LTI model of precompensator.  Model must be SISO or of appropriate size.
+## @acronym{LTI} model of precompensator.  Model must be SISO or of appropriate size.
 ## An identity matrix is taken if @var{W1} is not specified or if an empty model
 ## @code{[]} is passed.
 ## @item W2
-## LTI model of postcompensator.  Model must be SISO or of appropriate size.
+## @acronym{LTI} model of postcompensator.  Model must be SISO or of appropriate size.
 ## An identity matrix is taken if @var{W2} is not specified or if an empty model
 ## @code{[]} is passed.
 ## @item factor

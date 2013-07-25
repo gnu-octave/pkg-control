@@ -26,13 +26,13 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal}, @var{dt})
-## Step response of LTI system.
+## Step response of @acronym{LTI} system.
 ## If no output arguments are given, the response is printed on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @item t
 ## Time vector.  Should be evenly spaced.  If not specified, it is calculated by
 ## the poles of the system to reflect adequately the response transients.

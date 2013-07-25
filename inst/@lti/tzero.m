@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} tzero (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{rnk}] =} tzero (@var{sys})
-## Compute transmission zeros of LTI model.
+## Compute transmission zeros of @acronym{LTI} model.
 ## Transmission zeros are a subset of the invariant zeros
 ## as computed by @command{zero}.  See paper [1] for details.
 ## In case you are not sure which zeros you need and you're

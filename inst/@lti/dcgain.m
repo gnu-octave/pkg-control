@@ -17,12 +17,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
-## DC gain of LTI model.
+## DC gain of @acronym{LTI} model.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @end table
 ##
 ## @strong{Outputs}

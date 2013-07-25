@@ -22,7 +22,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item w
 ## Vector of frequency values.
 ## @end table

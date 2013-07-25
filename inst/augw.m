@@ -23,20 +23,20 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model of plant.
+## @acronym{LTI} model of plant.
 ## @item W1
-## LTI model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
+## @acronym{LTI} model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
 ## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W2
-## LTI model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
+## @acronym{LTI} model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
 ## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W3
-## LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+## @acronym{LTI} model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
 ## complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
 ## @end table
 ##
 ## All inputs must be proper/realizable.
-## Scalars, vectors and matrices are possible instead of LTI models.
+## Scalars, vectors and matrices are possible instead of @acronym{LTI} models.
 ##
 ## @strong{Outputs}
 ## @table @var

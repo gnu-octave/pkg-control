@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
-## Parallel connection of two LTI systems.
+## Parallel connection of two @acronym{LTI} systems.
 ##
 ## @strong{Block Diagram}
 ## @example

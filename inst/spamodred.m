@@ -22,7 +22,7 @@
 ## @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} spamodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 ##
 ## Model order reduction by frequency weighted Singular Perturbation Approximation (SPA).
-## The aim of model reduction is to find an LTI system @var{Gr} of order
+## The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
 ## @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
 ## approximates the one from original system @var{G}.
 ##
@@ -48,7 +48,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model to be reduced.
+## @acronym{LTI} model to be reduced.
 ## @item nr
 ## The desired order of the resulting reduced order system @var{Gr}.
 ## If not specified, @var{nr} is chosen automatically according
@@ -92,11 +92,11 @@
 ## Hankel singular values @var{info.hsv} > @var{tol1} are retained.
 ##
 ## @item 'left', 'output'
-## LTI model of the left/output frequency weighting @var{V}.
+## @acronym{LTI} model of the left/output frequency weighting @var{V}.
 ## Default value is an identity matrix.
 ##
 ## @item 'right', 'input'
-## LTI model of the right/input frequency weighting @var{W}.
+## @acronym{LTI} model of the right/input frequency weighting @var{W}.
 ## Default value is an identity matrix.
 ##
 ## @item 'method'

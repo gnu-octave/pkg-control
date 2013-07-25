@@ -28,7 +28,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.  Must be a single-input and single-output (SISO) system.
+## @acronym{LTI} system.  Must be a single-input and single-output (SISO) system.
 ## @item w
 ## Optional vector of frequency values.  If @var{w} is not specified,
 ## it is calculated by the zeros and poles of the system.

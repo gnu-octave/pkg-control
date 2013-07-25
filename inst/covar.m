@@ -22,7 +22,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.
+## @acronym{LTI} model.
 ## @item w
 ## Intensity of Gaussian white noise inputs which drive @var{sys}.
 ## @end table

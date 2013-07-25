@@ -24,13 +24,13 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
-## Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
+## Simulate @acronym{LTI} model response to arbitrary inputs.  If no output arguments are given,
 ## the system response is plotted on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  System must be proper, i.e. it must not have more zeros than poles.
+## @acronym{LTI} model.  System must be proper, i.e. it must not have more zeros than poles.
 ## @item u
 ## Vector or array of input signal.  Needs @code{length(t)} rows and as many columns
 ## as there are inputs.  If @var{sys} is a single-input system, row vectors @var{u}

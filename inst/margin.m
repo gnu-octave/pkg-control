@@ -27,7 +27,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  Must be a single-input and single-output (SISO) system.
+## @acronym{LTI} model.  Must be a single-input and single-output (SISO) system.
 ## @item tol
 ## Imaginary parts below @var{tol} are assumed to be zero.
 ## If not specified, default value @code{sqrt (eps)} is taken.

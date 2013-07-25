@@ -27,7 +27,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Continuous- or discrete-time LTI system.
+## Continuous- or discrete-time @acronym{LTI} system.
 ## @item a
 ## State matrix (n-by-n) of a continuous-time system.
 ## @item b

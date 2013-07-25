@@ -18,12 +18,12 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
 ## @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
-## Arbitrary interconnections between the inputs and outputs of an LTI model.
+## Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item m
 ## Connection matrix.  Each row belongs to an input and each column represents an output.
 ## @item inputs

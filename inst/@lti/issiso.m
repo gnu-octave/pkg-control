@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} issiso (@var{sys})
-## Determine whether LTI model is single-input/single-output (SISO).
+## Determine whether @acronym{LTI} model is single-input/single-output (SISO).
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

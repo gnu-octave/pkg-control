@@ -30,7 +30,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model to be converted to transfer function.
+## @acronym{LTI} model to be converted to transfer function.
 ## @item z
 ## Cell of vectors containing the zeros for each channel.
 ## z@{i,j@} contains the zeros from input j to output i.

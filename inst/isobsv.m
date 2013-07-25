@@ -29,7 +29,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI model.  Descriptor state-space models are possible.
+## @acronym{LTI} model.  Descriptor state-space models are possible.
 ## @item a
 ## State matrix (n-by-n).
 ## @item c

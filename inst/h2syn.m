@@ -17,12 +17,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
-## H-2 control synthesis for LTI plant.
+## H-2 control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item P
-## Generalized plant.  Must be a proper/realizable LTI model.
+## Generalized plant.  Must be a proper/realizable @acronym{LTI} model.
 ## @item nmeas
 ## Number of measured outputs v.  The last @var{nmeas} outputs of @var{P} are connected to the
 ## inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used

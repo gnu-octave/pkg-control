@@ -22,14 +22,14 @@
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{"+"})
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
 ## @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{"+"})
-## Feedback connection of two LTI models.
+## Feedback connection of two @acronym{LTI} models.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys1
-## LTI model of forward transmission.  @code{[p1, m1] = size (sys1)}.
+## @acronym{LTI} model of forward transmission.  @code{[p1, m1] = size (sys1)}.
 ## @item sys2
-## LTI model of backward transmission.
+## @acronym{LTI} model of backward transmission.
 ## If not specified, an identity matrix of appropriate size is taken.
 ## @item feedin
 ## Vector containing indices of inputs to @var{sys1} which are involved in the feedback loop.
@@ -48,7 +48,7 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item sys
-## Resulting LTI model.
+## Resulting @acronym{LTI} model.
 ## @end table
 ##
 ## @strong{Block Diagram}

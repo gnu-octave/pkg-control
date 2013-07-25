@@ -22,7 +22,7 @@
 ## @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} hnamodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 ##
 ## Model order reduction by frequency weighted optimal Hankel-norm (HNA) method.
-## The aim of model reduction is to find an LTI system @var{Gr} of order
+## The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
 ## @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
 ## approximates the one from original system @var{G}.
 ##
@@ -48,7 +48,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model to be reduced.
+## @acronym{LTI} model to be reduced.
 ## @item nr
 ## The desired order of the resulting reduced order system @var{Gr}.
 ## If not specified, @var{nr} is chosen automatically according
@@ -108,7 +108,7 @@
 ##
 ##
 ## @item 'left', 'v'
-## LTI model of the left/output frequency weighting.
+## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be antistable.
 ## @iftex
 ## @math{|| V \\ (G-G_r) \\dots ||_H = min}
@@ -121,7 +121,7 @@
 ## @end ifnottex
 ##
 ## @item 'right', 'w'
-## LTI model of the right/input frequency weighting.
+## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be antistable.
 ## @iftex
 ## @math{|| \\dots (G-G_r) \\ W ||_H = min}
@@ -135,7 +135,7 @@
 ##
 ##
 ## @item 'left-inv', 'inv-v'
-## LTI model of the left/output frequency weighting.
+## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must have only antistable zeros.
 ## @iftex
 ## @math{|| inv(V) \\ (G-G_r) \\dots ||_H = min}
@@ -148,7 +148,7 @@
 ## @end ifnottex
 ##
 ## @item 'right-inv', 'inv-w'
-## LTI model of the right/input frequency weighting.
+## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must have only antistable zeros.
 ## @iftex
 ## @math{|| \\dots (G-G_r) \\ inv(W) ||_H = min}
@@ -162,7 +162,7 @@
 ##
 ##
 ## @item 'left-conj', 'conj-v'
-## LTI model of the left/output frequency weighting.
+## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be stable.
 ## @iftex
 ## @math{|| conj(V) \\ (G-G_r) \\dots ||_H = min}
@@ -175,7 +175,7 @@
 ## @end ifnottex
 ##
 ## @item 'right-conj', 'conj-w'
-## LTI model of the right/input frequency weighting.
+## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be stable.
 ## @iftex
 ## @math{|| \\dots (G-G_r) \\ conj(W) ||_H = min}
@@ -189,7 +189,7 @@
 ##
 ##
 ## @item 'left-conj-inv', 'conj-inv-v'
-## LTI model of the left/output frequency weighting.
+## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be minimum-phase.
 ## @iftex
 ## @math{|| conj(inv(V)) \\ (G-G_r) \\dots ||_H = min}
@@ -202,7 +202,7 @@
 ## @end ifnottex
 ##
 ## @item 'right-conj-inv', 'conj-inv-w'
-## LTI model of the right/input frequency weighting.
+## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be minimum-phase.
 ## @iftex
 ## @math{|| \\dots (G-G_r) \\ conj(inv(W)) ||_H = min}

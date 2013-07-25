@@ -44,10 +44,10 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item G
-## LTI model of the plant.
+## @acronym{LTI} model of the plant.
 ## It has m inputs, p outputs and n states.
 ## @item K
-## LTI model of the controller.
+## @acronym{LTI} model of the controller.
 ## It has p inputs, m outputs and nc states.
 ## @item ncr
 ## The desired order of the resulting reduced order controller @var{Kr}.

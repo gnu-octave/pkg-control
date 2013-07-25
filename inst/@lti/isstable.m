@@ -18,12 +18,12 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
-## Determine whether LTI system is stable.
+## Determine whether @acronym{LTI} system is stable.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## LTI system.
+## @acronym{LTI} system.
 ## @item tol
 ## Optional tolerance for stability.  Default value is 0.
 ## @end table

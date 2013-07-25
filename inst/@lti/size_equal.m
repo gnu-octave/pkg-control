@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} size_equal (@var{a}, @var{b}, @dots{})
-## Return true if LTI models (and matrices) @var{a}, @var{b}, @dots{}
+## Return true if @acronym{LTI} models (and matrices) @var{a}, @var{b}, @dots{}
 ## are of equal size and false otherwise.
 ## @end deftypefn
 

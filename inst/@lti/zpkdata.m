@@ -23,7 +23,7 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of LTI model.
+## Any type of @acronym{LTI} model.
 ## @item "v", "vector"
 ## For SISO models, return @var{z} and @var{p} directly as column vectors
 ## instead of cells containing a single column vector.

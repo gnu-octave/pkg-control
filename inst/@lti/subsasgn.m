@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Subscripted assignment for LTI objects.
+## Subscripted assignment for @acronym{LTI} objects.
 ## Used by Octave for "sys.property = value".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

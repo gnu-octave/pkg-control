@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{p} =} eig (@var{sys})
-## Compute poles of LTI system.
+## Compute poles of @acronym{LTI} system.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
