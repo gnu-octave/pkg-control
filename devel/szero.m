@@ -1,3 +1,56 @@
+## Copyright (C) 2011   Ferdinand Svaricek, UniBw Munich.
+##
+## This file is part of LTI Syncope.
+##
+## LTI Syncope is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## LTI Syncope is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{z} =} szero (@var{sys})
+## @deftypefnx {Function File} {[@var{z}, @var{rnk}] =} szero (@var{sys})
+## Compute @emph{system} zeros of @acronym{LTI} model.
+## Transmission zeros are a subset of the invariant zeros
+## as computed by @command{zero}.  See paper [1] for details.
+## In case you are not sure which zeros you need and you're
+## just looking for something like the @emph{vanilla} zeros,
+## use function @command{zero} instead.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## State-space model.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item z
+## System zeros of @var{sys} as defined in [1] and [2].
+## @item rnk
+## The normal rank of the transfer function matrix.
+## @end table
+##
+## @strong{References}@*
+## [1] MacFarlane, A. and Karcanias, N.
+## @cite{Poles and zeros of linear multivariable systems:
+## a survey of the algebraic, geometric and complex-variable
+## theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
+## [2] Rosenbrock, H.H.
+## @cite{Correction to 'The zeros of a system'}.
+## Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.@*
+##
+## @seealso{zero, tzero}
+## @end deftypefn
+
 %SZERO  System zeros of LTI systems.
 %% 
 %%    Z = SZERO(A,B,C,D) returns the system zeros of the LTI 
@@ -7,18 +60,12 @@
 %%
 %%    [Z,RANK] = SZERO(A,B,C,D) also returns the normal rank of 
 %%    the transfer function matrix.
-%% 
-%%
-%% References: H.H. Rosenbrock:
-%%             Correction to 'The zeros of a system',
-%%             INT.J. CONTROL, 1974, VOL. 20, No.3, 525-527.
-%%
-%%    See also TZERO.
-%%
-%%   Copyright 2011 Ferdinand Svaricek, UniBw Munich.
-%%
-%%   $Revision: 1.1 $  $Date: 2013/07/24 14:40:00 $
-%%
+
+
+
+## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Date: July 2013
+## Version: 0.1
 
 function [z, Rank] = szero (sys)
 
