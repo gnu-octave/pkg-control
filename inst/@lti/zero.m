@@ -17,23 +17,46 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
+## @deftypefnx {Function File} {@var{z} =} zero (@var{sys}, @var{type})
 ## @deftypefnx {Function File} {[@var{z}, @var{k}, @var{rnk}] =} zero (@var{sys})
-## Compute invariant zeros and gain of @acronym{LTI} model.
-## Invariant zeros are also known as Smith zeros.
-## To compute the transmission zeros, which are a
-## subset of the invariant zeros, use @command{tzero}.
-## See paper [1] for details.
+## Compute zeros and gain of @acronym{LTI} model.
+## By default, @command{zero} computes the invariant zeros,
+## also known as Smith zeros.  Alternatively, when called with
+## a second input argument, @command{zero} can also compute
+## the system zeros, transmission zeros, input decoupling zeros
+## and output decoupling zeros.  See paper [1] for an explanation
+## of the various zero flavors as well as for further details.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
 ## @acronym{LTI} model.
+## @item type
+## Specifies the type of zeros
+## @table @var
+## @item 'system', 's'
+## Compute the system zeros.
+## The system zeros include in all cases
+## (square, non-square, degenerate or non-degenerate system) 
+## all transmission and decoupling zeros.
+## @item 'invariant', 'inv'
+## Compute invariant zeros.  Default selection.
+## @item 'transmission', 't'
+## Compute transmission zeros.  Transmission zeros
+## are a subset of the invariant zeros.
+## @item 'input', 'inp', 'id'
+## Compute input decoupling zeros.
+## @item 'output', 'od', 'o'
+## Compute output decoupling zeros.
+## @end table
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item z
-## Invariant zeros of @var{sys} as defined in [1].
+## Depending on argument @var{type}, @var{z} contains the
+## invariant (default), system, transmission, input decoupling
+## or output decoupling zeros of @var{sys} as defined in [1].
 ## @item k
 ## Gain of @var{sys}.
 ## @item rnk
@@ -55,8 +78,15 @@
 ## @cite{Poles and zeros of linear multivariable systems:
 ## a survey of the algebraic, geometric and complex-variable
 ## theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
+## [2] Rosenbrock, H.H.
+## @cite{Correction to 'The zeros of a system'}.
+## Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.@*
+## [3] Svaricek, F.
+## @cite{Computation of the structural invariants of linear
+## multivariable systems with an extended version of the
+## program ZEROS}.
+## Systems & Control Letters, vol. 6, pp. 261-266, 1985.@*
 ##
-## @seealso{tzero}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
