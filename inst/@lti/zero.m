@@ -1,4 +1,5 @@
 ## Copyright (C) 2009, 2011, 2013   Lukas F. Reichlin
+## Copyright (C) 2011               Ferdinand Svaricek, UniBw Munich.
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -112,10 +113,85 @@ function [zer, gain, rank] = zero (sys, type = "invariant")
     tmp = dss (a, zeros (rows (a), 0), c, zeros (rows (c), 0), e, tsam);
     [zer, gain, rank] = zero (tmp);
   elseif (strncmpi (type, "system", 1))                             # system zeros
-    ## TODO
+    [zer, rank] = __szero__ (sys);
+    gain = [];
   else
     error ("zero: type '%s' invalid", type);
   endif
+
+endfunction
+
+
+## Function for computing the system zeros.
+## Adapted from Ferdinand Svaricek's szero.m
+function [z, Rank] = __szero__ (sys)
+
+  [a, b, c, d] = ssdata (sys);
+  [pp, mm] = size (sys);
+  nn = rows (a);
+
+  ## Tolerance for intersection of zeros
+  Zeps = 10 * sqrt ((nn+pp)*(nn+mm)) * eps * norm (a,'fro');
+
+  [z, ~, Rank] = zero (sys);
+
+  ## System is not degenerated and square
+  if (Rank == 0 || (Rank == min(pp,mm) && mm == pp))
+    return;
+  endif
+
+  ## System (A,B,C,D) is degenerated and/or non-square
+  z = [];
+
+  ## Computation of the greatest common divisor of all minors of the 
+  ## Rosenbrock system matrix that have the following form
+  ##
+  ##    1, 2, ..., n, n+i_1, n+i_2, ..., n+i_k
+  ##   P
+  ##    1, 2, ..., n, n+j_1, n+j_2, ..., n+j_k
+  ## 
+  ## with k = Rank.
+
+  NKP = nchoosek (1:pp, Rank);
+  [IP, JP] = size (NKP);
+  NKM = nchoosek (1:mm, Rank);
+  [IM, JM] = size (NKM);
+
+  for i = 1:IP
+    for j = 1:JP
+      k = NKP(i,j);
+      C1(j,:) = c(k,:);         # Build C of dimension (Rank x n)
+    endfor
+    for ii = 1:IM
+      for jj = 1:JM
+        k = NKM(ii,jj);
+        B1(:,jj) = b(:,k);      # Build B of dimension (n x Rank)
+      endfor
+      [z1, ~, rank1] = zero (ss (a, B1, C1, zeros (Rank, Rank)));
+      if (rank1 == Rank)
+        if (isempty (z1))
+          z = z1;               # Subsystem has no zeros -> system has no system zeros
+          return;
+        else
+          if (isempty (z))
+            z = z1;             # Zeros of the first subsystem
+          else                  # Compute intersection of z and z1 with tolerance Zeps 
+            z2 = [];
+            for ii=1:length(z)
+              for jj=1:length(z1)
+                if (abs (z(ii)-z1(jj)) < Zeps)
+                  z2(end+1) = z(ii);
+                  z1(jj) = [];
+                  break;
+                endif
+              endfor
+            endfor
+            z = z2;             # System zeros are the common zeros of all subsystems
+          endif
+        endif
+      endif
+    endfor
+  endfor
 
 endfunction
 
@@ -258,16 +334,16 @@ endfunction
 %! z_tra = zero (SYS, "transmission");
 %! z_inp = zero (SYS, "input decoupling");
 %! z_out = zero (SYS, "output decoupling");
-%! % z_sys = zero (SYS, "system");
+%! z_sys = zero (SYS, "system");
 %!
 %! z_inv_e = [2; -1];
 %! z_tra_e = [2];
 %! z_inp_e = [-4];
 %! z_out_e = [-1];
-%! z_sys_e = [-1, 2, -4];
+%! z_sys_e = [-4, -1, 2];
 %! 
 %!assert (z_inv, z_inv_e, 1e-4); 
 %!assert (z_tra, z_tra_e, 1e-4); 
 %!assert (z_inp, z_inp_e, 1e-4); 
 %!assert (z_out, z_out_e, 1e-4); 
-%!assert (z_sys_e, z_sys_e, 1e-4);  % FIXME!!! Don't forget!
+%!assert (z_sys, z_sys_e, 1e-4);
