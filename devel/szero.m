@@ -19,8 +19,9 @@
 ## @deftypefn {Function File} {@var{z} =} szero (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{rnk}] =} szero (@var{sys})
 ## Compute @emph{system} zeros of @acronym{LTI} model.
-## Transmission zeros are a subset of the invariant zeros
-## as computed by @command{zero}.  See paper [1] for details.
+## According to [1], system zeros are defined as the set
+## of zeros which includes both the transmission and
+## decoupling zero sets for a given system.
 ## In case you are not sure which zeros you need and you're
 ## just looking for something like the @emph{vanilla} zeros,
 ## use function @command{zero} instead.
@@ -35,6 +36,9 @@
 ## @table @var
 ## @item z
 ## System zeros of @var{sys} as defined in [1] and [2].
+## The system zeros include in all cases
+## (square, non-square, degenerate or non-degenerate system) 
+## all transmission and decoupling zeros.
 ## @item rnk
 ## The normal rank of the transfer function matrix.
 ## @end table
@@ -50,18 +54,6 @@
 ##
 ## @seealso{zero, tzero}
 ## @end deftypefn
-
-%SZERO  System zeros of LTI systems.
-%% 
-%%    Z = SZERO(A,B,C,D) returns the system zeros of the LTI 
-%%    system (A,B,C,D). The system zeros include in all cases
-%%    (square, non-square, degenerate or non-degenerate system) 
-%%    all transmission and decoupling zeros. 
-%%
-%%    [Z,RANK] = SZERO(A,B,C,D) also returns the normal rank of 
-%%    the transfer function matrix.
-
-
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: July 2013
@@ -82,14 +74,15 @@ function [z, Rank] = szero (sys)
 
   [z, ~, Rank] = zero (sys);
 
-  if (Rank == 0 || (Rank == min(pp,mm) && mm == pp))  ## sys is not degenerated and square
+  ## System is not degenerated and square
+  if (Rank == 0 || (Rank == min(pp,mm) && mm == pp))
     z = sort (z(:));
     return;
   endif
 
   ## System (A,B,C,D) is degenerated and/or non-square
   z = [];
-  ##
+
   ## Computation of the greatest common divisor of all minors of the 
   ## Rosenbrock system matrix that have the following form
   ##
@@ -98,11 +91,12 @@ function [z, Rank] = szero (sys)
   ##    1, 2, ..., n, n+j_1, n+j_2, ..., n+j_k
   ## 
   ## with k = Rank.
-  ##
+
   NKP = nchoosek (1:pp, Rank);
   [IP, JP] = size (NKP);
   NKM = nchoosek (1:mm, Rank);
   [IM, JM] = size (NKM);
+
   for i = 1:IP
     for j = 1:JP
       k = NKP(i,j);
