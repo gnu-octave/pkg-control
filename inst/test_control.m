@@ -57,8 +57,6 @@ test @lti/plus
 test @lti/prescale
 test @lti/sminreal
 test @lti/subsref
-test @lti/szero
-test @lti/tzero
 test @lti/zero
 
 ## robust control
