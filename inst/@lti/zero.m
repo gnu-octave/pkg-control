@@ -63,13 +63,29 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [zer, gain, rank] = zero (sys)
+function [zer, gain, rank] = zero (sys, type = "invariant")
 
-  if (nargin > 1)
+  if (nargin > 2)
     print_usage ();
   endif
 
-  [zer, gain, rank] = __zero__ (sys, nargout);
+  if (strncmpi (type, "invariant", 3))                              # invariant zeros, default
+    [zer, gain, rank] = __zero__ (sys, nargout);
+  elseif (strncmpi (type, "transmission", 1))                       # transmission zeros
+    [zer, gain, rank] = zero (minreal (sys));
+  elseif (strncmpi (type, "input", 3) || strncmpi (type, "id", 2))  # input decoupling zeros
+    [a, b, c, d, e, tsam] = dssdata (sys, []);
+    tmp = dss (a, b, zeros (0, columns (a)), zeros (0, columns (b)), e, tsam);
+    [zer, gain, rank] = zero (tmp);
+  elseif (strncmpi (type, "output", 1))                             # output decoupling zeros
+    [a, b, c, d, e, tsam] = dssdata (sys, []);
+    tmp = dss (a, zeros (rows (a), 0), c, zeros (rows (c), 0), e, tsam);
+    [zer, gain, rank] = zero (tmp);
+  elseif (strncmpi (type, "system", 1))                             # system zeros
+    ## TODO
+  else
+    error ("zero: type '%s' invalid", type);
+  endif
 
 endfunction
 
@@ -190,7 +206,7 @@ endfunction
 
 
 ## Example taken from Paper [1]
-%!shared zo, ze
+%!shared z_inv, z_tra, z_inp, z_out, z_sys, z_inv_e, z_tra_e, z_inp_e, z_out_e, z_sys_e
 %! A = diag ([1, 1, 3, -4, -1, 3]);
 %! 
 %! B = [  0,  -1
@@ -207,8 +223,21 @@ endfunction
 %! D = zeros (3, 2);
 %! 
 %! SYS = ss (A, B, C, D);
-%! zo = zero (SYS);
+%!
+%! z_inv = zero (SYS);
+%! z_tra = zero (SYS, "transmission");
+%! z_inp = zero (SYS, "input decoupling");
+%! z_out = zero (SYS, "output decoupling");
+%! % z_sys = zero (SYS, "system");
+%!
+%! z_inv_e = [2; -1];
+%! z_tra_e = [2];
+%! z_inp_e = [-4];
+%! z_out_e = [-1];
+%! z_sys_e = [-1, 2, -4];
 %! 
-%! ze = [2; -1];
-%! 
-%!assert (zo, ze, 1e-4); 
+%!assert (z_inv, z_inv_e, 1e-4); 
+%!assert (z_tra, z_tra_e, 1e-4); 
+%!assert (z_inp, z_inp_e, 1e-4); 
+%!assert (z_out, z_out_e, 1e-4); 
+%!assert (z_sys_e, z_sys_e, 1e-4);  % FIXME!!! Don't forget!

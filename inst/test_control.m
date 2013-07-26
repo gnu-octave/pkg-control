@@ -57,6 +57,7 @@ test @lti/plus
 test @lti/prescale
 test @lti/sminreal
 test @lti/subsref
+test @lti/szero
 test @lti/tzero
 test @lti/zero
 
@@ -90,9 +91,6 @@ test cfconred
 test fwcfconred
 ## test spaconred  # TODO: create test case
 
-## identification
-test fitfrd
-
 ## various oct-files
 test ctrbf
 test hsvd
@@ -112,4 +110,5 @@ test @iddata/iddata
 test @iddata/cat
 test @iddata/detrend
 test @iddata/fft
+test fitfrd
 test moen4

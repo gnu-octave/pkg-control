@@ -55,6 +55,7 @@ Model Characteristics
   @lti/pole
   pzmap
   @lti/size
+  @lti/szero
   @lti/tzero
   @lti/zero
 Model Simplification
