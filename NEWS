@@ -12,6 +12,8 @@ control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
       Examples: z = zero (sys, 'system'), z = zero (sys, 'transmission')
       (Special thanks to Ferdinand Svaricek)
 
+** Various documentation enhancements and fixes.
+
 
 ===============================================================================
 control-2.4.3   Release Date: 2013-07-12   Release Manager: Lukas Reichlin

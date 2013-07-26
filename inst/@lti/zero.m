@@ -32,7 +32,7 @@
 ## @item sys
 ## @acronym{LTI} model.
 ## @item type
-## Specifies the type of zeros
+## String specifying the type of zeros:
 ## @table @var
 ## @item 'system', 's'
 ## Compute the system zeros.
