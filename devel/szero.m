@@ -110,7 +110,7 @@ function [z, Rank] = szero (sys)
       [z1, ~, rank1] = zero (ss (a, B1, C1, zeros (Rank, Rank)));
       if (rank1 == Rank)
         if (isempty (z1))
-          z = sort (z1(:));     # Subsystem has no zeros -> system has no system zeros
+          z = z1;               # Subsystem has no zeros -> system has no system zeros
           return;
         else
           if (isempty (z))
