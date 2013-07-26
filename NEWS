@@ -5,11 +5,12 @@ control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** zero
-   Fix documentation.  Function "zero" computes the invariant zeros, not the
-   transmission zeros.  (Thanks to Ferdinand Svaricek)
-
-** tzero
-   New function for computing the transmission zeros of a state-space model.
+   -- Fix documentation.  Function "zero" computes the invariant zeros, not the
+      transmission zeros when it is called with one argument.
+   -- Added new options to compute the system, transmission, input decoupling
+      and output decoupling zeros besides the already existing invariant zeros.
+      Examples: z = zero (sys, 'system'), z = zero (sys, 'transmission')
+      (Special thanks to Ferdinand Svaricek)
 
 
 ===============================================================================
