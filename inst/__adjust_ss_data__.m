@@ -1,4 +1,4 @@
-## Copyright (C) 2010   Lukas F. Reichlin
+## Copyright (C) 2010, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
 
@@ -31,7 +31,7 @@ function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   endif
 
   if (isempty (d))
-    if (isempty (c))               # ss (a, b), ss (a, b, [], [], ...)
+    if (all (size (c) == 0))       # ss (a, b), ss (a, b, [], [], ...), but allow c(0xn) and d(0xm)
       c = eye (size (a));
       d = zeros (rows (a), columns (b));
     else                           # ss (a, b, c), ss (a, b, c, [], ...)
