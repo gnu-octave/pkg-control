@@ -24,12 +24,14 @@
 ## Created: October 2009
 ## Version: 0.4
 
-function [zer, gain, rank] = __zero__ (sys, argc)
+function [zer, gain, info] = __zero__ (sys, argc)
 
   if (isempty (sys.e))
-    [zer, gain, rank] = __sl_ab08nd__ (sys.a, sys.b, sys.c, sys.d, sys.scaled);
+    [zer, gain, rank, infz, kronr, kronl] = __sl_ab08nd__ (sys.a, sys.b, sys.c, sys.d, sys.scaled);
+    info = struct ("rank", rank, "infz", infz, "kronr", kronr, "kronl", kronl);
   else
     [zer, rank] = __sl_ag08bd__ (sys.a, sys.e, sys.b, sys.c, sys.d, sys.scaled);
+    info = struct ("rank", rank);
     if (argc > 1 && issiso (sys))
       pol = pole (sys);
       gain = __sl_tg04bx__ (sys.a, sys.e, sys.b, sys.c, sys.d, \

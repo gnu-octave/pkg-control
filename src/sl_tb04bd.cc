@@ -136,10 +136,10 @@ For internal use only.")
                   info));
 
         if (f77_exception_encountered)
-            error ("are: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
+            error ("ss2tf: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
 
         if (info != 0)
-            error ("are: __sl_tb04bd__: TB04BD returned info = %d", info);
+            error ("ss2tf: __sl_tb04bd__: TB04BD returned info = %d", info);
 
         for (octave_idx_type i = 0; i < ldign*m; i++)
             ignm.xelem (i) = ign[i];

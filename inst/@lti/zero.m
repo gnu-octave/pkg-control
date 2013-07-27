@@ -19,7 +19,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{z} =} zero (@var{sys})
 ## @deftypefnx {Function File} {@var{z} =} zero (@var{sys}, @var{type})
-## @deftypefnx {Function File} {[@var{z}, @var{k}, @var{rnk}] =} zero (@var{sys})
+## @deftypefnx {Function File} {[@var{z}, @var{k}, @var{info}] =} zero (@var{sys})
 ## Compute zeros and gain of @acronym{LTI} model.
 ## By default, @command{zero} computes the invariant zeros,
 ## also known as Smith zeros.  Alternatively, when called with
@@ -44,7 +44,9 @@
 ## Compute invariant zeros.  Default selection.
 ## @item 'transmission', 't'
 ## Compute transmission zeros.  Transmission zeros
-## are a subset of the invariant zeros.
+## are a subset of the invariant zeros.  
+## The transmission zeros are the zeros of the
+## Smith-McMillan form of the transfer function matrix.
 ## @item 'input', 'inp', 'id'
 ## Compute input decoupling zeros.
 ## @item 'output', 'od', 'o'
@@ -61,7 +63,8 @@
 ## @item k
 ## Gain of @var{sys}.
 ## @item rnk
-## The normal rank of the system pencil (state-space models only).
+## The normal rank of the transfer function matrix (regular state-space models)
+## or of the system pencil (descriptor state-space models).
 ## @end table
 ##
 ## @strong{Algorithm}@*
@@ -94,26 +97,26 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [zer, gain, rank] = zero (sys, type = "invariant")
+function [zer, gain, info] = zero (sys, type = "invariant")
 
   if (nargin > 2)
     print_usage ();
   endif
 
   if (strncmpi (type, "invariant", 3))                              # invariant zeros, default
-    [zer, gain, rank] = __zero__ (sys, nargout);
+    [zer, gain, info] = __zero__ (sys, nargout);
   elseif (strncmpi (type, "transmission", 1))                       # transmission zeros
-    [zer, gain, rank] = zero (minreal (sys));
+    [zer, gain, info] = zero (minreal (sys));
   elseif (strncmpi (type, "input", 3) || strncmpi (type, "id", 2))  # input decoupling zeros
     [a, b, c, d, e, tsam] = dssdata (sys, []);
     tmp = dss (a, b, zeros (0, columns (a)), zeros (0, columns (b)), e, tsam);
-    [zer, gain, rank] = zero (tmp);
+    [zer, gain, info] = zero (tmp);
   elseif (strncmpi (type, "output", 1))                             # output decoupling zeros
     [a, b, c, d, e, tsam] = dssdata (sys, []);
     tmp = dss (a, zeros (rows (a), 0), c, zeros (rows (c), 0), e, tsam);
-    [zer, gain, rank] = zero (tmp);
+    [zer, gain, info] = zero (tmp);
   elseif (strncmpi (type, "system", 1))                             # system zeros
-    [zer, rank] = __szero__ (sys);
+    [zer, info] = __szero__ (sys);
     gain = [];
   else
     error ("zero: type '%s' invalid", type);
@@ -124,7 +127,7 @@ endfunction
 
 ## Function for computing the system zeros.
 ## Adapted from Ferdinand Svaricek's szero.m
-function [z, Rank] = __szero__ (sys)
+function [z, info] = __szero__ (sys)
 
   ## TODO: support descriptor state-space models
   ##       with singular 'E' matrices
@@ -136,7 +139,8 @@ function [z, Rank] = __szero__ (sys)
   ## Tolerance for intersection of zeros
   Zeps = 10 * sqrt ((nn+pp)*(nn+mm)) * eps * norm (a,'fro');
 
-  [z, ~, Rank] = zero (ss (a, b, c, d));    # zero (sys) lets descriptor test fail
+  [z, ~, info] = zero (ss (a, b, c, d));    # zero (sys) lets descriptor test fail
+  Rank = info.rank;
 
   ## System is not degenerated and square
   if (Rank == 0 || (Rank == min(pp,mm) && mm == pp))
@@ -170,7 +174,8 @@ function [z, Rank] = __szero__ (sys)
         k = NKM(ii,jj);
         B1(:,jj) = b(:,k);      # Build B of dimension (n x Rank)
       endfor
-      [z1, ~, rank1] = zero (ss (a, B1, C1, zeros (Rank, Rank)));
+      [z1, ~, info1] = zero (ss (a, B1, C1, zeros (Rank, Rank)));
+      rank1 = info1.rank;
       if (rank1 == Rank)
         if (isempty (z1))
           z = z1;               # Subsystem has no zeros -> system has no system zeros

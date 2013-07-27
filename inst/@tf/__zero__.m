@@ -22,17 +22,17 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [zer, gain, rank] = __zero__ (sys)
+function [zer, gain, info] = __zero__ (sys)
 
   if (issiso (sys))
     num = get (sys.num{1});
     den = get (sys.den{1});
     zer = roots (num);
     gain = num(1) / den(1);
-    rank = [];
+    info = [];
   else
     warning ("tf: zero: converting to minimal state-space for zero computation of mimo tf");
-    [zer, gain, rank] = zero (ss (sys));
+    [zer, gain, info] = zero (ss (sys));
   endif
 
 endfunction

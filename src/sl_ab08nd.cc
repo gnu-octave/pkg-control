@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009, 2010, 2011   Lukas F. Reichlin
+Copyright (C) 2009, 2010, 2011, 2013   Lukas F. Reichlin
 
 This file is part of LTI Syncope.
 
@@ -23,7 +23,7 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.5
+Version: 0.6
 
 */
 
@@ -216,10 +216,27 @@ For internal use only.")
         for (octave_idx_type i = 0; i < nu; i++)
             zero.xelem (i) = Complex (zeror(i), zeroi(i));
 
+        // prepare additional outputs for info struct
+        RowVector infzr (dinfz);
+        RowVector kronrr (nkror);
+        RowVector kronlr (nkrol);
+        
+        for (octave_idx_type i = 0; i < dinfz; i++)
+            infzr.xelem (i) = infz[i];
+        
+        for (octave_idx_type i = 0; i < nkror; i++)
+            kronrr.xelem (i) = kronr[i];
+        
+        for (octave_idx_type i = 0; i < nkrol; i++)
+            kronlr.xelem (i) = kronl[i];
+
         // return values
         retval(0) = zero;
         retval(1) = gain;
         retval(2) = octave_value (rank);
+        retval(3) = infzr;
+        retval(4) = kronrr;
+        retval(5) = kronlr;
     }
     
     return retval;
