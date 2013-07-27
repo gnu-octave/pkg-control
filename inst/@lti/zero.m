@@ -126,6 +126,9 @@ endfunction
 ## Adapted from Ferdinand Svaricek's szero.m
 function [z, Rank] = __szero__ (sys)
 
+  ## TODO: support descriptor state-space models
+  ##       with singular 'E' matrices
+
   [a, b, c, d] = ssdata (sys);
   [pp, mm] = size (sys);
   nn = rows (a);
@@ -133,7 +136,7 @@ function [z, Rank] = __szero__ (sys)
   ## Tolerance for intersection of zeros
   Zeps = 10 * sqrt ((nn+pp)*(nn+mm)) * eps * norm (a,'fro');
 
-  [z, ~, Rank] = zero (sys);
+  [z, ~, Rank] = zero (ss (a, b, c, d));    # zero (sys) lets descriptor test fail
 
   ## System is not degenerated and square
   if (Rank == 0 || (Rank == min(pp,mm) && mm == pp))
@@ -312,6 +315,7 @@ endfunction
 
 
 ## Example taken from Paper [1]
+## Regular state-space system
 %!shared z_inv, z_tra, z_inp, z_out, z_sys, z_inv_e, z_tra_e, z_inp_e, z_out_e, z_sys_e
 %! A = diag ([1, 1, 3, -4, -1, 3]);
 %! 
@@ -329,6 +333,50 @@ endfunction
 %! D = zeros (3, 2);
 %! 
 %! SYS = ss (A, B, C, D);
+%!
+%! z_inv = zero (SYS);
+%! z_tra = zero (SYS, "transmission");
+%! z_inp = zero (SYS, "input decoupling");
+%! z_out = zero (SYS, "output decoupling");
+%! z_sys = zero (SYS, "system");
+%!
+%! z_inv_e = [2; -1];
+%! z_tra_e = [2];
+%! z_inp_e = [-4];
+%! z_out_e = [-1];
+%! z_sys_e = [-4, -1, 2];
+%! 
+%!assert (z_inv, z_inv_e, 1e-4); 
+%!assert (z_tra, z_tra_e, 1e-4); 
+%!assert (z_inp, z_inp_e, 1e-4); 
+%!assert (z_out, z_out_e, 1e-4); 
+%!assert (z_sys, z_sys_e, 1e-4);
+
+
+## Example taken from Paper [1]
+## Well, this is not exactly a descriptor state-space model,
+## but it is the best thing I have right now and it is better
+## than no test at all.  The routine for the system zeros works
+## only for descriptor state-space models with regular 'E' matrices.
+%!shared z_inv, z_tra, z_inp, z_out, z_sys, z_inv_e, z_tra_e, z_inp_e, z_out_e, z_sys_e
+%! A = diag ([1, 1, 3, -4, -1, 3]);
+%! 
+%! B = [  0,  -1
+%!       -1,   0
+%!        1,  -1
+%!        0,   0
+%!        0,   1
+%!       -1,  -1  ];
+%!        
+%! C = [  1,  0,  0,  1,  0,  0
+%!        0,  1,  0,  1,  0,  1
+%!        0,  0,  1,  0,  0,  1  ];
+%!         
+%! D = zeros (3, 2);
+%!
+%! E = eye (6);
+%! 
+%! SYS = dss (A, B, C, D, E);
 %!
 %! z_inv = zero (SYS);
 %! z_tra = zero (SYS, "transmission");
