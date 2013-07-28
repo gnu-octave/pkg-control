@@ -105,6 +105,9 @@
 ##
 ## @end deftypefn
 
+## TODO: write a short summary about the characteristics of the
+##       various zero flavors and add it to the docstring.
+
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.3

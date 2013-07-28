@@ -6,11 +6,14 @@ control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
 
 ** zero
    -- Fix documentation.  Function "zero" computes the invariant zeros, not the
-      transmission zeros when it is called with one argument.
+      transmission zeros when it is called with one input argument.
    -- Added new options to compute the system, transmission, input decoupling
       and output decoupling zeros besides the already existing invariant zeros.
       Examples: z = zero (sys, 'system'), z = zero (sys, 'transmission')
-      (Special thanks to Ferdinand Svaricek)
+   -- Return an "info" struct as third output argument.  It contains additional
+      rank information as well as Kronecker indices and the numbers of infinite
+      elementary divisors.  Example: [z, k, info] = zero (sys)
+   (Special thanks to Ferdinand Svaricek)
 
 ** Various documentation enhancements and fixes.
 
