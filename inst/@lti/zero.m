@@ -49,7 +49,7 @@
 ## Smith-McMillan form of the transfer function matrix.
 ## @item 'input', 'inp', 'id'
 ## Compute input decoupling zeros.
-## @item 'output', 'od', 'o'
+## @item 'output', 'o', 'od'
 ## Compute output decoupling zeros.
 ## @end table
 ## @end table
@@ -131,8 +131,7 @@ function [zer, gain, info] = zero (sys, type = "invariant")
     tmp = dss (a, zeros (rows (a), 0), c, zeros (rows (c), 0), e, tsam);
     [zer, gain, info] = zero (tmp);
   elseif (strncmpi (type, "system", 1))                             # system zeros
-    [zer, info] = __szero__ (sys);
-    gain = [];
+    [zer, gain, info] = __szero__ (sys);
   else
     error ("zero: type '%s' invalid", type);
   endif
@@ -142,7 +141,7 @@ endfunction
 
 ## Function for computing the system zeros.
 ## Adapted from Ferdinand Svaricek's szero.m
-function [z, info] = __szero__ (sys)
+function [z, gain, info] = __szero__ (sys)
 
   ## TODO: support descriptor state-space models
   ##       with singular 'E' matrices
@@ -154,7 +153,7 @@ function [z, info] = __szero__ (sys)
   ## Tolerance for intersection of zeros
   Zeps = 10 * sqrt ((nn+pp)*(nn+mm)) * eps * norm (a,'fro');
 
-  [z, ~, info] = zero (ss (a, b, c, d));    # zero (sys) lets descriptor test fail
+  [z, gain, info] = zero (ss (a, b, c, d));    # zero (sys) lets descriptor test fail
   Rank = info.rank;
 
   ## System is not degenerated and square
