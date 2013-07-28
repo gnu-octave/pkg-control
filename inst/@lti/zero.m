@@ -62,9 +62,21 @@
 ## or output decoupling zeros of @var{sys} as defined in [1].
 ## @item k
 ## Gain of @var{sys}.
-## @item rnk
+## @item info
+## Struct containing additional information.  For details,
+## see the documentation of @acronym{SLICOT} routines
+## @acronym{AB08ND} and @acronym{AG08BD}.
+## @item info.rank
 ## The normal rank of the transfer function matrix (regular state-space models)
 ## or of the system pencil (descriptor state-space models).
+## @item info.infz
+## Contains information on the infinite elementary divisors as follows:
+## the system has info.infz(i) infinite elementary divisors of degree i,
+## where i=1,2,...,length(info.infz).
+## @item info.kronr
+## Right Kronecker (column) indices.
+## @item info.kronl
+## Left Kronecker (row) indices.
 ## @end table
 ##
 ## @strong{Algorithm}@*
