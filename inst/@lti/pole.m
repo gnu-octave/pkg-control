@@ -37,7 +37,7 @@
 ## For @acronym{SISO} transfer functions, @command{pole}
 ## uses Octave's @command{roots}.
 ## @acronym{MIMO} transfer functions are converted to
-## a minimal state-space representation for the
+## a @emph{minimal} state-space representation for the
 ## computation of the poles.
 ##
 ## @end deftypefn

@@ -86,7 +86,7 @@
 ## For @acronym{SISO} transfer functions, @command{zero}
 ## uses Octave's @command{roots}.
 ## @acronym{MIMO} transfer functions are converted to
-## a minimal state-space representation for the
+## a @emph{minimal} state-space representation for the
 ## computation of the zeros.
 ##
 ## @strong{Reference}@*
