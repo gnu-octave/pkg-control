@@ -79,6 +79,18 @@
 ## Left Kronecker (row) indices.
 ## @end table
 ##
+## @strong{Example}
+## @example
+## @group
+## [z, k, info] = zero (sys)        # invariant zeros
+## z = zero (sys, 'system')         # system zeros
+## z = zero (sys, 'invariant')      # invariant zeros
+## z = zero (sys, 'transmission')   # transmission zeros
+## z = zero (sys, 'output')         # output decoupling zeros
+## z = zero (sys, 'input')          # input decoupling zeros
+## @end group
+## @end example
+##
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{zero}
 ## relies on SLICOT AB08ND and AG08BD by courtesy of
