@@ -79,7 +79,7 @@ Frequency Domain Analysis
 Pole Placement
   place
   rlocus
-Linear-Quadratic Control
+Optimal Control
   dlqe
   dlqr
   estim
