@@ -61,7 +61,8 @@
 ## invariant (default), system, transmission, input decoupling
 ## or output decoupling zeros of @var{sys} as defined in [1].
 ## @item k
-## Gain of @var{sys}.
+## Gain of @acronym{SISO} system @var{sys}.  For @acronym{MIMO}
+## systems, an empty matrix @code{[]} is returned.
 ## @item info
 ## Struct containing additional information.  For details,
 ## see the documentation of @acronym{SLICOT} routines
@@ -79,7 +80,7 @@
 ## Left Kronecker (row) indices.
 ## @end table
 ##
-## @strong{Example}
+## @strong{Examples}
 ## @example
 ## @group
 ## [z, k, info] = zero (sys)        # invariant zeros
@@ -101,7 +102,7 @@
 ## a @emph{minimal} state-space representation for the
 ## computation of the zeros.
 ##
-## @strong{Reference}@*
+## @strong{References}@*
 ## [1] MacFarlane, A. and Karcanias, N.
 ## @cite{Poles and zeros of linear multivariable systems:
 ## a survey of the algebraic, geometric and complex-variable
@@ -114,6 +115,9 @@
 ## multivariable systems with an extended version of the
 ## program ZEROS}.
 ## Systems & Control Letters, vol. 6, pp. 261-266, 1985.@*
+## [4] Emami-Naeini, A. and Van Dooren, P.
+## @cite{Computation of zeros of linear multivariable systems}.
+## Automatica, vol. 26, pp. 415-430, 1982.@*
 ##
 ## @end deftypefn
 
