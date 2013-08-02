@@ -38,7 +38,7 @@ function sys = connect (sys, cm, in_idx, out_idx)
   ## TODO: replace nested for-if statement
 
   if (! is_real_matrix (cm))
-    error ("connect: second argument must be a matrix with real coefficients");
+    error ("connect: second argument must be a matrix with real-valued coefficients");
   endif
 
   M = zeros (m, p);

@@ -77,7 +77,7 @@ function sys = mconnect (sys, M, in_idx, out_idx = ":")
   endif
 
   if (! is_real_matrix (M))
-    error ("mconnect: second argument must be a matrix with real coefficients");
+    error ("mconnect: second argument must be a matrix with real-valued coefficients");
   endif
 
   sys = __sys_connect__ (sys, M);

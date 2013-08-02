@@ -42,4 +42,3 @@ function sys = mrdivide (sys1, sys2)
   sys = sys1 * sys2;
 
 endfunction
-

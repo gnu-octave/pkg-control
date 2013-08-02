@@ -113,19 +113,19 @@ function sys = lft (sys1, sys2, nu, ny)
     ny = ny_max;
   else              # sys = lft (sys1, sys2, nu, ny)
     if (! is_real_scalar (nu) || nu < 0)
-      error ("lft: argument nu must be a positive integer");
+      error ("lft: argument 'nu' must be a positive integer");
     endif
 
     if (! is_real_scalar (ny) || ny < 0)
-      error ("lft: argument ny must be a positive integer");
+      error ("lft: argument 'ny' must be a positive integer");
     endif
 
     if (nu > nu_max)
-      error ("lft: argument nu (%d) must be at most %d", nu, nu_max);
+      error ("lft: argument 'nu' (%d) must be at most %d", nu, nu_max);
     endif
 
     if (ny > ny_max)
-      error ("lft: argument ny (%d) must be at most %d", ny, ny_max);
+      error ("lft: argument 'ny' (%d) must be at most %d", ny, ny_max);
     endif
   endif
 

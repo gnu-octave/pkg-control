@@ -75,23 +75,23 @@ function sys = series (sys1, sys2, out1, in2)
     l_in2 = length (in2);
 
     if (l_out1 > p1)
-      error ("series: outputs1 has too many indices for sys1");
+      error ("series: 'outputs1' has too many indices for 'sys1'");
     endif
 
     if (l_in2 > m2)
-      error ("series: inputs2 has too many indices for sys2");
+      error ("series: 'inputs2' has too many indices for 'sys2'");
     endif
 
     if (l_out1 != l_in2)
-      error ("series: number of outputs1 and inputs2 indices must be equal");
+      error ("series: number of 'outputs1' and 'inputs2' indices must be equal");
     endif
 
     if (any (out1 > m1 | out1 < 1))
-      error ("series: range of outputs1 indices exceeds dimensions of sys1");
+      error ("series: range of 'outputs1' indices exceeds dimensions of 'sys1'");
     endif
 
     if (any (in2 > p1 | in2 < 1))
-      error ("series: range of inputs2 indices exceeds dimensions of sys2");
+      error ("series: range of 'inputs2' indices exceeds dimensions of 'sys2'");
     endif
 
     out_scl = full (sparse (1:l_out1, out1, 1, l_out1, p1));
