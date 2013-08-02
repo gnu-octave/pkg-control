@@ -72,6 +72,7 @@ function [p, q] = covar (sys, w)
 
 endfunction
 
+
 ## continuous-time
 %!shared p, q, p_exp, q_exp
 %! sys = ss (-1, 1, 1, 0);

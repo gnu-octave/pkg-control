@@ -185,7 +185,3 @@ function [Kr, info] = __conred_sb16ad__ (method, varargin)
   info = struct ("ncr", ncr, "ncs", ncs, "hsvc", hsvc);
 
 endfunction
-
-
-
-

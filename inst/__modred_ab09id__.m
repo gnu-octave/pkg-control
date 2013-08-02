@@ -172,7 +172,3 @@ function [Gr, info] = __modred_ab09id__ (method, varargin)
   info = struct ("nr", nr, "ns", ns, "hsv", hsv);
 
 endfunction
-
-
-
-

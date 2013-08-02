@@ -98,4 +98,3 @@ function __disp_frac__ (num, den, tfvar, name)
   disp ("");
 
 endfunction
-

@@ -102,4 +102,3 @@ function sys = zpk (z = {}, p = {}, k = [], varargin)
   endswitch
 
 endfunction
-

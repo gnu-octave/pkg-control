@@ -253,4 +253,3 @@ function sys = tf (num = {}, den = {}, varargin)
   endif
 
 endfunction
-

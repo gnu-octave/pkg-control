@@ -90,6 +90,7 @@ function [ac, bc, cc, z, ncont] = ctrbf (a, b = [], c, tol = [])
   
 endfunction
 
+
 %!shared Ao, Bo, Co, Zo, Ae, Be, Ce, Ze, NCONT
 %! A =  [ -1.0   0.0   0.0
 %!        -2.0  -2.0  -2.0

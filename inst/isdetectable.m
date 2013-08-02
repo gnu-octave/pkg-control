@@ -84,4 +84,3 @@ function bool = isdetectable (a, c = [], e = [], tol = [], dflg = 0)
   endif
 
 endfunction
-

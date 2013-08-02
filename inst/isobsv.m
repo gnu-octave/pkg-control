@@ -78,4 +78,3 @@ function [bool, nobs] = isobsv (a, c = [], e = [], tol = [])
   endif
 
 endfunction
-

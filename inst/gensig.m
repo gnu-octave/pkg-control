@@ -96,4 +96,3 @@ function [u, t] = gensig (sigtype, tau, tfinal, tsam)
   endswitch
 
 endfunction
-
