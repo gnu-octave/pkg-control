@@ -48,9 +48,11 @@
 ## The transmission zeros are the zeros of the
 ## Smith-McMillan form of the transfer function matrix.
 ## @item 'input', 'inp', 'id'
-## Compute input decoupling zeros.
+## Compute input decoupling zeros.  The input decoupling zeros are
+## also known as the uncontrollable eigenvalues of the pair (A,B).
 ## @item 'output', 'o', 'od'
-## Compute output decoupling zeros.
+## Compute output decoupling zeros.  The output decoupling zeros are
+## also known as the unobservable eigenvalues of the pair (A,C).
 ## @end table
 ## @end table
 ##
