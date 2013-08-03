@@ -7,7 +7,7 @@
 %% that the plant
 %% @iftex
 %% @tex
-%% $$ P(s) = \\frac{1}{(s^{2} + s + 1)\\ (s + 1)^{4}} $$
+%% $$ P(s) = {1 \\over {(s^{2} + s + 1)\\ (s + 1)^{4}} $$
 %% @end tex
 %% @end iftex
 %% @ifnottex
@@ -20,7 +20,7 @@
 %% is controlled by a PID controller with second-order roll-off
 %% @iftex
 %% @tex
-%% $$ C(s) = k_p \\ (1 + \\frac{1}{T_i \\ s} + T_d \\ s) \\ \\frac{1}{(\\tau \\ s + 1)^{2}} $$
+%% $$ C(s) = k_p \\ (1 + {1 \\over T_i \\ s} + T_d \\ s) \\ {1 \\over (\\tau \\ s + 1)^{2}} $$
 %% @end tex
 %% @end iftex
 %% @ifnottex
@@ -33,7 +33,7 @@
 %% in the usual negative feedback structure
 %% @iftex
 %% @tex
-%% $$ T(s) = \\frac{L(s)}{1 + L(s)} = \\frac{P(s) \\ C(s)}{1 + P(s) \\ C(s)} $$
+%% $$ T(s) = {L(s) \\over 1 + L(s)} = {P(s) \\ C(s) \\over 1 + P(s) \\ C(s)} $$
 %% @end tex
 %% @end iftex
 %% @ifnottex
@@ -119,7 +119,7 @@
 %% is minimized for good robustness, where S(jw) denotes the @emph{sensitivity} transfer function
 %% @iftex
 %% @tex
-%% $$ S(s) = \\frac{1}{1 + L(s)} = \\frac{1}{1 + P(s) \\ C(s)} $$
+%% $$ S(s) = {1 \\over 1 + L(s)} = {1 \\over 1 + P(s) \\ C(s)} $$
 %% @end tex
 %% @end iftex
 %% @ifnottex

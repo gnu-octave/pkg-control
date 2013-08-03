@@ -171,7 +171,7 @@
 ## integral action, 
 ## @iftex
 ## @tex
-## $\\frac{1}{s}$
+## ${1 \\over s}$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -184,7 +184,7 @@
 ## needs to be approximated by
 ## @iftex
 ## @tex
-## $\\frac{1}{s + \\epsilon}$, where $\\epsilon \\ll 1$.
+## ${1 \\over s + \\epsilon}$, where $\\epsilon \\ll 1$.
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -199,7 +199,7 @@
 ## The trick here is to replace a non-proper term such as
 ## @iftex
 ## @tex
-## $ 1 + \\tau_1 s $ by $ \\frac{1 + \\tau_1 s}{1 + \\tau_2 s} $, where
+## $ 1 + \\tau_1 s $ by $ {1 + \\tau_1 s \\over 1 + \\tau_2 s} $, where
 ## @end tex
 ## @end iftex
 ## @ifnottex
