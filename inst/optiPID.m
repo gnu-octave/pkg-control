@@ -68,9 +68,9 @@
 %% @end iftex
 %% @ifnottex
 %% @example
-%%                      oo 
+%%                     inf 
 %% J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||   - 1)  +  mu3 ||S(jw)||
-%%                      0                               oo                       oo
+%%                      0                               inf                      inf
 %% @end example
 %% @end ifnottex
 %% This particular objective function penalizes the integral of time-weighted absolute error
@@ -81,7 +81,7 @@
 %% @end iftex
 %% @ifnottex
 %% @example
-%%         oo 
+%%        inf 
 %% ITAE = INT t |e(t)| dt
 %%         0             
 %% @end example
@@ -95,7 +95,7 @@
 %% @ifnottex
 %% @example
 %% y    - 1 = || y(t) ||   - 1
-%%  max                 oo
+%%  max                 inf
 %% @end example
 %% @end ifnottex
 %% to a unity reference step
@@ -113,7 +113,7 @@
 %% @ifnottex
 %% @example
 %% Ms = ||S(jw)||
-%%               oo
+%%               inf
 %% @end example
 %% @end ifnottex
 %% is minimized for good robustness, where S(jw) denotes the @emph{sensitivity} transfer function
@@ -155,6 +155,7 @@
 %% @end ifnottex
 %% are found to yield satisfactory closed-loop performance.  This controller results
 %% in a system with virtually no overshoot and a phase margin of 64 degrees.
+%%
 %% @*@strong{References}@*
 %% [1] Guzzella, L.
 %% @cite{Analysis and Design of SISO Control Systems},
