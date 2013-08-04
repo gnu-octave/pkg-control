@@ -59,7 +59,7 @@
 %% As with all numerical methods, this approach can never guarantee that a
 %% proposed solution is a global minimum.  Therefore, good initial guesses for
 %% the parameters to be optimized are very important.
-%% The Octave command @code{fminsearch} computes the objective function @var{J},
+%% The Octave function @code{fminsearch} minimizes the objective function @var{J},
 %% which is chosen to be
 %% @iftex
 %% @tex
