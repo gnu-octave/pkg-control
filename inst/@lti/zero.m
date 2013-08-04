@@ -275,8 +275,50 @@ endfunction
 %!assert (z, z_exp, 1e-4);
 
 
+## Invariant zeros of regular state-space models
+%!shared z, z_exp, info, rank_exp, infz_exp, kronr_exp, kronl_exp
+%! A = [  1.0   0.0   0.0   0.0   0.0   0.0
+%!        0.0   1.0   0.0   0.0   0.0   0.0
+%!        0.0   0.0   3.0   0.0   0.0   0.0
+%!        0.0   0.0   0.0  -4.0   0.0   0.0
+%!        0.0   0.0   0.0   0.0  -1.0   0.0
+%!        0.0   0.0   0.0   0.0   0.0   3.0 ];
+%!
+%! B = [  0.0  -1.0
+%!       -1.0   0.0
+%!        1.0  -1.0
+%!        0.0   0.0
+%!        0.0   1.0
+%!       -1.0  -1.0 ];
+%!
+%! C = [  1.0   0.0   0.0   1.0   0.0   0.0
+%!        0.0   1.0   0.0   1.0   0.0   1.0
+%!        0.0   0.0   1.0   0.0   0.0   1.0 ];
+%!
+%! D = [  0.0   0.0
+%!        0.0   0.0
+%!        0.0   0.0 ];
+%!
+%! sys = ss (A, B, C, D, "scaled", true);
+%! [z, ~, info] = zero (sys);
+%!
+%! z_exp = [ 2.0000
+%!          -1.0000 ];
+%!
+%! rank_exp = 2;
+%! infz_exp = 2;
+%! kronr_exp = zeros (1, 0);
+%! kronl_exp = 2;
+%!
+%!assert (z, z_exp, 1e-4);
+%!assert (info.rank, rank_exp);
+%!assert (info.infz, infz_exp);
+%!assert (info.kronr, kronr_exp);
+%!assert (info.kronl, kronl_exp);
+
+
 ## Invariant zeros of descriptor state-space models
-%!shared z, z_exp
+%!shared z, z_exp, info, rank_exp, infz_exp, kronr_exp, kronl_exp
 %! A = [  1     0     0     0     0     0     0     0     0
 %!        0     1     0     0     0     0     0     0     0
 %!        0     0     1     0     0     0     0     0     0
@@ -316,11 +358,20 @@ endfunction
 %!        0     0     0 ];
 %!
 %! sys = dss (A, B, C, D, E, "scaled", true);
-%! z = zero (sys);
+%! [z, ~, info] = zero (sys);
 %!
 %! z_exp = 1;
 %!
+%! rank_exp = 11;
+%! infz_exp = [0, 1];
+%! kronr_exp = 2;
+%! kronl_exp = 1;
+%!
 %!assert (z, z_exp, 1e-4);
+%!assert (info.rank, rank_exp);
+%!assert (info.infz, infz_exp);
+%!assert (info.kronr, kronr_exp);
+%!assert (info.kronl, kronl_exp);
 
 
 ## Gain of descriptor state-space models

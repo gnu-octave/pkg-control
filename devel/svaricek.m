@@ -14,19 +14,19 @@ C = [   1,  0,  0,  1,  0,  0
 D = zeros (3, 2);
 
 
-sys1 = ss (A, B, C, D)
+sys = ss (A, B, C, D)
 
-z1 = zero (sys1)    % {2, -1} invariant zeros
+z1 = zero (sys, 'system')       % {-1, 2, -4} system zeros
 
-z2 = tzero (sys1)   % {2} transmission zeros
+z2 = zero (sys, 'invariant')    % {2, -1} invariant zeros
 
-z3 = szero (sys1)   % {-1, 2, -4} system zeros
+z3 = zero (sys, 'transmission') % {2} transmission zeros
 
-sys4 = ss (A, B, zeros(0,columns(A)), zeros(0, columns(B)));
-z4 = zero (sys4)    % {-4} input decoupling zeros
+z4 = zero (sys, 'output')       % {-1} output decoupling zeros
 
-sys5 = ss (A, zeros(rows(A), 0), C, zeros(rows(C),0));
-z5 = zero (sys5)    % {-1} output decoupling zeros
+z5 = zero (sys, 'input')        % {-4} input decoupling zeros
+
+
 
 
 
