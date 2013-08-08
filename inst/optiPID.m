@@ -7,7 +7,7 @@
 %% that the plant
 %% @iftex
 %% @tex
-%% $$ P(s) = {1 \\over {(s^{2} + s + 1)\\ (s + 1)^{4}} $$
+%% $$ P(s) = {1 \\over (s^{2} + s + 1)\\ (s + 1)^{4}} $$
 %% @end tex
 %% @end iftex
 %% @ifnottex
