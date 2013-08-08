@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: June 2012
-## Version: 0.2
+## Version: 0.3
 
 function dat = resample (dat, p, q, n = 0)
 
@@ -69,6 +69,15 @@ function dat = resample (dat, p, q, n = 0)
   dat.y = cellfun (@resample, dat.y, {p}, {q}, {h}, "uniformoutput", false);
   dat.u = cellfun (@resample, dat.u, {p}, {q}, {h}, "uniformoutput", false);
   
-  dat.tsam = cellfun (@(tsam) tsam*q/p, dat.tsam, "uniformoutput", false);
+  dat.tsam = cellfun (@sampling_time, dat.tsam, {p}, {q}, "uniformoutput", false);
+
+endfunction
+
+
+function tsam = sampling_time (tsam, p, q)
+
+  if (issample (tsam, 1))      # unspecified sampling times (-1) are left untouched
+    tsam = (tsam*q)/p;
+  endif
 
 endfunction

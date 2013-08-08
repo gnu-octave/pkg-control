@@ -15,6 +15,10 @@ control-2.4.4   Release Date: 2013-xx-yy   Release Manager: Lukas Reichlin
       elementary divisors.  Example: [z, k, info] = zero (sys)
    (Special thanks to Ferdinand Svaricek)
 
+** resample
+   The "resample" function for "iddata" identification datasets now handles
+   unspecified sampling times (tsam = -1) correctly.
+
 ** Various documentation enhancements and fixes.
 
 
