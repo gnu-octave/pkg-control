@@ -20,7 +20,7 @@
  that the plant
  @iftex
  @tex
- $$ P(s) = \frac{1}{(s^{2} + s + 1)\ (s + 1)^{4}} $$
+ $$ P(s) = {1 \over (s^{2} + s + 1)\ (s + 1)^{4}} $$
  @end tex
  @end iftex
  @ifnottex
@@ -33,7 +33,7 @@
  is controlled by a PID controller with second-order roll-off
  @iftex
  @tex
- $$ C(s) = k_p \ (1 + \frac{1}{T_i \ s} + T_d \ s) \ \frac{1}{(\tau \ s + 1)^{2}} $$
+ $$ C(s) = k_p \ (1 + {1 \over T_i \ s} + T_d \ s) \ {1 \over (\tau \ s + 1)^{2}} $$
  @end tex
  @end iftex
  @ifnottex
@@ -46,7 +46,7 @@
  in the usual negative feedback structure
  @iftex
  @tex
- $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) \ C(s)}{1 + P(s) \ C(s)} $$
+ $$ T(s) = {L(s) \over 1 + L(s)} = {P(s) \ C(s) \over 1 + P(s) \ C(s)} $$
  @end tex
  @end iftex
  @ifnottex
@@ -72,7 +72,7 @@
  As with all numerical methods, this approach can never guarantee that a
  proposed solution is a global minimum.  Therefore, good initial guesses for
  the parameters to be optimized are very important.
- The Octave command @code{fminsearch} computes the objective function @var{J},
+ The Octave function @code{fminsearch} minimizes the objective function @var{J},
  which is chosen to be
  @iftex
  @tex
@@ -81,9 +81,9 @@
  @end iftex
  @ifnottex
  @example
-                      oo 
+                     inf 
  J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||   - 1)  +  mu3 ||S(jw)||
-                      0                               oo                       oo
+                      0                               inf                      inf
  @end example
  @end ifnottex
  This particular objective function penalizes the integral of time-weighted absolute error
@@ -94,7 +94,7 @@
  @end iftex
  @ifnottex
  @example
-         oo 
+        inf 
  ITAE = INT t |e(t)| dt
          0             
  @end example
@@ -108,7 +108,7 @@
  @ifnottex
  @example
  y    - 1 = || y(t) ||   - 1
-  max                 oo
+  max                 inf
  @end example
  @end ifnottex
  to a unity reference step
@@ -126,13 +126,13 @@
  @ifnottex
  @example
  Ms = ||S(jw)||
-               oo
+               inf
  @end example
  @end ifnottex
  is minimized for good robustness, where S(jw) denotes the @emph{sensitivity} transfer function
  @iftex
  @tex
- $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s) \ C(s)} $$
+ $$ S(s) = {1 \over 1 + L(s)} = {1 \over 1 + P(s) \ C(s)} $$
  @end tex
  @end iftex
  @ifnottex
@@ -168,6 +168,7 @@
  @end ifnottex
  are found to yield satisfactory closed-loop performance.  This controller results
  in a system with virtually no overshoot and a phase margin of 64 degrees.
+
  @*@strong{References}@*
  [1] Guzzella, L.
  @cite{Analysis and Design of SISO Control Systems},
@@ -255,7 +256,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model to be converted to state-space.
+ @acronym{LTI} model to be converted to state-space.
  @item a
  State matrix (n-by-n).
  @item b
@@ -432,7 +433,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model to be converted to frequency response data.
+ @acronym{LTI} model to be converted to frequency response data.
  If second argument @var{w} is omitted, the interesting
  frequency range is calculated by the zeros and poles of @var{sys}.
  @item H
@@ -503,7 +504,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model to be converted to state-space.
+ @acronym{LTI} model to be converted to state-space.
  @item a
  State matrix (n-by-n).
  @item b
@@ -632,7 +633,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model to be converted to transfer function.
+ @acronym{LTI} model to be converted to transfer function.
  @item num
  Numerator or cell of numerators.  Each numerator must be a row vector
  containing the coefficients of the polynomial in descending powers of
@@ -784,7 +785,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model to be converted to transfer function.
+ @acronym{LTI} model to be converted to transfer function.
  @item z
  Cell of vectors containing the zeros for each channel.
  z@{i,j@} contains the zeros from input j to output i.
@@ -825,7 +826,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of LTI model.
+ Any type of @acronym{LTI} model.
  @item []
  In case @var{sys} is not a dss model (descriptor matrix @var{e} empty),
  @code{dssdata (sys, [])} returns the empty element @code{e = []} whereas
@@ -861,7 +862,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of discrete-time LTI model.
+ Any type of discrete-time @acronym{LTI} model.
  @item "v", "vector"
  For SISO models, return @var{num} and @var{den} directly as column vectors
  instead of cells containing a single column vector.
@@ -895,7 +896,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of LTI model.
+ Any type of @acronym{LTI} model.
  @item "v", "vector"
  In case @var{sys} is a SISO model, this option returns the frequency response
  as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
@@ -920,7 +921,7 @@
 
  @deftypefn {Function File} {} get (@var{sys})
  @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
- Access property values of LTI objects.
+ Access property values of @acronym{LTI} objects.
  @end deftypefn
 @section @@lti/set
 @findex set
@@ -928,8 +929,8 @@
  @deftypefn {Function File} {} set (@var{sys})
  @deftypefnx {Function File} {} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
  @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
- Set or modify properties of LTI objects.
- If no return argument @var{retsys} is specified, the modified LTI object is stored
+ Set or modify properties of @acronym{LTI} objects.
+ If no return argument @var{retsys} is specified, the modified @acronym{LTI} object is stored
  in input argument @var{sys}.  @command{set} can handle multiple properties in one call:
  @code{set (sys, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
  @code{set (sys)} prints a list of the object's property names.
@@ -945,7 +946,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of LTI model.
+ Any type of @acronym{LTI} model.
  @end table
 
  @strong{Outputs}
@@ -976,7 +977,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of LTI model.
+ Any type of @acronym{LTI} model.
  @item "v", "vector"
  For SISO models, return @var{num} and @var{den} directly as column vectors
  instead of cells containing a single column vector.
@@ -1011,7 +1012,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Any type of LTI model.
+ Any type of @acronym{LTI} model.
  @item "v", "vector"
  For SISO models, return @var{z} and @var{p} directly as column vectors
  instead of cells containing a single column vector.
@@ -1158,19 +1159,19 @@
 @findex append
 
  @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2})
- Group LTI models by appending their inputs and outputs.
+ Group @acronym{LTI} models by appending their inputs and outputs.
  @end deftypefn
 @section @@lti/blkdiag
 @findex blkdiag
 
  @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2})
- Block-diagonal concatenation of LTI models.
+ Block-diagonal concatenation of @acronym{LTI} models.
  @end deftypefn
 @section @@lti/connect
 @findex connect
 
  @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
- Arbitrary interconnections between the inputs and outputs of an LTI model.
+ Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
  @end deftypefn
 @section @@lti/feedback
 @findex feedback
@@ -1181,14 +1182,14 @@
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{"+"})
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout})
  @deftypefnx {Function File} {@var{sys} =} feedback (@var{sys1}, @var{sys2}, @var{feedin}, @var{feedout}, @var{"+"})
- Feedback connection of two LTI models.
+ Feedback connection of two @acronym{LTI} models.
 
  @strong{Inputs}
  @table @var
  @item sys1
- LTI model of forward transmission.  @code{[p1, m1] = size (sys1)}.
+ @acronym{LTI} model of forward transmission.  @code{[p1, m1] = size (sys1)}.
  @item sys2
- LTI model of backward transmission.
+ @acronym{LTI} model of backward transmission.
  If not specified, an identity matrix of appropriate size is taken.
  @item feedin
  Vector containing indices of inputs to @var{sys1} which are involved in the feedback loop.
@@ -1207,7 +1208,7 @@
  @strong{Outputs}
  @table @var
  @item sys
- Resulting LTI model.
+ Resulting @acronym{LTI} model.
  @end table
 
  @strong{Block Diagram}
@@ -1233,9 +1234,9 @@
  @strong{Inputs}
  @table @var
  @item sys1
- Upper LTI model.
+ Upper @acronym{LTI} model.
  @item sys2
- Lower LTI model.
+ Lower @acronym{LTI} model.
  @item nu
  The last nu inputs of @var{sys1} are connected with the first nu outputs of @var{sys2}.
  If not specified, @code{min (m1, p2)} is taken.
@@ -1247,7 +1248,7 @@
  @strong{Outputs}
  @table @var
  @item sys
- Resulting LTI model.
+ Resulting @acronym{LTI} model.
  @end table
 
  @strong{Block Diagram}
@@ -1304,12 +1305,12 @@
 
  @deftypefn {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m})
  @deftypefnx {Function File} {@var{sys} =} mconnect (@var{sys}, @var{m}, @var{inputs}, @var{outputs})
- Arbitrary interconnections between the inputs and outputs of an LTI model.
+ Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item m
  Connection matrix.  Each row belongs to an input and each column represents an output.
  @item inputs
@@ -1348,7 +1349,7 @@
 @findex parallel
 
  @deftypefn{Function File} {@var{sys} =} parallel (@var{sys1}, @var{sys2})
- Parallel connection of two LTI systems.
+ Parallel connection of two @acronym{LTI} systems.
 
  @strong{Block Diagram}
  @example
@@ -1372,7 +1373,7 @@
 
  @deftypefn {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2})
  @deftypefnx {Function File} {@var{sys} =} series (@var{sys1}, @var{sys2}, @var{outputs1}, @var{inputs2})
- Series connection of two LTI models.
+ Series connection of two @acronym{LTI} models.
 
  @strong{Block Diagram}
  @example
@@ -1415,7 +1416,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item a
  State matrix (n-by-n).
  @item b
@@ -1477,12 +1478,12 @@
 @findex dcgain
 
  @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
- DC gain of LTI model.
+ DC gain of @acronym{LTI} model.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @end table
 
  @strong{Outputs}
@@ -1514,7 +1515,7 @@
  @deftypefn{Function File} {@var{hsv} =} hsvd (@var{sys})
  @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"offset"}, @var{offset})
  @deftypefnx{Function File} {@var{hsv} =} hsvd (@var{sys}, @var{"alpha"}, @var{alpha})
- Hankel singular values of the stable part of an LTI model.  If no output arguments are
+ Hankel singular values of the stable part of an @acronym{LTI} model.  If no output arguments are
  given, the Hankel singular values are displayed in a plot.
 
  @strong{Algorithm}@*
@@ -1525,12 +1526,12 @@
 @findex isct
 
  @deftypefn {Function File} {@var{bool} =} isct (@var{sys})
- Determine whether LTI model is a continuous-time system.
+ Determine whether @acronym{LTI} model is a continuous-time system.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @end table
 
  @strong{Outputs}
@@ -1557,7 +1558,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  Descriptor state-space models are possible.
+ @acronym{LTI} model.  Descriptor state-space models are possible.
  If @var{sys} is not a state-space model, it is converted to
  a minimal state-space realization, so beware of pole-zero
  cancellations which may lead to wrong results!
@@ -1607,7 +1608,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item a
  State transition matrix.
  @item c
@@ -1642,12 +1643,12 @@
 @findex isdt
 
  @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
- Determine whether LTI model is a discrete-time system.
+ Determine whether acronym{LTI} model is a discrete-time system.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @end table
 
  @strong{Outputs}
@@ -1663,7 +1664,7 @@
 
  @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
- Determine whether LTI system is minimum phase.
+ Determine whether @acronym{LTI} system is minimum phase.
  The zeros must lie in the left complex half-plane.
  The name minimum-phase refers to the fact that such a system has the
  minimum possible phase lag for the given magnitude response |sys(jw)|.
@@ -1671,7 +1672,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item tol
  Optional tolerance.  Default value is 0.
  @end table
@@ -1707,7 +1708,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  Descriptor state-space models are possible.
+ @acronym{LTI} model.  Descriptor state-space models are possible.
  @item a
  State matrix (n-by-n).
  @item c
@@ -1739,7 +1740,7 @@
 @findex issiso
 
  @deftypefn {Function File} {@var{bool} =} issiso (@var{sys})
- Determine whether LTI model is single-input/single-output (SISO).
+ Determine whether @acronym{LTI} model is single-input/single-output (SISO).
  @end deftypefn
 @section isstabilizable
 @findex isstabilizable
@@ -1760,7 +1761,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  If @var{sys} is not a state-space system, it is converted to
+ @acronym{LTI} system.  If @var{sys} is not a state-space system, it is converted to
  a minimal state-space realization, so beware of pole-zero cancellations
  which may lead to wrong results!
  @item a
@@ -1806,12 +1807,12 @@
 
  @deftypefn {Function File} {@var{bool} =} isstable (@var{sys})
  @deftypefnx {Function File} {@var{bool} =} isstable (@var{sys}, @var{tol})
- Determine whether LTI system is stable.
+ Determine whether @acronym{LTI} system is stable.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item tol
  Optional tolerance for stability.  Default value is 0.
  @end table
@@ -1837,7 +1838,7 @@
  @deftypefn {Function File} {@var{gain} =} norm (@var{sys}, @var{2})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf})
  @deftypefnx {Function File} {[@var{gain}, @var{wpeak}] =} norm (@var{sys}, @var{inf}, @var{tol})
- Return H-2 or L-inf norm of LTI model.
+ Return H-2 or L-inf norm of @acronym{LTI} model.
 
  @strong{Algorithm}@*
  Uses SLICOT AB13BD and AB13DD by courtesy of
@@ -1853,7 +1854,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item a
  State matrix (n-by-n).
  @item c
@@ -1924,12 +1925,12 @@
 @findex pole
 
  @deftypefn {Function File} {@var{p} =} pole (@var{sys})
- Compute poles of LTI system.
+ Compute poles of @acronym{LTI} system.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @end table
 
  @strong{Outputs}
@@ -1937,6 +1938,16 @@
  @item p
  Poles of @var{sys}.
  @end table
+
+ @strong{Algorithm}@*
+ For (descriptor) state-space models, @command{pole}
+ relies on Octave's @command{eig}.
+ For @acronym{SISO} transfer functions, @command{pole}
+ uses Octave's @command{roots}.
+ @acronym{MIMO} transfer functions are converted to
+ a @emph{minimal} state-space representation for the
+ computation of the poles.
+
  @end deftypefn
 @section pzmap
 @findex pzmap
@@ -1952,7 +1963,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item 'style'
  Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
  black line.  See @command{help plot} for details.
@@ -1972,12 +1983,12 @@
  @deftypefn {Function File} {@var{nvec} =} size (@var{sys})
  @deftypefnx {Function File} {@var{n} =} size (@var{sys}, @var{dim})
  @deftypefnx {Function File} {[@var{p}, @var{m}] =} size (@var{sys})
- LTI model size, i.e. number of outputs and inputs.
+ @acronym{LTI} model size, i.e. number of outputs and inputs.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item dim
  If given a second argument, @command{size} will return the size of the
  corresponding dimension.
@@ -2000,22 +2011,109 @@
 @findex zero
 
  @deftypefn {Function File} {@var{z} =} zero (@var{sys})
- @deftypefnx {Function File} {[@var{z}, @var{k}] =} zero (@var{sys})
- Compute transmission zeros and gain of LTI model.
+ @deftypefnx {Function File} {@var{z} =} zero (@var{sys}, @var{type})
+ @deftypefnx {Function File} {[@var{z}, @var{k}, @var{info}] =} zero (@var{sys})
+ Compute zeros and gain of @acronym{LTI} model.
+ By default, @command{zero} computes the invariant zeros,
+ also known as Smith zeros.  Alternatively, when called with
+ a second input argument, @command{zero} can also compute
+ the system zeros, transmission zeros, input decoupling zeros
+ and output decoupling zeros.  See paper [1] for an explanation
+ of the various zero flavors as well as for further details.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
+ @item type
+ String specifying the type of zeros:
+ @table @var
+ @item 'system', 's'
+ Compute the system zeros.
+ The system zeros include in all cases
+ (square, non-square, degenerate or non-degenerate system) 
+ all transmission and decoupling zeros.
+ @item 'invariant', 'inv'
+ Compute invariant zeros.  Default selection.
+ @item 'transmission', 't'
+ Compute transmission zeros.  Transmission zeros
+ are a subset of the invariant zeros.  
+ The transmission zeros are the zeros of the
+ Smith-McMillan form of the transfer function matrix.
+ @item 'input', 'inp', 'id'
+ Compute input decoupling zeros.  The input decoupling zeros are
+ also known as the uncontrollable eigenvalues of the pair (A,B).
+ @item 'output', 'o', 'od'
+ Compute output decoupling zeros.  The output decoupling zeros are
+ also known as the unobservable eigenvalues of the pair (A,C).
+ @end table
  @end table
 
  @strong{Outputs}
  @table @var
  @item z
- Transmission zeros of @var{sys}.
+ Depending on argument @var{type}, @var{z} contains the
+ invariant (default), system, transmission, input decoupling
+ or output decoupling zeros of @var{sys} as defined in [1].
  @item k
- Gain of @var{sys}.
+ Gain of @acronym{SISO} system @var{sys}.  For @acronym{MIMO}
+ systems, an empty matrix @code{[]} is returned.
+ @item info
+ Struct containing additional information.  For details,
+ see the documentation of @acronym{SLICOT} routines
+ @acronym{AB08ND} and @acronym{AG08BD}.
+ @item info.rank
+ The normal rank of the transfer function matrix (regular state-space models)
+ or of the system pencil (descriptor state-space models).
+ @item info.infz
+ Contains information on the infinite elementary divisors as follows:
+ the system has info.infz(i) infinite elementary divisors of degree i,
+ where i=1,2,...,length(info.infz).
+ @item info.kronr
+ Right Kronecker (column) indices.
+ @item info.kronl
+ Left Kronecker (row) indices.
  @end table
+
+ @strong{Examples}
+ @example
+ @group
+ [z, k, info] = zero (sys)        # invariant zeros
+ z = zero (sys, 'system')         # system zeros
+ z = zero (sys, 'invariant')      # invariant zeros
+ z = zero (sys, 'transmission')   # transmission zeros
+ z = zero (sys, 'output')         # output decoupling zeros
+ z = zero (sys, 'input')          # input decoupling zeros
+ @end group
+ @end example
+
+ @strong{Algorithm}@*
+ For (descriptor) state-space models, @command{zero}
+ relies on SLICOT AB08ND and AG08BD by courtesy of
+ @uref{http://www.slicot.org, NICONET e.V.}
+ For @acronym{SISO} transfer functions, @command{zero}
+ uses Octave's @command{roots}.
+ @acronym{MIMO} transfer functions are converted to
+ a @emph{minimal} state-space representation for the
+ computation of the zeros.
+
+ @strong{References}@*
+ [1] MacFarlane, A. and Karcanias, N.
+ @cite{Poles and zeros of linear multivariable systems:
+ a survey of the algebraic, geometric and complex-variable
+ theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
+ [2] Rosenbrock, H.H.
+ @cite{Correction to 'The zeros of a system'}.
+ Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.@*
+ [3] Svaricek, F.
+ @cite{Computation of the structural invariants of linear
+ multivariable systems with an extended version of the
+ program ZEROS}.
+ Systems & Control Letters, vol. 6, pp. 261-266, 1985.@*
+ [4] Emami-Naeini, A. and Van Dooren, P.
+ @cite{Computation of zeros of linear multivariable systems}.
+ Automatica, vol. 26, pp. 415-430, 1982.@*
+
  @end deftypefn
 @chapter Model Simplification
 @section @@lti/minreal
@@ -2023,7 +2121,7 @@
 
  @deftypefn {Function File} {@var{sys} =} minreal (@var{sys})
  @deftypefnx {Function File} {@var{sys} =} minreal (@var{sys}, @var{tol})
- Minimal realization or zero-pole cancellation of LTI models.
+ Minimal realization or zero-pole cancellation of @acronym{LTI} models.
  @end deftypefn
 @section @@lti/sminreal
 @findex sminreal
@@ -2062,7 +2160,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item w
  Intensity of Gaussian white noise inputs which drive @var{sys}.
  @end table
@@ -2126,13 +2224,13 @@
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} impulse (@var{sys}, @var{tfinal}, @var{dt})
- Impulse response of LTI system.
+ Impulse response of @acronym{LTI} system.
  If no output arguments are given, the response is printed on the screen.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item t
  Time vector.  Should be evenly spaced.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
@@ -2230,13 +2328,13 @@
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} lsim (@var{sys}, @var{u}, @var{t}, @var{x0})
- Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
+ Simulate @acronym{LTI} model response to arbitrary inputs.  If no output arguments are given,
  the system response is plotted on the screen.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  System must be proper, i.e. it must not have more zeros than poles.
+ @acronym{LTI} model.  System must be proper, i.e. it must not have more zeros than poles.
  @item u
  Vector or array of input signal.  Needs @code{length(t)} rows and as many columns
  as there are inputs.  If @var{sys} is a single-input system, row vectors @var{u}
@@ -2279,7 +2377,7 @@
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} ramp (@var{sys}, @var{tfinal}, @var{dt})
- Ramp response of LTI system.
+ Ramp response of @acronym{LTI} system.
  If no output arguments are given, the response is printed on the screen.
  @iftex
  @tex
@@ -2297,7 +2395,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item t
  Time vector.  Should be evenly spaced.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
@@ -2338,13 +2436,13 @@
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{t})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal})
  @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} step (@var{sys}, @var{tfinal}, @var{dt})
- Step response of LTI system.
+ Step response of @acronym{LTI} system.
  If no output arguments are given, the response is printed on the screen.
 
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item t
  Time vector.  Should be evenly spaced.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
@@ -2388,7 +2486,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} system.  Must be a single-input and single-output (SISO) system.
  @item w
  Optional vector of frequency values.  If @var{w} is not specified,
  it is calculated by the zeros and poles of the system.
@@ -2427,7 +2525,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} system.  Must be a single-input and single-output (SISO) system.
  @item w
  Optional vector of frequency values.  If @var{w} is not specified,
  it is calculated by the zeros and poles of the system.
@@ -2458,7 +2556,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.
+ @acronym{LTI} system.
  @item w
  Vector of frequency values.
  @end table
@@ -2487,7 +2585,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} model.  Must be a single-input and single-output (SISO) system.
  @item tol
  Imaginary parts below @var{tol} are assumed to be zero.
  If not specified, default value @code{sqrt (eps)} is taken.
@@ -2614,7 +2712,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} system.  Must be a single-input and single-output (SISO) system.
  @item w
  Optional vector of frequency values.  If @var{w} is not specified,
  it is calculated by the zeros and poles of the system.
@@ -2653,7 +2751,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} system.  Must be a single-input and single-output (SISO) system.
  @item w
  Optional vector of frequency values.  If @var{w} is not specified,
  it is calculated by the zeros and poles of the system.
@@ -2710,11 +2808,11 @@
  @table @var
  @item L
  Open loop transfer function.
- @var{L} can be any type of LTI system, but it must be square.
+ @var{L} can be any type of @acronym{LTI} system, but it must be square.
  @item P
- Plant model.  Any type of LTI system.
+ Plant model.  Any type of @acronym{LTI} system.
  @item C
- Controller model.  Any type of LTI system.
+ Controller model.  Any type of @acronym{LTI} system.
  @item C1, C2, @dots{}
  If several controllers are specified, command @command{sensitivity}
  computes the sensitivity @var{Ms} for each of them in combination
@@ -2763,7 +2861,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
+ @acronym{LTI} system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
  @item w
  Optional vector of frequency values.  If @var{w} is not specified,
  it is calculated by the zeros and poles of the system.
@@ -2802,7 +2900,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Continuous- or discrete-time LTI system.
+ Continuous- or discrete-time @acronym{LTI} system.
  @item a
  State matrix (n-by-n) of a continuous-time system.
  @item b
@@ -2861,7 +2959,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.  Must be a single-input and single-output (SISO) system.
+ @acronym{LTI} model.  Must be a single-input and single-output (SISO) system.
  @item increment
  The increment used in computing gain values.
  @item min_k
@@ -2889,7 +2987,7 @@
  @end group
  @end example
  @end deftypefn
-@chapter Linear-Quadratic Control
+@chapter Optimal Control
 @section dlqe
 @findex dlqe
 
@@ -2970,7 +3068,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Continuous or discrete-time LTI model (p-by-m, n states).
+ Continuous or discrete-time @acronym{LTI} model (p-by-m, n states).
  @item a
  State transition matrix of discrete-time system (n-by-n).
  @item b
@@ -3019,7 +3117,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- LTI model.
+ @acronym{LTI} model.
  @item l
  State feedback matrix.
  @item sensors
@@ -3043,7 +3141,7 @@
  @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s})
  @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{[]}, @var{sensors}, @var{known})
  @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known})
- Design Kalman estimator for LTI systems.
+ Design Kalman estimator for @acronym{LTI} systems.
 
  @strong{Inputs}
  @table @var
@@ -3112,7 +3210,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Continuous or discrete-time LTI model (p-by-m, n states).
+ Continuous or discrete-time @acronym{LTI} model (p-by-m, n states).
  @item a
  State matrix of continuous-time system (n-by-n).
  @item g
@@ -3167,7 +3265,7 @@
  @strong{Inputs}
  @table @var
  @item sys
- Continuous or discrete-time LTI model (p-by-m, n states).
+ Continuous or discrete-time @acronym{LTI} model (p-by-m, n states).
  @item a
  State matrix of continuous-time system (n-by-n).
  @item b
@@ -3218,20 +3316,20 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of plant.
+ @acronym{LTI} model of plant.
  @item W1
- LTI model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
+ @acronym{LTI} model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
  Model must be empty @code{[]}, SISO or of appropriate size.
  @item W2
- LTI model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
+ @acronym{LTI} model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
  Model must be empty @code{[]}, SISO or of appropriate size.
  @item W3
- LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+ @acronym{LTI} model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
  complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
  @end table
 
  All inputs must be proper/realizable.
- Scalars, vectors and matrices are possible instead of LTI models.
+ Scalars, vectors and matrices are possible instead of @acronym{LTI} models.
 
  @strong{Outputs}
  @table @var
@@ -3307,7 +3405,7 @@
  @strong{Inputs}
  @table @var
  @item dat
- LTI model containing frequency response data of a SISO system.
+ @acronym{LTI} model containing frequency response data of a SISO system.
  @item n
  The desired order of the system to be fitted.  @code{n <= length(dat.w)}.
  @item flag
@@ -3338,12 +3436,12 @@
 @findex h2syn
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
- H-2 control synthesis for LTI plant.
+ H-2 control synthesis for @acronym{LTI} plant.
 
  @strong{Inputs}
  @table @var
  @item P
- Generalized plant.  Must be a proper/realizable LTI model.
+ Generalized plant.  Must be a proper/realizable @acronym{LTI} model.
  @item nmeas
  Number of measured outputs v.  The last @var{nmeas} outputs of @var{P} are connected to the
  inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
@@ -3407,12 +3505,12 @@
 
  @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
  @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
- H-infinity control synthesis for LTI plant.
+ H-infinity control synthesis for @acronym{LTI} plant.
 
  @strong{Inputs}
  @table @var
  @item P
- Generalized plant.  Must be a proper/realizable LTI model.
+ Generalized plant.  Must be a proper/realizable @acronym{LTI} model.
  @item nmeas
  Number of measured outputs v.  The last @var{nmeas} outputs of @var{P} are connected to the
  inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
@@ -3632,7 +3730,7 @@
  integral action, 
  @iftex
  @tex
- $\frac{1}{s}$
+ ${1 \over s}$
  @end tex
  @end iftex
  @ifnottex
@@ -3645,7 +3743,7 @@
  needs to be approximated by
  @iftex
  @tex
- $\frac{1}{s + \epsilon}$, where $\epsilon \ll 1$.
+ ${1 \over s + \epsilon}$, where $\epsilon \ll 1$.
  @end tex
  @end iftex
  @ifnottex
@@ -3660,7 +3758,7 @@
  The trick here is to replace a non-proper term such as
  @iftex
  @tex
- $ 1 + \tau_1 s $ by $ \frac{1 + \tau_1 s}{1 + \tau_2 s} $, where
+ $ 1 + \tau_1 s $ by $ {1 + \tau_1 s \over 1 + \tau_2 s} $, where
  @end tex
  @end iftex
  @ifnottex
@@ -3681,22 +3779,22 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of plant.
+ @acronym{LTI} model of plant.
  @item W1
- LTI model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
+ @acronym{LTI} model of performance weight.  Bounds the largest singular values of sensitivity @var{S}.
  Model must be empty @code{[]}, SISO or of appropriate size.
  @item W2
- LTI model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
+ @acronym{LTI} model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
  Model must be empty @code{[]}, SISO or of appropriate size.
  @item W3
- LTI model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+ @acronym{LTI} model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
  complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
  @item @dots{}
  Optional arguments of @command{hinfsyn}.  Type @command{help hinfsyn} for more information.
  @end table
 
  All inputs must be proper/realizable.
- Scalars, vectors and matrices are possible instead of LTI models.
+ Scalars, vectors and matrices are possible instead of @acronym{LTI} models.
 
  @strong{Outputs}
  @table @var
@@ -3979,13 +4077,13 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of plant.
+ @acronym{LTI} model of plant.
  @item W1
- LTI model of precompensator.  Model must be SISO or of appropriate size.
+ @acronym{LTI} model of precompensator.  Model must be SISO or of appropriate size.
  An identity matrix is taken if @var{W1} is not specified or if an empty model
  @code{[]} is passed.
  @item W2
- LTI model of postcompensator.  Model must be SISO or of appropriate size.
+ @acronym{LTI} model of postcompensator.  Model must be SISO or of appropriate size.
  An identity matrix is taken if @var{W2} is not specified or if an empty model
  @code{[]} is passed.
  @item factor
@@ -4304,7 +4402,7 @@
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} bstmodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 
  Model order reduction by Balanced Stochastic Truncation (BST) method.
- The aim of model reduction is to find an LTI system @var{Gr} of order
+ The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
  @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
  approximates the one from original system @var{G}.
 
@@ -4327,7 +4425,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model to be reduced.
+ @acronym{LTI} model to be reduced.
  @item nr
  The desired order of the resulting reduced order system @var{Gr}.
  If not specified, @var{nr} is chosen automatically according
@@ -4459,7 +4557,7 @@
  Guaranteed a priori error bound
  @iftex
  @tex
- $$ || G^{-1} (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} \frac{1+\sigma_j}{1-\sigma_j} - 1 $$
+ $$ || G^{-1} (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} {1+\sigma_j \over 1-\sigma_j} - 1 $$
  @end tex
  @end iftex
  @end itemize
@@ -4477,7 +4575,7 @@
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} btamodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 
  Model order reduction by frequency weighted Balanced Truncation Approximation (BTA) method.
- The aim of model reduction is to find an LTI system @var{Gr} of order
+ The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
  @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
  approximates the one from original system @var{G}.
 
@@ -4503,7 +4601,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model to be reduced.
+ @acronym{LTI} model to be reduced.
  @item nr
  The desired order of the resulting reduced order system @var{Gr}.
  If not specified, @var{nr} is chosen automatically according
@@ -4547,11 +4645,11 @@
  Hankel singular values @var{info.hsv} > @var{tol1} are retained.
 
  @item 'left', 'output'
- LTI model of the left/output frequency weighting @var{V}.
+ @acronym{LTI} model of the left/output frequency weighting @var{V}.
  Default value is an identity matrix.
 
  @item 'right', 'input'
- LTI model of the right/input frequency weighting @var{W}.
+ @acronym{LTI} model of the right/input frequency weighting @var{W}.
  Default value is an identity matrix.
 
  @item 'method'
@@ -4699,7 +4797,7 @@
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} hnamodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 
  Model order reduction by frequency weighted optimal Hankel-norm (HNA) method.
- The aim of model reduction is to find an LTI system @var{Gr} of order
+ The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
  @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
  approximates the one from original system @var{G}.
 
@@ -4725,7 +4823,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model to be reduced.
+ @acronym{LTI} model to be reduced.
  @item nr
  The desired order of the resulting reduced order system @var{Gr}.
  If not specified, @var{nr} is chosen automatically according
@@ -4785,7 +4883,7 @@
 
 
  @item 'left', 'v'
- LTI model of the left/output frequency weighting.
+ @acronym{LTI} model of the left/output frequency weighting.
  The weighting must be antistable.
  @iftex
  @math{|| V \ (G-G_r) \dots ||_H = min}
@@ -4798,7 +4896,7 @@
  @end ifnottex
 
  @item 'right', 'w'
- LTI model of the right/input frequency weighting.
+ @acronym{LTI} model of the right/input frequency weighting.
  The weighting must be antistable.
  @iftex
  @math{|| \dots (G-G_r) \ W ||_H = min}
@@ -4812,7 +4910,7 @@
 
 
  @item 'left-inv', 'inv-v'
- LTI model of the left/output frequency weighting.
+ @acronym{LTI} model of the left/output frequency weighting.
  The weighting must have only antistable zeros.
  @iftex
  @math{|| inv(V) \ (G-G_r) \dots ||_H = min}
@@ -4825,7 +4923,7 @@
  @end ifnottex
 
  @item 'right-inv', 'inv-w'
- LTI model of the right/input frequency weighting.
+ @acronym{LTI} model of the right/input frequency weighting.
  The weighting must have only antistable zeros.
  @iftex
  @math{|| \dots (G-G_r) \ inv(W) ||_H = min}
@@ -4839,7 +4937,7 @@
 
 
  @item 'left-conj', 'conj-v'
- LTI model of the left/output frequency weighting.
+ @acronym{LTI} model of the left/output frequency weighting.
  The weighting must be stable.
  @iftex
  @math{|| conj(V) \ (G-G_r) \dots ||_H = min}
@@ -4852,7 +4950,7 @@
  @end ifnottex
 
  @item 'right-conj', 'conj-w'
- LTI model of the right/input frequency weighting.
+ @acronym{LTI} model of the right/input frequency weighting.
  The weighting must be stable.
  @iftex
  @math{|| \dots (G-G_r) \ conj(W) ||_H = min}
@@ -4866,7 +4964,7 @@
 
 
  @item 'left-conj-inv', 'conj-inv-v'
- LTI model of the left/output frequency weighting.
+ @acronym{LTI} model of the left/output frequency weighting.
  The weighting must be minimum-phase.
  @iftex
  @math{|| conj(inv(V)) \ (G-G_r) \dots ||_H = min}
@@ -4879,7 +4977,7 @@
  @end ifnottex
 
  @item 'right-conj-inv', 'conj-inv-w'
- LTI model of the right/input frequency weighting.
+ @acronym{LTI} model of the right/input frequency weighting.
  The weighting must be minimum-phase.
  @iftex
  @math{|| \dots (G-G_r) \ conj(inv(W)) ||_H = min}
@@ -4960,7 +5058,7 @@
  @deftypefnx{Function File} {[@var{Gr}, @var{info}] =} spamodred (@var{G}, @var{nr}, @var{opt}, @dots{})
 
  Model order reduction by frequency weighted Singular Perturbation Approximation (SPA).
- The aim of model reduction is to find an LTI system @var{Gr} of order
+ The aim of model reduction is to find an @acronym{LTI} system @var{Gr} of order
  @var{nr} (nr < n) such that the input-output behaviour of @var{Gr}
  approximates the one from original system @var{G}.
 
@@ -4986,7 +5084,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model to be reduced.
+ @acronym{LTI} model to be reduced.
  @item nr
  The desired order of the resulting reduced order system @var{Gr}.
  If not specified, @var{nr} is chosen automatically according
@@ -5030,11 +5128,11 @@
  Hankel singular values @var{info.hsv} > @var{tol1} are retained.
 
  @item 'left', 'output'
- LTI model of the left/output frequency weighting @var{V}.
+ @acronym{LTI} model of the left/output frequency weighting @var{V}.
  Default value is an identity matrix.
 
  @item 'right', 'input'
- LTI model of the right/input frequency weighting @var{W}.
+ @acronym{LTI} model of the right/input frequency weighting @var{W}.
  Default value is an identity matrix.
 
  @item 'method'
@@ -5188,10 +5286,10 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of the plant.
+ @acronym{LTI} model of the plant.
  It has m inputs, p outputs and n states.
  @item K
- LTI model of the controller.
+ @acronym{LTI} model of the controller.
  It has p inputs, m outputs and nc states.
  @item ncr
  The desired order of the resulting reduced order controller @var{Kr}.
@@ -5377,7 +5475,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of the open-loop plant (A,B,C,D).
+ @acronym{LTI} model of the open-loop plant (A,B,C,D).
  It has m inputs, p outputs and n states.
  @item F
  Stabilizing state feedback matrix (m-by-n).
@@ -5496,7 +5594,7 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of the open-loop plant (A,B,C,D).
+ @acronym{LTI} model of the open-loop plant (A,B,C,D).
  It has m inputs, p outputs and n states.
  @item F
  Stabilizing state feedback matrix (m-by-n).
@@ -5608,10 +5706,10 @@
  @strong{Inputs}
  @table @var
  @item G
- LTI model of the plant.
+ @acronym{LTI} model of the plant.
  It has m inputs, p outputs and n states.
  @item K
- LTI model of the controller.
+ @acronym{LTI} model of the controller.
  It has p inputs, m outputs and nc states.
  @item ncr
  The desired order of the resulting reduced order controller @var{Kr}.
@@ -6117,7 +6215,7 @@
  @deftypefnx {Function File} {} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
  @deftypefnx {Function File} {@var{dat} =} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
  Set or modify properties of iddata objects.
- If no return argument @var{dat} is specified, the modified LTI object is stored
+ If no return argument @var{dat} is specified, the modified @acronym{LTI} object is stored
  in input argument @var{dat}.  @command{set} can handle multiple properties in one call:
  @code{set (dat, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
  @code{set (dat)} prints a list of the object's property names.
@@ -6868,7 +6966,7 @@
 @section @@lti/ctranspose
 @findex ctranspose
 
- Conjugate transpose or pertransposition of LTI objects.
+ Conjugate transpose or pertransposition of @acronym{LTI} objects.
  Used by Octave for "sys'".
  For a transfer-function matrix G, G' denotes the conjugate
  of G given by G.'(-s) for a continuous-time system or G.'(1/z)
@@ -6881,71 +6979,71 @@
 @section @@lti/horzcat
 @findex horzcat
 
- Horizontal concatenation of LTI objects.  If necessary, object conversion
+ Horizontal concatenation of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[sys1, sys2]".
 @section @@lti/inv
 @findex inv
 
- Inversion of LTI objects.
+ Inversion of @acronym{LTI} objects.
 @section @@lti/minus
 @findex minus
 
- Binary subtraction of LTI objects.  If necessary, object conversion
+ Binary subtraction of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 - sys2".
 @section @@lti/mldivide
 @findex mldivide
 
- Matrix left division of LTI objects.  If necessary, object conversion
+ Matrix left division of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "sys1 \ sys2".
 @section @@lti/mpower
 @findex mpower
 
- Matrix power of LTI objects.  The exponent must be an integer.
+ Matrix power of @acronym{LTI} objects.  The exponent must be an integer.
  Used by Octave for "sys^int".
 @section @@lti/mrdivide
 @findex mrdivide
 
- Matrix right division of LTI objects.  If necessary, object conversion
+ Matrix right division of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group in mtimes.  Used by Octave for "sys1 / sys2".
 @section @@lti/mtimes
 @findex mtimes
 
- Matrix multiplication of LTI objects.  If necessary, object conversion
+ Matrix multiplication of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 * sys2".
 @section @@lti/plus
 @findex plus
 
- Binary addition of LTI objects.  If necessary, object conversion
+ Binary addition of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "sys1 + sys2".
  Operation is also known as "parallel connection".
 @section @@lti/subsasgn
 @findex subsasgn
 
- Subscripted assignment for LTI objects.
+ Subscripted assignment for @acronym{LTI} objects.
  Used by Octave for "sys.property = value".
 @section @@lti/subsref
 @findex subsref
 
- Subscripted reference for LTI objects.
+ Subscripted reference for @acronym{LTI} objects.
  Used by Octave for "sys = sys(2:4, :)" or "val = sys.prop".
 @section @@lti/transpose
 @findex transpose
 
- Transpose of LTI objects.  Used by Octave for "sys.'".
+ Transpose of @acronym{LTI} objects.  Used by Octave for "sys.'".
  Useful for dual problems, i.e. controllability and observability
  or designing estimator gains with @command{lqr} and @command{place}.
 @section @@lti/uminus
 @findex uminus
 
- Unary minus of LTI object.  Used by Octave for "-sys".
+ Unary minus of @acronym{LTI} object.  Used by Octave for "-sys".
 @section @@lti/uplus
 @findex uplus
 
- Unary plus of LTI object.  Used by Octave for "+sys".
+ Unary plus of @acronym{LTI} object.  Used by Octave for "+sys".
 @section @@lti/vertcat
 @findex vertcat
 
- Vertical concatenation of LTI objects.  If necessary, object conversion
+ Vertical concatenation of @acronym{LTI} objects.  If necessary, object conversion
  is done by sys_group.  Used by Octave for "[sys1; sys2]".
 @chapter Overloaded IDDATA Operators
 @section @@iddata/horzcat
