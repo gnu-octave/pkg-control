@@ -175,7 +175,7 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
-            if (p != 1 && cols != 1)
+            if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
             plot (t{k}, y{k}(:, i, j), style{:});
@@ -196,7 +196,7 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
       else                                              # discrete-time system
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
-            if (p != 1 && cols != 1)
+            if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
             stairs (t{k}, y{k}(:, i, j), style{:});
