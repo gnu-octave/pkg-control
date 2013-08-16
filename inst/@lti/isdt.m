@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{bool} =} isdt (@var{sys})
-## Determine whether acronym{LTI} model is a discrete-time system.
+## Determine whether @acronym{LTI} model is a discrete-time system.
 ##
 ## @strong{Inputs}
 ## @table @var
