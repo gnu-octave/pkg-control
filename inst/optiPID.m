@@ -69,8 +69,8 @@
 %% @ifnottex
 %% @example
 %%                     inf 
-%% J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||   - 1)  +  mu3 ||S(jw)||
-%%                      0                               inf                      inf
+%% J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||    - 1)  +  mu3 ||S(jw)||
+%%                      0                               inf                       inf
 %% @end example
 %% @end ifnottex
 %% This particular objective function penalizes the integral of time-weighted absolute error
@@ -94,7 +94,7 @@
 %% @end iftex
 %% @ifnottex
 %% @example
-%% y    - 1 = || y(t) ||   - 1
+%% y    - 1 = || y(t) ||    - 1
 %%  max                 inf
 %% @end example
 %% @end ifnottex
