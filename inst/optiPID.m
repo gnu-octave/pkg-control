@@ -94,8 +94,8 @@
 %% @end iftex
 %% @ifnottex
 %% @example
-%% y    - 1 = || y(t) ||    - 1
-%%  max                 inf
+%% y    - 1 = ||y(t)||    - 1
+%%  max               inf
 %% @end example
 %% @end ifnottex
 %% to a unity reference step
