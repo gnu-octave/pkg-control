@@ -43,18 +43,18 @@ function ltimodels (systype = "general")
 
   switch (systype)
     case "ss"
-      str = {"State Space (SS) Models"\
-             "-----------------------"\
+      str = {"State Space (SS) Models"...
+             "-----------------------"...
              ""};
 
     case "tf"
-      str = {"Transfer Function (TF) Models"\
-             "-----------------------------"\
+      str = {"Transfer Function (TF) Models"...
+             "-----------------------------"...
              ""};
 
     otherwise  # general
-      str = {"Linear Time Invariant (LTI) Models"\
-             "----------------------------------"\
+      str = {"Linear Time Invariant (LTI) Models"...
+             "----------------------------------"...
              ""};
 
   endswitch

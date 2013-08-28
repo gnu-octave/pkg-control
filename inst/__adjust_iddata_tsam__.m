@@ -45,7 +45,7 @@ function tsam = __adjust_iddata_tsam__ (tsam, e)
   if (nt == 1 && e > 1)
     tsam = repmat (tsam, e, 1);
   elseif (nt != e)
-    error ("iddata: there are %d experiments, but only %d sampling times", \
+    error ("iddata: there are %d experiments, but only %d sampling times", ...
            e, nt);
   endif
 

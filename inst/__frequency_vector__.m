@@ -79,7 +79,7 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
       dec_max = repmat ({log10 (wmax)}, 1, len);
     endif
 
-    idx = cellfun (@(zp, dec_min, dec_max) find (zp > 10^dec_min & zp < 10^dec_max), \
+    idx = cellfun (@(zp, dec_min, dec_max) find (zp > 10^dec_min & zp < 10^dec_max), ...
                    zp, dec_min, dec_max, "uniformoutput", false);
     zp = cellfun (@(zp, idx) zp(idx), zp, idx, "uniformoutput", false);
 

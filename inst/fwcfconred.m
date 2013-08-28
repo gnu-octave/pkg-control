@@ -160,12 +160,12 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
   jobd = any (d(:));
 
   if (mf != m || nf != n)
-    error ("fwcfconred: dimensions of state-feedback matrix (%dx%d) and plant (%dx%d, %d states) don't match", \
+    error ("fwcfconred: dimensions of state-feedback matrix (%dx%d) and plant (%dx%d, %d states) don't match", ...
            mf, nf, p, m, n);
   endif
 
   if (nl != n || pl != p)
-    error ("fwcfconred: dimensions of observer matrix (%dx%d) and plant (%dx%d, %d states) don't match", \
+    error ("fwcfconred: dimensions of observer matrix (%dx%d) and plant (%dx%d, %d states) don't match", ...
            nl, pl, p, m, n);
   endif
 
@@ -225,7 +225,7 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
   endif
 
   ## perform model order reduction
-  [acr, bcr, ccr, ncr, hsv] = __sl_sb16cd__ (a, b, c, d, dt, ncr, ordsel, jobd, jobmr, \
+  [acr, bcr, ccr, ncr, hsv] = __sl_sb16cd__ (a, b, c, d, dt, ncr, ordsel, jobd, jobmr, ...
                                              F, L, jobcf, tol1);
 
   ## assemble reduced order controller

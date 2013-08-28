@@ -52,13 +52,13 @@ function [x, scale] = lyap (a, b, c, e)
   
       if (! is_real_square_matrix (a, b))
         ## error ("lyap: a, b must be real and square");
-        error ("lyap: %s, %s must be real and square", \
+        error ("lyap: %s, %s must be real and square", ...
                 inputname (1), inputname (2));
       endif
   
       if (rows (a) != rows (b))
         ## error ("lyap: a, b must have the same number of rows");
-        error ("lyap: %s, %s must have the same number of rows", \
+        error ("lyap: %s, %s must have the same number of rows", ...
                 inputname (1), inputname (2));
 
       endif
@@ -71,13 +71,13 @@ function [x, scale] = lyap (a, b, c, e)
     
       if (! is_real_square_matrix (a, b))
         ## error ("lyap: a, b must be real and square");
-        error ("lyap: %s, %s must be real and square", \
+        error ("lyap: %s, %s must be real and square", ...
                 inputname (1), inputname (2));
       endif
 
       if (! is_real_matrix (c) || rows (c) != rows (a) || columns (c) != columns (b))
         ## error ("lyap: c must be a real (%dx%d) matrix", rows (a), columns (b));
-        error ("lyap: %s must be a real (%dx%d) matrix", \
+        error ("lyap: %s must be a real (%dx%d) matrix", ...
                 rows (a), columns (b), inputname (3));
       endif
 
@@ -91,19 +91,19 @@ function [x, scale] = lyap (a, b, c, e)
       
       if (! is_real_square_matrix (a, b, e))
         ## error ("lyap: a, b, e must be real and square");
-        error ("lyap: %s, %s, %s must be real and square", \
+        error ("lyap: %s, %s, %s must be real and square", ...
                 inputname (1), inputname (2), inputname (4));
       endif
       
       if (rows (b) != rows (a) || rows (e) != rows (a))
         ## error ("lyap: a, b, e must have the same number of rows");
-        error ("lyap: %s, %s, %s must have the same number of rows", \
+        error ("lyap: %s, %s, %s must have the same number of rows", ...
                 inputname (1), inputname (2), inputname (4));
       endif
       
       if (! issymmetric (b))
         ## error ("lyap: b must be symmetric");
-        error ("lyap: %s must be symmetric", \
+        error ("lyap: %s must be symmetric", ...
                 inputname (2));
       endif
 

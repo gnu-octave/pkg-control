@@ -45,14 +45,14 @@ function display (dat)
   disp (str);
   disp ("");
   
-  disp (__horzcat__ (__col2str__ (expname, "Experiment"), \
-                     __vec2str__ (n, sf), \
+  disp (__horzcat__ (__col2str__ (expname, "Experiment"), ...
+                     __vec2str__ (n, sf), ...
                      __vec2str__ (cell2mat (dat.tsam), "Sampling Interval")));
   disp ("");
-  disp (__horzcat__ (__col2str__ (outname, "Outputs"), \
+  disp (__horzcat__ (__col2str__ (outname, "Outputs"), ...
                      __col2str__ (dat.outunit, "Unit (if specified)")));
   disp ("");
-  disp (__horzcat__ (__col2str__ (inname, "Inputs"), \
+  disp (__horzcat__ (__col2str__ (inname, "Inputs"), ...
                      __col2str__ (dat.inunit, "Unit (if specified)")));
   disp ("");
 

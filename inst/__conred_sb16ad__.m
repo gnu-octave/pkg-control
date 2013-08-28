@@ -72,7 +72,7 @@ function [Kr, info] = __conred_sb16ad__ (method, varargin)
   dt = isdt (G);
 
   if (p != mc || m != pc)
-    error ("%sconred: dimensions of controller (%dx%d) and plant (%dx%d) don't match", \
+    error ("%sconred: dimensions of controller (%dx%d) and plant (%dx%d) don't match", ...
            method, pc, mc, p, c);
   endif
 
@@ -169,8 +169,8 @@ function [Kr, info] = __conred_sb16ad__ (method, varargin)
 
   
   ## perform model order reduction
-  [acr, bcr, ccr, dcr, ncr, hsvc, ncs] = __sl_sb16ad__ (a, b, c, d, dt, equil, ncr, ordsel, alpha, jobmr, \
-                                                        ac, bc, cc, dc, \
+  [acr, bcr, ccr, dcr, ncr, hsvc, ncs] = __sl_sb16ad__ (a, b, c, d, dt, equil, ncr, ordsel, alpha, jobmr, ...
+                                                        ac, bc, cc, dc, ...
                                                         weight, jobc, jobo, tol1, tol2);
 
   ## assemble reduced order controller

@@ -99,8 +99,8 @@ function retdat = set (dat, varargin)
             val = {val};
           endif
           
-          if (any (cellfun (@(w) ! isempty (w) && (! is_real_vector (w) || any (w < 0) \
-                                                   || ! issorted (w) || w(1) > w(end) \
+          if (any (cellfun (@(w) ! isempty (w) && (! is_real_vector (w) || any (w < 0) ...
+                                                   || ! issorted (w) || w(1) > w(end) ...
                                                    || length (unique (w)) != length (w)), val)))
             error ("iddata: set: w must be a vector of positive real values in ascending order");
           endif

@@ -32,7 +32,7 @@ function [zer, gain, info] = __zero__ (sys, argc)
     [zer, rank, infz, kronr, kronl] = __sl_ag08bd__ (sys.a, sys.e, sys.b, sys.c, sys.d, sys.scaled);
     if (argc > 1 && issiso (sys))
       pol = pole (sys);
-      gain = __sl_tg04bx__ (sys.a, sys.e, sys.b, sys.c, sys.d, \
+      gain = __sl_tg04bx__ (sys.a, sys.e, sys.b, sys.c, sys.d, ...
                        real (pol), imag (pol), real (zer), imag (zer));
     else
       gain = [];

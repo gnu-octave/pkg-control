@@ -47,19 +47,19 @@ function [u, scale] = dlyapchol (a, b, e)
       
       if (! is_real_square_matrix (a))
         ## error ("dlyapchol: a must be real and square");
-        error ("dlyapchol: %s must be real and square", \
+        error ("dlyapchol: %s must be real and square", ...
                 inputname (1));
       endif
 
       if (! is_real_matrix (b))
         ## error ("dlyapchol: b must be real")
-        error ("dlyapchol: %s must be real", \
+        error ("dlyapchol: %s must be real", ...
                 inputname (2))
       endif
   
       if (rows (a) != rows (b))
         ## error ("dlyapchol: a and b must have the same number of rows");
-        error ("dlyapchol: %s and %s must have the same number of rows", \
+        error ("dlyapchol: %s and %s must have the same number of rows", ...
                 inputname (1), inputname (2));
       endif
 
@@ -71,19 +71,19 @@ function [u, scale] = dlyapchol (a, b, e)
 
       if (! is_real_square_matrix (a, e))
         ## error ("dlyapchol: a, e must be real and square");
-        error ("dlyapchol: %s, %s must be real and square", \
+        error ("dlyapchol: %s, %s must be real and square", ...
                 inputname (1), inputname (3));
       endif
 
       if (! is_real_matrix (b))
         ## error ("dlyapchol: b must be real");
-        error ("dlyapchol: %s must be real", \
+        error ("dlyapchol: %s must be real", ...
                 inputname (2));
       endif
 
       if (rows (b) != rows (a) || rows (e) != rows (a))
         ## error ("dlyapchol: a, b, e must have the same number of rows");
-        error ("dlyapchol: %s, %s, %s must have the same number of rows", \
+        error ("dlyapchol: %s, %s, %s must have the same number of rows", ...
                 inputname (1), inputname (2), inputname (3));
       endif
 

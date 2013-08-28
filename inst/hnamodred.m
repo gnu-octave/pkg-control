@@ -394,9 +394,9 @@ function [Gr, info] = hnamodred (G, varargin)
 
   
   ## perform model order reduction
-  [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09jd__ (a, b, c, d, dt, scaled, nr, ordsel, alpha, \
-                                            jobv, av, bv, cv, dv, \
-                                            jobw, aw, bw, cw, dw, \
+  [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09jd__ (a, b, c, d, dt, scaled, nr, ordsel, alpha, ...
+                                            jobv, av, bv, cv, dv, ...
+                                            jobw, aw, bw, cw, dw, ...
                                             jobinv, tol1, tol2);
 
   ## assemble reduced order model
