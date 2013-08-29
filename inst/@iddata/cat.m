@@ -154,7 +154,7 @@ endfunction
 function check_experiments (tmp, e)
 
   if (numel (e) > 1 && ! isequal (e{:}))            # isequal doesn't work with less than 2 arguments
-    error ("iddata: cat: number of experiments don't match [%s]", \
+    error ("iddata: cat: number of experiments don't match [%s]", ...
            num2str (cell2mat (e), "%d "));
   endif
   
@@ -172,7 +172,7 @@ endfunction
 function check_outputs (tmp, p)
 
   if (numel (p) > 1 && ! isequal (p{:}))
-    error ("iddata: cat: number of outputs don't match [%s]", \
+    error ("iddata: cat: number of outputs don't match [%s]", ...
            num2str (cell2mat (p), "%d "));
   endif
   
@@ -190,7 +190,7 @@ endfunction
 function check_inputs (tmp, m)
 
   if (numel (m) > 1 && ! isequal (m{:}))
-    error ("iddata: cat: number of inputs don't match [%s]", \
+    error ("iddata: cat: number of inputs don't match [%s]", ...
            num2str (cell2mat (m), "%d "));
   endif
 
@@ -208,7 +208,7 @@ endfunction
 function check_samples (n)
 
   if (numel (n) > 1 && ! isequal (n{:}))
-    error ("iddata: cat: number of samples don't match %s", \
+    error ("iddata: cat: number of samples don't match %s", ...
            mat2str (vertcat (n{:}), 10));
   endif
 

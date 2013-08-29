@@ -38,7 +38,7 @@ function [p, m] = __experiment_dim__ (y, u = [])
   [lu, m] = size (u);
   
   if (! isempty (u) && ly != lu)
-    error ("iddata: matrices 'y' (%dx%d) and 'u' (%dx%d) must have the same number of samples (rows)", \
+    error ("iddata: matrices 'y' (%dx%d) and 'u' (%dx%d) must have the same number of samples (rows)", ...
            ly, p, lu, m);
   endif
 

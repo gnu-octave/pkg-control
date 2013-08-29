@@ -29,7 +29,7 @@ function [nr, ordsel] = __modred_check_order__ (nr, n)
   endif
 
   if (nr > n)
-    error ("modred: order of reduced model (%d) can't be larger than the original one (%d)", \
+    error ("modred: order of reduced model (%d) can't be larger than the original one (%d)", ...
            nr, n);
   endif
   

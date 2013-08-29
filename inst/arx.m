@@ -168,9 +168,9 @@ function [sys, varargout] = arx (dat, varargin)
   if (is_real_scalar (na, nb))
     na = repmat (na, p, 1);                         # na(p-by-1)
     nb = repmat (nb, p, m);                         # nb(p-by-m)
-  elseif (! (is_real_vector (na) && is_real_matrix (nb) \
+  elseif (! (is_real_vector (na) && is_real_matrix (nb) ...
           && rows (na) == p && rows (nb) == p && columns (nb) == m))
-    error ("arx: require na(%dx1) instead of (%dx%d) and nb(%dx%d) instead of (%dx%d)", \
+    error ("arx: require na(%dx1) instead of (%dx%d) and nb(%dx%d) instead of (%dx%d)", ...
             p, rows (na), columns (na), p, m, rows (nb), columns (nb));
   endif
 

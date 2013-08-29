@@ -60,7 +60,7 @@ function sys = __sys_connect__ (sys, M)
 
   ## TODO: Check for den = 0, e.g. in feedback (tf (1), tf (-1))
 
-  if (p == 2 && m == 2 && num{1,2} == 0 && num{2,1} == 0 \
+  if (p == 2 && m == 2 && num{1,2} == 0 && num{2,1} == 0 ...
       && M(1,1) == 0 && M(2,2) == 0)
     ## mtimes, feedback
     sys.num(1,1) = num{1,1} * den{2,2};
@@ -70,9 +70,9 @@ function sys = __sys_connect__ (sys, M)
 
     sys.den(:) = den{1,1} * den{2,2}  -  M(1,2) * M(2,1) * num{1,1} * num{2,2};
 
-  elseif (p == 3 && m == 4 && num{1,3} == 0 && num{1,4} == 0 \
-          && num{2,1} == 0 && num{2,2} == 0 && num{2,4} == 0 \
-          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 0 \
+  elseif (p == 3 && m == 4 && num{1,3} == 0 && num{1,4} == 0 ...
+          && num{2,1} == 0 && num{2,2} == 0 && num{2,4} == 0 ...
+          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 0 ...
           && M == [0, 1, 0; 0, 0, 1; 0, 0, 0; 0, 0, 0])
     ## horzcat [sys1, sys2], plus, minus
     sys.num(:) = tfpoly (0);
@@ -90,18 +90,18 @@ function sys = __sys_connect__ (sys, M)
     sys.den(2,3) = den{2,3};
     sys.den(3,4) = den{3,4};
 
-  elseif (p == 3 && m == 3 && num{1,3} == 0 \
-          && num{2,1} == 0 && num{2,2} == 0 && num{2,3} == 1 \
-          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 1 \
+  elseif (p == 3 && m == 3 && num{1,3} == 0 ...
+          && num{2,1} == 0 && num{2,2} == 0 && num{2,3} == 1 ...
+          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 1 ...
           && M == [0, 1, 0; 0, 0, 1; 0, 0, 0])
     ## plus, minus
     sys.num(1,3) = num{1,1} * den{1,2}  +  num{1,2} * den{1,1};
     sys.den(1,3) = den{1,1} * den{1,2};
 
-  elseif (p == 4 && m == 3 && num{1,2} == 0 && num{1,3} == 0 \
-          && num{2,1} == 0 && num{2,3} == 0 \
-          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 1 \
-          && num{4,1} == 0 && num{4,2} == 0 && num{4,3} == 1 \
+  elseif (p == 4 && m == 3 && num{1,2} == 0 && num{1,3} == 0 ...
+          && num{2,1} == 0 && num{2,3} == 0 ...
+          && num{3,1} == 0 && num{3,2} == 0 && num{3,3} == 1 ...
+          && num{4,1} == 0 && num{4,2} == 0 && num{4,3} == 1 ...
           && M == [0, 0, 1, 0; 0, 0, 0, 1; 0, 0, 0, 0])
     ## vertcat [sys1; sys2]
     sys.num(1,3) = num{1,1};

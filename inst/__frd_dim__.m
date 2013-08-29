@@ -31,8 +31,8 @@ function [p, m, l] = __frd_dim__ (H, w)
 
   lw = length (w);
 
-  if (! isempty (w) && (! is_real_vector (w) || any (w < 0) \
-                        || ! issorted (w) || w(1) > w(end) \
+  if (! isempty (w) && (! is_real_vector (w) || any (w < 0) ...
+                        || ! issorted (w) || w(1) > w(end) ...
                         || length (unique (w)) != lw))
     error ("frd: w must be a vector of positive real numbers in ascending order");
   endif

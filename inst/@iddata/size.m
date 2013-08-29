@@ -78,7 +78,7 @@ function [x, p, m, e] = size (dat, dim = 0)
           if (e != 1)
             stre = "s";
           endif
-          printf ("IDDATA set with [%s] samples, %d output%s, %d input%s and %d experiment%s.\n", \
+          printf ("IDDATA set with [%s] samples, %d output%s, %d input%s and %d experiment%s.\n", ...
                   num2str (n, "%d "), p, stry, m, stru, e, stre);
         case 1                      # x = size (dat)
           x = [sum(n), p, m, e];
