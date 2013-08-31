@@ -152,6 +152,8 @@ Overloaded IDDATA Operators
   @iddata/subsref
   @iddata/vertcat
 Miscellaneous
+  db2mag
+  mag2db
   options
   strseq
   test_control

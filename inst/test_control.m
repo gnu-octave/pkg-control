@@ -95,10 +95,12 @@ test hsvd
 test place
 
 ## various m-files
+test db2mag
 test ctrb
 test filt
 test initial
 test issample
+test mag2db
 test margin
 test obsv
 test sigma
