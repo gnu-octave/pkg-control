@@ -146,9 +146,19 @@ For internal use only.")
 
         if (f77_exception_encountered)
             error ("lti: norm: __sl_ab13dd__: exception in SLICOT subroutine AB13DD");
-            
-        if (info != 0)
-            error ("lti: norm: __sl_ab13dd__: AB13DD returned info = %d", info);
+
+        static const char* err_msg[] = {
+            "0: OK",
+            "1: the matrix E is (numerically) singular",
+            "2: the (periodic) QR (or QZ) algorithm for computing "
+                "eigenvalues did not converge",
+            "3: the SVD algorithm for computing singular values did "
+                "not converge",
+            "4: the tolerance is too small and the algorithm did "
+                "not converge"};
+
+        error_msg ("__sl_ab13dd__", info, 4, err_msg);
+
         
         // return values
         retval(0) = fpeak;
