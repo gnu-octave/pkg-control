@@ -64,3 +64,16 @@ function sys = d2d (sys, tsam, method = "std", w0 = 0)
   sys = c2d (tmp, tsam, method, w0);
 
 endfunction
+
+
+%!shared num, den, z, p, k
+%! H1 = zpk (0.7, 0.5, 1, 0.1);
+%! H2 = d2d (H1, 0.05);
+%! H3 = d2d (H2, 0.1);
+%! [num, den] = tfdata (H2, "vector");
+%! [z, p, k] = zpkdata (H3, "vector");
+%!assert (num, [1.00000  -0.82426], 1e-4);
+%!assert (den, [1.00000  -0.70711], 1e-4);
+%!assert (z, 0.7, 1e-4);
+%!assert (p, 0.5, 1e-4);
+%!assert (k, 1.0, 1e-4);
