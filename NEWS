@@ -11,6 +11,9 @@ control-2.4.5   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
 ** db2mag, mag2db
    New functions to convert Decibels to Magnitude and vice versa.
 
+** d2d
+   New function for resampling of discrete-time models.
+
 
 ===============================================================================
 control-2.4.4   Release Date: 2013-08-11   Release Manager: Lukas Reichlin
