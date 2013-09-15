@@ -39,11 +39,6 @@ General:
   
   * Implement mu-Synthesis command "dksyn" using  muHopt.f.
 
-  * Implement d2d.  In general, d2c followed by c2d could be used, maybe one derives
-    direct formulae for the bilinear case.
-
-  * Matched pole/zero method for c2d and d2c.
-
   * Implement balreal.  Based on SLICOT AB09HY?
 
   * Add input and output groups to LTI models.
