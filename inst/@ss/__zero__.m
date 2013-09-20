@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Transmission zeros of SS object.
+## Invariant zeros of SS object.
 ## Uses SLICOT AB08ND and AG08BD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
 
