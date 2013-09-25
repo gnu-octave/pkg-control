@@ -158,7 +158,8 @@ C     .. External Functions ..
       DOUBLE PRECISION   DDOT
       EXTERNAL           DDOT
 C     .. External Subroutines ..
-      EXTERNAL           MB02RD, MB02SD
+C      EXTERNAL           MB02RD, MB02SD
+      EXTERNAL           DGETRF, DGETRS
 C     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX
 C     ..
@@ -207,13 +208,15 @@ C     Compute the LU factorization of the matrix A - S0*E
 C     (guaranteed to be nonsingular).
 C
 C     CALL MB02SD( IP, A, LDA, IWORK, INFO )
-      CALL MB02SD( LDA, A, LDA, IWORK, INFO )
+C     CALL MB02SD( LDA, A, LDA, IWORK, INFO )oo
+      CALL DGETRF( LDA, LDA, A, LDA, IWORK, INFO)
 C
 C     Solve the linear system (A - S0*E)*x = b .
 C
 C     CALL MB02RD( 'No Transpose', IP, 1, A, LDA, IWORK, B, IP, INFO )
 C     CALL MB02RD( 'No Transpose', IP, 1, A, LDA, IWORK, B, LDA, INFO )
-      CALL MB02RD( 'No Transpose', LDA, 1, A, LDA, IWORK, B, LDA, INFO )
+C     CALL MB02RD( 'No Transpose', LDA, 1, A, LDA, IWORK, B, LDA, INFO )
+      CALL DGETRS( 'No Transpose', LDA, 1, A, LDA, IWORK, B, LDA, INFO ) 
 C                        -1
 C     Compute c*(S0*E - A) *b + d .
 C
