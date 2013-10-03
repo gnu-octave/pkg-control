@@ -73,6 +73,20 @@ function retsys = set (sys, varargin)
             error ("lti: set: invalid sampling time");
           endif
 
+        case {"ingroup", "inputgroup"}
+          if (isstruct (val))
+            sys.ingroup = val;
+          else
+            error ("lti: set: property 'ingroup' requires a struct");
+          endif
+
+        case {"outgroup", "outputgroup"}
+          if (isstruct (val))
+            sys.outgroup = val;
+          else
+            error ("lti: set: property 'ingroup' requires a struct");
+          endif
+
         case "name"
           if (ischar (val))
             sys.name = val;

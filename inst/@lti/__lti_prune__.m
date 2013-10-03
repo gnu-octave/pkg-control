@@ -26,7 +26,19 @@
 
 function lti = __lti_prune__ (lti, out_idx, in_idx)
 
+  m = numel (lti.inname);       # size before pruning!
+  p = numel (lti.outname);
+
   lti.inname = lti.inname(in_idx);
   lti.outname = lti.outname(out_idx);
+  
+  lti.ingroup = structfun (@(x) sparse (x, 1:length(x), 1, m, length(x)), lti.ingroup, "uniformoutput", false);
+  lti.outgroup = structfun (@(x) sparse (x, 1:length(x), 1, p, length(x)), lti.outgroup, "uniformoutput", false);
+
+  lti.ingroup = structfun (@(x) x(in_idx, :), lti.ingroup, "uniformoutput", false);
+  lti.outgroup = structfun (@(x) x(out_idx, :), lti.outgroup, "uniformoutput", false);
+  
+  [lti.ingroup, ~] = structfun (@find, lti.ingroup, "uniformoutput", false);
+  [lti.outgroup, ~] = structfun (@find, lti.outgroup, "uniformoutput", false);
 
 endfunction

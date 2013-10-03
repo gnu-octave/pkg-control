@@ -22,11 +22,14 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function display (ltisys)
+function display (sys)
 
-  if (ltisys.tsam > 0)
-    disp (sprintf ("Sampling time: %g s", ltisys.tsam));
-  elseif (ltisys.tsam == -1)
+  sys.ingroup
+  sys.outgroup
+
+  if (sys.tsam > 0)
+    disp (sprintf ("Sampling time: %g s", sys.tsam));
+  elseif (sys.tsam == -1)
     disp ("Sampling time: unspecified");
   endif
 

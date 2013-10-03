@@ -42,6 +42,10 @@ function varargout = get (sys, varargin)
           val = sys.inname;
         case {"outname", "outputname"}
           val = sys.outname;
+        case {"ingroup", "inputgroup"}
+          val = sys.ingroup;
+        case {"outgroup", "outputgroup"}
+          val = sys.outgroup;
         case {"tsam", "ts"}
           val = sys.tsam;
         case "name"
