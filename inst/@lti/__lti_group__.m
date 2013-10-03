@@ -34,6 +34,15 @@ function retlti = __lti_group__ (lti1, lti2)
   retlti.outname = [lti1.outname;
                     lti2.outname];
 
+  m1 = numel (lti1.inname);
+  p1 = numel (lti1.outname);
+  
+  lti2.ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
+  lti2.outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
+
+  retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2.ingroup);
+  retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2.outgroup);
+
   if (lti1.tsam == lti2.tsam)
     retlti.tsam = lti1.tsam;
   elseif (lti1.tsam == -2)
@@ -47,5 +56,22 @@ function retlti = __lti_group__ (lti1, lti2)
   else
     error ("lti_group: systems must have identical sampling times");
   endif
+
+endfunction
+
+
+function ret = __merge_struct__ (a, b)
+
+  ## FIXME: this is too complicated;
+  ##        isn't there a simple function for this task?
+  fa = fieldnames (a);
+  fb = fieldnames (b);
+  
+  ca = struct2cell (a);
+  cb = struct2cell (b);
+  
+  ret = cell2struct ([ca; cb], [fa; fb]);
+  
+  ## FIXME: name clashes
 
 endfunction
