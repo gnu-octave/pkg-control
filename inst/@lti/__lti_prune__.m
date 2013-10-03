@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function lti = __lti_prune__ (lti, out_idx, in_idx)
 
@@ -32,13 +32,17 @@ function lti = __lti_prune__ (lti, out_idx, in_idx)
   lti.inname = lti.inname(in_idx);
   lti.outname = lti.outname(out_idx);
   
-  lti.ingroup = structfun (@(x) sparse (x, 1:length(x), 1, m, length(x)), lti.ingroup, "uniformoutput", false);
-  lti.outgroup = structfun (@(x) sparse (x, 1:length(x), 1, p, length(x)), lti.outgroup, "uniformoutput", false);
+  lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+  lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
 
-  lti.ingroup = structfun (@(x) x(in_idx, :), lti.ingroup, "uniformoutput", false);
-  lti.outgroup = structfun (@(x) x(out_idx, :), lti.outgroup, "uniformoutput", false);
-  
-  [lti.ingroup, ~] = structfun (@find, lti.ingroup, "uniformoutput", false);
-  [lti.outgroup, ~] = structfun (@find, lti.outgroup, "uniformoutput", false);
+endfunction
+
+
+function group = __group_prune__ (group, idx, n)
+
+  lg = length (group)
+  group = sparse (group, 1:lg, 1, n, lg);
+  group = group(idx, :);
+  [group, ~] = find (group);
 
 endfunction
