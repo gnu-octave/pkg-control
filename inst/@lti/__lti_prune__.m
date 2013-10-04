@@ -26,18 +26,28 @@
 
 function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 
-  if (ischar (out_idx) && ! strncmpi (out_idx, ":", 1))
+  if (ischar (out_idx) && ! strncmpi (out_idx, ":", 1))     # sys("grp", :)
     out_idx = lti.outgroup.(out_idx);
-  endif
-  if (ischar (in_idx) && ! strncmpi (in_idx, ":", 1))
-    in_idx = lti.ingroup.(in_idx);
+  elseif (iscell (out_idx))                                 # sys({"grp1", "grp2"}, :)
+    tmp = cellfun (@(x) lti.outgroup.(x)(:), out_idx, "uniformoutput", false);
+    out_idx = vertcat (tmp{:});
   endif
 
-  if (nfields (lti.outgroup) > 0)
-    p = numel (lti.outname);    # get size before pruning outnames!
+  if (ischar (in_idx) && ! strncmpi (in_idx, ":", 1))       # sys(:, "grp")
+    in_idx = lti.ingroup.(in_idx);
+  elseif (iscell (in_idx))                                  # sys(:, {"grp1", "grp2"})
+    tmp = cellfun (@(x) lti.ingroup.(x)(:), in_idx, "uniformoutput", false);
+    in_idx = vertcat (tmp{:});
+  endif
+  
+  ## TODO: check group with isfield whether idx is field,
+  ##       if not, also check inname/outname
+
+  if (nfields (lti.outgroup))
+    p = numel (lti.outname);                                # get size before pruning outnames!
     lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
   endif
-  if (nfields (lti.ingroup) > 0)
+  if (nfields (lti.ingroup))
     m = numel (lti.inname); 
     lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
   endif
