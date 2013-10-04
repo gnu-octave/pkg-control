@@ -25,11 +25,11 @@
 function display (sys)
 
   if (nfields (sys.ingroup) > 0)
-    sys.ingroup
+    __disp_group__ (sys.ingroup, "Input");
   endif
   
   if (nfields (sys.outgroup) > 0)
-    sys.outgroup
+    __disp_group__ (sys.outgroup, "Output");
   endif
 
   if (sys.tsam > 0)
@@ -37,5 +37,16 @@ function display (sys)
   elseif (sys.tsam == -1)
     disp ("Sampling time: unspecified");
   endif
+
+endfunction
+
+
+function __disp_group__ (group, io)
+
+  name = fieldnames (group);
+  idx = struct2cell (group);
+
+  cellfun (@(name, idx) printf ("%s group '%s' = %s\n", io, name, mat2str (idx(:).')), ...
+                                name, idx, "uniformoutput", false);
 
 endfunction
