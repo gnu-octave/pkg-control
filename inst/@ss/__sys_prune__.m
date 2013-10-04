@@ -26,15 +26,7 @@
 
 function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
 
-  if (ischar (out_idx) && ! strncmpi (out_idx, ":", 1))
-    out_idx = sys.lti.outgroup.(out_idx);
-  endif
-  
-  if (ischar (in_idx) && ! strncmpi (in_idx, ":", 1))
-    in_idx = sys.lti.ingroup.(in_idx);
-  endif
-
-  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
+  [sys.lti, out_idx, in_idx] = __lti_prune__ (sys.lti, out_idx, in_idx);
 
   sys.a = sys.a(st_idx, st_idx);
   sys.b = sys.b(st_idx, in_idx);

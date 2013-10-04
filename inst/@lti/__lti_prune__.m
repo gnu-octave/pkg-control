@@ -24,20 +24,26 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function lti = __lti_prune__ (lti, out_idx, in_idx)
+function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 
-  m = numel (lti.inname);       # size before pruning!
-  p = numel (lti.outname);
-
-  lti.inname = lti.inname(in_idx);
-  lti.outname = lti.outname(out_idx);
-
-  if (nfields (lti.ingroup) > 0)
-    lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+  if (ischar (out_idx) && ! strncmpi (out_idx, ":", 1))
+    out_idx = lti.outgroup.(out_idx);
   endif
+  if (ischar (in_idx) && ! strncmpi (in_idx, ":", 1))
+    in_idx = lti.ingroup.(in_idx);
+  endif
+
   if (nfields (lti.outgroup) > 0)
+    p = numel (lti.outname);    # get size before pruning outnames!
     lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
   endif
+  if (nfields (lti.ingroup) > 0)
+    m = numel (lti.inname); 
+    lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+  endif
+  
+  lti.outname = lti.outname(out_idx);
+  lti.inname = lti.inname(in_idx);
 
 endfunction
 

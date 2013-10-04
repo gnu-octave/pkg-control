@@ -8,3 +8,5 @@ sys(2:5,:)
 % [sys; sys]
 
 % [sys, sys]
+
+sys ("attitude",:)
