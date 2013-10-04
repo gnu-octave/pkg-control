@@ -44,7 +44,7 @@ endfunction
 
 function group = __group_prune__ (group, idx, n)
 
-  lg = length (group)
+  lg = length (group);
   group = sparse (group, 1:lg, 1, n, lg);
   group = group(idx, :);
   [group, ~] = find (group);
