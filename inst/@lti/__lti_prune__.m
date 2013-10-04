@@ -31,9 +31,13 @@ function lti = __lti_prune__ (lti, out_idx, in_idx)
 
   lti.inname = lti.inname(in_idx);
   lti.outname = lti.outname(out_idx);
-  
-  lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
-  lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
+
+  if (nfields (lti.ingroup) > 0)
+    lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+  endif
+  if (nfields (lti.outgroup) > 0)
+    lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
+  endif
 
 endfunction
 

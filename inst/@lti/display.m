@@ -24,8 +24,13 @@
 
 function display (sys)
 
-  sys.ingroup
-  sys.outgroup
+  if (nfields (sys.ingroup) > 0)
+    sys.ingroup
+  endif
+  
+  if (nfields (sys.outgroup) > 0)
+    sys.outgroup
+  endif
 
   if (sys.tsam > 0)
     disp (sprintf ("Sampling time: %g s", sys.tsam));
