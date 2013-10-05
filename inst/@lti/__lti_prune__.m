@@ -27,21 +27,20 @@
 function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 
   if (ischar (out_idx) && ! strcmp (out_idx, ":"))  # sys("grp", :)
-    out_idx = lti.outgroup.(out_idx);
-  elseif (iscell (out_idx))                         # sys({"grp1", "grp2"}, :)
-    tmp = cellfun (@(x) lti.outgroup.(x)(:), out_idx, "uniformoutput", false);
+    out_idx = {out_idx};
+  endif
+  if (iscell (out_idx))                             # sys({"grp1", "grp2"}, :)
+    tmp = cellfun (@(x) __str2idx__ (lti.outgroup, lti.outname, x), out_idx, "uniformoutput", false);
     out_idx = vertcat (tmp{:});
   endif
 
   if (ischar (in_idx) && ! strcmp (in_idx, ":"))    # sys(:, "grp")
-    in_idx = lti.ingroup.(in_idx);
-  elseif (iscell (in_idx))                          # sys(:, {"grp1", "grp2"})
-    tmp = cellfun (@(x) lti.ingroup.(x)(:), in_idx, "uniformoutput", false);
+    in_idx = {in_idx};
+  endif
+  if (iscell (in_idx))                              # sys(:, {"grp1", "grp2"})
+    tmp = cellfun (@(x) __str2idx__ (lti.ingroup, lti.inname, x), in_idx, "uniformoutput", false);
     in_idx = vertcat (tmp{:});
   endif
-  
-  ## TODO: check group with isfield whether idx is field,
-  ##       if not, also check inname/outname
 
   if (nfields (lti.outgroup))
     p = numel (lti.outname);                        # get size before pruning outnames!
@@ -64,5 +63,25 @@ function group = __group_prune__ (group, idx, n)
   group = sparse (group, 1:lg, 1, n, lg);
   group = group(idx, :);
   [group, ~] = find (group);
+
+endfunction
+
+
+function idx = __str2idx__ (group, name, str)
+
+  if (isfield (group, str))
+    idx = group.(str)(:);
+  else
+    tmp = strcmp (name, str)(:);
+    switch (nnz (tmp))
+      case 1
+        idx = find (tmp);
+      case 0
+        error ("lti: group or name '%s' not found", str);
+      otherwise
+        error ("lti: name '%s' is ambiguous", str);
+        ## FIXME: error for structure arrays
+    endswitch
+  endif
 
 endfunction
