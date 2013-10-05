@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {@var{P} =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
+## @deftypefn{Function File} {@var{P} =} mktito (@var{P}, @var{nmeas}, @var{ncon})
 ## Partition @acronym{LTI} plant @var{P} for robust controller synthesis.
 ##
 ## @strong{Inputs}
@@ -89,9 +89,13 @@ function P = mktito (P, nmeas, ncon)
     error ("mktito: third argument invalid");
   endif
   
-  outgroup = struct ("Y1", 1:p-nmeas, "Y2", p-nmeas+1:p);
-  ingroup = struct ("U1", 1:m-ncon, "U2", m-ncon+1:m);
+  outgroup = struct ("Z", 1:p-nmeas, "V", p-nmeas+1:p);
+  outname = vertcat (strseq ("z", 1:p-nmeas), strseq ("v", 1:nmeas));
+  
+  ingroup = struct ("W", 1:m-ncon, "U", m-ncon+1:m);
+  inname = vertcat (strseq ("w", 1:m-ncon), strseq ("u", 1:ncon));
 
-  P = set (P, "outgroup", outgroup, "ingroup", ingroup);
+  P = set (P, "outgroup", outgroup, "ingroup", ingroup, ...
+              "outname", outname, "inname", inname);
 
 endfunction
