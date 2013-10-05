@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,11 +22,19 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
 
   [sys.lti, out_idx, in_idx] = __lti_prune__ (sys.lti, out_idx, in_idx);
+  
+  if (ischar (st_idx) && ! strcmp (st_idx, ":"))
+    st_idx = {st_idx};
+  endif
+  if (iscell (st_idx))
+    tmp = cellfun (@(x) __str2idx__ (sys.stname, x), st_idx, "uniformoutput", false);
+    st_idx = vertcat (tmp{:});
+  endif
 
   sys.a = sys.a(st_idx, st_idx);
   sys.b = sys.b(st_idx, in_idx);
@@ -38,5 +46,21 @@ function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
   endif
 
   sys.stname = sys.stname(st_idx);
+
+endfunction
+
+
+function idx = __str2idx__ (name, str)
+
+  tmp = strcmp (name, str)(:);
+
+  switch (nnz (tmp))
+    case 1
+      idx = find (tmp);
+    case 0
+      error ("ss: state name '%s' not found", str);
+    otherwise
+      error ("ss: state name '%s' is ambiguous", str);
+  endswitch
 
 endfunction

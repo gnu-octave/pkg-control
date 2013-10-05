@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,16 +22,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = xperm (sys, st_idx)
 
   if (nargin != 2)
     print_usage ();
-  endif
-
-  if (! is_real_vector (st_idx))
-    error ("xperm: second argument invalid");
   endif
 
   if (! isa (sys, "ss"))
