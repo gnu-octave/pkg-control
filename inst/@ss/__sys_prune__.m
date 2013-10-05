@@ -32,8 +32,7 @@ function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
     st_idx = {st_idx};
   endif
   if (iscell (st_idx))
-    tmp = cellfun (@(x) __str2idx__ (sys.stname, x), st_idx, "uniformoutput", false);
-    st_idx = vertcat (tmp{:});
+    st_idx = cellfun (@(x) __str2idx__ (sys.stname, x), st_idx);
   endif
 
   sys.a = sys.a(st_idx, st_idx);

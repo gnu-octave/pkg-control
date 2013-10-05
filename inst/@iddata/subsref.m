@@ -80,8 +80,7 @@ function idx = __handle_idx__ (name, idx, id)
   endif
 
   if (iscell (idx))
-    tmp = cellfun (@(x) __str2idx__ (name, x, id), idx, "uniformoutput", false);
-    idx = vertcat (tmp{:});
+    idx = cellfun (@(x) __str2idx__ (name, x, id), idx);
   endif
 
 endfunction
