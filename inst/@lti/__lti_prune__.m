@@ -30,7 +30,7 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
     out_idx = {out_idx};
   endif
   if (iscell (out_idx))                             # sys({"grp1", "grp2"}, :)
-    tmp = cellfun (@(x) __str2idx__ (lti.outgroup, lti.outname, x), out_idx, "uniformoutput", false);
+    tmp = cellfun (@(x) __str2idx__ (lti.outgroup, lti.outname, x, "out"), out_idx, "uniformoutput", false);
     out_idx = vertcat (tmp{:});
   endif
 
@@ -38,7 +38,7 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
     in_idx = {in_idx};
   endif
   if (iscell (in_idx))                              # sys(:, {"grp1", "grp2"})
-    tmp = cellfun (@(x) __str2idx__ (lti.ingroup, lti.inname, x), in_idx, "uniformoutput", false);
+    tmp = cellfun (@(x) __str2idx__ (lti.ingroup, lti.inname, x, "in"), in_idx, "uniformoutput", false);
     in_idx = vertcat (tmp{:});
   endif
 
@@ -67,7 +67,7 @@ function group = __group_prune__ (group, idx, n)
 endfunction
 
 
-function idx = __str2idx__ (group, name, str)
+function idx = __str2idx__ (group, name, str, id)
 
   if (isfield (group, str))
     idx = group.(str)(:);
@@ -77,9 +77,9 @@ function idx = __str2idx__ (group, name, str)
       case 1
         idx = find (tmp);
       case 0
-        error ("lti: group or name '%s' not found", str);
+        error ("lti: %sgroup or %sname '%s' not found", id, id, str);
       otherwise
-        error ("lti: name '%s' is ambiguous", str);
+        error ("lti: %sname '%s' is ambiguous", id, str);
         ## FIXME: error for structure arrays
     endswitch
   endif
