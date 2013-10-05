@@ -1,4 +1,4 @@
-## Copyright (C) 2012   Lukas F. Reichlin
+## Copyright (C) 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.2
+## Version: 0.3
 
 function a = subsref (a, s)
 
@@ -51,6 +51,10 @@ endfunction
 
 function dat = __dat_prune__ (dat, spl_idx = ":", out_idx = ":", in_idx = ":", exp_idx = ":")
 
+  out_idx = __handle_idx__ (dat.outname, out_idx, "outname");
+  in_idx = __handle_idx__ (dat.inname, in_idx, "inname");
+  exp_idx = __handle_idx__ (dat.expname, exp_idx, "expname");
+
   dat.y = dat.y(exp_idx);
   dat.y = cellfun (@(y) y(spl_idx, out_idx), dat.y, "uniformoutput", false);
   dat.outname = dat.outname(out_idx);
@@ -65,5 +69,35 @@ function dat = __dat_prune__ (dat, spl_idx = ":", out_idx = ":", in_idx = ":", e
 
   dat.expname = dat.expname(exp_idx);
   dat.tsam = dat.tsam(exp_idx);
+
+endfunction
+
+
+function idx = __handle_idx__ (name, idx, id)
+
+  if (ischar (idx) && ! strcmp (idx, ":"))
+    idx = {idx};
+  endif
+
+  if (iscell (idx))
+    tmp = cellfun (@(x) __str2idx__ (name, x, id), idx, "uniformoutput", false);
+    idx = vertcat (tmp{:});
+  endif
+
+endfunction
+
+
+function idx = __str2idx__ (name, str, id)
+
+  tmp = strcmp (name, str)(:);
+
+  switch (nnz (tmp))
+    case 1
+      idx = find (tmp);
+    case 0
+      error ("iddata: %s '%s' not found", id, str);
+    otherwise
+      error ("iddata: %s '%s' is ambiguous", id, str);
+  endswitch
 
 endfunction
