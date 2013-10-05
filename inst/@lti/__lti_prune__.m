@@ -29,13 +29,13 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
   if (ischar (out_idx) && ! strcmp (out_idx, ":"))  # sys("grp", :)
     out_idx = {out_idx};
   endif
+  if (ischar (in_idx) && ! strcmp (in_idx, ":"))    # sys(:, "grp")
+    in_idx = {in_idx};
+  endif
+
   if (iscell (out_idx))                             # sys({"grp1", "grp2"}, :)
     tmp = cellfun (@(x) __str2idx__ (lti.outgroup, lti.outname, x, "out"), out_idx, "uniformoutput", false);
     out_idx = vertcat (tmp{:});
-  endif
-
-  if (ischar (in_idx) && ! strcmp (in_idx, ":"))    # sys(:, "grp")
-    in_idx = {in_idx};
   endif
   if (iscell (in_idx))                              # sys(:, {"grp1", "grp2"})
     tmp = cellfun (@(x) __str2idx__ (lti.ingroup, lti.inname, x, "in"), in_idx, "uniformoutput", false);
