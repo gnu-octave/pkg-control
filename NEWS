@@ -1,10 +1,10 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.4.5   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
+control-2.4.5   Release Date: 2013-10-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** Compatibility to GNU Octave 4.0
+** Compatibility to GNU Octave 3.8
    Replaced line continuation marker "\" by "..." to avoid deprecated syntax
    warning.  (Thanks to John W. Eaton)
 

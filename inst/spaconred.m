@@ -29,7 +29,7 @@
 ## The algorithm tries to minimize the frequency-weighted error
 ## @iftex
 ## @tex
-## $$ || V \\ (K - K_r) \\ W ||_{\\infty} = min $$
+## $$ || V \\ (K - K_r) \\ W ||_{\\infty} = \\min $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

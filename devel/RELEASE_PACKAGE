@@ -6,8 +6,7 @@ USAGE: * adapt all paths to your machine
        * adapt version number and release date in DESCRIPTION
        * update NEWS
        * adapt version number in control.tex
-       * update doc/control.pdf
-       * update doc/control.tex  &  doc/functions.texi
+       * run m-file generate_control_pdf
        * copy-paste entire block at once to the terminal
        * follow instructions on <http://octave.sourceforge.net/developers.html>
 
@@ -18,17 +17,22 @@ cd
 mkdir ~/octave/__TEMP__
 cd ~/control
 hg archive ~/octave/__TEMP__/control
+cd ~/control/devel/pdfdoc
+cp control.pdf ~/octave/__TEMP__/control/doc/
+cp control.tex ~/octave/__TEMP__/control/doc/
+cp functions.texi ~/octave/__TEMP__/control/doc/
+cp gpl.texi ~/octave/__TEMP__/control/doc/
 rm -R ~/octave/__TEMP__/control/devel
 rm -R ~/octave/__TEMP__/control/.hg_archival.txt
 rm -R ~/octave/__TEMP__/control/.hgtags
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
-tar czf control-2.4.4.tar.gz control/
-md5 control-2.4.4.tar.gz
-md5 control-2.4.4.tar.gz > md5_control_pkg.txt
-uuencode control-2.4.4.tar.gz < control-2.4.4.tar.gz > control-2.4.4.tar.gz.uue
+tar czf control-2.4.5.tar.gz control/
+md5 control-2.4.5.tar.gz
+md5 control-2.4.5.tar.gz > md5_control_pkg.txt
+uuencode control-2.4.5.tar.gz < control-2.4.5.tar.gz > control-2.4.5.tar.gz.uue
 octave -q --eval \
-"pkg install control-2.4.4.tar.gz"
+"pkg install control-2.4.5.tar.gz"
 octave -q --eval \
 "pkg load generate_html; generate_package_html ('control', 'control-html', 'octave-forge')"
 tar czf control-html.tar.gz control-html
@@ -43,7 +47,7 @@ Aftermath
 =====================================================================================
 
 rm -R ~/octave/__TEMP__
-rm -R ~/octave/control-2.4.4
+rm -R ~/octave/control-2.4.5
 
 
 =====================================================================================

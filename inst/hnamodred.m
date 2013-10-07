@@ -29,8 +29,8 @@
 ## HNA is an absolute error method which tries to minimize
 ## @iftex
 ## @tex
-## $$ || G - G_r ||_H = min $$
-## $$ || V \\ (G - G_r) \\ W ||_H = min $$
+## $$ || G - G_r ||_H = \\min $$
+## $$ || V \\ (G - G_r) \\ W ||_H = \\min $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -111,7 +111,7 @@
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be antistable.
 ## @iftex
-## @math{|| V \\ (G-G_r) \\dots ||_H = min}
+## @math{|| V \\ (G-G_r) \\dots ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -124,7 +124,7 @@
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be antistable.
 ## @iftex
-## @math{|| \\dots (G-G_r) \\ W ||_H = min}
+## @math{|| \\dots (G-G_r) \\ W ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -138,7 +138,7 @@
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must have only antistable zeros.
 ## @iftex
-## @math{|| inv(V) \\ (G-G_r) \\dots ||_H = min}
+## @math{|| inv(V) \\ (G-G_r) \\dots ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -151,7 +151,7 @@
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must have only antistable zeros.
 ## @iftex
-## @math{|| \\dots (G-G_r) \\ inv(W) ||_H = min}
+## @math{|| \\dots (G-G_r) \\ inv(W) ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -165,7 +165,7 @@
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be stable.
 ## @iftex
-## @math{|| conj(V) \\ (G-G_r) \\dots ||_H = min}
+## @math{|| conj(V) \\ (G-G_r) \\dots ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -178,7 +178,7 @@
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be stable.
 ## @iftex
-## @math{|| \\dots (G-G_r) \\ conj(W) ||_H = min}
+## @math{|| \\dots (G-G_r) \\ conj(W) ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -192,7 +192,7 @@
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be minimum-phase.
 ## @iftex
-## @math{|| conj(inv(V)) \\ (G-G_r) \\dots ||_H = min}
+## @math{|| conj(inv(V)) \\ (G-G_r) \\dots ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example
@@ -205,7 +205,7 @@
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be minimum-phase.
 ## @iftex
-## @math{|| \\dots (G-G_r) \\ conj(inv(W)) ||_H = min}
+## @math{|| \\dots (G-G_r) \\ conj(inv(W)) ||_H = \\min}
 ## @end iftex
 ## @ifnottex
 ## @example

@@ -29,7 +29,7 @@
 ## BST is a relative error method which tries to minimize
 ## @iftex
 ## @tex
-## $$ || G^{-1} (G-G_r) ||_{\\infty} = min $$
+## $$ || G^{-1} (G-G_r) ||_{\\infty} = \\min $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
