@@ -46,6 +46,7 @@ test ltimodels
 
 ## LTI methods
 test @lti/c2d
+test @lti/connect
 test @lti/d2c
 test @lti/d2d
 test @lti/feedback
