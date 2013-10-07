@@ -17,6 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
+## @deftypefnx {Function File} {@var{sys} =} connect (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{inputs}, @var{outputs})
 ## Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
 ## @end deftypefn
 
@@ -70,7 +71,7 @@ function sys = connect (varargin)
     io_idx = ! lti_idx;
     
     if (nnz (io_idx) != 2)
-      print_usage ();
+      error ("connect: require arguments 'inputs' and 'outputs'");
     endif
     
     in_idx = varargin(io_idx){1};
@@ -83,6 +84,9 @@ function sys = connect (varargin)
     
     tmp = cellfun (@(x) find (strcmp (inname, x)(:)), ioname, "uniformoutput", false);
     inputs = vertcat (tmp{:});  # there could be more than one input with the same name
+    
+    ## FIXME: sys_prune will error out if names in out_idx and in_idx are not unique
+    ##        the dark side handles cases with common in_idx names
     
     [p, m] = size (sys);
     M = zeros (m, p);
