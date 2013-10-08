@@ -17,14 +17,14 @@ Dp = 1/(-93.9*s);
 Dp.InputName = 'yp'; Dp.OutputName = 'y1';
 
 % Overall plant
-% S1 = sumblk('ym = yp + dp');
-S1 = ss ([1, 1]);
-S1.InputName = {'yp', 'dp'};
-S1.OutputName = 'ym';
-%S2 = sumblk('dy = y0 - y1');
-S2 = ss ([1, -1]);
-S2.InputName = {'y0', 'y1'};
-S2.OutputName = 'dy';
+S1 = sumblk ('ym = yp + dp');
+%S1 = ss ([1, 1]);
+%S1.InputName = {'yp', 'dp'};
+%S1.OutputName = 'ym';
+S2 = sumblk ('dy = y0 - y1');
+%S2 = ss ([1, -1]);
+%S2.InputName = {'y0', 'y1'};
+%S2.OutputName = 'dy';
 
 
 % Plant = connect (P, Gp, Dp, F, S1, S2, 'u', 'ym');
@@ -39,17 +39,17 @@ C.InputName = 'e'; C.OutputName = 'u';
 
 
 % Assemble closed-loop model from [y_sp,d] to y
-%Sum1 = sumblk('e = ysp - yp - dp');
-Sum1 = ss ([1, -1, -1]);
-Sum1.OutputName = 'e'; Sum1.InputName = {'ysp', 'yp', 'dp'};
+Sum1 = sumblk ('e = ysp - yp - dp');
+%Sum1 = ss ([1, -1, -1]);
+%Sum1.OutputName = 'e'; Sum1.InputName = {'ysp', 'yp', 'dp'};
 
-%Sum2 = sumblk('y = y0 + d');
-Sum2 = ss ([1, -1]);
-Sum2.OutputName = 'y'; Sum2.InputName = {'y0', 'd'};
+Sum2 = sumblk ('y = y0 + d');
+%Sum2 = ss ([1, -1]);
+%Sum2.OutputName = 'y'; Sum2.InputName = {'y0', 'd'};
 
-%Sum3 = sumblk('dy = y - y1');
-Sum3 = ss ([1, -1]);
-Sum3.OutputName = 'dy'; Sum3.InputName = {'y', 'y1'};
+Sum3 = sumblk ('dy = y - y1');
+%Sum3 = ss ([1, -1]);
+%Sum3.OutputName = 'dy'; Sum3.InputName = {'y', 'y1'};
 
 
 
