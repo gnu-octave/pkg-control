@@ -37,13 +37,13 @@ function retlti = __lti_group__ (lti1, lti2)
   if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
     m1 = numel (lti1.inname);
     lti2.ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
-    retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2.ingroup);
+    retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2.ingroup, "in");
   endif
   
   if (nfields (lti1.outgroup) || nfields (lti2.outgroup))
     p1 = numel (lti1.outname);
     lti2.outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
-    retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2.outgroup);
+    retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2.outgroup, "out");
   endif
 
   if (lti1.tsam == lti2.tsam)
@@ -63,18 +63,22 @@ function retlti = __lti_group__ (lti1, lti2)
 endfunction
 
 
-function ret = __merge_struct__ (a, b)
+function ret = __merge_struct__ (a, b, iostr)
 
   ## FIXME: this is too complicated;
   ##        isn't there a simple function for this task?
+
   fa = fieldnames (a);
   fb = fieldnames (b);
-  
+  fi = intersect (fa, fb);
+
+  if (numel (fi) > 0)
+    cellfun (@(x) warning ("lti_group: %sgroup name clash '%s'", iostr, x), fi);
+  endif
+
   ca = struct2cell (a);
   cb = struct2cell (b);
   
   ret = cell2struct ([ca; cb], [fa; fb]);
-  
-  ## FIXME: name clashes
 
 endfunction
