@@ -1,11 +1,15 @@
-function s = sumblk (formula)
+function s = sumblk (formula, n = 1)
 
-  if (nargin != 1)
+  if (nargin == 0 || nargin > 2)
     print_usage ();
   endif
   
   if (! ischar (formula))
-    error ("sumblk: require string as argument");
+    error ("sumblk: require string as first argument");
+  endif
+  
+  if (! is_real_scalar (n))
+    error ("sumblk: require integer as second argument");
   endif
   
   if (length (strfind (formula, "=")) != 1)
@@ -32,7 +36,13 @@ function s = sumblk (formula)
   signs = ones (1, numel (inname));
   signs(strcmp (token, "-")) = -1;
   
-  d = kron (signs, 1);
+  if (n != 1)
+    outname = strseq (outname{1}, 1:n);
+    tmp = cellfun (@strseq, inname, {1:n}, "uniformoutput", false);
+    inname = vertcat (tmp{:});
+  endif
+  
+  d = kron (signs, eye (n));
   s = ss (d);
   s = set (s, "inname", inname, "outname", outname);
 
