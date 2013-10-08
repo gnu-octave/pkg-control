@@ -1,3 +1,68 @@
+## Copyright (C) 2013   Lukas F. Reichlin
+##
+## This file is part of LTI Syncope.
+##
+## LTI Syncope is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## LTI Syncope is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
+
+## -*- texinfo -*-
+## @deftypefn{Function File} {@var{S} =} sumblk (@var{formula})
+## @deftypefnx{Function File} {@var{S} =} sumblk (@var{formula}, @var{n})
+## Create summing junction @var{S} from string @var{formula}
+## for name-based interconnections.
+##
+## @strong{Inputs}
+## @table @var
+## @item formula
+## String containing the formula of the summing junction,
+## e.g. @code{e = r - y + d} 
+## @item n
+## Signal size.  Default value is 1.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item S
+## State-space model of the summing junction.
+## @end table
+##
+## @strong{Example}
+## @example
+## @group
+## octave:1> S = sumblk ('e = r - y + d')
+## 
+## S.d =
+##        r   y   d
+##    e   1  -1   1
+## 
+## Static gain.
+## octave:2> S = sumblk ('e = r - y + d', 2)
+## 
+## S.d =
+##        r1  r2  y1  y2  d1  d2
+##    e1   1   0  -1   0   1   0
+##    e2   0   1   0  -1   0   1
+## 
+## Static gain.
+## @end group
+## @end example
+## @seealso{connect}
+## @end deftypefn
+
+## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Created: October 2013
+## Version: 0.1
+
 function s = sumblk (formula, n = 1)
 
   if (nargin == 0 || nargin > 2)

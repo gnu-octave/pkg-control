@@ -19,6 +19,7 @@
 ## @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
 ## @deftypefnx {Function File} {@var{sys} =} connect (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{inputs}, @var{outputs})
 ## Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
+## @seealso{sumblk}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
