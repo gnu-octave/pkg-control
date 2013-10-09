@@ -68,7 +68,8 @@ function ret = __merge_struct__ (a, b, iostr)
   ## FIXME: this is too complicated;
   ##        isn't there a simple function for this task?
 
-  ## orderfields (struct ()) errors out in Octave 3.6.4
+  ## bug #40224: orderfields (struct ()) errors out in Octave 3.6.4
+  ## therefore use nfields to check for empty structs
   if (nfields (a))
     a = orderfields (a);
   endif
