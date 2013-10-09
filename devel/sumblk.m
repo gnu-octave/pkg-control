@@ -110,5 +110,9 @@ function s = sumblk (formula, n = 1)
   d = kron (signs, eye (n));
   s = ss (d);
   s = set (s, "inname", inname, "outname", outname);
+  
+  ## NOTE: the dark side returns a tf, but i prefer an ss model
+  ##       because in general, transfer functions and mimo
+  ##       interconnections don't mix well
 
 endfunction
