@@ -59,7 +59,7 @@ function retdat = set (dat, varargin)
       val = varargin{k+1};
 
       switch (prop)
-        case {"y", "outdata", "outputdata"}
+        case {"y", "outdata", "outputdata", "outd", "outputd"}
           val = __adjust_iddata__ (val, dat.u);
           [pval, ~, eval] = __iddata_dim__ (val, dat.u);
           if (pval != p)
@@ -69,28 +69,28 @@ function retdat = set (dat, varargin)
             error ("iddata: set: argument has %d instead of %d experiments", eval, e);
           endif
           dat.y = val;
-        case {"u", "indata", "inputdata"}
+        case {"u", "indata", "inputdata", "ind", "inputd"}
           [~, val] = __adjust_iddata__ (dat.y, val);
           [~, mval] = __iddata_dim__ (dat.y, val);
           if (mval != m)
             error ("iddata: set: argument has %d instead of %d inputs", mval, m);
           endif
           dat.u = val;
-        case {"outname", "outputname"}
+        case {"outname", "outputname", "outn", "outputn"}
           dat.outname = __adjust_labels__ (val, p);
-        case {"inname", "inputname"}
+        case {"inname", "inputname", "inn", "inputn"}
           dat.inname = __adjust_labels__ (val, m);
-        case {"outunit", "outputunit"}
+        case {"outunit", "outputunit", "outu", "outputu"}
           dat.outunit = __adjust_labels__ (val, p);
-        case {"inunit", "inputunit"}
+        case {"inunit", "inputunit", "inu", "inputu"}
           dat.inunit = __adjust_labels__ (val, m);
-        case {"timeunit"}
+        case {"timeunit", "timeu"}
           if (ischar (val))
             dat.timeunit = val;
           else
             error ("iddata: set: property 'timeunit' requires a string");
           endif
-        case {"expname", "experimentname"}
+        case {"expname", "experimentname", "expn", "experimentn"}
           dat.expname = __adjust_labels__ (val, e);
         case {"tsam", "ts"}
           dat.tsam = __adjust_iddata_tsam__ (val, e);

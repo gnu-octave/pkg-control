@@ -59,10 +59,10 @@ function retsys = set (sys, varargin)
       val = varargin{k+1};
 
       switch (prop)
-        case {"inname", "inputname"}
+        case {"inname", "inputname", "inn", "inputn"}
           sys.inname = __adjust_labels__ (val, m);
 
-        case {"outname", "outputname"}
+        case {"outname", "outputname", "outn", "outputn"}
           sys.outname = __adjust_labels__ (val, p);
 
         case {"tsam", "ts"}
@@ -73,18 +73,18 @@ function retsys = set (sys, varargin)
             error ("lti: set: invalid sampling time");
           endif
 
-        case {"ingroup", "inputgroup"}
+        case {"ingroup", "inputgroup", "ing", "inputg"}
           if (isstruct (val))
             sys.ingroup = val;
           else
             error ("lti: set: property 'ingroup' requires a struct");
           endif
 
-        case {"outgroup", "outputgroup"}
+        case {"outgroup", "outputgroup", "outg", "outputg"}
           if (isstruct (val))
             sys.outgroup = val;
           else
-            error ("lti: set: property 'ingroup' requires a struct");
+            error ("lti: set: property 'outgroup' requires a struct");
           endif
 
         case "name"

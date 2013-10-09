@@ -31,14 +31,14 @@ function val = __get__ (sys, prop)
     case "den"
       val = cellfun (@get, sys.den, "uniformoutput", false);
 
-    case {"tfvar", "variable"}
+    case {"tfvar", "variable", "var"}
       val = sys.tfvar;
 
     case "inv"
       val = sys.inv;
 
     otherwise
-      error ("tf: get: invalid property name");
+      error ("tf: get: invalid property name '%s'", prop);
   endswitch
 
 endfunction
