@@ -35,6 +35,7 @@ Model Interconnections
   @lti/mconnect
   @lti/parallel
   @lti/series
+  sumblk
 Model Characteristics
   ctrb
   ctrbf
