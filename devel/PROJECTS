@@ -41,9 +41,6 @@ General:
 
   * Implement balreal.  Based on SLICOT AB09HY?
 
-  * Add input and output groups to LTI models.
-    -- Handle conflicting names for __sys_group__.
-
   * Fix PDF manual.
     -- Use TEX for formulas (iftex)
 
