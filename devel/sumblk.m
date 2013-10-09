@@ -86,9 +86,12 @@ function s = sumblk (formula, n = 1)
     formula = regexprep (formula, "=", "=+", "once");
   endif
   
-  ## remove "="
-  token = regexp (formula, "[=+-]", "match");
-  token = token(2:end);
+  ## extract operators, remove "=" from formula
+  operator = regexp (formula, "[=+-]", "match");
+  if (! strcmp (operator{1}, "="))
+    error ("sumblk: formula has misplaced '='");
+  endif
+  operator = operator(2:end);
   formula = formula(formula != "=");
   
   ## extract signal names
@@ -99,7 +102,7 @@ function s = sumblk (formula, n = 1)
   outname = signal(1);
   inname = signal(2:end);
   signs = ones (1, numel (inname));
-  signs(strcmp (token, "-")) = -1;
+  signs(strcmp (operator, "-")) = -1;
   
   if (n != 1)
     outname = strseq (outname{1}, 1:n);
