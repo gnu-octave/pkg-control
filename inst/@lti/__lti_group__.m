@@ -68,16 +68,25 @@ function ret = __merge_struct__ (a, b, iostr)
   ## FIXME: this is too complicated;
   ##        isn't there a simple function for this task?
 
-  fa = fieldnames (a);
-  fb = fieldnames (b);
-  fi = intersect (fa, fb);
-
-  if (numel (fi) > 0)
-    cellfun (@(x) warning ("lti_group: %sgroup name clash '%s'", iostr, x), fi);
+  ## orderfields (struct ()) errors out in Octave 3.6.4
+  if (nfields (a))
+    a = orderfields (a);
+  endif
+  if (nfields (b))
+    b = orderfields (b);
   endif
 
+  fa = fieldnames (a);
+  fb = fieldnames (b);
+  [fi, ia, ib] = intersect (fa, fb);
   ca = struct2cell (a);
   cb = struct2cell (b);
+
+  for k = numel (fi) : -1 : 1
+    ca{ia(k)} = vertcat (ca{ia(k)}(:), cb{ib(k)}(:));
+    fb(ib(k)) = [];
+    cb(ib(k)) = [];
+  endfor
   
   ret = cell2struct ([ca; cb], [fa; fb]);
 
