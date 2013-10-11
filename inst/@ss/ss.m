@@ -80,12 +80,12 @@
 ##
 ## @item 'ingroup'
 ## Struct with input group names as field names and
-## input indices as field values.
+## vectors of input indices as field values.
 ## Default is an empty struct.
 ##
 ## @item 'outgroup'
 ## Struct with output group names as field names and
-## output indices as field values.
+## vectors of output indices as field values.
 ## Default is an empty struct.
 ##
 ## @item 'name'
