@@ -36,14 +36,14 @@ function retlti = __lti_group__ (lti1, lti2)
 
   if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
     m1 = numel (lti1.inname);
-    lti2.ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
-    retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2.ingroup, "in");
+    lti2_ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
+    retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2_ingroup, "in");
   endif
   
   if (nfields (lti1.outgroup) || nfields (lti2.outgroup))
     p1 = numel (lti1.outname);
-    lti2.outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
-    retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2.outgroup, "out");
+    lti2_outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
+    retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2_outgroup, "out");
   endif
 
   if (lti1.tsam == lti2.tsam)
