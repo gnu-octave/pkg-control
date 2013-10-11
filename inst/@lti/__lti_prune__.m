@@ -65,23 +65,3 @@ function group = __group_prune__ (group, idx, n)
   [group, ~] = find (group);
 
 endfunction
-
-
-function idx = __str2idx__ (group, name, str, id)
-
-  if (isfield (group, str))
-    idx = group.(str)(:);
-  else
-    tmp = strcmp (name, str)(:);
-    switch (nnz (tmp))
-      case 1
-        idx = find (tmp);
-      case 0
-        error ("lti: %sgroup or %sname '%s' not found", id, id, str);
-      otherwise
-        error ("lti: %sname '%s' is ambiguous", id, str);
-        ## FIXME: error for structure arrays
-    endswitch
-  endif
-
-endfunction

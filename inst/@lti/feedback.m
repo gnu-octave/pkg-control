@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2011, 2012   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2011, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -67,7 +67,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.6
+## Version: 0.7
 
 function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
@@ -107,13 +107,27 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
 
     otherwise
       print_usage ();
-
   endswitch
+
+  if (ischar (feedin))
+    feedin = {feedin};
+  endif
+  if (ischar (feedout))
+    feedout = {feedout};
+  endif
+
+  if (iscell (feedin))
+    tmp = cellfun (@(x) __str2idx__ (sys1.ingroup, sys1.inname, x, "in"), feedin, "uniformoutput", false);
+    feedin = vertcat (tmp{:});
+  endif
+  if (iscell (feedout))
+    tmp = cellfun (@(x) __str2idx__ (sys1.outgroup, sys1.outname, x, "out"), feedout, "uniformoutput", false);
+    feedout = vertcat (tmp{:});
+  endif
 
   if (! is_real_vector (feedin) || ! isequal (feedin, abs (fix (feedin))))
     error ("feedback: require 'feedin' to be a vector of integers");
   endif
-
   if (! is_real_vector (feedout) || ! isequal (feedout, abs (fix (feedout))))
     error ("feedback: require 'feedout' to be a vector of integers");
   endif
@@ -126,7 +140,6 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
   if (l_feedin != p2)
     error ("feedback: feedin indices: %d, outputs sys2: %d", l_feedin, p2);
   endif
-
   if (l_feedout != m2)
     error ("feedback: feedout indices: %d, inputs sys2: %d", l_feedout, m2);
   endif
@@ -134,7 +147,6 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
   if (any (feedin > m1 | feedin < 1))
     error ("feedback: range of feedin indices exceeds dimensions of sys1");
   endif
-
   if (any (feedout > p1 | feedout < 1))
     error ("feedback: range of feedout indices exceeds dimensions of sys1");
   endif
