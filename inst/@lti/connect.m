@@ -16,9 +16,32 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
-## @deftypefnx {Function File} {@var{sys} =} connect (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{inputs}, @var{outputs})
-## Arbitrary interconnections between the inputs and outputs of an @acronym{LTI} model.
+## @deftypefn {Function File} {@var{sys} =} connect (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{inputs}, @var{outputs})
+## @deftypefnx {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
+## Name-based interconnections between the inputs and outputs of @acronym{LTI} models.
+## 
+## @strong{Inputs}
+## @table @var
+## @item sys1, @dots{}, sysN
+## @acronym{LTI} models to be connected.  The properties 'inname' and 'outname'
+## of each model should be set according to the desired input-output connections.
+## @item inputs
+## String or cell of strings containing the names of the inputs to be kept.
+## The names must be part of the properties 'ingroup' or 'inname'.
+## @item outputs
+## String or cell of strings containing the names of the outputs to be kept.
+## The names must be part of the properties 'outgroup' or 'outname'.
+## @item cm
+## Legacy connection matrix (not name-based).
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item sys
+## Resulting interconnected system with outputs @var{outputs} and
+## inputs @var{inputs}.
+## @end table
+##
 ## @seealso{sumblk}
 ## @end deftypefn
 
