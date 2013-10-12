@@ -41,6 +41,12 @@ General:
 
   * Implement balreal.  Based on SLICOT AB09HY?
 
+  * Refine input and output groups for LTI models.
+    -- Remove empty fields in __lti_prune__ (and __lti_group__?),
+       i.e. sys.ingroup.controls = [].
+    -- Check for empty fields in set routine?
+    -- Do not display empty fields in display routine?
+
   * Fix PDF manual.
     -- Use TEX for formulas (iftex)
 
