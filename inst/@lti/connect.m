@@ -88,6 +88,9 @@ function sys = connect (varargin)
       endfor
     endfor
 
+    sys = __sys_connect__ (sys, M);
+    sys = __sys_prune__ (sys, out_idx, in_idx);
+
   else                                  # connect (sys1, sys2, ..., sysN, in_idx, out_idx)
 
     lti_idx = cellfun (@isa, varargin, {"lti"});
@@ -119,10 +122,14 @@ function sys = connect (varargin)
       M(inputs(k), :) = outputs;
     endfor
 
-  endif
+    sys = __sys_connect__ (sys, M);
+    sys = __sys_prune__ (sys, out_idx, in_idx);
 
-  sys = __sys_connect__ (sys, M);
-  sys = __sys_prune__ (sys, out_idx, in_idx);
+    if (isa (sys, "ss"))
+      sys = sminreal (sys);
+    endif
+
+  endif
 
 endfunction
 
