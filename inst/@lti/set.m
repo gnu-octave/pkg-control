@@ -74,15 +74,19 @@ function retsys = set (sys, varargin)
           endif
 
         case {"ingroup", "inputgroup", "ing", "inputg"}
-          if (isstruct (val) && all (structfun (@is_real_vector, val)))
-            sys.ingroup = val;
+          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+            empty = structfun (@isempty, val);
+            fields = fieldnames (val);
+            sys.ingroup = rmfield (val, fields(empty));
           else
             error ("lti: set: property 'ingroup' requires a struct containing valid input indices");
           endif
 
         case {"outgroup", "outputgroup", "outg", "outputg"}
-          if (isstruct (val) && all (structfun (@is_real_vector, val)))
-            sys.outgroup = val;
+          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+            empty = structfun (@isempty, val);
+            fields = fieldnames (val);
+            sys.outgroup = rmfield (val, fields(empty));
           else
             error ("lti: set: property 'outgroup' requires a struct containing valid output indices");
           endif
@@ -120,3 +124,11 @@ function retsys = set (sys, varargin)
   endif
 
 endfunction
+
+
+function bool = is_group_idx (idx)
+
+  bool = (isempty (idx) || (is_real_vector (idx) && all (idx > 0) && all (abs (fix (idx)) == idx)));
+
+endfunction
+
