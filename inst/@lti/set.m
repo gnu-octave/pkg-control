@@ -74,17 +74,17 @@ function retsys = set (sys, varargin)
           endif
 
         case {"ingroup", "inputgroup", "ing", "inputg"}
-          if (isstruct (val))
+          if (isstruct (val) && all (structfun (@is_real_vector, val)))
             sys.ingroup = val;
           else
-            error ("lti: set: property 'ingroup' requires a struct");
+            error ("lti: set: property 'ingroup' requires a struct containing valid input indices");
           endif
 
         case {"outgroup", "outputgroup", "outg", "outputg"}
-          if (isstruct (val))
+          if (isstruct (val) && all (structfun (@is_real_vector, val)))
             sys.outgroup = val;
           else
-            error ("lti: set: property 'outgroup' requires a struct");
+            error ("lti: set: property 'outgroup' requires a struct containing valid output indices");
           endif
 
         case "name"
