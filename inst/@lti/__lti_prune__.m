@@ -44,11 +44,17 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 
   if (nfields (lti.outgroup))
     p = numel (lti.outname);                        # get size before pruning outnames!
-    lti.outgroup = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
+    [lti.outgroup, empty] = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
+    empty = cell2mat (struct2cell (empty));
+    fields = fieldnames (lti.outgroup);
+    lti.outgroup = rmfield (lti.outgroup, fields(empty));
   endif
   if (nfields (lti.ingroup))
     m = numel (lti.inname); 
-    lti.ingroup = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+    [lti.ingroup, empty] = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+    empty = cell2mat (struct2cell (empty));
+    fields = fieldnames (lti.ingroup);
+    lti.ingroup = rmfield (lti.ingroup, fields(empty));
   endif
   
   lti.outname = lti.outname(out_idx);
@@ -57,11 +63,12 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 endfunction
 
 
-function group = __group_prune__ (group, idx, n)
+function [group, empty] = __group_prune__ (group, idx, n)
 
   lg = length (group);
   group = sparse (group, 1:lg, 1, n, lg);
   group = group(idx, :);
   [group, ~] = find (group);
+  empty = isempty (group);
 
 endfunction
