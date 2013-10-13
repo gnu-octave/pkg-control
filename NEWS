@@ -1,6 +1,15 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.y   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   State-space to transfer function conversions of static gains, 
+   e.g. "tf (ss (5))", no longer error out.  (Thanks to Thomas Vasileiou)
+
+
+===============================================================================
 control-2.4.5   Release Date: 2013-10-07   Release Manager: Lukas Reichlin
 ===============================================================================
 
