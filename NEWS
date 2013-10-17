@@ -14,11 +14,13 @@ control-2.x.y   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
    -- Support names instead of indices in commands like feedback and xperm.
 
 ** connect
-   Support name-based interconnections.
+   Support name-based interconnections.  This means that the LTI models passed
+   to "connect" will be interconnected automatically if they have their inputs
+   and outputs named accordingly.
 
 ** sumblk
    New function to build summing junctions for name-based interconnections
-   by "connect".
+   by "connect".  Example: Sum = sumblk ('e = r - y + n')
 
 ** tf
    State-space to transfer function conversions of static gains, 
