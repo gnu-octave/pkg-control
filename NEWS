@@ -4,6 +4,22 @@ Summary of important user-visible changes for releases of the control package
 control-2.x.y   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** LTI models
+   -- Support for name-based channel selection in various commands.  Example:
+      sys = Boeing707, sys('pitch', {'rudder', 'thrust'})
+      instead of  sys(2, [2, 1]).
+   -- New properties "ingroup" and "outgroup" to pool several channels:
+      sys.ingroup.controls = [3, 1], sys.outgroup.measurements = [1, 2]
+      sys('measurements', 'controls')  instead of  sys([1, 2], [3, 1]).
+   -- Support names instead of indices in commands like feedback and xperm.
+
+** connect
+   Support name-based interconnections.
+
+** sumblk
+   New function to build summing junctions for name-based interconnections
+   by "connect".
+
 ** tf
    State-space to transfer function conversions of static gains, 
    e.g. "tf (ss (5))", no longer error out.  (Thanks to Thomas Vasileiou)
