@@ -27,11 +27,9 @@ function vdy = frob (t, y, A, B, C, D)
 
 endfunction
 
-function vmas = fmas (vt, vy, E)
 
-  vmas = blkdiag (eye (6), 0);
+M = blkdiag (eye (6), 0);
 
-endfunction
 
 
 % ===============================================================================
@@ -101,7 +99,7 @@ outname = {'y_m', 'y_c', 'y_k', 'y'};  % output names
 G_nom = ss (A, [B1, B2], [C1; C2], [D11, D12; D21, D22], ...
             'inputname', inname, 'outputname', outname);
 
-G = G_nom('y', 'u');                   % extract output y and input u
+G = G_nom(4, 4);                       % extract output y and input u
 
 
 % ===============================================================================
@@ -166,7 +164,7 @@ step (T_mix, T_ncf, 10)                % step response for 10 seconds
 
 [A, B, C, D, E] = ssdata (T_mix);
 
-opt = odeset ("Mass", @fmas);
+opt = odeset ("Mass", M);
 sol = ode5r (@frob, [0, 10], zeros(1, 7), opt, A, B, C, D);
 
 figure (2)
