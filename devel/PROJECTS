@@ -41,16 +41,6 @@ General:
 
   * Implement balreal.  Based on SLICOT AB09HY?
 
-  * Add input and output groups to LTI models.
-    -- sys.ingroup.controls = [1, 3] (stored as a struct)
-    -- sys(:, "controls") (instead of sys(:, [1, 3]))
-    -- Handle __sys_group__ case when indices of the second lti need to be increased
-       by the size of the first lti.
-    -- Handle __sys_prune__ case when indices need to be deleted from all struct fields
-       and channels numbers after the deleted ones need to be decreased.
-    -- Handle conflicting names for __sys_group__.
-    -- Beware of indices not in ascending order.
-
   * Fix PDF manual.
     -- Use TEX for formulas (iftex)
 

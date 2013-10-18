@@ -36,7 +36,7 @@ function sys = __set__ (sys, prop, val)
       sys.w = val;
 
     otherwise
-      error ("frd: set: invalid property name");
+      error ("frd: set: invalid property name '%s'", prop);
 
   endswitch
 

@@ -35,7 +35,7 @@ function sys = __set__ (sys, prop, val)
       __tf_dim__ (sys.num, den);
       sys.den = den;
 
-    case {"tfvar", "variable"}
+    case {"tfvar", "variable", "var"}
       if (ischar (val))
         sys.tfvar = val;
       else
@@ -52,7 +52,7 @@ function sys = __set__ (sys, prop, val)
       endif
 
     otherwise
-      error ("tf: set: invalid property name");
+      error ("tf: set: invalid property name '%s'", prop);
 
   endswitch
 

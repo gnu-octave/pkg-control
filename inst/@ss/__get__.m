@@ -40,14 +40,14 @@ function val = __get__ (sys, prop)
     case "e"
       val = sys.e;
 
-    case {"stname", "statename"}
+    case {"stname", "statename", "stn", "staten"}
       val = sys.stname;
 
     case "scaled"
       val = sys.scaled;
 
     otherwise
-      error ("ss: get: invalid property name");
+      error ("ss: get: invalid property name '%s'", prop);
 
   endswitch
 

@@ -38,10 +38,14 @@ function varargout = get (sys, varargin)
       prop = lower (varargin{k});
 
       switch (prop)
-        case {"inname", "inputname"}
+        case {"inname", "inputname", "inn", "inputn"}
           val = sys.inname;
-        case {"outname", "outputname"}
+        case {"outname", "outputname", "outn", "outputn"}
           val = sys.outname;
+        case {"ingroup", "inputgroup", "ing", "inputg"}
+          val = sys.ingroup;
+        case {"outgroup", "outputgroup", "outg", "outputg"}
+          val = sys.outgroup;
         case {"tsam", "ts"}
           val = sys.tsam;
         case "name"

@@ -22,12 +22,31 @@
 ## Created: September 2009
 ## Version: 0.1
 
-function display (ltisys)
+function display (sys)
 
-  if (ltisys.tsam > 0)
-    disp (sprintf ("Sampling time: %g s", ltisys.tsam));
-  elseif (ltisys.tsam == -1)
+  if (nfields (sys.ingroup) > 0)
+    __disp_group__ (sys.ingroup, "Input");
+  endif
+  
+  if (nfields (sys.outgroup) > 0)
+    __disp_group__ (sys.outgroup, "Output");
+  endif
+
+  if (sys.tsam > 0)
+    disp (sprintf ("Sampling time: %g s", sys.tsam));
+  elseif (sys.tsam == -1)
     disp ("Sampling time: unspecified");
   endif
+
+endfunction
+
+
+function __disp_group__ (group, io)
+
+  name = fieldnames (group);
+  idx = struct2cell (group);
+
+  cellfun (@(name, idx) printf ("%s group '%s' = %s\n", io, name, mat2str (idx(:).')), ...
+                                name, idx, "uniformoutput", false);
 
 endfunction

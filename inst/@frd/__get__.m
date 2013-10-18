@@ -32,7 +32,7 @@ function val = __get__ (sys, prop)
       val = sys.w;
 
     otherwise
-      error ("frd: get: invalid property name");
+      error ("frd: get: invalid property name '%s'", prop);
 
   endswitch
 

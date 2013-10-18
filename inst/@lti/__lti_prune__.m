@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2009, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -22,11 +22,53 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function lti = __lti_prune__ (lti, out_idx, in_idx)
+function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
 
-  lti.inname = lti.inname(in_idx);
+  if (ischar (out_idx) && ! strcmp (out_idx, ":"))  # sys("grp", :)
+    out_idx = {out_idx};
+  endif
+  if (ischar (in_idx) && ! strcmp (in_idx, ":"))    # sys(:, "grp")
+    in_idx = {in_idx};
+  endif
+
+  if (iscell (out_idx))                             # sys({"grp1", "grp2"}, :)
+    tmp = cellfun (@(x) __str2idx__ (lti.outgroup, lti.outname, x, "out"), out_idx, "uniformoutput", false);
+    out_idx = vertcat (tmp{:});
+  endif
+  if (iscell (in_idx))                              # sys(:, {"grp1", "grp2"})
+    tmp = cellfun (@(x) __str2idx__ (lti.ingroup, lti.inname, x, "in"), in_idx, "uniformoutput", false);
+    in_idx = vertcat (tmp{:});
+  endif
+
+  if (nfields (lti.outgroup))
+    p = numel (lti.outname);                        # get size before pruning outnames!
+    [lti.outgroup, empty] = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
+    empty = cell2mat (struct2cell (empty));
+    fields = fieldnames (lti.outgroup);
+    lti.outgroup = rmfield (lti.outgroup, fields(empty));
+  endif
+  if (nfields (lti.ingroup))
+    m = numel (lti.inname); 
+    [lti.ingroup, empty] = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
+    empty = cell2mat (struct2cell (empty));
+    fields = fieldnames (lti.ingroup);
+    lti.ingroup = rmfield (lti.ingroup, fields(empty));
+  endif
+  
   lti.outname = lti.outname(out_idx);
+  lti.inname = lti.inname(in_idx);
+
+endfunction
+
+
+function [group, empty] = __group_prune__ (group, idx, n)
+
+  lg = length (group);
+  group = sparse (group, 1:lg, 1, n, lg);
+  group = group(idx, :);
+  [group, ~] = find (group);
+  empty = isempty (group);
 
 endfunction

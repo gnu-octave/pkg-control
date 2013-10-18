@@ -49,7 +49,7 @@ function sys = __set__ (sys, prop, val)
         sys.e = val;
       endif
 
-    case {"stname", "statename"}
+    case {"stname", "statename", "stn", "staten"}
       n = rows (sys.a);
       sys.stname = __adjust_labels__ (val, n);
 
@@ -61,7 +61,7 @@ function sys = __set__ (sys, prop, val)
       endif
 
     otherwise
-      error ("ss: set: invalid property name");
+      error ("ss: set: invalid property name '%s'", prop);
 
   endswitch
 

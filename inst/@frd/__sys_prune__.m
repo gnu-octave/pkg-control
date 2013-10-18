@@ -26,7 +26,7 @@
 
 function sys = __sys_prune__ (sys, out_idx, in_idx, w_idx = ":")
 
-  sys.lti = __lti_prune__ (sys.lti, out_idx, in_idx);
+  [sys.lti, out_idx, in_idx] = __lti_prune__ (sys.lti, out_idx, in_idx);
 
   sys.H = sys.H(out_idx, in_idx, w_idx);
 

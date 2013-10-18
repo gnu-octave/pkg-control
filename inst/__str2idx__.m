@@ -1,4 +1,4 @@
-## Copyright (C) 2009   Lukas F. Reichlin
+## Copyright (C) 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -16,22 +16,28 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
-## Group @acronym{LTI} models by appending their inputs and outputs.
-## @end deftypefn
+## Get input/output indices from in/outgroup and in/outname.
+## For internal use only.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
+## Created: October 2013
 ## Version: 0.1
 
-function sys = append (varargin)
+function idx = __str2idx__ (group, name, str, id)
 
-  sys = varargin{1};
-
-  if (nargin > 1)
-    for k = 2 : nargin
-      sys = __sys_group__ (sys, varargin{k});
-    endfor
+  if (isfield (group, str))
+    idx = group.(str)(:);
+  else
+    tmp = strcmp (name, str)(:);
+    switch (nnz (tmp))
+      case 1
+        idx = find (tmp);
+      case 0
+        error ("lti: %sgroup or %sname '%s' not found", id, id, str);
+      otherwise
+        error ("lti: %sname '%s' is ambiguous", id, str);
+        ## FIXME: error for structure arrays
+    endswitch
   endif
 
 endfunction

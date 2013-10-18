@@ -30,6 +30,8 @@ function [props, vals] = __property_names__ (sys)
   props = {"tsam";
            "inname";
            "outname";
+           "ingroup";
+           "outgroup";
            "name";
            "notes";
            "userdata"};
@@ -38,6 +40,8 @@ function [props, vals] = __property_names__ (sys)
   vals = {"scalar (sample time in seconds)";
           "m-by-1 cell vector of strings";
           "p-by-1 cell vector of strings";
+          "struct with indices as fields";
+          "struct with indices as fields";
           "string";
           "string or cell of strings";
           "any data type"};

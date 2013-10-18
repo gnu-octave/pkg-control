@@ -59,10 +59,10 @@ function retsys = set (sys, varargin)
       val = varargin{k+1};
 
       switch (prop)
-        case {"inname", "inputname"}
+        case {"inname", "inputname", "inn", "inputn"}
           sys.inname = __adjust_labels__ (val, m);
 
-        case {"outname", "outputname"}
+        case {"outname", "outputname", "outn", "outputn"}
           sys.outname = __adjust_labels__ (val, p);
 
         case {"tsam", "ts"}
@@ -71,6 +71,24 @@ function retsys = set (sys, varargin)
             ## TODO: display hint for 'd2d' to resample model?
           else
             error ("lti: set: invalid sampling time");
+          endif
+
+        case {"ingroup", "inputgroup", "ing", "inputg"}
+          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+            empty = structfun (@isempty, val);
+            fields = fieldnames (val);
+            sys.ingroup = rmfield (val, fields(empty));
+          else
+            error ("lti: set: property 'ingroup' requires a struct containing valid input indices");
+          endif
+
+        case {"outgroup", "outputgroup", "outg", "outputg"}
+          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+            empty = structfun (@isempty, val);
+            fields = fieldnames (val);
+            sys.outgroup = rmfield (val, fields(empty));
+          else
+            error ("lti: set: property 'outgroup' requires a struct containing valid output indices");
           endif
 
         case "name"
@@ -106,3 +124,11 @@ function retsys = set (sys, varargin)
   endif
 
 endfunction
+
+
+function bool = is_group_idx (idx)
+
+  bool = (isempty (idx) || (is_real_vector (idx) && all (idx > 0) && all (abs (fix (idx)) == idx)));
+
+endfunction
+

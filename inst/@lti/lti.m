@@ -30,6 +30,8 @@ function ltisys = lti (p = 0, m = 0, tsam = -2)
   ltisys = struct ("tsam", tsam,
                    "inname", {inname},
                    "outname", {outname},
+                   "ingroup", struct (),
+                   "outgroup", struct (),
                    "name", "",
                    "notes", {{}},
                    "userdata", []);

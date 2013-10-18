@@ -40,23 +40,23 @@ function varargout = get (dat, varargin)
       prop = lower (varargin{k});
 
       switch (prop)
-        case {"y", "outdata", "outputdata"}
+        case {"y", "outdata", "outputdata", "outd", "outputd"}
           val = dat.y;
-        case {"u", "indata", "inputdata"}
+        case {"u", "indata", "inputdata", "ind", "inputd"}
           val = dat.u;
-        case {"outname", "outputname"}
+        case {"outname", "outputname", "outn", "outputn"}
           val = dat.outname;
-        case {"inname", "inputname"}
+        case {"inname", "inputname", "inn", "inputn"}
           val = dat.inname;
-        case {"outunit", "outputunit"}
+        case {"outunit", "outputunit", "outu", "outputu"}
           val = dat.outunit;
-        case {"inunit", "inputunit"}
+        case {"inunit", "inputunit", "inu", "inputu"}
           val = dat.inunit;
         case {"tsam", "ts"}
           val = dat.tsam;
-        case {"timeunit"}
+        case {"timeunit", "timeu"}
           val = dat.timeunit
-        case {"expname", "experimentname"}
+        case {"expname", "experimentname", "expn", "experimentn"}
           val = dat.expname;
         case "name"
           val = dat.name;
