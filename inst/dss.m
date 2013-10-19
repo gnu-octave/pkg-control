@@ -77,6 +77,16 @@
 ## Cell vector of length p containing strings.
 ## Default names are @code{@{'y1', 'y2', ...@}}
 ##
+## @item 'ingroup'
+## Struct with input group names as field names and
+## vectors of input indices as field values.
+## Default is an empty struct.
+##
+## @item 'outgroup'
+## Struct with output group names as field names and
+## vectors of output indices as field values.
+## Default is an empty struct.
+##
 ## @item 'name'
 ## String containing the name of the model.
 ##
