@@ -1,10 +1,10 @@
 Name: Control
-Version: 2.4.5
-Date: 2013-10-07
+Version: 2.6.0
+Date: 2013-10-24
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
 Title: Control Systems
-Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT library
+Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT Library
 Depends: octave (>= 3.6.0)
 Autoload: yes
 License: GPLv3+
