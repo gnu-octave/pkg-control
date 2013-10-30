@@ -26,6 +26,10 @@ control-2.6.0   Release Date: 2013-10-24   Release Manager: Lukas Reichlin
    State-space to transfer function conversions of static gains, 
    e.g. "tf (ss (5))", no longer error out.  (Thanks to Thomas Vasileiou)
 
+** IDDATA identification datasets
+   Support for name-based output, input and experiment selection similar to
+   LTI models.
+
 
 ===============================================================================
 control-2.4.5   Release Date: 2013-10-07   Release Manager: Lukas Reichlin
