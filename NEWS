@@ -1,6 +1,17 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.6.1   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** TODO: add "thiran" from control-time-delay, add thiran to INDEX file
+
+** thiran
+   New function to approximate a continuous-time delay by a discrete-time
+   allpass Thiran filter.  (Thanks to Thomas Vasileiou and Spencer Jackson)
+
+
+===============================================================================
 control-2.6.0   Release Date: 2013-10-24   Release Manager: Lukas Reichlin
 ===============================================================================
 
