@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2010, 2012   Lukas F. Reichlin
+## Copyright (C) 2009, 2010, 2012, 2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function retsys = set (sys, varargin)
 
@@ -74,7 +74,7 @@ function retsys = set (sys, varargin)
           endif
 
         case {"ingroup", "inputgroup", "ing", "inputg"}
-          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+          if (isstruct (val) && all (structfun (@(x) is_group_idx (x, m), val)))
             empty = structfun (@isempty, val);
             fields = fieldnames (val);
             sys.ingroup = rmfield (val, fields(empty));
@@ -83,7 +83,7 @@ function retsys = set (sys, varargin)
           endif
 
         case {"outgroup", "outputgroup", "outg", "outputg"}
-          if (isstruct (val) && all (structfun (@is_group_idx, val)))
+          if (isstruct (val) && all (structfun (@(x) is_group_idx (x, p), val)))
             empty = structfun (@isempty, val);
             fields = fieldnames (val);
             sys.outgroup = rmfield (val, fields(empty));
@@ -126,9 +126,8 @@ function retsys = set (sys, varargin)
 endfunction
 
 
-function bool = is_group_idx (idx)
+function bool = is_group_idx (idx, n)
 
-  bool = (isempty (idx) || (is_real_vector (idx) && all (idx > 0) && all (abs (fix (idx)) == idx)));
+  bool = (isempty (idx) || (is_real_vector (idx) && all (idx > 0) && all (idx <= n) && all (abs (fix (idx)) == idx)));
 
 endfunction
-

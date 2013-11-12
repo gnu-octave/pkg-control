@@ -4,6 +4,10 @@ Summary of important user-visible changes for releases of the control package
 control-2.6.1   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** LTI models
+   Raise an error if the user tries to create an ingroup or outgroup with
+   indices larger than the number of inputs m or outputs p.
+
 ** TODO: add "thiran" from control-time-delay, add thiran to INDEX file
 
 ** thiran
