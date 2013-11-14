@@ -79,7 +79,7 @@ function retsys = set (sys, varargin)
             fields = fieldnames (val);
             sys.ingroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'ingroup' requires a struct containing valid input indices");
+            error ("lti: set: property 'ingroup' requires a struct containing valid input indices in the range [1, %d]", m);
           endif
 
         case {"outgroup", "outputgroup", "outg", "outputg"}
@@ -88,7 +88,7 @@ function retsys = set (sys, varargin)
             fields = fieldnames (val);
             sys.outgroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'outgroup' requires a struct containing valid output indices");
+            error ("lti: set: property 'outgroup' requires a struct containing valid output indices in the range [1, %d]", p);
           endif
 
         case "name"
