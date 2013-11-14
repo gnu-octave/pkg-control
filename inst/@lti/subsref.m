@@ -1,4 +1,4 @@
-## Copyright (C) 2009, 2012   Lukas F. Reichlin
+## Copyright (C) 2009-2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##

@@ -1,5 +1,5 @@
 ## Copyright (C) 2009 Luca Favatella
-## Copyright (C) 2009, 2010, 2011   Lukas Reichlin
+## Copyright (C) 2009-2013   Lukas F. Reichlin
 ##
 ## This file is part of LTI Syncope.
 ##
