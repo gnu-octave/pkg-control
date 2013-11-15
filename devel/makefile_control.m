@@ -13,7 +13,7 @@ cd (srcdir);
 
 ## system ("make realclean");  # recompile slicotlibrary.a
 system ("make clean");
-system ("make -j1 all");
+system ("make -j4 all");
 system ("rm *.o");
 system ("rm *.d");
 

@@ -27,12 +27,13 @@ all: __control_slicot_functions__.oct \
 # the developer makefile makefile_control.m
 slicotlibrary.a: slicot.tar.gz
 	tar -xzf slicot.tar.gz
-	mv slicot/src/*.f .
-	mv slicot/src_aux/*.f .
-	cp TG04BX.fortran TG04BX.f
-	$(MKOCTFILE) -c *.f
-	ar -rc slicotlibrary.a *.o
-	rm -rf *.o *.f slicot
+	mkdir sltmp
+	mv slicot/src/*.f ./sltmp
+	mv slicot/src_aux/*.f ./sltmp
+	cp TG04BX.fortran ./sltmp/TG04BX.f
+	cd sltmp; $(MKOCTFILE) -c *.f
+	ar -rc slicotlibrary.a ./sltmp/*.o
+	rm -rf sltmp slicot
 
 # slicot functions
 __control_slicot_functions__.oct: __control_slicot_functions__.cc slicotlibrary.a
@@ -56,7 +57,7 @@ is_matrix.oct: is_matrix.cc
 	$(MKOCTFILE) is_matrix.cc
 
 clean:
-	rm -rf *.o core octave-core *.oct *~ *.f slicot
+	rm -rf *.o core octave-core *.oct *~ *.f slicot sltmp
 
 realclean: clean
 	rm -rf *.a
