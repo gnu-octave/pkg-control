@@ -134,6 +134,7 @@ System Identification
   n4sid
 Overloaded LTI Operators
   @lti/ctranspose
+  @lti/end
   @lti/horzcat
   @lti/inv
   @lti/minus

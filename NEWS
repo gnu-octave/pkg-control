@@ -5,8 +5,9 @@ control-2.6.1   Release Date: 2013-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** LTI models
-   Raise an error if the user tries to create an ingroup or outgroup with
-   indices larger than the number of inputs m or outputs p.
+   -- Raise an error if the user tries to create an ingroup or outgroup with
+      indices larger than the number of inputs m or outputs p.
+   -- "end" indexing for LTI models works now as expected.
 
 ** TODO: add "thiran" from control-time-delay, add thiran to INDEX file
 
