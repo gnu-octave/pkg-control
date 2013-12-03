@@ -150,6 +150,7 @@ Overloaded LTI Operators
   @lti/uplus
   @lti/vertcat
 Overloaded IDDATA Operators
+  @iddata/end
   @iddata/horzcat
   @iddata/subsasgn
   @iddata/subsref
