@@ -30,10 +30,12 @@ function ret = end (dat, k, n)
   endif
 
   switch (k)
-    case 1
-      error ("TODO");
-      ## FIXME: handle case where experiments have different number of samples
-    case {2, 3, 4}
+    case 1          # selecting samples
+      ret = size (dat, 1);
+      if (numel (ret) != 1 && ! isequal (num2cell (ret){:}))
+        error ("iddata: end: for multi-experiment datasets, require equal number of samples when selecting samples with 'end'");
+      endif
+    case {2, 3, 4}  # selecting outputs, inputs or experiments
       ret = size (dat, k);
     otherwise
       error ("iddata: end: invalid expression index k = %d", k);
