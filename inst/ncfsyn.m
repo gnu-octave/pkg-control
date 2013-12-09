@@ -216,6 +216,7 @@
 ## @table @var
 ## @item K
 ## State-space model of the H-infinity loop-shaping controller.
+## Note that @var{K} is a @emph{positive} feedback controller.
 ## @item N
 ## State-space model of the closed loop depicted below.
 ## @item info
