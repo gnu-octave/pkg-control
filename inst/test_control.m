@@ -106,6 +106,7 @@ test mag2db
 test margin
 test obsv
 test sigma
+test thiran
 
 ## identification
 test @iddata/iddata
