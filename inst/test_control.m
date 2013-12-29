@@ -107,6 +107,7 @@ test margin
 test obsv
 test sigma
 test thiran
+test __dss2ss__
 
 ## identification
 test @iddata/iddata

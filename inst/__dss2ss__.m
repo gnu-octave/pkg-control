@@ -20,28 +20,27 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.1
+## Version: 0.2
 
 function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
 
   if (isempty (e))
     return;
   elseif (rcond (e) < eps)  # check for singularity
-    # check if ss representation is possible
-    n = rows (a);
-    [~, ~, ~, ~, ranke, rnka22] = __sl_tg01fd__ (a, e, b, c, false, n*n*eps);
-    if (ranke+rnka22 < n)
-       error ("ss: dss2ss: system cannot be represented in state space.");
+    ## check whether regular state-space representation is possible
+    [~, ~, ~, ~, ranke, rnka22] = __sl_tg01fd__ (a, e, b, c, false, 0);
+    if (ranke+rnka22 < rows (a))
+      error ("ss: dss2ss: this descriptor system cannot be converted to regular state-space form");
     endif
   endif
-  
+
   [a, b, c, d] = __sl_sb10jd__ (a, b, c, d, e);
   e = [];
-  
+
 endfunction
 
-## tests ...
-## __sl_tg01fd__ testing
+
+## Test from SLICOT TG01FD
 %!shared a, b, c, e, ranke, rnka22, q, z, a_exp, b_exp, c_exp, e_exp, q_exp, z_exp
 %! 
 %! e = [1, 2, 0, 0; 0, 1, 0, 1; 3, 9, 6, 3; 0, 0, 2, 0];
@@ -56,18 +55,18 @@ endfunction
 %!           0.0000   0.0000   1.0338   0.0000;
 %!           0.0000   0.0000   0.0000   0.0000];
 %! 
-%! a_exp = [2.0278   0.1078   3.9062  -2.1571;
-%!         -0.0980   0.2544   1.6053  -0.1269;
-%!          0.2713   0.7760  -0.3692  -0.4853;
-%!          0.0690  -0.5669  -2.1974   0.3086];
+%! a_exp = [ 2.0278   0.1078   3.9062  -2.1571;
+%!          -0.0980   0.2544   1.6053  -0.1269;
+%!           0.2713   0.7760  -0.3692  -0.4853;
+%!           0.0690  -0.5669  -2.1974   0.3086];
 %! 
 %! b_exp = [-0.2157  -0.9705;
 %!           0.3015   0.9516;
 %!           0.7595   0.0991;
 %!           1.1339   0.3780];
 %! 
-%! c_exp = [0.3651  -1.0000  -0.4472  -0.8165;
-%!         -1.0954   1.0000  -0.8944   0.0000];
+%! c_exp = [ 0.3651  -1.0000  -0.4472  -0.8165;
+%!          -1.0954   1.0000  -0.8944   0.0000];
 %! 
 %! q_exp = [-0.2157  -0.5088   0.6109   0.5669;
 %!          -0.1078  -0.2544  -0.7760   0.5669;
@@ -94,3 +93,19 @@ endfunction
 %! mm = tf([3, 5, 0], [4, 1]);
 %! mms = ss (mm);
 %!error (__dss2ss__ (mms.a, mms.b, mms.c, mms.d, mms.e));
+
+## Realizable descriptor system with singular E matrix
+%!test
+%! A = [1 0; 0 1];
+%! B = [1; 0];
+%! C = [1 0];
+%! D = 0;
+%! E = [1 0; 0 0];
+%! 
+%! sys = dss (A, B, C, D, E);
+%! [Ao, Bo, Co, Do] = ssdata (sys);
+%!
+%! assert (Ao, 1, 1e-4);
+%! assert (Bo, 1, 1e-4);
+%! assert (Co, 1, 1e-4);
+%! assert (Do, 0, 1e-4);
