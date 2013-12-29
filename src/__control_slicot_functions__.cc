@@ -43,6 +43,7 @@
 #include "sl_ib01cd.cc"  // compute initial state vector
 #include "sl_ib01ad.cc"  // compute singular values
 // #include "sl_are.cc"     // solve ARE with Schur vector approach and scaling
+#include "sl_tg01fd.cc"  // orthogonal reduction of dss to a SVD-like coordinate form
 
 
 // stub function to avoid gen_doc_cache warning upon package installation
