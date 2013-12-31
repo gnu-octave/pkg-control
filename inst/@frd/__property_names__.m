@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2013   Lukas F. Reichlin
+## Copyright (C) 2009-2014   Lukas F. Reichlin
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by

@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2013   Lukas F. Reichlin
+## Copyright (C) 2009-2014   Lukas F. Reichlin
 ## Copyright (C) 2009 Luca Favatella <slackydeb@gmail.com>
 ##
 ## This file is part of LTI Syncope.

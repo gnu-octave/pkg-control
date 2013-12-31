@@ -1,6 +1,6 @@
 ## Copyright (C) 1996, 2000, 2004, 2005, 2006, 2007
 ##               Auburn University. All rights reserved.
-## Copyright (C) 2009-2013   Lukas F. Reichlin
+## Copyright (C) 2009-2014   Lukas F. Reichlin
 ##
 ## This program is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
