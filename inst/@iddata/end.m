@@ -35,6 +35,7 @@ function ret = end (dat, k, n)
       if (numel (ret) != 1 && ! isequal (num2cell (ret){:}))
         error ("iddata: end: for multi-experiment datasets, require equal number of samples when selecting samples with 'end'");
       endif
+      ret = ret(1);
     case {2, 3, 4}  # selecting outputs, inputs or experiments
       ret = size (dat, k);
     otherwise
