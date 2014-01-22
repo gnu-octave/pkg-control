@@ -54,7 +54,7 @@
 
 function dat = fft (dat, n = [])
 
-  if (nargin > 2)       # no need to test nargin == 0, this is handled by built-in fft
+  if (nargin > 2 || ! isa (dat, "iddata"))  # no need to test nargin == 0, this is handled by built-in fft
     print_usage ();
   endif
   

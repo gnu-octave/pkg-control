@@ -45,11 +45,11 @@
 
 function dat = ifft (dat)
 
-  if (nargin > 1)       # no need to test nargin == 0, this is handled by built-in fft
+  if (nargin > 1)       # no need to test nargin == 0, this is handled by built-in ifft
     print_usage ();
   endif
 
-  if (dat.timedomain)
+  if (dat.timedomain)   # dat is always an iddata set, otherwise built-in ifft would be called
     return;
   endif
 
