@@ -88,14 +88,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2
+## Version: 0.3
 
-## TODO: improve compatibility for nargin >= 4
-
-function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
+function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
 
   ## check input arguments
-  if (nargin < 3 || nargin > 4)
+  if (nargin < 3)
     print_usage ();
   endif
   
@@ -104,16 +102,47 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   endif
   
   if (! is_real_scalar (nmeas))
-    error ("hinfsyn: second argument invalid");
+    error ("hinfsyn: second argument 'nmeas' invalid");
   endif
   
   if (! is_real_scalar (ncon))
-    error ("hinfsyn: third argument invalid");
+    error ("hinfsyn: third argument 'ncon' invalid");
+  endif
+
+  nkv = numel (varargin);   # number of keys and values
+  
+  if (rem (nkv, 2))
+    error ("hinfsyn: keys and values must come in pairs");
   endif
   
-  if (! is_real_scalar (gmax) || gmax < 0)
-    error ("hinfsyn: fourth argument invalid");
-  endif
+  ## default arguments
+  gmax = 1e15;
+  gmin = 0;
+  tolgam = 0.01;
+  method = "sub";
+  
+  ## handle keys and values
+  for k = 1 : 2 : nkv
+    key = lower (varargin{k});
+    val = varargin{k+1};
+    switch (key)
+      case "gmax"
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'gmax' must be a real and non-negative scalar");
+        endif
+        gmax = val;
+      case "method"
+        if (strncmpi (val, "s", 1))
+          method = "sub";
+        elseif (strncmpi (val, "o", 1))
+          method = "opt";
+        else
+          error ("hinfsyn: invalid method '%s'", val);
+        endif
+      otherwise
+        warning ("hinfsyn: invalid property name '%s' ignored", key);
+    endswitch
+  endfor
 
   [a, b, c, d, tsam] = ssdata (P);
   
@@ -182,7 +211,7 @@ endfunction
 %!       0.0  0.0  1.0  7.0  1.0];
 %!
 %! P = ss (A, B, C, D);
-%! K = hinfsyn (P, 2, 2, 15);
+%! K = hinfsyn (P, 2, 2, "gmax", 15);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [ -2.8043  14.7367   4.6658   8.1596   0.0848   2.5290
@@ -239,7 +268,7 @@ endfunction
 %!       0.0  0.0  1.0  2.0  1.0];
 %!
 %! P = ss (A, B, C, D, 1);  # value of sampling time doesn't matter
-%! K = hinfsyn (P, 2, 2, 111.294);
+%! K = hinfsyn (P, 2, 2, "gmax", 111.294);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
