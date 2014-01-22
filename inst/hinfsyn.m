@@ -108,6 +108,10 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
   if (! is_real_scalar (ncon))
     error ("hinfsyn: third argument 'ncon' invalid");
   endif
+  
+  if (nargin > 3 && isstruct (varargin{1}))     # hinfsyn (P, nmeas, ncont, opt, ...)
+    varargin = horzcat (__opt2cell__ (varargin{1}), varargin(2:end));
+  endif
 
   nkv = numel (varargin);   # number of keys and values
   
@@ -119,7 +123,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
   gmax = 1e15;
   gmin = 0;
   tolgam = 0.01;
-  method = "sub";
+  method = "opt";
   
   ## handle keys and values
   for k = 1 : 2 : nkv
@@ -162,11 +166,19 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
   endif
 
   ## H-infinity synthesis
-  if (isct (P))             # continuous plant
-    [ak, bk, ck, dk, rcond] = __sl_sb10fd__ (a, b, c, d, ncon, nmeas, gmax);
-  else                      # discrete plant
-    [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmax);
-  endif
+  switch (method)
+    case "sub"              # sub-optimal controller
+      if (isct (P))         # continuous plant
+        [ak, bk, ck, dk, rcond] = __sl_sb10fd__ (a, b, c, d, ncon, nmeas, gmax);
+      else                  # discrete plant
+        [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmax);
+      endif
+    case "opt"              # optimal controller
+      error ("hinfsyn: TODO: method 'opt'")
+    
+    otherwise
+      error ("hinfsyn: this should never happen");
+  endswitch
   
   ## controller
   K = ss (ak, bk, ck, dk, tsam);
@@ -182,7 +194,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
 endfunction
 
 
-## continuous-time case
+## sub-optimal controller, continuous-time case
 %!shared M, M_exp
 %! A = [-1.0  0.0  4.0  5.0 -3.0 -2.0
 %!      -2.0  4.0 -7.0 -2.0  0.0  3.0
@@ -211,7 +223,7 @@ endfunction
 %!       0.0  0.0  1.0  7.0  1.0];
 %!
 %! P = ss (A, B, C, D);
-%! K = hinfsyn (P, 2, 2, "gmax", 15);
+%! K = hinfsyn (P, 2, 2, "method", "sub", "gmax", 15);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [ -2.8043  14.7367   4.6658   8.1596   0.0848   2.5290
@@ -239,7 +251,7 @@ endfunction
 %!assert (M, M_exp, 1e-4);
 
 
-## discrete-time case
+## sub-optimal controller, discrete-time case
 %!shared M, M_exp
 %! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
 %!      -0.6  0.2 -0.4 -0.3  0.0  0.0
@@ -268,7 +280,7 @@ endfunction
 %!       0.0  0.0  1.0  2.0  1.0];
 %!
 %! P = ss (A, B, C, D, 1);  # value of sampling time doesn't matter
-%! K = hinfsyn (P, 2, 2, "gmax", 111.294);
+%! K = hinfsyn (P, 2, 2, "method", "sub", "gmax", 111.294);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
