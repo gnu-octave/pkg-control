@@ -123,6 +123,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
   gmax = 1e15;
   gmin = 0;
   tolgam = 0.01;
+  actol = eps;              # tolerance for stability margin
   method = "opt";
   
   ## handle keys and values
@@ -135,6 +136,11 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
           error ("hinfsyn: 'gmax' must be a real and non-negative scalar");
         endif
         gmax = val;
+      case "tolgam"    
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'tolgam' must be a real and non-negative scalar");
+        endif
+        tolgam = val;
       case "method"
         if (strncmpi (val, "s", 1))
           method = "sub";
@@ -168,13 +174,42 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
   ## H-infinity synthesis
   switch (method)
     case "sub"              # sub-optimal controller
-      if (isct (P))         # continuous plant
+      if (isct (P))         # continuous-time plant
         [ak, bk, ck, dk, rcond] = __sl_sb10fd__ (a, b, c, d, ncon, nmeas, gmax);
-      else                  # discrete plant
+      else                  # discrete-time plant
         [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmax);
       endif
+
     case "opt"              # optimal controller
-      error ("hinfsyn: TODO: method 'opt'")
+      if (isct (P))         # continuous-time plant
+        [ak, bk, ck, dk, ~, ~, ~, ~, ~, rcond] = __sl_sb10ad__ (a, b, c, d, ncon, nmeas, gmax, tolgam, actol);
+      else                  # discrete-time plant
+        ## NOTE: check whether it is an alternative to compute the bilinear transformation
+        ##       of P, use __sl_sb10ad__ for a continuous-time controller and then
+        ##       discretize the controller.
+        ## estimate gamma
+        Pt = d2c (P, "tustin");
+        [at, bt, ct, dt] = ssdata (Pt);
+        [~, ~, ~, ~, ~, ~, ~, ~, gamma] = __sl_sb10ad__ (at, bt, ct, dt, ncon, nmeas, gmax, tolgam, actol);
+        ## gamma iteration - bisection method using __sl_sb10dd__
+        gmax = 1.2*gamma;
+        while (gmax > eps && (gmax - gmin)/gmax > tolgam)
+          gmid = (gmax + gmin)/2;
+          try
+            [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmid);
+            ## check for stability
+            K = ss (ak, bk, ck, dk, tsam);
+            N = lft (P, K);
+            if (isstable (N, actol))
+              gmax = norm (N, inf);
+            else
+              gmin = gmid;
+            endif
+          catch             # cannot find solution
+            gmin = gmid;
+          end_try_catch 
+        endwhile
+      endif
     
     otherwise
       error ("hinfsyn: this should never happen");
@@ -306,3 +341,63 @@ endfunction
 %! M_exp = [KA, KB; KC, KD];
 %!
 %!assert (M, M_exp, 1e-4);
+
+
+## optimal controller, discrete-time case??? -- test for bisection method
+%!shared M, M_exp, GAM_exp, GAM
+%! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
+%!      -0.6  0.2 -0.4 -0.3  0.0  0.0
+%!      -0.5  0.7 -0.1  0.0  0.0 -0.8
+%!      -0.7  0.0  0.0 -0.5 -1.0  0.0
+%!       0.0  0.3  0.6 -0.9  0.1 -0.4
+%!       0.5 -0.8  0.0  0.0  0.2 -0.9];
+%!
+%! B = [-1.0 -2.0 -2.0  1.0  0.0
+%!       1.0  0.0  1.0 -2.0  1.0
+%!      -3.0 -4.0  0.0  2.0 -2.0
+%!       1.0 -2.0  1.0  0.0 -1.0
+%!       0.0  1.0 -2.0  0.0  3.0
+%!       1.0  0.0  3.0 -1.0 -2.0];
+%!
+%! C = [ 1.0 -1.0  2.0 -2.0  0.0 -3.0
+%!      -3.0  0.0  1.0 -1.0  1.0  0.0
+%!       0.0  2.0  0.0 -4.0  0.0 -2.0
+%!       1.0 -3.0  0.0  0.0  3.0  1.0
+%!       0.0  1.0 -2.0  1.0  0.0 -2.0];
+%!
+%! D = [ 1.0 -1.0 -2.0  0.0  0.0
+%!       0.0  1.0  0.0  1.0  0.0
+%!       2.0 -1.0 -3.0  0.0  1.0
+%!       0.0  1.0  0.0  1.0 -1.0
+%!       0.0  0.0  1.0  2.0  1.0];
+%!
+%! P = ss (A, B, C, D, 1);
+%! [K, ~, INFO] = hinfsyn (P, 2, 2, "gmax", 1000, "tolgam", 1e-4);
+%! M = [K.A, K.B; K.C, K.D];
+%! GAM = INFO.gamma;
+%!
+%! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
+%!        18.8203 -57.6244 -29.0938   0.5870  45.3309 -19.8644
+%!       -26.5994  77.9693  39.0368  -1.4020 -60.1129  26.6910
+%!       -21.4163  62.1719  30.7507  -0.9201 -48.6221  21.8351
+%!        -0.8911   4.2787   2.3286  -0.2424  -3.0376   1.2169
+%!        -5.3286  16.1955   8.4824  -0.2489 -12.2348   5.1590];
+%!
+%! KB = [ 16.9788  14.1648
+%!       -18.9215 -15.6726
+%!        25.2046  21.2848
+%!        20.1122  16.8322
+%!         1.4104   1.2040
+%!         5.3181   4.5149];
+%!
+%! KC = [ -9.1941  27.5165  13.7364  -0.3639 -21.5983   9.6025
+%!         3.6490 -10.6194  -5.2772   0.2432   8.1108  -3.6293];
+%!
+%! KD = [  9.0317   7.5348
+%!        -3.4006  -2.8219];
+%!
+%! M_exp = [KA, KB; KC, KD];
+%! GAM_exp = 111.294;
+%!
+%!assert (M, M_exp, 1e-1);
+%!assert (GAM, GAM_exp, 1e-3);
