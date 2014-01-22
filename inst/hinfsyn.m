@@ -136,16 +136,27 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
           error ("hinfsyn: 'gmax' must be a real and non-negative scalar");
         endif
         gmax = val;
+      case "gmin"
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'gmin' must be a real and non-negative scalar");
+        endif
+        gmin = val;
       case "tolgam"    
         if (! is_real_scalar (val) || val < 0)
           error ("hinfsyn: 'tolgam' must be a real and non-negative scalar");
         endif
         tolgam = val;
+      case "actol"  
+        if (! is_real_scalar (val) || true)
+          ## FIXME: which sign for ct/dt!?!
+          error ("hinfsyn: 'actol' FIXME/TODO");
+        endif
+        actol = val;
       case "method"
         if (strncmpi (val, "s", 1))
-          method = "sub";
+          method = "sub";   # sub-optimal
         elseif (strncmpi (val, "o", 1))
-          method = "opt";
+          method = "opt";   # optimal
         else
           error ("hinfsyn: invalid method '%s'", val);
         endif
