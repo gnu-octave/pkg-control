@@ -17,7 +17,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
-## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @dots{})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{opt}, @dots{})
 ## H-infinity control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
@@ -32,9 +33,8 @@
 ## Number of controlled inputs u.  The last @var{ncon} inputs of @var{P} are connected to the
 ## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
-## @item gmax
-## The maximum value of the H-infinity norm of @var{N}.  It is assumed that @var{gmax} is
-## sufficiently large so that the controller is admissible.
+## @item @dots{}
+## Optional pairs of properties and values.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -54,6 +54,24 @@
 ## Riccati equations which have to be solved during the
 ## computation of the controller @var{K}.  For details,
 ## see the description of the corresponding SLICOT routine.
+## @end table
+##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'gmax'
+## The maximum value of the H-infinity norm of @var{N}.  It is assumed that @var{gmax} is
+## sufficiently large so that the controller is admissible.
+##
+## @item 'method'
+## String specifying the desired kind of controller:
+## @table @var
+## @item 'optimal', 'opt', 'o'
+## Compute optimal controller using gamma iteration.
+## Default selection for compatibility reasons.
+## @item 'suboptimal', 'sub', 's'
+## Compute (sub-)optimal controller.  For stability reasons,
+## suboptimal controllers are to be preferred over optimal ones.
+## @end table
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -153,6 +171,8 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
         endif
         actol = val;
       case "method"
+        ## NOTE: I called this "method" because of the dark side,
+        ##       maybe something like "type" would make more sense ...               
         if (strncmpi (val, "s", 1))
           method = "sub";   # sub-optimal
         elseif (strncmpi (val, "o", 1))
