@@ -84,12 +84,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2
+## Version: 0.3
 
 function [K, varargout] = h2syn (P, nmeas, ncon)
 
   ## check input arguments
-  if (nargin != 3)
+  if (nargin != 1 && nargin != 3)
     print_usage ();
   endif
   
@@ -97,12 +97,16 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     error ("h2syn: first argument must be an LTI system");
   endif
   
+  if (nargin == 1)
+    [nmeas, ncon] = __tito_dim__ (P);
+  endif
+  
   if (! is_real_scalar (nmeas))
-    error ("h2syn: second argument invalid");
+    error ("h2syn: second argument 'nmeas' invalid");
   endif
   
   if (! is_real_scalar (ncon))
-    error ("h2syn: third argument invalid");
+    error ("h2syn: third argument 'ncon' invalid");
   endif
 
   [a, b, c, d, tsam] = ssdata (P);

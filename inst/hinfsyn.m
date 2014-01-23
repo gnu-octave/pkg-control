@@ -127,15 +127,25 @@
 ## Created: December 2009
 ## Version: 0.3
 
-function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
+function [K, varargout] = hinfsyn (P, varargin)
 
   ## check input arguments
-  if (nargin < 3)
+  if (nargin == 0)
     print_usage ();
   endif
-  
+
   if (! isa (P, "lti"))
     error ("hinfsyn: first argument must be an LTI system");
+  endif
+  
+  if (nargin == 1 || (nargin > 1 && ! is_real_scalar (varargin{1})))    # hinfsyn (P, ...)
+    [nmeas, ncon] = __tito_dim__ (P);
+  elseif (nargin >= 3)                          # hinfsyn (P, nmeas, ncon, ...)
+    nmeas = varargin{1};
+    ncon = varargin{2};
+    varargin = varargin(3:end);
+  else
+    print_usage ();
   endif
   
   if (! is_real_scalar (nmeas))
@@ -146,7 +156,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
     error ("hinfsyn: third argument 'ncon' invalid");
   endif
   
-  if (nargin > 3 && isstruct (varargin{1}))     # hinfsyn (P, nmeas, ncont, opt, ...)
+  if (numel (varargin) > 0 && isstruct (varargin{1}))   # hinfsyn (P, nmeas, ncon, opt, ...), hinfsyn (P, opt, ...)
     varargin = horzcat (__opt2cell__ (varargin{1}), varargin(2:end));
   endif
 
