@@ -80,13 +80,12 @@ function P = mktito (P, nmeas, ncon)
   
   [p, m] = size (P);
   
-  ## TODO: improve argument checking
-  if (! is_real_scalar (nmeas))
-    error ("mktito: second argument invalid");
+  if (! is_index (nmeas, p))
+    error ("mktito: second argument 'nmeas' invalid");
   endif
   
-  if (! is_real_scalar (ncon))
-    error ("mktito: third argument invalid");
+  if (! is_index (ncon, m))
+    error ("mktito: third argument 'ncon' invalid");
   endif
   
   outgroup = struct ("Z", 1:p-nmeas, "V", p-nmeas+1:p);
@@ -97,5 +96,13 @@ function P = mktito (P, nmeas, ncon)
 
   P = set (P, "outgroup", outgroup, "ingroup", ingroup, ...
               "outname", outname, "inname", inname);
+
+endfunction
+
+
+function bool = is_index (idx, s)
+
+  ## (idx < s) and not (idx <= s) because we need at least one Z or W
+  bool = is_real_scalar (idx) && fix (idx) == idx && idx > 0 && idx < s
 
 endfunction
