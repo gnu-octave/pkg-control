@@ -15,7 +15,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
-## TODO
+## Extract nmeas and ncon from plant P which has been partitioned by mktito.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2014
@@ -23,22 +23,30 @@
 
 function [nmeas, ncon] = __tito_dim__ (P)
 
+  [p, m] = size (P);
   outgroup = P.outgroup;
   ingroup = P.ingroup;
   
-  ## FIXME: add checks whether indices of V and U are in ascending order
-  ##        and at the end of the outputs/inputs
-  
-  if (isfield (outgroup, "V"))
-    nmeas = numel (outgroup.V);
-  else
+  if (! isfield (outgroup, "V"))
     error ("tito_dim: missing outgroup 'V'");
   endif
   
-  if (isfield (ingroup, "U"))
-    ncon = numel (ingroup.U);
-  else
+  if (! isfield (ingroup, "U"))
     error ("tito_dim: missing ingroup 'U'");
+  endif
+  
+  nmeas = numel (outgroup.V);
+  ncon = numel (ingroup.U);
+  
+  ## check whether indices of V and U are in ascending order
+  ## and at the end of the outputs/inputs
+  
+  if (! isequal (outgroup.V(:), (p-nmeas+1:p)(:)))
+    error ("tito_dim: outgroup 'V' invalid");
+  endif
+  
+  if (! isequal (ingroup.U(:), (m-ncon+1:m)(:)))
+    error ("tito_dim: ingroup 'U' invalid");
   endif
 
 endfunction
