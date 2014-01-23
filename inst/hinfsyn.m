@@ -34,7 +34,11 @@
 ## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @item @dots{}
-## Optional pairs of properties and values.
+## Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+## @item opt
+## Optional struct with keys as field names.
+## Struct @var{opt} can be created directly or
+## by function @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -58,10 +62,6 @@
 ##
 ## @strong{Option Keys and Values}
 ## @table @var
-## @item 'gmax'
-## The maximum value of the H-infinity norm of @var{N}.  It is assumed that @var{gmax} is
-## sufficiently large so that the controller is admissible.
-##
 ## @item 'method'
 ## String specifying the desired kind of controller:
 ## @table @var
@@ -72,6 +72,25 @@
 ## Compute (sub-)optimal controller.  For stability reasons,
 ## suboptimal controllers are to be preferred over optimal ones.
 ## @end table
+## @item 'gmax'
+## The maximum value of the H-infinity norm of @var{N}.
+## It is assumed that @var{gmax} is sufficiently large
+## so that the controller is admissible.  Default value is 1e15.
+## @item 'gmin'
+## Initial lower bound for gamma iteration.  Default value is 0.
+## For suboptimal controllers, @var{gmin} is ignored.
+## @item 'tolgam'
+## Tolerance used for controlling the accuracy of @var{gamma}
+## and its distance to the estimated minimal possible
+## value of @var{gamma}.  Default value is 0.01.
+## If @var{tolgam} = 0, then a default value equal to @code{sqrt(eps)}
+## is used, where @var{eps} is the relative machine precision.
+## For suboptimal controllers, @var{tolgam} is ignored.
+## @item 'actol'
+## Upper bound for the poles of the closed-loop system @var{N}
+## used for determining if it is stable.
+## @var{actol} <= 0 for stable systems.
+## For suboptimal controllers, @var{actol} is ignored.
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -98,7 +117,7 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB10FD and SB10DD by courtesy of
+## Uses SLICOT SB10FD, SB10DD and SB10AD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @seealso{augw, mixsyn}
