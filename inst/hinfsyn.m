@@ -194,7 +194,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, varargin)
         ##       maybe something like "type" would make more sense ...               
         if (strncmpi (val, "s", 1))
           method = "sub";   # sub-optimal
-        elseif (strncmpi (val, "o", 1))
+        elseif (strncmpi (val, "o", 1) || strncmpi (val, "ric", 1))
           method = "opt";   # optimal
         else
           error ("hinfsyn: invalid method '%s'", val);
