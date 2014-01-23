@@ -18,6 +18,8 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{P} =} mktito (@var{P}, @var{nmeas}, @var{ncon})
 ## Partition @acronym{LTI} plant @var{P} for robust controller synthesis.
+## If a plant is partitioned this way, one can omit the inputs @var{nmeas}
+## and @var{ncon} when calling the functions @command{hinfsyn} and @command{h2syn}.
 ##
 ## @strong{Inputs}
 ## @table @var
