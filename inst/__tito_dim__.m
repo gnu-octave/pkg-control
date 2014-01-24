@@ -21,18 +21,18 @@
 ## Created: January 2014
 ## Version: 0.1
 
-function [nmeas, ncon] = __tito_dim__ (P)
+function [nmeas, ncon] = __tito_dim__ (P, name)
 
   [p, m] = size (P);
   outgroup = P.outgroup;
   ingroup = P.ingroup;
   
   if (! isfield (outgroup, "V"))
-    error ("tito_dim: missing outgroup 'V'");
+    error ("%s: missing outgroup 'V'", name);
   endif
   
   if (! isfield (ingroup, "U"))
-    error ("tito_dim: missing ingroup 'U'");
+    error ("%s: missing ingroup 'U'", name);
   endif
   
   nmeas = numel (outgroup.V);
@@ -42,11 +42,11 @@ function [nmeas, ncon] = __tito_dim__ (P)
   ## and at the end of the outputs/inputs
   
   if (! isequal (outgroup.V(:), (p-nmeas+1:p)(:)))
-    error ("tito_dim: outgroup 'V' invalid");
+    error ("%s: outgroup 'V' invalid", name);
   endif
   
   if (! isequal (ingroup.U(:), (m-ncon+1:m)(:)))
-    error ("tito_dim: ingroup 'U' invalid");
+    error ("%s: ingroup 'U' invalid", name);
   endif
 
 endfunction

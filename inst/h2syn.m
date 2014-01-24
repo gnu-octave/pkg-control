@@ -98,7 +98,7 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
   endif
   
   if (nargin == 1)
-    [nmeas, ncon] = __tito_dim__ (P);
+    [nmeas, ncon] = __tito_dim__ (P, "h2syn");
   endif
   
   if (! is_real_scalar (nmeas))

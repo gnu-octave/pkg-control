@@ -139,7 +139,7 @@ function [K, varargout] = hinfsyn (P, varargin)
   endif
   
   if (nargin == 1 || (nargin > 1 && ! is_real_scalar (varargin{1})))    # hinfsyn (P, ...)
-    [nmeas, ncon] = __tito_dim__ (P);
+    [nmeas, ncon] = __tito_dim__ (P, "hinfsyn");
   elseif (nargin >= 3)                          # hinfsyn (P, nmeas, ncon, ...)
     nmeas = varargin{1};
     ncon = varargin{2};
