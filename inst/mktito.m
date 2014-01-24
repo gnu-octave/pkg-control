@@ -18,6 +18,8 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {@var{P} =} mktito (@var{P}, @var{nmeas}, @var{ncon})
 ## Partition @acronym{LTI} plant @var{P} for robust controller synthesis.
+## If a plant is partitioned this way, one can omit the inputs @var{nmeas}
+## and @var{ncon} when calling the functions @command{hinfsyn} and @command{h2syn}.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -80,13 +82,12 @@ function P = mktito (P, nmeas, ncon)
   
   [p, m] = size (P);
   
-  ## TODO: improve argument checking
-  if (! is_real_scalar (nmeas))
-    error ("mktito: second argument invalid");
+  if (! is_index (nmeas, p))
+    error ("mktito: second argument 'nmeas' invalid");
   endif
   
-  if (! is_real_scalar (ncon))
-    error ("mktito: third argument invalid");
+  if (! is_index (ncon, m))
+    error ("mktito: third argument 'ncon' invalid");
   endif
   
   outgroup = struct ("Z", 1:p-nmeas, "V", p-nmeas+1:p);
@@ -97,5 +98,13 @@ function P = mktito (P, nmeas, ncon)
 
   P = set (P, "outgroup", outgroup, "ingroup", ingroup, ...
               "outname", outname, "inname", inname);
+
+endfunction
+
+
+function bool = is_index (idx, s)
+
+  ## (idx < s) and not (idx <= s) because we need at least one Z or W
+  bool = is_real_scalar (idx) && fix (idx) == idx && idx > 0 && idx < s
 
 endfunction

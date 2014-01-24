@@ -104,7 +104,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2
+## Version: 0.3
 
 function P = augw (G, W1 = [], W2 = [], W3 = [])
 
@@ -140,6 +140,8 @@ function P = augw (G, W1 = [], W2 = [], W3 = [])
   Pu = Pu1 * G  +  Pu2;
 
   P = append (W1, W2, W3, eye (p, p)) * [Pr, Pu];
+
+  P = mktito (P, p, m);
 
 endfunction
 

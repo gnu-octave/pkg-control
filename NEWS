@@ -4,6 +4,21 @@ Summary of important user-visible changes for releases of the control package
 control-2.6.2   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** hinfsyn, mixsyn
+   By default, hinfsyn and mixsyn compute now an optimal instead of a
+   suboptimal controller.  Furthermore, Matlab compatibility is improved if
+   hinfsyn/mixsyn is called with more than three/four input arguments.
+   (Thanks to Thomas Vasileiou for the gamma iteration)
+   The old behavior (sub-optimal controller) can be restored by the expressions
+   
+     hinfsyn (P, nmeas, ncont, 'method', 'sub')
+     mixsyn (G, W1, W2, W3, 'method', 'sub')
+
+** mktito
+   New function to partition plant for robust control.  "mktito" is also used
+   by function "augw".  If a plant is partitioned that way, one can omit the
+   inputs "nmeas" and "ncon" when calling the functions "hinfsyn" and "h2syn".
+
 ** ss
    The conversion of realizable descriptor systems to regular state-space form
    is now possible, even when the descriptor matrix "E" is singular.

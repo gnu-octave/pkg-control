@@ -17,7 +17,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
-## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{gmax})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @dots{})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{opt}, @dots{})
 ## H-infinity control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
@@ -32,9 +33,12 @@
 ## Number of controlled inputs u.  The last @var{ncon} inputs of @var{P} are connected to the
 ## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
-## @item gmax
-## The maximum value of the H-infinity norm of @var{N}.  It is assumed that @var{gmax} is
-## sufficiently large so that the controller is admissible.
+## @item @dots{}
+## Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
+## @item opt
+## Optional struct with keys as field names.
+## Struct @var{opt} can be created directly or
+## by function @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -54,6 +58,39 @@
 ## Riccati equations which have to be solved during the
 ## computation of the controller @var{K}.  For details,
 ## see the description of the corresponding SLICOT routine.
+## @end table
+##
+## @strong{Option Keys and Values}
+## @table @var
+## @item 'method'
+## String specifying the desired kind of controller:
+## @table @var
+## @item 'optimal', 'opt', 'o'
+## Compute optimal controller using gamma iteration.
+## Default selection for compatibility reasons.
+## @item 'suboptimal', 'sub', 's'
+## Compute (sub-)optimal controller.  For stability reasons,
+## suboptimal controllers are to be preferred over optimal ones.
+## @end table
+## @item 'gmax'
+## The maximum value of the H-infinity norm of @var{N}.
+## It is assumed that @var{gmax} is sufficiently large
+## so that the controller is admissible.  Default value is 1e15.
+## @item 'gmin'
+## Initial lower bound for gamma iteration.  Default value is 0.
+## For suboptimal controllers, @var{gmin} is ignored.
+## @item 'tolgam'
+## Tolerance used for controlling the accuracy of @var{gamma}
+## and its distance to the estimated minimal possible
+## value of @var{gamma}.  Default value is 0.01.
+## If @var{tolgam} = 0, then a default value equal to @code{sqrt(eps)}
+## is used, where @var{eps} is the relative machine precision.
+## For suboptimal controllers, @var{tolgam} is ignored.
+## @item 'actol'
+## Upper bound for the poles of the closed-loop system @var{N}
+## used for determining if it is stable.
+## @var{actol} <= 0 for stable systems.
+## For suboptimal controllers, @var{actol} is ignored.
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -80,7 +117,7 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB10FD and SB10DD by courtesy of
+## Uses SLICOT SB10FD, SB10DD and SB10AD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @seealso{augw, mixsyn}
@@ -88,32 +125,94 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.2
+## Version: 0.3
 
-## TODO: improve compatibility for nargin >= 4
-
-function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
+function [K, varargout] = hinfsyn (P, varargin)
 
   ## check input arguments
-  if (nargin < 3 || nargin > 4)
+  if (nargin == 0)
     print_usage ();
   endif
-  
+
   if (! isa (P, "lti"))
     error ("hinfsyn: first argument must be an LTI system");
   endif
   
+  if (nargin == 1 || (nargin > 1 && ! is_real_scalar (varargin{1})))    # hinfsyn (P, ...)
+    [nmeas, ncon] = __tito_dim__ (P, "hinfsyn");
+  elseif (nargin >= 3)                          # hinfsyn (P, nmeas, ncon, ...)
+    nmeas = varargin{1};
+    ncon = varargin{2};
+    varargin = varargin(3:end);
+  else
+    print_usage ();
+  endif
+  
   if (! is_real_scalar (nmeas))
-    error ("hinfsyn: second argument invalid");
+    error ("hinfsyn: second argument 'nmeas' invalid");
   endif
   
   if (! is_real_scalar (ncon))
-    error ("hinfsyn: third argument invalid");
+    error ("hinfsyn: third argument 'ncon' invalid");
   endif
   
-  if (! is_real_scalar (gmax) || gmax < 0)
-    error ("hinfsyn: fourth argument invalid");
+  if (numel (varargin) > 0 && isstruct (varargin{1}))   # hinfsyn (P, nmeas, ncon, opt, ...), hinfsyn (P, opt, ...)
+    varargin = horzcat (__opt2cell__ (varargin{1}), varargin(2:end));
   endif
+
+  nkv = numel (varargin);   # number of keys and values
+  
+  if (rem (nkv, 2))
+    error ("hinfsyn: keys and values must come in pairs");
+  endif
+  
+  ## default arguments
+  gmax = 1e15;
+  gmin = 0;
+  tolgam = 0.01;
+  actol = eps;              # tolerance for stability margin
+  method = "opt";
+  
+  ## handle keys and values
+  for k = 1 : 2 : nkv
+    key = lower (varargin{k});
+    val = varargin{k+1};
+    switch (key)
+      case "gmax"
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'gmax' must be a real and non-negative scalar");
+        endif
+        gmax = val;
+      case "gmin"
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'gmin' must be a real and non-negative scalar");
+        endif
+        gmin = val;
+      case "tolgam"    
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'tolgam' must be a real and non-negative scalar");
+        endif
+        tolgam = val;
+      case "actol"  
+        if (! is_real_scalar (val) || true)
+          ## FIXME: which sign for ct/dt!?!
+          error ("hinfsyn: 'actol' FIXME/TODO");
+        endif
+        actol = val;
+      case "method"
+        ## NOTE: I called this "method" because of the dark side,
+        ##       maybe something like "type" would make more sense ...               
+        if (strncmpi (val, "s", 1))
+          method = "sub";   # sub-optimal
+        elseif (strncmpi (val, "o", 1) || strncmpi (val, "ric", 1))
+          method = "opt";   # optimal
+        else
+          error ("hinfsyn: invalid method '%s'", val);
+        endif
+      otherwise
+        warning ("hinfsyn: invalid property name '%s' ignored", key);
+    endswitch
+  endfor
 
   [a, b, c, d, tsam] = ssdata (P);
   
@@ -133,11 +232,48 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
   endif
 
   ## H-infinity synthesis
-  if (isct (P))             # continuous plant
-    [ak, bk, ck, dk, rcond] = __sl_sb10fd__ (a, b, c, d, ncon, nmeas, gmax);
-  else                      # discrete plant
-    [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmax);
-  endif
+  switch (method)
+    case "sub"              # sub-optimal controller
+      if (isct (P))         # continuous-time plant
+        [ak, bk, ck, dk, rcond] = __sl_sb10fd__ (a, b, c, d, ncon, nmeas, gmax);
+      else                  # discrete-time plant
+        [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmax);
+      endif
+
+    case "opt"              # optimal controller
+      if (isct (P))         # continuous-time plant
+        [ak, bk, ck, dk, ~, ~, ~, ~, ~, rcond] = __sl_sb10ad__ (a, b, c, d, ncon, nmeas, gmax, tolgam, actol);
+      else                  # discrete-time plant
+        ## NOTE: check whether it is an alternative to compute the bilinear transformation
+        ##       of P, use __sl_sb10ad__ for a continuous-time controller and then
+        ##       discretize the controller.
+        ## estimate gamma
+        Pt = d2c (P, "tustin");
+        [at, bt, ct, dt] = ssdata (Pt);
+        [~, ~, ~, ~, ~, ~, ~, ~, gamma] = __sl_sb10ad__ (at, bt, ct, dt, ncon, nmeas, gmax, tolgam, actol);
+        ## gamma iteration - bisection method using __sl_sb10dd__
+        gmax = 1.2*gamma;
+        while (gmax > eps && (gmax - gmin)/gmax > tolgam)
+          gmid = (gmax + gmin)/2;
+          try
+            [ak, bk, ck, dk, rcond] = __sl_sb10dd__ (a, b, c, d, ncon, nmeas, gmid);
+            ## check for stability
+            K = ss (ak, bk, ck, dk, tsam);
+            N = lft (P, K);
+            if (isstable (N, actol))
+              gmax = norm (N, inf);
+            else
+              gmin = gmid;
+            endif
+          catch             # cannot find solution
+            gmin = gmid;
+          end_try_catch 
+        endwhile
+      endif
+    
+    otherwise
+      error ("hinfsyn: this should never happen");
+  endswitch
   
   ## controller
   K = ss (ak, bk, ck, dk, tsam);
@@ -153,7 +289,7 @@ function [K, varargout] = hinfsyn (P, nmeas, ncon, gmax = 1e15)
 endfunction
 
 
-## continuous-time case
+## sub-optimal controller, continuous-time case
 %!shared M, M_exp
 %! A = [-1.0  0.0  4.0  5.0 -3.0 -2.0
 %!      -2.0  4.0 -7.0 -2.0  0.0  3.0
@@ -182,7 +318,7 @@ endfunction
 %!       0.0  0.0  1.0  7.0  1.0];
 %!
 %! P = ss (A, B, C, D);
-%! K = hinfsyn (P, 2, 2, 15);
+%! K = hinfsyn (P, 2, 2, "method", "sub", "gmax", 15);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [ -2.8043  14.7367   4.6658   8.1596   0.0848   2.5290
@@ -210,7 +346,7 @@ endfunction
 %!assert (M, M_exp, 1e-4);
 
 
-## discrete-time case
+## sub-optimal controller, discrete-time case
 %!shared M, M_exp
 %! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
 %!      -0.6  0.2 -0.4 -0.3  0.0  0.0
@@ -239,7 +375,7 @@ endfunction
 %!       0.0  0.0  1.0  2.0  1.0];
 %!
 %! P = ss (A, B, C, D, 1);  # value of sampling time doesn't matter
-%! K = hinfsyn (P, 2, 2, 111.294);
+%! K = hinfsyn (P, 2, 2, "method", "sub", "gmax", 111.294);
 %! M = [K.A, K.B; K.C, K.D];
 %!
 %! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
@@ -265,3 +401,63 @@ endfunction
 %! M_exp = [KA, KB; KC, KD];
 %!
 %!assert (M, M_exp, 1e-4);
+
+
+## optimal controller, discrete-time case??? -- test for bisection method
+%!shared M, M_exp, GAM_exp, GAM
+%! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
+%!      -0.6  0.2 -0.4 -0.3  0.0  0.0
+%!      -0.5  0.7 -0.1  0.0  0.0 -0.8
+%!      -0.7  0.0  0.0 -0.5 -1.0  0.0
+%!       0.0  0.3  0.6 -0.9  0.1 -0.4
+%!       0.5 -0.8  0.0  0.0  0.2 -0.9];
+%!
+%! B = [-1.0 -2.0 -2.0  1.0  0.0
+%!       1.0  0.0  1.0 -2.0  1.0
+%!      -3.0 -4.0  0.0  2.0 -2.0
+%!       1.0 -2.0  1.0  0.0 -1.0
+%!       0.0  1.0 -2.0  0.0  3.0
+%!       1.0  0.0  3.0 -1.0 -2.0];
+%!
+%! C = [ 1.0 -1.0  2.0 -2.0  0.0 -3.0
+%!      -3.0  0.0  1.0 -1.0  1.0  0.0
+%!       0.0  2.0  0.0 -4.0  0.0 -2.0
+%!       1.0 -3.0  0.0  0.0  3.0  1.0
+%!       0.0  1.0 -2.0  1.0  0.0 -2.0];
+%!
+%! D = [ 1.0 -1.0 -2.0  0.0  0.0
+%!       0.0  1.0  0.0  1.0  0.0
+%!       2.0 -1.0 -3.0  0.0  1.0
+%!       0.0  1.0  0.0  1.0 -1.0
+%!       0.0  0.0  1.0  2.0  1.0];
+%!
+%! P = ss (A, B, C, D, 1);
+%! [K, ~, INFO] = hinfsyn (P, 2, 2, "gmax", 1000, "tolgam", 1e-4);
+%! M = [K.A, K.B; K.C, K.D];
+%! GAM = INFO.gamma;
+%!
+%! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
+%!        18.8203 -57.6244 -29.0938   0.5870  45.3309 -19.8644
+%!       -26.5994  77.9693  39.0368  -1.4020 -60.1129  26.6910
+%!       -21.4163  62.1719  30.7507  -0.9201 -48.6221  21.8351
+%!        -0.8911   4.2787   2.3286  -0.2424  -3.0376   1.2169
+%!        -5.3286  16.1955   8.4824  -0.2489 -12.2348   5.1590];
+%!
+%! KB = [ 16.9788  14.1648
+%!       -18.9215 -15.6726
+%!        25.2046  21.2848
+%!        20.1122  16.8322
+%!         1.4104   1.2040
+%!         5.3181   4.5149];
+%!
+%! KC = [ -9.1941  27.5165  13.7364  -0.3639 -21.5983   9.6025
+%!         3.6490 -10.6194  -5.2772   0.2432   8.1108  -3.6293];
+%!
+%! KD = [  9.0317   7.5348
+%!        -3.4006  -2.8219];
+%!
+%! M_exp = [KA, KB; KC, KD];
+%! GAM_exp = 111.294;
+%!
+%!assert (M, M_exp, 1e-1);
+%!assert (GAM, GAM_exp, 1e-3);
