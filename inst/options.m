@@ -16,9 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {@var{opt} =} options (@var{"key1"}, @var{value1}, @var{"key2"}, @var{value2}, @dots{})
+## @deftypefn{Function File} {@var{opt} =} options (@var{'key1'}, @var{value1}, @var{'key2'}, @var{value2}, @dots{})
 ## Create options struct @var{opt} from a number of key and value pairs.
-## For use with order reduction commands.
+## For use with order reduction and system identification functions.
+## Option structs are a way to avoid typing the same key and value pairs
+## over and over again.
 ##
 ## @strong{Inputs}
 ## @table @var
