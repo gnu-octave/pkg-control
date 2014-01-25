@@ -78,7 +78,7 @@
 ## so that the controller is admissible.  Default value is 1e15.
 ## @item 'gmin'
 ## Initial lower bound for gamma iteration.  Default value is 0.
-## For suboptimal controllers, @var{gmin} is ignored.
+## @var{gmin} is only meaningful for optimal discrete-time controllers.
 ## @item 'tolgam'
 ## Tolerance used for controlling the accuracy of @var{gamma}
 ## and its distance to the estimated minimal possible
@@ -89,7 +89,7 @@
 ## @item 'actol'
 ## Upper bound for the poles of the closed-loop system @var{N}
 ## used for determining if it is stable.
-## @var{actol} <= 0 for stable systems.
+## @var{actol} >= 0 for stable systems.
 ## For suboptimal controllers, @var{actol} is ignored.
 ## @end table
 ##
@@ -180,23 +180,22 @@ function [K, varargout] = hinfsyn (P, varargin)
     switch (key)
       case "gmax"
         if (! is_real_scalar (val) || val < 0)
-          error ("hinfsyn: 'gmax' must be a real and non-negative scalar");
+          error ("hinfsyn: 'gmax' must be a real-valued, non-negative scalar");
         endif
         gmax = val;
       case "gmin"
         if (! is_real_scalar (val) || val < 0)
-          error ("hinfsyn: 'gmin' must be a real and non-negative scalar");
+          error ("hinfsyn: 'gmin' must be a real-valued, non-negative scalar");
         endif
         gmin = val;
       case "tolgam"    
         if (! is_real_scalar (val) || val < 0)
-          error ("hinfsyn: 'tolgam' must be a real and non-negative scalar");
+          error ("hinfsyn: 'tolgam' must be a real-valued, non-negative scalar");
         endif
         tolgam = val;
       case "actol"  
-        if (! is_real_scalar (val) || true)
-          ## FIXME: which sign for ct/dt!?!
-          error ("hinfsyn: 'actol' FIXME/TODO");
+        if (! is_real_scalar (val) || val < 0)
+          error ("hinfsyn: 'actol' must be a real-valued, non-negative scalar");
         endif
         actol = val;
       case "method"
