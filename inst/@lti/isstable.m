@@ -25,15 +25,15 @@
 ## @item sys
 ## @acronym{LTI} system.
 ## @item tol
-## Optional tolerance for stability.  Default value is 0.
+## Optional tolerance for stability.
+## @var{tol} must be a real-valued, non-negative scalar.
+## Default value is 0.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item bool = 0
-## System is not stable.
-## @item bool = 1
-## System is stable.
+## @item bool
+## True if the system is stable and false otherwise.
 ## @end table
 ##
 ## @example

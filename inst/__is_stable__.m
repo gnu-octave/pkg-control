@@ -20,9 +20,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2010
-## Version: 0.1
+## Version: 0.2
 
 function bool = __is_stable__ (pol, ct = true, tol = 0)
+
+  if (! is_real_scalar (tol) || tol < 0)
+    error ("isstable: tolerance must be a real-valued, non-negative scalar");
+  endif
 
   if (ct)  # continuous-time
     bool = all (real (pol) < -tol*(1 + abs (pol)));

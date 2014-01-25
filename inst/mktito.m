@@ -105,6 +105,6 @@ endfunction
 function bool = is_index (idx, s)
 
   ## (idx < s) and not (idx <= s) because we need at least one Z or W
-  bool = is_real_scalar (idx) && fix (idx) == idx && idx > 0 && idx < s
+  bool = is_real_scalar (idx) && fix (idx) == idx && idx > 0 && idx < s;
 
 endfunction
