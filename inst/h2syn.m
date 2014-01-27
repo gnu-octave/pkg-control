@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} h2syn (@var{P}, @var{nmeas}, @var{ncon})
 ## H-2 control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
@@ -147,7 +147,11 @@ function [K, varargout] = h2syn (P, nmeas, ncon)
     N = lft (P, K);
     varargout{1} = N;
     if (nargout > 2)
-      varargout{2} = struct ("gamma", norm (N, 2), "rcond", rcond);
+      gamma = norm (N, 2);
+      varargout{2} = gamma;
+      if (nargout > 3)
+        varargout{3} = struct ("gamma", gamma, "rcond", rcond);
+      endif
     endif
   endif
 

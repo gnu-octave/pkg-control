@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
 ## Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
 ## the McFarlane/Glover loop shaping design procedure [1].
 ## Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
@@ -317,7 +317,10 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
     varargout{1} = N;
     if (nargout > 2)
       gamma = norm (N, inf);
-      varargout{2} = struct ("gamma", gamma, "emax", inv (gamma), "Gs", Gs, "Ks", Ks, "rcond", rcond);
+      varargout{2} = gamma;
+      if (nargout > 3)
+        varargout{3} = struct ("gamma", gamma, "emax", inv (gamma), "Gs", Gs, "Ks", Ks, "rcond", rcond);
+      endif
     endif
   endif
 

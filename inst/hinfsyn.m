@@ -16,9 +16,9 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
-## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @dots{})
-## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{opt}, @dots{})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @dots{})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{opt}, @dots{})
 ## H-infinity control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
@@ -281,7 +281,11 @@ function [K, varargout] = hinfsyn (P, varargin)
     N = lft (P, K);
     varargout{1} = N;
     if (nargout > 2)
-      varargout{2} = struct ("gamma", norm (N, inf), "rcond", rcond);
+      gamma = norm (N, inf);
+      varargout{2} = gamma;
+      if (nargout > 3)
+        varargout{3} = struct ("gamma", gamma, "rcond", rcond);
+      endif
     endif
   endif
 
@@ -431,9 +435,8 @@ endfunction
 %!       0.0  0.0  1.0  2.0  1.0];
 %!
 %! P = ss (A, B, C, D, 1);
-%! [K, ~, INFO] = hinfsyn (P, 2, 2, "gmax", 1000, "tolgam", 1e-4);
+%! [K, ~, GAM] = hinfsyn (P, 2, 2, "gmax", 1000, "tolgam", 1e-4);
 %! M = [K.A, K.B; K.C, K.D];
-%! GAM = INFO.gamma;
 %!
 %! KA = [-18.0030  52.0376  26.0831  -0.4271 -40.9022  18.0857
 %!        18.8203 -57.6244 -29.0938   0.5870  45.3309 -19.8644

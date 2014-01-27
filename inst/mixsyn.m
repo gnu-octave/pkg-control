@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {[@var{K}, @var{N}, @var{info}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
+## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} mixsyn (@var{G}, @var{W1}, @var{W2}, @var{W3}, @dots{})
 ## Solve stacked S/KS/T H-infinity problem.
 ## Mixed-sensitivity is the name given to transfer function shaping problems in which
 ## the sensitivity function
@@ -340,7 +340,7 @@
 ## Created: December 2009
 ## Version: 0.2
 
-function [K, N, info] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
+function [K, N, gamma, info] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   if (nargin == 0)
     print_usage ();
@@ -350,6 +350,6 @@ function [K, N, info] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
 
   P = augw (G, W1, W2, W3);
   
-  [K, N, info] = hinfsyn (P, p, m, varargin{:});
+  [K, N, gamma, info] = hinfsyn (P, p, m, varargin{:});
 
 endfunction
