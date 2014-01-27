@@ -241,7 +241,7 @@ function [K, varargout] = hinfsyn (P, varargin)
 
     case "opt"              # optimal controller
       if (isct (P))         # continuous-time plant
-        [ak, bk, ck, dk, ~, ~, ~, ~, ~, rcond] = __sl_sb10ad__ (a, b, c, d, ncon, nmeas, gmax, tolgam, actol);
+        [ak, bk, ck, dk, ~, ~, ~, ~, ~, rcond] = __sl_sb10ad__ (a, b, c, d, ncon, nmeas, gmax, tolgam, -actol);
       else                  # discrete-time plant
         ## NOTE: check whether it is an alternative to compute the bilinear transformation
         ##       of P, use __sl_sb10ad__ for a continuous-time controller and then
@@ -249,7 +249,7 @@ function [K, varargout] = hinfsyn (P, varargin)
         ## estimate gamma
         Pt = d2c (P, "tustin");
         [at, bt, ct, dt] = ssdata (Pt);
-        [~, ~, ~, ~, ~, ~, ~, ~, gamma] = __sl_sb10ad__ (at, bt, ct, dt, ncon, nmeas, gmax, tolgam, actol);
+        [~, ~, ~, ~, ~, ~, ~, ~, gamma] = __sl_sb10ad__ (at, bt, ct, dt, ncon, nmeas, gmax, tolgam, -actol);
         ## gamma iteration - bisection method using __sl_sb10dd__
         gmax = 1.2*gamma;
         while (gmax > eps && (gmax - gmin)/gmax > tolgam)
