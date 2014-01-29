@@ -19,12 +19,16 @@
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon})
 ## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @dots{})
 ## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{nmeas}, @var{ncon}, @var{opt}, @dots{})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @dots{})
+## @deftypefnx{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} hinfsyn (@var{P}, @var{opt}, @dots{})
 ## H-infinity control synthesis for @acronym{LTI} plant.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item P
 ## Generalized plant.  Must be a proper/realizable @acronym{LTI} model.
+## If @var{P} is constructed with @command{mktito} or @command{augw},
+## arguments @var{nmeas} and @var{ncon} can be omitted.
 ## @item nmeas
 ## Number of measured outputs v.  The last @var{nmeas} outputs of @var{P} are connected to the
 ## inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
