@@ -5,7 +5,7 @@ USAGE: * adapt all paths to your machine
        * update version number in the commands below
        * adapt version number and release date in DESCRIPTION
        * update NEWS
-       * adapt version number in control.tex
+       * adapt version number and year in control.tex
        * run m-file generate_control_pdf
        * copy-paste entire block at once to the terminal
        * follow instructions on <http://octave.sourceforge.net/developers.html>
@@ -28,12 +28,12 @@ rm -R ~/octave/__TEMP__/control/.hgtags
 rm -R ~/octave/__TEMP__/control/.hgignore
 cd ~/octave/__TEMP__
 grep -i version control/DESCRIPTION
-tar czf control-2.6.1.tar.gz control/
-md5 control-2.6.1.tar.gz
-md5 control-2.6.1.tar.gz > md5_control_pkg.txt
-uuencode control-2.6.1.tar.gz < control-2.6.1.tar.gz > control-2.6.1.tar.gz.uue
+tar czf control-2.6.2.tar.gz control/
+md5 control-2.6.2.tar.gz
+md5 control-2.6.2.tar.gz > md5_control_pkg.txt
+uuencode control-2.6.2.tar.gz < control-2.6.2.tar.gz > control-2.6.2.tar.gz.uue
 octave -q --eval \
-"pkg install control-2.6.1.tar.gz"
+"pkg install control-2.6.2.tar.gz"
 octave -q --eval \
 "pkg load generate_html; generate_package_html ('control', 'control-html', 'octave-forge')"
 tar czf control-html.tar.gz control-html
@@ -48,7 +48,7 @@ Aftermath
 =====================================================================================
 
 rm -R ~/octave/__TEMP__
-rm -R ~/octave/control-2.6.1
+rm -R ~/octave/control-2.6.2
 
 
 =====================================================================================
