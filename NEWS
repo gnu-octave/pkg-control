@@ -14,6 +14,12 @@ control-2.6.2   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
      hinfsyn (P, nmeas, ncont, 'method', 'sub')
      mixsyn (G, W1, W2, W3, 'method', 'sub')
 
+** h2syn, hinfsyn, mixsyn, ncfsyn
+   For Matlab compatibility, the third return argument is now norm "gamma".
+   The info struct is now returned as fourth argument.
+
+     [K, N, gamma, info] = *syn (G, …)
+
 ** mktito
    New function to partition plant for robust control.  "mktito" is also used
    by function "augw".  If a plant is partitioned that way, one can omit the
