@@ -38,7 +38,8 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item P
-## Partitioned plant.
+## Partitioned plant.  The input/output groups and names are overwritten with designations
+## according to [1].
 ## @end table
 ##
 ## @strong{Block Diagram}
@@ -63,6 +64,11 @@
 ##                +--------+
 ## @end group
 ## @end example
+##
+## @strong{Reference}@*
+## [1] Skogestad, S. and Postlethwaite, I. (2005)
+## @cite{Multivariable Feedback Control: Analysis and Design:
+## Second Edition}.  Wiley, Chichester, England.
 ##
 ## @end deftypefn
 
