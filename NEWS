@@ -1,6 +1,17 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** rlocus
+   Fixed bug #41820.  <https://savannah.gnu.org/bugs/?41820>
+   Function "rlocus" no longer errors out for certain systems like
+   
+     rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
+
+
+===============================================================================
 control-2.6.2   Release Date: 2014-02-02   Release Manager: Lukas Reichlin
 ===============================================================================
 
