@@ -60,7 +60,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: December 2009
-## Version: 0.4
+## Version: 0.5
 
 ## TODO: Improve compatibility
 
@@ -108,7 +108,13 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   brkp = conv (den, dnum) - conv (num, dden);
   real_ax_pts = roots (brkp);
   real_ax_pts = real_ax_pts(find (imag (real_ax_pts) == 0));
-  k_break = -polyval (den, real_ax_pts) ./ polyval (num, real_ax_pts);
+  div = polyval (num, real_ax_pts);
+  div(div == 0) = [];
+  if (isempty (div))
+    k_break = [];
+  else
+    k_break = -polyval (den, real_ax_pts) ./ div;
+  endif
   idx = find (k_break >= 0);
   k_break = k_break(idx);
   real_ax_pts = real_ax_pts(idx);
