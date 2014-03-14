@@ -113,6 +113,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   if (isempty (div))
     k_break = [];
   else
+    ## FIXME: case  length (real_ax_pts) != length (div)
     k_break = -polyval (den, real_ax_pts) ./ div;
   endif
   idx = find (k_break >= 0);
