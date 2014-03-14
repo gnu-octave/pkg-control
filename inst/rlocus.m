@@ -108,14 +108,8 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   brkp = conv (den, dnum) - conv (num, dden);
   real_ax_pts = roots (brkp);
   real_ax_pts = real_ax_pts(find (imag (real_ax_pts) == 0));
-  div = polyval (num, real_ax_pts);
-  div(div == 0) = [];
-  if (isempty (div))
-    k_break = [];
-  else
-    ## FIXME: case  length (real_ax_pts) != length (div)
-    k_break = -polyval (den, real_ax_pts) ./ div;
-  endif
+  real_ax_pts(polyval (num, real_ax_pts) == 0) = [];  # avoid division by zero and therefore infinite k_break
+  k_break = -polyval (den, real_ax_pts) ./ polyval (num, real_ax_pts);
   idx = find (k_break >= 0);
   k_break = k_break(idx);
   real_ax_pts = real_ax_pts(idx);
