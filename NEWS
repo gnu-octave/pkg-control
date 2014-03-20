@@ -5,10 +5,11 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** rlocus
-   Fixed bug #41820.  <https://savannah.gnu.org/bugs/?41820>
-   Function "rlocus" no longer errors out for certain systems like
-   
-     rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
+   -- Function "rlocus" now supports the fltk graphics toolkit.
+   -- Fixed bug #41820.  <https://savannah.gnu.org/bugs/?41820>
+      Function "rlocus" no longer errors out for certain systems like
+
+        rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
 
 
 ===============================================================================
