@@ -2,6 +2,6 @@
 ##
 ## https://savannah.gnu.org/bugs/?41820
 
-graphics_toolkit gnuplot
+## graphics_toolkit gnuplot
 figure
 rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))

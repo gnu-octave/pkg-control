@@ -285,7 +285,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       args{2,kk} = imag (rlzer);
       args{3,kk} = "go;zeros;";
     endif
-
+    axes;
     set (gcf,"visible","off");
     hplt = plot (args{:});
     set (hplt(kk--), "markersize", 2);
