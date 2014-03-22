@@ -6,6 +6,7 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 
 ** rlocus
    -- Function "rlocus" now supports the fltk graphics toolkit.
+      (Thanks to Doug Stewart)
    -- Fixed bug #41820.  <https://savannah.gnu.org/bugs/?41820>
       Function "rlocus" no longer errors out for certain systems like
 

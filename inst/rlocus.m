@@ -62,10 +62,10 @@
 ## Date: December 2009
 ## Version: 0.5
 
-## TODO: Improve compatibility
-
 function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment, min_k, max_k)
 
+  ## TODO: improve compatibility to the "dark side"
+  ## TODO: untangle spaghetti code
   ## TODO: multiplot feature:   rlocus (sys1, "b", sys2, "r", ...)
 
   if (nargin < 1 || nargin > 4)
@@ -285,7 +285,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       args{2,kk} = imag (rlzer);
       args{3,kk} = "go;zeros;";
     endif
-    axes;
+    hplt = plot (args{:});                 # yes, line 288 is a duplicate of line 290 - needed for subplots
     set (gcf,"visible","off");
     hplt = plot (args{:});
     set (hplt(kk--), "markersize", 2);
