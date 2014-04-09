@@ -4,6 +4,27 @@ Summary of important user-visible changes for releases of the control package
 control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** SS models
+   For interconnections, support special case where the internal matrix
+   (I - D*M) is singular, e.g.
+
+     feedback (ss (-1, 1, 4, 1), 1, '+')
+
+** FRD models
+   Fixed bug which let frequency response plots fail, e.g.
+     
+     bode (frd (tf (1, [1, 1])))
+
+** connect
+   -- Improved argument checking for legacy connection matrix.
+   -- Document usage of index-based interconnections.
+   
+** pole
+   Compute poles of descriptor state-space models with SLICOT AG08BD.
+   
+** zero
+   The gain of descriptor state-space models is now computed correctly.
+
 ** rlocus
    -- Function "rlocus" now supports the fltk graphics toolkit.
       (Thanks to Doug Stewart)
