@@ -59,7 +59,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __sys_connect__ (sys, m)
 
@@ -70,17 +70,64 @@ function sys = __sys_connect__ (sys, m)
 
   z = eye (rows (d)) - d*m;
 
-  if (rcond (z) < eps)  # check for singularity
-    error ("ss: sys_connect: (I - D*M) singular");
+  if (rcond (z) >= eps)  # check for singularity
+    
+    sys.a = a + b*m/z*c;  # F
+    sys.b = b + b*m/z*d;  # G
+    sys.c = z\c;          # H
+    sys.d = z\d;          # J
+  
+    ## sys.e remains constant: [] for ss models, e for dss models
+    
+  else
+    
+    ## construct descriptor model
+    ## try to introduce the least states
+    [pp, mm] = size (d);
+    n = rows (a);
+    
+    if (mm <= pp)
+      ## Introduce state variable e = u + My
+      ##   .
+      ## E x =  A x +      B e + 0 u
+      ##   .
+      ## 0 e = MC x + (MD-I) e + I u  
+      ##    
+      ##   y =  C x +      D e + 0 u
+      ##
+      sys.a = [a, b; m*c, m*d-eye(mm)];
+      sys.b = [zeros(n,mm); eye(mm)];
+      sys.c = [c, d];
+      sys.d = zeros (pp,mm);
+      if (isempty (sys.e))
+        sys.e = blkdiag (eye (n), zeros (mm));
+      else
+        sys.e = blkdiag (sys.e, zeros (mm));
+      endif
+      sys.stname = [sys.stname; repmat({""}, mm, 1)];
+      
+    else
+      ## Introduce state variable y
+      ##   .
+      ## E x = A x + BM y + B u
+      ##   .
+      ## 0 y = C x -  Z y + D u  
+      ##    
+      ##   y = 0 x +  I y + 0 u
+      ##          
+      sys.a = [a, b*m; c, -z];
+      sys.b = [b; d];
+      sys.c = [zeros(pp, n), eye(pp)];
+      sys.d = zeros (pp, mm);
+      if (isempty (sys.e))
+        sys.e = blkdiag (eye (n), zeros (pp));
+      else
+        sys.e = blkdiag (sys.e, zeros (pp));
+      endif
+      sys.stname = [sys.stname; repmat({""}, pp, 1)];
+      
+    endif
+    
   endif
-
-  z = inv (z);
-
-  sys.a = a + b*m*z*c;  # F
-  sys.b = b + b*m*z*d;  # G
-  sys.c = z*c;          # H
-  sys.d = z*d;          # J
-
-  ## sys.e remains constant: [] for ss models, e for dss models
 
 endfunction
