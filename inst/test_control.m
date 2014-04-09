@@ -39,7 +39,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
-## Version: 0.5
+## Version: 0.6
 
 ## test collection
 test ltimodels
@@ -56,6 +56,7 @@ test @lti/minreal
 test @lti/mtimes
 test @lti/norm
 test @lti/plus
+test @lti/pole
 test @lti/prescale
 test @lti/sminreal
 test @lti/subsref

@@ -21,23 +21,19 @@
 ## Special thanks to Peter Benner for his advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function pol = __pole__ (sys)
 
   if (isempty (sys.e))
     pol = eig (sys.a);
   else
-    pol = eig (sys.a, sys.e);
-    tol = norm ([sys.a, sys.e], 2);
-    idx = find (abs (pol) < tol/eps);
-    pol = pol(idx);
+    ## pol = eig (sys.a, sys.e);
+    ## tol = norm ([sys.a, sys.e], 2);
+    ## idx = find (abs (pol) < tol/eps);
+    ## pol = pol(idx);
+    ## do not scale, matrices B, C & D missing 
+    pol = __sl_ag08bd__ (sys.a, sys.e, [], [], [], true);
   endif
 
 endfunction
-
-
-## sys = ss (-2, 3, 4, 0)
-## sysi = inv (sys)  # singular e
-## p = pole (sysi)
-## infinite poles correct?

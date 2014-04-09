@@ -55,3 +55,57 @@ function pol = pole (sys)
   pol = __pole__ (sys);
 
 endfunction
+
+## Poles of descriptor state-space model
+%!shared pol, pol_exp, infp, kronr, kronl, infp_exp, kronr_exp, kronl_exp
+%! A = [  1     0     0     0     0     0     0     0     0
+%!        0     1     0     0     0     0     0     0     0
+%!        0     0     1     0     0     0     0     0     0
+%!        0     0     0     1     0     0     0     0     0
+%!        0     0     0     0     1     0     0     0     0
+%!        0     0     0     0     0     1     0     0     0
+%!        0     0     0     0     0     0     1     0     0
+%!        0     0     0     0     0     0     0     1     0
+%!        0     0     0     0     0     0     0     0     1 ];
+%!
+%! E = [  0     0     0     0     0     0     0     0     0
+%!        1     0     0     0     0     0     0     0     0
+%!        0     1     0     0     0     0     0     0     0
+%!        0     0     0     0     0     0     0     0     0
+%!        0     0     0     1     0     0     0     0     0
+%!        0     0     0     0     1     0     0     0     0
+%!        0     0     0     0     0     0     0     0     0
+%!        0     0     0     0     0     0     1     0     0
+%!        0     0     0     0     0     0     0     1     0 ];
+%!
+%! B = [ -1     0     0
+%!        0     0     0
+%!        0     0     0
+%!        0    -1     0
+%!        0     0     0
+%!        0     0     0
+%!        0     0    -1
+%!        0     0     0
+%!        0     0     0 ];
+%!
+%! C = [  0     1     1     0     3     4     0     0     2
+%!        0     1     0     0     4     0     0     2     0
+%!        0     0     1     0    -1     4     0    -2     2 ];
+%!
+%! D = [  1     2    -2
+%!        0    -1    -2
+%!        0     0     0 ];
+%!
+%! sys = dss (A, B, C, D, E, "scaled", true);
+%! [pol, ~, infp, kronr, kronl] = __sl_ag08bd__ (A, E, [], [], [], true);
+%!
+%! pol_exp = zeros (0,1);
+%!
+%! infp_exp = [0, 3];
+%! kronr_exp = zeros (1,0);
+%! kronl_exp = zeros (1,0);
+%!
+%!assert (pol, pol_exp, 1e-4);
+%!assert (infp, infp_exp);
+%!assert (kronr, kronr_exp);
+%!assert (kronl, kronl_exp);
