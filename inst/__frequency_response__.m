@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.5
+## Version: 0.6
 
 function [H, w] = __frequency_response__ (args, mimoflag = false, wbounds = "std", cellflag = false)
 
@@ -57,8 +57,9 @@ function [H, w] = __frequency_response__ (args, mimoflag = false, wbounds = "std
   else                                          # there are neither frequency ranges nor vectors
     w = __frequency_vector__ (sys_cell, wbounds);
   endif
-
-  w_frd = w(frd_idx);                           # temporarily save frequency vectors of FRD models
+  
+  ## temporarily save frequency vectors of FRD models
+  w_frd = cellfun (@(x) get (x, "w"), sys_cell(frd_idx), "uniformoutput", false);
   w(frd_idx) = {[]};                            # freqresp returns all frequencies of FRD models for w=[]
 
   ## compute frequency response H for all LTI models
