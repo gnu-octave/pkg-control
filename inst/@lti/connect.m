@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} connect (@var{sys1}, @var{sys2}, @dots{}, @var{sysN}, @var{inputs}, @var{outputs})
 ## @deftypefnx {Function File} {@var{sys} =} connect (@var{sys}, @var{cm}, @var{inputs}, @var{outputs})
-## Name-based interconnections between the inputs and outputs of @acronym{LTI} models.
+## Name-based or index-based interconnections between the inputs and outputs of @acronym{LTI} models.
 ## 
 ## @strong{Inputs}
 ## @table @var
@@ -26,13 +26,27 @@
 ## @acronym{LTI} models to be connected.  The properties 'inname' and 'outname'
 ## of each model should be set according to the desired input-output connections.
 ## @item inputs
-## String or cell of strings containing the names of the inputs to be kept.
-## The names must be part of the properties 'ingroup' or 'inname'.
+## For name-based interconnections, string or cell of strings containing the names
+## of the inputs to be kept. The names must be part of the properties 'ingroup' or
+## 'inname'. For index-based interconnections, vector containing the indeces of the
+## inputs to be kept.
 ## @item outputs
-## String or cell of strings containing the names of the outputs to be kept.
-## The names must be part of the properties 'outgroup' or 'outname'.
+## For name-based interconnections, string or cell of strings containing the names
+## of the outputs to be kept. The names must be part of the properties 'outgroup' 
+## or 'outname'. For index-based interconnections, vector containing the indeces of
+## the outputs to be kept.
 ## @item cm
-## Legacy connection matrix (not name-based).
+## Connection matrix (not name-based). Each row of the matrix represents a summing
+## junction. The first column holds the indeces of the inputs to be summed with
+## outputs of the subsequent columns. The output indeces can be negative, if the output
+## is to be substracted, or zero. For example the row
+## @example
+## [2 0 3 -4 0]
+## @end example
+## will sum input u(2) with outputs y(3) and y(4) as
+## @example
+## u(2) + y(3) - y(4).
+## @end example
 ## @end table
 ##
 ## @strong{Outputs}
@@ -47,7 +61,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = connect (varargin)
 
@@ -65,12 +79,9 @@ function sys = connect (varargin)
     cm = varargin{2};
     in_idx = varargin{3};
     out_idx = varargin{4};
-
+    
     [p, m] = size (sys);
     [cmrows, cmcols] = size (cm);
-
-    ## TODO: proper argument checking
-    ## TODO: replace nested for-if statement
 
     ## if (! is_real_matrix (cm))
     ##   error ("connect: second argument must be a matrix with real-valued coefficients");
@@ -79,13 +90,41 @@ function sys = connect (varargin)
     M = zeros (m, p);
     in = cm(:, 1);
     out = cm(:, 2:cmcols);
-
+    
+    ## check sizes and integer values
+    if (! isequal (cm, floor (cm)))
+      error ("connect: matrix 'cm' must contain integer values (index-based interconnection)");
+    endif
+    
+    if ((min (in) <= 0) || (max (in) > m))
+      error ("connect: 'cm' input index in out of range (index-based interconnection)");
+    endif
+    
+    if (max (abs (out(:))) > p)
+      error ("connect: 'cm' output index out of range (index-based interconnection)");
+    endif
+    
+    if ((! is_real_vector (in_idx)) || (! isequal (in_idx, floor (in_idx))))
+      error ("connect: 'inputs' must be a vector of integer values (index-based interconnection)");
+    endif
+    
+    if ((max (in_idx) > m) || (min (in_idx) <= 0))
+      error ("connect: index in vector 'inputs' out of range (index-based interconnection)");
+    endif
+    
+    if ((! is_real_vector (out_idx)) || (! isequal (out_idx, floor (out_idx))))
+      error ("connect: 'outputs' must be a vector of integer values (index-based interconnection)");
+    endif
+    
+    if ((max (out_idx) > p) || (min (out_idx) <= 0))
+      error ("connect: index in vector 'outputs' out of range (index-based interconnection)");
+    endif
+    
     for a = 1 : cmrows
-      for b = 1 : cmcols-1
-        if (out(a, b) != 0)
-          M(in(a, 1), abs (out(a, b))) = sign (out(a, b));
-        endif
-      endfor
+      out_tmp = out(a, (out(a,:) != 0));
+      if (! isempty (out_tmp))
+        M(in(a,1), abs (out_tmp)) = sign (out_tmp);
+      endif
     endfor
 
     sys = __sys_connect__ (sys, M);
