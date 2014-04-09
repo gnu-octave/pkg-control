@@ -27,21 +27,25 @@
 ## of each model should be set according to the desired input-output connections.
 ## @item inputs
 ## For name-based interconnections, string or cell of strings containing the names
-## of the inputs to be kept. The names must be part of the properties 'ingroup' or
-## 'inname'. For index-based interconnections, vector containing the indeces of the
+## of the inputs to be kept.  The names must be part of the properties 'ingroup' or
+## 'inname'.  For index-based interconnections, vector containing the indices of the
 ## inputs to be kept.
 ## @item outputs
 ## For name-based interconnections, string or cell of strings containing the names
-## of the outputs to be kept. The names must be part of the properties 'outgroup' 
-## or 'outname'. For index-based interconnections, vector containing the indeces of
+## of the outputs to be kept.  The names must be part of the properties 'outgroup' 
+## or 'outname'.  For index-based interconnections, vector containing the indices of
 ## the outputs to be kept.
 ## @item cm
-## Connection matrix (not name-based). Each row of the matrix represents a summing
-## junction. The first column holds the indeces of the inputs to be summed with
-## outputs of the subsequent columns. The output indeces can be negative, if the output
-## is to be substracted, or zero. For example the row
+## Connection matrix (not name-based).  Each row of the matrix represents a summing
+## junction.  The first column holds the indices of the inputs to be summed with
+## outputs of the subsequent columns.  The output indices can be negative, if the output
+## is to be substracted, or zero.  For example, the row
 ## @example
 ## [2 0 3 -4 0]
+## @end example
+## or
+## @example
+## [2 -4 3]
 ## @end example
 ## will sum input u(2) with outputs y(3) and y(4) as
 ## @example
