@@ -85,6 +85,9 @@ function sys = __sys_connect__ (sys, m)
     ## try to introduce the least states
     [pp, mm] = size (d);
     n = rows (a);
+    if (isempty (sys.e))
+      sys.e = eye (n);
+    endif
     
     if (mm <= pp)
       ## Introduce state variable e = u + My
@@ -99,13 +102,8 @@ function sys = __sys_connect__ (sys, m)
       sys.b = [zeros(n,mm); eye(mm)];
       sys.c = [c, d];
       sys.d = zeros (pp,mm);
-      if (isempty (sys.e))
-        sys.e = blkdiag (eye (n), zeros (mm));
-      else
-        sys.e = blkdiag (sys.e, zeros (mm));
-      endif
-      sys.stname = [sys.stname; repmat({""}, mm, 1)];
-      
+      sys.e = blkdiag (sys.e, zeros (mm));
+      sys.stname = [sys.stname; repmat({""}, mm, 1)];   
     else
       ## Introduce state variable y
       ##   .
@@ -119,13 +117,8 @@ function sys = __sys_connect__ (sys, m)
       sys.b = [b; d];
       sys.c = [zeros(pp, n), eye(pp)];
       sys.d = zeros (pp, mm);
-      if (isempty (sys.e))
-        sys.e = blkdiag (eye (n), zeros (pp));
-      else
-        sys.e = blkdiag (sys.e, zeros (pp));
-      endif
-      sys.stname = [sys.stname; repmat({""}, pp, 1)];
-      
+      sys.e = blkdiag (sys.e, zeros (pp));
+      sys.stname = [sys.stname; repmat({""}, pp, 1)];  
     endif
     
   endif
