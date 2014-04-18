@@ -36,6 +36,10 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 
         rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
 
+** IDDATA identification datasets
+   Raise an error if non-real-valued input or output matrices are assigned to
+   time-domain datasets via the "set" function or subscripted assignment.
+
 
 ===============================================================================
 control-2.6.2   Release Date: 2014-02-02   Release Manager: Lukas Reichlin

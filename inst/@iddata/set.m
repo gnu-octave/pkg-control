@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.1
+## Version: 0.2
 
 function retdat = set (dat, varargin)
 
@@ -68,12 +68,18 @@ function retdat = set (dat, varargin)
           if (eval != e)    # iddata_dim is not sufficient if dat.u = []
             error ("iddata: set: argument has %d instead of %d experiments", eval, e);
           endif
+          if (dat.timedomain && ! is_real_matrix (val{:}))
+            error ("iddata: set: require real-valued output signals for time domain datasets");
+          endif
           dat.y = val;
         case {"u", "indata", "inputdata", "ind", "inputd"}
           [~, val] = __adjust_iddata__ (dat.y, val);
           [~, mval] = __iddata_dim__ (dat.y, val);
           if (mval != m)
             error ("iddata: set: argument has %d instead of %d inputs", mval, m);
+          endif
+          if (dat.timedomain && ! is_real_matrix (val{:}))
+            error ("iddata: set: require real-valued input signals for time domain datasets");
           endif
           dat.u = val;
         case {"outname", "outputname", "outn", "outputn"}
