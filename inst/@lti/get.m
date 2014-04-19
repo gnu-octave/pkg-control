@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} get (@var{sys})
 ## @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
+## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{sys}, @var{"prop1"}, @var{"prop2"}, @dots{})
 ## Access property values of @acronym{LTI} objects.
 ## @end deftypefn
 
