@@ -18,6 +18,10 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 ** tf
    Refuse denominators which are zero.
 
+** c2d
+   For zero-order hold approximation, use SLICOT MB05ND instead of Octave's
+   "expm" to compute the matrix exponential.  Better accuracy is to be expected.
+
 ** connect
    -- Improved argument checking for legacy connection matrix.
    -- Document usage of index-based interconnections.

@@ -20,18 +20,15 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
   switch (method(1))
     case {"z", "s"}                # {"zoh", "std"}
       [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
-      [n, m] = size (sys.b);       # n: states, m: inputs
-      ## TODO: use SLICOT MB05OD
-      tmp = expm ([sys.a*tsam, sys.b*tsam; zeros(m, n+m)]);
-      sys.a = tmp (1:n, 1:n);      # F
-      sys.b = tmp (1:n, n+(1:m));  # G
+      [sys.a, tmp] = __sl_mb05nd__ (sys.a, tsam, eps); 
+      sys.b = tmp * sys.b;         # G
 
     case {"t", "b", "p"}           # {"tustin", "bilin", "prewarp"}
       if (method(1) == "p")        # prewarping
