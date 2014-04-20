@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
+## Version: 0.6
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -47,6 +47,8 @@ function [retsys, retlti] = __sys2ss__ (sys)
   if (any (tmp(:)))       # non-proper transfer function
     ## separation into strictly proper and polynomial part
     [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
+    numr = cellfun (@(num_v, len_d) num_v(end-len_d+2:end), ...
+                    numr, num2cell (len_den), "uniformoutput", false);
     numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
     numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false);
 
@@ -173,12 +175,12 @@ endfunction
 ## remove leading zeros from polynomial vector
 function p = __remove_leading_zeros__ (p)
 
-  idx = find (p != 0);
+  idx = find (p != 0, 1);
 
   if (isempty (idx))
     p = 0;
   else
-    p = p(idx(1) : end);  # p(idx) would remove all zeros
+    p = p(idx : end);
   endif
 
 endfunction
