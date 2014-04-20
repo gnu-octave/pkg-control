@@ -265,17 +265,12 @@ endfunction
 
 
 ## sensitivity function
-## Note the correct physical meaning of the states.
-## Test would fail on a commercial octave clone
-## because of wrong signs of matrices B and C.
-## NOTE: Don't use T = I - S for complementary sensitivity,
-##       use T = feedback (L) instead!
 %!shared S1, S2
 %! P = ss (-2, 3, 4, 5);  # meaningless numbers
 %! C = ss (-1, 1, 1, 0);  # ditto
 %! L = P * C;
 %! I = eye (size (L));
-%! S1 = feedback (I, L*-I, "+");  # draw a block diagram for better understanding
+%! S1 = feedback (I, L);
 %! S2 = inv (I + L);
 %!assert (S1.a, S2.a, 1e-4);
 %!assert (S1.b, S2.b, 1e-4);

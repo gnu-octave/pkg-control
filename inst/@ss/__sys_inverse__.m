@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __sys_inverse__ (sys)
 
@@ -45,15 +45,15 @@ function sys = __sys_inverse__ (sys)
     sys.d = zeros (m);
     sys.e = [e, zeros(n, m); zeros(m, n+m)];
 
-    sys.stname = repmat ({""}, n+m, 1);
+    sys.stname = [sys.stname; repmat({""}, m, 1)];
 
   else                                   # proper ss
 
     bid = b / d;
 
     sys.a = a - bid * c;
-    sys.b = -bid;
-    sys.c = d \ c;
+    sys.b = bid;
+    sys.c = -d \ c;
     sys.d = inv (d);
 
   endif

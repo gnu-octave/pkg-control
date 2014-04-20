@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function retsys = inv (sys)
 
@@ -36,15 +36,19 @@ function retsys = inv (sys)
 
   retsys = __sys_inverse__ (sys);
 
-  ## TODO: handle i/o names
+  ## handle i/o names
+  retsys.inname = sys.outname;
+  retsys.outname = sys.inname;
+  retsys.ingroup = sys.outgroup;
+  retsys.outgroup = sys.ingroup; 
 
 endfunction
 
 
 ## inverse of state-space models
 ## test from SLICOT AB07ND
-## result differs intentionally from a commercial
-## implementation of an octave-like language
+## result differs intentionally from slicot
+## to prevent states x_inv = -x
 %!shared M, Me
 %! A = [ 1.0   2.0   0.0
 %!       4.0  -1.0   0.0
@@ -79,6 +83,6 @@ endfunction
 %! De = [ 0.2500   0.0000
 %!        0.0000   1.0000 ];
 %!
-%! Me = [Ae, Be; Ce, De];  # Me = [Ae, -Be; -Ce, De];
+%! Me = [Ae, -Be; -Ce, De];
 %!
 %!assert (M, Me, 1e-4);
