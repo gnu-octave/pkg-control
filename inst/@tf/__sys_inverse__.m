@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __sys_inverse__ (sys)
 
@@ -36,14 +36,10 @@ function sys = __sys_inverse__ (sys)
       sys.num = den;
       sys.den = num;
     endif
-  elseif (all (nvec == 2))  # 2x2 MIMO
-    sys.num(1,1) = -den{1,1}*den{1,2}*den{2,1}*num{2,2};
-    sys.num(1,2) = den{1,1}*den{2,1}*den{2,2}*num{1,2};
-    sys.num(2,1) = den{1,1}*den{1,2}*den{2,2}*num{2,1};
-    sys.num(2,2) = -den{1,2}*den{2,1}*den{2,2}*num{1,1};  
-    sys.den(:) = den{1,1}*den{2,2}*num{1,2}*num{2,1} - den{1,2}*den{2,1}*num{1,1}*num{2,2};
-  else
-    ## I've calculated 3x3 systems with sage but the formula is quite long
+  else                      # MIMO
+    ## I've calculated TF inversion of 2x2 and 3x3 systems with Sage CAS,
+    ## but the formulae give systems with very high orders, therefore
+    ## I always use the conversion to state-space and back.
     [num, den] = tfdata (inv (ss (sys)), "tfpoly");
     sys.num = num;
     sys.den = den;
