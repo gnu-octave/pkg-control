@@ -108,14 +108,14 @@ For internal use only.")
             
         static const char* err_msg[] = {
             "0: OK",
-            "1: some element of the denominator of the Pade"
-                "approximation is zero, so the denominator"
-                "is exactly singular",
-            "2: DELTA = (delta * frobenius norm of matrix A) is"
-                "probably too large to permit meaningful computation"
-                "That is, DELTA > SQRT(BIG), where BIG is a"
-                "representable number near the overflow threshold of"
-                "the machine"}; 
+            "1: some element of the denominator of the Pade "
+                "approximation is zero, so the denominator "
+                "is exactly singular.",
+            "2: DELTA = (delta * frobenius norm of matrix A) is "
+                "probably too large to permit meaningful computation.  "
+                "That is, DELTA > SQRT(BIG), where BIG is a "
+                "representable number near the overflow threshold of "
+                "the machine."}; 
  
         error_msg ("__sl_mb05nd__", info, 2, err_msg);
 
