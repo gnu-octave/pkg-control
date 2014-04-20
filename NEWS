@@ -15,9 +15,19 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
      
      bode (frd (tf (1, [1, 1])))
 
+** tf
+   Refuse denominators which are zero.
+
 ** connect
    -- Improved argument checking for legacy connection matrix.
    -- Document usage of index-based interconnections.
+
+** inv
+   -- Handle i/o names and groups correctly.
+   -- Conserve the meaning of states by using the Matlab-compatible formula
+      instead of the SLICOT-compatible one.
+   -- Always use conversion to state-space and back for the inversion of
+      MIMO transfer functions, even for 2x2 systems.
    
 ** pole
    Compute poles of descriptor state-space models with SLICOT AG08BD instead
