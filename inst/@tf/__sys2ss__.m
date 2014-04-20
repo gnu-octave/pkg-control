@@ -24,7 +24,7 @@
 ## Special thanks to Vasile Sima and Andras Varga for their advice.
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.6
+## Version: 0.7
 
 function [retsys, retlti] = __sys2ss__ (sys)
 
@@ -82,10 +82,6 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
   numc = cell (p, m);
   denc = cell (p, 1);
 
-  ## set zero denominators to 1 for convolution
-  zero_idx = cellfun (@(x) all (x == 0), den);
-  den(zero_idx) = 1;
-  
   ## multiply all denominators in a row and
   ## update each numerator accordingly
   ## except for single-input models and those
@@ -103,18 +99,8 @@ function [a, b, c, d] = __proper_tf2ss__ (num, den, p, m)
     endif
   endfor
 
-  ## set numerators to zero if their denominators are zero
-  numc(zero_idx) = 0;
-
   len_numc = cellfun (@length, numc);
   len_denc = cellfun (@length, denc);
-
-  ## check for properness  
-  ## tfpoly ensures that there are no leading zeros
-  ## tmp = len_numc > repmat (len_denc, 1, m);
-  ## if (any (tmp(:)))
-  ##   error ("tf: tf2ss: system must be proper");
-  ## endif
 
   ## create arrays and fill in the data
   ## in a way that Slicot TD04AD can use
