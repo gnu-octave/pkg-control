@@ -50,6 +50,10 @@ control-2.6.3   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
 
         rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
 
+** transpose, ctranspose
+   Delete i/o groups of transposed (sys.') or conjugate transposed (sys')
+   LTI models.
+
 ** IDDATA identification datasets
    Raise an error if non-real-valued input or output matrices are assigned to
    time-domain datasets via the "set" function or subscripted assignment.

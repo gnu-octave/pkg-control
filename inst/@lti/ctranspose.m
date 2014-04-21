@@ -29,7 +29,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2012
-## Version: 0.1
+## Version: 0.2
 
 function sys = ctranspose (sys)
 
@@ -44,5 +44,7 @@ function sys = ctranspose (sys)
 
   sys.inname = repmat ({""}, p, 1);
   sys.outname = repmat ({""}, m, 1);
+  sys.ingroup = struct ();
+  sys.outgroup = struct ();
 
 endfunction

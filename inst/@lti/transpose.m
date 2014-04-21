@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
-## Version: 0.1
+## Version: 0.2
 
 function sys = transpose (sys)
 
@@ -36,5 +36,7 @@ function sys = transpose (sys)
 
   sys.inname = repmat ({""}, p, 1);
   sys.outname = repmat ({""}, m, 1);
+  sys.ingroup = struct ();
+  sys.outgroup = struct ();
 
 endfunction
