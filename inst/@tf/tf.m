@@ -174,7 +174,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.4
+## Version: 0.3
 
 function sys = tf (num = {}, den = {}, varargin)
 
@@ -246,10 +246,6 @@ function sys = tf (num = {}, den = {}, varargin)
         tfvar = "s";
       endif
   endswitch
-
-  if (any (cellfun (@is_zero, den)))
-    error ("tf: denominator cannot be zero");
-  endif
 
   [p, m] = __tf_dim__ (num, den);              # determine number of outputs and inputs
 

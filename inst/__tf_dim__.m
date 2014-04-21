@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function [nrows, ncols] = __tf_dim__ (num, den)
 
@@ -31,6 +31,10 @@ function [nrows, ncols] = __tf_dim__ (num, den)
   if (nrows != drows || ncols != dcols)
     error ("tf: num(%dx%d) and den(%dx%d) must have equal dimensions",
             nrows, ncols, drows, dcols);
+  endif
+
+  if (any (cellfun (@is_zero, den)))
+    error ("tf: denominator cannot be zero");
   endif
 
 endfunction
