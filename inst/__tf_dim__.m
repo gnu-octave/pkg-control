@@ -33,7 +33,7 @@ function [nrows, ncols] = __tf_dim__ (num, den)
             nrows, ncols, drows, dcols);
   endif
 
-  if (any (cellfun (@is_zero, den)))
+  if (any (cellfun (@is_zero, den)(:)))
     error ("tf: denominator cannot be zero");
   endif
 
