@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
-Transmission zeros of descriptor state-space models.
+Finite Smith zeros of descriptor state-space models.
 Uses SLICOT AG08BD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 

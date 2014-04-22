@@ -1,9 +1,9 @@
-#include "sl_ab08nd.cc"  // transmission zeros of state-space models
+#include "sl_ab08nd.cc"  // invariant zeros of state-space models
 #include "sl_ab13dd.cc"  // L-infinity norm
 #include "sl_sb10hd.cc"  // H-2 controller synthesis - continuous-time
 #include "sl_sb10ed.cc"  // H-2 controller synthesis - discrete-time
 #include "sl_ab13bd.cc"  // H-2 norm
-#include "sl_sb01bd.cc"  // Pole assignment
+#include "sl_sb01bd.cc"  // pole assignment
 #include "sl_sb10fd.cc"  // H-infinity controller synthesis - continuous-time
 #include "sl_sb10dd.cc"  // H-infinity controller synthesis - discrete-time
 #include "sl_sb03md.cc"  // Lyapunov equations
@@ -16,7 +16,7 @@
 #include "sl_tb01pd.cc"  // minimal realization of state-space models
 #include "sl_sb03od.cc"  // Cholesky factor of Lyapunov equations
 #include "sl_sg03bd.cc"  // Cholesky factor of generalized Lyapunov equations
-#include "sl_ag08bd.cc"  // transmission zeros of descriptor state-space models
+#include "sl_ag08bd.cc"  // finite Smith zeros of descriptor state-space models
 #include "sl_tg01jd.cc"  // minimal realization of descriptor state-space models
 #include "sl_tg01hd.cc"  // controllability staircase form of descriptor state-space models
 #include "sl_tg01id.cc"  // observability staircase form of descriptor state-space models
@@ -27,14 +27,14 @@
 #include "sl_sb10id.cc"  // H-infinity loop shaping - continuous-time
 #include "sl_sb10kd.cc"  // H-infinity loop shaping - discrete-time - strictly proper case
 #include "sl_sb10zd.cc"  // H-infinity loop shaping - discrete-time - proper case
-#include "sl_tb04bd.cc"  // State-space to transfer function conversion
+#include "sl_tb04bd.cc"  // state-space to transfer function conversion
 #include "sl_ab04md.cc"  // bilinear transformation
 #include "sl_sb10jd.cc"  // descriptor to regular state-space conversion
 #include "sl_td04ad.cc"  // transfer function to state-space conversion
 #include "sl_tb01ud.cc"  // controllable block Hessenberg realization
 #include "sl_ab09hd.cc"  // balanced stochastic truncation model reduction
 #include "sl_ab09id.cc"  // balanced truncation & singular perturbation approximation model reduction
-#include "sl_ab09jd.cc"  // hankel-norm approximation model reduction
+#include "sl_ab09jd.cc"  // Hankel-norm approximation model reduction
 #include "sl_sb16ad.cc"  // balanced truncation & singular perturbation approximation controller reduction
 #include "sl_sb16bd.cc"  // coprime factorization state-feedback controller reduction
 #include "sl_sb16cd.cc"  // frequency-weighted coprime factorization state-feedback controller reduction
@@ -45,7 +45,7 @@
 // #include "sl_are.cc"     // solve ARE with Schur vector approach and scaling
 #include "sl_tg01fd.cc"  // orthogonal reduction of dss to a SVD-like coordinate form
 #include "sl_sb10ad.cc"  // H-infinity optimal controller using modified Glover's and Doyle's formulas (continuous-time)
-#include "sl_mb05nd.cc"  // Matrix exponential and integral for a real matrix.
+#include "sl_mb05nd.cc"  // matrix exponential and integral for a real matrix
 
 
 // stub function to avoid gen_doc_cache warning upon package installation
