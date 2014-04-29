@@ -25,26 +25,18 @@
 
 function sys = mtimes (sys2, sys1)
 
-  if (nargin != 2)  # prevent sys = mtimes (sys1, sys2, sys3, ...)
+  if (nargin != 2)                          # prevent sys = mtimes (sys1, sys2, sys3, ...)
     error ("lti: mtimes: this is a binary operator");
   endif
 
   [p1, m1] = size (sys1);
   [p2, m2] = size (sys2);
 
-  if (m2 != p1)
-    if (p1 == 1 && m1 == 1)
-      tmp = sys1;
-      for k = 2 : m2
-        sys1 = blkdiag (sys1, tmp);
-      endfor
-      [p1, m1] = size (sys1);
-    elseif (p2 == 1 && m2 == 1)
-      tmp = sys2;
-      for k = 2 : p1
-        sys2 = blkdiag (sys2, tmp);
-      endfor
-      [p2, m2] = size (sys2);
+  if (m2 != p1)                             # innner dimensions don't match
+    if (p1 == 1 && m1 == 1 && m2 > 1)       # sys1 is SISO, m2 != 0
+      [sys1, p1, m1] = __siso_expansion__ (sys1, m2);
+    elseif (p2 == 1 && m2 == 1 && p1 > 1)   # sys2 is SISO, p1 != 0
+      [sys2, p2, m2] = __siso_expansion__ (sys2, p1);
     else
       error ("lti: mtimes: system dimensions incompatible: (%dx%d) * (%dx%d)",
               p2, m2, p1, m1);
@@ -65,6 +57,21 @@ function sys = mtimes (sys2, sys1)
   sys = __sys_group__ (sys2, sys1);
   sys = __sys_connect__ (sys, M);
   sys = __sys_prune__ (sys, out_idx, in_idx);
+
+endfunction
+
+
+## concatenate lti or matrix sys s times block-diagonally
+## despite its name, it also works for MIMO systems.
+function [sys, p, m] = __siso_expansion__ (sys, s)
+
+  tmp = sys;
+
+  for k = 2 : s
+    sys = blkdiag (sys, tmp);
+  endfor
+
+  [p, m] = size (sys);
 
 endfunction
 
