@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = mtimes (sys2, sys1)
 
@@ -33,8 +33,22 @@ function sys = mtimes (sys2, sys1)
   [p2, m2] = size (sys2);
 
   if (m2 != p1)
-    error ("lti: mtimes: system dimensions incompatible: (%dx%d) * (%dx%d)",
-            p2, m2, p1, m1);
+    if (p1 == 1 && m1 == 1)
+      tmp = sys1;
+      for k = 2 : m2
+        sys1 = blkdiag (sys1, tmp);
+      endfor
+      [p1, m1] = size (sys1);
+    elseif (p2 == 1 && m2 == 1)
+      tmp = sys2;
+      for k = 2 : p1
+        sys2 = blkdiag (sys2, tmp);
+      endfor
+      [p2, m2] = size (sys2);
+    else
+      error ("lti: mtimes: system dimensions incompatible: (%dx%d) * (%dx%d)",
+              p2, m2, p1, m1);
+    endif
   endif
 
   M22 = zeros (m2, p2);
