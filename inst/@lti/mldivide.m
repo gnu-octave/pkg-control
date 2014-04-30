@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = mldivide (sys1, sys2)
 
@@ -34,8 +34,8 @@ function sys = mldivide (sys1, sys2)
   [p1, m1] = size (sys1);
   [p2, m2] = size (sys2);
 
-  if (m2 != p1)
-    error ("lti: mldivide: system dimensions incompatible: (%dx%d) \ (%dx%d)",
+  if (m1 != p2)
+    error ("lti: mldivide: system dimensions incompatible: (%dx%d) \\ (%dx%d)",
             p1, m1, p2, m2);
   endif
 
