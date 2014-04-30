@@ -31,13 +31,13 @@ function sys = mrdivide (sys1, sys2)
 
   sys2 = inv (sys2);  # let octave decide which inv() it uses
 
-  [p1, m1] = size (sys1);
-  [p2, m2] = size (sys2);
-
-  if (m1 != p2)
-    error ("lti: mrdivide: system dimensions incompatible: (%dx%d) / (%dx%d)",
-            p1, m1, p2, m2);
-  endif
+  ## [p1, m1] = size (sys1);
+  ## [p2, m2] = size (sys2);
+  ## 
+  ## if (m1 != p2)
+  ##   error ("lti: mrdivide: system dimensions incompatible: (%dx%d) / (%dx%d)",
+  ##           p1, m1, p2, m2);
+  ## endif
 
   sys = sys1 * sys2;
 
