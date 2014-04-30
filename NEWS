@@ -1,6 +1,17 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.6.4   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   Fixed bug #42082.  <https://savannah.gnu.org/bugs/?42082>
+   The operators mtimes (*), mldivide (\) and mrdivide (/) no longer error out
+   when they are called with one SISO and one MIMO LTI system.  They now behave
+   the same way as they do with one scalar and one matrix.
+
+
+===============================================================================
 control-2.6.3   Release Date: 2014-04-22   Release Manager: Lukas Reichlin
 ===============================================================================
 
