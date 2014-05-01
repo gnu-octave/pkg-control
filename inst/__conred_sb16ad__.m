@@ -150,13 +150,13 @@ function [Kr, info] = __conred_sb16ad__ (method, varargin)
 
   
   ## handle model reduction approach
-  if (method == "bta" && ! bf)              # 'B':  use the square-root Balance & Truncate method
+  if (strcmpi (method, "bta") && ! bf)      # 'B':  use the square-root Balance & Truncate method
     jobmr = 0;
-  elseif (method == "bta" && bf)            # 'F':  use the balancing-free square-root Balance & Truncate method
+  elseif (strcmpi (method, "bta") && bf)    # 'F':  use the balancing-free square-root Balance & Truncate method
     jobmr = 1;
-  elseif (method == "spa" && ! bf)          # 'S':  use the square-root Singular Perturbation Approximation method
+  elseif (strcmpi (method, "spa") && ! bf)  # 'S':  use the square-root Singular Perturbation Approximation method
     jobmr = 2;
-  elseif (method == "spa" && bf)            # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
+  elseif (strcmpi (method, "spa") && bf)    # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
     jobmr = 3;
   else
     error ("%smodred: invalid jobmr option"); # this should never happen

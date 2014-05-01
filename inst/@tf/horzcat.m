@@ -49,9 +49,9 @@ function sys = horzcat (sys, varargin)
     sys.num = [sys1.num, sys2.num];
     sys.den = [sys1.den, sys2.den];
     
-    if (sys1.tfvar == sys2.tfvar)
+    if (strcmp (sys1.tfvar, sys2.tfvar))
       sys.tfvar = sys1.tfvar;
-    elseif (sys1.tfvar == "x")
+    elseif (strcmp (sys1.tfvar, "x"))
       sys.tfvar = sys2.tfvar;
     else
       sys.tfvar = sys1.tfvar;

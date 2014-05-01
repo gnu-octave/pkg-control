@@ -26,7 +26,7 @@
 
 function retsys = __minreal__ (sys, tol)
 
-  if (tol == "def")
+  if (strcmpi (tol, "def"))
     tol = 0;
   elseif (tol > 1)
     error ("ss: minreal: require tol <= 1");

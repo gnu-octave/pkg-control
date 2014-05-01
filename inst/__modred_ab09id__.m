@@ -145,13 +145,13 @@ function [Gr, info] = __modred_ab09id__ (method, varargin)
   endif
   
   ## handle model reduction approach
-  if (method == "bta" && ! bf)              # 'B':  use the square-root Balance & Truncate method
+  if (strcmpi (method, "bta") && ! bf)      # 'B':  use the square-root Balance & Truncate method
     job = 0;
-  elseif (method == "bta" && bf)            # 'F':  use the balancing-free square-root Balance & Truncate method
+  elseif (strcmpi (method, "bta") && bf)    # 'F':  use the balancing-free square-root Balance & Truncate method
     job = 1;
-  elseif (method == "spa" && ! bf)          # 'S':  use the square-root Singular Perturbation Approximation method
+  elseif (strcmpi (method, "spa") && ! bf)  # 'S':  use the square-root Singular Perturbation Approximation method
     job = 2;
-  elseif (method == "spa" && bf)            # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
+  elseif (strcmpi (method, "spa") && bf)    # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
     job = 3;
   else
     error ("modred: invalid job option");   # this should never happen
@@ -160,10 +160,10 @@ function [Gr, info] = __modred_ab09id__ (method, varargin)
   
   ## perform model order reduction
   [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09id__ (a, b, c, d, dt, equil, nr, ordsel, alpha, job, ...
-                                            av, bv, cv, dv, ...
-                                            aw, bw, cw, dw, ...
-                                            weight, jobc, jobo, alphac, alphao, ...
-                                            tol1, tol2);
+                                                 av, bv, cv, dv, ...
+                                                 aw, bw, cw, dw, ...
+                                                 weight, jobc, jobo, alphac, alphao, ...
+                                                 tol1, tol2);
 
   ## assemble reduced order model
   Gr = ss (ar, br, cr, dr, tsam);

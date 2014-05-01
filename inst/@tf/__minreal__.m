@@ -41,7 +41,7 @@ function sys = __minreal__ (sys, tol)
       for k = length (zer) : -1 : 1             # reversed because of deleted zeros
         [~, idx] = min (abs (zer(k) - pol));    # find best match
 
-        if (tol == "def")
+        if (strcmpi (tol, "def"))
           if (abs (zer(k)) < sqrt_eps)          # catch case zer(k) = 0
             t = 1000 * eps;
           else
