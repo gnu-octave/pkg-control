@@ -22,28 +22,34 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
-function retlti = __lti_group__ (lti1, lti2)
+function retlti = __lti_group__ (lti1, lti2, dim = "diag")
 
   retlti = lti ();
 
-  retlti.inname = [lti1.inname;
-                   lti2.inname];
+  if (dim == "diag" || dim == "horz")
+    retlti.inname = [lti1.inname; lti2.inname];
 
-  retlti.outname = [lti1.outname;
-                    lti2.outname];
-
-  if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
-    m1 = numel (lti1.inname);
-    lti2_ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
-    retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2_ingroup, "in");
+    if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
+      m1 = numel (lti1.inname);
+      lti2_ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
+      retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2_ingroup, "in");
+    endif
+  else
+    retlti.inname = repmat ({""}, numel (lti1.inname), 1);
   endif
-  
-  if (nfields (lti1.outgroup) || nfields (lti2.outgroup))
-    p1 = numel (lti1.outname);
-    lti2_outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
-    retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2_outgroup, "out");
+
+  if (dim == "diag" || dim == "vert")
+    retlti.outname = [lti1.outname; lti2.outname];
+
+    if (nfields (lti1.outgroup) || nfields (lti2.outgroup))
+      p1 = numel (lti1.outname);
+      lti2_outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
+      retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2_outgroup, "out");
+    endif
+  else
+    retlti.outname = repmat ({""}, numel (lti1.outname), 1);
   endif
 
   if (lti1.tsam == lti2.tsam)
