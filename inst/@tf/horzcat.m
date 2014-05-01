@@ -27,8 +27,6 @@
 
 function sys = horzcat (sys, varargin)
 
-  warning ("tf: horzcat!");
-  
   sys = tf (sys);
   varargin = cellfun (@tf, varargin, "uniformoutput", false);
 

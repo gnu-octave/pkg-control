@@ -27,8 +27,6 @@
 
 function sys = vertcat (sys, varargin)
 
-  warning ("tf: vertcat!");
-  
   sys = tf (sys);
   varargin = cellfun (@tf, varargin, "uniformoutput", false);
 
