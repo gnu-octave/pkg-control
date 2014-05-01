@@ -11,10 +11,17 @@ control-2.6.4   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
    the same way as they do with one scalar and one matrix.
 
 ** TF models
-   Added TF-specific horzcat ([tf1, tf2]) and vertcat ([tf1; tf2]) operators
-   which override the general LTI operators.  Their introduction avoids the
-   conversion to state-space and back when MIMO transfer functions are
-   concatenated horizontally and/or vertically.
+   -- Added TF-specific horzcat ([tf1, tf2]) and vertcat ([tf1; tf2]) operators
+      which override the general LTI operators.  Their introduction avoids the
+      conversion to state-space and back when MIMO transfer functions are
+      concatenated horizontally and/or vertically.
+   -- Added operator times (.*) to compute Hadamard/Schur product of two
+      transfer function matrices.  This operator is useful to compute the
+      Relative-Gain Array (RGA), e.g.
+      
+        G = tf (Boeing707)
+        RGA = G .* inv (G).'
+        RGA(0)
 
 
 ===============================================================================
