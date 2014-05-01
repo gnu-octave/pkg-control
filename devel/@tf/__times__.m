@@ -23,20 +23,32 @@
 ## Created: April 2014
 ## Version: 0.1
 
-function sys = times (sys1, sys2)
+function sys = __times__ (sys1, sys2)
 
-  if (nargin != 2)                          # prevent sys = times (sys1, sys2, sys3, ...)
-    error ("lti: times: this is a binary operator");
+  if (! isa (sys1, "tf"))
+    sys1 = tf (sys1);
   endif
 
-  [p1, m1] = size (sys1);
-  [p2, m2] = size (sys2);
-  
-  if (p1 != p2 || m1 != m2)
-    error ("lti: times: system dimensions incompatible: (%dx%d) .* (%dx%d)", ...
-            p1, m1, p2, m2);
+  if (! isa (sys2, "tf"))
+    sys2 = tf (sys2);
   endif
+
+  sys = tf ();
+  sys.lti = __lti_group__ (sys1.lti, sys2.lti, "schur");
   
-  sys = __times__ (sys1, sys2);
+  sys.num = cellfun (@mtimes, sys1.num, sys2.num, "uniformoutput", false);
+  sys.den = cellfun (@mtimes, sys1.den, sys2.den, "uniformoutput", false);
+
+  if (sys1.tfvar == sys2.tfvar)
+    sys.tfvar = sys1.tfvar;
+  elseif (sys1.tfvar == "x")
+    sys.tfvar = sys2.tfvar;
+  else
+    sys.tfvar = sys1.tfvar;
+  endif
+
+  if (sys1.inv || sys2.inv)
+    sys.inv = true;
+  endif
 
 endfunction

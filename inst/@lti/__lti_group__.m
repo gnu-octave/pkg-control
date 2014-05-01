@@ -28,7 +28,7 @@ function retlti = __lti_group__ (lti1, lti2, dim = "diag")
 
   retlti = lti ();
 
-  if (dim == "diag" || dim == "horz")
+  if (any (strcmpi (dim, {"diag", "horz"})))
     retlti.inname = [lti1.inname; lti2.inname];
 
     if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
@@ -40,7 +40,7 @@ function retlti = __lti_group__ (lti1, lti2, dim = "diag")
     retlti.inname = repmat ({""}, numel (lti1.inname), 1);
   endif
 
-  if (dim == "diag" || dim == "vert")
+  if (any (strcmpi (dim, {"diag", "vert"})))
     retlti.outname = [lti1.outname; lti2.outname];
 
     if (nfields (lti1.outgroup) || nfields (lti2.outgroup))

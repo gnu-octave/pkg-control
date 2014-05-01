@@ -16,39 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Hadamard/Schur product of @acronym{TF} objects.
+## Hadamard/Schur product of @acronym{SS} objects.
 ## Used by Octave for "sys1 .* sys2".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: April 2014
+## Created: May 2014
 ## Version: 0.1
 
-function sys = times (sys1, sys2)
+function sys = __times__ (sys1, sys2)
 
-  if (nargin != 2)                          # prevent sys = times (sys1, sys2, sys3, ...)
-    error ("tf: times: this is a binary operator");
-  endif
-
-  if (! isa (sys1, "tf"))
-    sys1 = tf (sys1);
-  endif
-
-  if (! isa (sys2, "tf"))
-    sys2 = tf (sys2);
-  endif
-
-  [p1, m1] = size (sys1);
-  [p2, m2] = size (sys2);
-  
-  if (p1 != p2 || m1 != m2)
-    error ("tf: times: system dimensions incompatible: (%dx%d) .* (%dx%d)", ...
-            p1, m1, p2, m2);
-  endif
-  
-  num = cellfun (@mtimes, sys1.num, sys2.num, "uniformoutput", false)
-  den = cellfun (@mtimes, sys1.den, sys2.den, "uniformoutput", false)
-
-  ## FIXME: catch case  ss .* tf  or  tf .* ss, should error out
-  ##        maybe this needs a dummy times.m in @ss and @frd
+  error ("ss: times: Hadamard/Schur product is only supported for transfer functions");
 
 endfunction

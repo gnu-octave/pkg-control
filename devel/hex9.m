@@ -63,3 +63,42 @@ sigma (P)
 
 % Relative-Gain Array
 RGA = tf (P) .* tf (inv (P)).'
+
+RGA(0)  % FIXME
+
+%{
+Result from the Dark Side:
+
+>> RGA = tf (P) .* tf (inv (P)).'
+
+RGA =
+ 
+  From input 1 to output...
+       s^2 + 0.2029 s + 0.008368
+   1:  -------------------------
+       s^2 + 0.2029 s + 0.003833
+ 
+               -0.004535
+   2:  -------------------------
+       s^2 + 0.2029 s + 0.003833
+ 
+  From input 2 to output...
+               -0.004535
+   1:  -------------------------
+       s^2 + 0.2029 s + 0.003833
+ 
+       s^2 + 0.2029 s + 0.008368
+   2:  -------------------------
+       s^2 + 0.2029 s + 0.003833
+ 
+Continuous-time transfer function.
+
+>> freqresp (RGA, 0)
+
+ans =
+
+    2.1831   -1.1831
+   -1.1831    2.1831
+
+>> 
+%}

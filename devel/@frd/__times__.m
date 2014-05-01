@@ -16,27 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Hadamard/Schur product of @acronym{TF} objects.
+## Hadamard/Schur product of @acronym{FRD} objects.
 ## Used by Octave for "sys1 .* sys2".
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: April 2014
+## Created: May 2014
 ## Version: 0.1
 
-function sys = times (sys1, sys2)
+function sys = __times__ (sys1, sys2)
 
-  if (nargin != 2)                          # prevent sys = times (sys1, sys2, sys3, ...)
-    error ("lti: times: this is a binary operator");
-  endif
-
-  [p1, m1] = size (sys1);
-  [p2, m2] = size (sys2);
-  
-  if (p1 != p2 || m1 != m2)
-    error ("lti: times: system dimensions incompatible: (%dx%d) .* (%dx%d)", ...
-            p1, m1, p2, m2);
-  endif
-  
-  sys = __times__ (sys1, sys2);
+  error ("frd: times: Hadamard/Schur product is not implemented for FRD objects");
 
 endfunction
