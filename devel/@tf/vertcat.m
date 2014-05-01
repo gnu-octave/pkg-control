@@ -1,6 +1,6 @@
-function sys = horzcat (sys, varargin)
+function sys = vertcat (sys, varargin)
 
-  warning ("tf: horzcat!");
+  warning ("tf: vertcat!");
   
   sys = tf (sys);
   varargin = cellfun (@tf, varargin, "uniformoutput", false);
@@ -11,18 +11,18 @@ function sys = horzcat (sys, varargin)
     sys2 = varargin{k};
     
     sys = tf ();
-    sys.lti = __lti_horzcat__ (sys1.lti, sys2.lti);
+    sys.lti = __lti_vertcat__ (sys1.lti, sys2.lti);
     
     [p1, m1] = size (sys1.num);
     [p2, m2] = size (sys2.num);
     
-    if (p1 != p2)
-      error ("tf: horzcat: number of system outputs incompatible: [(%dx%d), (%dx%d)]",
+    if (m1 != m2)
+      error ("tf: vertcat: number of system inputs incompatible: [(%dx%d); (%dx%d)]",
               p1, m1, p2, m2);
     endif
     
-    sys.num = [sys1.num, sys2.num];
-    sys.den = [sys1.den, sys2.den];
+    sys.num = [sys1.num; sys2.num];
+    sys.den = [sys1.den; sys2.den];
     
     if (sys1.tfvar == sys2.tfvar)
       sys.tfvar = sys1.tfvar;
