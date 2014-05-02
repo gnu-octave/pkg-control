@@ -146,6 +146,7 @@ Overloaded LTI Operators
   @lti/plus
   @lti/subsasgn
   @lti/subsref
+  @lti/times
   @lti/transpose
   @lti/uminus
   @lti/uplus
