@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
-Return true if argument is a real scalar.
+Return true if all arguments are real-valued scalars and false otherwise.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
@@ -30,7 +30,7 @@ Version: 0.1
 DEFUN_DLD (is_real_scalar, args, nargout,
    "-*- texinfo -*-\n\
 @deftypefn {Loadable Function} {} is_real_scalar (@var{a}, @dots{})\n\
-Return true if argument is a real scalar.\n\
+Return true if all arguments are real-valued scalars and false otherwise.\n\
 @var{[]} is not a valid scalar.\n\
 Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
 @seealso{is_real_matrix, is_real_vector}\n\
