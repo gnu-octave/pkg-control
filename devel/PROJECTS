@@ -47,7 +47,9 @@ General:
   * "horzcat" and "vertcat" are trivial operations for TF, FRD and ZPK models.
     Therefore model-specific commands (@tf/horzcat, @tf/vertcat, @frd/...)
     which override the generic commands (@lti/horzcat, @lti/vertcat) could
-    make practical sense.
+    make practical sense.  Done for TF models.
+
+  * Implement "times" (.*) operator for FRD models.  Done for TF models.
 
   * Support more than two arguments in __sys_group__.
 
