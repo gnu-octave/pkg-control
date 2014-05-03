@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
+## Version: 0.6
 
 function retsys = set (sys, varargin)
 
@@ -74,21 +74,23 @@ function retsys = set (sys, varargin)
           endif
 
         case {"ingroup", "inputgroup", "ing", "inputg"}
-          if (isstruct (val) && all (structfun (@(x) is_group_idx (x, m), val)))
+          if (isstruct (val) && all (size (val) == 1) ...
+              && all (structfun (@(x) is_group_idx (x, m), val)))
             empty = structfun (@isempty, val);
             fields = fieldnames (val);
             sys.ingroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'ingroup' requires a struct containing valid input indices in the range [1, %d]", m);
+            error ("lti: set: property 'ingroup' requires a scalar struct containing valid input indices in the range [1, %d]", m);
           endif
 
         case {"outgroup", "outputgroup", "outg", "outputg"}
-          if (isstruct (val) && all (structfun (@(x) is_group_idx (x, p), val)))
+          if (isstruct (val) && all (size (val) == 1) ...
+              && all (structfun (@(x) is_group_idx (x, p), val)))
             empty = structfun (@isempty, val);
             fields = fieldnames (val);
             sys.outgroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'outgroup' requires a struct containing valid output indices in the range [1, %d]", p);
+            error ("lti: set: property 'outgroup' requires a scalar struct containing valid output indices in the range [1, %d]", p);
           endif
 
         case "name"
