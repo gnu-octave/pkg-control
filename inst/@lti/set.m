@@ -94,7 +94,7 @@ function retsys = set (sys, varargin)
           endif
 
         case "name"
-          if (ischar (val))
+          if (ischar (val) && ndims (val) == 2 && (rows (val) == 1 || isempty (val)))
             sys.name = val;
           else
             error ("lti: set: property 'name' requires a string");

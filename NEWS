@@ -10,6 +10,7 @@ control-2.6.4   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
       out when they are called with one SISO and one MIMO LTI system.  They now
       behave the same way as they do with one scalar and one matrix.
    -- Refuse struct arrays as input and output groups.
+   -- Display non-empty properties of type 'name'.
 
 ** TF models
    -- Added TF-specific horzcat ([tf1, tf2]) and vertcat ([tf1; tf2]) operators

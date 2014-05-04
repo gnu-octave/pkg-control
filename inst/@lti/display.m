@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function display (sys)
 
@@ -30,6 +30,10 @@ function display (sys)
   
   if (nfields (sys.outgroup) > 0)
     __disp_group__ (sys.outgroup, "Output");
+  endif
+
+  if (! isempty (sys.name))
+    disp (["Name: ", sys.name]);
   endif
 
   if (sys.tsam > 0)
