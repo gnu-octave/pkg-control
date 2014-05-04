@@ -36,7 +36,7 @@ function sys = horzcat (sys, varargin)
     sys2 = varargin{k};
     
     sys = tf ();
-    sys.lti = __lti_group__ (sys1.lti, sys2.lti, "horz");
+    sys.lti = __lti_group__ (sys1.lti, sys2.lti, "horzcat");
     
     [p1, m1] = size (sys1.num);
     [p2, m2] = size (sys2.num);

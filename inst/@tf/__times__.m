@@ -34,7 +34,7 @@ function sys = __times__ (sys1, sys2)
   endif
 
   sys = tf ();
-  sys.lti = __lti_group__ (sys1.lti, sys2.lti, "schur");
+  sys.lti = __lti_group__ (sys1.lti, sys2.lti, "times");
   
   sys.num = cellfun (@mtimes, sys1.num, sys2.num, "uniformoutput", false);
   sys.den = cellfun (@mtimes, sys1.den, sys2.den, "uniformoutput", false);

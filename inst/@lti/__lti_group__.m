@@ -24,32 +24,34 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function retlti = __lti_group__ (lti1, lti2, dim = "diag")
+function retlti = __lti_group__ (lti1, lti2, dim = "blkdiag")
 
   retlti = lti ();
 
-  if (any (strcmpi (dim, {"diag", "horz"})))
+  if (any (strcmpi (dim, {"blkdiag", "horzcat"})))  # blkdiag, horzcat
     retlti.inname = [lti1.inname; lti2.inname];
 
     if (nfields (lti1.ingroup) || nfields (lti2.ingroup))
       m1 = numel (lti1.inname);
       lti2_ingroup = structfun (@(x) x + m1, lti2.ingroup, "uniformoutput", false);
-      retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2_ingroup, "in");
+      retlti.ingroup = __merge_struct__ (lti1.ingroup, lti2_ingroup);
     endif
-  else
+  else                                              # times, vertcat
     retlti.inname = repmat ({""}, numel (lti1.inname), 1);
+    ## retlti.ingroup remains empty struct
   endif
 
-  if (any (strcmpi (dim, {"diag", "vert"})))
+  if (any (strcmpi (dim, {"blkdiag", "vertcat"})))  # blkdiag, vertcat
     retlti.outname = [lti1.outname; lti2.outname];
 
     if (nfields (lti1.outgroup) || nfields (lti2.outgroup))
       p1 = numel (lti1.outname);
       lti2_outgroup = structfun (@(x) x + p1, lti2.outgroup, "uniformoutput", false);
-      retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2_outgroup, "out");
+      retlti.outgroup = __merge_struct__ (lti1.outgroup, lti2_outgroup);
     endif
-  else
+  else                                              # times, horzcat
     retlti.outname = repmat ({""}, numel (lti1.outname), 1);
+    ## retlti.outgroup remains empty struct
   endif
 
   if (lti1.tsam == lti2.tsam)
@@ -69,7 +71,7 @@ function retlti = __lti_group__ (lti1, lti2, dim = "diag")
 endfunction
 
 
-function ret = __merge_struct__ (a, b, iostr)
+function ret = __merge_struct__ (a, b)
 
   ## FIXME: this is too complicated;
   ##        isn't there a simple function for this task?
