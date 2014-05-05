@@ -266,7 +266,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: July 2011
-## Version: 0.2
+## Version: 0.3
 
 function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
@@ -343,10 +343,9 @@ function W = __adjust_weighting__ (W, s)
     if (m == s && p == s)      # model is of correct size
       return;
     elseif (m == 1 && p == 1)  # model is SISO
-      tmp = W;
-      for k = 2 : s
-        W = append (W, tmp);   # stack SISO model s times
-      endfor
+      tmp = cell (s, 1);
+      tmp(1:s) = W;
+      W = append (tmp{:});     # stack SISO model s times
     else                       # model is invalid
       error ("ncfsyn: %s must have 1 or %d inputs and outputs", inputname (1), s);
     endif

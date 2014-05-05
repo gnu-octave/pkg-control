@@ -104,7 +104,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2009
-## Version: 0.3
+## Version: 0.4
 
 function P = augw (G, W1 = [], W2 = [], W3 = [])
 
@@ -154,10 +154,9 @@ function [W, p, m] = __adjust_weighting__ (W, s)
   if (m == 0 || m == s)               # model is empty or has s inputs
     return;
   elseif (m == 1)                     # model is SISO or SIMO
-    tmp = W;
-    for k = 2 : s
-      W = append (W, tmp);            # stack single-input model s times
-    endfor
+    tmp = cell (s, 1);
+    tmp(1:s) = W;
+    W = append (tmp{:});              # stack single-input model s times
     [p, m] = size (W);                # weighting function now of correct size
   else                                # model is MIMO or MISO
     error ("augw: %s must have 1 or %d inputs", inputname (1), s);
