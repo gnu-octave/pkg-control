@@ -16,7 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Hadamard/Schur product of @acronym{TF} objects.
+## Hadamard/Schur product of transfer function matrices.
+## Also known as element-wise multiplication.
 ## Used by Octave for "sys1 .* sys2".@*
 ## @strong{Example}
 ## @example
