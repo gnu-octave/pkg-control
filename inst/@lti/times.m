@@ -17,7 +17,17 @@
 
 ## -*- texinfo -*-
 ## Hadamard/Schur product of @acronym{TF} objects.
-## Used by Octave for "sys1 .* sys2".
+## Used by Octave for "sys1 .* sys2".@*
+## @strong{Example}
+## @example
+## @group
+## # Compute Relative-Gain Array
+## G = tf (Boeing707)
+## RGA = G .* inv (G).'
+## # Gain at 0 rad/s
+## RGA(0)
+## @end group
+## @end example
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: April 2014
