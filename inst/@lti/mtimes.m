@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = mtimes (sys2, sys1)
 
@@ -65,11 +65,9 @@ endfunction
 ## despite its name, it also works for MIMO systems.
 function [sys, p, m] = __siso_expansion__ (sys, s)
 
-  tmp = sys;
-
-  for k = 2 : s
-    sys = blkdiag (sys, tmp);
-  endfor
+  tmp = cell (s, 1);
+  tmp(1:s) = sys;
+  sys = blkdiag (tmp{:});
 
   [p, m] = size (sys);
 
