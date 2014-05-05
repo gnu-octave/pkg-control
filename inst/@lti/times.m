@@ -32,11 +32,11 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: April 2014
-## Version: 0.1
+## Version: 0.2
 
 function sys = times (sys1, sys2)
 
-  if (nargin != 2)                          # prevent sys = times (sys1, sys2, sys3, ...)
+  if (nargin != 2)                              # prevent sys = times (sys1, sys2, sys3, ...)
     error ("lti: times: this is a binary operator");
   endif
 
@@ -44,10 +44,31 @@ function sys = times (sys1, sys2)
   [p2, m2] = size (sys2);
   
   if (p1 != p2 || m1 != m2)
-    error ("lti: times: system dimensions incompatible: (%dx%d) .* (%dx%d)", ...
-            p1, m1, p2, m2);
+    if (p1 == 1 && m1 == 1 && p2*m2 > 1)        # sys1 SISO, sys2 non-empty
+      [sys1, p1, m1] = __siso_expansion__ (sys1, p2, m2);
+    elseif (p2 == 1 && m2 == 1 && p1*m1 > 1)    # sys2 SISO, sys1 non-empty
+      [sys2, p2, m2] = __siso_expansion__ (sys2, p1, m1);
+    else
+      error ("lti: times: system dimensions incompatible: (%dx%d) .* (%dx%d)", ...
+              p1, m1, p2, m2);
+    endif
   endif
   
   sys = __times__ (sys1, sys2);
+
+endfunction
+
+
+function [sys, p, m] = __siso_expansion__ (sys, rows, cols)
+
+  tmp = cell (cols, 1);
+  tmp(1:cols) = sys;
+  sys = horzcat (tmp{:});
+  
+  tmp = cell (rows, 1);
+  tmp(1:rows) = sys;
+  sys = vertcat (tmp{:});
+
+  [p, m] = size (sys);                          # SISO case: p = rows, m = cols
 
 endfunction
