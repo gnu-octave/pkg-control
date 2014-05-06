@@ -30,10 +30,6 @@
 
 function sys = repmat (sys, x, y)
 
-  if (! isa (sys, "lti"))                               # nargin always >= 1
-    error ("lti: repmat: first argument must be an LTI system");
-  endif
-
   switch (nargin)
     case 2
       if (is_real_scalar (x))                           # repmat (sys, m)
