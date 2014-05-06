@@ -28,7 +28,7 @@
 ## Created: May 2014
 ## Version: 0.1
 
-function sys = repmat (sys, x = 1, y = x)
+function sys = repmat (sys, x, y)
 
   if (! isa (sys, "lti"))                               # nargin always >= 1
     error ("lti: repmat: first argument must be an LTI system");
@@ -37,10 +37,10 @@ function sys = repmat (sys, x = 1, y = x)
   switch (nargin)
     case 2
       if (is_real_scalar (x))                           # repmat (sys, m)
-        ## nothing to do here, y = x
+        y = x;
       elseif (is_real_vector (x) && length (x) == 2)    # repmat (sys, [m, n])
+        y = x(2);
         x = x(1);
-        y = y(2);
       else
         error ("lti: repmat: second argument invalid");
       endif
