@@ -144,6 +144,7 @@ Overloaded LTI Operators
   @lti/mrdivide
   @lti/mtimes
   @lti/plus
+  @lti/repmat
   @lti/subsasgn
   @lti/subsref
   @lti/times
@@ -161,6 +162,7 @@ Miscellaneous
   db2mag
   mag2db
   options
+  repsys
   strseq
   test_control
   thiran

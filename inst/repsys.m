@@ -1,3 +1,7 @@
+## Copyright (C) 2009-2014   Lukas F. Reichlin
+##
+## This file is part of LTI Syncope.
+##
 ## LTI Syncope is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or
@@ -15,7 +19,9 @@
 ## @deftypefn {Function File} {@var{rsys} =} repsys (@var{sys}, @var{m}, @var{n})
 ## @deftypefnx {Function File} {@var{rsys} =} repsys (@var{sys}, [@var{m}, @var{n}])
 ## @deftypefnx {Function File} {@var{rsys} =} repsys (@var{sys}, @var{m})
-## TODO
+## Form a block transfer matrix of @var{sys} with @var{m} copies vertically
+## and @var{n} copies horizontally.  If @var{n} is not specified, it is set to @var{m}.
+## @code{repsys (sys, 2, 3)} is equivalent to @code{[sys, sys, sys; sys, sys, sys]}.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

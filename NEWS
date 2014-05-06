@@ -1,6 +1,19 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.6.5   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   -- The operator "times" (.*) no longer errors out when it is called with one
+      SISO and one MIMO LTI system.  The operator behaves now the same way as
+      Octave's built-in "times" for one scalar and one matrix.
+   -- The function "repmat" is now overloaded for LTI systems.
+   -- Added function "repsys" as an alias for "repmat" for the sake of Matlab
+      compatibility.
+
+
+===============================================================================
 control-2.6.4   Release Date: 2014-05-05   Release Manager: Lukas Reichlin
 ===============================================================================
 
