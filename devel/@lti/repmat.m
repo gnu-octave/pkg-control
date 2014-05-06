@@ -16,9 +16,9 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{rsys} =} repsys (@var{sys}, @var{m}, @var{n})
-## @deftypefnx {Function File} {@var{rsys} =} repsys (@var{sys}, [@var{m}, @var{n}])
-## @deftypefnx {Function File} {@var{rsys} =} repsys (@var{sys}, @var{m})
+## @deftypefn {Function File} {@var{rsys} =} repmat (@var{sys}, @var{m}, @var{n})
+## @deftypefnx {Function File} {@var{rsys} =} repmat (@var{sys}, [@var{m}, @var{n}])
+## @deftypefnx {Function File} {@var{rsys} =} repmat (@var{sys}, @var{m})
 ## TODO
 ## @end deftypefn
 
@@ -26,25 +26,25 @@
 ## Created: May 2014
 ## Version: 0.1
 
-function sys = repsys (sys, x = 1, y = x)
+function sys = repmat (sys, x = 1, y = x)
 
   if (! isa (sys, "lti"))                               # nargin always >= 1
-    error ("lti: repsys: first argument must be an LTI system");
+    error ("lti: repmat: first argument must be an LTI system");
   endif
 
   switch (nargin)
     case 2
-      if (is_real_scalar (x))                           # repsys (sys, m)
+      if (is_real_scalar (x))                           # repmat (sys, m)
         ## nothing to do here, y = x
-      elseif (is_real_vector (x) && length (x) == 2)    # repsys (sys, [m, n])
+      elseif (is_real_vector (x) && length (x) == 2)    # repmat (sys, [m, n])
         x = x(1);
         y = y(2);
       else
-        error ("lti: repsys: second argument invalid");
+        error ("lti: repmat: second argument invalid");
       endif
-    case 3                                              # repsys (sys, m, n)
+    case 3                                              # repmat (sys, m, n)
       if (! is_real_scalar (x, y))
-        error ("lti: repsys: dimensions 'm' and 'n' must be real integers");
+        error ("lti: repmat: dimensions 'm' and 'n' must be real integers");
       endif
     otherwise
       print_usage ();
