@@ -48,12 +48,11 @@ function sys = repmat (sys, x, y)
       print_usage ();
   endswitch
 
-  tmp = cell (x, 1);
-  tmp(1:x) = sys;
-  sys = horzcat (tmp{:});
+  [p, m] = size (sys);
   
-  tmp = cell (y, 1);
-  tmp(1:y) = sys;
-  sys = vertcat (tmp{:});
-
+  out_idx = repmat (1:p, 1, x);
+  in_idx = repmat (1:m, 1, y);
+  
+  sys = __sys_prune__ (sys, out_idx, in_idx);
+  
 endfunction
