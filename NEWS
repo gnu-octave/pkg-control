@@ -12,6 +12,11 @@ control-2.6.5   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
    -- Added function "repsys" as an alias for "repmat" for the sake of Matlab
       compatibility.
 
+** zero
+   Fix crash in case of empty state-space models, e.g.
+
+     zero (ss)
+
 
 ===============================================================================
 control-2.6.4   Release Date: 2014-05-05   Release Manager: Lukas Reichlin
