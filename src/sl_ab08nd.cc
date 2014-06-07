@@ -23,7 +23,7 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.6
+Version: 0.7
 
 */
 
@@ -122,7 +122,7 @@ For internal use only.")
 
         // workspace
         int s = max (m, p);
-        int ldwork = max (s, n) + max (3*s-1, n+s);
+        int ldwork = max (1, max (s, n) + max (3*s-1, n+s));
         
         OCTAVE_LOCAL_BUFFER (int, iwork, s);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
