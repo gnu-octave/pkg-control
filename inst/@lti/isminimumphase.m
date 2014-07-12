@@ -63,6 +63,6 @@ function bool = isminimumphase (sys, tol = 0)
   p = pole (sys);
   ct = isct (sys);
 
-  bool = __is_stable__ ([z, p], ct, tol);
+  bool = __is_stable__ ([z; p], ct, tol);
 
 endfunction
