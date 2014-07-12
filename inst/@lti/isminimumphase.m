@@ -19,7 +19,9 @@
 ## @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
 ## Determine whether @acronym{LTI} system is minimum-phase.
-## The zeros must lie in the left complex half-plane.
+## Both the zeros and the poles of a minimum-phase system must be strictly
+## inside the left complex half-plane (continuous-time case) or inside the
+## unit circle (discrete-time case).
 ## The name minimum-phase refers to the fact that such a system has the
 ## minimum possible phase lag for the given magnitude response |sys(jw)|.
 ##
@@ -49,7 +51,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2011
-## Version: 0.1
+## Version: 0.2
 
 function bool = isminimumphase (sys, tol = 0)
 
@@ -58,8 +60,9 @@ function bool = isminimumphase (sys, tol = 0)
   endif
 
   z = zero (sys);
+  p = pole (sys);
   ct = isct (sys);
 
-  bool = __is_stable__ (z, ct, tol);
+  bool = __is_stable__ ([z, p], ct, tol);
 
 endfunction

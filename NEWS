@@ -1,6 +1,18 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.6.6   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** isminimumphase
+   According to <http://en.wikipedia.org/wiki/Minimum_phase>, both the zeros
+   and the poles of a minimum-phase system must be strictly inside the left
+   complex half-plane (continuous-time case) or inside the unit circle
+   (discrete-time case). Previously, the poles were not tested.
+   (Thanks to Endre Kozma)
+
+
+===============================================================================
 control-2.6.5   Release Date: 2014-06-16   Release Manager: Lukas Reichlin
 ===============================================================================
 
