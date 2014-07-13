@@ -8,7 +8,7 @@ control-2.6.6   Release Date: 2014-mm-dd   Release Manager: Lukas Reichlin
    According to <http://en.wikipedia.org/wiki/Minimum_phase>, both the zeros
    and the poles of a minimum-phase system must be strictly inside the left
    complex half-plane (continuous-time case) or inside the unit circle
-   (discrete-time case). Previously, the poles were not tested.
+   (discrete-time case).  Previously, the poles were not tested.
    (Thanks to Endre Kozma)
 
 
