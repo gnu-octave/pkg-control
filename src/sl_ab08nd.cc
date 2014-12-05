@@ -199,7 +199,7 @@ For internal use only.")
         if (m == 1 && p == 1)
         {
             if (nu < n)
-                gain = c * xpow (a, double (n-1-nu)) * b;
+                gain = c * xpow (a, double (n-1-nu)).matrix_value() * b;
             else
                 gain = d;
         }
