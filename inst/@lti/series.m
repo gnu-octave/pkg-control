@@ -53,7 +53,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = series (sys1, sys2, out1, in2)
 
@@ -86,16 +86,16 @@ function sys = series (sys1, sys2, out1, in2)
       error ("series: number of 'outputs1' and 'inputs2' indices must be equal");
     endif
 
-    if (any (out1 > m1 | out1 < 1))
+    if (any (out1 > p1 | out1 < 1))
       error ("series: range of 'outputs1' indices exceeds dimensions of 'sys1'");
     endif
 
-    if (any (in2 > p1 | in2 < 1))
+    if (any (in2 > m2 | in2 < 1))
       error ("series: range of 'inputs2' indices exceeds dimensions of 'sys2'");
     endif
 
     out_scl = full (sparse (1:l_out1, out1, 1, l_out1, p1));
-    in_scl = full (sparse (in2, 1:l_out1, 1, m2, l_in2));
+    in_scl = full (sparse (in2, 1:l_in2, 1, m2, l_in2));
     
     ## NOTE: for-loop does NOT the same as
     ##       out_scl(1:l_out1, out1) = 1;
