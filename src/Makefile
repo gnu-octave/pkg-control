@@ -31,6 +31,7 @@ slicotlibrary.a: slicot.tar.gz
 	mv slicot/src/*.f ./sltmp
 	mv slicot/src_aux/*.f ./sltmp
 	cp TG04BX.fortran ./sltmp/TG04BX.f
+	cp TB01ZD.fortran ./sltmp/TB01ZD.f
 	cd sltmp; $(MKOCTFILE) -c *.f
 	ar -rc slicotlibrary.a ./sltmp/*.o
 	rm -rf sltmp slicot

@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
@@ -32,22 +32,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
     if (tsam == -2 || isempty (a))              # static gain
       sg_flag = true;
     else
-      [num, den, ign, igd, md, p, m] = __sl_tb04bd__ (a, b, c, d, scaled);
-
-      num = reshape (num, md, p, m);
-      den = reshape (den, md, p, m);
-
-      num = mat2cell (num, md, ones(1,p), ones(1,m));
-      den = mat2cell (den, md, ones(1,p), ones(1,m));
-
-      num = squeeze (num);
-      den = squeeze (den);
-
-      ign = mat2cell (ign, ones(1,p), ones(1,m));
-      igd = mat2cell (igd, ones(1,p), ones(1,m));
-
-      num = cellfun (@(x, y) x(1:y+1), num, ign, "uniformoutput", false);
-      den = cellfun (@(x, y) x(1:y+1), den, igd, "uniformoutput", false);
+      [num, den] = __sl_tb04bd__ (a, b, c, d, scaled);
     endif
   catch
     ## sys.e was probably singular, therefore ssdata failed.

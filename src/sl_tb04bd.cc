@@ -24,7 +24,7 @@ Uses SLICOT TB04BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: October 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -99,9 +99,6 @@ For internal use only.")
 
         OCTAVE_LOCAL_BUFFER (int, ign, ldign*m);
         OCTAVE_LOCAL_BUFFER (int, igd, ldigd*m);
-        
-        Matrix ignm (ldign, m);
-        Matrix igdm (ldigd, m);
 
         RowVector gn (lg);
         RowVector gd (lg);
@@ -110,7 +107,7 @@ For internal use only.")
         double tol = 0;  // use default value
 
         // workspace
-        int ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 5)));
+        int ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 6)));
 
         OCTAVE_LOCAL_BUFFER (int, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
@@ -141,20 +138,21 @@ For internal use only.")
         if (info != 0)
             error ("ss2tf: __sl_tb04bd__: TB04BD returned info = %d", info);
 
-        for (octave_idx_type i = 0; i < ldign*m; i++)
-            ignm.xelem (i) = ign[i];
-        
-        for (octave_idx_type i = 0; i < ldigd*m; i++)
-            igdm.xelem (i) = igd[i];
 
         // return values
-        retval(0) = gn;
-        retval(1) = gd;
-        retval(2) = ignm;
-        retval(3) = igdm;
-        retval(4) = octave_value (md);
-        retval(5) = octave_value (p);
-        retval(6) = octave_value (m);
+        Cell num(p, m);
+        Cell den(p, m);
+        octave_idx_type ik, istr;
+
+        for (ik = 0; ik < p*m; ik++)
+        {
+            istr = ik*md;
+            num.xelem (ik) = gn.extract_n (istr, ign[ik]+1);
+            den.xelem (ik) = gd.extract_n (istr, igd[ik]+1);
+        }
+       
+        retval(0) = num;
+        retval(1) = den; 
     }
 
     return retval;
