@@ -19,9 +19,12 @@
 ## @deftypefn {Function File} {@var{bool} =} isminimumphase (@var{sys})
 ## @deftypefnx {Function File} {@var{bool} =} isminimumphase (@var{sys}, @var{tol})
 ## Determine whether @acronym{LTI} system is minimum-phase.
-## Both the zeros and the poles of a minimum-phase system must be strictly
-## inside the left complex half-plane (continuous-time case) or inside the
-## unit circle (discrete-time case).
+## According to the definition of Byrnes/Isidori [1], the zeros
+## of a minimum-phase system must be strictly
+## inside the left complex half-plane (continuous-time case)
+## or inside the unit circle (discrete-time case).
+## The poles are not tested.
+## Note that the definitions from Byrnes/Isidori [1] and Bode [2] are different.
 ## The name minimum-phase refers to the fact that such a system has the
 ## minimum possible phase lag for the given magnitude response |sys(jw)|.
 ##
@@ -47,11 +50,21 @@
 ##   abs (z) < 1 - tol                discrete-time
 ## @end group
 ## @end example
+##
+## @strong{References}@*
+## [1] Byrnes, C.I. and Isidori, A.
+## @cite{A Frequency Domain Philosophy for Nonlinear Systems}.
+## IEEE Conf. Dec. Contr. 23, pp. 1569–1573, 1984.
+##
+## [2] Bode, H.W.
+## @cite{Network Analysis and Feedback Amplifier Design}.
+## D. Van Nostrand Company, pp. 312-318, 1945
+## pp. 341-351, 1992.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: January 2011
-## Version: 0.2
+## Version: 0.3
 
 function bool = isminimumphase (sys, tol = 0)
 
@@ -60,9 +73,11 @@ function bool = isminimumphase (sys, tol = 0)
   endif
 
   z = zero (sys);
-  p = pole (sys);
   ct = isct (sys);
 
-  bool = __is_stable__ ([z; p], ct, tol);
+  bool = __is_stable__ (z, ct, tol);
 
 endfunction
+
+
+%!assert (isminimumphase (tf (1, [1, 0])), true);

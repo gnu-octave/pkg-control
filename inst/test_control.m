@@ -52,6 +52,7 @@ test @lti/d2d
 test @lti/feedback
 test @lti/horzcat
 test @lti/inv
+test @lti/isminimumphase
 test @lti/minreal
 test @lti/mtimes
 test @lti/norm
