@@ -1,6 +1,27 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.x.y   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** isminimumphase
+   Reverted changes from control-2.6.6.  According to the definition of
+   Byrnes/Isidori, the function tests whether the system has asymptotically
+   stable zero dynamics.  The poles are not tested.
+   Note that the definition from Wikipedia is mixed up.
+   For details, see the help text of the function (help @lti/isminimumphase)
+   and the papers referenced therein.  (Thanks to Ulf Schaper)
+
+** series
+   Fixed a bug which gave unnecessary error messages when the function is
+   called with 4 arguments.  (Thanks to Ulf Schaper)
+   
+** tf
+   TODO
+   (Thanks to Thomas Vasileiou)
+
+
+===============================================================================
 control-2.6.6   Release Date: 2014-10-11   Release Manager: Lukas Reichlin
 ===============================================================================
 
