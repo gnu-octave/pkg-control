@@ -4,6 +4,10 @@ Summary of important user-visible changes for releases of the control package
 control-2.x.y   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** zero
+   Compatibility fix in the C++ oct-file to support recent Octave development
+   versions.  (Thanks to Andreas Weber)
+
 ** isminimumphase
    Reverted changes from control-2.6.6.  According to the definition of
    Byrnes/Isidori, the function tests whether the system has asymptotically
