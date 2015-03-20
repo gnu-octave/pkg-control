@@ -11,6 +11,8 @@ FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
 LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
+AR := $(shell $(MKOCTFILE) -p AR)
+
 all: __control_slicot_functions__.oct \
      is_real_scalar.oct \
      is_real_vector.oct \
@@ -33,7 +35,7 @@ slicotlibrary.a: slicot.tar.gz
 	cp TG04BX.fortran ./sltmp/TG04BX.f
 	cp TB01ZD.fortran ./sltmp/TB01ZD.f
 	cd sltmp; $(MKOCTFILE) -c *.f
-	ar -rc slicotlibrary.a ./sltmp/*.o
+	$(AR) -rc slicotlibrary.a ./sltmp/*.o
 	rm -rf sltmp slicot
 
 # slicot functions
@@ -62,3 +64,4 @@ clean:
 
 realclean: clean
 	rm -rf *.a
+
