@@ -21,7 +21,7 @@ Return true if all arguments are real-valued matrices and false otherwise.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -37,7 +37,7 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
 @end deftypefn")
 {
     octave_value retval = true;
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
 
     if (nargin == 0)
     {
@@ -45,7 +45,7 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
     }
     else
     {
-        for (int i = 0; i < nargin; i++)
+        for (octave_idx_type i = 0; i < nargin; i++)
         {
             if (args(i).ndims () != 2 || ! args(i).is_numeric_type ()
                 || ! args(i).is_real_type ())
