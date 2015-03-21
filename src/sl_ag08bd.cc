@@ -23,7 +23,7 @@ Uses SLICOT AG08BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -37,31 +37,31 @@ extern "C"
 { 
     int F77_FUNC (ag08bd, AG08BD)
                  (char& EQUIL,
-                  int& L, int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  int& NFZ, int& NRANK, int& NIZ, int& DINFZ,
-                  int& NKROR, int& NINFE, int& NKROL,
-                  int* INFZ,
-                  int* KRONR, int* INFE, int* KRONL,
+                  octave_idx_type& L, octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  octave_idx_type& NFZ, octave_idx_type& NRANK, octave_idx_type& NIZ, octave_idx_type& DINFZ,
+                  octave_idx_type& NKROR, octave_idx_type& NINFE, octave_idx_type& NKROL,
+                  octave_idx_type* INFZ,
+                  octave_idx_type* KRONR, octave_idx_type* INFE, octave_idx_type* KRONL,
                   double& TOL,
-                  int* IWORK, double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK, double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
                                    
     int F77_FUNC (dggev, DGGEV)
                  (char& JOBVL, char& JOBVR,
-                  int& N,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
+                  octave_idx_type& N,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
-                  double* VL, int& LDVL,
-                  double* VR, int& LDVR,
-                  double* WORK, int& LWORK,
-                  int& INFO);
+                  double* VL, octave_idx_type& LDVL,
+                  double* VR, octave_idx_type& LDVR,
+                  double* WORK, octave_idx_type& LWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ag08bd__", "__control_slicot_functions__.oct");    
@@ -71,7 +71,7 @@ Slicot AG08BD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 6)
@@ -88,50 +88,50 @@ For internal use only.")
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
         Matrix d = args(4).matrix_value ();
-        const int scaled = args(5).int_value ();
+        const octave_idx_type scaled = args(5).int_value ();
         
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
 
-        int l = a.rows ();      // l: number of states
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type l = a.rows ();      // l: number of states
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, l);
-        int lde = max (1, l);
-        int ldb = max (1, l);
+        octave_idx_type lda = max (1, l);
+        octave_idx_type lde = max (1, l);
+        octave_idx_type ldb = max (1, l);
 
         if (m == 0)
             ldb = 1;
 
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd = max (1, p);
         
         // arguments out
-        int nfz;
-        int nrank;
-        int niz;
-        int dinfz;
-        int nkror;
-        int ninfe;
-        int nkrol;
+        octave_idx_type nfz;
+        octave_idx_type nrank;
+        octave_idx_type niz;
+        octave_idx_type dinfz;
+        octave_idx_type nkror;
+        octave_idx_type ninfe;
+        octave_idx_type nkrol;
 
-        OCTAVE_LOCAL_BUFFER (int, infz, n+1);
-        OCTAVE_LOCAL_BUFFER (int, kronr, n+m+1);
-        OCTAVE_LOCAL_BUFFER (int, infe, 1 + min (l+p, n+m));
-        OCTAVE_LOCAL_BUFFER (int, kronl, l+p+1);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, infz, n+1);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronr, n+m+1);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, infe, 1 + min (l+p, n+m));
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronl, l+p+1);
 
         // workspace
-        int ldwork = max (l+p, m+n) * (m+n) + max (1, 5 * max (l+p, m+n));
+        octave_idx_type ldwork = max (l+p, m+n) * (m+n) + max (1, 5 * max (l+p, m+n));
         
-        OCTAVE_LOCAL_BUFFER (int, iwork, n + max (1, m));
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n + max (1, m));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        int info;
+        octave_idx_type info;
         
         // tolerance
         double tol = 0;     // AG08BD uses DLAMCH for default tolerance
@@ -175,14 +175,14 @@ For internal use only.")
         ColumnVector beta (nfz);
 
         double* vl = 0;     // not referenced because jobvl = 'N'
-        int ldvl = 1;
+        octave_idx_type ldvl = 1;
         double* vr = 0;     // not referenced because jobvr = 'N'
-        int ldvr = 1;
+        octave_idx_type ldvr = 1;
         
-        int lwork = max (1, 8*nfz);
+        octave_idx_type lwork = max (1, 8*nfz);
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
-        int info2;
+        octave_idx_type info2;
         
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,

@@ -23,7 +23,7 @@ Uses SLICOT AB08ND by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.7
+Version: 0.8
 
 */
 
@@ -37,31 +37,31 @@ extern "C"
 { 
     int F77_FUNC (ab08nd, AB08ND)
                  (char& EQUIL,
-                  int& N, int& M, int& P,
-                  const double* A, int& LDA,
-                  const double* B, int& LDB,
-                  const double* C, int& LDC,
-                  const double* D, int& LDD,
-                  int& NU, int& RANK, int& DINFZ,
-                  int& NKROR, int& NKROL, int* INFZ,
-                  int* KRONR, int* KRONL,
-                  double* AF, int& LDAF,
-                  double* BF, int& LDBF,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  const double* A, octave_idx_type& LDA,
+                  const double* B, octave_idx_type& LDB,
+                  const double* C, octave_idx_type& LDC,
+                  const double* D, octave_idx_type& LDD,
+                  octave_idx_type& NU, octave_idx_type& RANK, octave_idx_type& DINFZ,
+                  octave_idx_type& NKROR, octave_idx_type& NKROL, octave_idx_type* INFZ,
+                  octave_idx_type* KRONR, octave_idx_type* KRONL,
+                  double* AF, octave_idx_type& LDAF,
+                  double* BF, octave_idx_type& LDBF,
                   double& TOL,
-                  int* IWORK, double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK, double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
                                    
     int F77_FUNC (dggev, DGGEV)
                  (char& JOBVL, char& JOBVR,
-                  int& N,
-                  double* AF, int& LDAF,
-                  double* BF, int& LDBF,
+                  octave_idx_type& N,
+                  double* AF, octave_idx_type& LDAF,
+                  double* BF, octave_idx_type& LDBF,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
-                  double* VL, int& LDVL,
-                  double* VR, int& LDVR,
-                  double* WORK, int& LWORK,
-                  int& INFO);
+                  double* VL, octave_idx_type& LDVL,
+                  double* VR, octave_idx_type& LDVR,
+                  double* WORK, octave_idx_type& LWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab08nd__", "__control_slicot_functions__.oct");    
@@ -71,7 +71,7 @@ Slicot AB08ND Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 5)
@@ -87,48 +87,48 @@ For internal use only.")
         const Matrix b = args(1).matrix_value ();
         const Matrix c = args(2).matrix_value ();
         const Matrix d = args(3).matrix_value ();
-        const int scaled = args(4).int_value ();
+        const octave_idx_type scaled = args(4).int_value ();
         
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldc = max (1, c.rows ());
-        int ldd = max (1, d.rows ());
+        octave_idx_type lda = max (1, a.rows ());
+        octave_idx_type ldb = max (1, b.rows ());
+        octave_idx_type ldc = max (1, c.rows ());
+        octave_idx_type ldd = max (1, d.rows ());
         
         // arguments out
-        int nu;
-        int rank;
-        int dinfz;
-        int nkror;
-        int nkrol;
+        octave_idx_type nu;
+        octave_idx_type rank;
+        octave_idx_type dinfz;
+        octave_idx_type nkror;
+        octave_idx_type nkrol;
         
-        int ldaf = max (1, n + m);
-        int ldbf = max (1, n + p);
+        octave_idx_type ldaf = max (1, n + m);
+        octave_idx_type ldbf = max (1, n + p);
 
-        OCTAVE_LOCAL_BUFFER (int, infz, n);
-        OCTAVE_LOCAL_BUFFER (int, kronr, 1 + max (n, m));
-        OCTAVE_LOCAL_BUFFER (int, kronl, 1 + max (n, p));
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, infz, n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronr, 1 + max (n, m));
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronl, 1 + max (n, p));
         
         OCTAVE_LOCAL_BUFFER (double, af, ldaf * (n + min (p, m)));
         OCTAVE_LOCAL_BUFFER (double, bf, ldbf * (n + m));
 
         // workspace
-        int s = max (m, p);
-        int ldwork = max (1, max (s, n) + max (3*s-1, n+s));
+        octave_idx_type s = max (m, p);
+        octave_idx_type ldwork = max (1, max (s, n) + max (3*s-1, n+s));
         
-        OCTAVE_LOCAL_BUFFER (int, iwork, s);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, s);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        int info;
+        octave_idx_type info;
         
         // tolerance
         double tol = 0;     // AB08ND uses DLAMCH for default tolerance
@@ -162,18 +162,18 @@ For internal use only.")
         char jobvr = 'N';
 
         double* vl = 0;     // not referenced because jobvl = 'N'
-        int ldvl = 1;
+        octave_idx_type ldvl = 1;
         double* vr = 0;     // not referenced because jobvr = 'N'
-        int ldvr = 1;
+        octave_idx_type ldvr = 1;
         
-        int lwork = max (1, 8*nu);
+        octave_idx_type lwork = max (1, 8*nu);
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
         ColumnVector alphar (nu);
         ColumnVector alphai (nu);
         ColumnVector beta (nu);
         
-        int info2;
+        octave_idx_type info2;
         
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,

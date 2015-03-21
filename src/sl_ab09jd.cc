@@ -23,7 +23,7 @@ Uses SLICOT AB09JD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: July 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -36,27 +36,27 @@ extern "C"
     int F77_FUNC (ab09jd, AB09JD)
                  (char& JOBV, char& JOBW, char& JOBINV,
                   char& DICO, char& EQUIL, char& ORDSEL,
-                  int& N, int& NV, int& NW, int& M, int& P,
-                  int& NR,
+                  octave_idx_type& N, octave_idx_type& NV, octave_idx_type& NW, octave_idx_type& M, octave_idx_type& P,
+                  octave_idx_type& NR,
                   double& ALPHA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  double* AV, int& LDAV,
-                  double* BV, int& LDBV,
-                  double* CV, int& LDCV,
-                  double* DV, int& LDDV,
-                  double* AW, int& LDAW,
-                  double* BW, int& LDBW,
-                  double* CW, int& LDCW,
-                  double* DW, int& LDDW,
-                  int& NS,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  double* AV, octave_idx_type& LDAV,
+                  double* BV, octave_idx_type& LDBV,
+                  double* CV, octave_idx_type& LDCV,
+                  double* DV, octave_idx_type& LDDV,
+                  double* AW, octave_idx_type& LDAW,
+                  double* BW, octave_idx_type& LDBW,
+                  double* CW, octave_idx_type& LDCW,
+                  double* DW, octave_idx_type& LDDW,
+                  octave_idx_type& NS,
                   double* HSV,
                   double& TOL1, double& TOL2,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab09jd__", "__control_slicot_functions__.oct");         
@@ -66,7 +66,7 @@ Slicot AB09JD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 22)
@@ -88,25 +88,25 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const int idico = args(4).int_value ();
-        const int iequil = args(5).int_value ();
-        int nr = args(6).int_value ();
-        const int iordsel = args(7).int_value ();
+        const octave_idx_type idico = args(4).int_value ();
+        const octave_idx_type iequil = args(5).int_value ();
+        octave_idx_type nr = args(6).int_value ();
+        const octave_idx_type iordsel = args(7).int_value ();
         double alpha = args(8).double_value ();
                  
-        const int ijobv = args(9).int_value ();       
+        const octave_idx_type ijobv = args(9).int_value ();       
         Matrix av = args(10).matrix_value ();
         Matrix bv = args(11).matrix_value ();
         Matrix cv = args(12).matrix_value ();
         Matrix dv = args(13).matrix_value ();
 
-        const int ijobw = args(14).int_value ();        
+        const octave_idx_type ijobw = args(14).int_value ();        
         Matrix aw = args(15).matrix_value ();
         Matrix bw = args(16).matrix_value ();
         Matrix cw = args(17).matrix_value ();
         Matrix dw = args(18).matrix_value ();
 
-        const int ijobinv = args(19).int_value ();
+        const octave_idx_type ijobinv = args(19).int_value ();
         double tol1 = args(20).double_value ();
         double tol2 = args(21).double_value ();
 
@@ -182,35 +182,35 @@ For internal use only.")
         else
             ordsel = 'A';
 
-        int n = a.rows ();      // n: number of states
-        int nv = av.rows ();
-        int nw = aw.rows ();
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type nv = av.rows ();
+        octave_idx_type nw = aw.rows ();
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd = max (1, p);
 
-        int ldav = max (1, nv);
-        int ldbv = max (1, nv);
-        int ldcv = max (1, p);
-        int lddv = max (1, p);
+        octave_idx_type ldav = max (1, nv);
+        octave_idx_type ldbv = max (1, nv);
+        octave_idx_type ldcv = max (1, p);
+        octave_idx_type lddv = max (1, p);
 
-        int ldaw = max (1, nw);
-        int ldbw = max (1, nw);
-        int ldcw = max (1, m);
-        int lddw = max (1, m);
+        octave_idx_type ldaw = max (1, nw);
+        octave_idx_type ldbw = max (1, nw);
+        octave_idx_type ldcw = max (1, m);
+        octave_idx_type lddw = max (1, m);
 
         // arguments out
-        int ns;
+        octave_idx_type ns;
         ColumnVector hsv (n);
 
         // workspace
-        int liwork;
-        int tmpc;
-        int tmpd;
+        octave_idx_type liwork;
+        octave_idx_type tmpc;
+        octave_idx_type tmpd;
 
         if (jobv == 'N')
             tmpc = 0;
@@ -227,13 +227,13 @@ For internal use only.")
         else
             liwork = max (1, n, m, tmpc, tmpd);
 
-        int ldwork;
-        int nvp = nv + p;
-        int nwm = nw + m;
-        int ldw1;
-        int ldw2;
-        int ldw3 = n*(2*n + max (n, m, p) + 5) + n*(n+1)/2;
-        int ldw4 = n*(m+p+2) + 2*m*p + min (n, m) + max (3*m+1, min (n, m) + p);
+        octave_idx_type ldwork;
+        octave_idx_type nvp = nv + p;
+        octave_idx_type nwm = nw + m;
+        octave_idx_type ldw1;
+        octave_idx_type ldw2;
+        octave_idx_type ldw3 = n*(2*n + max (n, m, p) + 5) + n*(n+1)/2;
+        octave_idx_type ldw4 = n*(m+p+2) + 2*m*p + min (n, m) + max (3*m+1, min (n, m) + p);
         
         if (jobv == 'N')
         {
@@ -257,12 +257,12 @@ For internal use only.")
         
         ldwork = max (ldw1, ldw2, ldw3, ldw4);
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int iwarn = 0;
-        int info = 0;
+        octave_idx_type iwarn = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine AB09JD

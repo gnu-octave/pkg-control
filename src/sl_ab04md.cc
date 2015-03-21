@@ -24,7 +24,7 @@ Uses SLICOT AB04MD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -36,15 +36,15 @@ extern "C"
 { 
     int F77_FUNC (ab04md, AB04MD)
                  (char& TYPE,
-                  int& N, int& M, int& P,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
                   double& ALPHA, double& BETA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab04md__", "__control_slicot_functions__.oct");    
@@ -54,7 +54,7 @@ Slicot AB04MD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 7)
@@ -73,30 +73,30 @@ For internal use only.")
         
         double alpha = args(4).double_value ();
         double beta = args(5).double_value ();
-        int discrete = args(6).int_value ();
+        octave_idx_type discrete = args(6).int_value ();
 
         if (discrete == 0)
             type = 'C';
         else
             type = 'D';
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd = max (1, p);
         
         // workspace
-        int ldwork = max (1, n);
+        octave_idx_type ldwork = max (1, n);
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine AB04MD

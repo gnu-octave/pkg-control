@@ -23,7 +23,7 @@ Uses SLICOT SB02RD and SB02MT by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: December 2012
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -37,17 +37,17 @@ extern "C"
     int F77_FUNC (sb02mt, SB02MT)
                  (char& JOBG, char& JOBL,
                   char& FACT, char& UPLO,
-                  int& N, int& M,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* Q, int& LDQ,
-                  double* R, int& LDR,
-                  double* L, int& LDL,
-                  int* IPIV, int& OUFACT,
-                  double* G, int& LDG,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type& N, octave_idx_type& M,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* Q, octave_idx_type& LDQ,
+                  double* R, octave_idx_type& LDR,
+                  double* L, octave_idx_type& LDL,
+                  octave_idx_type* IPIV, octave_idx_type& OUFACT,
+                  double* G, octave_idx_type& LDG,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 
 
     int F77_FUNC (sb02rd, SB02RD)
@@ -56,21 +56,21 @@ extern "C"
                   char& UPLO, char& SCAL,
                   char& SORT, char& FACT,
                   char& LYAPUN,
-                  int& N,
-                  double* A, int& LDA,
-                  double* T, int& LDT,
-                  double* V, int& LDV,
-                  double* G, int& LDG,
-                  double* Q, int& LDQ,
-                  double* X, int& LDX,
+                  octave_idx_type& N,
+                  double* A, octave_idx_type& LDA,
+                  double* T, octave_idx_type& LDT,
+                  double* V, octave_idx_type& LDV,
+                  double* G, octave_idx_type& LDG,
+                  double* Q, octave_idx_type& LDQ,
+                  double* X, octave_idx_type& LDX,
                   double& SEP,
                   double& RCOND, double& FERR,
                   double* WR, double* WI,
-                  double* S, int& LDS,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  double* S, octave_idx_type& LDS,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_are__", "__control_slicot_functions__.oct");    
@@ -80,7 +80,7 @@ Slicot SB02RD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
 
     if (nargin != 7)
@@ -103,8 +103,8 @@ For internal use only.")
         Matrix q = args(2).matrix_value ();
         Matrix r = args(3).matrix_value ();
         Matrix l = args(4).matrix_value ();
-        int discrete = args(5).int_value ();
-        int ijobl = args(6).int_value ();
+        octave_idx_type discrete = args(5).int_value ();
+        octave_idx_type ijobl = args(6).int_value ();
 
         if (discrete == 0)
             dico = 'C';
@@ -116,32 +116,32 @@ For internal use only.")
         else
             jobl = 'N';
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldq = max (1, n);
-        int ldr = max (1, m);
-        int ldl = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldr = max (1, m);
+        octave_idx_type ldl = max (1, n);
         
         // arguments out
-        int ldg = max (1, n);
+        octave_idx_type ldg = max (1, n);
         Matrix g (ldg, n);
 
         // unused output arguments
-        OCTAVE_LOCAL_BUFFER (int, ipiv, m);
-        int oufact;
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, ipiv, m);
+        octave_idx_type oufact;
 
         // workspace
-        OCTAVE_LOCAL_BUFFER (int, iwork_a, m);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_a, m);
 
-        int ldwork_a = max (2, 3*m, n*m);
+        octave_idx_type ldwork_a = max (2, 3*m, n*m);
         OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
 
 
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine SB02MT
@@ -188,10 +188,10 @@ For internal use only.")
         char sort = 'S';
         char lyapun = 'O';
         
-        int ldt = max (1, n);
-        int ldv = max (1, n);
-        int ldx = max (1, n);
-        int lds = max (1, 2*n);
+        octave_idx_type ldt = max (1, n);
+        octave_idx_type ldv = max (1, n);
+        octave_idx_type ldx = max (1, n);
+        octave_idx_type lds = max (1, 2*n);
         
         // arguments out
         Matrix x (ldx, n);
@@ -209,10 +209,10 @@ For internal use only.")
         Matrix s (lds, 2*n);
 
         // workspace
-        int liwork_b = max (2*n, n*n);
-        OCTAVE_LOCAL_BUFFER (int, iwork_b, liwork_b);
+        octave_idx_type liwork_b = max (2*n, n*n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_b, liwork_b);
 
-        int ldwork_b = 5 + max (1, 4*n*n + 8*n);
+        octave_idx_type ldwork_b = 5 + max (1, 4*n*n + 8*n);
         OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
 
         OCTAVE_LOCAL_BUFFER (bool, bwork_b, 2*n);

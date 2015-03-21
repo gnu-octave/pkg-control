@@ -23,7 +23,7 @@ Uses SLICOT AB09HD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: October 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -35,20 +35,20 @@ extern "C"
 { 
     int F77_FUNC (ab09hd, AB09HD)
                  (char& DICO, char& JOB, char& EQUIL, char& ORDSEL,
-                  int& N, int& M, int& P,
-                  int& NR,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  octave_idx_type& NR,
                   double& ALPHA, double& BETA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  int& NS,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  octave_idx_type& NS,
                   double* HSV,
                   double& TOL1, double& TOL2,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab09hd__", "__control_slicot_functions__.oct");    
@@ -58,7 +58,7 @@ Slicot AB09HD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 13)
@@ -78,12 +78,12 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const int idico = args(4).int_value ();
-        const int iequil = args(5).int_value ();
-        const int ijob = args(6).int_value ();
+        const octave_idx_type idico = args(4).int_value ();
+        const octave_idx_type iequil = args(5).int_value ();
+        const octave_idx_type ijob = args(6).int_value ();
         
-        int nr = args(7).int_value ();
-        const int iordsel = args(8).int_value ();
+        octave_idx_type nr = args(7).int_value ();
+        const octave_idx_type iordsel = args(8).int_value ();
         
         double alpha = args(9).double_value ();
         double beta = args(10).double_value ();
@@ -123,38 +123,38 @@ For internal use only.")
         else
             ordsel = 'A';
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd = max (1, p);
 
         // arguments out
-        int ns;
+        octave_idx_type ns;
         ColumnVector hsv (n);
 
         // workspace
-        int liwork = max (1, 2*n);
-        int mb;
+        octave_idx_type liwork = max (1, 2*n);
+        octave_idx_type mb;
         
         if (beta == 0)
             mb = m;
         else
             mb = m + p;
         
-        int ldwork = 2*n*n + mb*(n+p)
+        octave_idx_type ldwork = 2*n*n + mb*(n+p)
                      + max (2, n*(max (n,mb,p)+5), 2*n*p + max (p*(mb+2), 10*n*(n+1)));
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
         
         // error indicators
-        int iwarn = 0;
-        int info = 0;
+        octave_idx_type iwarn = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine AB09HD

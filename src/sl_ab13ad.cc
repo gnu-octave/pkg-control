@@ -23,7 +23,7 @@ Uses SLICOT AB13AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -35,15 +35,15 @@ extern "C"
 { 
     int F77_FUNC (ab13ad, AB13AD)
                  (char& DICO, char& EQUIL,
-                  int& N, int& M, int& P,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
                   double& ALPHA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  int& NS,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  octave_idx_type& NS,
                   double* HSV,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab13ad__", "__control_slicot_functions__.oct");    
@@ -53,7 +53,7 @@ Slicot AB13AD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 6)
@@ -69,9 +69,9 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
-        int discrete = args(3).int_value ();
+        octave_idx_type discrete = args(3).int_value ();
         double alpha = args(4).double_value ();
-        const int scaled = args(5).int_value ();
+        const octave_idx_type scaled = args(5).int_value ();
         
         if (discrete == 0)
             dico = 'C';
@@ -84,26 +84,26 @@ For internal use only.")
             equil = 'N';
 
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldc = max (1, c.rows ());
+        octave_idx_type lda = max (1, a.rows ());
+        octave_idx_type ldb = max (1, b.rows ());
+        octave_idx_type ldc = max (1, c.rows ());
         
         // arguments out
-        int ns = 0;
+        octave_idx_type ns = 0;
         
         ColumnVector hsv (n);
         
         // workspace
-        int ldwork = max (1, n*(max (n, m, p) + 5) + n*(n+1)/2);
+        octave_idx_type ldwork = max (1, n*(max (n, m, p) + 5) + n*(n+1)/2);
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine AB13AD
