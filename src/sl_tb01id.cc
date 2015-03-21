@@ -23,7 +23,7 @@ Uses SLICOT TB01ID by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: May 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -35,13 +35,13 @@ extern "C"
 { 
     int F77_FUNC (tb01id, TB01ID)
                  (char& JOB,
-                  int& N, int& M, int& P,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
                   double& MAXRED,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
                   double* SCALE,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tb01id__", "__control_slicot_functions__.oct");    
@@ -51,7 +51,7 @@ Slicot TB01ID Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 4)
@@ -68,13 +68,13 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         double maxred = args(3).double_value ();
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
         
 
         // arguments out
@@ -82,7 +82,7 @@ For internal use only.")
 
         
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine TB01ID

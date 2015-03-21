@@ -23,7 +23,7 @@ Uses SLICOT TB01PD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -35,15 +35,15 @@ extern "C"
 { 
     int F77_FUNC (tb01pd, TB01PD)
                  (char& JOB, char& EQUIL,
-                  int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  int& NR,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  octave_idx_type& NR,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tb01pd__", "__control_slicot_functions__.oct");    
@@ -53,7 +53,7 @@ Slicot TB01PD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 5)
@@ -70,20 +70,20 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         double tol = args(3).double_value ();
-        const int scaled = args(4).int_value ();
+        const octave_idx_type scaled = args(4).int_value ();
         
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc;
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc;
 
         if (n == 0)
             ldc = 1;
@@ -94,17 +94,17 @@ For internal use only.")
         c.resize (ldc, n);
 
         // arguments out
-        int nr = 0;
+        octave_idx_type nr = 0;
         
         // workspace
-        int liwork = n + max (m, p);
-        int ldwork = max (1, n + max (n, 3*m, 3*p));
+        octave_idx_type liwork = n + max (m, p);
+        octave_idx_type ldwork = max (1, n + max (n, 3*m, 3*p));
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine TB01PD

@@ -24,7 +24,7 @@ Uses SLICOT TB04BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: October 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -36,18 +36,18 @@ extern "C"
 { 
     int F77_FUNC (tb04bd, TB04BD)
                  (char& JOBD, char& ORDER, char& EQUIL,
-                  int& N, int& M, int& P, int& MD,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  int* IGN, int& LDIGN,
-                  int* IGD, int& LDIGD,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P, octave_idx_type& MD,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  octave_idx_type* IGN, octave_idx_type& LDIGN,
+                  octave_idx_type* IGD, octave_idx_type& LDIGD,
                   double* GN, double* GD,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tb04bd__", "__control_slicot_functions__.oct");    
@@ -57,7 +57,7 @@ Slicot TB04BD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
 
     if (nargin != 5)
@@ -75,30 +75,30 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
-        const int scaled = args(4).int_value ();
+        const octave_idx_type scaled = args(4).int_value ();
 
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
-        int md = n + 1;
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
+        octave_idx_type md = n + 1;
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd = max (1, p);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd = max (1, p);
 
         // arguments out
-        int ldign = max (1, p);
-        int ldigd = max (1, p);
-        int lg = p * m * md;
+        octave_idx_type ldign = max (1, p);
+        octave_idx_type ldigd = max (1, p);
+        octave_idx_type lg = p * m * md;
 
-        OCTAVE_LOCAL_BUFFER (int, ign, ldign*m);
-        OCTAVE_LOCAL_BUFFER (int, igd, ldigd*m);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, ign, ldign*m);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, igd, ldigd*m);
 
         RowVector gn (lg);
         RowVector gd (lg);
@@ -107,13 +107,13 @@ For internal use only.")
         double tol = 0;  // use default value
 
         // workspace
-        int ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 6)));
+        octave_idx_type ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 6)));
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine TB04BD

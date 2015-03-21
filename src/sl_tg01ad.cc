@@ -23,7 +23,7 @@ Uses SLICOT TG01AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: June 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -35,15 +35,15 @@ extern "C"
 { 
     int F77_FUNC (tg01ad, TG01AD)
                  (char& JOB,
-                  int& L, int& N, int& M, int& P,
+                  octave_idx_type& L, octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
                   double& TRESH,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
                   double* LSCALE, double *RSCALE,
                   double* DWORK,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01ad__", "__control_slicot_functions__.oct");    
@@ -53,7 +53,7 @@ Slicot TG01AD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 5)
@@ -71,15 +71,15 @@ For internal use only.")
         Matrix c = args(3).matrix_value ();
         double tresh = args(4).double_value ();
 
-        int l = a.rows ();
-        int n = a.columns ();   // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type l = a.rows ();
+        octave_idx_type n = a.columns ();   // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, l);
-        int lde = max (1, l);
-        int ldb = max (1, l);
-        int ldc = max (1, p);
+        octave_idx_type lda = max (1, l);
+        octave_idx_type lde = max (1, l);
+        octave_idx_type ldb = max (1, l);
+        octave_idx_type ldc = max (1, p);
 
 
         // arguments out
@@ -90,7 +90,7 @@ For internal use only.")
         OCTAVE_LOCAL_BUFFER (double, dwork, 3*(l+n));
 
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine TG01AD

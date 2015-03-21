@@ -23,7 +23,7 @@ Uses SLICOT TG01FD by courtesy of NICONET e.V.
 
 Author: Thomas Vasileiou <thomas-v@wildmail.com>
 Created: September 2013
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -35,18 +35,18 @@ extern "C"
 { 
     int F77_FUNC (tg01fd, TG01FD)
                  (char& COMPQ, char& COMPZ, char& JOBA,
-                  int& L, int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* Q, int& LDQ,
-                  double* Z, int& LDZ,
-                  int& RANKE, int& RNKA22,
+                  octave_idx_type& L, octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* Q, octave_idx_type& LDQ,
+                  double* Z, octave_idx_type& LDZ,
+                  octave_idx_type& RANKE, octave_idx_type& RNKA22,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01fd__", "__control_slicot_functions__.oct");    
@@ -56,7 +56,7 @@ Slicot TG01FD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 6)
@@ -74,7 +74,7 @@ For internal use only.")
         Matrix e = args(1).matrix_value ();
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
-        const int qz_flag = args(4).int_value ();
+        const octave_idx_type qz_flag = args(4).int_value ();
         double tol = args(5).double_value ();
         
         if (qz_flag == 0)
@@ -88,31 +88,31 @@ For internal use only.")
             compz = 'I';
         }
 
-        int l = a.rows ();
-        int n = l;
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type l = a.rows ();
+        octave_idx_type n = l;
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, l);
-        int lde = max (1, l);
-        int ldb = max (1, l);
-        int ldc = max (1, p);
-        int ldq = max (1, l);
-        int ldz = max (1, n);
+        octave_idx_type lda = max (1, l);
+        octave_idx_type lde = max (1, l);
+        octave_idx_type ldb = max (1, l);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldq = max (1, l);
+        octave_idx_type ldz = max (1, n);
 
         // arguments out
         Matrix q(l, l, 0.);
         Matrix z(n, n, 0.);
         Matrix empty(0, 0);
-        int ranke, rnka22;
+        octave_idx_type ranke, rnka22;
         
         // workspace
-        int ldwork = max (1, n+p, min (l,n) + max (3*n-1, m, l));
-        OCTAVE_LOCAL_BUFFER (int, iwork, n);
+        octave_idx_type ldwork = max (1, n+p, min (l,n) + max (3*n-1, m, l));
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine TG01FD

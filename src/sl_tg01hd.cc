@@ -23,7 +23,7 @@ Uses SLICOT TG01HD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -36,25 +36,25 @@ extern "C"
     int F77_FUNC (tg01hd, TG01HD)
                  (char& JOBCON,
                   char& COMPQ, char& COMPZ,
-                  int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* Q, int& LDQ,
-                  double* Z, int& LDZ,
-                  int& NCONT, int& NIUCON,
-                  int& NRBLCK,
-                  int* RTAU,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* Q, octave_idx_type& LDQ,
+                  double* Z, octave_idx_type& LDZ,
+                  octave_idx_type& NCONT, octave_idx_type& NIUCON,
+                  octave_idx_type& NRBLCK,
+                  octave_idx_type* RTAU,
                   double& TOL,
-                  int* IWORK, double* DWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK, double* DWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01hd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 5)
@@ -74,35 +74,35 @@ DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int lde = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldq = max (1, n);
-        int ldz = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type lde = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldz = max (1, n);
 
         // arguments out
         Matrix q (ldq, n);
         Matrix z (ldz, n);
 
-        int ncont;
-        int niucon;
-        int nrblck;
+        octave_idx_type ncont;
+        octave_idx_type niucon;
+        octave_idx_type nrblck;
 
-        OCTAVE_LOCAL_BUFFER (int, rtau, n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, rtau, n);
         
         // workspace
-        int ldwork = max (n, 2*m);
+        octave_idx_type ldwork = max (n, 2*m);
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, m);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine TG01HD

@@ -23,7 +23,7 @@ Uses SLICOT TB01UD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: October 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -35,18 +35,18 @@ extern "C"
 { 
     int F77_FUNC (tb01ud, TB01UD)
                  (char& JOBZ,
-                  int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  int& NCONT, int& INDCON,
-                  int* NBLK,
-                  double* Z, int& LDZ,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  octave_idx_type& NCONT, octave_idx_type& INDCON,
+                  octave_idx_type* NBLK,
+                  double* Z, octave_idx_type& LDZ,
                   double* TAU,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tb01ud__", "__control_slicot_functions__.oct");    
@@ -56,7 +56,7 @@ Slicot TB01UD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 4)
@@ -73,32 +73,32 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         double tol = args(3).double_value ();
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldz = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldz = max (1, n);
 
         // arguments out
         Matrix z (ldz, n);
 
-        int ncont;
-        int indcon;
+        octave_idx_type ncont;
+        octave_idx_type indcon;
 
-        OCTAVE_LOCAL_BUFFER (int, nblk, n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, nblk, n);
         OCTAVE_LOCAL_BUFFER (double, tau, n);
         
         // workspace
-        int ldwork = max (1, n, 3*m, p);
+        octave_idx_type ldwork = max (1, n, 3*m, p);
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, m);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine TB01UD
