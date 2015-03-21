@@ -23,7 +23,7 @@ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: March 2012
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -37,17 +37,17 @@ extern "C"
     int F77_FUNC (ib01ad, IB01AD)
                  (char& METH, char& ALG, char& JOBD,
                   char& BATCH, char& CONCT, char& CTRL,
-                  int& NOBR, int& M, int& L,
-                  int& NSMP,
-                  double* U, int& LDU,
-                  double* Y, int& LDY,
-                  int& N,
-                  double* R, int& LDR,
+                  octave_idx_type& NOBR, octave_idx_type& M, octave_idx_type& L,
+                  octave_idx_type& NSMP,
+                  double* U, octave_idx_type& LDU,
+                  double* Y, octave_idx_type& LDY,
+                  octave_idx_type& N,
+                  double* R, octave_idx_type& LDR,
                   double* SV,
                   double& RCOND, double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ib01ad__", "__control_slicot_functions__.oct");
@@ -57,7 +57,7 @@ Slicot IB01AD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 10)
@@ -81,13 +81,13 @@ For internal use only.")
         
         const Cell y_cell = args(0).cell_value ();
         const Cell u_cell = args(1).cell_value ();
-        int nobr = args(2).int_value ();
-        int nuser = args(3).int_value ();
+        octave_idx_type nobr = args(2).int_value ();
+        octave_idx_type nuser = args(3).int_value ();
         
-        const int imeth = args(4).int_value ();
-        const int ialg = args(5).int_value ();
-        const int iconct = args(6).int_value ();
-        const int ictrl = args(7).int_value ();     // ignored
+        const octave_idx_type imeth = args(4).int_value ();
+        const octave_idx_type ialg = args(5).int_value ();
+        const octave_idx_type iconct = args(6).int_value ();
+        const octave_idx_type ictrl = args(7).int_value ();     // ignored
         
         double rcond = args(8).double_value ();
         double tol_a = args(9).double_value ();
@@ -145,14 +145,14 @@ For internal use only.")
             ctrl = 'N';
 */
         // m and l are equal for all experiments, checked by iddata class
-        int n_exp = y_cell.nelem ();            // number of experiments
-        int m = u_cell.elem(0).columns ();      // m: number of inputs
-        int l = y_cell.elem(0).columns ();      // l: number of outputs
-        int nsmpl = 0;                          // total number of samples
+        octave_idx_type n_exp = y_cell.nelem ();            // number of experiments
+        octave_idx_type m = u_cell.elem(0).columns ();      // m: number of inputs
+        octave_idx_type l = y_cell.elem(0).columns ();      // l: number of outputs
+        octave_idx_type nsmpl = 0;                          // total number of samples
 
         // arguments out
-        int n;
-        int ldr;
+        octave_idx_type n;
+        octave_idx_type ldr;
         
         if (meth_a == 'M' && jobd == 'M')
             ldr = max (2*(m+l)*nobr, 3*m*nobr);
@@ -166,7 +166,7 @@ For internal use only.")
 
 
         // repeat for every experiment in the dataset
-        for (int i = 0; i < n_exp; i++)
+        for (octave_idx_type i = 0; i < n_exp; i++)
         {
             if (n_exp == 1)
                 batch = 'O';        // one block only
@@ -181,9 +181,9 @@ For internal use only.")
             Matrix u = u_cell.elem(i).matrix_value ();
 
             // y.rows == u.rows  is checked by iddata class
-            // int m = u.columns ();   // m: number of inputs
-            // int l = y.columns ();   // l: number of outputs
-            int nsmp = y.rows ();   // nsmp: number of samples in the current experiment
+            // octave_idx_type m = u.columns ();   // m: number of inputs
+            // octave_idx_type l = y.columns ();   // l: number of outputs
+            octave_idx_type nsmp = y.rows ();   // nsmp: number of samples in the current experiment
             nsmpl += nsmp;          // nsmpl: total number of samples of all experiments
 
             // minimal nsmp size checked by __slicot_identification__.m
@@ -198,17 +198,17 @@ For internal use only.")
                     error ("__sl_ident__: require NSMP >= 2*NOBR");
             }
         
-            int ldu;
+            octave_idx_type ldu;
         
             if (m == 0)
                 ldu = 1;
             else                    // m > 0
                 ldu = nsmp;
 
-            int ldy = nsmp;
+            octave_idx_type ldy = nsmp;
 
             // workspace
-            int liwork_a;
+            octave_idx_type liwork_a;
 
             if (meth_a == 'N')            // if METH = 'N'
                 liwork_a = (m+l)*nobr;
@@ -219,8 +219,8 @@ For internal use only.")
 
             // TODO: Handle 'k' for DWORK
 
-            int ldwork_a;
-            int ns = nsmp - 2*nobr + 1;
+            octave_idx_type ldwork_a;
+            octave_idx_type ns = nsmp - 2*nobr + 1;
         
             if (alg == 'C')
             {
@@ -256,7 +256,7 @@ For internal use only.")
             }
             else    // (alg == 'Q')
             {
-                // int ns = nsmp - 2*nobr + 1;
+                // octave_idx_type ns = nsmp - 2*nobr + 1;
                 
                 if (ldr >= ns && batch == 'F')
                 {
@@ -306,12 +306,12 @@ For internal use only.")
             */
 
 
-            OCTAVE_LOCAL_BUFFER (int, iwork_a, liwork_a);
+            OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_a, liwork_a);
             OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
         
             // error indicators
-            int iwarn_a = 0;
-            int info_a = 0;
+            octave_idx_type iwarn_a = 0;
+            octave_idx_type info_a = 0;
 
 
             // SLICOT routine IB01AD
@@ -370,7 +370,7 @@ For internal use only.")
 
 
         // resize
-        int rs = 2*(m+l)*nobr;
+        octave_idx_type rs = 2*(m+l)*nobr;
         r.resize (rs, rs);
 
         

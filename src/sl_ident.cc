@@ -23,7 +23,7 @@ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: March 2012
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -37,53 +37,53 @@ extern "C"
     int F77_FUNC (ib01ad, IB01AD)
                  (char& METH, char& ALG, char& JOBD,
                   char& BATCH, char& CONCT, char& CTRL,
-                  int& NOBR, int& M, int& L,
-                  int& NSMP,
-                  double* U, int& LDU,
-                  double* Y, int& LDY,
-                  int& N,
-                  double* R, int& LDR,
+                  octave_idx_type& NOBR, octave_idx_type& M, octave_idx_type& L,
+                  octave_idx_type& NSMP,
+                  double* U, octave_idx_type& LDU,
+                  double* Y, octave_idx_type& LDY,
+                  octave_idx_type& N,
+                  double* R, octave_idx_type& LDR,
                   double* SV,
                   double& RCOND, double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 
     int F77_FUNC (ib01bd, IB01BD)
                  (char& METH, char& JOB, char& JOBCK,
-                  int& NOBR, int& N, int& M, int& L,
-                  int& NSMPL,
-                  double* R, int& LDR,
-                  double* A, int& LDA,
-                  double* C, int& LDC,
-                  double* B, int& LDB,
-                  double* D, int& LDD,
-                  double* Q, int& LDQ,
-                  double* RY, int& LDRY,
-                  double* S, int& LDS,
-                  double* K, int& LDK,
+                  octave_idx_type& NOBR, octave_idx_type& N, octave_idx_type& M, octave_idx_type& L,
+                  octave_idx_type& NSMPL,
+                  double* R, octave_idx_type& LDR,
+                  double* A, octave_idx_type& LDA,
+                  double* C, octave_idx_type& LDC,
+                  double* B, octave_idx_type& LDB,
+                  double* D, octave_idx_type& LDD,
+                  double* Q, octave_idx_type& LDQ,
+                  double* RY, octave_idx_type& LDRY,
+                  double* S, octave_idx_type& LDS,
+                  double* K, octave_idx_type& LDK,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 
     int F77_FUNC (ib01cd, IB01CD)
                  (char& JOBX0, char& COMUSE, char& JOB,
-                  int& N, int& M, int& L,
-                  int& NSMP,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  double* U, int& LDU,
-                  double* Y, int& LDY,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& L,
+                  octave_idx_type& NSMP,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  double* U, octave_idx_type& LDU,
+                  double* Y, octave_idx_type& LDY,
                   double* X0,
-                  double* V, int& LDV,
+                  double* V, octave_idx_type& LDV,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ident__", "__control_slicot_functions__.oct");
@@ -93,7 +93,7 @@ Slicot IB01AD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 10)
@@ -117,13 +117,13 @@ For internal use only.")
         
         const Cell y_cell = args(0).cell_value ();
         const Cell u_cell = args(1).cell_value ();
-        int nobr = args(2).int_value ();
-        int nuser = args(3).int_value ();
+        octave_idx_type nobr = args(2).int_value ();
+        octave_idx_type nuser = args(3).int_value ();
         
-        const int imeth = args(4).int_value ();
-        const int ialg = args(5).int_value ();
-        const int iconct = args(6).int_value ();
-        const int ictrl = args(7).int_value ();
+        const octave_idx_type imeth = args(4).int_value ();
+        const octave_idx_type ialg = args(5).int_value ();
+        const octave_idx_type iconct = args(6).int_value ();
+        const octave_idx_type ictrl = args(7).int_value ();
         
         double rcond = args(8).double_value ();
         double tol_a = args(9).double_value ();
@@ -181,14 +181,14 @@ For internal use only.")
             ctrl = 'N';
 
         // m and l are equal for all experiments, checked by iddata class
-        int n_exp = y_cell.nelem ();            // number of experiments
-        int m = u_cell.elem(0).columns ();      // m: number of inputs
-        int l = y_cell.elem(0).columns ();      // l: number of outputs
-        int nsmpl = 0;                          // total number of samples
+        octave_idx_type n_exp = y_cell.nelem ();            // number of experiments
+        octave_idx_type m = u_cell.elem(0).columns ();      // m: number of inputs
+        octave_idx_type l = y_cell.elem(0).columns ();      // l: number of outputs
+        octave_idx_type nsmpl = 0;                          // total number of samples
 
         // arguments out
-        int n;
-        int ldr;
+        octave_idx_type n;
+        octave_idx_type ldr;
         
         if (meth_a == 'M' && jobd == 'M')
             ldr = max (2*(m+l)*nobr, 3*m*nobr);
@@ -202,7 +202,7 @@ For internal use only.")
 
 
         // repeat for every experiment in the dataset
-        for (int i = 0; i < n_exp; i++)
+        for (octave_idx_type i = 0; i < n_exp; i++)
         {
             if (n_exp == 1)
                 batch = 'O';        // one block only
@@ -217,9 +217,9 @@ For internal use only.")
             Matrix u = u_cell.elem(i).matrix_value ();
 
             // y.rows == u.rows  is checked by iddata class
-            // int m = u.columns ();   // m: number of inputs
-            // int l = y.columns ();   // l: number of outputs
-            int nsmp = y.rows ();   // nsmp: number of samples in the current experiment
+            // octave_idx_type m = u.columns ();   // m: number of inputs
+            // octave_idx_type l = y.columns ();   // l: number of outputs
+            octave_idx_type nsmp = y.rows ();   // nsmp: number of samples in the current experiment
             nsmpl += nsmp;          // nsmpl: total number of samples of all experiments
 
             // minimal nsmp size checked by __slicot_identification__.m
@@ -234,17 +234,17 @@ For internal use only.")
                     error ("__sl_ident__: require NSMP >= 2*NOBR");
             }
         
-            int ldu;
+            octave_idx_type ldu;
         
             if (m == 0)
                 ldu = 1;
             else                    // m > 0
                 ldu = nsmp;
 
-            int ldy = nsmp;
+            octave_idx_type ldy = nsmp;
 
             // workspace
-            int liwork_a;
+            octave_idx_type liwork_a;
 
             if (meth_a == 'N')            // if METH = 'N'
                 liwork_a = (m+l)*nobr;
@@ -255,8 +255,8 @@ For internal use only.")
 
             // TODO: Handle 'k' for DWORK
 
-            int ldwork_a;
-            int ns = nsmp - 2*nobr + 1;
+            octave_idx_type ldwork_a;
+            octave_idx_type ns = nsmp - 2*nobr + 1;
         
             if (alg == 'C')
             {
@@ -292,7 +292,7 @@ For internal use only.")
             }
             else    // (alg == 'Q')
             {
-                // int ns = nsmp - 2*nobr + 1;
+                // octave_idx_type ns = nsmp - 2*nobr + 1;
                 
                 if (ldr >= ns && batch == 'F')
                 {
@@ -342,12 +342,12 @@ For internal use only.")
             */
 
 
-            OCTAVE_LOCAL_BUFFER (int, iwork_a, liwork_a);
+            OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_a, liwork_a);
             OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
         
             // error indicators
-            int iwarn_a = 0;
-            int info_a = 0;
+            octave_idx_type iwarn_a = 0;
+            octave_idx_type info_a = 0;
 
 
             // SLICOT routine IB01AD
@@ -406,7 +406,7 @@ For internal use only.")
 
 
         // resize
-        int rs = 2*(m+l)*nobr;
+        octave_idx_type rs = 2*(m+l)*nobr;
         r.resize (rs, rs);
         
         if (nuser > 0)
@@ -428,20 +428,20 @@ For internal use only.")
         char job = 'A';
         char jobck = 'K';
         
-        //int nsmpl = nsmp;
+        //octave_idx_type nsmpl = nsmp;
         
         if (nsmpl < 2*(m+l)*nobr)
             error ("__sl_ident__: nsmpl (%d) < 2*(m+l)*nobr (%d)", nsmpl, nobr);
         
         // arguments out
-        int lda = max (1, n);
-        int ldc = max (1, l);
-        int ldb = max (1, n);
-        int ldd = max (1, l);
-        int ldq = n;            // if JOBCK = 'C' or 'K'
-        int ldry = l;           // if JOBCK = 'C' or 'K'
-        int lds = n;            // if JOBCK = 'C' or 'K'
-        int ldk = n;            // if JOBCK = 'K'
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldc = max (1, l);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldd = max (1, l);
+        octave_idx_type ldq = n;            // if JOBCK = 'C' or 'K'
+        octave_idx_type ldry = l;           // if JOBCK = 'C' or 'K'
+        octave_idx_type lds = n;            // if JOBCK = 'C' or 'K'
+        octave_idx_type ldk = n;            // if JOBCK = 'K'
         
         Matrix a (lda, n);
         Matrix c (ldc, n);
@@ -454,28 +454,28 @@ For internal use only.")
         Matrix k (ldk, l);
         
         // workspace
-        int liwork_b;
-        int liw1;
-        int liw2;
+        octave_idx_type liwork_b;
+        octave_idx_type liw1;
+        octave_idx_type liw2;
         
         liw1 = max (n, m*nobr+n, l*nobr, m*(n+l));
         liw2 = n*n;     // if JOBCK =  'K'
         liwork_b = max (liw1, liw2);
 
-        int ldwork_b;
-        int ldw1;
-        int ldw2;
-        int ldw3;
+        octave_idx_type ldwork_b;
+        octave_idx_type ldw1;
+        octave_idx_type ldw2;
+        octave_idx_type ldw3;
 
         if (meth_b == 'M')
         {
-            int ldw1a = max (2*(l*nobr-l)*n+2*n, (l*nobr-l)*n+n*n+7*n);
-            int ldw1b = max (2*(l*nobr-l)*n+n*n+7*n,
+            octave_idx_type ldw1a = max (2*(l*nobr-l)*n+2*n, (l*nobr-l)*n+n*n+7*n);
+            octave_idx_type ldw1b = max (2*(l*nobr-l)*n+n*n+7*n,
                              (l*nobr-l)*n+n+6*m*nobr,
                              (l*nobr-l)*n+n+max (l+m*nobr, l*nobr + max (3*l*nobr+1, m)));
             ldw1 = max (ldw1a, ldw1b);
             
-            int aw;
+            octave_idx_type aw;
             
             if (m == 0 || job == 'C')
                 aw = n + n*n;
@@ -499,8 +499,8 @@ For internal use only.")
         }
         else    // (meth_b == 'C')
         {
-            int ldw1a = max (2*(l*nobr-l)*n+2*n, (l*nobr-l)*n+n*n+7*n);
-            int ldw1b = l*nobr*n + max ((l*nobr-l)*n+2*n+(2*m+l)*nobr+l,
+            octave_idx_type ldw1a = max (2*(l*nobr-l)*n+2*n, (l*nobr-l)*n+n*n+7*n);
+            octave_idx_type ldw1b = l*nobr*n + max ((l*nobr-l)*n+2*n+(2*m+l)*nobr+l,
                                         2*(l*nobr-l)*n+n*n+8*n,
                                         n+4*(m*nobr+n)+1,
                                         m*nobr+3*n+l);
@@ -515,14 +515,14 @@ For internal use only.")
         ldwork_b = max (ldw1, ldw2, ldw3);
         
 
-        OCTAVE_LOCAL_BUFFER (int, iwork_b, liwork_b);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_b, liwork_b);
         OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
 
 
         // error indicators
-        int iwarn_b = 0;
-        int info_b = 0;
+        octave_idx_type iwarn_b = 0;
+        octave_idx_type info_b = 0;
 
 
         // SLICOT routine IB01BD
@@ -610,44 +610,44 @@ For internal use only.")
 
         // repeat for every experiment in the dataset
         // compute individual initial state vector x0 for every experiment        
-        for (int i = 0; i < n_exp; i++)
+        for (octave_idx_type i = 0; i < n_exp; i++)
         {
             Matrix y = y_cell.elem(i).matrix_value ();
             Matrix u = u_cell.elem(i).matrix_value ();
             
-            int nsmp = y.rows ();   // nsmp: number of samples
-            int ldv = max (1, n);
+            octave_idx_type nsmp = y.rows ();   // nsmp: number of samples
+            octave_idx_type ldv = max (1, n);
             
-            int ldu;
+            octave_idx_type ldu;
         
             if (m == 0)
                 ldu = 1;
             else                    // m > 0
                 ldu = nsmp;
 
-            int ldy = nsmp;
+            octave_idx_type ldy = nsmp;
 
             // arguments out
             ColumnVector x0 (n);
             Matrix v (ldv, n);
 
             // workspace
-            int liwork_c = n;     // if  JOBX0 = 'X'  and  COMUSE <> 'C'
-            int ldwork_c;
-            int t = nsmp;
+            octave_idx_type liwork_c = n;     // if  JOBX0 = 'X'  and  COMUSE <> 'C'
+            octave_idx_type ldwork_c;
+            octave_idx_type t = nsmp;
    
-            int ldw1_c = 2;
-            int ldw2_c = t*l*(n + 1) + 2*n + max (2*n*n, 4*n);
-            int ldw3_c = n*(n + 1) + 2*n + max (n*l*(n + 1) + 2*n*n + l*n, 4*n);
+            octave_idx_type ldw1_c = 2;
+            octave_idx_type ldw2_c = t*l*(n + 1) + 2*n + max (2*n*n, 4*n);
+            octave_idx_type ldw3_c = n*(n + 1) + 2*n + max (n*l*(n + 1) + 2*n*n + l*n, 4*n);
 
             ldwork_c = ldw1_c + n*( n + m + l ) + max (5*n, ldw1_c, min (ldw2_c, ldw3_c));
 
-            OCTAVE_LOCAL_BUFFER (int, iwork_c, liwork_c);
+            OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_c, liwork_c);
             OCTAVE_LOCAL_BUFFER (double, dwork_c, ldwork_c);
 
             // error indicators
-            int iwarn_c = 0;
-            int info_c = 0;
+            octave_idx_type iwarn_c = 0;
+            octave_idx_type info_c = 0;
 
             // SLICOT routine IB01CD
             F77_XFCN (ib01cd, IB01CD,

@@ -23,7 +23,7 @@ Uses SLICOT MB05ND by courtesy of NICONET e.V.
 
 Author: Thomas Vasileiou <thomas-v@wildmail.com>
 Created: March 2014
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -34,14 +34,14 @@ Version: 0.1
 extern "C"
 { 
     int F77_FUNC (mb05nd, MB05ND)
-                 (int& N, double& DELTA,
-                  double* A, int& LDA,
-                  double* EX, int& LDEX,
-                  double* EXINT, int& LDEXINT,
+                 (octave_idx_type& N, double& DELTA,
+                  double* A, octave_idx_type& LDA,
+                  double* EX, octave_idx_type& LDEX,
+                  double* EXINT, octave_idx_type& LDEXINT,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_mb05nd__", "__control_slicot_functions__.oct");    
@@ -51,7 +51,7 @@ Slicot MB05ND Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 3)
@@ -65,22 +65,22 @@ For internal use only.")
         double delta = args(1).double_value ();
         double tol = args(2).double_value (); 
         
-        int n = a.rows ();
-        int lda = max (1, n);
-        int ldex = max (1, n);
-        int ldexin = max (1, n);
+        octave_idx_type n = a.rows ();
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldex = max (1, n);
+        octave_idx_type ldexin = max (1, n);
 
         // arguments out
         Matrix ex (ldex, n);
         Matrix exint (ldexin, n);
         
         // workspace
-        int ldwork = max (1, 2*n*n);                 // optimum performance
-        OCTAVE_LOCAL_BUFFER (int, iwork, n);
+        octave_idx_type ldwork = max (1, 2*n*n);                 // optimum performance
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int info = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine MB05ND
