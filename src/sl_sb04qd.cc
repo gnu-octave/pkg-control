@@ -23,7 +23,7 @@ Uses SLICOT SB04QD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -34,14 +34,14 @@ Version: 0.2
 extern "C"
 { 
     int F77_FUNC (sb04qd, SB04QD)
-                 (int& N, int& M,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* Z, int& LDZ,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                 (octave_idx_type& N, octave_idx_type& M,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* Z, octave_idx_type& LDZ,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb04qd__", "__control_slicot_functions__.oct");    
@@ -51,7 +51,7 @@ Slicot SB04QD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 3)
@@ -65,25 +65,25 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         
-        int n = a.rows ();
-        int m = b.rows ();
+        octave_idx_type n = a.rows ();
+        octave_idx_type m = b.rows ();
         
-        int lda = max (1, n);
-        int ldb = max (1, m);
-        int ldc = max (1, n);
-        int ldz = max (1, m);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, m);
+        octave_idx_type ldc = max (1, n);
+        octave_idx_type ldz = max (1, m);
         
         // arguments out
         Matrix z (ldz, m);
         
         // workspace
-        int ldwork = max (1, 2*n*n + 9*n, 5*m, n + m);
+        octave_idx_type ldwork = max (1, 2*n*n + 9*n, 5*m, n + m);
         
-        OCTAVE_LOCAL_BUFFER (int, iwork, 4*n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, 4*n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
         
 
         // SLICOT routine SB04QD

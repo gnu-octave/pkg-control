@@ -23,7 +23,7 @@ Uses SLICOT SB03OD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -35,14 +35,14 @@ extern "C"
 { 
     int F77_FUNC (sb03od, SB03OD)
                  (char& DICO, char& FACT, char& TRANS,
-                  int& N, int& M,
-                  double* A, int& LDA,
-                  double* Q, int& LDQ,
-                  double* B, int& LDB,
+                  octave_idx_type& N, octave_idx_type& M,
+                  double* A, octave_idx_type& LDA,
+                  double* Q, octave_idx_type& LDQ,
+                  double* B, octave_idx_type& LDB,
                   double& SCALE,
                   double* WR, double* WI,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb03od__", "__control_slicot_functions__.oct");    
@@ -52,7 +52,7 @@ Slicot SB03OD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 3)
@@ -69,21 +69,21 @@ For internal use only.")
         
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
-        int discrete = args(2).int_value ();
+        octave_idx_type discrete = args(2).int_value ();
         
         if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';
         
-        int n = a.rows ();
-        int m = b.rows ();
-        // int m = b.columns ();
+        octave_idx_type n = a.rows ();
+        octave_idx_type m = b.rows ();
+        // octave_idx_type m = b.columns ();
         
-        int lda = max (1, n);
-        int ldq = max (1, n);
-        int ldb = max (1, n, m);
-        // int ldb = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldb = max (1, n, m);
+        // octave_idx_type ldb = max (1, n);
 
         b.resize (ldb, n);
         // b.resize (ldb, max (m, n));
@@ -96,12 +96,12 @@ For internal use only.")
         ColumnVector wi (n);
         
         // workspace
-        int ldwork = max (1, 4*n + min (m, n));
+        octave_idx_type ldwork = max (1, 4*n + min (m, n));
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
         
 
         // SLICOT routine SB03OD

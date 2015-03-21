@@ -23,7 +23,7 @@ Uses SLICOT SB03MD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: December 2009
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -36,16 +36,16 @@ extern "C"
     int F77_FUNC (sb03md, SB03MD)
                  (char& DICO, char& JOB,
                   char& FACT, char& TRANA,
-                  int& N,
-                  double* A, int& LDA,
-                  double* U, int& LDU,
-                  double* C, int& LDC,
+                  octave_idx_type& N,
+                  double* A, octave_idx_type& LDA,
+                  double* U, octave_idx_type& LDU,
+                  double* C, octave_idx_type& LDC,
                   double& SCALE,
                   double& SEP, double& FERR,
                   double* WR, double* WI,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb03md__", "__control_slicot_functions__.oct");    
@@ -55,7 +55,7 @@ Slicot SB03MD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 3)
@@ -72,18 +72,18 @@ For internal use only.")
         
         Matrix a = args(0).matrix_value ();
         Matrix c = args(1).matrix_value ();
-        int discrete = args(2).int_value ();
+        octave_idx_type discrete = args(2).int_value ();
         
         if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';
         
-        int n = a.rows ();      // n: number of states
+        octave_idx_type n = a.rows ();      // n: number of states
         
-        int lda = max (1, n);
-        int ldu = max (1, n);
-        int ldc = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldu = max (1, n);
+        octave_idx_type ldc = max (1, n);
         
         // arguments out
         double scale;
@@ -95,13 +95,13 @@ For internal use only.")
         ColumnVector wi (n);
         
         // workspace
-        int* iwork = 0;  // not referenced because job = X
+        octave_idx_type* iwork = 0;  // not referenced because job = X
         
-        int ldwork = max (n*n, 3*n);
+        octave_idx_type ldwork = max (n*n, 3*n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
         
 
         // SLICOT routine SB03MD

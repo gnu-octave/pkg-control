@@ -21,20 +21,20 @@ Common code for oct-files.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: February 2012
-Version: 0.1
+Version: 0.2
 
 */
 
 #ifndef COMMON_H
 #define COMMON_H
 
-int max (int a, int b);
-int max (int a, int b, int c);
-int max (int a, int b, int c, int d);
-int max (int a, int b, int c, int d, int e);
-int min (int a, int b);
-void error_msg (const char name[], int index, int max, const char* msg[]);
-void warning_msg (const char name[], int index, int max, const char* msg[]);
-void warning_msg (const char name[], int index, int max, const char* msg[], int offset);
+octave_idx_type max (octave_idx_type a, octave_idx_type b);
+octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c);
+octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d);
+octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d, octave_idx_type e);
+octave_idx_type min (octave_idx_type a, octave_idx_type b);
+void error_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[]);
+void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[]);
+void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[], octave_idx_type offset);
 
 #endif

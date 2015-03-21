@@ -23,7 +23,7 @@ Uses SLICOT SB02OD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: February 2010
-Version: 0.4
+Version: 0.5
 
 */
 
@@ -38,24 +38,24 @@ extern "C"
                  (char& DICO, char& JOBB,
                   char& FACT, char& UPLO,
                   char& JOBL, char& SORT,
-                  int& N, int& M, int& P,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* Q, int& LDQ,
-                  double* R, int& LDR,
-                  double* L, int& LDL,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* Q, octave_idx_type& LDQ,
+                  double* R, octave_idx_type& LDR,
+                  double* L, octave_idx_type& LDL,
                   double& RCOND,
-                  double* X, int& LDX,
+                  double* X, octave_idx_type& LDX,
                   double* ALFAR, double* ALFAI,
                   double* BETA,
-                  double* S, int& LDS,
-                  double* T, int& LDT,
-                  double* U, int& LDU,
+                  double* S, octave_idx_type& LDS,
+                  double* T, octave_idx_type& LDT,
+                  double* U, octave_idx_type& LDU,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb02od__", "__control_slicot_functions__.oct");    
@@ -65,7 +65,7 @@ Slicot SB02OD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
 
     if (nargin != 7)
@@ -87,8 +87,8 @@ For internal use only.")
         Matrix q = args(2).matrix_value ();
         Matrix r = args(3).matrix_value ();
         Matrix l = args(4).matrix_value ();
-        int discrete = args(5).int_value ();
-        int ijobl = args(6).int_value ();
+        octave_idx_type discrete = args(5).int_value ();
+        octave_idx_type ijobl = args(6).int_value ();
 
         if (discrete == 0)
             dico = 'C';
@@ -100,51 +100,51 @@ For internal use only.")
         else
             jobl = 'N';
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = 0;              // p: number of outputs, not used because FACT = 'N'
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = 0;              // p: number of outputs, not used because FACT = 'N'
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldq = max (1, n);
-        int ldr = max (1, m);
-        int ldl = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldr = max (1, m);
+        octave_idx_type ldl = max (1, n);
 
         // arguments out
         double rcond;
 
-        int ldx = max (1, n);
+        octave_idx_type ldx = max (1, n);
         Matrix x (ldx, n);
 
-        int nu = 2*n;
+        octave_idx_type nu = 2*n;
         ColumnVector alfar (nu);
         ColumnVector alfai (nu);
         ColumnVector beta (nu);
 
-        int lds = max (1, 2*n + m);
+        octave_idx_type lds = max (1, 2*n + m);
         Matrix s (lds, lds);
 
         // unused output arguments
-        int ldt = max (1, 2*n + m);
+        octave_idx_type ldt = max (1, 2*n + m);
         OCTAVE_LOCAL_BUFFER (double, t, ldt * 2*n);
 
-        int ldu = max (1, 2*n);
+        octave_idx_type ldu = max (1, 2*n);
         OCTAVE_LOCAL_BUFFER (double, u, ldu * 2*n);
 
         // tolerance
         double tol = 0;  // use default value
 
         // workspace
-        int liwork = max (1, m, 2*n);
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        octave_idx_type liwork = max (1, m, 2*n);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
 
-        int ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
+        octave_idx_type ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
 
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine SB02OD

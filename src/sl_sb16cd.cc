@@ -23,7 +23,7 @@ Uses SLICOT SB16CD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -36,19 +36,19 @@ extern "C"
     int F77_FUNC (sb16cd, SB16CD)
                  (char& DICO, char& JOBD, char& JOBMR, char& JOBCF,
                   char& ORDSEL,
-                  int& N, int& M, int& P,
-                  int& NCR,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  double* F, int& LDF,
-                  double* G, int& LDG,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  octave_idx_type& NCR,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  double* F, octave_idx_type& LDF,
+                  double* G, octave_idx_type& LDG,
                   double* HSV,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb16cd__", "__control_slicot_functions__.oct");    
@@ -58,7 +58,7 @@ Slicot SB16CD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 13)
@@ -79,16 +79,16 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const int idico = args(4).int_value ();
-        int ncr = args(5).int_value ();
-        const int iordsel = args(6).int_value ();
-        const int ijobd = args(7).int_value ();
-        const int ijobmr = args(8).int_value ();
+        const octave_idx_type idico = args(4).int_value ();
+        octave_idx_type ncr = args(5).int_value ();
+        const octave_idx_type iordsel = args(6).int_value ();
+        const octave_idx_type ijobd = args(7).int_value ();
+        const octave_idx_type ijobmr = args(8).int_value ();
                        
         Matrix f = args(9).matrix_value ();
         Matrix g = args(10).matrix_value ();
 
-        const int ijobcf = args(11).int_value ();
+        const octave_idx_type ijobcf = args(11).int_value ();
         double tol = args(12).double_value ();
 
         if (idico == 0)
@@ -124,36 +124,36 @@ For internal use only.")
         }
 
 
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int p = c.rows ();      // p: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type p = c.rows ();      // p: number of outputs
 
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, p);
-        int ldd;
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, p);
+        octave_idx_type ldd;
         
         if (jobd == 'Z')
             ldd = 1;
         else
             ldd = max (1, p);
 
-        int ldf = max (1, m);
-        int ldg = max (1, n);
+        octave_idx_type ldf = max (1, m);
+        octave_idx_type ldg = max (1, n);
 
         // arguments out
         ColumnVector hsv (n);
 
         // workspace
-        int liwork;
+        octave_idx_type liwork;
 
         if (jobmr == 'B')
             liwork = 0;
         else                // if JOBMR = 'F'
             liwork = n;
 
-        int ldwork;
-        int mp;
+        octave_idx_type ldwork;
+        octave_idx_type mp;
 
         if (jobcf == 'L')
             mp = m;
@@ -164,12 +164,12 @@ For internal use only.")
                               n*(n + max(n,mp) + min(n,mp) + 6));
 
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int iwarn = 0;
-        int info = 0;
+        octave_idx_type iwarn = 0;
+        octave_idx_type info = 0;
 
 
         // SLICOT routine SB16CD

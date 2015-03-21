@@ -23,7 +23,7 @@ Uses SLICOT SB10JD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2011
-Version: 0.1
+Version: 0.2
 
 */
 
@@ -34,15 +34,15 @@ Version: 0.1
 extern "C"
 { 
     int F77_FUNC (sb10jd, SB10JD)
-                 (int& N, int& M, int& NP,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  double* E, int& LDE,
-                  int& NSYS,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                 (octave_idx_type& N, octave_idx_type& M, octave_idx_type& NP,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  double* E, octave_idx_type& LDE,
+                  octave_idx_type& NSYS,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb10jd__", "__control_slicot_functions__.oct");    
@@ -52,7 +52,7 @@ Slicot SB10JD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 5)
@@ -68,25 +68,25 @@ For internal use only.")
         Matrix d = args(3).matrix_value ();
         Matrix e = args(4).matrix_value ();
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int np = c.rows ();     // np: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type np = c.rows ();     // np: number of outputs
         
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, np);
-        int ldd = max (1, np);
-        int lde = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, np);
+        octave_idx_type ldd = max (1, np);
+        octave_idx_type lde = max (1, n);
 
         // arguments out
-        int nsys;
+        octave_idx_type nsys;
         
         // workspace
-        int ldwork = max (1, 2*n*n + 2*n + n*max (5, n + m + np));
+        octave_idx_type ldwork = max (1, 2*n*n + 2*n + n*max (5, n + m + np));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine SB10JD

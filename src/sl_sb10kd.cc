@@ -23,7 +23,7 @@ Uses SLICOT SB10KD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: July 2011
-Version: 0.3
+Version: 0.4
 
 */
 
@@ -34,20 +34,20 @@ Version: 0.3
 extern "C"
 { 
     int F77_FUNC (sb10kd, SB10KD)
-                 (int& N, int& M, int& NP,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
+                 (octave_idx_type& N, octave_idx_type& M, octave_idx_type& NP,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
                   double& FACTOR,
-                  double* AK, int& LDAK,
-                  double* BK, int& LDBK,
-                  double* CK, int& LDCK,
-                  double* DK, int& LDDK,
+                  double* AK, octave_idx_type& LDAK,
+                  double* BK, octave_idx_type& LDBK,
+                  double* CK, octave_idx_type& LDCK,
+                  double* DK, octave_idx_type& LDDK,
                   double* RCOND,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb10kd__", "__control_slicot_functions__.oct");    
@@ -57,7 +57,7 @@ Slicot SB10KD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 4)
@@ -73,18 +73,18 @@ For internal use only.")
         
         double factor = args(3).double_value ();
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int np = c.rows ();     // np: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type np = c.rows ();     // np: number of outputs
         
-        int lda = max (1, n);
-        int ldb = max (1, n);
-        int ldc = max (1, np);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type ldb = max (1, n);
+        octave_idx_type ldc = max (1, np);
         
-        int ldak = max (1, n);
-        int ldbk = max (1, n);
-        int ldck = max (1, m);
-        int lddk = max (1, m);
+        octave_idx_type ldak = max (1, n);
+        octave_idx_type ldbk = max (1, n);
+        octave_idx_type ldck = max (1, m);
+        octave_idx_type lddk = max (1, m);
         
         // arguments out
         Matrix ak (ldak, n);
@@ -94,17 +94,17 @@ For internal use only.")
         ColumnVector rcond (4);
         
         // workspace
-        int liwork = 2 * max (n, np+m);
-        int ldwork = 15*n*n + 6*n +
+        octave_idx_type liwork = 2 * max (n, np+m);
+        octave_idx_type ldwork = 15*n*n + 6*n +
                      max (14*n+23, 16*n, 2*n+np+m, 3*(np+m)) +
                      max (n*n, 11*n*np + 2*m*m + 8*np*np + 8*m*n + 4*m*np + np);
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
         
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine SB10KD

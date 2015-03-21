@@ -23,7 +23,7 @@ Uses SLICOT SG03BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: September 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -35,17 +35,17 @@ extern "C"
 { 
     int F77_FUNC (sg03bd, SG03BD)
                  (char& DICO, char& FACT, char& TRANS,
-                  int& N, int& M,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* Q, int& LDQ,
-                  double* Z, int& LDZ,
-                  double* B, int& LDB,
+                  octave_idx_type& N, octave_idx_type& M,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* Q, octave_idx_type& LDQ,
+                  double* Z, octave_idx_type& LDZ,
+                  double* B, octave_idx_type& LDB,
                   double& SCALE,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sg03bd__", "__control_slicot_functions__.oct");    
@@ -55,7 +55,7 @@ Slicot SG03BD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 4)
@@ -72,23 +72,23 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix e = args(1).matrix_value ();
         Matrix b = args(2).matrix_value ();
-        int discrete = args(3).int_value ();
+        octave_idx_type discrete = args(3).int_value ();
         
         if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';
         
-        int n = a.rows ();
-        int m = b.rows ();
+        octave_idx_type n = a.rows ();
+        octave_idx_type m = b.rows ();
         
-        int lda = max (1, n);
-        int lde = max (1, n);
-        int ldq = max (1, n);
-        int ldz = max (1, n);
-        int ldb = max (1, m, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type lde = max (1, n);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldz = max (1, n);
+        octave_idx_type ldb = max (1, m, n);
 
-        int n1 = max (m, n);
+        octave_idx_type n1 = max (m, n);
         b.resize (ldb, n1);
                 
         // arguments out
@@ -101,12 +101,12 @@ For internal use only.")
         ColumnVector beta (n);
         
         // workspace
-        int ldwork = max (1, 4*n, 6*n-6);
+        octave_idx_type ldwork = max (1, 4*n, 6*n-6);
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
         
 
         // SLICOT routine SG03BD

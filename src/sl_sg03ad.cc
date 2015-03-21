@@ -23,7 +23,7 @@ Uses SLICOT SG03AD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: January 2010
-Version: 0.2
+Version: 0.3
 
 */
 
@@ -37,19 +37,19 @@ extern "C"
                  (char& DICO, char& JOB,
                   char& FACT, char& TRANS,
                   char& UPLO,
-                  int& N,
-                  double* A, int& LDA,
-                  double* E, int& LDE,
-                  double* Q, int& LDQ,
-                  double* Z, int& LDZ,
-                  double* X, int& LDX,
+                  octave_idx_type& N,
+                  double* A, octave_idx_type& LDA,
+                  double* E, octave_idx_type& LDE,
+                  double* Q, octave_idx_type& LDQ,
+                  double* Z, octave_idx_type& LDZ,
+                  double* X, octave_idx_type& LDX,
                   double& SCALE,
                   double& SEP, double& FERR,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
-                  int& INFO);
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sg03ad__", "__control_slicot_functions__.oct");    
@@ -59,7 +59,7 @@ Slicot SG03AD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 4)
@@ -78,20 +78,20 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix e = args(1).matrix_value ();
         Matrix x = args(2).matrix_value ();
-        int discrete = args(3).int_value ();
+        octave_idx_type discrete = args(3).int_value ();
         
         if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';
         
-        int n = a.rows ();      // n: number of states
+        octave_idx_type n = a.rows ();      // n: number of states
         
-        int lda = max (1, n);
-        int lde = max (1, n);
-        int ldq = max (1, n);
-        int ldz = max (1, n);
-        int ldx = max (1, n);
+        octave_idx_type lda = max (1, n);
+        octave_idx_type lde = max (1, n);
+        octave_idx_type ldq = max (1, n);
+        octave_idx_type ldz = max (1, n);
+        octave_idx_type ldx = max (1, n);
                 
         // arguments out
         double scale;
@@ -105,13 +105,13 @@ For internal use only.")
         ColumnVector beta (n);
         
         // workspace
-        int* iwork = 0;  // not referenced because job = X
+        octave_idx_type* iwork = 0;  // not referenced because job = X
         
-        int ldwork = max (1, 4*n);
+        octave_idx_type ldwork = max (1, 4*n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        int info;
+        octave_idx_type info;
         
 
         // SLICOT routine SG03AD

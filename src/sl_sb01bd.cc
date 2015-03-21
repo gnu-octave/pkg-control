@@ -23,7 +23,7 @@ Uses SLICOT SB01BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.5
+Version: 0.6
 
 */
 
@@ -35,17 +35,17 @@ extern "C"
 { 
     int F77_FUNC (sb01bd, SB01BD)
                  (char& DICO,
-                  int& N, int& M, int& NP,
+                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& NP,
                   double& ALPHA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
                   double* WR, double* WI,
-                  int& NFP, int& NAP, int& NUP,
-                  double* F, int& LDF,
-                  double* Z, int& LDZ,
+                  octave_idx_type& NFP, octave_idx_type& NAP, octave_idx_type& NUP,
+                  double* F, octave_idx_type& LDF,
+                  double* Z, octave_idx_type& LDZ,
                   double& TOL,
-                  double* DWORK, int& LDWORK,
-                  int& IWARN, int& INFO);
+                  double* DWORK, octave_idx_type& LDWORK,
+                  octave_idx_type& IWARN, octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb01bd__", "__control_slicot_functions__.oct");     
@@ -55,7 +55,7 @@ Slicot SB01BD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 7)
@@ -71,7 +71,7 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         ColumnVector wr = args(2).column_vector_value ();
         ColumnVector wi = args(3).column_vector_value ();
-        int discrete = args(4).int_value ();
+        octave_idx_type discrete = args(4).int_value ();
         double alpha = args(5).double_value ();
         double tol = args(6).double_value ();
         
@@ -80,31 +80,31 @@ For internal use only.")
         else
             dico = 'C';
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int np = wr.rows ();
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type np = wr.rows ();
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldf = max (1, m);
-        int ldz = max (1, n);
+        octave_idx_type lda = max (1, a.rows ());
+        octave_idx_type ldb = max (1, b.rows ());
+        octave_idx_type ldf = max (1, m);
+        octave_idx_type ldz = max (1, n);
         
         // arguments out
-        int nfp;
-        int nap;
-        int nup;
+        octave_idx_type nfp;
+        octave_idx_type nap;
+        octave_idx_type nup;
         
         Matrix f (ldf, n);
         Matrix z (ldz, n);
         
         // workspace
-        int ldwork = max (1, 5*m, 5*n, 2*n+4*m);
+        octave_idx_type ldwork = max (1, 5*m, 5*n, 2*n+4*m);
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        int iwarn;
-        int info;
+        octave_idx_type iwarn;
+        octave_idx_type info;
 
 
         // SLICOT routine SB01BD

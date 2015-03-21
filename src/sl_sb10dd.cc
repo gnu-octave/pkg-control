@@ -23,7 +23,7 @@ Uses SLICOT SB10DD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: December 2009
-Version: 0.5
+Version: 0.6
 
 */
 
@@ -34,25 +34,25 @@ Version: 0.5
 extern "C"
 { 
     int F77_FUNC (sb10dd, SB10DD)
-                 (int& N, int& M, int& NP,
-                  int& NCON, int& NMEAS,
+                 (octave_idx_type& N, octave_idx_type& M, octave_idx_type& NP,
+                  octave_idx_type& NCON, octave_idx_type& NMEAS,
                   double& GAMMA,
-                  double* A, int& LDA,
-                  double* B, int& LDB,
-                  double* C, int& LDC,
-                  double* D, int& LDD,
-                  double* AK, int& LDAK,
-                  double* BK, int& LDBK,
-                  double* CK, int& LDCK,
-                  double* DK, int& LDDK,
-                  double* X, int& LDX,
-                  double* Z, int& LDZ,
+                  double* A, octave_idx_type& LDA,
+                  double* B, octave_idx_type& LDB,
+                  double* C, octave_idx_type& LDC,
+                  double* D, octave_idx_type& LDD,
+                  double* AK, octave_idx_type& LDAK,
+                  double* BK, octave_idx_type& LDBK,
+                  double* CK, octave_idx_type& LDCK,
+                  double* DK, octave_idx_type& LDDK,
+                  double* X, octave_idx_type& LDX,
+                  double* Z, octave_idx_type& LDZ,
                   double* RCOND,
                   double& TOL,
-                  int* IWORK,
-                  double* DWORK, int& LDWORK,
+                  octave_idx_type* IWORK,
+                  double* DWORK, octave_idx_type& LDWORK,
                   bool* BWORK,
-                  int& INFO);
+                  octave_idx_type& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb10dd__", "__control_slicot_functions__.oct");    
@@ -62,7 +62,7 @@ Slicot SB10DD Release 5.0\n\
 No argument checking.\n\
 For internal use only.")
 {
-    int nargin = args.length ();
+    octave_idx_type nargin = args.length ();
     octave_value_list retval;
     
     if (nargin != 7)
@@ -77,26 +77,26 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        int ncon = args(4).int_value ();
-        int nmeas = args(5).int_value ();
+        octave_idx_type ncon = args(4).int_value ();
+        octave_idx_type nmeas = args(5).int_value ();
         double gamma = args(6).double_value ();
         
-        int n = a.rows ();      // n: number of states
-        int m = b.columns ();   // m: number of inputs
-        int np = c.rows ();     // np: number of outputs
+        octave_idx_type n = a.rows ();      // n: number of states
+        octave_idx_type m = b.columns ();   // m: number of inputs
+        octave_idx_type np = c.rows ();     // np: number of outputs
         
-        int lda = max (1, a.rows ());
-        int ldb = max (1, b.rows ());
-        int ldc = max (1, c.rows ());
-        int ldd = max (1, d.rows ());
+        octave_idx_type lda = max (1, a.rows ());
+        octave_idx_type ldb = max (1, b.rows ());
+        octave_idx_type ldc = max (1, c.rows ());
+        octave_idx_type ldd = max (1, d.rows ());
         
-        int ldak = max (1, n);
-        int ldbk = max (1, n);
-        int ldck = max (1, ncon);
-        int lddk = max (1, ncon);
+        octave_idx_type ldak = max (1, n);
+        octave_idx_type ldbk = max (1, n);
+        octave_idx_type ldck = max (1, ncon);
+        octave_idx_type lddk = max (1, ncon);
         
-        int ldx = max (1, n);
-        int ldz = max (1, n);
+        octave_idx_type ldx = max (1, n);
+        octave_idx_type ldz = max (1, n);
         
         double tol = 0;
         
@@ -110,23 +110,23 @@ For internal use only.")
         ColumnVector rcond (8);
         
         // workspace
-        int m2 = ncon;
-        int m1 = m - m2;
-        int np1 = np - nmeas;
-        int np2 = nmeas;
+        octave_idx_type m2 = ncon;
+        octave_idx_type m1 = m - m2;
+        octave_idx_type np1 = np - nmeas;
+        octave_idx_type np2 = nmeas;
         
-        int liwork = max (2*max (m2, n), m, m2+np2, n*n);
-        int q = max (m1, m2, np1, np2);
-        int ldwork = max ((n+q)*(n+q+6), 13*n*n + m*m + 2*q*q + n*(m+q) +
+        octave_idx_type liwork = max (2*max (m2, n), m, m2+np2, n*n);
+        octave_idx_type q = max (m1, m2, np1, np2);
+        octave_idx_type ldwork = max ((n+q)*(n+q+6), 13*n*n + m*m + 2*q*q + n*(m+q) +
                      max (m*(m+7*n), 2*q*(8*n+m+2*q)) + 6*n +
                      max (14*n+23, 16*n, 2*n + max (m, 2*q), 3*max (m, 2*q)));
 
-        OCTAVE_LOCAL_BUFFER (int, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
         
         // error indicator
-        int info;
+        octave_idx_type info;
 
 
         // SLICOT routine SB10DD
