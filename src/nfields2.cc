@@ -9,7 +9,7 @@ Return the number of fields of the structure @var{s}.\n\
 {
   octave_value retval;
 
-  int nargin = args.length ();
+  octave_idx_type nargin = args.length ();
 
   if (nargin == 1 && args(0).is_map ())
     {

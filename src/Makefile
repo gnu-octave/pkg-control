@@ -18,7 +18,8 @@ all: __control_slicot_functions__.oct \
      is_real_vector.oct \
      is_real_matrix.oct \
      is_real_square_matrix.oct \
-     is_matrix.oct
+     is_matrix.oct \
+     nfields2.oct
 
 # TODO: Private oct-files for control package.
 
@@ -58,6 +59,9 @@ is_real_square_matrix.oct: is_real_square_matrix.cc
 
 is_matrix.oct: is_matrix.cc
 	$(MKOCTFILE) is_matrix.cc
+
+nfields2.oct: nfields2.cc
+	$(MKOCTFILE) nfields2.cc
 
 clean:
 	rm -rf *.o core octave-core *.oct *~ *.f slicot sltmp
