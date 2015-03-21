@@ -23,6 +23,9 @@ control-2.8.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ** tf
    TODO
    (Thanks to Thomas Vasileiou)
+   
+** It is now possible to cross-compile the control package.
+   (Thanks to John Donoghue)
 
 ** The control package now depends on Octave version 3.8.0 or beyond.
 
