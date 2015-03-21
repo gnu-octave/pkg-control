@@ -5,8 +5,8 @@ control-2.8.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** zero
-   Compatibility fix in the C++ oct-file to support recent Octave development
-   versions.  (Thanks to Andreas Weber)
+   Compatibility fix in the C++ oct-file to support the upcoming Octave 4.0.
+   (Thanks to Andreas Weber)
 
 ** isminimumphase
    Reverted changes from control-2.6.6.  According to the definition of
@@ -26,6 +26,9 @@ control-2.8.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
    
 ** It is now possible to cross-compile the control package.
    (Thanks to John Donoghue)
+   
+** Support for 64bit indexing, i.e. Octave versions built with the --enable-64
+   option.  (Thanks to Mike Miller)  
 
 ** The control package now depends on Octave version 3.8.0 or beyond.
 
