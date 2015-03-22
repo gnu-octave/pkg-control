@@ -169,7 +169,7 @@
 % optiPID                          Lukas Reichlin                       July 2009
 % ===============================================================================
 % Numerical Optimization of an A/H PID Controller
-% Required OCTAVE Packages: control, optim (and its dependencies)
+% Required OCTAVE Packages: control
 % Required MATLAB Toolboxes: Control, Optimization
 % ===============================================================================
 
@@ -212,12 +212,7 @@ C_AH = optiPIDctrl (kp_AH, Ti_AH, Td_AH);
 C_par_0 = [kp_AH; Ti_AH; Td_AH];
 
 % Optimization
-if (exist ('fminsearch'))
-  warning ('optiPID: optimization starts, please be patient ...');
-else
-  error ('optiPID: please load/install optim package to proceed');
-end
-
+warning ('optiPID: optimization starts, please be patient ...');
 C_par_opt = fminsearch (@optiPIDfun, C_par_0);
 
 % Optimized Controller
