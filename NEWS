@@ -21,7 +21,9 @@ control-2.8.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
    called with 4 arguments.  (Thanks to Ulf Schaper)
    
 ** tf
-   TODO
+   Resolved issues in MIMO state-space to transfer function conversion
+   by implementing a more robust algorithm in SLICOT routine TB01ZD.
+   The same algorithm is used in Octave's krylov function.
    (Thanks to Thomas Vasileiou)
    
 ** It is now possible to cross-compile the control package.
