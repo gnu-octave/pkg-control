@@ -1,6 +1,27 @@
       SUBROUTINE TB01ZD( JOBZ, N, P, A, LDA, B, C, LDC, NCONT, Z, LDZ,
      $                   TAU, TOL, DWORK, LDWORK, INFO )
 C
+C     WARNING
+C
+C     This file alters the SLICOT routine TB01ZD.  It is intended
+C     for use from the Octave Control Systems Package and modifies
+C     the original SLICOT implementation.  This file itself is *NOT* 
+C     part of SLICOT and the authors from NICONET e.V. are *NOT* 
+C     responsible for it.  See file DESCRIPTION for the current
+C     maintainer of the Octave control package.
+C
+C     In altered implementation uses the algorithm described in [A]
+C     to determine the minimum realization of a single-input system.
+C     This implementation uses pivoting between subsequent Householder
+C     reflections to achieve better numerical accuracy (see METHOD section
+C     of the original routine for more information).  Note that the original
+C     algorthim will be used if the user asks for the factored form of the
+C     similarity transformations (JOBZ = 'F').
+C
+C     [A] A. Hodel, P. Misra, 'Partial Pivoting in the Computation
+C     of Krylov Subspaces of Large Sparse Systems', Proceedings of the
+C     42nd IEEE Conference on Decision and Control, December 2003.
+C
 C     SLICOT RELEASE 5.0.
 C
 C     Copyright (c) 2002-2010 NICONET e.V.
@@ -206,7 +227,7 @@ C     .. Array Arguments ..
      $                  Z(LDZ,*)
 C     .. Local Scalars ..
       LOGICAL           LJOBF, LJOBI, LJOBZ, LPIV
-      INTEGER           ITAU, J, JJ, IDXM
+      INTEGER           ITAU, J, IDXM
       DOUBLE PRECISION  ANORM, B1, BNORM, FANORM, FBNORM, H, THRESH,
      $                  TOLDEF, WRKOPT, MAXV, MINV
 C     .. Local Arrays ..
@@ -217,7 +238,7 @@ C     .. External Functions ..
       EXTERNAL          DLAMCH, DLANGE, LSAME
 C     .. External Subroutines ..
       EXTERNAL          DGEHRD, DLACPY, DLARF, DLARFG, DLASET, DORGQR,
-     $                  DORMHR, MB01PD, XERBLA, DSWAP
+     $                  DORMHR, MB01PD, XERBLA, DSWAP, IDAMAX
 C     .. Intrinsic Functions ..
       INTRINSIC         ABS, DBLE, MAX
 C     .. Executable Statements ..
@@ -318,22 +339,8 @@ C           requested, use pivoting. Exchange rows so biggest norm
 C           element is in the first row.
 C
             IF ( .NOT.LJOBF ) THEN
-               IDXM = 1
-               MAXV = ABS( B(1) )
-C
-C              WHILE ( J < N )
-C
-               DO 10 J = 2, N
-                  H = ABS ( B(J) )
-                  IF ( H.GT.MAXV ) THEN
-                     IDXM = J
-                     MAXV = H
-                  ENDIF
-   10          CONTINUE
+               IDXM = IDAMAX( N, B, 1 )
                LPIV = IDXM.NE.1
-C
-C              END WHILE 10
-C
 C              Exchange rows and columns in A and C 
 C
                IF ( LPIV ) THEN
@@ -432,15 +439,15 @@ C
 C
 C           WHILE ( J < N and ABS( A(J+1,J) ) > TOLDEF ) DO
 C
-   20       CONTINUE
+   10       CONTINUE
             IF ( J.LT.N ) THEN
                IF ( ABS( A(J+1,J) ).GT.TOLDEF ) THEN
                   J = J + 1
-                  GO TO 20
+                  GO TO 10
                END IF
             END IF
 C
-C        END WHILE 20
+C        END WHILE 10
 C
 C        First negligible sub-diagonal element found, if any: set NCONT.
 C
@@ -456,29 +463,12 @@ C
 C           Iterate over matrix subdiagonal elements.
 C           WHILE ( J < N-1 and MAX( ABS( A(J+1,:) ) ) > TOLDEF ) DO
 C
-   30       CONTINUE
-            IDXM = J + 1
-            JJ = IDXM + 1
-            MAXV = ABS( A(J+1,J) )
+   20       CONTINUE
+            IDXM = IDAMAX( N-J, A(J+1,J), 1 )+J
+            MAXV = ABS( A(IDXM,J) )
+            LPIV = IDXM.NE.J+1
 C
-C           Find row element with maximum norm.
-C           WHILE ( JJ < N ) DO
-C
-   40       CONTINUE 
-            IF ( JJ.LE.N ) THEN
-               H = ABS ( A(JJ,J) )
-               IF ( H.GT.MAXV ) THEN
-                  IDXM = JJ
-                  MAXV = H
-               ENDIF
-               JJ = JJ + 1
-               GOTO 40
-            ENDIF
-            LPIV = IDXM.NE.J+1 
-C
-C           END WHILE 40
-C
-C           Check if next vector is big enough. If not stop.
+C           Check if next vector norm is big enough. If not stop.
 C
             IF ( MAXV.GT.TOLDEF ) THEN
 C
@@ -525,12 +515,12 @@ C
                TAU(ITAU) = H
                ITAU = ITAU + 1
                J = J + 1
-               IF ( J.LT.N-1 ) GOTO 30
+               IF ( J.LT.N-1 ) GOTO 20
             ELSE
               NCONT = J
             ENDIF
 C
-C           END WHILE 30
+C           END WHILE 20
 C
 C           Annihilate the lower part of A and B.
 C
@@ -542,46 +532,52 @@ C
 
          ENDIF
 C
-C        Find the absolute value of the diagonal of the
-C        controllability matrix.
-C        Workspace: need N.
+C        If tolerance is not provided by user, recheck
+C        the subspace dimensions.
 C
-         H = ABS( B(1) )
-         DWORK(1) = H
-         MINV = H
-         J = 2
-   50    CONTINUE
-         IF ( J.LE.NCONT ) THEN
-            H = H*ABS( A(J,J-1) )
-            IF ( MINV.GT.H ) 
-     $         MINV = H
-            DWORK(J) = MINV
-            J = J + 1
-            GOTO 50
-         ENDIF
+         IF ( TOL.LE.ZERO ) THEN
 C
-C        Check if controllability matrix singular.
-C        If yes use tolerance given in "Matrix computation
-C        - Golub & van Loan, 3rd Edition, p. 345".
+C           Find the absolute value of the diagonal
+C           of the controllability matrix.
+C           Workspace: need N.
 C
-         IF ( MINV.LT.TOLDEF ) THEN
-            TOLDEF = 4*N*TOLDEF
-            J = 1
+            H = ABS( B(1) )
+            DWORK(1) = H
+            MINV = H
+            J = 2
+   30       CONTINUE
+            IF ( J.LE.NCONT ) THEN
+               H = H*ABS( A(J,J-1) )
+               IF ( MINV.GT.H ) 
+     $            MINV = H
+               DWORK(J) = MINV
+               J = J + 1
+               GOTO 30
+            ENDIF
 C
-C           WHILE ( J < NCONT and ABS( A(J+1,J) ) > TOLDEF ) DO
+C           Check if controllability matrix singular.
+C           If yes use tolerance given in "Matrix computation
+C           - Golub & van Loan, 3rd Edition, p. 345".
 C
-   60       CONTINUE
-            IF ( J.LT.NCONT ) THEN
-               IF ( ABS( A(J+1,J) ).GT.TOLDEF ) THEN
-                  J = J + 1
-                  GO TO 60
+            IF ( MINV.LT.TOLDEF ) THEN
+               TOLDEF = 1D1*N*TOLDEF
+               J = 1
+C
+C              WHILE ( J < NCONT and ABS( A(J+1,J) ) > TOLDEF ) DO
+C
+   40          CONTINUE
+               IF ( J.LT.NCONT ) THEN
+                  IF ( ABS( A(J+1,J) ).GT.TOLDEF ) THEN
+                     J = J + 1
+                     GO TO 40
+                  END IF
                END IF
-            END IF
 C
-C           END WHILE 60
+C              END WHILE 40
 C
-            IF ( DWORK(J).GT.TOLDEF )
-     $          NCONT = J
+               IF ( DWORK(J).GT.TOLDEF )
+     $            NCONT = J
+            ENDIF
          ENDIF
 C
 C        Undo scaling of A and B.

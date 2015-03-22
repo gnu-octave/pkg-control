@@ -1,4 +1,4 @@
-## Copyright (C) 2013   Thomas Vasileiou
+## Copyright (C) 2013-2015   Thomas Vasileiou
 ##
 ## This file is part of LTI Syncope.
 ##
