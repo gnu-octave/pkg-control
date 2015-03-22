@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2014   Thomas Vasileiou
+Copyright (C) 2014-2015   Thomas Vasileiou
 
 This file is part of LTI Syncope.
 
