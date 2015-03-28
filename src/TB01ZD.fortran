@@ -350,8 +350,8 @@ C
                   CALL DSWAP( N, A, LDA, A(IDXM,1), LDA )
                   CALL DSWAP( N, A, 1, A(1,IDXM), 1 )
                   CALL DSWAP( P, C, 1, C(1,IDXM), 1 )
-               ENDIF
-            ENDIF
+               END IF
+            END IF
 C
 C           Transform B by a Householder matrix Z1: store vector
 C           describing this temporarily in B and in the local scalar H.
@@ -382,9 +382,9 @@ C
                   Z(IDXM,IDXM) = ZERO
                   Z(1,IDXM) = ONE
                   Z(IDXM,1) = ONE
-               ENDIF
+               END IF
                CALL DLARF( 'Right', N, N, B, 1, H, Z, LDZ, DWORK )
-            ENDIF 
+            END IF 
 
             B(1) = B1
             TAU(1) = H
@@ -464,61 +464,63 @@ C           Iterate over matrix subdiagonal elements.
 C           WHILE ( J < N-1 and MAX( ABS( A(J+1,:) ) ) > TOLDEF ) DO
 C
    20       CONTINUE
-            IDXM = IDAMAX( N-J, A(J+1,J), 1 )+J
-            MAXV = ABS( A(IDXM,J) )
-            LPIV = IDXM.NE.J+1
+            IF ( J.LT.N-1 ) THEN 
+               IDXM = IDAMAX( N-J, A(J+1,J), 1 )+J
+               MAXV = ABS( A(IDXM,J) )
+               LPIV = IDXM.NE.J+1
 C
-C           Check if next vector norm is big enough. If not stop.
+C              Check if next vector norm is big enough. If not stop.
 C
-            IF ( MAXV.GT.TOLDEF ) THEN
+               IF ( MAXV.GT.TOLDEF ) THEN
 C
-C              Do the swaping
+C                 Do the swaping
 C
-               IF ( LPIV ) THEN
-                  CALL DSWAP( N+1-J, A(J+1,J), LDA, A(IDXM,J), LDA )
-                  CALL DSWAP( N, A(1,J+1), 1, A(1,IDXM), 1 )
-                  CALL DSWAP( P, C(1,J+1), 1, C(1,IDXM), 1 )
-               ENDIF
+                  IF ( LPIV ) THEN
+                     CALL DSWAP( N+1-J, A(J+1,J), LDA, A(IDXM,J), LDA )
+                     CALL DSWAP( N, A(1,J+1), 1, A(1,IDXM), 1 )
+                     CALL DSWAP( P, C(1,J+1), 1, C(1,IDXM), 1 )
+                  END IF
 C
-C              Calculate Householder reflection.
+C                 Calculate Householder reflection.
 C
-               CALL DLARFG( N-J, A(J+1,J), A(J+2,J), 1, H )
-               B1 = A(J+1,J)
-               A(J+1,J) = ONE
+                  CALL DLARFG( N-J, A(J+1,J), A(J+2,J), 1, H )
+                  B1 = A(J+1,J)
+                  A(J+1,J) = ONE
 C
-C              Apply reflection to matrix A.
-C              Workspace: need N.
-C
-               CALL DLARF( 'Right', N, N-J, A(J+1,J), 1, H,
-     $            A(1,J+1), LDA, DWORK )
-               CALL DLARF( 'Left', N-J, N-J, A(J+1,J), 1, H,
-     $            A(J+1,J+1), LDA, DWORK )
-C
-C              Apply reflection to matrix C.
-C              Workspace: need P.
-C
-               CALL DLARF( 'Right', P, N-J, A(J+1,J), 1, H,
-     $            C(1,J+1), LDC, DWORK )
-C
-C              Form orthogonal transformation matrix Z
-C              Workspace: need N.
-C
-               IF ( LJOBI ) THEN
-                  IF ( LPIV )
-     $               CALL DSWAP( N, Z(1,J+1), 1, Z(1,IDXM), 1 )
+C                 Apply reflection to matrix A.
+C                 Workspace: need N.
 C
                   CALL DLARF( 'Right', N, N-J, A(J+1,J), 1, H,
-     $               Z(1,J+1), LDZ, DWORK )
-               ENDIF
+     $               A(1,J+1), LDA, DWORK )
+                  CALL DLARF( 'Left', N-J, N-J, A(J+1,J), 1, H,
+     $               A(J+1,J+1), LDA, DWORK )
+C
+C                 Apply reflection to matrix C.
+C                 Workspace: need P.
+C
+                  CALL DLARF( 'Right', P, N-J, A(J+1,J), 1, H,
+     $               C(1,J+1), LDC, DWORK )
+C
+C                 Form orthogonal transformation matrix Z
+C                 Workspace: need N.
+C
+                  IF ( LJOBI ) THEN
+                     IF ( LPIV )
+     $                  CALL DSWAP( N, Z(1,J+1), 1, Z(1,IDXM), 1 )
+C
+                     CALL DLARF( 'Right', N, N-J, A(J+1,J), 1, H,
+     $                  Z(1,J+1), LDZ, DWORK )
+                  END IF
 C                  
-               A(J+1,J) = B1
-               TAU(ITAU) = H
-               ITAU = ITAU + 1
-               J = J + 1
-               IF ( J.LT.N-1 ) GOTO 20
-            ELSE
-              NCONT = J
-            ENDIF
+                  A(J+1,J) = B1
+                  TAU(ITAU) = H
+                  ITAU = ITAU + 1
+                  J = J + 1
+                  GOTO 20
+               ELSE
+                  NCONT = J
+               END IF
+            END IF
 C
 C           END WHILE 20
 C
@@ -530,7 +532,7 @@ C
             IF ( N.GT.1 )
      $         CALL DLASET( 'Full',  N-1, 1, ZERO, ZERO, B(2), N-1 )
 
-         ENDIF
+         END IF
 C
 C        If tolerance is not provided by user, recheck
 C        the subspace dimensions.
@@ -553,14 +555,14 @@ C
                DWORK(J) = MINV
                J = J + 1
                GOTO 30
-            ENDIF
+            END IF
 C
 C           Check if controllability matrix singular.
 C           If yes use tolerance given in "Matrix computation
 C           - Golub & van Loan, 3rd Edition, p. 345".
 C
             IF ( MINV.LT.TOLDEF ) THEN
-               TOLDEF = 1D1*N*TOLDEF
+               TOLDEF = 4.D0*N*TOLDEF
                J = 1
 C
 C              WHILE ( J < NCONT and ABS( A(J+1,J) ) > TOLDEF ) DO
@@ -577,8 +579,8 @@ C              END WHILE 40
 C
                IF ( DWORK(J).GT.TOLDEF )
      $            NCONT = J
-            ENDIF
-         ENDIF
+            END IF
+         END IF
 C
 C        Undo scaling of A and B.
 C
