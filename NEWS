@@ -34,6 +34,9 @@ control-2.8.0   Release Date: 2015-03-22   Release Manager: Lukas Reichlin
 
 ** The control package now depends on Octave version 3.8.0 or beyond.
 
+** In order to comply with modified Octave Forge rules, the package no longer
+   auto-loads.  See "help pkg" for details on auto-loading.
+
 
 ===============================================================================
 control-2.6.6   Release Date: 2014-10-11   Release Manager: Lukas Reichlin
