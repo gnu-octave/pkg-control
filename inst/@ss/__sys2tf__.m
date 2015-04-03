@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
+## Version: 0.6
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
@@ -35,25 +35,30 @@ function [retsys, retlti] = __sys2tf__ (sys)
       [num, den] = __sl_tb04bd__ (a, b, c, d, scaled);
     endif
   catch
-    ## sys.e was probably singular, therefore ssdata failed.
-    if (issiso (sys))
-      [num, den] = __siso_ss2tf__ (sys);
-    else
-      [p, m] = size (sys);
-      num = cell (p, m);
-      den = cell (p, m);
-      for i = 1 : p
-        for j = 1 : m
-          idx = substruct ("()", {i, j});
-          tmp = subsref (sys, idx);             # extract siso model
-          tmp = minreal (tmp);                  # irreducible descriptor representation
-          [n, d] = __siso_ss2tf__ (tmp);
-          num(i, j) = n;
-          den(i, j) = d;
+    if (strcmp (lasterror.identifier, "dss:improper"))
+      ## sys is non-realizable, therefore ssdata failed.
+      if (issiso (sys))
+        [num, den] = __siso_ss2tf__ (sys);
+      else
+        [p, m] = size (sys);
+        num = cell (p, m);
+        den = cell (p, m);
+        for i = 1 : p
+          for j = 1 : m
+            idx = substruct ("()", {i, j});
+            tmp = subsref (sys, idx);             # extract siso model
+            tmp = minreal (tmp);                  # irreducible descriptor representation
+            [n, d] = __siso_ss2tf__ (tmp);
+            num(i, j) = n;
+            den(i, j) = d;
+          endfor
         endfor
-      endfor
+      endif
+      tsam = get (sys, "tsam");
+    else
+      ## something else happened
+      rethrow (lasterror);
     endif
-    tsam = get (sys, "tsam");
   end_try_catch
 
   if (sg_flag)

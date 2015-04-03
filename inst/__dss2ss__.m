@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.2
+## Version: 0.3
 
 function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
 
@@ -30,7 +30,7 @@ function [a, b, c, d, e] = __dss2ss__ (a, b, c, d, e)
     ## check whether regular state-space representation is possible
     [~, ~, ~, ~, ranke, rnka22] = __sl_tg01fd__ (a, e, b, c, false, 0);
     if (ranke+rnka22 < rows (a))
-      error ("ss: dss2ss: this descriptor system cannot be converted to regular state-space form");
+      error ("dss:improper", "ss: dss2ss: this descriptor system cannot be converted to regular state-space form");
     endif
   endif
 
