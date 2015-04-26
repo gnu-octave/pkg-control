@@ -38,7 +38,7 @@
 ## @end ifnottex
 ## If no output arguments are given, the critical distance 1/Ms
 ## is plotted on a Nyquist diagram.
-## In contrast to gain and phase margin as computed by command
+## In contrast to gain and phase margin as computed by function
 ## @command{margin}, the sensitivity @var{Ms} is a more robust
 ## criterion to assess the stability of a feedback system.
 ##
@@ -52,7 +52,7 @@
 ## @item C
 ## Controller model.  Any type of @acronym{LTI} system.
 ## @item C1, C2, @dots{}
-## If several controllers are specified, command @command{sensitivity}
+## If several controllers are specified, function @command{sensitivity}
 ## computes the sensitivity @var{Ms} for each of them in combination
 ## with plant @var{P}.
 ## @end table

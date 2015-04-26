@@ -58,7 +58,7 @@
 ## @item opt
 ## Optional struct with keys as field names.
 ## Struct @var{opt} can be created directly or
-## by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+## by function @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -184,7 +184,7 @@
 ## false if @code{G.scaled == true}.
 ## Note that for @acronym{MIMO} models, proper scaling of both inputs and outputs
 ## is of utmost importance.  The input and output scaling can @strong{not}
-## be done by the equilibration option or the @command{prescale} command
+## be done by the equilibration option or the @command{prescale} function
 ## because these functions perform state transformations only.
 ## Furthermore, signals should not be scaled simply to a certain range.
 ## For all inputs (or outputs), a certain change should be of the same

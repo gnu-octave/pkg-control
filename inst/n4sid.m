@@ -38,7 +38,7 @@
 ## @item opt
 ## Optional struct with keys as field names.
 ## Struct @var{opt} can be created directly or
-## by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+## by function @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
 ## @end table
 ##
 ##

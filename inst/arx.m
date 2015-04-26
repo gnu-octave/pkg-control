@@ -45,7 +45,7 @@
 ## @item opt
 ## Optional struct with keys as field names.
 ## Struct @var{opt} can be created directly or
-## by command @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
+## by function @command{options}.  @code{opt.key1 = value1, opt.key2 = value2}.
 ## @end table
 ##
 ##
@@ -73,7 +73,7 @@
 ##
 ## @item 'nk'
 ## Input-output delay specified as number of sampling instants.
-## Scalar positive integer.  This corresponds to a call to command
+## Scalar positive integer.  This corresponds to a call to function
 ## @command{nkshift}, followed by padding the B polynomial with
 ## @var{nk} leading zeros.
 ## @end table

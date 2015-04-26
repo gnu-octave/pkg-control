@@ -22,7 +22,7 @@
 ## If no output arguments are given, both gain and phase margin are plotted on a bode diagram.
 ## Otherwise, the margins and their corresponding frequencies are computed and returned.
 ## A more robust criterion to assess the stability of a feedback system is the sensitivity Ms
-## computed by command @command{sensitivity}.
+## computed by function @command{sensitivity}.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -46,7 +46,7 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## Uses command @command{roots} to calculate the frequencies
+## Uses function @command{roots} to calculate the frequencies
 ## @var{w_gamma}, @var{w_phi} from special polynomials created
 ## from the transfer function of @var{sys} as listed below
 ## in section @guillemetleft{}Equations@guillemetright{}.

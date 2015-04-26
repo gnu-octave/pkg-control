@@ -21,7 +21,7 @@
 ## Filter output and input signals of dataset @var{dat}.
 ## The filter is specified either by @acronym{LTI} system @var{sys}
 ## or by transfer function polynomials @var{b} and @var{a} as described
-## in the help text of the built-in filter command.  Type @code{help filter}
+## in the help text of Octave's built-in filter function.  Type @code{help filter}
 ## for more information.
 ##
 ## @strong{Inputs}

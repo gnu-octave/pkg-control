@@ -27,7 +27,7 @@
 ## Requires the signal package to be installed.
 ##
 ## @strong{Algorithm}@*
-## Uses commands @command{fir1} and @command{resample}
+## Uses functions @command{fir1} and @command{resample}
 ## from the signal package.
 ##
 ## @strong{References}@*

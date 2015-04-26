@@ -90,7 +90,7 @@ endfunction
 ## test error
 %!shared mms
 %! 
-%! mm = tf([3, 5, 0], [4, 1]);
+%! mm = tf ([3, 5, 0], [4, 1]);
 %! mms = ss (mm);
 %!error (__dss2ss__ (mms.a, mms.b, mms.c, mms.d, mms.e));
 
