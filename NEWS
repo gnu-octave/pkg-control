@@ -1,13 +1,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-2.8.1   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
+control-2.8.1   Release Date: 2015-05-03   Release Manager: Lukas Reichlin
 ===============================================================================
 
 ** tf
-   Revamped the modifications of TB01ZD from control version 2.8.0.
-   The function now uses LAPACK routines to find the maximum norm element.
-   (Thanks to Thomas Vasileiou)
+   -- Revamped the modifications of TB01ZD from control version 2.8.0.
+      The function now uses LAPACK routines to find the maximum norm element.
+      (Thanks to Thomas Vasileiou)
+   -- Improved error handling when converting state-space models.
 
 
 ===============================================================================
