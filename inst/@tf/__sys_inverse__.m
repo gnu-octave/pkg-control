@@ -20,15 +20,13 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __sys_inverse__ (sys)
 
-  nvec = size (sys);
-  num = sys.num;
-  den = sys.den;
-
-  if (all (nvec == 1))      # SISO
+  if (issiso (sys))         # SISO
+    num = sys.num;
+    den = sys.den;
     if (num{1,1} == 0)      # catch case num = 0
       sys.num(1,1) = tfpoly (0);
       sys.den(1,1) = tfpoly (1);
