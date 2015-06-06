@@ -129,6 +129,10 @@ function [sys, x0, info] = __slicot_identification__ (method, nout, dat, varargi
   if (e > 1)
     nobr = min (nobr, fix (min (ns) / 2));
   endif
+
+  if (nobr < 1)
+    error ("%s: for the given system dimensions, the iddata dataset does not contain enough samples per experiment", method);
+  endif
   
   if (isempty (s) && isempty (n))
     ctrl = 0;                           # confirm system order estimate
