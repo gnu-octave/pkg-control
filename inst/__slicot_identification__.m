@@ -131,7 +131,8 @@ function [sys, x0, info] = __slicot_identification__ (method, nout, dat, varargi
   endif
 
   if (nobr < 1)
-    error ("%s: for the given system dimensions, the iddata dataset does not contain enough samples per experiment", method);
+    error ("%s: for the given system dimensions (%dx%d), the iddata dataset does not contain enough samples per experiment", ...
+           method, p, m);
   endif
   
   if (isempty (s) && isempty (n))
