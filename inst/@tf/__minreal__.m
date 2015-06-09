@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = __minreal__ (sys, tol)
 
@@ -59,12 +59,6 @@ function sys = __minreal__ (sys, tol)
 
       num = real (gain * poly (zer));
       den = real (poly (pol));
-
-      num_idx = find (abs (num) < sqrt_eps);    # suppress numerical noise
-      den_idx = find (abs (den) < sqrt_eps);    # in polynomial coefficients
-
-      num(num_idx) = 0;
-      den(den_idx) = 0;
 
       sys.num{ny, nu} = tfpoly (num);
       sys.den{ny, nu} = tfpoly (den);
