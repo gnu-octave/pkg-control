@@ -64,7 +64,7 @@ sigma (P)
 % Relative-Gain Array
 RGA = tf (P) .* tf (inv (P)).'
 
-RGA(0)  % FIXME
+RGA(0)  % FIXED by replacing minreal by sminreal in sys2tf
 
 %{
 Result from the Dark Side:

@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.6
+## Version: 0.7
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
@@ -47,7 +47,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
           for j = 1 : m
             idx = substruct ("()", {i, j});
             tmp = subsref (sys, idx);             # extract siso model
-            tmp = minreal (tmp);                  # irreducible descriptor representation
+            tmp = sminreal (tmp);                 # sminreal is more suitable than minreal here
             [n, d] = __siso_ss2tf__ (tmp);
             num(i, j) = n;
             den(i, j) = d;
