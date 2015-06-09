@@ -1,6 +1,24 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.8.2   Release Date: 2015-06-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   Fixed a problem when converting certain MIMO descriptor state-space systems
+   to transfer function models.
+
+** minreal
+   Fixed bug #43263.  <http://savannah.gnu.org/bugs/?43263>
+   Affected were transfer function models.  (Thanks to Endre Kozma)
+
+** n4sid, moesp, moen4
+   Fixed bug #41716.  <http://savannah.gnu.org/bugs/?41716>
+   Display a meaningful error message when the iddata dataset contains not
+   enough samples per experiment.  (Reported by John W. Eaton)
+
+
+===============================================================================
 control-2.8.1   Release Date: 2015-05-03   Release Manager: Lukas Reichlin
 ===============================================================================
 
