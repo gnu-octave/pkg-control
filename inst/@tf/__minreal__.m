@@ -24,11 +24,7 @@
 
 function sys = __minreal__ (sys, tol)
 
-  ## TODO: Once ZPK models are implemented, convert TF to ZPK,
-  ##       do cancellations over there and convert back to TF
-
   sqrt_eps = sqrt (eps);                        # treshold for zero
-
   [p, m] = size (sys);
 
   for ny = 1 : p
@@ -59,6 +55,17 @@ function sys = __minreal__ (sys, tol)
 
       num = real (gain * poly (zer));
       den = real (poly (pol));
+      
+      [n, d] = tfdata (sisosys, "vector");
+      
+      if (length (num) == length (n) && length (den) == length (d))
+        if (d(1) != 1)
+          n /= d(1);
+          d /= d(1);
+        endif
+        num = n;
+        den = d;
+      endif
 
       sys.num{ny, nu} = tfpoly (num);
       sys.den{ny, nu} = tfpoly (den);
