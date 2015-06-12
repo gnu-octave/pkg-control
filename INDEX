@@ -27,7 +27,7 @@ Model Conversions
   @lti/prescale
   @lti/xperm
 Model Interconnections
-  @lti/append
+  append
   @lti/blkdiag
   @lti/connect
   @lti/feedback

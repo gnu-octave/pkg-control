@@ -139,7 +139,7 @@ function P = augw (G, W1 = [], W2 = [], W3 = [])
 
   Pu = Pu1 * G  +  Pu2;
 
-  P = append (W1, W2, W3, eye (p, p)) * [Pr, Pu];
+  P = blkdiag (W1, W2, W3, eye (p, p)) * [Pr, Pu];
 
   P = mktito (P, p, m);
 
@@ -156,7 +156,7 @@ function [W, p, m] = __adjust_weighting__ (W, s)
   elseif (m == 1)                     # model is SISO or SIMO
     tmp = cell (s, 1);
     tmp(1:s) = W;
-    W = append (tmp{:});              # stack single-input model s times
+    W = blkdiag (tmp{:});             # stack single-input model s times
     [p, m] = size (W);                # weighting function now of correct size
   else                                # model is MIMO or MISO
     error ("augw: %s must have 1 or %d inputs", inputname (1), s);

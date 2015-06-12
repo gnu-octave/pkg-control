@@ -22,16 +22,10 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = append (varargin)
 
-  sys = varargin{1};
-
-  if (nargin > 1)
-    for k = 2 : nargin
-      sys = __sys_group__ (sys, varargin{k});
-    endfor
-  endif
+  sys = blkdiag (varargin{:});
 
 endfunction

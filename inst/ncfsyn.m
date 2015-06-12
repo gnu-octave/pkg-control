@@ -307,7 +307,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   if (nargout > 1)
     ## FIXME: is this really the same thing as the dark side does?
-    N = append (eye (p), Ks, Gs);
+    N = blkdiag (eye (p), Ks, Gs);
     M = [zeros(p,p), zeros(p,m),     eye(p);
              eye(p), zeros(p,m), zeros(p,p);
          zeros(m,p),     eye(m), zeros(m,p)];
@@ -345,7 +345,7 @@ function W = __adjust_weighting__ (W, s)
     elseif (m == 1 && p == 1)  # model is SISO
       tmp = cell (s, 1);
       tmp(1:s) = W;
-      W = append (tmp{:});     # stack SISO model s times
+      W = blkdiag (tmp{:});    # stack SISO model s times
     else                       # model is invalid
       error ("ncfsyn: %s must have 1 or %d inputs and outputs", inputname (1), s);
     endif

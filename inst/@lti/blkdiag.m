@@ -16,16 +16,20 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2})
+## @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
 ## Block-diagonal concatenation of @acronym{LTI} models.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.1
+## Version: 0.2
 
 function sys = blkdiag (varargin)
 
-  sys = append (varargin{:});
+  sys = varargin{1};
+
+  for k = 2 : nargin
+    sys = __sys_group__ (sys, varargin{k});
+  endfor
 
 endfunction
