@@ -30,6 +30,10 @@
 
 function sys = repsys (varargin)
 
+  if (nargin == 0)
+    print_usage ();
+  endif
+
   sys = repmat (varargin{:});   # repmat is overloaded for LTI systems
 
 endfunction

@@ -26,6 +26,10 @@
 
 function sys = append (varargin)
 
+  if (nargin == 0)
+    print_usage ();
+  endif
+
   sys = blkdiag (varargin{:});
 
 endfunction
