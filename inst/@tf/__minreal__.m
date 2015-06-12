@@ -58,7 +58,7 @@ function sys = __minreal__ (sys, tol)
       
       [n, d] = tfdata (sisosys, "vector");
       
-      if (length (num) == length (n) && length (den) == length (d))
+      if (size_equal (num, n) && size_equal (den, d))
         if (d(1) != 1)
           n /= d(1);
           d /= d(1);
