@@ -17,6 +17,10 @@ control-2.8.2   Release Date: 2015-06-dd   Release Manager: Lukas Reichlin
    Display a meaningful error message when the iddata dataset contains not
    enough samples per experiment.  (Reported by John W. Eaton)
 
+** rlocus
+   Fixed bug #44949.  <http://savannah.gnu.org/bugs/?44949>
+   (Thanks to Doug Stewart)
+
 
 ===============================================================================
 control-2.8.1   Release Date: 2015-05-03   Release Manager: Lukas Reichlin
