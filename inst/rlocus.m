@@ -60,7 +60,7 @@
 
 ## Adapted-By: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Date: December 2009
-## Version: 0.5
+## Version: 0.6
 
 function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment, min_k, max_k)
 
@@ -171,7 +171,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   nroots = lden - 1;
   for ii = 1:ngain
    gain = gvec(ii);
-   rlpol(1:nroots,ii) = vec(sort (roots (den + gain*num)));
+   rlpol(1:nroots,ii) = vec(sort_roots (roots (den + gain*num)));
   endfor
 
   ## set smoothing tolerance 
@@ -351,3 +351,21 @@ endfunction
 function [b, a] = swap (a, b)
 
 endfunction
+
+
+function c = sort_roots (c)
+
+  ## This function sorts complex numbers such that
+  ## 1) All the pure reals come first and are sorted.
+  ## 2) All complex numbers are sorted by the regular sort. 
+
+  c = vec (c);
+
+  idx = (imag (c) == 0);
+  cre = sort (c(idx));
+  cim = sort (c(! idx));
+  
+  c = vertcat (cre, cim);
+  
+endfunction
+
