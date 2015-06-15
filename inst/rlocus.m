@@ -171,7 +171,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   nroots = lden - 1;
   for ii = 1:ngain
    gain = gvec(ii);
-   rlpol(1:nroots,ii) = vec(sort_roots (roots (den + gain*num)));
+   rlpol(1:nroots,ii) = vec(sort_complex_roots (roots (den + gain*num)));
   endfor
 
   ## set smoothing tolerance 
@@ -353,7 +353,7 @@ function [b, a] = swap (a, b)
 endfunction
 
 
-function c = sort_roots (c)
+function c = sort_complex_roots (c)
 
   ## This function sorts complex numbers such that
   ## 1) All the pure reals come first and are sorted.
