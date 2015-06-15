@@ -19,7 +19,11 @@ control-2.8.2   Release Date: 2015-06-dd   Release Manager: Lukas Reichlin
 
 ** rlocus
    Fixed bug #44949.  <http://savannah.gnu.org/bugs/?44949>
+   Fixed a problem with discontinuous plots for systems like the one below.
    (Thanks to Doug Stewart)
+
+     sys = tf ([1 0 0 0 0 0 1], [1 0 0 0 1 0 0 0 0 1])
+     rlocus (sys)
 
 
 ===============================================================================
