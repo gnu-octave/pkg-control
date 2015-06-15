@@ -216,7 +216,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     ngain1 = length (gvec);
     for ii = (ngain+1):ngain1
       gain = gvec(ii);
-      rlpol(1:nroots,ii) = vec(sort (roots (den + gain*num)));
+      rlpol(1:nroots,ii) = vec(sort_complex_roots (roots (den + gain*num)));
     endfor
 
     [gvec, idx] = sort (gvec);
