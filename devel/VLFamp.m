@@ -26,7 +26,7 @@
 ## The returned transfer function is more than 100 characters long so
 ## will wrap in screens that are narrow and appear jumbled.
 ##
-function [TFpreamp]=VLFamp(verbose=0)
+function TFpreamp = VLFamp (verbose = false)
   ##
   blanks (10);
   disp ("---- VLF Pre-Amplifier Design ----");
@@ -60,7 +60,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("will wrap in screens that are narrow and appear jumbled.");
   disp ("");
   ##
-  ans=input("Press Return to continue:");
+  input ("Press Return to continue:");
   blanks ();
   ##
   disp ("");
@@ -111,7 +111,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("   possibly a PC sound card.");
   disp ("");
   ##
-  ans=input("Press Return to continue:");
+  input ("Press Return to continue:");
   blanks ();
   ##
   disp ("");
@@ -136,7 +136,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("");
 
   ##
-  ans=input("Press Return to continue:");
+  input ("Press Return to continue:");
   blanks ();
   ##
 
@@ -160,7 +160,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   show ("Azpk = zpk([-z1],[-p1,-p2],1e7*p1*p2/z1)")
 
   ##
-  ans=input("Press Return to continue:");
+  input ("Press Return to continue:");
   blanks ();
   ##
   disp ("");
@@ -182,7 +182,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("Two Bode Diagrams should be visible, possibly overlaid.");
   disp ("");
   ##
-  ans=input("Press Return to close the plots and continue:");
+  input ("Press Return to close the plots and continue:");
   blanks ();
   ##
 
@@ -199,7 +199,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("");
 
   ##
-  ans=input("Press Return to close the plot and continue:");
+  input ("Press Return to close the plot and continue:");
   blanks ();
   ##
 
@@ -242,7 +242,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("far more than the frequency range of interest.");
   disp ("");
   ##
-  ans=input("Press Return to close the plot and continue:");
+  input ("Press Return to close the plot and continue:");
   blanks ();
   ##
   close all;
@@ -275,7 +275,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("variability, temperature change, etc.");
   disp ("");
   ##
-  ans=input("Press Return to close the plot and continue:");
+  input ("Press Return to close the plot and continue:");
   blanks ();
   ##
   disp ("");
@@ -297,7 +297,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("Two plots are displayed, possibly overlaid.");
   disp (" ");
   ##
-  ans=input("Press Return to close the plots and continue:");
+  input ("Press Return to close the plots and continue:");
   blanks ();
   ##
 
@@ -332,7 +332,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp (" ");
 
   ##
-  ans=input("Press Return to close the plot and continue:");
+  input ("Press Return to close the plot and continue:");
   blanks ();
   ##
   close all;
@@ -367,7 +367,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("Four plots are displayed, possibly overlaid.");
   disp (" ");
   ##
-  ans=input("Press Return to close the plots and continue:");
+  input ("Press Return to close the plots and continue:");
   blanks ();
   ##
   close all;
@@ -400,7 +400,7 @@ function [TFpreamp]=VLFamp(verbose=0)
 
   disp ("");
   ##
-  ans=input("Press Return to close the plot and continue:");
+  input ("Press Return to close the plot and continue:");
   blanks ();
   ##
   close all;
@@ -416,7 +416,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   show ("TFsection = tf ([1], [C*R, 1])");
   disp ("");
   show ("TFfilter = TFsection * TFsection * TFsection;");
-  if (verbose != 0)
+  if (verbose)
     TFfilter
   endif;
 
@@ -437,7 +437,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp ("Two plots are displayed, possibly overlaid.");
   disp ("");
   ##
-  ans=input("Press Return to close the plots and continue:");
+  input ("Press Return to close the plots and continue:");
   blanks ();
   ##
   disp ("");
