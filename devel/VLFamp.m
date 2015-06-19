@@ -143,11 +143,11 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("");
   disp ("The amplifier stages have 1 zero and 2 poles:");
   disp ("");
-  show ("s = tf('s')")
+  show ("s = tf ('s')")
   disp ("");
   show ("TFopen = a0 * (1+s/z1) / (1+s/p1) / (1+s/p2)")
   disp ("");
-  show ("TFopen_norm = minreal(TFopen)")
+  show ("TFopen_norm = minreal (TFopen)")
 
   disp ("");
   disp ("Note: The difference between the op amp expression and the usual");
@@ -157,7 +157,7 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("measurements.");
   disp ("");
 
-  show ("Azpk = zpk([-z1],[-p1,-p2],1e7*p1*p2/z1)")
+  show ("Azpk = zpk ([-z1], [-p1, -p2], 1e7*p1*p2/z1)")
 
   ##
   input ("Press Return to continue:");
@@ -170,13 +170,13 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("");
 
   show ("figure 1");
-  show ("bode(TFopen)");
-  show ("subplot(2,1,1)");
-  show ("title('Equation Bode Diagram')");
+  show ("bode (TFopen)");
+  show ("subplot (2,1,1)");
+  show ("title ('Equation Bode Diagram')");
   show ("figure 2");
-  show ("bode(Azpk)");
-  show ("subplot(2,1,1)");
-  show ("title('ZPK Bode Diagram')");
+  show ("bode (Azpk)");
+  show ("subplot (2,1,1)");
+  show ("title ('ZPK Bode Diagram')");
 
   disp ("");
   disp ("Two Bode Diagrams should be visible, possibly overlaid.");
@@ -193,9 +193,9 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("");
   show ("TFnorm = TFopen/dcgain(TFopen)")
   disp ("");
-  show ("step(TFnorm,'b')");
-  show ("title('AD797 Normalized Open-Loop Step Response')");
-  show ("ylabel('Normalized Amplitude')");
+  show ("step (TFnorm, 'b')");
+  show ("title ('AD797 Normalized Open-Loop Step Response')");
+  show ("ylabel ('Normalized Amplitude')");
   disp ("");
 
   ##
@@ -227,11 +227,11 @@ function TFpreamp = VLFamp (verbose = false)
   show ("R1 = 10e3");
   show ("R2 = R1 * (1/b - 1)")
   disp ("");
-  show ("TFstage1 = feedback(TFopen,b)");
+  show ("TFstage1 = feedback (TFopen, b)");
   disp ("");
 
-  show ("bodemag(TFopen,'r',TFstage1,'b')");
-  show ("legend('Open Loop Gain (TFopen)','Closed Loop Gain (TFstage1)')");
+  show ("bodemag (TFopen, 'r', TFstage1, 'b')");
+  show ("legend ('Open Loop Gain (TFopen)', 'Closed Loop Gain (TFstage1)')");
   disp ("");
 
   disp ("The use of negative feedback to reduce the low-frequency (LF) gain");
@@ -263,10 +263,10 @@ function TFpreamp = VLFamp (verbose = false)
   
   show ("L = TFopen * b")
   disp ("");
-  show ("Sens = feedback(1, L)")
+  show ("Sens = feedback (1, L)")
   disp ("");
   show ("figure 1");
-  show ("bodemag(TFstage1,'b',Sens,'g')");
+  show ("bodemag (TFstage1, 'b', Sens, 'g')");
   disp ("");
 
   disp ("The very small low-frequency sensitivity (more than -100 dB) indicates");
@@ -283,7 +283,7 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("");
 
   show ("figure 2");
-  show ("step(TFstage1)");
+  show ("step (TFstage1)");
 
   disp ("");
   disp ("The stability margin can be analyzed by plotting the loop gain, L(s)");
@@ -319,7 +319,7 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("0dB crossover frequency of L(s):");
   disp ("");
 
-  show ("[Gm,Pm,Wcg,Wcp] = margin(L)");
+  show ("[Gm, Pm, Wcg, Wcp] = margin (L)");
   show ("C = 1/(R2*Wcp)")
   disp ("");
   if (C < 1e-12)
@@ -341,27 +341,27 @@ function TFpreamp = VLFamp (verbose = false)
 
   show ("K = R1/(R1+R2);");
   show ("C = [10:10:200]*1e-12;");
-  show ("b_array = arrayfun (@(C) tf([K*R2*C, K], [K*R2*C, 1]), C,'uniformoutput',false);");
-  show ("A_array = cellfun(@feedback,{TFopen},b_array, 'uniformoutput', false);");
-  show ("L_array = cellfun(@mtimes,{TFopen},b_array, 'uniformoutput', false);");
-  show ("S_array = cellfun(@feedback,{tf(1,1)},L_array, 'uniformoutput', false);");
+  show ("b_array = arrayfun (@(C) tf ([K*R2*C, K], [K*R2*C, 1]), C,'uniformoutput',false);");
+  show ("A_array = cellfun (@feedback, {TFopen}, b_array, 'uniformoutput', false);");
+  show ("L_array = cellfun (@mtimes, {TFopen}, b_array, 'uniformoutput', false);");
+  show ("S_array = cellfun (@feedback, {1}, L_array, 'uniformoutput', false);");
   disp (" "); fflush(stdout);
-  show ("[Gm,Pm,Wcg,Wcp] = cellfun(@margin,L_array);");
+  show ("[Gm, Pm, Wcg, Wcp] = cellfun (@margin, L_array);");
   disp (" ");
 
   close all
   show ("figure 1");
-  show ("step(TFstage1,'r',A_array{:})");
+  show ("step (TFstage1, 'r', A_array{:})");
   show ("figure 2");
-  show ("bode(TFstage1,A_array{:})");
+  show ("bode (TFstage1, A_array{:})");
   show ("figure 3");
-  show ("plot(C,Pm)");
+  show ("plot (C, Pm)");
   show ("grid");
-  show ("xlabel('Compensation Capacitor, C (pF)')");
-  show ("ylabel('Phase Margin (deg)')");
+  show ("xlabel ('Compensation Capacitor, C (pF)')");
+  show ("ylabel ('Phase Margin (deg)')");
   show ("figure 4");
-  show ("step(A_array{C==50e-12},'r',A_array{C==100e-12},'b',A_array{C==200e-12},'g')");
-  show ("legend('Compensated (50 pF)','Compensated (100 pF)','Compensated (200 pF)')");
+  show ("step (A_array{C==50e-12}, 'r', A_array{C==100e-12}, 'b', A_array{C==200e-12}, 'g')");
+  show ("legend ('Compensated (50 pF)', 'Compensated (100 pF)', 'Compensated (200 pF)')");
 
   disp (" ");
   disp ("Four plots are displayed, possibly overlaid.");
@@ -395,8 +395,8 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("The selected compensation capacitor is 100pf.");
 
   show ("TFcomp = A_array{C==100e-12}");
-  show ("bode(TFopen,'b',TFstage1,'g',TFcomp,'r')");
-  show ("legend('TFopen','TFstage1','TFcomp')");
+  show ("bode (TFopen, 'b', TFstage1, 'g', TFcomp, 'r')");
+  show ("legend ('TFopen', 'TFstage1', 'TFcomp')");
 
   disp ("");
   ##
@@ -429,9 +429,9 @@ function TFpreamp = VLFamp (verbose = false)
   show ("TFpreamp = TFcomp * TFfilter * TFcomp;");
 
   show ("figure 1");
-  show ("bode(TFpreamp,{1,1e5})");
+  show ("bode (TFpreamp, {1,1e5})");
   show ("figure 2");
-  show ("margin(TFpreamp)");
+  show ("margin (TFpreamp)");
 
   disp ("");
   disp ("Two plots are displayed, possibly overlaid.");
