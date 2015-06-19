@@ -15,26 +15,23 @@
 ## You should have received a copy of the GNU General Public License
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
-## VLFamp.m - calculations on a two stage preamp for a multi-turn,
-## air-core solenoid loop antenna for the reception of signals below
-## 30kHz.
-##
-## Usage: [result] = VLFamp(verbose=0); 
-##   if verbose != 0 be noisey
-##   default: don't be noisey
+## -*- texinfo -*-
+## @deftypefn{Function File} {} VLFamp
+## @deftypefnx{Function File} {@var{result} =} VLFamp (@var{verbose})
+## Calculations on a two stage preamp for a multi-turn,
+## air-core solenoid loop antenna for the reception of
+## signals below 30kHz.
 ##
 ## The Octave Control Package functions are used extensively to
 ## approximate the behavior of operational amplifiers and passive
 ## electrical circuit elements.
-##
-## This has been tested with control-2.8.2.
 ##
 ## This example presents several 'screen' pages of documentation of the
 ## calculations and some reasoning about why.  Plots of the results are
 ## presented in most cases.
 ##
 ## The process is to display a 'screen' page of text followed by the
-## calculation and a 'Press return to continue' message. To proceed in
+## calculation and a 'Press return to continue' message.  To proceed in
 ## the example, press return.  ^C to exit.
 ##
 ## At one point in the calculations, the process may seem to hang, but,
@@ -42,15 +39,19 @@
 ##
 ## The returned transfer function is more than 100 characters long so
 ## will wrap in screens that are narrow and appear jumbled.
-##
+## @end deftypefn
 
 ## Author: Thomas D. Dean <tomdean@wavecable.com>
 ## Created: June 2015
 ## Version: 0.1
 
 function TFpreamp = VLFamp (verbose = false)
-  ##
-  blanks (10);
+
+  if (nargin > 1)
+    print_usage ();
+  endif
+
+  clc;
   disp ("---- VLF Pre-Amplifier Design ----");
   disp ("");
   disp ("This example covers the design of a pre-amplifier for use in");
@@ -61,8 +62,6 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("The Octave Control Package functions are used extensively to");
   disp ("approximate the behavior of operational amplifiers and passive");
   disp ("electrical circuit elements.");
-  disp ("");
-  disp ("This has been tested with control-2.8.2.");
   disp ("");
   disp ("This example presents several 'screen' pages of documentation of the");
   disp ("calculations and some reasoning about why.  Plots of the results are");
@@ -313,7 +312,7 @@ function TFpreamp = VLFamp (verbose = false)
   disp (" ");
   disp ("This plot may display  warning messages, you can safely ignore them.");
   disp (" "); fflush(stdout);
-  show ("margin(L)");
+  show ("margin (L)");
   disp (" "); fflush(stdout); fflush(stderr);
   disp (" ");
   disp ("Two plots are displayed, possibly overlaid.");
@@ -481,7 +480,7 @@ endfunction;
 ## caller's environment.
 ##
 function show (str)
-  disp (str);
+  disp ([">> ", str]);
   evalin ("caller", str);
 endfunction;
 
