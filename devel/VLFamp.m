@@ -426,7 +426,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp("The final configuration is:  AD797 --> LP Filter --> AD797");
   disp("");
 
-  show("TFpreamp = TFcomp * TFfilter * TFcomp);");
+  show("TFpreamp = TFcomp * TFfilter * TFcomp;");
 
   show("figure 1");
   show("bode(TFpreamp,{1,1e5})");
