@@ -244,7 +244,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   ##
   ans=input("Press Return to close the plot and continue:");
   blanks();
- ##
+  ##
   close all;
   disp("");
   disp("Since the gain is now dominated by the feedback network, a useful");
@@ -277,7 +277,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   ##
   ans=input("Press Return to close the plot and continue:");
   blanks();
- ##
+  ##
   disp("");
   disp("You can check the step response of A(s) using the STEP command:");
   disp("");
@@ -343,7 +343,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   show("C = [10:10:200]*1e-12;");
   show("b_array = arrayfun (@(C) tf([K*R2*C, K], [K*R2*C, 1]), C,'uniformoutput',false);");
   show("A_array = cellfun(@feedback,{TFopen},b_array, 'uniformoutput', false);");
-  show("L_array = cellfun(@sys_prod,{TFopen},b_array, 'uniformoutput', false);");
+  show("L_array = cellfun(@mtimes,{TFopen},b_array, 'uniformoutput', false);");
   show("S_array = cellfun(@feedback,{tf(1,1)},L_array, 'uniformoutput', false);");
   disp(" "); fflush(stdout);
   show("[Gm,Pm,Wcg,Wcp] = cellfun(@margin,L_array);");
@@ -413,9 +413,9 @@ function [TFpreamp]=VLFamp(verbose=0)
   
   show("C = 20e-9");
   show("R = 1000");
-  show("TFsection=tf( [1] , [C*R,1] )");
+  show("TFsection = tf ([1], [C*R, 1])");
   disp("");
-  show("TFfilter=series( series( TFsection , TFsection ) , TFsection);");
+  show("TFfilter = TFsection * TFsection * TFsection;");
   if (verbose != 0)
     TFfilter
   endif;
@@ -426,7 +426,7 @@ function [TFpreamp]=VLFamp(verbose=0)
   disp("The final configuration is:  AD797 --> LP Filter --> AD797");
   disp("");
 
-  show("TFpreamp = series(series(TFcomp,TFfilter),TFcomp);");
+  show("TFpreamp = TFcomp * TFfilter * TFcomp);");
 
   show("figure 1");
   show("bode(TFpreamp,{1,1e5})");
@@ -455,17 +455,10 @@ function [TFpreamp]=VLFamp(verbose=0)
 endfunction;
 
 ##
-## support function to return the product of two systems.  Used in cellfun()
-##
-function [x]=sys_prod(S1,S2)
-  x=S1*S2;
-endfunction;
-
-##
 ## support function to display a command and then execute it in the
 ## caller's environment.
 ##
-function [] = show(str)
+function show (str)
   disp (str);
   evalin ("caller", str);
 endfunction;
@@ -473,8 +466,8 @@ endfunction;
 ##
 ## support function to insert blank lines in the display
 ##
-function [] = blanks(n=5)
+function blanks (n = 5)
   for idx = 1:n
-    disp("");
+    disp ("");
   endfor;
 endfunction;
