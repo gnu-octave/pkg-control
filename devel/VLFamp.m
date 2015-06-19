@@ -45,7 +45,7 @@
 ## Created: June 2015
 ## Version: 0.1
 
-function TFpreamp = VLFamp (verbose = false)
+function retval = VLFamp (verbose = false)
 
   if (nargin > 1)
     print_usage ();
@@ -450,7 +450,7 @@ function TFpreamp = VLFamp (verbose = false)
   show ("TFpreamp = TFcomp * TFfilter * TFcomp;");
 
   show ("figure 1");
-  show ("bode (TFpreamp, {1,1e5})");
+  show ("bode (TFpreamp, {1, 1e5})");
   show ("figure 2");
   show ("margin (TFpreamp)");
 
@@ -472,23 +472,31 @@ function TFpreamp = VLFamp (verbose = false)
   disp ("The resultant transfer function is over 100 characters long");
   disp ("and will appear jumbled on narrower screens.");
   disp ("");
+  show ("TFpreamp")
   ##
-endfunction;
+  
+  if (nargout > 0)
+    retval = TFpreamp;
+  endif
 
-##
-## support function to display a command and then execute it in the
-## caller's environment.
-##
+endfunction
+
+
+## support function to display a command and then
+## execute it in the caller's environment.
 function show (str)
+
   disp ([">> ", str]);
   evalin ("caller", str);
-endfunction;
 
-##
+endfunction
+
+
 ## support function to insert blank lines in the display
-##
 function blanks (n = 5)
+
   for idx = 1:n
     disp ("");
-  endfor;
-endfunction;
+  endfor
+
+endfunction
