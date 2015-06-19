@@ -1,3 +1,20 @@
+## Copyright (C) 2015   Thomas D. Dean
+##
+## This file is part of LTI Syncope.
+##
+## LTI Syncope is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## LTI Syncope is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
+
 ## VLFamp.m - calculations on a two stage preamp for a multi-turn,
 ## air-core solenoid loop antenna for the reception of signals below
 ## 30kHz.
@@ -26,6 +43,11 @@
 ## The returned transfer function is more than 100 characters long so
 ## will wrap in screens that are narrow and appear jumbled.
 ##
+
+## Author: Thomas D. Dean <tomdean@wavecable.com>
+## Created: June 2015
+## Version: 0.1
+
 function TFpreamp = VLFamp (verbose = false)
   ##
   blanks (10);
