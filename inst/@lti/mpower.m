@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function retsys = mpower (sys, e)
 
@@ -34,9 +34,15 @@ function retsys = mpower (sys, e)
   endif
 
   [p, m] = size (sys);
-  
+
   if (p != m)
     error ("lti: mpower: system must be square");
+  endif
+
+  mimo_tf = (p*m > 1) && isa (sys, "tf");
+  
+  if (mimo_tf)
+    sys = ss (sys);
   endif
 
   ex = round (abs (e));  # make sure ex is a positive integer
@@ -51,9 +57,13 @@ function retsys = mpower (sys, e)
     case 1               # lti^ex
       retsys = sys;
   endswitch
-    
+
   for k = 2 : ex
     retsys = retsys * sys;
   endfor
+
+  if (mimo_tf)
+    retsys = tf (retsys);
+  endif
 
 endfunction
