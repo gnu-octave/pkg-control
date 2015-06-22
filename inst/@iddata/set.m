@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.2
+## Version: 0.3
 
 function retdat = set (dat, varargin)
 
@@ -114,20 +114,20 @@ function retdat = set (dat, varargin)
           dat.timedomain = false;
         case "name"
           if (ischar (val))
-            sys.name = val;
+            dat.name = val;
           else
             error ("iddata: set: property 'name' requires a string");
           endif
         case "notes"
           if (iscellstr (val))
-            sys.notes = val;
+            dat.notes = val;
           elseif (ischar (val))
-            sys.notes = {val};
+            dat.notes = {val};
           else
             error ("lti: set: property 'notes' requires string or cell of strings");
           endif
         case "userdata"
-          sys.userdata = val;
+          dat.userdata = val;
         otherwise
           error ("iddata: set: invalid property name '%s'", varargin{k});
       endswitch
