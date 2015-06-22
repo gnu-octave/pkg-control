@@ -1,6 +1,21 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.8.3   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** mpower
+   Fixed bug #45336.  <http://savannah.gnu.org/bugs/?45336>
+   Improved reliability for the power computation of MIMO transfer functions.
+   (Reported by Nick Jankowski)
+
+** set
+   Fixed bug #45371.  <http://savannah.gnu.org/bugs/?45371>
+   The iddata properties 'name', 'notes' and 'userdata' are now stored as
+   expected.  (Thanks to Petr Ledvina)
+
+
+===============================================================================
 control-2.8.2   Release Date: 2015-06-15   Release Manager: Lukas Reichlin
 ===============================================================================
 
