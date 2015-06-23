@@ -41,7 +41,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: April 2012
-## Version: 0.1
+## Version: 0.2
 
 function dat = ifft (dat)
 
@@ -56,7 +56,7 @@ function dat = ifft (dat)
   if (any (cellfun (@(w) w(1) >= eps, dat.w)))
     error ("iddata: ifft: first frequency must be zero");
   endif
-  
+
   if (any (cellfun (@(w) any (abs (diff (w, 2)) > 1e-4*w(2:end-1)), dat.w)))
     error ("iddata: ifft: require linearly spaced frequency vectors");
   endif
@@ -65,27 +65,14 @@ function dat = ifft (dat)
 
   x = x(:);
   n = num2cell (x);
-  %nconj = num2cell (x - ! rem (x, 2));
   nconj = num2cell (x - rem (x, 2));
-
 
   dat.y = cellfun (@(y, n, nconj) real (ifft ([y; conj(y(nconj:-1:2, :))], [], 1)) * sqrt (n+nconj), dat.y, n, nconj, "uniformoutput", false);
   dat.u = cellfun (@(u, n, nconj) real (ifft ([u; conj(u(nconj:-1:2, :))], [], 1)) * sqrt (n+nconj), dat.u, n, nconj, "uniformoutput", false);
 
   ## ifft (x, n, dim=1) because x could be a row vector (n=1)
   
-  % dat.w = cellfun (@(n, tsam) (0:fix(n/2)).' * (2*pi/abs(tsam)/n), n, dat.tsam, "uniformoutput", false);
   dat.w = {};   % dat.w = repmat ({[]}, e, 1); ???
-  ## abs(tsam) because of -1 for undefined sampling times
   dat.timedomain = true;
 
 endfunction
-
-
-%!shared DATD, Y, U
-%! Y = 1:10;
-%! U = 20:-2:1;
-%! DAT = iddata (Y, U);
-%! DATD = fft (DAT);
-%!assert (DATD.y{1}, Y, 1e-10);
-%!assert (DATD.u{1}, U, 1e-10);
