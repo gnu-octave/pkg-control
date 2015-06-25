@@ -22,9 +22,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.1
+## Version: 0.2
 
-function [props, vals] = __property_names__ (dat)
+function [props, vals] = __property_names__ (dat, aliases = false)
 
   [n, p, m, e] = size (dat);
 
@@ -42,7 +42,7 @@ function [props, vals] = __property_names__ (dat)
            "notes";
            "userdata"};
 
-  ## cell vector of lti-specific assignable values
+  ## cell vector of iddata-specific assignable values
   vals = {sprintf("(%dx1) cell vector of (nx%d) matrices", e, p);
           sprintf("(%dx1) cell vector of strings", p);
           sprintf("(%dx1) cell vector of strings", p);
@@ -55,5 +55,25 @@ function [props, vals] = __property_names__ (dat)
           "string";
           "string or cell of strings";
           "any data type"};
+
+  if (aliases)
+    pa = {"outdata";
+          "outputdata";
+          "outputname";
+          "outputunit";
+          "indata";
+          "inputdata";
+          "inputname";
+          "inputunit";
+          "experimentname";
+          "w";
+          "frequency";
+          "samplinginstants";
+          "domain";
+          "timedomain"};
+    
+    props = [props; pa];
+
+  endif
 
 endfunction

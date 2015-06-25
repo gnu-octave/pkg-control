@@ -25,7 +25,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.1
+## Version: 0.2
 
 function varargout = get (dat, varargin)
 
@@ -36,27 +36,34 @@ function varargout = get (dat, varargin)
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
     disp (str);
   else
+
+    if (! isa (dat, "iddata"))
+      print_usage ();
+    endif
+
+    keys = __property_names__ (dat, true);
+
     for k = 1 : (nargin-1)
-      prop = lower (varargin{k});
+      prop = __match_key__ (varargin{k}, keys, "iddata: get");
 
       switch (prop)
-        case {"y", "outdata", "outputdata", "outd", "outputd"}
+        case {"y", "outdata", "outputdata"}
           val = dat.y;
-        case {"u", "indata", "inputdata", "ind", "inputd"}
+        case {"u", "indata", "inputdata"}
           val = dat.u;
-        case {"outname", "outputname", "outn", "outputn"}
+        case {"outname", "outputname"}
           val = dat.outname;
-        case {"inname", "inputname", "inn", "inputn"}
+        case {"inname", "inputname"}
           val = dat.inname;
-        case {"outunit", "outputunit", "outu", "outputu"}
+        case {"outunit", "outputunit"}
           val = dat.outunit;
-        case {"inunit", "inputunit", "inu", "inputu"}
+        case {"inunit", "inputunit"}
           val = dat.inunit;
-        case {"tsam", "ts"}
+        case {"tsam"}
           val = dat.tsam;
-        case {"timeunit", "timeu"}
-          val = dat.timeunit
-        case {"expname", "experimentname", "expn", "experimentn"}
+        case {"timeunit"}
+          val = dat.timeunit;
+        case {"expname", "experimentname"}
           val = dat.expname;
         case "name"
           val = dat.name;

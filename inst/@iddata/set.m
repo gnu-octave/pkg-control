@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
-## Version: 0.3
+## Version: 0.4
 
 function retdat = set (dat, varargin)
 
@@ -48,18 +48,23 @@ function retdat = set (dat, varargin)
 
   else                      # set (dat, "prop1", val1, ...), dat = set (dat, "prop1", val1, ...)
 
+    if (! isa (dat, "iddata"))
+      print_usage ();
+    endif
+
     if (rem (nargin-1, 2))
       error ("iddata: set: properties and values must come in pairs");
     endif
 
     [n, p, m, e] = size (dat);
+    keys = __property_names__ (dat, true);
 
     for k = 1 : 2 : (nargin-1)
-      prop = lower (varargin{k});
+      prop = __match_key__ (varargin{k}, keys, "iddata: set");
       val = varargin{k+1};
 
       switch (prop)
-        case {"y", "outdata", "outputdata", "outd", "outputd"}
+        case {"y", "outdata", "outputdata"}
           val = __adjust_iddata__ (val, dat.u);
           [pval, ~, eval] = __iddata_dim__ (val, dat.u);
           if (pval != p)
@@ -72,7 +77,7 @@ function retdat = set (dat, varargin)
             error ("iddata: set: require real-valued output signals for time domain datasets");
           endif
           dat.y = val;
-        case {"u", "indata", "inputdata", "ind", "inputd"}
+        case {"u", "indata", "inputdata"}
           [~, val] = __adjust_iddata__ (dat.y, val);
           [~, mval] = __iddata_dim__ (dat.y, val);
           if (mval != m)
@@ -82,23 +87,23 @@ function retdat = set (dat, varargin)
             error ("iddata: set: require real-valued input signals for time domain datasets");
           endif
           dat.u = val;
-        case {"outname", "outputname", "outn", "outputn"}
+        case {"outname", "outputname"}
           dat.outname = __adjust_labels__ (val, p);
-        case {"inname", "inputname", "inn", "inputn"}
+        case {"inname", "inputname"}
           dat.inname = __adjust_labels__ (val, m);
-        case {"outunit", "outputunit", "outu", "outputu"}
+        case {"outunit", "outputunit"}
           dat.outunit = __adjust_labels__ (val, p);
-        case {"inunit", "inputunit", "inu", "inputu"}
+        case {"inunit", "inputunit"}
           dat.inunit = __adjust_labels__ (val, m);
-        case {"timeunit", "timeu"}
+        case {"timeunit"}
           if (ischar (val))
             dat.timeunit = val;
           else
             error ("iddata: set: property 'timeunit' requires a string");
           endif
-        case {"expname", "experimentname", "expn", "experimentn"}
+        case {"expname", "experimentname"}
           dat.expname = __adjust_labels__ (val, e);
-        case {"tsam", "ts"}
+        case {"tsam"}
           dat.tsam = __adjust_iddata_tsam__ (val, e);
         case {"w", "frequency"}
           if (! iscell (val))

@@ -16,13 +16,13 @@ function key = __match_key__ (str, props, caller = "match_key")
   endif
   
   ## partial matching - n was zero
-  idx = strncmpi (str, props, length (str))
+  idx = strncmpi (str, props, length (str));
   n = sum (idx);
   
   if (n == 1)
     key = lower (props{idx});
     return;
-  else (n > 1)
+  elseif (n > 1)
     error ("%s: property name '%s' is ambiguous", caller, str);
   endif
   
