@@ -4,6 +4,9 @@ Summary of important user-visible changes for releases of the control package
 control-2.8.3   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
+** LTI models & iddata datasets
+   Support partial matching of property names.
+
 ** mpower
    Fixed bug #45336.  <http://savannah.gnu.org/bugs/?45336>
    Improved reliability for the power computation of MIMO transfer functions.
