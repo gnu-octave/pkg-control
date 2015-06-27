@@ -28,7 +28,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.6
+## Version: 0.7
 
 function retsys = set (sys, varargin)
 
@@ -48,24 +48,29 @@ function retsys = set (sys, varargin)
 
   else                   # set (sys, "prop1", val1, ...), sys = set (sys, "prop1", val1, ...)
 
+    if (! isa (sys, "lti"));
+      print_usage ();
+    endif
+
     if (rem (nargin-1, 2))
       error ("lti: set: properties and values must come in pairs");
     endif
 
     [p, m] = size (sys);
+    keys = __property_names__ (sys, true);
 
     for k = 1 : 2 : (nargin-1)
-      prop = lower (varargin{k});
+      prop = __match_key__ (varargin{k}, keys, [class(sys), ": set"]);
       val = varargin{k+1};
 
       switch (prop)
-        case {"inname", "inputname", "inn", "inputn"}
+        case {"inname", "inputname"}
           sys.inname = __adjust_labels__ (val, m);
 
-        case {"outname", "outputname", "outn", "outputn"}
+        case {"outname", "outputname"}
           sys.outname = __adjust_labels__ (val, p);
 
-        case {"tsam", "ts"}
+        case "tsam"
           if (issample (val, -1))
             sys.tsam = val;
             ## TODO: display hint for 'd2d' to resample model?
@@ -73,7 +78,7 @@ function retsys = set (sys, varargin)
             error ("lti: set: invalid sampling time");
           endif
 
-        case {"ingroup", "inputgroup", "ing", "inputg"}
+        case {"ingroup", "inputgroup"}
           if (isstruct (val) && all (size (val) == 1) ...
               && all (structfun (@(x) is_group_idx (x, m), val)))
             empty = structfun (@isempty, val);
@@ -83,7 +88,7 @@ function retsys = set (sys, varargin)
             error ("lti: set: property 'ingroup' requires a scalar struct containing valid input indices in the range [1, %d]", m);
           endif
 
-        case {"outgroup", "outputgroup", "outg", "outputg"}
+        case {"outgroup", "outputgroup"}
           if (isstruct (val) && all (size (val) == 1) ...
               && all (structfun (@(x) is_group_idx (x, p), val)))
             empty = structfun (@isempty, val);

@@ -22,9 +22,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
-function [props, vals] = __property_names__ (sys)
+function [props, vals] = __property_names__ (sys, aliases = false)
 
   ## cell vector of lti-specific properties
   props = {"tsam";
@@ -45,5 +45,15 @@ function [props, vals] = __property_names__ (sys)
           "string";
           "string or cell of strings";
           "any data type"};
+
+  if (aliases)
+    pa = {"inputname";
+          "outputname";
+          "inputgroup";
+          "outputgroup"};
+
+    props = [props; pa];
+
+  endif
 
 endfunction

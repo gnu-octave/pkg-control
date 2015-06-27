@@ -24,7 +24,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function varargout = get (sys, varargin)
 
@@ -35,19 +35,25 @@ function varargout = get (sys, varargin)
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
     disp (str);
   else
+    if (! isa (sys, "lti"))
+      print_usage ();
+    endif
+    
+    keys = __property_names__ (sys, true);
+    
     for k = 1 : (nargin-1)
-      prop = lower (varargin{k});
+      prop = __match_key__ (varargin{k}, keys, [class(sys), ": get"]);
 
       switch (prop)
-        case {"inname", "inputname", "inn", "inputn"}
+        case {"inname", "inputname"}
           val = sys.inname;
-        case {"outname", "outputname", "outn", "outputn"}
+        case {"outname", "outputname"}
           val = sys.outname;
-        case {"ingroup", "inputgroup", "ing", "inputg"}
+        case {"ingroup", "inputgroup"}
           val = sys.ingroup;
-        case {"outgroup", "outputgroup", "outg", "outputg"}
+        case {"outgroup", "outputgroup"}
           val = sys.outgroup;
-        case {"tsam", "ts"}
+        case "tsam"
           val = sys.tsam;
         case "name"
           val = sys.name;

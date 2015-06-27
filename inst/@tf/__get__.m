@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function val = __get__ (sys, prop)
 
@@ -31,7 +31,7 @@ function val = __get__ (sys, prop)
     case "den"
       val = cellfun (@get, sys.den, "uniformoutput", false);
 
-    case {"tfvar", "variable", "var"}
+    case {"tfvar", "variable"}
       val = sys.tfvar;
 
     case "inv"

@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function val = __get__ (sys, prop)
 
@@ -40,7 +40,7 @@ function val = __get__ (sys, prop)
     case "e"
       val = sys.e;
 
-    case {"stname", "statename", "stn", "staten"}
+    case {"stname", "statename"}
       val = sys.stname;
 
     case "scaled"

@@ -23,9 +23,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
-function [props, vals] = __property_names__ (sys, flg)
+function [props, vals] = __property_names__ (sys, aliases = false)
 
   ## cell vector of tf-specific properties
   props = {"num";
@@ -39,14 +39,14 @@ function [props, vals] = __property_names__ (sys, flg)
           "string (usually s or z)";
           "logical (true for negative powers of TF variable)"};
 
-  if (nargin == 1)
-    [ltiprops, ltivals] = __property_names__ (sys.lti);
-
-    props = [props;
-             ltiprops];
-
-    vals = [vals;
-            ltivals];
+  if (aliases)
+    pa = {"variable"};
+    props = [props; pa];
   endif
+  
+  [ltiprops, ltivals] = __property_names__ (sys.lti, aliases);
+
+  props = [props; ltiprops];
+  vals = [vals; ltivals];
 
 endfunction

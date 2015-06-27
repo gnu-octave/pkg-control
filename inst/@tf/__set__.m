@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = __set__ (sys, prop, val)
 
@@ -35,7 +35,7 @@ function sys = __set__ (sys, prop, val)
       __tf_dim__ (sys.num, den);
       sys.den = den;
 
-    case {"tfvar", "variable", "var"}
+    case {"tfvar", "variable"}
       if (ischar (val))
         sys.tfvar = val;
       else

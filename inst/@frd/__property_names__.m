@@ -21,9 +21,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
-function [props, vals] = __property_names__ (sys, flg)
+function [props, vals] = __property_names__ (sys, aliases = false)
 
   ## cell vector of tf-specific properties
   props = {"H";
@@ -33,14 +33,15 @@ function [props, vals] = __property_names__ (sys, flg)
   vals = {"p-by-m-by-l array of complex frequency responses";
           "l-by-1 vector of real frequencies (l = length (w))"};
 
-  if (nargin == 1)
-    [ltiprops, ltivals] = __property_names__ (sys.lti);
-
-    props = [props;
-             ltiprops];
-
-    vals = [vals;
-            ltivals];
+  if (aliases)
+    pa = {"response";
+          "frequency"};
+    props = [props; pa];
   endif
+
+  [ltiprops, ltivals] = __property_names__ (sys.lti, aliases);
+
+  props = [props; ltiprops];
+  vals = [vals; ltivals];
 
 endfunction

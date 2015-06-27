@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __set__ (sys, prop, val)
 
@@ -49,7 +49,7 @@ function sys = __set__ (sys, prop, val)
         sys.e = val;
       endif
 
-    case {"stname", "statename", "stn", "staten"}
+    case {"stname", "statename"}
       n = rows (sys.a);
       sys.stname = __adjust_labels__ (val, n);
 

@@ -20,17 +20,17 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
-    case {"h", "r", "resp", "response"}
+    case {"h", "response"}
       val = __adjust_frd_data__ (val, sys.w);
       __frd_dim__ (val, sys.w);
       sys.H = val;
 
-    case {"w", "f", "freq", "frequency"}
+    case {"w", "frequency"}
       [~, val] = __adjust_frd_data__ (sys.H, val);
       __frd_dim__ (sys.H, val);
       sys.w = val;

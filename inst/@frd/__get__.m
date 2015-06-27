@@ -20,15 +20,15 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function val = __get__ (sys, prop)
 
   switch (prop)  # {<internal name>, <user name>}
-    case {"h", "r", "resp", "response"}
+    case {"h", "response"}
       val = sys.H;
 
-    case {"w", "f", "freq", "frequency"}
+    case {"w", "frequency"}
       val = sys.w;
 
     otherwise
