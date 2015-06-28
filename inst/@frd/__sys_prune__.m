@@ -22,12 +22,14 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.1
+## Version: 0.2
 
 function sys = __sys_prune__ (sys, out_idx, in_idx, w_idx = ":")
 
   [sys.lti, out_idx, in_idx] = __lti_prune__ (sys.lti, out_idx, in_idx);
 
   sys.H = sys.H(out_idx, in_idx, w_idx);
+  
+  sys.w = sys.w(w_idx);
 
 endfunction
