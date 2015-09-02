@@ -1,6 +1,18 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.8.4   Release Date: 2015-09-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   Fixed a bug which affected interconnections of MIMO transfer functions.
+   (Reported by Piet Wertelaers)
+
+** VLFamp
+   Included new demo created by Thomas D. Dean.
+
+
+===============================================================================
 control-2.8.3   Release Date: 2015-07-01   Release Manager: Lukas Reichlin
 ===============================================================================
 
