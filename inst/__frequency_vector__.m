@@ -75,8 +75,8 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
   elseif (strcmpi (wbounds, "ext"))             # plots with implicit frequencies
 
     if (nargin == 4)
-      dec_min = repmat ({log10 (wmin)}, 1, len);
-      dec_max = repmat ({log10 (wmax)}, 1, len);
+      dec_min = repmat ({log10(wmin)}, 1, len);
+      dec_max = repmat ({log10(wmax)}, 1, len);
     endif
 
     idx = cellfun (@(zp, dec_min, dec_max) find (zp > 10^dec_min & zp < 10^dec_max), ...
