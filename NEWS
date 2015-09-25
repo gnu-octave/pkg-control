@@ -1,6 +1,19 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-2.8.5   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
+===============================================================================
+
+** nyquist, nichols
+   Specifying a frequency range no longer errors out,
+   i.e. nyquist (sys, {wmin, wmax})
+
+** ss
+   Support  ss (a, b, c, 0)  for Matlab compatibility.
+   (Thanks to Thomas Vasileiou)
+
+
+===============================================================================
 control-2.8.4   Release Date: 2015-09-02   Release Manager: Lukas Reichlin
 ===============================================================================
 
