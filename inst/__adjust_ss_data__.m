@@ -21,25 +21,29 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.2
+## Version: 0.3
 
 function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
 
-  if (isempty (a))                 # static system
-    a = [];                        # avoid [](nx0) or [](0xn)
+  if (isempty (a))                      # static system
+    a = [];                             # avoid [](nx0) or [](0xn)
     tsam = -2;
   endif
 
+  if (is_real_scalar (d) && d == 0)     # ss (a, b, c, 0)  (for matlab compatibility)
+    d = zeros (rows (c), columns (b));  # test  d == 0  to avoid  ss (0)  returning 0x0 model
+  endif
+
   if (isempty (d))
-    if (all (size (c) == 0))       # ss (a, b), ss (a, b, [], [], ...), but allow c(0xn) and d(0xm)
+    if (all (size (c) == 0))            # ss (a, b), ss (a, b, [], [], ...), but allow c(0xn) and d(0xm)
       c = eye (size (a));
       d = zeros (rows (a), columns (b));
-    else                           # ss (a, b, c), ss (a, b, c, [], ...)
+    else                                # ss (a, b, c), ss (a, b, c, [], ...)
       d = zeros (rows (c), columns (b));
     endif
   endif
 
-  if (isempty (b) && isempty (c))  # sys = ss ([], [], [], d)
+  if (isempty (b) && isempty (c))       # sys = ss ([], [], [], d)
     b = zeros (0, columns (d));
     c = zeros (rows(d), 0);
     tsam = -2;
