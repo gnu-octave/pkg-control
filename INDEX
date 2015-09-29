@@ -163,6 +163,7 @@ Miscellaneous
   db2mag
   mag2db
   options
+  pid
   repsys
   strseq
   test_control
