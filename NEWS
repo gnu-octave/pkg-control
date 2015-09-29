@@ -12,6 +12,11 @@ control-2.8.5   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
    Support  ss (a, b, c, 0)  for Matlab compatibility.
    (Thanks to Thomas Vasileiou)
 
+** tf
+   Fixed a problem which caused the expression below to fail.
+
+     tf (Boeing707) \ tf (Boeing707)
+
 
 ===============================================================================
 control-2.8.4   Release Date: 2015-09-02   Release Manager: Lukas Reichlin
