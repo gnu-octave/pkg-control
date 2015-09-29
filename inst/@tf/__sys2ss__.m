@@ -46,11 +46,22 @@ function [retsys, retlti] = __sys2ss__ (sys)
   tmp = len_num > len_den;
   if (any (tmp(:)))       # non-proper transfer function
     ## separation into strictly proper and polynomial part
-    [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false);
-    numr = cellfun (@(num_v, len_d) num_v(end-len_d+2:end), ...
+    [numq, numr] = cellfun (@deconv, num, den, "uniformoutput", false)
+    sys
+    numr
+    len_den
+    num2cell (len_den)
+    c = cellfun (@(num_v, len_d) length(num_v)-len_d+2 : length(num_v), numr, num2cell (len_den), "uniformoutput", false)
+    d = cellfun (@(num_v, len_d) max(1, length(num_v)-len_d+2) : length(num_v), numr, num2cell (len_den), "uniformoutput", false)
+
+    %numr = cellfun (@(num_v, len_d) num_v(end-len_d+2:end), ...
+    %                numr, num2cell (len_den), "uniformoutput", false);
+    
+    numr = cellfun (@(num_v, len_d) num_v(max(1,end-len_d+2):end), ...
                     numr, num2cell (len_den), "uniformoutput", false);
+                    numr
     numq = cellfun (@__remove_leading_zeros__, numq, "uniformoutput", false);
-    numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false);
+    numr = cellfun (@__remove_leading_zeros__, numr, "uniformoutput", false)
 
     ## minimal state-space realization for the proper part
     [a1, b1, c1] = __proper_tf2ss__ (numr, den, p, m);
