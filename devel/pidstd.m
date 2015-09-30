@@ -42,7 +42,13 @@ function C = pidstd (Kp = 1, Ti = inf, Td = 0, N = inf)
     print_usage ();
   endif
 
-  if (N == inf)                             # pidstd (Kp, Ti, Td),  pidstd (Kp, Ti)
+  if (Kp == 0)                              # pidstd (0)
+    C = tf (0);
+  elseif (Ti == inf && N == inf)            # pidstd (Kp, inf, Td)
+    C = tf (Kp*[Td, 1], [1]);
+  elseif (Ti == inf)                        # pidstd (Kp, inf, Td, N)
+    C = tf (Kp*[N*Td+Td, N], [Td, N]);
+  elseif (N == inf)                         # pidstd (Kp, Ti, Td),  pidstd (Kp, Ti)
     C = tf (Kp*[Td*Ti, Ti, 1], [Ti, 0]);
   else                                      # pidstd (Kp, Ti, Td, N)
     C = tf (Kp*[N*Td*Ti+Td*Ti, N*Ti+Td, N], [Td*Ti, N*Ti, 0]);
