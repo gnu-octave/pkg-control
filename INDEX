@@ -164,6 +164,7 @@ Miscellaneous
   mag2db
   options
   pid
+  pidstd
   repsys
   strseq
   test_control

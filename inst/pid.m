@@ -36,7 +36,7 @@
 ## Created: June 2015
 ## Version: 0.1
 
-## TODO: discrete-time case, 'pidstd' function, dozens of options, ...
+## TODO: discrete-time case, dozens of options, ...
 ##       If you wish to kill time with this repetitive task,
 ##       I'm happy to add your work :-)
 

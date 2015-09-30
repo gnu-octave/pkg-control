@@ -8,8 +8,8 @@ control-2.8.5   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
    Specifying a frequency range no longer errors out,
    i.e. nyquist (sys, {wmin, wmax})
 
-** pid
-   New function for improved Matlab compatibility.
+** pid, pidstd
+   New functions for improved Matlab compatibility.
 
 ** ss
    Support  ss (a, b, c, 0)  for Matlab compatibility.
