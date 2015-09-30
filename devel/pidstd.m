@@ -42,6 +42,10 @@ function C = pidstd (Kp = 1, Ti = inf, Td = 0, N = inf)
     print_usage ();
   endif
 
-  C = tf ([Kp*N*Td*Ti+Kp*Td*Ti, Kp*N*Ti+Kp*Td, Kp*N], [Td*Ti, N*Ti, 0]);
+  if (N == inf)
+    C = tf ([Kp*Td*Ti, Kp*Ti, Kp], [Ti, 0]);
+  else
+    C = tf ([Kp*N*Td*Ti+Kp*Td*Ti, Kp*N*Ti+Kp*Td, Kp*N], [Td*Ti, N*Ti, 0]);
+  endif
 
 endfunction
