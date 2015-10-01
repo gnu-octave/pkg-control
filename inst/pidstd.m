@@ -36,6 +36,13 @@
 ## Created: September 2015
 ## Version: 0.1
 
+## TODO: discrete-time case, dozens of options, ...
+## NOTE: I don't see any need to implement 'pid' and 'pidstd'
+##       as LTI classes like the 'dark side' does.
+##       Returning a transfer function seems to be sufficient.
+##       These functions' sole purpose is to help novice users
+##       running their scripts with as little changes as possible.
+
 function C = pidstd (Kp = 1, Ti = inf, Td = 0, N = inf)
 
   if (! is_real_scalar (Kp, Ti, Td, N) || nargin > 4)
