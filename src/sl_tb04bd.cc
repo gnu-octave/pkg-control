@@ -107,7 +107,7 @@ For internal use only.")
         double tol = 0;  // use default value
 
         // workspace
-        octave_idx_type ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 6)));
+        octave_idx_type ldwork = max (1, n*(n + p) + max (n + max (n, p), n*(2*n + 5)));
 
         OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);

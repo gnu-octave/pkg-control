@@ -234,11 +234,12 @@ C     .. Local Arrays ..
       DOUBLE PRECISION  NBLK(1)
 C     .. External Functions ..
       LOGICAL           LSAME
+      INTEGER           IDAMAX
       DOUBLE PRECISION  DLAMCH, DLANGE
-      EXTERNAL          DLAMCH, DLANGE, LSAME
+      EXTERNAL          DLAMCH, DLANGE, LSAME, IDAMAX
 C     .. External Subroutines ..
       EXTERNAL          DGEHRD, DLACPY, DLARF, DLARFG, DLASET, DORGQR,
-     $                  DORMHR, MB01PD, XERBLA, DSWAP, IDAMAX
+     $                  DORMHR, MB01PD, XERBLA, DSWAP
 C     .. Intrinsic Functions ..
       INTRINSIC         ABS, DBLE, MAX
 C     .. Executable Statements ..
