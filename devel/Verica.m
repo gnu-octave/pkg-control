@@ -20,8 +20,8 @@ x0 = [ 2
        2
        2        ];
  
-sys = ss (A, B, [C; eye(4)], [D; zeros(4,1)]);
-sys = set (sys, 'inputname', 'u', 'outputname', {'y1', 'y2', 'x1', 'x2', 'x3', 'x4'})
+sys = ss (A, B, C, D);
+sys = set (sys, 'inputname', 'u', 'outputname', 'y', 'statename', 'x')
 
 
 % Controller
@@ -36,18 +36,23 @@ ctrl = set (ctrl, 'inputname', 'xhat', 'outputname', 'u')
 % Observer
 lambda_obs_desired = [ -10    -11     -12     -13 ]
 
-K = place (sys({'y1', 'y2'}, :).', lambda_obs_desired).'
+K = place (sys.', lambda_obs_desired).'
 
 obs = ss (A-K*C, [B, K]);
-obs = set (obs, 'inputname', {'u', 'y1', 'y2'}, 'outputname', 'xhat')
+obs = set (obs, 'inputname', {'u', 'y1', 'y2'}, 'outputname', 'xhat', 'statename', 'xhat')
+
+
+% Gain
+G = ss (C);
+G = set (G, 'inputname', 'xhat', 'outputname', 'yhat')
 
 
 % Output Error
-OE = sumblk ('e = x - xhat', 4)
+OE = sumblk ('e = y - yhat', 2)
 
 
 % Entire System
-N = connect (sys, ctrl, obs, OE, ':', {'e1', 'e2', 'e3', 'e4'})
+N = connect (sys, ctrl, obs, G, OE, ':', {'e1', 'e2'})
 
 
 % Initial Conditions
@@ -59,9 +64,9 @@ x0hat = pinv (C.' * C) * C.' * y0;
 figure (1)
 initial (N, [x0; x0hat], 1)
 
-[Y, T] = initial (N, [x0; x0hat], 1);
-
 figure (2)
-plot (T, Y)
+[Y, T, X] = initial (N, [x0; x0hat], 1);
+ERR = X(:, 1:4) - X(:, 5:8);
+plot (T, ERR)
 grid on
 
