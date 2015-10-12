@@ -37,7 +37,7 @@ function name = __adjust_labels__ (name, req_len)
 
   if (numel (name) != req_len)
     if (numel (name) == 1 && req_len > 1)
-      name = arrayfun (@(x) sprintf ("%s(%d)", name{1}, x), vec (1:req_len), "uniformoutput", false);
+      name = strseq (name{1}, 1:req_len);
     else
       error ("lti: set: cell must contain %d strings", req_len);
     endif
