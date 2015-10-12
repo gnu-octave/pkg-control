@@ -137,7 +137,7 @@ function sys = connect (varargin)
   else                                  # connect (sys1, sys2, ..., sysN, in_idx, out_idx)
 
     lti_idx = cellfun (@isa, varargin, {"lti"});
-    sys = append (varargin{lti_idx});
+    sys = blkdiag (varargin{lti_idx});
     io_idx = ! lti_idx;
     
     if (nnz (io_idx) != 2)
@@ -155,9 +155,6 @@ function sys = connect (varargin)
     tmp = cellfun (@(x) find (strcmp (inname, x)(:)), ioname, "uniformoutput", false);
     inputs = vertcat (tmp{:});  # there could be more than one input with the same name
     
-    ## FIXME: sys_prune will error out if names in out_idx and in_idx are not unique
-    ##        the dark side handles cases with common in_idx names
-    
     [p, m] = size (sys);
     M = zeros (m, p);
     for k = 1 : length (inputs)
@@ -166,6 +163,22 @@ function sys = connect (varargin)
     endfor
 
     sys = __sys_connect__ (sys, M);
+
+    ## sys_prune will error out if names in out_idx and in_idx are not unique
+    ## the dark side handles cases with common in_idx names - so do we
+
+    inname_u = unique (inname);
+    if (numel (inname_u) != numel (inname))
+      tmp = cellfun (@(u) strcmp (u, inname), inname_u, "uniformoutput", false);
+      mat = double (horzcat (tmp{:}));
+      scl = ss (mat);
+      scl = set (scl, "inname", inname_u, "outname", inname)
+      sys = sys * scl;
+      if (is_real_vector (in_idx))
+        warning ("connect: use names instead of indices for argument 'inputs'");
+      endif
+    endif
+
     sys = __sys_prune__ (sys, out_idx, in_idx);
 
     if (isa (sys, "ss"))
