@@ -149,7 +149,14 @@ function sys = connect (varargin)
     endif
 
     inname = sys.inname;
+    if (any (cellfun (@isempty, inname)))
+      error ("connect: all inputs must have names");
+    endif
+
     outname = sys.outname;
+    if (any (cellfun (@isempty , outname)))
+      error ("connect: all outputs must have names");
+    endif
     
     ioname = intersect (inname, outname);
     
