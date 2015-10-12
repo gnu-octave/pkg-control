@@ -42,17 +42,8 @@ obs = ss (A-K*C, [B, K]);
 obs = set (obs, 'inputname', {'u', 'y1', 'y2'}, 'outputname', 'xhat', 'statename', 'xhat')
 
 
-% Gain
-G = ss (C);
-G = set (G, 'inputname', 'xhat', 'outputname', 'yhat')
-
-
-% Output Error
-OE = sumblk ('e = y - yhat', 2)
-
-
 % Entire System
-N = connect (sys, ctrl, obs, G, OE, ':', {'e1', 'e2'})
+N = connect (sys, ctrl, obs, ':', ':')
 
 
 % Initial Conditions
@@ -69,4 +60,6 @@ figure (2)
 ERR = X(:, 1:4) - X(:, 5:8);
 plot (T, ERR)
 grid on
+legend ('e1', 'e2', 'e3', 'e4', 'location', 'southeast')
+
 
