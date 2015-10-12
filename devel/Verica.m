@@ -43,7 +43,7 @@ obs = set (obs, 'inputname', {'u', 'y1', 'y2'}, 'outputname', 'xhat', 'statename
 
 
 % Entire System
-N = connect (sys, ctrl, obs, ':', ':')
+N = connect (sys, ctrl, obs)
 
 
 % Initial Conditions

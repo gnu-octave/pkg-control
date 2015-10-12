@@ -140,12 +140,13 @@ function sys = connect (varargin)
     sys = blkdiag (varargin{lti_idx});
     io_idx = ! lti_idx;
     
-    if (nnz (io_idx) != 2)
-      error ("connect: require arguments 'inputs' and 'outputs'");
+    if (nnz (io_idx) == 2)
+      in_idx = varargin(io_idx){1};
+      out_idx = varargin(io_idx){2};      
+    else
+      in_idx = ":";
+      out_idx = ":";
     endif
-    
-    in_idx = varargin(io_idx){1};
-    out_idx = varargin(io_idx){2};
 
     inname = sys.inname;
     outname = sys.outname;
@@ -172,7 +173,7 @@ function sys = connect (varargin)
       tmp = cellfun (@(u) strcmp (u, inname), inname_u, "uniformoutput", false);
       mat = double (horzcat (tmp{:}));
       scl = ss (mat);
-      scl = set (scl, "inname", inname_u, "outname", inname)
+      scl = set (scl, "inname", inname_u, "outname", inname);
       sys = sys * scl;
       if (is_real_vector (in_idx))
         warning ("connect: use names instead of indices for argument 'inputs'");
