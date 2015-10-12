@@ -43,7 +43,7 @@ obs = set (obs, 'inputname', {'u', 'y1', 'y2'}, 'outputname', 'xhat', 'statename
 
 
 % Entire System
-N = connect (sys, ctrl, obs)
+N = connect (sys, ctrl, obs, 'u', {'y1', 'y2'})
 
 
 % Initial Conditions
@@ -53,9 +53,6 @@ x0hat = pinv (C.' * C) * C.' * y0;
 
 % Simulation
 figure (1)
-initial (N, [x0; x0hat], 1)
-
-figure (2)
 [Y, T, X] = initial (N, [x0; x0hat], 1);
 ERR = X(:, 1:4) - X(:, 5:8);
 plot (T, ERR)
