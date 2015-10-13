@@ -178,16 +178,15 @@ function sys = ss (varargin)
   a = []; b = []; c = []; d = [];       # default state-space matrices
   tsam = 0;                             # default sampling time
 
-  mat_idx = find (cellfun (@is_real_matrix, varargin));
   str_idx = find (cellfun (@ischar, varargin));
   
   if (isempty (str_idx))
-    first_char_idx = nargin + 1;
+    mat_idx = 1 : nargin;
+    opt_idx = [];
   else
-    first_char_idx = str_idx(1);
+    mat_idx = 1 : str_idx(1)-1;
+    opt_idx = str_idx(1) : nargin;
   endif
-
-  mat_idx = mat_idx(mat_idx < first_char_idx);
   
   switch (numel (mat_idx))
     case 1
@@ -209,7 +208,7 @@ function sys = ss (varargin)
       print_usage ();
   endswitch
 
-  varargin = varargin(first_char_idx:end);
+  varargin = varargin(opt_idx);
 
   [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   [p, m, n] = __ss_dim__ (a, b, c, d);  # determine number of outputs, inputs and states
