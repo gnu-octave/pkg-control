@@ -22,7 +22,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function retsys = __minreal__ (sys, tol)
 
@@ -34,12 +34,20 @@ function retsys = __minreal__ (sys, tol)
 
   if (isempty (sys.e))
     [a, b, c] = __sl_tb01pd__ (sys.a, sys.b, sys.c, tol, sys.scaled);
-    retsys = ss (a, b, c, sys.d);
+    if (rows (a) == rows (sys.a))
+      retsys = sys;
+    else
+      retsys = ss (a, b, c, sys.d);
+      retsys.lti = sys.lti;           # retain i/o names and tsam
+    endif
   else
     [a, e, b, c] = __sl_tg01jd__ (sys.a, sys.e, sys.b, sys.c, tol, sys.scaled, 0, 0);
-    retsys = dss (a, b, c, sys.d, e);
+    if (rows (a) == rows (sys.a))
+      retsys = sys;
+    else
+      retsys = dss (a, b, c, sys.d, e);
+      retsys.lti = sys.lti;           # retain i/o names and tsam
+    endif
   endif
-
-  retsys.lti = sys.lti;  # retain i/o names and tsam
 
 endfunction
