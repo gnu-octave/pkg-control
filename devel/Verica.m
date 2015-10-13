@@ -1,3 +1,22 @@
+%% -*- texinfo -*-
+%% Figure 7: Full-order observer estimation errors e(t) = x(t) - xhat(t) for
+%% the aircraft example.
+
+% ===============================================================================
+% Aircraft Simulation Example             Lukas Reichlin             October 2015
+% ===============================================================================
+% Reference:
+% Verica Radisavljevic-Gajic:
+% Full- and Reduced-Order Linear Observer Implementations in Matlab/Simulink.
+% IEEE Control Systems Magazine, Vol. 35, No. 5, pp. 91-101, October 2015
+% Digital Object Identifier 10.1109/MCS.2015.2449691
+% ===============================================================================
+
+
+% Tabula Rasa
+clear all, close all, clc
+
+
 % Plant
 A = [ -0.01357      -32.2          -46.3            0
        0.00012        0              1.214          0
@@ -60,3 +79,4 @@ grid on
 legend ('e1', 'e2', 'e3', 'e4', 'location', 'southeast')
 
 
+% ===============================================================================
