@@ -30,7 +30,7 @@
 ## Indices of measured output signals y from @var{sys}.  If omitted, all outputs are measured.
 ## @item known
 ## Indices of known input signals u (deterministic) to @var{sys}.  All other inputs to @var{sys}
-## are assumed stochastic.  If argument @var{known} is omitted, no inputs u are known.
+## are assumed stochastic (w).  If argument @var{known} is omitted, no inputs u are known.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -38,7 +38,21 @@
 ## @item est
 ## State-space model of estimator.
 ## @end table
-## @seealso{kalman, place}
+##
+## @strong{Block Diagram}
+## @example
+## @group
+##                                  u  +-------+         ^
+##       +---------------------------->|       |-------> y
+##       |    +-------+     +       y  |  est  |         ^
+## u ----+--->|       |----->(+)------>|       |-------> x
+##            |  sys  |       ^ +      +-------+
+## w -------->|       |       |
+##            +-------+       | v
+## @end group
+## @end example
+##
+## @seealso{kalman, lqe, place}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
