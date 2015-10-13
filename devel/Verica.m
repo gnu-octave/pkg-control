@@ -84,3 +84,17 @@ legend ('e1', 'e2', 'e3', 'e4', 'location', 'southeast')
 
 
 % ===============================================================================
+
+% Alternative Code
+Naug = augstate (N);
+S = sumblk ('e = x - xhat', 4);
+N2 = connect (Naug, S, 'u', 'e')
+[Y2, T2] = initial (N2, [x0; x0hat], 1);
+
+figure (2)
+plot (T2, Y2)
+grid on
+title ('Figure 7: e(t) = x(t) - xhat(t)')
+xlabel ('Time [s]')
+ylabel ('Observation Errors Full-Order Observer')
+legend ('e1', 'e2', 'e3', 'e4', 'location', 'southeast')
