@@ -21,14 +21,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.2
+## Version: 0.3
 
 function [p, m, n] = __ss_dim__ (a, b, c, d, e = [])
 
-  ## TODO: create oct-file?
-
   if (! is_real_matrix (a, b, c, d, e))
-    error ("ss: system matrices must be real");
+    error ("ss: system matrices must be real-valued");
   endif
 
   [arows, acols] = size (a);
