@@ -67,13 +67,23 @@ function est = estim (sys, l, sensors = [], known = [])
   n = rows (a);
   p = length (sensors);
 
+  if (rows (l) != n)
+    error ("estim: system '%s' has %d states, but the state estimator gain '%s' has %d rows", ...
+            inputname (1), n, inputname (2), rows (l));
+  endif
+
+  if (columns (l) != p)
+    error ("estim: estimator gain '%s' has %d columns, but argument 'known' contains %d indices", ...
+            inputname (2), columns (l), p);
+  endif
+
   b = b(:, known);
   c = c(sensors, :);
   d = d(sensors, known);
-  
+
   stname = __labels__ (stn, "xhat");
-  outname = vertcat (__labels__ (outn(sensors), "yhat"), stname);
-  inname = vertcat (__labels__ (inn(known), "u"), __labels__ (outn(sensors), "y"));
+  outname = vertcat (__labels__ (outn(sensors(:)), "yhat"), stname);
+  inname = vertcat (__labels__ (inn(known(:)), "u"), __labels__ (outn(sensors(:)), "y"));
 
   f = a - l*c;
   g = [b - l*d, l];
