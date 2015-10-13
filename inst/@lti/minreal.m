@@ -23,7 +23,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = minreal (sys, tol = "def")
 
@@ -32,7 +32,7 @@ function sys = minreal (sys, tol = "def")
   endif
 
   if (! is_real_scalar (tol) && tol != "def")
-    error ("minreal: second argument must be a real scalar");
+    error ("minreal: second argument must be a real-valued scalar");
   endif
 
   sys = __minreal__ (sys, tol);
@@ -67,10 +67,8 @@ endfunction
 %!
 %! D = zeros (2, 1);
 %!
-%! sys = ss (A, B, C, D, "scaled", true);
-%! sysmin = minreal (sys, 0.0);
-%! [Ar, Br, Cr, Dr] = ssdata (sysmin);
-%! M = [Ar, Br; Cr, Dr];
+%! [Ar, Br, Cr] = __sl_tb01pd__ (A, B, C, 0.0, true);
+%! M = [Ar, Br; Cr, D];
 %!
 %! Ae = [ 1.0000  -1.4142   1.4142
 %!       -2.8284   0.0000   1.0000
