@@ -1,6 +1,7 @@
 %% -*- texinfo -*-
 %% Figure 7: Full-order observer estimation errors e(t) = x(t) - xhat(t) for
 %% the aircraft example.
+%% FIXME: The figure doesn't match the published one yet.
 
 % ===============================================================================
 % Aircraft Simulation Example             Lukas Reichlin             October 2015
@@ -76,6 +77,9 @@ figure (1)
 ERR = X(:, 1:4) - X(:, 5:8);
 plot (T, ERR)
 grid on
+title ('Figure 7: e(t) = x(t) - xhat(t)')
+xlabel ('Time [s]')
+ylabel ('Observation Errors Full-Order Observer')
 legend ('e1', 'e2', 'e3', 'e4', 'location', 'southeast')
 
 
