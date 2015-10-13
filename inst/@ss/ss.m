@@ -156,41 +156,60 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
-function sys = ss (a = [], b = [], c = [], d = [], varargin)
+function sys = ss (varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
   ## inferiorto ("frd");
   superiorto ("zpk", "tf", "double");
 
-  argc = 0;                             # initialize argument count
-  tsam = 0;                             # initialize sampling time
+  if (nargin == 1)                      # shortcut for lti objects
+    if (isa (varargin{1}, "ss"))        # already in ss form  sys = ss (sssys)
+      sys = varargin{1};
+      return;
+    elseif (isa (varargin{1}, "lti"))   # another lti object  sys = ss (sys)
+      [sys, lti] = __sys2ss__ (varargin{1});
+      sys.lti = lti;                    # preserve lti properties
+      return;
+    endif
+  endif
 
-  if (nargin == 1)
-    if (isa (a, "ss"))                  # already in ss form  sys = ss (sssys)
-      sys = a;
-      return;
-    elseif (isa (a, "lti"))             # another lti object  sys = ss (sys)
-      [sys, alti] = __sys2ss__ (a);
-      sys.lti = alti;                   # preserve lti properties
-      return;
-    elseif (is_real_matrix (a))         # static gain  sys = ss (5), sys = ss (matrix)
-      d = a;
-      a = [];
-    else
-      print_usage ();
-    endif
-  elseif (nargin > 4)                   # default case  sys = ss (a, b, c, d, "prop1", val1, ...)
-    argc = numel (varargin);            # number of additional arguments after d
-    if (issample (varargin{1}, -10))    # sys = ss (a, b, c, d, tsam, "prop1, "val1", ...)
-      tsam = varargin{1};               # sampling time, could be 0 as well
-      argc--;                           # tsam is not a property-value pair
-      if (argc > 0)                     # if there are any properties and values ...
-        varargin = varargin(2:end);     # remove tsam from property-value list
+  a = []; b = []; c = []; d = [];       # default state-space matrices
+  tsam = 0;                             # default sampling time
+
+  mat_idx = find (cellfun (@is_real_matrix, varargin));
+  str_idx = find (cellfun (@ischar, varargin));
+  
+  if (isempty (str_idx))
+    first_char_idx = nargin + 1;
+  else
+    first_char_idx = str_idx(1);
+  endif
+
+  mat_idx = mat_idx(mat_idx < first_char_idx);
+  
+  switch (numel (mat_idx))
+    case 1
+      d = varargin{mat_idx};
+    case 2
+      [a, b] = varargin{mat_idx};
+    case 3
+      [a, b, c] = varargin{mat_idx};
+    case 4
+      [a, b, c, d] = varargin{mat_idx};
+    case 5
+      [a, b, c, d, tsam] = varargin{mat_idx};
+      if (! issample (tsam, -10))
+        error ("ss: invalid sampling time");
       endif
-    endif
-  endif                                 # nothing to do for ss (), ss (a, b), ss (a, b, c), ss (a, b, c, d)
+    case 0
+      ## nothing to do here, just prevent case 'otherwise'
+    otherwise
+      print_usage ();
+  endswitch
+
+  varargin = varargin(first_char_idx:end);
 
   [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   [p, m, n] = __ss_dim__ (a, b, c, d);  # determine number of outputs, inputs and states
@@ -207,7 +226,7 @@ function sys = ss (a = [], b = [], c = [], d = [], varargin)
 
   sys = class (ssdata, "ss", ltisys);   # create ss object
 
-  if (argc > 0)                         # if there are any properties and values, ...
+  if (numel (varargin) > 0)             # if there are any properties and values, ...
     sys = set (sys, varargin{:});       # use the general set function
   endif
 
