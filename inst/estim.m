@@ -43,7 +43,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.2
+## Version: 0.3
 
 function est = estim (sys, l, sensors = [], known = [])
 
@@ -55,7 +55,9 @@ function est = estim (sys, l, sensors = [], known = [])
     error ("estim: first argument must be an LTI system");
   endif
 
+  sys = ss (sys);     # needed to get stname from tf models
   [a, b, c, d, e, tsam] = dssdata (sys, []);
+  [inn, stn, outn] = get (sys, "inname", "stname", "outname");
 
   if (isempty (sensors))
     sensors = 1 : rows (c);
@@ -68,6 +70,10 @@ function est = estim (sys, l, sensors = [], known = [])
   b = b(:, known);
   c = c(sensors, :);
   d = d(sensors, known);
+  
+  stname = __labels__ (stn, "xhat");
+  outname = vertcat (__labels__ (outn(sensors), "yhat"), stname);
+  inname = vertcat (__labels__ (inn(known), "u"), __labels__ (outn(sensors), "y"));
 
   f = a - l*c;
   g = [b - l*d, l];
@@ -76,8 +82,7 @@ function est = estim (sys, l, sensors = [], known = [])
   ## k = e;
 
   est = dss (f, g, h, j, e, tsam);
-
-  ## TODO: inname, stname, outname
+  est = set (est, "inname", inname, "stname", stname, "outname", outname);
 
 endfunction
 
