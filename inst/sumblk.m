@@ -61,7 +61,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2013
-## Version: 0.1
+## Version: 0.2
 
 function s = sumblk (formula, n = 1)
 
@@ -73,7 +73,7 @@ function s = sumblk (formula, n = 1)
     error ("sumblk: require string as first argument");
   endif
   
-  if (! is_real_scalar (n))
+  if (! is_real_scalar (n) || n < 1)
     error ("sumblk: require integer as second argument");
   endif
   
@@ -103,19 +103,26 @@ function s = sumblk (formula, n = 1)
   inname = signal(2:end);
   signs = ones (1, numel (inname));
   signs(strcmp (operator, "-")) = -1;
-  
-  if (n != 1)
-    outname = strseq (outname{1}, 1:n);
-    tmp = cellfun (@strseq, inname, {1:n}, "uniformoutput", false);
-    inname = vertcat (tmp{:});
-  endif
-  
+    
   d = kron (signs, eye (n));
   s = ss (d);
-  s = set (s, "inname", inname, "outname", outname);
   
   ## NOTE: the dark side returns a tf, but i prefer an ss model
   ##       because in general, transfer functions and mimo
   ##       interconnections don't mix well
+  
+  if (n > 1)
+    outgroup = struct (outname{1}, 1:n);
+    outname = strseq (outname{1}, 1:n);
+    idx = 1 : n*numel (inname);
+    idx = reshape (idx, n, []);
+    idx = num2cell (idx, 1);
+    ingroup = cell2struct (idx, inname, 2);
+    tmp = cellfun (@strseq, inname, {1:n}, "uniformoutput", false);
+    inname = vertcat (tmp{:});
+    s = set (s, "outgroup", outgroup, "ingroup", ingroup);
+  endif
+
+  s = set (s, "inname", inname, "outname", outname);
 
 endfunction
