@@ -71,10 +71,26 @@ function est = estim (sys, l, sensors = [], known = [])
 
   sys = ss (sys);     # needed to get stname from tf models
   [a, b, c, d, e, tsam] = dssdata (sys, []);
-  [inn, stn, outn] = get (sys, "inname", "stname", "outname");
+  [inn, stn, outn, ing, outg] = get (sys, "inname", "stname", "outname", "ingroup", "outgroup");
 
   if (isempty (sensors))
     sensors = 1 : rows (c);
+  endif
+  
+  if (ischar (sensors))
+    sensors = {sensors};
+  endif
+  if (ischar (known))
+    known = {known};
+  endif
+
+  if (iscell (sensors))
+    tmp = cellfun (@(x) __str2idx__ (outg, outn, x, "out"), sensors(:), "uniformoutput", false);
+    sensors = vertcat (tmp{:});
+  endif
+  if (iscell (known))
+    tmp = cellfun (@(x) __str2idx__ (ing, inn, x, "in"), known(:), "uniformoutput", false);
+    known = vertcat (tmp{:});
   endif
 
   m = length (known);
