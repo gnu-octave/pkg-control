@@ -37,7 +37,11 @@ function name = __adjust_labels__ (name, req_len)
 
   if (numel (name) != req_len)
     if (numel (name) == 1 && req_len > 1)
-      name = strseq (name{1}, 1:req_len);
+      if (isempty (name{1}))       # delete names quickly
+        name = repmat ({""}, req_len, 1);
+      else
+        name = strseq (name{1}, 1:req_len);
+      endif
     else
       error ("lti: set: cell must contain %d strings", req_len);
     endif
