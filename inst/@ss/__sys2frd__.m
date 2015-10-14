@@ -28,7 +28,7 @@ function [retsys, retlti] = __sys2frd__ (sys, w = [])
     w = __frequency_vector__ (sys);
   endif
 
-  H = __freqresp__ (sys, w);
+  H = freqresp (sys, w);
 
   retsys = frd (H, w);  # tsam is set below
   retlti = sys.lti;     # preserve lti properties

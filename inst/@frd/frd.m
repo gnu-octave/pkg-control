@@ -113,21 +113,13 @@ function sys = frd (varargin)
   ## model precedence: frd > ss > zpk > tf > double
   superiorto ("ss", "zpk", "tf", "double");
 
-  if (nargin == 1)                      # shortcut for lti objects
-    if (isa (varargin{1}, "frd"))       # already in frd form  sys = frd (frdsys)
-      sys = varargin{1};
-      return;
-    elseif (isa (varargin{1}, "lti"))   # another lti object  sys = frd (sys)
-      [sys, lti] = __sys2frd__ (varargin{1});
-      sys.lti = lti;                    # preserve lti properties
-      return;
-    endif
-  elseif (nargin == 2)                  # another lti object  sys = frd (sys, w)
-    if (isa (varargin{1}, "lti") && is_real_vector (varargin{2}))
-      [sys, lti] = __sys2frd__ (varargin{:});
-      sys.lti = lti;                    # preserve lti properties
-      return;
-    endif
+  if (nargin == 1 && isa (varargin{1}, "frd"))
+    sys = varargin{1};
+    return;
+  elseif (nargin != 0 && nargin <= 2 && isa (varargin{1}, "lti"))
+    [sys, lti] = __sys2frd__ (varargin{:});
+    sys.lti = lti;                    # preserve lti properties
+    return;
   endif
 
   H = []; w = [];                       # default frequency response data
