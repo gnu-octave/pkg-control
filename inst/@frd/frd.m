@@ -123,7 +123,7 @@ function sys = frd (varargin)
   endif
 
   H = []; w = [];                       # default frequency response data
-  tsam = 0;                             # default sampling time
+  tsam = -2;                            # default sampling time
   
   str_idx = find (cellfun (@ischar, varargin));
 
@@ -142,15 +142,16 @@ function sys = frd (varargin)
   ##       then use the  colon  operator to build the two vectors
 
   switch (numel (mat_idx))
-    case 0                              # frd ()
-      tsam = -2;
     case 2                              # frd (H, w),  frd (H, w, ...)
       [H, w] = varargin{mat_idx};
+      tsam = 0;
     case 3                              # frd (H, w, tsam),  frd (H, w, tsam, ...)
       [H, w, tsam] = varargin{mat_idx};
       if (! issample (tsam, -10))
         error ("frd: invalid sampling time");
       endif
+    case 0                              # frd ()
+      ## nothing to do here, just prevent case 'otherwise'
     otherwise                           # sys = frd (H)  *must* fail
       print_usage ();
   endswitch
