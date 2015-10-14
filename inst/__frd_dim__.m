@@ -21,12 +21,12 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
-## Version: 0.1
+## Version: 0.2
 
 function [p, m, l] = __frd_dim__ (H, w)
 
   if (! isnumeric (H))
-    error ("frd: H must be a 3-dimensional numeric array");
+    error ("frd: argument 'H' must be a 3-dimensional numeric array");
   endif
 
   lw = length (w);
@@ -34,13 +34,13 @@ function [p, m, l] = __frd_dim__ (H, w)
   if (! isempty (w) && (! is_real_vector (w) || any (w < 0) ...
                         || ! issorted (w) || w(1) > w(end) ...
                         || length (unique (w)) != lw))
-    error ("frd: w must be a vector of positive real numbers in ascending order");
+    error ("frd: argument 'w' must be a vector of positive real numbers in ascending order");
   endif
 
   [p, m, l] = size (H);
 
   if (l != lw)
-    error ("frd: H (%dx%dx%d) and w (%d) must have equal length",
+    error ("frd: arguments 'H' (%dx%dx%d) and 'w' (%d) must have equal length",
             p, m, l, lw);
   endif
 
