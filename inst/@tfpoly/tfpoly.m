@@ -40,7 +40,7 @@ function p = tfpoly (a)
         p = class (p, "tfpoly");
         p = __remove_leading_zeros__ (p);
       else
-        error ("tfpoly: argument must be a real vector");
+        error ("tfpoly: argument must be a real-valued vector");
       endif
 
     otherwise
