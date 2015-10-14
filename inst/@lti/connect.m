@@ -179,8 +179,7 @@ function sys = connect (varargin)
     if (numel (inname_u) != numel (inname))
       tmp = cellfun (@(u) strcmp (u, inname), inname_u, "uniformoutput", false);
       mat = double (horzcat (tmp{:}));
-      scl = ss (mat);
-      scl = set (scl, "inname", inname_u, "outname", inname);
+      scl = ss (mat, "inname", inname_u, "outname", inname);
       sys = sys * scl;
       if (is_real_vector (in_idx))
         warning ("connect: use names instead of indices for argument 'inputs'");
