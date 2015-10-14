@@ -19,6 +19,7 @@
 ## @deftypefn {Function File} {@var{s} =} tf (@var{'s'})
 ## @deftypefnx {Function File} {@var{z} =} tf (@var{'z'}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} tf (@var{mat})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
 ## Create or convert to transfer function model.
@@ -27,6 +28,8 @@
 ## @table @var
 ## @item sys
 ## @acronym{LTI} model to be converted to transfer function.
+## @item mat
+## Gain matrix to be converted to static transfer function.
 ## @item num
 ## Numerator or cell of numerators.  Each numerator must be a row vector
 ## containing the coefficients of the polynomial in descending powers of
