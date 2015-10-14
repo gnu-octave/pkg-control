@@ -118,7 +118,7 @@ function sys = frd (varargin)
     return;
   elseif (nargin != 0 && nargin <= 2 && isa (varargin{1}, "lti"))
     [sys, lti] = __sys2frd__ (varargin{:});
-    sys.lti = lti;                    # preserve lti properties
+    sys.lti = lti;                      # preserve lti properties
     return;
   endif
 
@@ -134,6 +134,12 @@ function sys = frd (varargin)
     mat_idx = 1 : str_idx(1)-1;
     opt_idx = str_idx(1) : nargin;
   endif
+
+  ## TODO: write an oct-file and use it for all LTI constructors:
+  ##       [mat_idx, opt_idx] = __name_of_oct_file__ (varargin)
+  ##       adapt code from  ischar  in  libinterp/corefcn/strfns.cc
+  ##       loop through cell and stop at first char,
+  ##       then use the  colon  operator to build the two vectors
 
   switch (numel (mat_idx))
     case 0                              # frd ()
