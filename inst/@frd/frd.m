@@ -144,11 +144,11 @@ function sys = frd (varargin)
   endif
 
   switch (numel (mat_idx))
-    case 0
+    case 0                              # frd ()
       tsam = -2;
-    case 2
+    case 2                              # frd (H, w),  frd (H, w, ...)
       [H, w] = varargin{mat_idx};
-    case 3
+    case 3                              # frd (H, w, tsam),  frd (H, w, tsam, ...)
       [H, w, tsam] = varargin{mat_idx};
       if (! issample (tsam, -10))
         error ("frd: invalid sampling time");
