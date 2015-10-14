@@ -83,6 +83,7 @@ Pole Placement
   place
   rlocus
 Optimal Control
+  augstate
   dlqe
   dlqr
   estim
