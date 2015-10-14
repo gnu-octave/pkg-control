@@ -16,19 +16,38 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert a (cell of) row vector(s) to a cell of tfpoly objects.
+## Common code for adjusting TF model data.
 ## Used by tf and __set__.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
-## Version: 0.2
+## Created: October 2015
+## Version: 0.1
 
-function ndr = __vec2tfpoly__ (nd)
+function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
 
-  if (! iscell (nd))
-    nd = {nd};
+  if (is_real_matrix (num) && isempty (den))    # static gain  tf (4),  tf (matrix)
+    num = num2cell (num);
+    den = num2cell (ones (size (num)));
+    tsam = -2;
   endif
 
-  ndr = cellfun (@tfpoly, nd, "uniformoutput", false);
+  if (! iscell (num))
+    num = {num};
+  endif
+  
+  if (! iscell (den))
+    den = {den};
+  endif
+
+  num = cellfun (@tfpoly, num, "uniformoutput", false);
+  den = cellfun (@tfpoly, den, "uniformoutput", false);
+  
+  if (tsam == 0)
+    tfvar = "s";
+  elseif (tsam == -2)
+    tfvar = "x";
+  else
+    tfvar = "z";
+  endif
 
 endfunction

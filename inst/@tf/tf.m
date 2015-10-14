@@ -19,6 +19,7 @@
 ## @deftypefn {Function File} {@var{s} =} tf (@var{'s'})
 ## @deftypefnx {Function File} {@var{z} =} tf (@var{'z'}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
+## @deftypefnx {Function File} {@var{sys} =} tf (@var{mat}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
 ## Create or convert to transfer function model.
@@ -27,6 +28,8 @@
 ## @table @var
 ## @item sys
 ## @acronym{LTI} model to be converted to transfer function.
+## @item mat
+## Gain matrix to be converted to static transfer function.
 ## @item num
 ## Numerator or cell of numerators.  Each numerator must be a row vector
 ## containing the coefficients of the polynomial in descending powers of
@@ -174,79 +177,66 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
-## Version: 0.3
+## Version: 0.4
 
-function sys = tf (num = {}, den = {}, varargin)
+function sys = tf (varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
-  ## inferiorto ("frd", "ss", "zpk");          # error if de-commented. bug in octave?
+  ## inferiorto ("frd", "ss", "zpk");           # error if de-commented. bug in octave?
   superiorto ("double");
 
-  argc = 0;                                    # initialize argument count
+  if (nargin == 1)
+    if (isa (varargin{1}, "tf"))                # tf (tfsys)
+      sys = varargin{1};
+      return;
+    elseif (isa (varargin{1}, "lti"))           # tf (ltisys)
+      [sys, lti] = __sys2tf__ (varargin{1});
+      sys.lti = lti;
+      return;
+    elseif (ischar (varargin{1}))               # s = tf ('s')
+      sys = tf ([1, 0], 1, "tfvar", varargin{:});
+      return;
+    endif
+  elseif (nargin == 2)                          # z = tf ('z', tsam)
+    if (ischar (varargin{1}) && is_real_scalar (varargin{2}))
+      sys = tf ([1, 0], 1, varargin{2}, "tfvar", varargin{[1,3:end]});
+      return;
+    endif
+  endif
+  
+  num = {}; den = {};                           # default transfer matrix
+  tsam = -2;                                    # default sampling time
 
-  switch (nargin)
-    case 0                                     # sys = tf ()
-      tsam = -2;                               # undefined sampling time
-      tfvar = "x";                             # undefined transfer function variable
+  str_idx = find (cellfun (@ischar, varargin));
 
+  if (isempty (str_idx))
+    mat_idx = 1 : nargin;
+    opt_idx = [];
+  else
+    mat_idx = 1 : str_idx(1)-1;
+    opt_idx = str_idx(1) : nargin;
+  endif
+
+  switch (numel (mat_idx))
     case 1
-      if (isa (num, "tf"))                     # already in tf form  sys = tf (tfsys)
-        sys = num;
-        return;
-      elseif (isa (num, "lti"))                # another lti object  sys = tf (sys)
-        [sys, numlti] = __sys2tf__ (num);
-        sys.lti = numlti;                      # preserve lti properties
-        return;
-      elseif (is_real_matrix (num))            # static gain  sys = tf (4), sys = tf (matrix)
-        num = num2cell (num);
-        num = __vec2tfpoly__ (num);
-        [p, m] = size (num);
-        den = tfpolyones (p, m);               # denominators are all 1
-        tsam = -2;                             # undefined sampling time
-        tfvar = "x";                           # undefined transfer function variable
-      elseif (ischar (num))                    # s = tf ("s")
-        tfvar = num;
-        num = __vec2tfpoly__ ([1, 0]);
-        den = __vec2tfpoly__ ([1]);
-        tsam = 0;
-      else
-        print_usage ();
-      endif
-
+      num = varargin{mat_idx};
     case 2
-      if (ischar (num) && issample (den, -1))  # z = tf ("z", 0.3)
-        tfvar = num;
-        tsam = den;
-        num = __vec2tfpoly__ ([1, 0]);
-        den = __vec2tfpoly__ ([1]);
-      else                                     # sys = tf (num, den)
-        num = __vec2tfpoly__ (num);
-        den = __vec2tfpoly__ (den);
-        tfvar = "s";
-        tsam = 0;
+      [num, den] = varargin{mat_idx};
+      tsam = 0;
+    case 3
+      [num, den, tsam] = varargin{mat_idx};
+      if (! issample (tsam, -10))
+        error ("tf: invalid sampling time");
       endif
-
-    otherwise                                  # default case  sys = tf (num, den, ...)
-      num = __vec2tfpoly__ (num);
-      den = __vec2tfpoly__ (den);
-      argc = numel (varargin);                 # number of additional arguments after num and den
-      if (issample (varargin{1}, -10))         # sys = tf (num, den, tsam, "prop1", val1, ...)
-        tsam = varargin{1};                    # sampling time, could be 0 as well
-        argc--;                                # tsam is not a property-value pair
-        if (tsam == 0)
-          tfvar = "s";
-        else
-          tfvar = "z";
-        endif
-        if (argc > 0)                          # if there are any properties and values ...
-          varargin = varargin(2:end);          # remove tsam from property-value list
-        endif
-      else                                     # sys = tf (num, den, "prop1", val1, ...)
-        tsam = 0;                              # continuous-time
-        tfvar = "s";
-      endif
+    case 0
+      ## nothing to do here, just prevent case 'otherwise'
+    otherwise
+      print_usage ();
   endswitch
-
+  
+  varargin = varargin(opt_idx);
+  
+  [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam);
   [p, m] = __tf_dim__ (num, den);              # determine number of outputs and inputs
 
   tfdata = struct ("num", {num},
@@ -258,7 +248,7 @@ function sys = tf (num = {}, den = {}, varargin)
 
   sys = class (tfdata, "tf", ltisys);          # create tf object
 
-  if (argc > 0)                                # if there are any properties and values, ...
+  if (numel (varargin) > 0)                    # if there are any properties and values, ...
     sys = set (sys, varargin{:});              # use the general set function
   endif
 

@@ -26,12 +26,12 @@ function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case "num"
-      num = __vec2tfpoly__ (val);
+      num = __adjust_tf_data__ (val, sys.den);
       __tf_dim__ (num, sys.den);
       sys.num = num;
 
     case "den"
-      den = __vec2tfpoly__ (val);
+      [~, den] = __adjust_tf_data__ (sys.num, val);
       __tf_dim__ (sys.num, den);
       sys.den = den;
 
