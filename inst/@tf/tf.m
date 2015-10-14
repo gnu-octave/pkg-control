@@ -182,10 +182,6 @@ function sys = tf (varargin)
   ## inferiorto ("frd", "ss", "zpk");           # error if de-commented. bug in octave?
   superiorto ("double");
 
-  num = {}; den = {};                           # default transfer matrix
-  tsam = -2;                                    # default sampling time
-  tfvar = "x";                                  # default transfer function variable
-
   if (nargin == 1)
     if (isa (varargin{1}, "tf"))                # tf (tfsys)
       sys = varargin{1};
@@ -195,20 +191,18 @@ function sys = tf (varargin)
       sys.lti = lti;
       return;
     elseif (ischar (varargin{1}))               # s = tf ('s')
-      tfvar = varargin{1};
-      tsam = 0;
-      num = [1, 0];
-      den = 1;
-      varargin = varargin(2:end);
+      sys = tf ([1, 0], 1, "tfvar", varargin{:});
+      return;
     endif
-  elseif (nargin == 2)
-    if (ischar (varargin{1}) && issample (varargin{2}, -1))
-      [tfvar, tsam] = varargin{1:2};            # z = tf ('z', tsam)
-      num = [1, 0]
-      den = 1;
-      varargin = varargin(3:end);
+  elseif (nargin == 2)                          # z = tf ('z', tsam)
+    if (ischar (varargin{1}) && is_real_scalar (varargin{2}))
+      sys = tf ([1, 0], 1, varargin{2}, "tfvar", varargin{[1,3:end]});
+      return;
     endif
   endif
+  
+  num = {}; den = {};                           # default transfer matrix
+  tsam = -2;                                    # default sampling time
 
   str_idx = find (cellfun (@ischar, varargin));
 
@@ -251,7 +245,7 @@ function sys = tf (varargin)
 
   sys = class (tfdata, "tf", ltisys);          # create tf object
 
-  if (argc > 0)                                # if there are any properties and values, ...
+  if (numel (varargin) > 0)                    # if there are any properties and values, ...
     sys = set (sys, varargin{:});              # use the general set function
   endif
 
