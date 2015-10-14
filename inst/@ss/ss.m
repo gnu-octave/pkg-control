@@ -17,9 +17,9 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} ss (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} ss (@var{d})
-## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b})
-## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{d}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @dots{})
+## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} ss (@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}, @dots{})
 ## Create or convert to state-space model.
@@ -98,13 +98,22 @@
 ## Any data type.
 ## @end table
 ##
+## @strong{Equations}
+## @example
+## @group
+## .
+## x = A x + B u
+## y = C x + D u
+## @end group
+## @end example
+##
 ## @strong{Example}
 ## @example
 ## @group
 ## octave:1> a = [1 2 3; 4 5 6; 7 8 9];
 ## octave:2> b = [10; 11; 12];
-## octave:3> stname = @{"V", "A", "kJ"@};
-## octave:4> sys = ss (a, b, [], [], "stname", stname)
+## octave:3> stname = @{'V', 'A', 'kJ'@};
+## octave:4> sys = ss (a, b, 'stname', stname)
 ## @end group
 ## @end example
 ## 
