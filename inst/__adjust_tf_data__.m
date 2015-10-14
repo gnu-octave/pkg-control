@@ -1,4 +1,4 @@
-function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam)
+function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
 
   if (is_real_matrix (num) && isempty (den))    # static gain  tf (4),  tf (matrix)
     num = num2cell (num);

@@ -29,7 +29,7 @@ function [nrows, ncols] = __tf_dim__ (num, den)
   [drows, dcols] = size (den);
 
   if (nrows != drows || ncols != dcols)
-    error ("tf: num(%dx%d) and den(%dx%d) must have equal dimensions",
+    error ("tf: arguments 'num' (%dx%d) and 'den' (%dx%d) must have equal dimensions",
             nrows, ncols, drows, dcols);
   endif
 
