@@ -95,9 +95,9 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010
-## Version: 0.1
+## Version: 0.2
 
-function sys = frd (H = [], w = [], varargin)
+function sys = frd (varargin)
 
   ## NOTE: * There's no such thing as a static gain
   ##         because FRD objects are measurements,
@@ -112,46 +112,52 @@ function sys = frd (H = [], w = [], varargin)
 
   ## model precedence: frd > ss > zpk > tf > double
   superiorto ("ss", "zpk", "tf", "double");
+
+  if (nargin == 1)                      # shortcut for lti objects
+    if (isa (varargin{1}, "frd"))       # already in frd form  sys = frd (frdsys)
+      sys = varargin{1};
+      return;
+    elseif (isa (varargin{1}, "lti"))   # another lti object  sys = frd (sys)
+      [sys, lti] = __sys2frd__ (varargin{1});
+      sys.lti = lti;                    # preserve lti properties
+      return;
+    endif
+  elseif (nargin == 2)                  # another lti object  sys = frd (sys, w)
+    if (isa (varargin{1}, "lti") && is_real_vector (varargin{2}))
+      [sys, lti] = __sys2frd__ (varargin{:});
+      sys.lti = lti;                    # preserve lti properties
+      return;
+    endif
+  endif
+
+  H = []; w = [];                       # default frequency response data
+  tsam = 0;                             # default sampling time
   
-  argc = 0;                             # initialize argument count
+  str_idx = find (cellfun (@ischar, varargin));
 
-  switch (nargin)
-    case 0                              # empty object  sys = frd ()
-      tsam = -2;                        # undefined sampling time
+  if (isempty (str_idx))
+    mat_idx = 1 : nargin;
+    opt_idx = [];
+  else
+    mat_idx = 1 : str_idx(1)-1;
+    opt_idx = str_idx(1) : nargin;
+  endif
 
-    case 1
-      if (isa (H, "frd"))               # already in frd form  sys = frd (frdsys)
-        sys = H;
-        return;                         # nothing more to do here
-      elseif (isa (H, "lti"))           # another lti object  sys = frd (sys)
-        [sys, alti] = __sys2frd__ (H);
-        sys.lti = alti;                 # preserve lti properties
-        return;                         # nothing more to do here
-      else                              # sys = frd (H)  *must* fail
-        print_usage ();
-      endif
-
+  switch (numel (mat_idx))
+    case 0
+      tsam = -2;
     case 2
-      if (isa (H, "lti"))               # another lti object  sys = frd (sys, w)
-        [sys, alti] = __sys2frd__ (H, w);
-        sys.lti = alti;                 # preserve lti properties
-        return;                         # nothing more to do here
-      else                              # sys = frd (H, w)
-        tsam = 0;                       # continuous-time
+      [H, w] = varargin{mat_idx};
+    case 3
+      [H, w, tsam] = varargin{mat_idx};
+      if (! issample (tsam, -10))
+        error ("frd: invalid sampling time");
       endif
-
-    otherwise                           # default case
-      argc = numel (varargin);          # number of additional arguments after H and w
-      if (issample (varargin{1}, -10))  # sys = frd (H, w, tsam, "prop1", val1, ...)
-        tsam = varargin{1};             # sampling time, could be 0 as well
-        argc--;                         # tsam is not a property-value pair
-        if (argc > 0)                   # if there are any properties and values ...
-          varargin = varargin(2:end);   # remove tsam from property-value list
-        endif
-      else                              # sys = frd (H, w, "prop1", val1, ...)
-        tsam = 0;                       # continuous-time
-      endif
+    otherwise                           # sys = frd (H)  *must* fail
+      print_usage ();
   endswitch
+
+  varargin = varargin(opt_idx);
 
   [H, w] = __adjust_frd_data__ (H, w);
   [p, m] = __frd_dim__ (H, w);          # determine number of outputs and inputs
@@ -161,7 +167,7 @@ function sys = frd (H = [], w = [], varargin)
 
   sys = class (frdata, "frd", ltisys);  # create frd object
 
-  if (argc > 0)                         # if there are any properties and values, ...
+  if (numel (varargin) > 0)             # if there are any properties and values, ...
     sys = set (sys, varargin{:});       # use the general set function
   endif
 
