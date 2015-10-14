@@ -19,7 +19,7 @@
 ## @deftypefn {Function File} {@var{s} =} tf (@var{'s'})
 ## @deftypefnx {Function File} {@var{z} =} tf (@var{'z'}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} tf (@var{mat})
+## @deftypefnx {Function File} {@var{sys} =} tf (@var{mat}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} tf (@var{num}, @var{den}, @var{tsam}, @dots{})
 ## Create or convert to transfer function model.
