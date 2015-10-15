@@ -3,7 +3,7 @@ Version: 2.8.5
 Date: 2015-10-01
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Lukas Reichlin <lukas.reichlin@gmail.com>
-Title: Control Systems
+Title: Computer-Aided Control System Design
 Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT Library
 Depends: octave (>= 3.8.0)
 Autoload: no
