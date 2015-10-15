@@ -19,7 +19,8 @@ all: __control_slicot_functions__.oct \
      is_real_matrix.oct \
      is_real_square_matrix.oct \
      is_matrix.oct \
-     nfields2.oct
+     nfields2.oct \
+     __lti_input_idx__.oct
 
 # TODO: Private oct-files for control package.
 
@@ -45,6 +46,7 @@ __control_slicot_functions__.oct: __control_slicot_functions__.cc slicotlibrary.
     $(MKOCTFILE) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helpers
+# TODO: create single oct-file  __control_helper_functions__.oct
 is_real_scalar.oct: is_real_scalar.cc
 	$(MKOCTFILE) is_real_scalar.cc
 
@@ -62,6 +64,9 @@ is_matrix.oct: is_matrix.cc
 
 nfields2.oct: nfields2.cc
 	$(MKOCTFILE) nfields2.cc
+
+__lti_input_idx__.oct: __lti_input_idx__.cc
+	$(MKOCTFILE) __lti_input_idx__.cc
 
 clean:
 	rm -rf *.o core octave-core *.oct *~ *.f slicot sltmp

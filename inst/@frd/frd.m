@@ -125,21 +125,7 @@ function sys = frd (varargin)
   H = []; w = [];                       # default frequency response data
   tsam = -2;                            # default sampling time
   
-  str_idx = find (cellfun (@ischar, varargin));
-
-  if (isempty (str_idx))
-    mat_idx = 1 : nargin;
-    opt_idx = [];
-  else
-    mat_idx = 1 : str_idx(1)-1;
-    opt_idx = str_idx(1) : nargin;
-  endif
-
-  ## TODO: write an oct-file and use it for all LTI constructors:
-  ##       [mat_idx, opt_idx] = __name_of_oct_file__ (varargin)
-  ##       adapt code from  ischar  in  libinterp/corefcn/strfns.cc
-  ##       loop through cell and stop at first char,
-  ##       then use the  colon  operator to build the two vectors
+  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
     case 2                              # frd (H, w),  frd (H, w, ...)
