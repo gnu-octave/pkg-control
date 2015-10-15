@@ -130,7 +130,7 @@ function sys = filt (varargin)
     return;
   endif
 
-  num = {}; den = {}; tsam = -1;
+  num = {}; den = {}; tsam = -2;
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
@@ -139,6 +139,7 @@ function sys = filt (varargin)
       num = varargin{mat_idx};
     case 2
       [num, den] = varargin{mat_idx};
+      tsam = -1;
     case 3
       [num, den, tsam] = varargin{mat_idx};
       if (! issample (tsam, -1))
@@ -155,7 +156,7 @@ function sys = filt (varargin)
   if (is_real_matrix (num) && isempty (den))
     num = num2cell (num);
     den = num2cell (ones (size (num)));
-    tsam = -1;
+    tsam = -2;
   endif
 
   if (! iscell (num))
@@ -194,7 +195,11 @@ function sys = filt (varargin)
   ## sys is stored in standard z form, not z^-1
   ## so we can mix it with regular transfer function models
   ## property "inv", true displays sys in z^-1 form
-  sys = tf (num, den, tsam, "inv", true, varargin{:});
+  if (tsam == -2)
+    sys = tf (num, den, varargin{:});
+  else
+    sys = tf (num, den, tsam, "inv", true, varargin{:});
+  endif
 
 endfunction
 
