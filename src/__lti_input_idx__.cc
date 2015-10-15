@@ -28,14 +28,27 @@ Return true if @var{x} is a character array.\n\
 @seealso{isfloat, isinteger, islogical, isnumeric, iscellstr, isa}\n\
 @end deftypefn")
 {
-  octave_value retval;
+  octave_value_list retval;
   octave_idx_type idx = 0;
   octave_idx_type nargin = args.length ();
 
   if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
-    retval = args(0).is_cell ();
+  {
+    octave_idx_type len = args(0).length ();
+    
+    for (octave_idx_type i = 0; i < len; i++)
+    {
+      //if ()
+    
+    }
+    
+    // retval = args(0).is_cell ();
+  }
   else
     print_usage ();
+
+  retval(0) = octave_value (idx);
+  retval(1) = octave_value (idx);
 
   return retval;
 }
