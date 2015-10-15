@@ -34,15 +34,16 @@ Return true if @var{x} is a character array.\n\
 
   if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
   {
-    octave_idx_type len = args(0).length ();
+    octave_idx_type len = args(0).cell_value().nelem();
     
     for (octave_idx_type i = 0; i < len; i++)
     {
-      //if ()
-    
+      if (args(0).cell_value().elem(i).is_char ())
+      {
+        idx = i+1;
+        break;
+      }
     }
-    
-    // retval = args(0).is_cell ();
   }
   else
     print_usage ();
