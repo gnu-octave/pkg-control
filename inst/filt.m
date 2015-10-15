@@ -122,7 +122,10 @@
 
 function sys = filt (varargin)
 
-  if (nargin == 1 && isa (varargin{1}, "lti"))
+  if (nargin == 0)
+    sys = tf ();
+    return;
+  elseif (nargin == 1 && isa (varargin{1}, "lti"))
     sys = tf (varargin{1});
     if (! isct (sys))       # isdt (sys)  would also "invert" static gains
       sys = set (sys, "inv", true);
@@ -130,7 +133,7 @@ function sys = filt (varargin)
     return;
   endif
 
-  num = {}; den = {}; tsam = -2;
+  num = {}; den = {}; tsam = -1;
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
@@ -139,7 +142,6 @@ function sys = filt (varargin)
       num = varargin{mat_idx};
     case 2
       [num, den] = varargin{mat_idx};
-      tsam = -1;
     case 3
       [num, den, tsam] = varargin{mat_idx};
       if (! issample (tsam, -1))
@@ -154,9 +156,8 @@ function sys = filt (varargin)
   varargin = varargin(opt_idx);
 
   if (is_real_matrix (num) && isempty (den))
-    num = num2cell (num);
-    den = num2cell (ones (size (num)));
-    tsam = -2;
+    sys = tf (num, varargin{:});
+    return;
   endif
 
   if (! iscell (num))
@@ -166,7 +167,7 @@ function sys = filt (varargin)
     den = {den};
   endif
   if (! size_equal (num, den) || ndims (num) != 2)
-    error ("filt: arguments 'num' (%dx%d) and 'den' (%dx%d) must have equal dimensions");
+    error ("filt: cells 'num' and 'den' must be 2-dimensional and of equal size");
   endif
 
   if (! is_real_vector (num{:}, den{:}, 1))
@@ -195,11 +196,7 @@ function sys = filt (varargin)
   ## sys is stored in standard z form, not z^-1
   ## so we can mix it with regular transfer function models
   ## property "inv", true displays sys in z^-1 form
-  if (tsam == -2)
-    sys = tf (num, den, varargin{:});
-  else
-    sys = tf (num, den, tsam, "inv", true, varargin{:});
-  endif
+  sys = tf (num, den, tsam, "inv", true, varargin{:});
 
 endfunction
 
