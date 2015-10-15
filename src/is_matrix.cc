@@ -27,6 +27,7 @@ Version: 0.2
 
 #include <octave/oct.h>
 
+// PKG_ADD: autoload ("is_matrix", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_matrix, args, nargout,
    "-*- texinfo -*-\n\
 @deftypefn {Loadable Function} {} is_matrix (@var{a}, @dots{})\n\

@@ -19,7 +19,7 @@ endfunction
 
 #include <octave/oct.h>
 
-
+// PKG_ADD: autoload ("__lti_input_idx__", "__control_helper_functions__.oct");    
 DEFUN_DLD (__lti_input_idx__, args, ,
        "-*- texinfo -*-\n\
 @deftypefn {Built-in Function} {} ischar (@var{x})\n\

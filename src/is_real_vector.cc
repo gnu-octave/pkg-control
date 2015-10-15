@@ -27,6 +27,7 @@ Version: 0.2
 
 #include <octave/oct.h>
 
+// PKG_ADD: autoload ("is_real_vector", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_real_vector, args, nargout,
    "-*- texinfo -*-\n\
 @deftypefn {Loadable Function} {} is_real_vector (@var{a}, @dots{})\n\
