@@ -207,15 +207,7 @@ function sys = tf (varargin)
   num = {}; den = {};                           # default transfer matrix
   tsam = -2;                                    # default sampling time
 
-  str_idx = find (cellfun (@ischar, varargin));
-
-  if (isempty (str_idx))
-    mat_idx = 1 : nargin;
-    opt_idx = [];
-  else
-    mat_idx = 1 : str_idx(1)-1;
-    opt_idx = str_idx(1) : nargin;
-  endif
+  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
     case 1
