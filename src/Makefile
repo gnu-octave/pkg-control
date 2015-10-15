@@ -14,13 +14,7 @@ LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 AR := $(shell $(MKOCTFILE) -p AR)
 
 all: __control_slicot_functions__.oct \
-     is_real_scalar.oct \
-     is_real_vector.oct \
-     is_real_matrix.oct \
-     is_real_square_matrix.oct \
-     is_matrix.oct \
-     nfields2.oct \
-     __lti_input_idx__.oct
+     __control_helper_functions__.oct
 
 # TODO: Private oct-files for control package.
 
@@ -45,28 +39,9 @@ __control_slicot_functions__.oct: __control_slicot_functions__.cc slicotlibrary.
 	LFLAGS="$(LFLAGS)" \
     $(MKOCTFILE) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
-# helpers
-# TODO: create single oct-file  __control_helper_functions__.oct
-is_real_scalar.oct: is_real_scalar.cc
-	$(MKOCTFILE) is_real_scalar.cc
-
-is_real_vector.oct: is_real_vector.cc
-	$(MKOCTFILE) is_real_vector.cc
-
-is_real_matrix.oct: is_real_matrix.cc
-	$(MKOCTFILE) is_real_matrix.cc
-
-is_real_square_matrix.oct: is_real_square_matrix.cc
-	$(MKOCTFILE) is_real_square_matrix.cc
-
-is_matrix.oct: is_matrix.cc
-	$(MKOCTFILE) is_matrix.cc
-
-nfields2.oct: nfields2.cc
-	$(MKOCTFILE) nfields2.cc
-
-__lti_input_idx__.oct: __lti_input_idx__.cc
-	$(MKOCTFILE) __lti_input_idx__.cc
+# helper functions
+__control_helper_functions__.oct: __control_helper_functions__.cc
+	$(MKOCTFILE) __control_helper_functions__.cc
 
 clean:
 	rm -rf *.o core octave-core *.oct *~ *.f slicot sltmp
