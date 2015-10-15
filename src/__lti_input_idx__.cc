@@ -1,10 +1,8 @@
 /*
-  ## TODO: write an oct-file and use it for all LTI constructors:
-  ##       [mat_idx, opt_idx] = __name_of_oct_file__ (varargin)
-  ##       adapt code from  ischar  in  libinterp/corefcn/strfns.cc
-  ##       loop through cell and stop at first char,
-  ##       then use the  colon  operator to build the two vectors
-  
+Implements the following Octave function in C++
+
+function [mat_idx, opt_idx] = __lti_input_idx__ (varargin)
+
   str_idx = find (cellfun (@ischar, varargin));
 
   if (isempty (str_idx))
@@ -14,13 +12,12 @@
     mat_idx = 1 : str_idx(1)-1;
     opt_idx = str_idx(1) : nargin;
   endif
-  
+
+endfunction
 */
 
 
 #include <octave/oct.h>
-//#include <octave/ov.h>
-//#include <octave/ov-colon.h>
 
 
 DEFUN_DLD (__lti_input_idx__, args, ,
@@ -47,8 +44,8 @@ Return true if @var{x} is a character array.\n\
       }
     }
     
-    octave_value mat_idx = do_colon_op (1, idx);
-    octave_value opt_idx = do_colon_op (idx+1, len);
+    Range mat_idx (1, idx);
+    Range opt_idx (idx+1, len);
 
     retval(0) = mat_idx;
     retval(1) = opt_idx;
