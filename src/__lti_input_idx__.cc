@@ -31,30 +31,32 @@ Return true if @var{x} is a character array.\n\
 @end deftypefn")
 {
   octave_value_list retval;
-  octave_idx_type idx = 0;
   octave_idx_type nargin = args.length ();
 
   if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
   {
     octave_idx_type len = args(0).cell_value().nelem();
+    octave_idx_type idx = len;
     
     for (octave_idx_type i = 0; i < len; i++)
     {
       if (args(0).cell_value().elem(i).is_string ())
       {
-        idx = i+1;
+        idx = i;
         break;
       }
     }
+    
+    octave_value mat_idx = do_colon_op (1, idx);
+    octave_value opt_idx = do_colon_op (idx+1, len);
+
+    retval(0) = mat_idx;
+    retval(1) = opt_idx;
   }
   else
+  {
     print_usage ();
-    
-  octave_value mat_idx = do_colon_op (1, idx);
-  octave_value opt_idx = idx;
-
-  retval(0) = mat_idx;
-  retval(1) = opt_idx;
+  }
 
   return retval;
 }
