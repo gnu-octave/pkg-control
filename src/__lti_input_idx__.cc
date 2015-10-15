@@ -19,8 +19,6 @@
 
 
 #include <octave/oct.h>
-//#include <octave/Cell.h>
-
 
 
 DEFUN_DLD (__lti_input_idx__, args, ,
@@ -37,11 +35,9 @@ Return true if @var{x} is a character array.\n\
   if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
   {
     octave_idx_type len = args(0).cell_value().nelem();
-    // const Cell cell = args(0).cell_value ();
     
     for (octave_idx_type i = 0; i < len; i++)
     {
-      //if (cell.elem(i).is_string ())
       if (args(0).cell_value().elem(i).is_string ())
       {
         idx = i+1;
