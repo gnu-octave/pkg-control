@@ -19,6 +19,8 @@
 
 
 #include <octave/oct.h>
+//#include <octave/ov.h>
+//#include <octave/ov-colon.h>
 
 
 DEFUN_DLD (__lti_input_idx__, args, ,
@@ -47,9 +49,12 @@ Return true if @var{x} is a character array.\n\
   }
   else
     print_usage ();
+    
+  octave_value mat_idx = do_colon_op (1, idx);
+  octave_value opt_idx = idx;
 
-  retval(0) = octave_value (idx);
-  retval(1) = octave_value (idx);
+  retval(0) = mat_idx;
+  retval(1) = opt_idx;
 
   return retval;
 }
