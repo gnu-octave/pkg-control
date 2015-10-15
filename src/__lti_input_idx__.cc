@@ -29,11 +29,11 @@ Return true if @var{x} is a character array.\n\
 @end deftypefn")
 {
   octave_value retval;
+  octave_idx_type idx = 0;
+  octave_idx_type nargin = args.length ();
 
-  int nargin = args.length ();
-
-  if (nargin == 1 && args(0).is_defined ())
-    retval = args(0).is_string ();
+  if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
+    retval = args(0).is_cell ();
   else
     print_usage ();
 
