@@ -47,8 +47,8 @@ Return true if @var{x} is a character array.\n\
     Range mat_idx (1, idx);
     Range opt_idx (idx+1, len);
 
-    retval(0) = mat_idx;
     retval(1) = opt_idx;
+    retval(0) = mat_idx;
   }
   else
   {
