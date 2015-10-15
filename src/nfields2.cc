@@ -1,6 +1,7 @@
 #include <octave/oct.h>
 #include <octave/ov-struct.h>
 
+// PKG_ADD: autoload ("nfields2", "__control_helper_functions__.oct");    
 DEFUN_DLD (nfields2, args, ,
        "-*- texinfo -*-\n\
 @deftypefn {Built-in Function} {} nfields (@var{s})\n\
