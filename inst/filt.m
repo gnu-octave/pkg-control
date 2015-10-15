@@ -130,7 +130,7 @@ function sys = filt (varargin)
     return;
   endif
 
-  num = {}; den = {}; tsam = -2;
+  num = {}; den = {}; tsam = -1;
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
@@ -139,10 +139,9 @@ function sys = filt (varargin)
       num = varargin{mat_idx};
     case 2
       [num, den] = varargin{mat_idx};
-      tsam = -1;
     case 3
       [num, den, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -10))
+      if (! issample (tsam, -1))
         error ("filt: invalid sampling time");
       endif
     case 0
@@ -156,7 +155,7 @@ function sys = filt (varargin)
   if (is_real_matrix (num) && isempty (den))
     num = num2cell (num);
     den = num2cell (ones (size (num)));
-    tsam = -2;
+    tsam = -1;
   endif
 
   if (! iscell (num))
@@ -169,7 +168,7 @@ function sys = filt (varargin)
     error ("filt: arguments 'num' (%dx%d) and 'den' (%dx%d) must have equal dimensions");
   endif
 
-  if (! is_real_vector (num{:}, den{:}))
+  if (! is_real_vector (num{:}, den{:}, 1))
     error ("filt: arguments 'num' and 'den' must be real-valued vectors or cells thereof");
   endif
 
