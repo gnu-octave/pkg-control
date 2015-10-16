@@ -33,7 +33,7 @@ function val = __get__ (sys, prop)
 
     case {"tfvar", "variable"}
       val = sys.tfvar;
-      if (sys.inv)
+      if (sys.inv && isdt (sys))
         val = [val, "^-1"];
       endif
 
