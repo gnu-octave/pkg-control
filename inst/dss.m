@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} dss (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} dss (@var{d})
+## @deftypefnx {Function File} {@var{sys} =} dss (@var{d}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} dss (@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}, @dots{})
 ## Create or convert to descriptor state-space model.
@@ -111,19 +111,21 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2010
-## Version: 0.1
+## Version: 0.2
 
 function sys = dss (varargin)
 
-  switch (nargin)
-    case {0, 1}  # static gain (dss (5)) or empty (useful for "set (dss)")
+  ## NOTE: LTI models are handled by  @lti/dss.m
+
+  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+  
+  switch (numel (mat_idx))
+    case {0, 1}
       sys = ss (varargin{:});
-
-    case {2, 3, 4}
-      print_usage ();
-
-    otherwise    # general case
+    case {5, 6}
       sys = ss (varargin{[1:4, 6:end]}, "e", varargin{5});
+    otherwise
+      print_usage ();
   endswitch
 
 endfunction
