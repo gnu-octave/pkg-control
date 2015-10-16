@@ -4,7 +4,30 @@ Summary of important user-visible changes for releases of the control package
 control-2.x.y   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
-** TODO
+FIXME:  Regarding all the changesets after control-2.8.5,  I think that
+        calling this release just control-2.8.6 is too much understatement.
+        So what is the next version number after 2.8?  2.9, 2.10 or 3.0?
+          
+        http://semver.org:          
+        Given a version number MAJOR.MINOR.PATCH, increment the:
+
+        MAJOR version when you make incompatible API changes,
+        MINOR version when you add functionality in a backwards-compatible manner, and
+        PATCH version when you make backwards-compatible bug fixes.          
+          
+        2.9.0: No, because Octave itself uses only even numbers for minor versions.
+        2.10.0: No, Octave went from 3.8 to 4.0 and we're not backwards-compatible.
+        3.0.0: Yes, there are incompatible API changes.
+          
+        I wanted to use version number 3.0 for the introduction of time delays.
+        However, since time delays don't break backwards compatibilty,
+        that future release can be baptized 'control-3.2.0'
+
+TODO:   A lot of notes describing all the changes!
+
+ ** ss
+
+ ** tf
 
 
 ===============================================================================
