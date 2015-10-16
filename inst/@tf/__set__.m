@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __set__ (sys, prop, val)
 
@@ -37,9 +37,28 @@ function sys = __set__ (sys, prop, val)
 
     case {"tfvar", "variable"}
       if (ischar (val))
-        sys.tfvar = val;
+        candidates = {"s", "p", "z", "q", "z^-1", "q^-1"};
+        idx = strcmpi (val, candidates);
+        if (any (idx))
+          val = candidates{idx};
+          n = find (idx);
+          if (n > 2 && isct (sys))
+            error ("tf: set: variable '%s' not allowed for static gains and continuous-time models", val);
+          elseif (n < 3 && isdt (sys))
+            error ("tf: set: variable '%s' not allowed for static gains and discrete-time models", val);
+          endif
+          if (isscalar (val))
+            sys.tfvar = val;
+            sys.inv = false;
+          else
+            sys.tfvar = val(1);
+            sys.inv = true;
+          endif
+        else
+          error ("tf: set: the string '%s' is not a valid transfer function variable", val);
+        endif
       else
-        error ("tf: set: invalid transfer function variable");
+        error ("tf: set: property '%s' requires a string", prop);
       endif
 
     case "inv"

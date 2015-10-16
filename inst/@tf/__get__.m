@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function val = __get__ (sys, prop)
 
@@ -33,6 +33,9 @@ function val = __get__ (sys, prop)
 
     case {"tfvar", "variable"}
       val = sys.tfvar;
+      if (sys.inv)
+        val = [val, "^-1"];
+      endif
 
     case "inv"
       val = sys.inv;
