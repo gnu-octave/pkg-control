@@ -20,7 +20,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.3
+## Version: 0.4
 
 function sys = __set__ (sys, prop, val)
 
@@ -37,9 +37,24 @@ function sys = __set__ (sys, prop, val)
 
     case {"tfvar", "variable"}
       if (ischar (val))
-        sys.tfvar = val;
+        candidates = {"s", "p", "z", "q", "z^-1", "q^-1"};
+        idx = strcmpi (val, candidates);
+        if (any (idx))
+          val = candidates{idx};
+          if (isscalar (val))
+            sys.tfvar = val;
+            sys.inv = false;
+          else
+            sys.tfvar = val(1);
+            sys.inv = true;
+            ## FIXME: raise error if sys.inv and continuous-time
+            ## FIXME: no switching between {"s", "p"} and {"z", "q", "z^-1", "q^-1"}
+          endif
+        else
+          error ("tf: set: the string '%s' is not a valid transfer function variable", val);
+        endif
       else
-        error ("tf: set: invalid transfer function variable");
+        error ("tf: set: property '%s' requires a string", prop);
       endif
 
     case "inv"
