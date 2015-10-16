@@ -122,13 +122,13 @@
 
 function sys = filt (varargin)
 
-  if (nargin <= 1)
+  if (nargin <= 1)                      # filt (),  filt (sys),  filt (mat),  filt ('z')
     sys = tf (varargin{:});
     sys = set (sys, "inv", true);
     return;
   endif
 
-  num = {}; den = {}; tsam = -1;
+  num = {}; den = {}; tsam = -2;        # default values
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
@@ -137,6 +137,7 @@ function sys = filt (varargin)
       num = varargin{mat_idx};
     case 2
       [num, den] = varargin{mat_idx};
+      tsam = -1;
     case 3
       [num, den, tsam] = varargin{mat_idx};
       if (! issample (tsam, -1))
@@ -149,6 +150,17 @@ function sys = filt (varargin)
   endswitch
 
   varargin = varargin(opt_idx);
+  
+  if (isempty (den))
+    if (isempty (num))
+      num = den = {};
+      tsam = -2;
+    elseif (is_real_matrix (num))
+      num = num2cell (num);
+      den = num2cell (ones (size (num)));
+      tsam = -2;
+    endif
+  endif
 
   if (! iscell (num))
     num = {num};
@@ -162,7 +174,7 @@ function sys = filt (varargin)
     error ("filt: cells 'num' and 'den' must be 2-dimensional and of equal size");
   endif
 
-  if (! is_real_vector (num{:}, den{:}, 1))
+  if (! is_real_vector (num{:}, den{:}, 1))     # last argument 1 needed if num & den are empty
     error ("filt: arguments 'num' and 'den' must be real-valued vectors or cells thereof");
   endif
 
@@ -188,7 +200,11 @@ function sys = filt (varargin)
   ## sys is stored in standard z form, not z^-1
   ## so we can mix it with regular transfer function models
   ## property "inv", true displays sys in z^-1 form
-  sys = tf (num, den, tsam, "inv", true, varargin{:});
+  if (tsam == -2)
+    sys = tf (num, den, "inv", true, varargin{:});
+  else
+    sys = tf (num, den, tsam, "inv", true, varargin{:});
+  endif
 
 endfunction
 
