@@ -112,15 +112,24 @@ function sys = zpk (varargin)
   endif
 
   if (! size_equal (z, p, k))
-    error ("zpk: arguments z, p and k must have equal dimensions");
+    error ("zpk: arguments 'z', 'p' and 'k' must have equal dimensions");
   endif
 
-  ## FIXME: accept [], scalars and vectors but not matrices as z and p
-  ##        because  poly (matrix)  returns the characteristic polynomial
-  ##        if the matrix is square!
-  
-  ## TODO:  write a helper function (oct-file) for this task!
-  ##        if (! name_of_fancy_oct_file (z{:}, p{:}, 1))
+  ## NOTE: accept [], scalars and vectors but not matrices as 'z' and 'p'
+  ##       because  poly (matrix)  returns the characteristic polynomial
+  ##       if the matrix is square!
+
+  if (! is_zp_vector (z{:}, 1))  # last argument 1 needed if z is empty cell
+    error ("zpk: first argument 'z' must be a vector or a cell of vectors");
+  endif
+
+  if (! is_zp_vector (p{:}, 1))
+    error ("zpk: second argument 'p' must be a vector or a cell of vectors")
+  endif
+
+  if (! is_real_matrix (k))
+    error ("zpk: third argument 'k' must be a real-valued gain matrix");
+  endif
 
   num = cellfun (@(zer, gain) real (gain * poly (zer)), z, num2cell (k), "uniformoutput", false);
   den = cellfun (@(pol) real (poly (pol)), p, "uniformoutput", false);

@@ -156,7 +156,7 @@ function sys = filt (varargin)
   varargin = varargin(opt_idx);
   
   if (isempty (den) ...
-      && (isempty (num) || is_real_matrix (num))
+      && (isempty (num) || is_real_matrix (num)))
     sys = tf (num, "inv", true, varargin{:});
     return;
   endif
