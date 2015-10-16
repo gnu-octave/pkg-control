@@ -122,14 +122,23 @@
 
 function sys = filt (varargin)
 
-  if (nargin == 1 && isa (varargin{1}, "lti"))
-    sys = tf (varargin{1});
-    if (! isct (sys))       # if (isdt (sys))  would also "invert" static gains
+  if (nargin == 1)
+    if (ischar (varargin{1}))
+      sys = tf (varargin{1}, -1);
       sys = set (sys, "inv", true);
+      return;
+    else
+      sys = tf (varargin{1});
+      if (! isct (sys))       # if (isdt (sys))  would also "invert" static gains
+        sys = set (sys, "inv", true);
+      endif
+      return;
     endif
+  elseif (nargin == 0)
+    sys = tf ();
     return;
   endif
-
+  
   num = {}; den = {}; tsam = -1;
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
