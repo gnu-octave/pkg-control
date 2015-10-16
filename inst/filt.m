@@ -122,6 +122,8 @@
 
 function sys = filt (varargin)
 
+  ## FIXME: filt ('q', 1)
+
   if (nargin <= 1)                      # filt (),  filt (sys),  filt (mat),  filt ('z')
     sys = tf (varargin{:});
     sys = set (sys, "inv", true);

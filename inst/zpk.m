@@ -16,10 +16,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{s} =} zpk (@var{"s"})
-## @deftypefnx {Function File} {@var{z} =} zpk (@var{"z"}, @var{tsam})
+## @deftypefn {Function File} {@var{s} =} zpk (@var{'s'})
+## @deftypefnx {Function File} {@var{z} =} zpk (@var{'z'}, @var{tsam})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{sys})
-## @deftypefnx {Function File} {@var{sys} =} zpk (@var{k})
+## @deftypefnx {Function File} {@var{sys} =} zpk (@var{k}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} zpk (@var{z}, @var{p}, @var{k}, @var{tsam}, @dots{})
@@ -61,44 +61,68 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2011
-## Version: 0.1
+## Version: 0.2
 
-function sys = zpk (z = {}, p = {}, k = [], varargin)
+function sys = zpk (varargin)
 
-  switch (nargin)
-    case 0              # sys = zpk ()
-      sys = tf ();
+  if (nargin <= 1)              # zpk (),  zpk (sys),  zpk (k),  zpk ('s')
+    sys = tf (varargin{:});
+    return;
+  elseif (nargin == 2)          # zpk ('z', tsam)
+    if (ischar (varargin{1}) && is_real_scalar (varargin{2}))
+      sys = tf (varargin{:});
       return;
+    endif
+  endif
 
-    case 1              # sys = zpk (sys), sys = zpk (k), s = zpk ("s")
-      if (isa (z, "lti") || is_real_matrix (z) || ischar (z))
-        sys = tf (z);
-        return;
-      else
-        print_usage ();
-      endif
+  z = {}; p = {}; k = [];       # default values
+  tsam = 0;                     # default sampling time
 
-    case 2              # z = zpk ("z", tsam)
-      if (ischar (z) && issample (p, -1))
-        sys = tf (z, p);
-        return;
-      else
-        print_usage ();
-      endif
+  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
-    otherwise           # sys = zpk (z, p, k, ...)
-      if (! iscell (z))
-        z = {z};
+  switch (numel (mat_idx))
+    case 1
+      k = varargin{mat_idx};
+    case 3
+      [z, p, k] = varargin{mat_idx};
+    case 4
+      [z, p, k, tsam] = varargin{mat_idx};
+      if (! issample (tsam, -10))
+        error ("zpk: invalid sampling time");
       endif
-      if (! iscell (p))
-        p = {p};
-      endif
-      if (! size_equal (z, p, k))
-        error ("zpk: arguments z, p and k must have equal dimensions");
-      endif
-      num = cellfun (@(zer, gain) real (gain * poly (zer)), z, num2cell (k), "uniformoutput", false);
-      den = cellfun (@(pol) real (poly (pol)), p, "uniformoutput", false);
-      sys = tf (num, den, varargin{:});
+    case 0
+      ## nothing to do here, just prevent case 'otherwise'
+    otherwise
+      print_usage ();
   endswitch
+
+  varargin = varargin(opt_idx);
+
+  if (isempty (z) && isempty (p) && is_real_matrix (k))
+    sys = tf (k, varargin{:});
+    return;
+  endif
+
+  if (! iscell (z))
+    z = {z};
+  endif
+
+  if (! iscell (p))
+    p = {p};
+  endif
+
+  if (! size_equal (z, p, k))
+    error ("zpk: arguments z, p and k must have equal dimensions");
+  endif
+
+  ## FIXME: accept [], scalars and vectors but not matrices as z and p
+  ##        because  poly (matrix)  returns the characteristic polynomial
+  ##        if the matrix is square!
+  ## TODO:  write a helper function (oct-file) for this task!
+
+  num = cellfun (@(zer, gain) real (gain * poly (zer)), z, num2cell (k), "uniformoutput", false);
+  den = cellfun (@(pol) real (poly (pol)), p, "uniformoutput", false);
+
+  sys = tf (num, den, tsam, varargin{:});
 
 endfunction
