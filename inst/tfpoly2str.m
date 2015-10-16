@@ -18,7 +18,10 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{str} =} tfpoly2str (@var{p})
 ## @deftypefnx {Function File} {@var{str} =} tfpoly2str (@var{p}, @var{tfvar})
-## Return the string of a polynomial with string @var{tfvar} as variable.
+## Return the string of polynomial vector @var{p} with string @var{tfvar^-1}
+## as variable.  Note that there is an almost identical function for the
+## @command{tfpoly} class which returns a string with @var{tfvar}
+## (not @var{tfvar^-1}) as variable.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

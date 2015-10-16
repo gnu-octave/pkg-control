@@ -33,9 +33,9 @@ function display (sys)
   disp ("");
   
   if (sys.inv && ! isct (sys))
-    [num, den] = filtdata (sys);
+    [num, den] = filtdata (sys);        # 'num' and 'den' are cells of real-valued vectors
   else
-    num = sys.num;
+    num = sys.num;                      # 'num' and 'den' are cells of 'tfpoly' objects
     den = sys.den;
   endif
 
@@ -60,6 +60,11 @@ function display (sys)
 endfunction
 
 
+## NOTE: * Function handles both 'tfpoly' objects and real-valued vectors.
+##       * The general 'tfpoly2str' function returns strings with 
+##         negative powers of 'tfvar'.
+##       * The overloaded 'tfpoly2str' function returns strings with
+##         positive powers of 'tfvar'.
 function __disp_frac__ (num, den, tfvar, name)
 
   MAX_LEN = 12;  # max length of output name
