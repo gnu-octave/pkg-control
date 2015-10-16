@@ -122,12 +122,9 @@
 
 function sys = filt (varargin)
 
-  if (nargin == 0)
-    sys = tf ();
-    return;
-  elseif (nargin == 1 && isa (varargin{1}, "lti"))
+  if (nargin == 1 && isa (varargin{1}, "lti"))
     sys = tf (varargin{1});
-    if (! isct (sys))       # isdt (sys)  would also "invert" static gains
+    if (! isct (sys))       # if (isdt (sys))  would also "invert" static gains
       sys = set (sys, "inv", true);
     endif
     return;
@@ -148,7 +145,8 @@ function sys = filt (varargin)
         error ("filt: invalid sampling time");
       endif
     case 0
-      ## nothing to do here, just prevent case 'otherwise'
+      sys = tf (varargin{opt_idx});
+      return;
     otherwise
       print_usage ();
   endswitch
