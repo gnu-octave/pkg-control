@@ -68,11 +68,11 @@ function sys = zpk (varargin)
   if (nargin <= 1)              # zpk (),  zpk (sys),  zpk (k),  zpk ('s')
     sys = tf (varargin{:});
     return;
-  elseif (nargin == 2)          # zpk ('z', tsam)
-    if (ischar (varargin{1}) && is_real_scalar (varargin{2}))
-      sys = tf (varargin{:});
-      return;
-    endif
+  elseif (nargin == 2 ...
+          && ischar (varargin{1}) ...
+          && is_real_scalar (varargin{2}))
+    sys = tf (varargin{:});     # zpk ('z', tsam)
+    return;
   endif
 
   z = {}; p = {}; k = [];       # default values
@@ -118,7 +118,9 @@ function sys = zpk (varargin)
   ## FIXME: accept [], scalars and vectors but not matrices as z and p
   ##        because  poly (matrix)  returns the characteristic polynomial
   ##        if the matrix is square!
+  
   ## TODO:  write a helper function (oct-file) for this task!
+  ##        if (! name_of_fancy_oct_file (z{:}, p{:}, 1))
 
   num = cellfun (@(zer, gain) real (gain * poly (zer)), z, num2cell (k), "uniformoutput", false);
   den = cellfun (@(pol) real (poly (pol)), p, "uniformoutput", false);
