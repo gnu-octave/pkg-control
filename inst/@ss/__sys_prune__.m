@@ -49,6 +49,11 @@ function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
 endfunction
 
 
+## NOTE: This local '__str2idx__' function is different from
+##       the one defined in the file '__str2idx__.m'.  Why?
+##       There are input and output groups, but no state groups.
+##       At least the 'dark side' does not have state groups.
+##       However, I do contemplate 'stgroup'.
 function idx = __str2idx__ (name, str)
 
   tmp = strcmp (name, str)(:);
