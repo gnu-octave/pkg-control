@@ -118,57 +118,93 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: April 2012
-## Version: 0.1
+## Version: 0.2
 
-function sys = filt (num = {}, den = {}, tsam = -1, varargin)
+function sys = filt (varargin)
 
-  switch (nargin)
-    case 0              # filt ()
-      sys = tf ();
-      ## sys.inv = true;
-      return;
+  if (nargin <= 1)                      # filt (),  filt (sys),  filt (mat),  filt ('z')
+    sys = tf (varargin{:});
+    sys = set (sys, "inv", true);
+    return;
+  endif
 
-    case 1              # filt (sys), filt (matrix)
-      if (isa (num, "lti") || is_real_matrix (num))
-        sys = tf (num);
-        ## sys.inv = true;  # would be a problem for continuous-time LTI models
-        return;
-      else
-        print_usage ();
+  num = {}; den = {}; tsam = -2;        # default values
+
+  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+
+  switch (numel (mat_idx))
+    case 1
+      num = varargin{mat_idx};
+    case 2
+      [num, den] = varargin{mat_idx};
+      tsam = -1;
+    case 3
+      [num, den, tsam] = varargin{mat_idx};
+      if (! issample (tsam, -1))
+        error ("filt: invalid sampling time");
       endif
-
-    otherwise           # filt (num, den, ...)
-      if (! iscell (num))
-        num = {num};
-      endif
-      if (! iscell (den))
-        den = {den};
-      endif
-
-      ## convert from z^-1 to z
-      ## expand each channel by z^x, where x is the largest exponent of z^-1 (z^-x)
-
-      ## remove trailing zeros
-      ## such that polynomials are as short as possible
-      num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
-      den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
-
-      ## make numerator and denominator polynomials equally long
-      ## by adding trailing zeros
-      lnum = cellfun (@length, num, "uniformoutput", false);
-      lden = cellfun (@length, den, "uniformoutput", false);
-
-      lmax = cellfun (@max, lnum, lden, "uniformoutput", false);
-
-      num = cellfun (@postpad, num, lmax, "uniformoutput", false);
-      den = cellfun (@postpad, den, lmax, "uniformoutput", false);
-
-      ## use standard tf constructor
-      ## sys is stored in standard z form, not z^-1
-      ## so we can mix it with regular transfer function models
-      ## property "inv", true displays sys in z^-1 form
-      sys = tf (num, den, tsam, "inv", true, varargin{:});
+    case 0
+      ## nothing to do here, just prevent case 'otherwise'
+    otherwise
+      print_usage ();
   endswitch
+
+  varargin = varargin(opt_idx);
+  
+  if (isempty (den))
+    if (isempty (num))
+      num = den = {};
+      tsam = -2;
+    elseif (is_real_matrix (num))
+      num = num2cell (num);
+      den = num2cell (ones (size (num)));
+      tsam = -2;
+    endif
+  endif
+
+  if (! iscell (num))
+    num = {num};
+  endif
+
+  if (! iscell (den))
+    den = {den};
+  endif
+
+  if (! size_equal (num, den) || ndims (num) != 2)
+    error ("filt: cells 'num' and 'den' must be 2-dimensional and of equal size");
+  endif
+
+  if (! is_real_vector (num{:}, den{:}, 1))     # last argument 1 needed if num & den are empty
+    error ("filt: arguments 'num' and 'den' must be real-valued vectors or cells thereof");
+  endif
+
+  ## convert from z^-1 to z
+  ## expand each channel by z^x, where x is the largest exponent of z^-1 (z^-x)
+
+  ## remove trailing zeros
+  ## such that polynomials are as short as possible
+  num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
+  den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
+
+  ## make numerator and denominator polynomials equally long
+  ## by adding trailing zeros
+  lnum = cellfun (@length, num, "uniformoutput", false);
+  lden = cellfun (@length, den, "uniformoutput", false);
+
+  lmax = cellfun (@max, lnum, lden, "uniformoutput", false);
+
+  num = cellfun (@postpad, num, lmax, "uniformoutput", false);
+  den = cellfun (@postpad, den, lmax, "uniformoutput", false);
+
+  ## use standard tf constructor
+  ## sys is stored in standard z form, not z^-1
+  ## so we can mix it with regular transfer function models
+  ## property "inv", true displays sys in z^-1 form
+  if (tsam == -2)
+    sys = tf (num, den, "inv", true, varargin{:});
+  else
+    sys = tf (num, den, tsam, "inv", true, varargin{:});
+  endif
 
 endfunction
 

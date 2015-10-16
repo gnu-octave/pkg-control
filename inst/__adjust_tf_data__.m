@@ -25,10 +25,15 @@
 
 function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
 
-  if (is_real_matrix (num) && isempty (den))    # static gain  tf (4),  tf (matrix)
-    num = num2cell (num);
-    den = num2cell (ones (size (num)));
-    tsam = -2;
+  if (isempty (den))                # static gain  tf (4),  tf (matrix)
+    if (isempty (num))
+      num = den = {};
+      tsam = -2;
+    elseif (is_real_matrix (num))
+      num = num2cell (num);
+      den = num2cell (ones (size (num)));
+      tsam = -2;
+    endif
   endif
 
   if (! iscell (num))
