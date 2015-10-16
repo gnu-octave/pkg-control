@@ -29,6 +29,9 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
     num = num2cell (num);
     den = num2cell (ones (size (num)));
     tsam = -2;
+  elseif (isempty (num) && isempty (den))
+    num = den = {};
+    tsam = -2;
   endif
 
   if (! iscell (num))

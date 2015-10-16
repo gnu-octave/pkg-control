@@ -122,23 +122,12 @@
 
 function sys = filt (varargin)
 
-  if (nargin == 1)
-    if (ischar (varargin{1}))
-      sys = tf (varargin{1}, -1);
-      sys = set (sys, "inv", true);
-      return;
-    else
-      sys = tf (varargin{1});
-      if (! isct (sys))       # if (isdt (sys))  would also "invert" static gains
-        sys = set (sys, "inv", true);
-      endif
-      return;
-    endif
-  elseif (nargin == 0)
-    sys = tf ();
+  if (nargin <= 1)
+    sys = tf (varargin{:});
+    sys = set (sys, "inv", true);
     return;
   endif
-  
+
   num = {}; den = {}; tsam = -1;
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
@@ -154,25 +143,21 @@ function sys = filt (varargin)
         error ("filt: invalid sampling time");
       endif
     case 0
-      sys = tf (varargin{opt_idx});
-      return;
+      ## nothing to do here, just prevent case 'otherwise'
     otherwise
       print_usage ();
   endswitch
 
   varargin = varargin(opt_idx);
 
-  if (is_real_matrix (num) && isempty (den))
-    sys = tf (num, varargin{:});
-    return;
-  endif
-
   if (! iscell (num))
     num = {num};
   endif
+
   if (! iscell (den))
     den = {den};
   endif
+
   if (! size_equal (num, den) || ndims (num) != 2)
     error ("filt: cells 'num' and 'den' must be 2-dimensional and of equal size");
   endif
