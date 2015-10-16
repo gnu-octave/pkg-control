@@ -3,6 +3,7 @@
 #include "is_real_matrix.cc"
 #include "is_real_square_matrix.cc"
 #include "is_matrix.cc"
+#include "is_zp_vector.cc"
 #include "lti_input_idx.cc"
 
 #include "nfields2.cc"  // delete this if support for Octave 3.8 gets dropped
