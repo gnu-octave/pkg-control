@@ -41,14 +41,18 @@ function sys = __set__ (sys, prop, val)
         idx = strcmpi (val, candidates);
         if (any (idx))
           val = candidates{idx};
+          n = find (idx);
+          if (n > 2 && isct (sys))
+            error ("tf: set: variable '%s' not allowed for static gains and continuous-time models", val);
+          elseif (n < 3 && isdt (sys))
+            error ("tf: set: variable '%s' not allowed for static gains and discrete-time models", val);
+          endif
           if (isscalar (val))
             sys.tfvar = val;
             sys.inv = false;
           else
             sys.tfvar = val(1);
             sys.inv = true;
-            ## FIXME: raise error if sys.inv and continuous-time
-            ## FIXME: no switching between {"s", "p"} and {"z", "q", "z^-1", "q^-1"}
           endif
         else
           error ("tf: set: the string '%s' is not a valid transfer function variable", val);
