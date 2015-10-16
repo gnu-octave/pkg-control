@@ -122,11 +122,14 @@
 
 function sys = filt (varargin)
 
-  ## FIXME: filt ('q', 1)
-
-  if (nargin <= 1)                      # filt (),  filt (sys),  filt (mat),  filt ('z')
+  if (nargin <= 1)                      # filt (),  filt (sys),  filt (mat),  filt ('s')
     sys = tf (varargin{:});
     sys = set (sys, "inv", true);
+    return;
+  elseif (nargin == 2 ...
+          && ischar (varargin{1}) ...
+          && is_real_scalar (varargin{2}))
+    sys = tf (varargin{:});             # filt ('z', tsam)
     return;
   endif
 
@@ -152,11 +155,10 @@ function sys = filt (varargin)
 
   varargin = varargin(opt_idx);
   
-  if (isempty (den))
-    if (isempty (num) || is_real_matrix (num))
-      sys = tf (num, "inv", true, varargin{:});
-      return;
-    endif
+  if (isempty (den) ...
+      && (isempty (num) || is_real_matrix (num))
+    sys = tf (num, "inv", true, varargin{:});
+    return;
   endif
 
   if (! iscell (num))
