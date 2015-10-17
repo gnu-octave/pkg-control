@@ -135,7 +135,7 @@ function sys = filt (varargin)
 
   num = {}; den = {}; tsam = -1;        # default values
 
-  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+  [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
     case 1
@@ -156,7 +156,10 @@ function sys = filt (varargin)
   endswitch
 
   varargin = varargin(opt_idx);
-  
+  if (obj_flg)
+    varargin = horzcat ({"lti"}, varargin);
+  endif
+
   if (isempty (den) ...
       && (isempty (num) || is_real_matrix (num)))
     sys = tf (num, "inv", true, varargin{:});

@@ -39,4 +39,9 @@ function sys = dss (sys)
 
   sys = __set__ (sys, "e", eye (size (a)));
 
+  ## FIXME: dss (1, 2, 3, 4, 5, tf()),  dss (1, ss(4)),  ...
+  ##        Solve this by removing @lti/dss.m  and moving
+  ##        all the functionality to the "constructor" dss.m
+  ##        outside the '@lti' folder.
+
 endfunction
