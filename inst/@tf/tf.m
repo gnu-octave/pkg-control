@@ -217,7 +217,9 @@ function sys = tf (varargin)
       tsam = 0;
     case 3
       [num, den, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -10))
+      if (isempty (tsam) && is_real_matrix (tsam))
+        tsam = -1;
+      elseif (! issample (tsam, -10))
         error ("tf: invalid sampling time");
       endif
     case 0

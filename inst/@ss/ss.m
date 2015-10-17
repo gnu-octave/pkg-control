@@ -214,7 +214,9 @@ function sys = ss (varargin)
       [a, b, c, d] = varargin{mat_idx};
     case 5
       [a, b, c, d, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -10))
+      if (isempty (tsam) && is_real_matrix (tsam))
+        tsam = -1;
+      elseif (! issample (tsam, -10))
         error ("ss: invalid sampling time");
       endif
     case 0

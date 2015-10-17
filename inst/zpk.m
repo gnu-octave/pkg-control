@@ -87,7 +87,9 @@ function sys = zpk (varargin)
       [z, p, k] = varargin{mat_idx};
     case 4
       [z, p, k, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -10))
+      if (isempty (tsam) && is_real_matrix (tsam))
+        tsam = -1;
+      elseif (! issample (tsam, -10))
         error ("zpk: invalid sampling time");
       endif
     case 0

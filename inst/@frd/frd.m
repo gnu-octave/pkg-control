@@ -116,7 +116,8 @@ function sys = frd (varargin)
   if (nargin == 1 && isa (varargin{1}, "frd"))
     sys = varargin{1};
     return;
-  elseif (nargin != 0 && nargin <= 2 && isa (varargin{1}, "lti"))
+  elseif (nargin != 0 && nargin <= 2 ...
+          && isa (varargin{1}, "lti"))
     [sys, lti] = __sys2frd__ (varargin{:});
     sys.lti = lti;                      # preserve lti properties
     return;
@@ -133,7 +134,9 @@ function sys = frd (varargin)
       tsam = 0;
     case 3                              # frd (H, w, tsam),  frd (H, w, tsam, ...)
       [H, w, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -10))
+      if (isempty (tsam) && is_real_matrix (tsam))
+        tsam = -1;
+      elseif (! issample (tsam, -10))
         error ("frd: invalid sampling time");
       endif
     case 0                              # frd ()

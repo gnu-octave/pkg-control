@@ -71,9 +71,12 @@ function retsys = set (sys, varargin)
           sys.outname = __adjust_labels__ (val, p);
 
         case "tsam"
-          if (issample (val, -1))
+          if (issample (val, -1) && isdt (sys))
             sys.tsam = val;
-            ## TODO: display hint for 'd2d' to resample model?
+          elseif (is_real_scalar (val) && val == 0 && isct (sys))
+            sys.tsam = 0;
+          elseif (is_real_matrix (val) && isempty (val) && isdt (sys))
+            sys.tsam = -1;
           else
             error ("lti: set: invalid sampling time");
           endif

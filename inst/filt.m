@@ -144,7 +144,9 @@ function sys = filt (varargin)
       [num, den] = varargin{mat_idx};
     case 3
       [num, den, tsam] = varargin{mat_idx};
-      if (! issample (tsam, -1))
+      if (isempty (tsam) && is_real_matrix (tsam))
+        tsam = -1;
+      elseif (! issample (tsam, -1))
         error ("filt: invalid sampling time");
       endif
     case 0
