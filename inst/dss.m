@@ -115,7 +115,7 @@
 
 function sys = dss (varargin)
 
-  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+  mat_idx = __lti_input_idx__ (varargin);
   
   switch (numel (mat_idx))
     case {0, 1}
