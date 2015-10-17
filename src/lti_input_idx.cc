@@ -34,6 +34,7 @@ Return true if @var{x} is a character array.\n\
   {
     octave_idx_type len = args(0).cell_value().nelem();
     octave_idx_type idx = len;
+    octave_idx_type offset = 0;
     
     for (octave_idx_type i = 0; i < len; i++)
     {
@@ -43,10 +44,14 @@ Return true if @var{x} is a character array.\n\
         break;
       }
     }
-    
-    Range mat_idx (1, idx);
-    Range opt_idx (idx+1, len);
 
+    if (len > 0 && args(0).cell_value().elem(idx-1).is_object ())
+      offset = 1;
+
+    Range mat_idx (1, idx-offset);
+    Range opt_idx (idx+1-offset, len);
+
+    retval(2) = offset;
     retval(1) = opt_idx;
     retval(0) = mat_idx;
   }

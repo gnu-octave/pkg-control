@@ -115,13 +115,15 @@
 
 function sys = dss (varargin)
 
-  ## NOTE: LTI models are handled by  @lti/dss.m
-
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
   
   switch (numel (mat_idx))
     case {0, 1}
       sys = ss (varargin{:});
+      [a, ~, ~, ~, e] = __sys_data__ (sys);
+      if (isempty (e));
+        sys = __set__ (sys, "e", eye (size (a)));
+      endif
     case {5, 6}
       sys = ss (varargin{[1:4, 6:end]}, "e", varargin{5});
     otherwise

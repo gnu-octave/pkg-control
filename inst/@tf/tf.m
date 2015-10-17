@@ -207,7 +207,7 @@ function sys = tf (varargin)
   num = {}; den = {};                           # default transfer matrix
   tsam = -2;                                    # default sampling time
 
-  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+  [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
     case 1
@@ -229,6 +229,9 @@ function sys = tf (varargin)
   endswitch
   
   varargin = varargin(opt_idx);
+  if (obj_flg)
+    varargin = horzcat ({"lti"}, varargin);
+  endif
   
   [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam);
   [p, m] = __tf_dim__ (num, den);              # determine number of outputs and inputs

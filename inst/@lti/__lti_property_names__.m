@@ -24,7 +24,7 @@
 ## Created: September 2009
 ## Version: 0.3
 
-function [props, vals] = __property_names__ (sys, aliases = false)
+function [props, vals] = __lti_property_names__ (sys, aliases = false)
 
   ## cell vector of lti-specific properties
   props = {"tsam";
@@ -50,7 +50,8 @@ function [props, vals] = __property_names__ (sys, aliases = false)
     pa = {"inputname";
           "outputname";
           "inputgroup";
-          "outputgroup"};
+          "outputgroup";
+          "lti"};
 
     props = [props; pa];
 
