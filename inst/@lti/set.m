@@ -122,7 +122,15 @@ function retsys = set (sys, varargin)
 
         case "lti"
           if (isa (val, "lti"))
-            lti_keys = __property_names__ (val.lti, false)
+            lti_keys = __lti_property_names__ (val, false);
+            n = numel (lti_keys);
+            lti_vals = cell (n, 1);
+            [lti_vals{1:n}] = get (val, lti_keys{:});
+            for k = 1:n
+              try
+                sys = set (sys, lti_keys{k}, lti_vals{k});
+              end_try_catch
+            endfor
           else
             error ("lti: set: property 'lti' requires an LTI model");
           endif

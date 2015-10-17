@@ -44,7 +44,7 @@ function [props, vals] = __property_names__ (sys, aliases = false)
     props = [props; pa];
   endif
   
-  [ltiprops, ltivals] = __property_names__ (sys.lti, aliases);
+  [ltiprops, ltivals] = __lti_property_names__ (sys.lti, aliases);
 
   props = [props; ltiprops];
   vals = [vals; ltivals];
