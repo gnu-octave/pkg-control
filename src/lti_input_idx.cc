@@ -52,8 +52,8 @@ Return true if @var{x} is a character array.\n\
     // ** If there is no string at all in cell args(0), check
     //    whether the last element in args(0) is an object.
     //    If so, this object also belongs to the option index.
-    // ** All other objects (not directly before the first string
-    //    and not at the end of the cell 'args') are simply ignored.
+    // ** All other objects (before built-in types (except chars)
+    //    and after strings) are not recognized as objects.
     if (len > 0 && idx > 0
         && args(0).cell_value().elem(idx-1).is_object ())
     {
