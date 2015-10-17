@@ -25,6 +25,10 @@ FIXME:  Regarding all the changesets after control-2.8.5,  I think that
 
 TODO:   A lot of notes describing all the changes!
 
+ ** dss
+    -- Fixed a bug where 'dss (sys)' overwrites sys.e with an identity matrix
+       even if sys.e was not empty.
+
  ** ss
 
  ** tf
