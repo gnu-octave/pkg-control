@@ -182,6 +182,20 @@ function sys = ss (varargin)
       sys.lti = lti;                    # preserve lti properties
       return;
     endif
+  elseif (nargin == 2)                  # shortcut for lti objects plus
+    if (ischar (varargin{2}) && isa (varargin{1}, "lti"))
+      candidates = {"minimal", "explicit"};
+      key = __match_key__ (varargin{2}, candidates, "ss");
+      switch (key)
+        case "minimal"                  # ss (sys, 'minimal')
+          sys = minreal (ss (varargin{1}));
+          return;
+        case "explicit"                 # ss (sys, 'explicit')
+          sys = dss2ss (ss (varargin{1}));
+          return;
+        otherwise                       # this would be a silly bug
+      endswitch
+    endif
   endif
 
   a = []; b = []; c = []; d = [];       # default state-space matrices
@@ -229,5 +243,13 @@ function sys = ss (varargin)
   if (numel (varargin) > 0)             # if there are any properties and values, ...
     sys = set (sys, varargin{:});       # use the general set function
   endif
+
+endfunction
+
+
+## TODO: create a separate function @lti/dss2ss.m
+function G = dss2ss (G)
+
+  [G.a, G.b, G.c, G.d, G.e] = __dss2ss__ (G.a, G.b, G.c, G.d, G.e);
 
 endfunction
