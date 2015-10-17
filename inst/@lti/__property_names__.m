@@ -50,7 +50,8 @@ function [props, vals] = __property_names__ (sys, aliases = false)
     pa = {"inputname";
           "outputname";
           "inputgroup";
-          "outputgroup"};
+          "outputgroup";
+          "lti"};
 
     props = [props; pa];
 

@@ -126,7 +126,7 @@ function sys = frd (varargin)
   H = []; w = [];                       # default frequency response data
   tsam = -2;                            # default sampling time
   
-  [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
+  [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
     case 2                              # frd (H, w),  frd (H, w, ...)
@@ -146,6 +146,9 @@ function sys = frd (varargin)
   endswitch
 
   varargin = varargin(opt_idx);
+  if (obj_flg)
+    varargin = horzcat ({"lti"}, varargin);
+  endif
 
   [H, w] = __adjust_frd_data__ (H, w);
   [p, m] = __frd_dim__ (H, w);          # determine number of outputs and inputs

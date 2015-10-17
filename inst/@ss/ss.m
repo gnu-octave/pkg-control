@@ -201,7 +201,7 @@ function sys = ss (varargin)
   a = []; b = []; c = []; d = [];       # default state-space matrices
   tsam = 0;                             # default sampling time
 
-  [mat_idx, opt_idx, obj_idx] = __lti_input_idx__ (varargin);
+  [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
   
   switch (numel (mat_idx))
     case 1
@@ -225,10 +225,9 @@ function sys = ss (varargin)
       print_usage ();
   endswitch
 
-  if (isempty (obj_idx))
-    varargin = varargin(opt_idx);
-  else
-    varargin = horzcat ({"lti"}, varargin([obj_idx, opt_idx]));
+  varargin = varargin(opt_idx);
+  if (obj_flg)
+    varargin = horzcat ({"lti"}, varargin);
   endif
 
   [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);

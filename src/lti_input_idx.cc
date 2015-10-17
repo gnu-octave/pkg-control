@@ -49,10 +49,9 @@ Return true if @var{x} is a character array.\n\
       offset = 1;
 
     Range mat_idx (1, idx-offset);
-    Range opt_idx (idx+1, len);
-    Range obj_idx (idx, idx-1+offset);
+    Range opt_idx (idx+1-offset, len);
 
-    retval(2) = obj_idx;
+    retval(2) = offset;
     retval(1) = opt_idx;
     retval(0) = mat_idx;
   }

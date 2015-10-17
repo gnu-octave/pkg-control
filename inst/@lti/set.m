@@ -120,6 +120,13 @@ function retsys = set (sys, varargin)
         case "userdata"
           sys.userdata = val;
 
+        case "lti"
+          if (isa (val, "lti"))
+            lti_keys = __property_names__ (val.lti, false)
+          else
+            error ("lti: set: property 'lti' requires an LTI model");
+          endif
+
         otherwise
           sys = __set__ (sys, prop, val);
       endswitch
