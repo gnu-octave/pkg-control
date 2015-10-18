@@ -5,7 +5,7 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
 TODO:   A lot of notes describing all the changes!
-        Maybe bug #42495  <http://savannah.gnu.org/bugs/?42495>
+
 
  ** LTI models
 
@@ -54,6 +54,13 @@ TODO:   A lot of notes describing all the changes!
        
     Previous control versions supported any string, which could be quite
     misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
+
+ ** bode, bodemag, nichols, nyquist, sigma
+
+    Fixed bug #42495.  <http://savannah.gnu.org/bugs/?42495>
+    It is now possible to specify a frequency vector of length 1, e.g.
+    
+      [mag, phase] = bode (sys, 1)
 
 
 ===============================================================================

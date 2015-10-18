@@ -32,7 +32,7 @@ function [H, w] = __frequency_response__ (args, mimoflag = false, wbounds = "std
   endif
 
   sys_idx = cellfun (@isa, args, {"lti"});      # look for LTI models
-  w_idx = cellfun (@(x) is_real_vector (x) && length (x) > 1, args);  # look for frequency vectors
+  w_idx = cellfun (@is_real_vector, args);      # look for frequency vectors
   r_idx = cellfun (@iscell, args);              # look for frequency ranges {wmin, wmax}
   
   sys_cell = args(sys_idx);                     # extract LTI models
