@@ -4,67 +4,56 @@ Summary of important user-visible changes for releases of the control package
 control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
-FIXME:  Regarding all the changesets after control-2.8.5,  I think that
-        calling this release just control-2.8.6 is too much understatement.
-        So what is the next version number after 2.8?  2.9, 2.10 or 3.0?
-          
-        http://semver.org:          
-        Given a version number MAJOR.MINOR.PATCH, increment the:
-
-        MAJOR version when you make incompatible API changes,
-        MINOR version when you add functionality in a backwards-compatible manner, and
-        PATCH version when you make backwards-compatible bug fixes.          
-          
-        2.9.0: No, because Octave itself uses only even numbers for minor versions.
-        2.10.0: No, Octave went from 3.8 to 4.0 and we're not backwards-compatible.
-        3.0.0: Yes, there are incompatible API changes.
-          
-        I wanted to use version number 3.0 for the introduction of time delays.
-        However, since time delays don't break backwards compatibility,
-        that future release can be baptized 'control-3.2.0'
-
 TODO:   A lot of notes describing all the changes!
         Maybe bug #42495  <http://savannah.gnu.org/bugs/?42495>
 
  ** LTI models
-    -- Improved handling of key-value pairs in all constructors for LTI models:
-    
-         tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
 
-    -- Support inheritance of LTI properties in many variations:
+    Substantial parts of the most vital internals have been rewritten
+    and streamlined in order to improve compatibility and reliability.
+    These changes to the codebase also result in better error handling
+    in many situations and facilitate the integration of new features
+    in upcoming releases.
 
-         tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
-         sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
+    Improved handling of key-value pairs in all constructors for LTI models:
     
-    -- Accept [] as an alias for unspecified sampling time (Ts = -1):
+        tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
+
+    Support inheritance of LTI properties in many variations:
+
+        tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
+        sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
     
-         filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
+    Accept [] as an alias for unspecified sampling time (Ts = -1):
     
-    -- Automatic vector expansion for input and output names:
+        filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
+    
+    Automatic vector expansion for input and output names:
     
          sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
-
-    -- Improved error handling in many situations.
-
+         
 
  ** dss
-    -- Fixed a long-standing but undiscovered bug where 'dss (sys)' overwrites
-       sys.e with an identity matrix even if sys.e was not empty.  D'oh!
+
+    Fixed a long-standing but undiscovered bug where 'dss (sys)' overwrites
+    sys.e with an identity matrix even if sys.e was not empty.  D'oh!
 
  ** ss
-    -- Support for the following special cases:
+
+    Support for the following special cases:
     
-         ss (sys, 'explicit')   % convert descriptor system to regular one
-         ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
+        ss (sys, 'explicit')   % convert descriptor system to regular one
+        ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
 
  ** tf
-    -- Restrict transfer function variable to the candidates 's', 'p' for
-       continuous-time and 'z', 'q', 'z^-1', 'q^-1' for discrete-time models.
+
+    Restrict transfer function variable to the candidates 's', 'p' for
+    continuous-time and 'z', 'q', 'z^-1', 'q^-1' for discrete-time models.
        
-         s = tf ('s'),  z = tf ('z^-1', Ts),  tf (num, den, Ts, 'var', 'q')
+        s = tf ('s'),  z = tf ('z^-1', Ts),  tf (num, den, Ts, 'var', 'q')
        
-       Previous control versions supported any string, which could be quite
-       misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
+    Previous control versions supported any string, which could be quite
+    misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
 
 
 ===============================================================================
