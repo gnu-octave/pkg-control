@@ -26,7 +26,7 @@
 
 function retlti = __lti_group__ (lti1, lti2, dim = "blkdiag")
 
-  retlti = lti ();
+  retlti = lti (:, :, :);
 
   if (any (strcmpi (dim, {"blkdiag", "horzcat"})))  # blkdiag, horzcat
     retlti.inname = [lti1.inname; lti2.inname];

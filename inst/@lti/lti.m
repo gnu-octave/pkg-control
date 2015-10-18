@@ -24,6 +24,10 @@
 
 function ltisys = lti (p = 0, m = 0, tsam = -2)
 
+  if (nargin != 3 || ! is_real_scalar (p, m, tsam))
+    error ("lti: constructor for 'lti' class, intended for internal use only");
+  endif
+
   inname = repmat ({""}, m, 1);
   outname = repmat ({""}, p, 1);
 
