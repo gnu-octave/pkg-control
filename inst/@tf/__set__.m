@@ -26,7 +26,7 @@ function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case "num"
-      if (get (sys, "tsam") == -2)   # FIXME: sys.lti.tsam  currently not working
+      if (get (sys, "tsam") == -2)   # NOTE: sys.lti.tsam  would call 'get' via 'subsref'
         error (["tf: set: tinkering with numerators of static gains is disabled on purpose.  " ...
                 "to avoid this error, set the sampling time of your LTI model first."]);
       else
