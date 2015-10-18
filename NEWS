@@ -27,6 +27,15 @@ TODO:   A lot of notes describing all the changes!
         Maybe bug #42495  <http://savannah.gnu.org/bugs/?42495>
 
  ** LTI models
+    -- Improved handling of key-value pairs in all constructors for LTI models:
+    
+         tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
+
+    -- Support inheritance of LTI properties in many variations:
+
+         tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
+         sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
+    
     -- Accept [] as an alias for unspecified sampling time (Ts = -1):
     
          filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
@@ -35,23 +44,18 @@ TODO:   A lot of notes describing all the changes!
     
          sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
 
-    -- Support inheritance of LTI properties in many variations:
+    -- Improved error handling in many situations.
 
-         tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
-         sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
 
  ** dss
     -- Fixed a long-standing but undiscovered bug where 'dss (sys)' overwrites
        sys.e with an identity matrix even if sys.e was not empty.  D'oh!
 
  ** ss
-    -- Support for inheritance of LTI properties and other special cases:
+    -- Support for the following special cases:
     
-         ss (sys, 'explicit'),  ss (sys, 'minimal'),  ss (a, b, c, d, ltisys)
-
-    -- Improved handling of key-value pairs, e.g.
-
-         ss (d, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
+         ss (sys, 'explicit')   % convert descriptor system to regular one
+         ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
 
  ** tf
     -- Restrict transfer function variable to the candidates 's', 'p' for
@@ -61,10 +65,6 @@ TODO:   A lot of notes describing all the changes!
        
        Previous control versions supported any string, which could be quite
        misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
-
-    -- Improved handling of key-value pairs, e.g.
-
-         tf (matrix, 'key1', 'val1', ...)
 
 
 ===============================================================================
