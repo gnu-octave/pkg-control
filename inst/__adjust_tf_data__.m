@@ -25,11 +25,11 @@
 
 function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
 
-  if (isempty (den))                # static gain  tf (4),  tf (matrix)
-    if (isempty (num))
+  if (isempty (den))                    # tf (num, []),  where [] could be {} as well
+    if (isempty (num))                  # tf ([], [])
       num = den = {};
       tsam = -2;
-    elseif (is_real_matrix (num))
+    elseif (is_real_matrix (num))       # static gain  tf (matrix),  tf (matrix, [])
       num = num2cell (num);
       den = num2cell (ones (size (num)));
       tsam = -2;
@@ -39,10 +39,20 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
   if (! iscell (num))
     num = {num};
   endif
-  
   if (! iscell (den))
     den = {den};
   endif
+
+  ## NOTE: the 'tfpoly' constructor checks its vector as well,
+  ##       but its error message would make little sense for users
+  ##       and would make it hard for them to identify the invalid argument.
+
+  if (! is_real_vector (num{:}, 1))     # dummy argument 1 needed if num is empty cell
+    error ("tf: first argument 'num' requires a real-valued, non-empty vector or a cell of such vectors");
+  endif
+  if (! is_real_vector (den{:}, 1))
+    error ("tf: second argument 'den' requires a real-valued, non-empty vector or a cell of such vectors");
+  endif  
 
   num = cellfun (@tfpoly, num, "uniformoutput", false);
   den = cellfun (@tfpoly, den, "uniformoutput", false);
