@@ -127,9 +127,8 @@ function sys = filt (varargin)
     sys = set (sys, "inv", true);
     return;
   elseif (nargin == 2 ...
-          && ischar (varargin{1}) ...
-          && is_real_scalar (varargin{2}))
-    sys = tf (varargin{:});             # filt ('z', tsam)
+          && ischar (varargin{1}))      # filt ('z', tsam)
+    sys = tf (varargin{:});
     return;
   endif
 

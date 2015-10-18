@@ -197,11 +197,12 @@ function sys = tf (varargin)
       sys = tf ([1, 0], 1, "tfvar", varargin{:});
       return;
     endif
-  elseif (nargin == 2)                          # z = tf ('z', tsam)
-    if (ischar (varargin{1}) && is_real_scalar (varargin{2}))
-      sys = tf ([1, 0], 1, varargin{2}, "tfvar", varargin{[1,3:end]});
-      return;
-    endif
+  elseif (nargin == 2 ...
+          && ischar (varargin{1}) ...
+          && is_zp_vector (varargin{2}) ...
+          && length (varargin{2}) <= 1)         # z = tf ('z', tsam)
+    sys = tf ([1, 0], 1, varargin{2}, "tfvar", varargin{[1,3:end]});
+    return;
   endif
   
   num = {}; den = {};                           # default transfer matrix

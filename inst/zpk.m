@@ -65,18 +65,17 @@
 
 function sys = zpk (varargin)
 
-  if (nargin <= 1)              # zpk (),  zpk (sys),  zpk (k),  zpk ('s')
+  if (nargin <= 1)                  # zpk (),  zpk (sys),  zpk (k),  zpk ('s')
     sys = tf (varargin{:});
     return;
   elseif (nargin == 2 ...
-          && ischar (varargin{1}) ...
-          && is_real_scalar (varargin{2}))
-    sys = tf (varargin{:});     # zpk ('z', tsam)
+          && ischar (varargin{1}))  # zpk ('z', tsam)
+    sys = tf (varargin{:});
     return;
   endif
 
-  z = {}; p = {}; k = [];       # default values
-  tsam = 0;                     # default sampling time
+  z = {}; p = {}; k = [];           # default values
+  tsam = 0;                         # default sampling time
 
   [mat_idx, opt_idx] = __lti_input_idx__ (varargin);
 
