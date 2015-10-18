@@ -4,10 +4,7 @@ Summary of important user-visible changes for releases of the control package
 control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
-TODO:   A lot of notes describing all the changes!
-
-
- ** LTI models
+ ** LTI models in general
 
     Substantial parts of the most vital internals have been rewritten
     and streamlined in order to improve compatibility and reliability.
@@ -31,7 +28,7 @@ TODO:   A lot of notes describing all the changes!
     Automatic vector expansion for input and output names:
     
       sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
-         
+
 
  ** dss
 
@@ -40,12 +37,12 @@ TODO:   A lot of notes describing all the changes!
 
  ** ss
 
-    Support for the following special cases:
+    Support for the following special cases has been added:
     
       ss (sys, 'explicit')   % convert descriptor system to regular one
       ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
 
- ** tf
+ ** tf, zpk, filt
 
     Restrict transfer function variable to the candidates 's', 'p' for
     continuous-time and 'z', 'q', 'z^-1', 'q^-1' for discrete-time models.
