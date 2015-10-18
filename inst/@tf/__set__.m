@@ -27,7 +27,8 @@ function sys = __set__ (sys, prop, val)
   switch (prop)  # {<internal name>, <user name>}
     case "num"
       if (get (sys, "tsam") == -2)   # FIXME: sys.lti.tsam  currently not working
-        error ("tf: set: tinkering with numerators of static gains is disabled on purpose");
+        error (["tf: set: tinkering with numerators of static gains is disabled on purpose.  " ...
+                "to avoid this error, set the sampling time of your LTI model first."]);
       else
         num = __adjust_tf_data__ (val, sys.den);
         __tf_dim__ (num, sys.den);
@@ -36,7 +37,8 @@ function sys = __set__ (sys, prop, val)
 
     case "den"
       if (get (sys, "tsam") == -2)
-        error ("tf: set: tinkering with denominators of static gains is disabled on purpose");
+        error (["tf: set: tinkering with denominators of static gains is disabled on purpose.  " ...
+                "to avoid this error, set the sampling time of your LTI model first."]);
       else
         [~, den] = __adjust_tf_data__ (sys.num, val);
         __tf_dim__ (sys.num, den);
