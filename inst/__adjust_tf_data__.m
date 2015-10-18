@@ -52,10 +52,14 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
   endif
   if (! is_real_vector (den{:}, 1))
     error ("tf: second argument 'den' requires a real-valued, non-empty vector or a cell of such vectors");
-  endif  
+  endif
 
   num = cellfun (@tfpoly, num, "uniformoutput", false);
   den = cellfun (@tfpoly, den, "uniformoutput", false);
+
+  if (any (cellfun (@is_zero, den)(:)))
+    error ("tf: second argument 'den' requires non-zero denominator(s)");
+  endif
   
   if (tsam == 0)
     tfvar = "s";
