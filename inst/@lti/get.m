@@ -17,9 +17,9 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} get (@var{sys})
-## @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"property"})
-## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{sys}, @var{"prop1"}, @var{"prop2"}, @dots{})
-## Access property values of @acronym{LTI} objects.
+## @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"key"})
+## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{sys}, @var{"key1"}, @var{"key2"}, @dots{})
+## Access key values of @acronym{LTI} objects.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -29,9 +29,9 @@
 function varargout = get (sys, varargin)
 
   if (nargin == 1)
-    [props, vals] = __property_names__ (sys);
-    nrows = numel (props);
-    str = strjust (strvcat (props), "right");
+    [keys, vals] = __lti_keys__ (sys);
+    nrows = numel (keys);
+    str = strjust (strvcat (keys), "right");
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
     disp (str);
   else
@@ -39,12 +39,12 @@ function varargout = get (sys, varargin)
       print_usage ();
     endif
     
-    keys = __property_names__ (sys, true);
+    keys = __lti_keys__ (sys, true);
     
     for k = 1 : (nargin-1)
-      prop = __match_key__ (varargin{k}, keys, [class(sys), ": get"]);
+      key = __match_key__ (varargin{k}, keys, [class(sys), ": get"]);
 
-      switch (prop)
+      switch (key)
         case {"inname", "inputname"}
           val = sys.inname;
         case {"outname", "outputname"}
@@ -62,7 +62,7 @@ function varargout = get (sys, varargin)
         case "userdata"
           val = sys.userdata;
         otherwise
-          val = __get__ (sys, prop);
+          val = __get__ (sys, key);
       endswitch
 
       varargout{k} = val;

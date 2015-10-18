@@ -16,22 +16,22 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
-## @deftypefnx {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys}, @var{"specific"})
-## Return the list of properties as well as the assignable values for a ss object sys.
+## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __sys_keys__ (@var{sys})
+## @deftypefnx {Function File} {[@var{keys}, @var{vals}] =} __sys_keys__ (@var{sys}, @var{aliases})
+## Return the list of keys as well as the assignable values for a tf object sys.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function [props, vals] = __property_names__ (sys, aliases = false)
+function [keys, vals] = __sys_keys__ (sys, aliases = false)
 
-  ## cell vector of tf-specific properties
-  props = {"num";
-           "den";
-           "tfvar";
-           "inv"};
+  ## cell vector of tf-specific keys
+  keys = {"num";
+          "den";
+          "tfvar";
+          "inv"};
 
   ## cell vector of tf-specific assignable values
   vals = {"p-by-m cell array of row vectors (m = number of inputs)";
@@ -40,13 +40,8 @@ function [props, vals] = __property_names__ (sys, aliases = false)
           "logical (true for negative powers of TF variable)"};
 
   if (aliases)
-    pa = {"variable"};
-    props = [props; pa];
+    ka = {"variable"};
+    keys = [keys; ka];
   endif
-  
-  [ltiprops, ltivals] = __lti_property_names__ (sys.lti, aliases);
-
-  props = [props; ltiprops];
-  vals = [vals; ltivals];
 
 endfunction

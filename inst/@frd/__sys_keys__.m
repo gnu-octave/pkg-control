@@ -14,34 +14,29 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
-## @deftypefnx {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys}, @var{"specific"})
-## Return the list of properties as well as the assignable values for a frd object sys.
+## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __key_names__ (@var{sys})
+## @deftypefnx {Function File} {[@var{keys}, @var{vals}] =} __key_names__ (@var{sys}, @var{aliases})
+## Return the list of keys as well as the assignable values for a frd object sys.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
-## Version: 0.2
+## Version: 0.3
 
-function [props, vals] = __property_names__ (sys, aliases = false)
+function [keys, vals] = __sys_keys__ (sys, aliases = false)
 
-  ## cell vector of tf-specific properties
-  props = {"H";
-           "w"};
+  ## cell vector of frd-specific keys
+  keys = {"H";
+          "w"};
 
   ## cell vector of frd-specific assignable values
   vals = {"p-by-m-by-l array of complex frequency responses";
           "l-by-1 vector of real frequencies (l = length (w))"};
 
   if (aliases)
-    pa = {"response";
+    ka = {"response";
           "frequency"};
-    props = [props; pa];
+    keys = [keys; ka];
   endif
-
-  [ltiprops, ltivals] = __lti_property_names__ (sys.lti, aliases);
-
-  props = [props; ltiprops];
-  vals = [vals; ltivals];
 
 endfunction

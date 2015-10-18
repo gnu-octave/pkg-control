@@ -17,13 +17,13 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} set (@var{sys})
-## @deftypefnx {Function File} {} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
-## @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"property"}, @var{value}, @dots{})
+## @deftypefnx {Function File} {} set (@var{sys}, @var{"key"}, @var{value}, @dots{})
+## @deftypefnx {Function File} {@var{retsys} =} set (@var{sys}, @var{"key"}, @var{value}, @dots{})
 ## Set or modify properties of @acronym{LTI} objects.
 ## If no return argument @var{retsys} is specified, the modified @acronym{LTI} object is stored
 ## in input argument @var{sys}.  @command{set} can handle multiple properties in one call:
-## @code{set (sys, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
-## @code{set (sys)} prints a list of the object's property names.
+## @code{set (sys, 'key1', val1, 'key2', val2, 'key3', val3)}.
+## @code{set (sys)} prints a list of the object's key names.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -34,10 +34,10 @@ function retsys = set (sys, varargin)
 
   if (nargin == 1)       # set (sys), sys = set (sys)
 
-    [props, vals] = __property_names__ (sys);
-    nrows = numel (props);
+    [keys, vals] = __lti_keys__ (sys);
+    nrows = numel (keys);
 
-    str = strjust (strvcat (props), "right");
+    str = strjust (strvcat (keys), "right");
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
 
     disp (str);
@@ -46,24 +46,24 @@ function retsys = set (sys, varargin)
       retsys = sys;      # would lead to unwanted output when using
     endif                # set (sys)
 
-  else                   # set (sys, "prop1", val1, ...), sys = set (sys, "prop1", val1, ...)
+  else                   # set (sys, "key1", val1, ...), sys = set (sys, "key1", val1, ...)
 
     if (! isa (sys, "lti"));
       print_usage ();
     endif
 
     if (rem (nargin-1, 2))
-      error ("lti: set: properties and values must come in pairs");
+      error ("lti: set: keys and values must come in pairs");
     endif
 
     [p, m] = size (sys);
-    keys = __property_names__ (sys, true);
+    keys = __lti_keys__ (sys, true);
 
     for k = 1 : 2 : (nargin-1)
-      prop = __match_key__ (varargin{k}, keys, [class(sys), ": set"]);
+      key = __match_key__ (varargin{k}, keys, [class(sys), ": set"]);
       val = varargin{k+1};
 
-      switch (prop)
+      switch (key)
         case {"inname", "inputname"}
           sys.inname = __adjust_labels__ (val, m);
 
@@ -88,7 +88,7 @@ function retsys = set (sys, varargin)
             fields = fieldnames (val);
             sys.ingroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'ingroup' requires a scalar struct containing valid input indices in the range [1, %d]", m);
+            error ("lti: set: key 'ingroup' requires a scalar struct containing valid input indices in the range [1, %d]", m);
           endif
 
         case {"outgroup", "outputgroup"}
@@ -98,14 +98,14 @@ function retsys = set (sys, varargin)
             fields = fieldnames (val);
             sys.outgroup = rmfield (val, fields(empty));
           else
-            error ("lti: set: property 'outgroup' requires a scalar struct containing valid output indices in the range [1, %d]", p);
+            error ("lti: set: key 'outgroup' requires a scalar struct containing valid output indices in the range [1, %d]", p);
           endif
 
         case "name"
           if (ischar (val) && ndims (val) == 2 && (rows (val) == 1 || isempty (val)))
             sys.name = val;
           else
-            error ("lti: set: property 'name' requires a string");
+            error ("lti: set: key 'name' requires a string");
           endif
 
         case "notes"
@@ -114,7 +114,7 @@ function retsys = set (sys, varargin)
           elseif (ischar (val))
             sys.notes = {val};
           else
-            error ("lti: set: property 'notes' requires string or cell of strings");
+            error ("lti: set: key 'notes' requires string or cell of strings");
           endif
 
         case "userdata"
@@ -122,7 +122,7 @@ function retsys = set (sys, varargin)
 
         case "lti"
           if (isa (val, "lti"))
-            lti_keys = __lti_property_names__ (val, false);
+            lti_keys = __lti_keys__ (val, false, false);
             n = numel (lti_keys);
             lti_vals = cell (n, 1);
             [lti_vals{1:n}] = get (val, lti_keys{:});
@@ -132,17 +132,17 @@ function retsys = set (sys, varargin)
               end_try_catch
             endfor
           else
-            error ("lti: set: property 'lti' requires an LTI model");
+            error ("lti: set: key 'lti' requires an LTI model");
           endif
 
         otherwise
-          sys = __set__ (sys, prop, val);
+          sys = __set__ (sys, key, val);
       endswitch
     endfor
 
-    if (nargout == 0)    # set (sys, "prop1", val1, ...)
+    if (nargout == 0)    # set (sys, "key1", val1, ...)
       assignin ("caller", inputname (1), sys);
-    else                 # sys = set (sys, "prop1", val1, ...)
+    else                 # sys = set (sys, "key1", val1, ...)
       retsys = sys;
     endif
 

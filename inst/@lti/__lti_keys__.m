@@ -16,25 +16,25 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{sys})
-## Return the list of properties as well as the assignable values for an LTI object sys.
+## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __lti_keys__ (@var{sys})
+## Return the list of keys as well as the assignable values for an LTI object sys.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009
 ## Version: 0.3
 
-function [props, vals] = __lti_property_names__ (sys, aliases = false)
+function [keys, vals] = __lti_keys__ (sys, aliases = false, subclasses = true)
 
-  ## cell vector of lti-specific properties
-  props = {"tsam";
-           "inname";
-           "outname";
-           "ingroup";
-           "outgroup";
-           "name";
-           "notes";
-           "userdata"};
+  ## cell vector of lti-specific keys
+  keys = {"tsam";
+          "inname";
+          "outname";
+          "ingroup";
+          "outgroup";
+          "name";
+          "notes";
+          "userdata"};
 
   ## cell vector of lti-specific assignable values
   vals = {"scalar (sample time in seconds)";
@@ -47,14 +47,18 @@ function [props, vals] = __lti_property_names__ (sys, aliases = false)
           "any data type"};
 
   if (aliases)
-    pa = {"inputname";
+    ka = {"inputname";
           "outputname";
           "inputgroup";
           "outputgroup";
           "lti"};
+    keys = [keys; ka];
+  endif
 
-    props = [props; pa];
-
+  if (subclasses)
+    [syskeys, sysvals] = __sys_keys__ (sys, aliases);
+    keys = [syskeys; keys];
+    vals = [sysvals; vals];
   endif
 
 endfunction
