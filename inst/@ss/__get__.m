@@ -16,39 +16,31 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Access property values of SS objects.
+## Access key values of SS objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
-function val = __get__ (sys, prop)
+function val = __get__ (sys, key)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (key)   # {<internal name>, <user name>}
     case "a"
       val = sys.a;
-
     case "b"
       val = sys.b;
-
     case "c"
       val = sys.c;
-
     case "d"
       val = sys.d;
-
     case "e"
       val = sys.e;
-
     case {"stname", "statename"}
       val = sys.stname;
-
     case "scaled"
       val = sys.scaled;
-
     otherwise
-      error ("ss: get: invalid property name '%s'", prop);
-
+      error ("ss: get: invalid key name '%s'", key);
   endswitch
 
 endfunction

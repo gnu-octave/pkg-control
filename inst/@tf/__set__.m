@@ -16,15 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Set or modify properties of TF objects.
+## Set or modify keys of TF objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.4
 
-function sys = __set__ (sys, prop, val)
+function sys = __set__ (sys, key, val)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (key)   # {<internal name>, <user name>}
     case "num"
       if (get (sys, "tsam") == -2)   # NOTE: sys.lti.tsam  would call 'get' via 'subsref'
         error (["tf: set: tinkering with numerators of static gains is disabled on purpose.  " ...
@@ -68,19 +68,18 @@ function sys = __set__ (sys, prop, val)
           error ("tf: set: the string '%s' is not a valid transfer function variable", val);
         endif
       else
-        error ("tf: set: property '%s' requires a string", prop);
+        error ("tf: set: key '%s' requires a string", prop);
       endif
 
     case "inv"
       if (islogical (val) && isscalar (val) || is_real_scalar (val))
         sys.inv = logical (val);
       else
-        error ("tf: set: property 'inv' must be a scalar logical");
+        error ("tf: set: key 'inv' must be a scalar logical");
       endif
 
     otherwise
-      error ("tf: set: invalid property name '%s'", prop);
-
+      error ("tf: set: invalid key name '%s'", key);
   endswitch
 
 endfunction

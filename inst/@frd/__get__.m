@@ -16,24 +16,21 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Access property values of FRD objects.
+## Access key values of FRD objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
 ## Version: 0.2
 
-function val = __get__ (sys, prop)
+function val = __get__ (sys, key)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (key)   # {<internal name>, <user name>}
     case {"h", "response"}
       val = sys.H;
-
     case {"w", "frequency"}
       val = sys.w;
-
     otherwise
-      error ("frd: get: invalid property name '%s'", prop);
-
+      error ("frd: get: invalid key name '%s'", key);
   endswitch
 
 endfunction

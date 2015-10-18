@@ -16,15 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Set or modify properties of SS objects.
+## Set or modify keys of SS objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.4
 
-function sys = __set__ (sys, prop, val)
+function sys = __set__ (sys, key, val)
 
-  switch (prop)      # {<internal name>, <user name>}
+  switch (key)       # {<internal name>, <user name>}
     case "a"
       __ss_dim__ (val, sys.b, sys.c, sys.d);
       sys.a = val;
@@ -54,15 +54,14 @@ function sys = __set__ (sys, prop, val)
       sys.stname = __adjust_labels__ (val, n);
 
     case "scaled"
-      if (isscalar (val))
+      if (islogical (val) && isscalar (val) || is_real_scalar (val))
         sys.scaled = logical (val);
       else
-        error ("ss: set: property 'scaled' must be a logical value");
+        error ("ss: set: key 'scaled' must be a scalar logical");
       endif
 
     otherwise
-      error ("ss: set: invalid property name '%s'", prop);
-
+      error ("ss: set: invalid key name '%s'", key);
   endswitch
 
 endfunction

@@ -16,15 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Access property values of TF objects.
+## Access key values of TF objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 ## Version: 0.5
 
-function val = __get__ (sys, prop)
+function val = __get__ (sys, key)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (key)   # {<internal name>, <user name>}
     case "num"
       val = cellfun (@get, sys.num, "uniformoutput", false);
 
@@ -41,7 +41,7 @@ function val = __get__ (sys, prop)
       val = sys.inv;
 
     otherwise
-      error ("tf: get: invalid property name '%s'", prop);
+      error ("tf: get: invalid key name '%s'", key);
   endswitch
 
 endfunction

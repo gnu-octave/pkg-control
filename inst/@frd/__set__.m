@@ -16,28 +16,25 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Set or modify properties of FRD objects.
+## Set or modify keys of FRD objects.
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2010
 ## Version: 0.2
 
-function sys = __set__ (sys, prop, val)
+function sys = __set__ (sys, key, val)
 
-  switch (prop)  # {<internal name>, <user name>}
+  switch (key)   # {<internal name>, <user name>}
     case {"h", "response"}
       val = __adjust_frd_data__ (val, sys.w);
       __frd_dim__ (val, sys.w);
       sys.H = val;
-
     case {"w", "frequency"}
       [~, val] = __adjust_frd_data__ (sys.H, val);
       __frd_dim__ (sys.H, val);
       sys.w = val;
-
     otherwise
-      error ("frd: set: invalid property name '%s'", prop);
-
+      error ("frd: set: invalid key name '%s'", key);
   endswitch
 
 endfunction
