@@ -26,14 +26,22 @@ function sys = __set__ (sys, prop, val)
 
   switch (prop)  # {<internal name>, <user name>}
     case "num"
-      num = __adjust_tf_data__ (val, sys.den);
-      __tf_dim__ (num, sys.den);
-      sys.num = num;
+      if (get (sys, "tsam") == -2)   # FIXME: sys.lti.tsam  currently not working
+        error ("tf: set: tinkering with numerators of static gains is disabled on purpose");
+      else
+        num = __adjust_tf_data__ (val, sys.den);
+        __tf_dim__ (num, sys.den);
+        sys.num = num;
+      endif
 
     case "den"
-      [~, den] = __adjust_tf_data__ (sys.num, val);
-      __tf_dim__ (sys.num, den);
-      sys.den = den;
+      if (get (sys, "tsam") == -2)
+        error ("tf: set: tinkering with denominators of static gains is disabled on purpose");
+      else
+        [~, den] = __adjust_tf_data__ (sys.num, val);
+        __tf_dim__ (sys.num, den);
+        sys.den = den;
+      endif
 
     case {"tfvar", "variable"}
       if (ischar (val))
