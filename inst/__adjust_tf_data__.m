@@ -47,18 +47,33 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
   ##       but its error message would make little sense for users
   ##       and would make it hard for them to identify the invalid argument.
 
-  if (! is_real_vector (num{:}, 1))     # dummy argument 1 needed if num is empty cell
-    error ("tf: first argument 'num' requires a real-valued, non-empty vector or a cell of such vectors");
-  endif
-  if (! is_real_vector (den{:}, 1))
-    error ("tf: second argument 'den' requires a real-valued, non-empty vector or a cell of such vectors");
-  endif
+  ## NOTE: this code is nicer, but there would be conflicts in  @tf/__set__.m
+  ##       e.g.  sys = tf ([5, 22], [1, 2]),  sys.num = 5
+  ##
+  ## if (! is_real_vector (num{:}, 1))     # dummy argument 1 needed if num is empty cell
+  ##   error ("tf: first argument 'num' requires a real-valued, non-empty vector or a cell of such vectors");
+  ## endif
+  ## if (! is_real_vector (den{:}, 1))
+  ##  error ("tf: second argument 'den' requires a real-valued, non-empty vector or a cell of such vectors");
+  ## endif
+  ##
+  ## num = cellfun (@tfpoly, num, "uniformoutput", false);
+  ## den = cellfun (@tfpoly, den, "uniformoutput", false);
 
-  num = cellfun (@tfpoly, num, "uniformoutput", false);
-  den = cellfun (@tfpoly, den, "uniformoutput", false);
+  try
+    num = cellfun (@tfpoly, num, "uniformoutput", false);
+  catch
+    error ("tf: numerator 'num' must be a real-valued, non-empty vector or a cell of such vectors");
+  end_try_catch
+  
+  try
+    den = cellfun (@tfpoly, den, "uniformoutput", false);
+  catch
+    error ("tf: denominator 'den' must be a real-valued, non-empty vector or a cell of such vectors");
+  end_try_catch
 
   if (any (cellfun (@is_zero, den)(:)))
-    error ("tf: second argument 'den' requires non-zero denominator(s)");
+    error ("tf: denominator(s) cannot be zero");
   endif
   
   if (tsam == 0)
