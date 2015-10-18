@@ -14,8 +14,8 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __key_names__ (@var{sys})
-## @deftypefnx {Function File} {[@var{keys}, @var{vals}] =} __key_names__ (@var{sys}, @var{aliases})
+## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __sys_keys__ (@var{sys})
+## @deftypefnx {Function File} {[@var{keys}, @var{vals}] =} __sys_keys__ (@var{sys}, @var{aliases})
 ## Return the list of keys as well as the assignable values for a frd object sys.
 ## @end deftypefn
 
