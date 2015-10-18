@@ -17,20 +17,20 @@ TODO:   A lot of notes describing all the changes!
 
     Improved handling of key-value pairs in all constructors for LTI models:
     
-        tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
+      tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
 
     Support inheritance of LTI properties in many variations:
 
-        tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
-        sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
+      tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
+      sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
     
     Accept [] as an alias for unspecified sampling time (Ts = -1):
     
-        filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
+      filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
     
     Automatic vector expansion for input and output names:
     
-         sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
+      sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
          
 
  ** dss
@@ -42,15 +42,15 @@ TODO:   A lot of notes describing all the changes!
 
     Support for the following special cases:
     
-        ss (sys, 'explicit')   % convert descriptor system to regular one
-        ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
+      ss (sys, 'explicit')   % convert descriptor system to regular one
+      ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
 
  ** tf
 
     Restrict transfer function variable to the candidates 's', 'p' for
     continuous-time and 'z', 'q', 'z^-1', 'q^-1' for discrete-time models.
        
-        s = tf ('s'),  z = tf ('z^-1', Ts),  tf (num, den, Ts, 'var', 'q')
+      s = tf ('s'),  z = tf ('z^-1', Ts),  tf (num, den, Ts, 'var', 'q')
        
     Previous control versions supported any string, which could be quite
     misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
