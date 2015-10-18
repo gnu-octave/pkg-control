@@ -16,31 +16,31 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{props}, @var{vals}] =} __property_names__ (@var{dat})
-## Return the list of properties as well as the assignable values for an iddata set.
+## @deftypefn {Function File} {[@var{keys}, @var{vals}] =} __iddata_keys__ (@var{dat})
+## Return the list of keys as well as the assignable values for an iddata set.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012
 ## Version: 0.2
 
-function [props, vals] = __property_names__ (dat, aliases = false)
+function [keys, vals] = __iddata_keys__ (dat, aliases = false)
 
   [n, p, m, e] = size (dat);
 
-  ## cell vector of iddata-specific properties
-  props = {"y";
-           "outname";
-           "outunit";
-           "u";
-           "inname";
-           "inunit";
-           "tsam";
-           "timeunit";
-           "expname";
-           "name";
-           "notes";
-           "userdata"};
+  ## cell vector of iddata-specific keys
+  keys = {"y";
+          "outname";
+          "outunit";
+          "u";
+          "inname";
+          "inunit";
+          "tsam";
+          "timeunit";
+          "expname";
+          "name";
+          "notes";
+          "userdata"};
 
   ## cell vector of iddata-specific assignable values
   vals = {sprintf("(%dx1) cell vector of (nx%d) matrices", e, p);
@@ -57,7 +57,7 @@ function [props, vals] = __property_names__ (dat, aliases = false)
           "any data type"};
 
   if (aliases)
-    pa = {"outdata";
+    ka = {"outdata";
           "outputdata";
           "outputname";
           "outputunit";
@@ -71,9 +71,8 @@ function [props, vals] = __property_names__ (dat, aliases = false)
           "samplinginstants";
           "domain";
           "timedomain"};
-    
-    props = [props; pa];
 
+    keys = [keys; ka];
   endif
 
 endfunction

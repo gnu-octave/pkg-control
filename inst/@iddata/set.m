@@ -17,13 +17,13 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} set (@var{dat})
-## @deftypefnx {Function File} {} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
-## @deftypefnx {Function File} {@var{dat} =} set (@var{dat}, @var{"property"}, @var{value}, @dots{})
-## Set or modify properties of iddata objects.
-## If no return argument @var{dat} is specified, the modified @acronym{LTI} object is stored
-## in input argument @var{dat}.  @command{set} can handle multiple properties in one call:
-## @code{set (dat, 'prop1', val1, 'prop2', val2, 'prop3', val3)}.
-## @code{set (dat)} prints a list of the object's property names.
+## @deftypefnx {Function File} {} set (@var{dat}, @var{'key'}, @var{value}, @dots{})
+## @deftypefnx {Function File} {@var{dat} =} set (@var{dat}, @var{'key'}, @var{value}, @dots{})
+## Set or modify keys of iddata objects.
+## If no return argument @var{dat} is specified, the modified @acronym{IDDATA} object is stored
+## in input argument @var{dat}.  @command{set} can handle multiple keys in one call:
+## @code{set (dat, 'key1', val1, 'key2', val2, 'key3', val3)}.
+## @code{set (dat)} prints a list of the object's key names.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -34,10 +34,10 @@ function retdat = set (dat, varargin)
 
   if (nargin == 1)       # set (dat), dat = set (dat)
 
-    [props, vals] = __property_names__ (dat);
-    nrows = numel (props);
+    [keys, vals] = __iddata_keys__ (dat);
+    nrows = numel (keys);
 
-    str = strjust (strvcat (props), "right");
+    str = strjust (strvcat (keys), "right");
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
 
     disp (str);
@@ -46,24 +46,24 @@ function retdat = set (dat, varargin)
       retdat = dat;         # would lead to unwanted output when using
     endif                   # set (dat)
 
-  else                      # set (dat, "prop1", val1, ...), dat = set (dat, "prop1", val1, ...)
+  else                      # set (dat, 'key', val1, ...),  dat = set (dat, 'key1', val1, ...)
 
     if (! isa (dat, "iddata"))
       print_usage ();
     endif
 
     if (rem (nargin-1, 2))
-      error ("iddata: set: properties and values must come in pairs");
+      error ("iddata: set: keys and values must come in pairs");
     endif
 
     [n, p, m, e] = size (dat);
-    keys = __property_names__ (dat, true);
+    keys = __iddata_keys__ (dat, true);
 
     for k = 1 : 2 : (nargin-1)
-      prop = __match_key__ (varargin{k}, keys, "iddata: set");
+      key = __match_key__ (varargin{k}, keys, "iddata: set");
       val = varargin{k+1};
 
-      switch (prop)
+      switch (key)
         case {"y", "outdata", "outputdata"}
           val = __adjust_iddata__ (val, dat.u);
           [pval, ~, eval] = __iddata_dim__ (val, dat.u);
@@ -99,7 +99,7 @@ function retdat = set (dat, varargin)
           if (ischar (val))
             dat.timeunit = val;
           else
-            error ("iddata: set: property 'timeunit' requires a string");
+            error ("iddata: set: key 'timeunit' requires a string");
           endif
         case {"expname", "experimentname"}
           dat.expname = __adjust_labels__ (val, e);
@@ -113,7 +113,7 @@ function retdat = set (dat, varargin)
           if (any (cellfun (@(w) ! isempty (w) && (! is_real_vector (w) || any (w < 0) ...
                                                    || ! issorted (w) || w(1) > w(end) ...
                                                    || length (unique (w)) != length (w)), val)))
-            error ("iddata: set: w must be a vector of positive real values in ascending order");
+            error ("iddata: set: key 'w' must be a vector of positive real values in ascending order");
           endif
           dat.w = val;
           dat.timedomain = false;
@@ -121,7 +121,7 @@ function retdat = set (dat, varargin)
           if (ischar (val))
             dat.name = val;
           else
-            error ("iddata: set: property 'name' requires a string");
+            error ("iddata: set: key 'name' requires a string");
           endif
         case "notes"
           if (iscellstr (val))
@@ -129,18 +129,18 @@ function retdat = set (dat, varargin)
           elseif (ischar (val))
             dat.notes = {val};
           else
-            error ("lti: set: property 'notes' requires string or cell of strings");
+            error ("lti: set: key 'notes' requires string or cell of strings");
           endif
         case "userdata"
           dat.userdata = val;
         otherwise
-          error ("iddata: set: invalid property name '%s'", varargin{k});
+          error ("iddata: set: invalid key name '%s'", varargin{k});
       endswitch
     endfor
 
-    if (nargout == 0)    # set (dat, "prop1", val1, ...)
+    if (nargout == 0)    # set (dat, 'key1', val1, ...)
       assignin ("caller", inputname (1), dat);
-    else                 # dat = set (dat, "prop1", val1, ...)
+    else                 # dat = set (dat, 'key1', val1, ...)
       retdat = dat;
     endif
 

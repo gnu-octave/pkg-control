@@ -17,10 +17,10 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} get (@var{dat})
-## @deftypefnx {Function File} {@var{value} =} get (@var{dat}, @var{"property"})
-## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{dat}, @var{"prop1"}, @var{"prop2"}, @dots{})
-## Access property values of iddata objects.
-## Type @command{get(dat)} to display a list of available properties.
+## @deftypefnx {Function File} {@var{value} =} get (@var{dat}, @var{'key'})
+## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{dat}, @var{'key1'}, @var{'key2'}, @dots{})
+## Access key values of iddata objects.
+## Type @command{get(dat)} to display a list of available keys.
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -30,9 +30,9 @@
 function varargout = get (dat, varargin)
 
   if (nargin == 1)
-    [props, vals] = __property_names__ (dat);
-    nrows = numel (props);
-    str = strjust (strvcat (props), "right");
+    [keys, vals] = __iddata_keys__ (dat);
+    nrows = numel (keys);
+    str = strjust (strvcat (keys), "right");
     str = horzcat (repmat ("   ", nrows, 1), str, repmat (":  ", nrows, 1), strvcat (vals));
     disp (str);
   else
@@ -41,12 +41,12 @@ function varargout = get (dat, varargin)
       print_usage ();
     endif
 
-    keys = __property_names__ (dat, true);
+    keys = __iddata_keys__ (dat, true);
 
     for k = 1 : (nargin-1)
-      prop = __match_key__ (varargin{k}, keys, "iddata: get");
+      key = __match_key__ (varargin{k}, keys, "iddata: get");
 
-      switch (prop)
+      switch (key)
         case {"y", "outdata", "outputdata"}
           val = dat.y;
         case {"u", "indata", "inputdata"}
@@ -76,7 +76,7 @@ function varargout = get (dat, varargin)
         case {"w", "frequency", "samplinginstants"}
           val = dat.w;
         otherwise
-          error ("iddata: get: invalid property name '%s'", varargin{k});
+          error ("iddata: get: invalid key name '%s'", varargin{k});
       endswitch
 
       varargout{k} = val;
