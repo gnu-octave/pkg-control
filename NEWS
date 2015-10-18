@@ -59,6 +59,16 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     
       [mag, phase] = bode (sys, 1)
 
+ ** augstate
+
+ ** connect
+
+ ** estim
+ 
+ ** sumblk
+ 
+ ** minreal
+
 
 ===============================================================================
 control-2.8.5   Release Date: 2015-10-01   Release Manager: Lukas Reichlin
