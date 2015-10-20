@@ -63,7 +63,7 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (varargin, false, "ext");
+  [H, w] = __frequency_response__ ("nyquist", varargin);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   re = cellfun (@real, H, "uniformoutput", false);
