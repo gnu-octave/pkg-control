@@ -55,7 +55,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.5
+## Version: 1.0
 
 function [mag_r, pha_r, w_r] = bode (varargin)
 

@@ -55,7 +55,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2009
-## Version: 0.7
+## Version: 1.0
 
 function [sv_r, w_r] = sigma (varargin)
 

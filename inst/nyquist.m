@@ -55,7 +55,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: November 2009
-## Version: 0.4
+## Version: 1.0
 
 function [re_r, im_r, w_r] = nyquist (varargin)
 

@@ -87,7 +87,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: August 2012
-## Version: 0.1
+## Version: 0.2
 
 function [ret, ws] = sensitivity (G, varargin)
 
