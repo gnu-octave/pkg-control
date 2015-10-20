@@ -63,38 +63,16 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (varargin, false, "ext");
+  [H, w, sty, leg] = __frequency_response__ ("nichols", varargin);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
-    
-    tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
+    mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
-    len = numel (H);  
-    plot_args = {};
-    legend_args = cell (len, 1);
-
-    for k = 1:len
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      plot_args = cat (2, plot_args, pha(k), mag_db(k), style);
-      try
-        legend_args{k} = inputname(sys_idx(k));
-      catch
-        legend_args{k} = "";
-      end_try_catch
-    endfor
+    plot_args = horzcat (cellfun (@horzcat, pha, mag_db, sty, "uniformoutput", false){:});
 
     plot (plot_args{:})
     axis ("tight")
@@ -104,7 +82,7 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
     title ("Nichols Chart")
     xlabel ("Phase [deg]")
     ylabel ("Magnitude [dB]")
-    legend (legend_args)
+    legend (leg)
   else
     mag_r = mag{1};
     pha_r = pha{1};

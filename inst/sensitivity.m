@@ -110,18 +110,18 @@ function [ret, ws] = sensitivity (G, varargin)
     if (length (Ms) > 1)
       error ("sensitivity: plotting only works for a single controller");
     endif
-    if (iscell (L))
-      L = L{1};
+    if (! iscell (L))
+      L = {L};
     endif
-    if (! issiso (L))
+    if (! issiso (L{1}))
       error ("sensitivity: Nyquist plot requires SISO systems");
     endif
 
-    [H, w] = __frequency_response__ (L, false, "ext");
-    H = H(:);
+    [H, w] = __frequency_response__ ("sensitivity", L);
+    H = H{1}(:);
     re = real (H);
     im = imag (H);
-    Hs = freqresp (L, ws);
+    Hs = freqresp (L{1}, ws);
     res = real (Hs);
     ims = imag (Hs);
     

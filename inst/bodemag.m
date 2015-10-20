@@ -61,35 +61,15 @@ function [mag_r, w_r] = bodemag (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (varargin, false, "std");
+  [H, w, sty, leg] = __frequency_response__ ("bodemag", varargin);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
-
-    tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
-
-    len = numel (H);  
-    mag_args = {};
-    legend_args = {};
-
-    for k = 1:len
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      mag_args = cat (2, mag_args, w(k), mag_db(k), style);
-      try
-        legend_args = cat (2, legend_args, inputname(sys_idx(k)));  # watch out for bodemag (lticell{:})
-      end_try_catch
-    endfor
+    mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
+    
+    mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
 
     semilogx (mag_args{:})
     axis ("tight")
@@ -98,7 +78,7 @@ function [mag_r, w_r] = bodemag (varargin)
     title ("Bode Magnitude Diagram")
     xlabel ("Frequency [rad/s]")
     ylabel ("Magnitude [dB]")
-    legend (legend_args)
+    legend (leg)
   else
     mag_r = mag{1};
     w_r = w{1};

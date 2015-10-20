@@ -63,7 +63,7 @@ function [sv_r, w_r] = sigma (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ (varargin, true, "std", true);
+  [H, w, sty, leg] = __frequency_response__ ("sigma", varargin);
 
   sv = cellfun (@(H) cellfun (@svd, H, "uniformoutput", false), H, "uniformoutput", false);
   sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);
@@ -71,38 +71,16 @@ function [sv_r, w_r] = sigma (varargin)
   if (! nargout)  # plot the information
 
     ## convert to dB for plotting
-    sv_db = cellfun (@(sv) 20 * log10 (sv), sv, "uniformoutput", false);
+    sv_db = cellfun (@mag2db, sv, "uniformoutput", false);
 
-    tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
-
-    len = numel (H);  
-    plot_args = {};
-    legend_args = cell (len, 1);
+    len = numel (H);
     colororder = get (gca, "colororder");
     rc = rows (colororder);
+    def = arrayfun (@(k) {"-", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty(idx) = def(idx);
 
-    for k = 1:len
-      col = colororder(1+rem (k-1, rc), :);
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        plot_args = cat (2, plot_args, w(k), sv_db(k), {"-", "color", col});
-      else
-        plot_args = cat (2, plot_args, w(k), sv_db(k), style);
-      endif
-      try
-        legend_args{k} = inputname(sys_idx(k));  # watch out for sigma (lticell{:})
-      catch
-        legend_args{k} = "";
-      end_try_catch
-    endfor
+    plot_args = horzcat (cellfun (@horzcat, w, sv_db, sty, "uniformoutput", false){:});
 
     ## adjust line colors in legend  
     idx = horzcat (1, cellfun (@rows, sv_db)(1:end-1));
@@ -116,7 +94,7 @@ function [sv_r, w_r] = sigma (varargin)
     title ("Singular Values")
     xlabel ("Frequency [rad/s]")
     ylabel ("Singular Values [dB]")
-    legend (h(idx), legend_args)
+    legend (h(idx), leg)
   else            # return values
     sv_r = sv{1};
     w_r = reshape (w{1}, [], 1);
