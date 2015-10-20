@@ -63,50 +63,28 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ ("nyquist", varargin);
+  [H, w, sty, leg] = __frequency_response__ ("nyquist", varargin);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   re = cellfun (@real, H, "uniformoutput", false);
   im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
-    tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
-
-    len = numel (H);  
-    pos_args = {};
-    neg_args = {};
-    legend_args = cell (len, 1);
+    len = numel (H);
     colororder = get (gca, "colororder");
     rc = rows (colororder);
+    def_pos = arrayfun (@(k) {"-", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
+    def_neg = arrayfun (@(k) {"-.", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty_pos = sty_neg = sty;
+    sty_pos(idx) = def_pos(idx);
+    sty_neg(idx) = def_neg(idx);
 
-    for k = 1:len
-      col = colororder(1+rem (k-1, rc), :);
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col});
-        neg_args = cat (2, neg_args, re{k}, -im{k}, {"-.", "color", col});
-      else
-        pos_args = cat (2, pos_args, re{k}, im{k}, style);
-        neg_args = cat (2, neg_args, re{k}, -im{k}, style);      
-      endif
-      try
-        legend_args{k} = inputname(sys_idx(k));
-      catch
-        legend_args{k} = "";
-      end_try_catch
-    endfor
-    
-    ## FIXME: pos_args = cat (2, pos_args, re{k}, im{k}, {"-", "color", col}, style);
-    ##        doesn't work!  it would be nice to have default arguments that can be
-    ##        (partially) overwritten by user-specified plot styles.
+    imn = cellfun (@uminus, im, "uniformoutput", false);
+
+    pos_args = horzcat (cellfun (@horzcat, re, im, sty_pos, "uniformoutput", false){:});
+    neg_args = horzcat (cellfun (@horzcat, re, imn, sty_neg, "uniformoutput", false){:});
+
 
     h = plot (pos_args{:}, neg_args{:});
     axis ("tight")
@@ -116,7 +94,7 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     title ("Nyquist Diagram")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
-    legend (h(1:len), legend_args)
+    legend (h(1:len), leg)
   else
     re_r = re{1};
     im_r = im{1};
