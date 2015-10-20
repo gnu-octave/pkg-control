@@ -68,10 +68,10 @@ function retdat = set (dat, varargin)
           val = __adjust_iddata__ (val, dat.u);
           [pval, ~, eval] = __iddata_dim__ (val, dat.u);
           if (pval != p)
-            error ("iddata: set: argument has %d instead of %d outputs", pval, p);
+            error ("iddata: set: argument '%s' has %d instead of %d outputs", key, pval, p);
           endif
           if (eval != e)    # iddata_dim is not sufficient if dat.u = []
-            error ("iddata: set: argument has %d instead of %d experiments", eval, e);
+            error ("iddata: set: argument '%s' has %d instead of %d experiments", key, eval, e);
           endif
           if (dat.timedomain && ! is_real_matrix (val{:}))
             error ("iddata: set: require real-valued output signals for time domain datasets");
@@ -81,7 +81,7 @@ function retdat = set (dat, varargin)
           [~, val] = __adjust_iddata__ (dat.y, val);
           [~, mval] = __iddata_dim__ (dat.y, val);
           if (mval != m)
-            error ("iddata: set: argument has %d instead of %d inputs", mval, m);
+            error ("iddata: set: argument '%s' has %d instead of %d inputs", key, mval, m);
           endif
           if (dat.timedomain && ! is_real_matrix (val{:}))
             error ("iddata: set: require real-valued input signals for time domain datasets");
@@ -113,7 +113,7 @@ function retdat = set (dat, varargin)
           if (any (cellfun (@(w) ! isempty (w) && (! is_real_vector (w) || any (w < 0) ...
                                                    || ! issorted (w) || w(1) > w(end) ...
                                                    || length (unique (w)) != length (w)), val)))
-            error ("iddata: set: key 'w' must be a vector of positive real values in ascending order");
+            error ("iddata: set: argument '%s' must be a vector of positive real values in ascending order", key);
           endif
           dat.w = val;
           dat.timedomain = false;
