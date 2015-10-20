@@ -90,6 +90,10 @@ function [H, w, str] = __frequency_response__ (caller, args)
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;
 
-  str = {};     ## TODO
+  ## extract plotting styles
+  tmp = cumsum (sys_idx);
+  tmp(sys_idx | ! s_idx) = 0;
+  n = nnz (sys_idx);
+  str = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false)
 
 endfunction
