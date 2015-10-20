@@ -63,38 +63,17 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     print_usage ();
   endif
 
-  [H, w] = __frequency_response__ ("bode", varargin);
+  [H, w, sty, leg] = __frequency_response__ ("bode", varargin);
   
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
-    mag_db = cellfun (@(mag) 20 * log10 (mag), mag, "uniformoutput", false);
+    mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
-    tmp = cellfun (@isa, varargin, {"lti"});
-    sys_idx = find (tmp);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
-
-    len = numel (H);  
-    mag_args = {};
-    pha_args = {};
-    legend_args = {};
-
-    for k = 1:len
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      mag_args = cat (2, mag_args, w(k), mag_db(k), style);
-      pha_args = cat (2, pha_args, w(k), pha(k), style);
-      try
-        legend_args = cat (2, legend_args, inputname(sys_idx(k)));  # watch out for bode (lticell{:})
-      end_try_catch
-    endfor
+    mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
+    pha_args = horzcat (cellfun (@horzcat, w, pha, sty, "uniformoutput", false){:});
 
     subplot (2, 1, 1)
     semilogx (mag_args{:})
@@ -111,7 +90,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
-    legend (legend_args)
+    legend (leg)
   else
     mag_r = mag{1};
     pha_r = pha{1};

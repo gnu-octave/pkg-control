@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, str] = __frequency_response__ (caller, args) 
+function [H, w, sty, leg] = __frequency_response__ (caller, args) 
 
   mimoflag = false;
   cellflag = false;
@@ -94,6 +94,18 @@ function [H, w, str] = __frequency_response__ (caller, args)
   tmp = cumsum (sys_idx);
   tmp(sys_idx | ! s_idx) = 0;
   n = nnz (sys_idx);
-  str = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false)
+  sty = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false);
+
+  ## get system names for legend
+  ## leg = arrayfun (@(x) evalin ("caller", sprintf ("inputname(%d)", x)), ...
+  ##                 find (sys_idx), "uniformoutput", false)
+  ## doesn't work because the caller is the anonymous function in arrayfun
+  ## "''" needed for  bode (lticell{:})
+  
+  leg = cell (1, n);
+  idx = find (sys_idx);
+  for k = 1:n
+    leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+  endfor
 
 endfunction
