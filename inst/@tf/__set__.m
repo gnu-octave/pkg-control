@@ -29,21 +29,27 @@ function sys = __set__ (sys, key, val)
       if (get (sys, "tsam") == -2)   # NOTE: sys.lti.tsam  would call 'get' via 'subsref'
         error (["tf: set: tinkering with numerators of static gains is disabled on purpose.  " ...
                 "to avoid this error, set the sampling time of your LTI model first."]);
-      else
-        num = __adjust_tf_data__ (val, sys.den);
-        __tf_dim__ (num, sys.den);
-        sys.num = num;
+      elseif (sys.inv)               # FIXME: f = filt (1, [1 0 0 1]),  f.num = 1
+        warning ("tf:num-inv", ...
+                 "tf: although system is displayed in '%s^-1', numerator 'num' must be specified in '%s'", ...
+                 sys.tfvar, sys.tfvar);
       endif
+      num = __adjust_tf_data__ (val, sys.den);
+      __tf_dim__ (num, sys.den);
+      sys.num = num;
 
     case "den"
       if (get (sys, "tsam") == -2)
         error (["tf: set: tinkering with denominators of static gains is disabled on purpose.  " ...
                 "to avoid this error, set the sampling time of your LTI model first."]);
-      else
-        [~, den] = __adjust_tf_data__ (sys.num, val);
-        __tf_dim__ (sys.num, den);
-        sys.den = den;
+      elseif (sys.inv)               # FIXME: f = filt ([1 0 0 1], 1),  f.den = 1
+        warning ("tf:den-inv", ...
+                 "tf: although system is displayed in '%s^-1', denominator 'den' must be specified in '%s'", ...
+                 sys.tfvar, sys.tfvar);      
       endif
+      [~, den] = __adjust_tf_data__ (sys.num, val);
+      __tf_dim__ (sys.num, den);
+      sys.den = den;
 
     case {"tfvar", "variable"}
       if (ischar (val))

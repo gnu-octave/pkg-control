@@ -69,6 +69,13 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
  
  ** minreal
 
+    If state-space models already have a minimal realization, then no state
+    transformations are applied to the returned model.  In other words, if the
+    number of states cannot be reduced (with the chosen tolerance), the model
+    is returned unchanged.  Note that if the user sets the tolerance to the
+    maximum value of 1, every state-space model will be reduced to zero states.
+    There's nothing wrong with that, it's just how numerical computation works.
+
 
 ===============================================================================
 control-2.8.5   Release Date: 2015-10-01   Release Manager: Lukas Reichlin
