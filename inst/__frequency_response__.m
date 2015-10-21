@@ -25,6 +25,16 @@
 
 function [H, w, sty, leg] = __frequency_response__ (caller, args) 
 
+  ## CALLER         | MIMO  | RANGE | CELL  |
+  ## ---------------+-------+-------+-------+
+  ## bode           | false | std   | false |
+  ## bodemag        | false | std   | false |
+  ## margin         | false | std   | false |
+  ## nichols        | false | ext   | false |
+  ## nyquist        | false | ext   | false |
+  ## sensitivity    | false | ext   | false |
+  ## sigma          | true  | std   | true  |
+
   mimoflag = false;
   cellflag = false;
   wbounds = "std";
