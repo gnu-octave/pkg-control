@@ -10,7 +10,7 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     in many situations and facilitate the integration of new features
     in upcoming releases.
 
-    While many issues and pitfalls existing in previous releases of the
+ ** While many issues and pitfalls existing in previous releases of the
     control package have been fixed, the author isn't aware (at release date)
     of any regressions one might expect from a x.0.0 release.
     Note that the absence of regressions doesn't mean the absence of bugs.
@@ -20,7 +20,16 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     But the author is confident that he squashed considerably more bugs
     than he introduced in this release.  So if you waver between updating now
     and waiting for control-3.0.x, the author's suggestion is definitely 
-    to update now.  As always, your feedback is highly appreciated!
+    to update now.
+    
+ ** As always, your feedback is highly appreciated!  Even if you think that
+    the control package is "fubar".  If you follow the German saying
+    "gesehen, gelacht, geloescht" - which roughly translates into
+    "seen it, laughed at it, deleted it" - there's no chance for improvement!
+    So if you think you've found a bug, please take the time to report your
+    findings on Octave's bugtracker:
+    
+      <http://savannah.gnu.org/bugs/?group=octave>
 
 
  ** LTI models in general
