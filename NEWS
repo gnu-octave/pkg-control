@@ -23,14 +23,30 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     to update now.
     
  ** As always, your feedback is highly appreciated!  Even if you think that
-    the control package is "fubar".  If you follow the German saying
+    the control package is "fubar".  If you just follow the German saying
     "gesehen, gelacht, geloescht" - which roughly translates into
-    "seen it, laughed at it, deleted it" - there's no chance for improvement!
-    So if you think you've found a bug, please take the time to report your
-    findings on Octave's bugtracker:
+    "seen it, laughed at it, deleted it" - there's only little chance for
+    improvement!  So if you think you've found a bug, please take the time
+    to report your findings on Octave's bugtracker:
     
       <http://savannah.gnu.org/bugs/?group=octave>
 
+    See the link below for more information about how to report problems:
+
+      <http://octave.org/bugs.html>
+
+ ** Your help is welcome!  There are many ways you can help the project
+    fix the remaining problems, complete the documentation, and improve
+    the overall user experience for both novices and experts alike.
+    The author is aware of the fact that the documentation still leaves
+    a lot to be desired.  As it is often the case with developers, writing
+    documentation and tutorials is neither his key skill nor his favorite
+    occupation.  After all, the author wrote the control package due to his
+    personal interest in the field of control systems and not to make a
+    living out of it.  Consequently, the control project doesn't ask you
+    for money.  In case you like the control package and should feel like
+    donating, then consider donating to GNU Octave or the Free Software
+    Foundation according to the information on their websites.
 
  ** LTI models in general
 
