@@ -43,10 +43,11 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     documentation and tutorials is neither his key skill nor his favorite
     occupation.  After all, the author wrote the control package due to his
     personal interest in the field of control systems and not to make a
-    living out of it.  Consequently, the control project doesn't ask you
-    for money.  In case you like the control package and should feel like
+    living out of it.  The developer's profits are the insights and experience
+    he obtained from his work.  Consequently, the control project doesn't ask
+    you for money.  In case you like the control package and should feel like
     donating, then consider donating to GNU Octave or the Free Software
-    Foundation according to the information on their websites.
+    Foundation according to the information on their websites.  Thank you!
 
  ** LTI models in general
 
