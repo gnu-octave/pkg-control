@@ -4,13 +4,26 @@ Summary of important user-visible changes for releases of the control package
 control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 ===============================================================================
 
- ** LTI models in general
-
-    Substantial parts of the most vital internals have been rewritten
+ ** Substantial parts of the most vital internals have been rewritten
     and streamlined in order to improve compatibility and reliability.
     These changes to the codebase also result in better error handling
     in many situations and facilitate the integration of new features
     in upcoming releases.
+
+    While many issues and pitfalls existing in previous releases of the
+    control package have been fixed, the author isn't aware (at release date)
+    of any regressions one might expect from a x.0.0 release.
+    Note that the absence of regressions doesn't mean the absence of bugs.
+    Especially it doesn't mean that *all* bugs from control-2.8.5 have been
+    fixed.  Also note that to err is human, and software is written by humans.
+    Therefore, any larger piece of software is likely to contain bugs.
+    But the author is confident that he squashed considerably more bugs
+    than he introduced in this release.  So if you waver between updating now
+    and waiting for control-3.0.x, the author's suggestion is definitely 
+    to update now.  As always, your feedback is highly appreciated!
+
+
+ ** LTI models in general
 
     Improved handling of key-value pairs in all constructors for LTI models:
     
