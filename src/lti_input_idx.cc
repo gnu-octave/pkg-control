@@ -1,5 +1,23 @@
 /*
-Implements the following Octave function in C++
+
+Copyright (C) 2009-2015   Lukas F. Reichlin
+
+This file is part of LTI Syncope.
+
+LTI Syncope is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+LTI Syncope is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
+
+First, this function implemented the following Octave function in C++
 
 function [mat_idx, opt_idx] = __lti_input_idx__ (varargin)
 
@@ -14,6 +32,17 @@ function [mat_idx, opt_idx] = __lti_input_idx__ (varargin)
   endif
 
 endfunction
+
+Later on, the C++ function was extended such that
+it recognizes classes in some cases.  See comment
+block in the code for details.  I know this looks
+like a horrible definition for a function, but it
+is exactly the behavior I need.
+
+Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+Created: October 2015
+Version: 0.1
+
 */
 
 
@@ -22,9 +51,9 @@ endfunction
 // PKG_ADD: autoload ("__lti_input_idx__", "__control_helper_functions__.oct");    
 DEFUN_DLD (__lti_input_idx__, args, ,
        "-*- texinfo -*-\n\
-@deftypefn {Built-in Function} {} ischar (@var{x})\n\
-Return true if @var{x} is a character array.\n\
-@seealso{isfloat, isinteger, islogical, isnumeric, iscellstr, isa}\n\
+@deftypefn {Loadable Function} {[@var{mat_idx}, @var{opt_idx}, @var{obj_flg}] =} __lti_input_idx__ (@var{args})\n\
+Return some indices for cell @var{args}.  For internal use only.\n\
+Read the source code in @code{lti_input_idx.cc} for details.\n\
 @end deftypefn")
 {
   octave_value_list retval;
@@ -49,11 +78,14 @@ Return true if @var{x} is a character array.\n\
 
     // ** If the element before the first string is an object,
     //    then this object belongs to the option index.
+    //      ss (d, ltisys, 'key', val)
     // ** If there is no string at all in cell args(0), check
     //    whether the last element in args(0) is an object.
     //    If so, this object also belongs to the option index.
+    //      tf (num, den, ltisys)
     // ** All other objects (before built-in types (except chars)
     //    and after strings) are not recognized as objects.
+    //      ss (a, b, ltisys, c, d, 'key', val, 'lti', ltisys)
     if (len > 0 && idx > 0
         && args(0).cell_value().elem(idx-1).is_object ())
     {
@@ -63,7 +95,7 @@ Return true if @var{x} is a character array.\n\
     Range mat_idx (1, idx-offset);
     Range opt_idx (idx+1-offset, len);
 
-    retval(2) = offset;
+    retval(2) = offset;     // abused as logical in the LTI constructors
     retval(1) = opt_idx;
     retval(0) = mat_idx;
   }
