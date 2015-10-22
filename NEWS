@@ -104,11 +104,23 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 
  ** augstate
 
+    New function for state-space models.  Adds the state vector to the output
+    vector.
+
  ** connect
 
+    The function no longer raises an error for name-based interconnections
+    if some systems have common input names and one of these inputs are to
+    be kept.
+
  ** estim
+
+    Add input/output/state names to the returned system.  Support name-based
+    selection of inputs (arguments 'sensors' and 'known').
  
  ** sumblk
+
+    Add signal names as input/output groups if argument  n > 1.
  
  ** minreal
 
