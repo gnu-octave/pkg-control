@@ -18,6 +18,16 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{augsys} =} augstate (@var{sys})
 ## Append state vector x of system @var{sys} to output vector y.
+##
+## @example
+## @group
+## .                  .
+## x = A x + B u      x = A x + B u
+## y = C x + D u  =>  y = C x + D u
+##                    x = I x + O u
+## @end group
+## @end example
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
