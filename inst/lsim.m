@@ -224,32 +224,34 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
 
   method = "zoh";
   [urows, ucols] = size (u);
+  len_t = length (t);
 
   if (isct (sys))                               # continuous-time system
     if (isempty (t))                            # lsim (sys, u, [], ...)
-      error ("lsim: invalid time vector");
-    elseif (length (t) == 1)                    # lsim (sys, u, tfinal, ...)
+      error ("lsim: time vector 't' must not be empty");
+    elseif (len_t == 1)                         # lsim (sys, u, tfinal, ...)
       dt = t / (urows - 1);
-      tinitial = 0;
-      tfinal = t;
+      t = vec (linspace (0, t, urows));
+    elseif (len_t != urows)
+      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d)", ...
+             len_t, urows, ucols);
     else                                        # lsim (sys, u, t, ...)
-      dt = t(2) - t(1);                         # assume that t is regularly spaced
-      tinitial = t(1);
-      tfinal = t(end);
+      dt = abs (t(end) - t(1)) / (urows - 1);   # assume that t is regularly spaced
+      t = vec (linspace (t(1), t(end), urows));
     endif
     sys = c2d (sys, dt, method);                # convert to discrete-time model
   else                                          # discrete-time system
     dt = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
     if (isempty (t))                            # lsim (sys, u)
-      tinitial = 0;
-      tfinal = dt * (urows - 1);
-    elseif (length (t) == 1)                    # lsim (sys, u, tfinal)
-      tinitial = 0;
-      tfinal = t;
+      t = vec (linspace (0, dt*(urows-1), urows));
+    elseif (len_t == 1)                         # lsim (sys, u, tfinal)
+      ## TODO: maybe raise warning if  abs (tfinal - dt*(urows-1)) > dt
+      t = vec (linspace (0, dt*(urows-1), urows));
+    elseif (len_t != urows)
+      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d)", ...
+             len_t, urows, ucols);
     else                                        # lsim (sys, u, t, ...)
-      warning ("lsim: spacing of time vector has no effect on sampling time of discrete-time system");
-      tinitial = t(1);
-      tfinal = t(end);
+      t = vec (linspace (t(1), t(end), len_t));
     endif
   endif
 
@@ -257,33 +259,25 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
   [p, m] = size (D);                            # number of outputs and inputs
   n = rows (A);                                 # number of states
 
-  ## time vector
-  t = reshape (tinitial : dt : tfinal, [], 1);
-  len_t = length (t);
-
-  if (urows != len_t)
-    error ("lsim: input vector u must have %d rows", len_t);
-  endif
-
   if (ucols != m)
-    error ("lsim: input vector u must have %d columns", m);
+    error ("lsim: input vector 'u' must have %d columns", m);
   endif
 
   ## preallocate memory
-  y = zeros (len_t, p);
-  x_arr = zeros (len_t, n);
+  y = zeros (urows, p);
+  x_arr = zeros (urows, n);
 
   ## initial conditions
   if (isempty (x0))
     x0 = zeros (n, 1);
   elseif (n != length (x0) || ! is_real_vector (x0))
-    error ("lsim: x0 must be a vector with %d elements", n);
+    error ("lsim: 'x0' must be a vector with %d elements", n);
   endif
 
-  x = reshape (x0, [], 1);                      # make sure that x is a column vector
+  x = vec (x0);                                 # make sure that x is a column vector
 
   ## simulation
-  for k = 1 : len_t
+  for k = 1 : urows
     y(k, :) = C * x  +  D * u(k, :).';
     x_arr(k, :) = x;
     x = A * x  +  B * u(k, :).';
