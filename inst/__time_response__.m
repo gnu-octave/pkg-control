@@ -109,25 +109,25 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
   sys_dt(ct_idx) = tmp;
 
   ## time vector
-  t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, uniformoutput", false);
+  t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, "uniformoutput", false);
   
   ## alternative code
   ## t = cellfun (@(dt) vec (0 : dt : tfinal), dt, "uniformoutput", false);
 
-  ## function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
+  ## function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
   ## function [y, x_arr] = __step_response__ (sys_dt, t)
   ## function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
   ## function [y, x_arr] = __ramp_response__ (sys_dt, t)
 
   switch (response)
     case "initial"
-      [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0}, "uniformoutput", false);
+      [y, x] = cellfun (@__initial_response__, sys_dt, t, {x0}, "uniformoutput", false);
     case "step"
-      [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__step_response__, sys_dt, t, "uniformoutput", false);
     case "impulse"
-      [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__impulse_response__, args(sys_idx), sys_dt, t, "uniformoutput", false);
     case "ramp"
-      [y, x] = cellfun (@__ramp_response__, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__ramp_response__, sys_dt, t, "uniformoutput", false);
     otherwise
       error ("time_response: invalid response type");
   endswitch
@@ -150,14 +150,14 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
     ## get system names for legend
     leg = cell (1, n_sys);
     idx = find (sys_idx);
-    for k = 1:n
+    for k = 1 : n_sys
       leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
     endfor
 
     outname = get (args(sys_idx){end}, "outname");
     outname = __labels__ (outname, "y");
 
-    [p, m] = size (args(sys_idx){1})
+    [p, m] = size (args(sys_idx){1});
     
     switch (response)
       case "initial"
