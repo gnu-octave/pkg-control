@@ -20,9 +20,49 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4.1
+## Version: 0.5
 
-function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
+% function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
+function [y, t, x] = __time_response__ (response, args, plotflag)
+
+  idx = cellfun (@islogical, args);
+  tmp = cellfun (@double, args(idx), "uniformoutput", false);
+  args(idx) = tmp;
+
+  sys_idx = cellfun (@isa, args, {"lti"});                          # LTI models
+  mat_idx = cellfun (@is_real_matrix, args);                        # matrices
+  sty_idx = cellfun (@ischar, args);                                # strings (style arguments)
+
+  inv_idx = ! (sys_idx | mat_idx | sty_idx);                        # invalid arguments
+
+  if (any (inv_idx))
+    warning ("%s: arguments number %s are invalid and are being ignored", ...
+             response, mat2str (find (inv_idx)(:).'));
+  endif
+
+  if (nnz (sys_idx) == 0)
+    error ("%s: require at least one LTI model", response);
+  endif
+
+  if (! size_equal (args{sys_idx}))
+    error ("%s: all LTI models must have equal size", response);
+  endif
+
+  tfinal = [];  dt = [];  x0 = [];                                  # default arguments
+
+  switch (response)
+    case "initial"
+    
+    
+    
+    case {"step", "impulse", "ramp"}
+    
+    
+    otherwise
+      error ("time_response: invalid response type '%s'", response);
+  endswitch
+  
+  
 
   sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
   sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
