@@ -105,6 +105,9 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args)
   tmp(sys_idx | ! s_idx) = 0;
   n = nnz (sys_idx);
   sty = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false);
+  
+  ## FIXME: raise warning for strings before the first LTI model instead
+  ##        of simply ignoring them, e.g.  bode ('style', sys1, ...)
 
   ## get system names for legend
   ## "''" needed for  bode (lticell{:})
