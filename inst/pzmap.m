@@ -38,7 +38,7 @@
 ## @item p
 ## Poles of @var{sys}.
 ## @item z
-## Transmission zeros of @var{sys}.
+## Invariant zeros of @var{sys}.
 ## @end table
 ## @end deftypefn
 
@@ -53,6 +53,14 @@ function [pol_r, zer_r] = pzmap (varargin)
   endif
 
   sys_idx = cellfun (@isa, varargin, {"lti"});      # look for LTI models
+  sty_idx = cellfun (@ischar, varargin);            # look for strings (plot styles)
+
+  inv_idx = ! (sys_idx | sty_idx);                  # invalid arguments
+  
+  if (any (inv_idx))
+    warning ("pzmap: arguments number %s are invalid and are being ignored", ...
+             mat2str (find (inv_idx)(:).'));
+  endif
 
   pol = cellfun (@pole, varargin(sys_idx), "uniformoutput", false);
   zer = cellfun (@zero, varargin(sys_idx), "uniformoutput", false);
@@ -62,37 +70,35 @@ function [pol_r, zer_r] = pzmap (varargin)
     pol_im = cellfun (@imag, pol, "uniformoutput", false);
     zer_re = cellfun (@real, zer, "uniformoutput", false);
     zer_im = cellfun (@imag, zer, "uniformoutput", false);
-    
-    sys_idx = find (sys_idx);
-    tmp = cellfun (@ischar, varargin);
-    style_idx = find (tmp);
 
-    len = numel (pol);
-    pol_args = {};
-    zer_args = {};
-    legend_args = cell (len, 1);
+    ## extract plotting styles
+    tmp = cumsum (sys_idx);
+    tmp(sys_idx | ! sty_idx) = 0;
+    n = nnz (sys_idx);
+    sty = arrayfun (@(x) varargin(tmp == x), 1:n, "uniformoutput", false);
+  
+    ## FIXME: raise warning for strings before the first LTI model instead
+    ##        of simply ignoring them, e.g.  pzmap ('style', sys1, ...)
+
     colororder = get (gca, "colororder");
     rc = rows (colororder);
-    
-    for k = 1 : len
-      col = colororder(1+rem (k-1, rc), :);
-      if (k == len)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        pol_args = cat (2, pol_args, pol_re{k}, pol_im{k}, {"x", "color", col});
-        zer_args = cat (2, zer_args, zer_re{k}, zer_im{k}, {"o", "color", col});
-      else
-        pol_args = cat (2, pol_args, pol_re{k}, pol_im{k}, style);
-        zer_args = cat (2, zer_args, zer_re{k}, zer_im{k}, style);     
-      endif
+    def_pol = arrayfun (@(k) {"x", "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    def_zer = arrayfun (@(k) {"o", "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty_pol = sty_zer = sty;
+    sty_pol(idx) = def_pol(idx);
+    sty_zer(idx) = def_zer(idx);
+
+    pol_args = horzcat (cellfun (@horzcat, pol_re, pol_im, sty_pol, "uniformoutput", false){:});
+    zer_args = horzcat (cellfun (@horzcat, zer_re, zer_im, sty_zer, "uniformoutput", false){:});
+
+    leg_args = cell (1, n);
+    idx = find (sys_idx);
+    for k = 1 : n
       try
-        legend_args{k} = inputname(sys_idx(k));
+        leg_args{k} = inputname (idx(k));
       catch
-        legend_args{k} = "";
+        leg_args{k} = "";       # needed for  pzmap (lticell{:})
       end_try_catch
     endfor
       
@@ -103,7 +109,7 @@ function [pol_r, zer_r] = pzmap (varargin)
     title ("Pole-Zero Map")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
-    legend (h(1:len), legend_args)
+    legend (h(1:n), leg_args)
   else
     pol_r = pol{1};
     zer_r = zer{1};

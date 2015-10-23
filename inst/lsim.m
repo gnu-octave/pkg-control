@@ -157,9 +157,9 @@ function [y_r, t_r, x_r] = lsim (varargin)
     idx = find (sys_idx);
     for k = 1 : n_sys
       try
-        leg(k) = inputname (idx(k));
+        leg{k} = inputname (idx(k));
       catch
-        leg(k) = "";                                    # catch case  lsim (lticell{:}, ...)
+        leg{k} = "";                                    # catch case  lsim (lticell{:}, ...)
       end_try_catch
     endfor
     
