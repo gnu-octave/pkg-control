@@ -102,6 +102,16 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
     are passed to them.  Previously, invalid arguments were simply ignored,
     which could be confusing.
 
+ ** step, impulse, initial, ramp
+ 
+    The time response functions now raise an error or warning if invalid
+    arguments are passed to them.  As it was the case for frequency response
+    functions, they used to simply ignore invalid arguments.
+
+ ** lsim
+
+    TODO
+
  ** augstate
 
     New function for state-space models.  Adds the state vector to the output
