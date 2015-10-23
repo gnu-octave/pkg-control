@@ -187,7 +187,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            plot (t{k}, y{k}(:, i, j), sty{k});
+            plot (t{k}, y{k}(:, i, j), sty{k}{:});
             hold on;
             grid on;
             if (k == n_sys)
@@ -208,7 +208,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            stairs (t{k}, y{k}(:, i, j), sty{k});
+            stairs (t{k}, y{k}(:, i, j), sty{k}{:});
             hold on;
             grid on;
             if (k == n_sys)
