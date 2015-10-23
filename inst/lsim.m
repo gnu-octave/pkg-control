@@ -122,6 +122,10 @@ function [y_r, t_r, x_r] = lsim (varargin)
   if (! is_real_vector (t) && ! isempty (t))
     error ("lsim: time vector 't' must be real-valued or empty");
   endif
+
+  if (! isequal (t, unique (t)))
+    error ("lsim: time vector 't' must be sorted");
+  endif
   
   if (! is_real_vector (x0) && ! isempty (x0))
     error ("lsim: initial state vector 'x0' must be empty or a real-valued vector");
