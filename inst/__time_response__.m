@@ -101,20 +101,19 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
     evalin ("caller", "print_usage ()");
   endif
 
-
-
-
-
-  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, {dt}, "uniformoutput", false);
+  [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
 
-  ct_idx = cellfun (@isct, sys_cell);
-  sys_dt_cell = sys_cell;
-  tmp = cellfun (@c2d, sys_cell(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
-  sys_dt_cell(ct_idx) = tmp;
+  ct_idx = cellfun (@isct, args(sys_idx));
+  sys_dt = args(sys_idx);
+  tmp = cellfun (@c2d, args(sys_idx)(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
+  sys_dt(ct_idx) = tmp;
 
   ## time vector
-  t = @cellfun (@(dt) reshape (0 : dt : tfinal, [], 1), dt, "uniformoutput", false);
+  t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, uniformoutput", false);
+  
+  ## alternative code
+  ## t = cellfun (@(dt) vec (0 : dt : tfinal), dt, "uniformoutput", false);
 
   ## function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
   ## function [y, x_arr] = __step_response__ (sys_dt, t)
