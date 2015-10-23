@@ -84,86 +84,26 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
       error ("time_response: invalid response type '%s'", response);
   endswitch
   
-  
-
-  sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
-  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
-
-  if (! size_equal (sys_cell{:}))
-    error ("%s: models must have equal sizes", response);
+  if (issample (tfinal) || isempty (tfinal))
+    ## nothing to do here
+  elseif (is_real_vector (tfinal))
+    dt = abs (tfinal(end) - tfinal(1)) / (length (tfinal) - 1);
+    tfinal = abs (tfinal(end));
+  else
+    evalin ("caller", "print_usage ()");
   endif
 
-  vec_idx = find (cellfun (@is_real_matrix, args));                 # indices of vector arguments
-  n_vec = length (vec_idx);                                         # number of vector arguments
-  n_sys = length (sys_cell);                                        # number of LTI systems
-
-  tfinal = [];
-  dt = [];
-  x0 = [];
-
-  ## extract tfinal/t, dt, x0 from args
-  if (strcmpi (response, "initial"))
-    if (n_vec < 1)
-      error ("initial: require initial state vector 'x0'");
-    else                                                            # initial state vector x0 specified
-      arg = args{vec_idx(1)};
-      if (is_real_vector (arg))
-        x0 = arg;
-      else
-        error ("initial: initial state vector 'x0' must be a vector of real values");
-      endif
-      if (n_vec > 1)                                                # tfinal or time vector t specified
-        arg = args{vec_idx(2)};
-        if (issample (arg))
-          tfinal = arg;
-        elseif (isempty (arg))
-          ## tfinal = [];                                           # nothing to do here
-        elseif (is_real_vector (arg))
-          dt = abs (arg(2) - arg(1));                               # assume that t is regularly spaced
-          tfinal = arg(end);
-        else  
-          warning ("initial: argument number %d ignored", vec_idx(2));
-        endif
-        if (n_vec > 2)                                              # sampling time dt specified
-          arg = args{vec_idx(3)};
-          if (issample (arg))
-            dt = arg;
-          else
-            warning ("initial: argument number %d ignored", vec_idx(3));
-          endif
-          if (n_vec > 3)
-            warning ("initial: ignored");
-          endif
-        endif
-      endif
-    endif 
-  else                                                              # step or impulse response
-    if (n_vec > 0)                                                  # tfinal or time vector t specified
-      arg = args{vec_idx(1)};
-      if (issample (arg))
-        tfinal = arg;
-      elseif (isempty (arg))
-        ## tfinal = [];                                             # nothing to do here
-      elseif (is_real_vector (arg))
-        dt = abs (arg(2) - arg(1));                                 # assume that t is regularly spaced
-        tfinal = arg(end);
-      else  
-        warning ("%s: argument number %d ignored", response, vec_idx(1));
-      endif
-      if (n_vec > 1)                                                # sampling time dt specified
-        arg = args{vec_idx(2)};
-        if (issample (arg))
-          dt = arg;
-        else
-          warning ("%s: argument number %d ignored", response, vec_idx(2));
-        endif
-        if (n_vec > 2)
-          warning ("%s: ignored", response);
-        endif
-      endif
-    endif
+  if (isempty (dt))
+    ## nothing to do here
+  elseif (issample (dt))
+    ## nothing to do here
+  else
+    evalin ("caller", "print_usage ()");
   endif
-  ## TODO: share common code between initial and step/impulse
+
+
+
+
 
   [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
