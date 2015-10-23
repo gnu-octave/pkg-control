@@ -155,7 +155,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
     leg = cell (1, n_sys);
     idx = find (sys_idx);
     for k = 1 : n_sys
-      leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+      leg{k} = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
     endfor
 
     outname = get (args(sys_idx){end}, "outname");

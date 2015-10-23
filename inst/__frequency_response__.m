@@ -114,7 +114,7 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args)
   leg = cell (1, n);
   idx = find (sys_idx);
   for k = 1:n
-    leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+    leg{k} = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
   endfor
 
 endfunction
