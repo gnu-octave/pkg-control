@@ -63,7 +63,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function [y_r, t_r, x_r] = lsim (varargin)
 
@@ -75,91 +75,107 @@ function [y_r, t_r, x_r] = lsim (varargin)
     print_usage ();
   endif
 
-  sys_idx = find (cellfun (@isa, varargin, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
-  sys_cell = cellfun (@ss, varargin(sys_idx), "uniformoutput", false);  # convert to state-space
+  idx = cellfun (@islogical, varargin);
+  tmp = cellfun (@double, varargin(idx), "uniformoutput", false);
+  varargin(idx) = tmp;
 
-  if (! size_equal (sys_cell{:}))
-    error ("lsim: models must have equal sizes");
+  sys_idx = cellfun (@isa, varargin, {"lti"});          # LTI models
+  mat_idx = cellfun (@is_real_matrix, varargin);        # matrices
+  sty_idx = cellfun (@ischar, varargin);                # string (style arguments)
+
+  inv_idx = ! (sys_idx | mat_idx | sty_idx);            # invalid arguments
+
+  if (any (inv_idx))
+    warning ("lsim: arguments number %s are invalid and are being ignored", ...
+             mat2str (find (inv_idx)(:).'));
   endif
 
-  mat_idx = find (cellfun (@is_real_matrix, varargin));                 # indices of matrix arguments
-  n_mat = length (mat_idx);                                         # number of vector arguments
-  n_sys = length (sys_cell);                                        # number of LTI systems
-
-  t = [];
-  x0 = [];
-
-  if (n_mat < 1)
-    error ("lsim: require input signal 'u'");
-  else
-    arg = varargin{mat_idx(1)};
-    if (is_real_vector (arg))
-      u = reshape (arg, [], 1);                     # allow row vectors for single-input systems
-    elseif (is_real_matrix (arg));
-      u = arg;
-    else
-      error ("lsim: input signal 'u' must be an array of real numbers");
-    endif
-    if (n_mat > 1)                                  # time vector t
-      arg = varargin{mat_idx(2)};
-      if (is_real_vector (arg) || isempty (arg))
-        t = arg;
-      else
-        error ("lsim: time vector 't' must be real-valued or empty");
-      endif
-      if (n_mat > 2)                                # initial state vector x0
-        arg = varargin{mat_idx(3)};
-        if (is_real_vector (arg))
-          x0 = arg;
-        else
-          error ("lsim: initial state vector 'x0' must be a real-valued vector");
-        endif
-        if (n_mat > 3)
-          warning ("lsim: ignored");
-        endif
-      endif
-    endif
+  if (nnz (sys_idx) == 0)
+    error ("lsim: require at least one LTI model");
   endif
+
+  if (! size_equal (varargin{sys_idx}))
+    error ("lsim: all LTI models must have equal size");
+  endif
+
+  t = [];  x0 = [];                                     # default arguments
+
+  switch (nnz (mat_idx))
+    case 0
+      error ("lsim: require input signal 'u'");
+    case 1
+      u = varargin{mat_idx};
+    case 2
+      [u, t] = varargin{mat_idx};
+    case 3
+      [u, t, x0] = varargin{mat_idx};
+    otherwise
+      print_usage ();
+  endswitch
+
+  if (is_real_vector (u))                               # allow row vectors for single-input systems
+    u = vec (u);
+  elseif (isempty (u))                                  # ! is_real_matrix (u)  already tested
+    error ("lsim: input signal 'u' must be a real-valued matrix");
+  endif
+
+  if (! is_real_vector (t) && ! isempty (t))
+    error ("lsim: time vector 't' must be real-valued or empty");
+  endif
+  
+  if (! is_real_vector (x0) && ! isempty (x0))
+    error ("lsim: initial state vector 'x0' must be empty or a real-valued vector");
+  endif
+
 
   ## function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
   
-  [y, t, x] = cellfun (@__linear_simulation__, sys_cell, {u}, {t}, {x0}, "uniformoutput", false);
+  [y, t, x] = cellfun (@__linear_simulation__, varargin(sys_idx), {u}, {t}, {x0}, "uniformoutput", false);
 
 
-  if (nargout == 0)                             # plot information
-    [p, m] = size (sys_cell{1});
-    style_idx = find (cellfun (@ischar, varargin));
-    ct_idx = cellfun (@isct, sys_cell);
-    str = "Linear Simulation Results";
-    outname = get (sys_cell{end}, "outname");
-    outname = __labels__ (outname, "y");
+  if (nargout == 0)                                     # plot information
+    ## extract plotting styles
+    tmp = cumsum (sys_idx);
+    tmp(sys_idx | ! sty_idx) = 0;
+    n_sys = nnz (sys_idx);
+    sty = arrayfun (@(x) varargin(tmp == x), 1:n_sys, "uniformoutput", false);
+
+    ## FIXME: raise warning for strings before the first LTI model instead
+    ##        of simply ignoring them, e.g.  lsim ('style', sys1, ...)
+    ##        maybe also check this if we don't display a plot
+
+    ## default plotting styles if empty
     colororder = get (gca, "colororder");
     rc = rows (colororder);
-
-    sysname = cell (n_sys, 1);
+    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty(idx) = def(idx);
+  
+    ## get system names for legend
+    ## leg = cellfun (@inputname, find (sys_idx), "uniformoutput", false);
+    leg = cell (1, n_sys);
+    idx = find (sys_idx);
+    for k = 1 : n_sys
+      try
+        leg(k) = inputname (idx(k));
+      catch
+        leg(k) = "";                                    # catch case  lsim (lticell{:}, ...)
+      end_try_catch
+    endfor
+    
+    [p, m] = size (varargin(sys_idx){1});
+    ct_idx = cellfun (@isct, varargin(sys_idx));
+    str = "Linear Simulation Results";
+    outname = get (varargin(sys_idx){end}, "outname");
+    outname = __labels__ (outname, "y");
 
     for k = 1 : n_sys                                   # for every system
-      if (k == n_sys)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        color = colororder(1+rem (k-1, rc), :);
-        style = {"color", color};   
-      endif
-      try
-        sysname{k} = inputname(sys_idx(k));
-      catch
-        sysname{k} = "";
-      end_try_catch
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           if (p != 1)
             subplot (p, 1, i);
           endif
-          plot (t{k}, y{k}(:, i), style{:});
+          plot (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
           grid on;
           if (k == n_sys)
@@ -176,7 +192,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
           if (p != 1)
             subplot (p, 1, i);
           endif
-          stairs (t{k}, y{k}(:, i), style{:});
+          stairs (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
           grid on;
           if (k == n_sys)
@@ -192,10 +208,10 @@ function [y_r, t_r, x_r] = lsim (varargin)
     endfor
     xlabel ("Time [s]");
     if (p == 1 && m == 1)
-      legend (sysname)
+      legend (leg)
     endif
     hold off;
-  else                  # return values
+  else                                                  # return values
     y_r = y{1};
     t_r = t{1};
     x_r = x{1};
