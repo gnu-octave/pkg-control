@@ -133,40 +133,49 @@ function [y_r, t_r, x_r] = lsim (varargin)
   [y, t, x] = cellfun (@__linear_simulation__, varargin(sys_idx), {u}, {t}, {x0}, "uniformoutput", false);
 
 
-  if (nargout == 0)                             # plot information
-    [p, m] = size (sys_cell{1});
-    style_idx = find (cellfun (@ischar, varargin));
-    ct_idx = cellfun (@isct, sys_cell);
-    str = "Linear Simulation Results";
-    outname = get (sys_cell{end}, "outname");
-    outname = __labels__ (outname, "y");
+  if (nargout == 0)                                     # plot information
+    ## extract plotting styles
+    tmp = cumsum (sys_idx);
+    tmp(sys_idx | ! sty_idx) = 0;
+    n_sys = nnz (sys_idx);
+    sty = arrayfun (@(x) varargin(tmp == x), 1:n_sys, "uniformoutput", false);
+
+    ## FIXME: raise warning for strings before the first LTI model instead
+    ##        of simply ignoring them, e.g.  lsim ('style', sys1, ...)
+    ##        maybe also check this if we don't display a plot
+
+    ## default plotting styles if empty
     colororder = get (gca, "colororder");
     rc = rows (colororder);
-
-    sysname = cell (n_sys, 1);
+    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty(idx) = def(idx);
+  
+    ## get system names for legend
+    ## leg = cellfun (@inputname, find (sys_idx), "uniformoutput", false);
+    leg = cell (1, n_sys);
+    idx = find (sys_idx);
+    for k = 1 : n_sys
+      try
+        leg(k) = inputname (idx(k));
+      catch
+        leg(k) = "";                                    # catch case  lsim (lticell{:}, ...)
+      end_try_catch
+    endfor
+    
+    [p, m] = size (varargin(sys_idx){1});
+    ct_idx = cellfun (@isct, varargin(sys_idx));
+    str = "Linear Simulation Results";
+    outname = get (varargin(sys_idx){end}, "outname");
+    outname = __labels__ (outname, "y");
 
     for k = 1 : n_sys                                   # for every system
-      if (k == n_sys)
-        lim = nargin;
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = varargin(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        color = colororder(1+rem (k-1, rc), :);
-        style = {"color", color};   
-      endif
-      try
-        sysname{k} = inputname(sys_idx(k));
-      catch
-        sysname{k} = "";
-      end_try_catch
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           if (p != 1)
             subplot (p, 1, i);
           endif
-          plot (t{k}, y{k}(:, i), style{:});
+          plot (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
           grid on;
           if (k == n_sys)
@@ -183,7 +192,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
           if (p != 1)
             subplot (p, 1, i);
           endif
-          stairs (t{k}, y{k}(:, i), style{:});
+          stairs (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
           grid on;
           if (k == n_sys)
@@ -199,10 +208,10 @@ function [y_r, t_r, x_r] = lsim (varargin)
     endfor
     xlabel ("Time [s]");
     if (p == 1 && m == 1)
-      legend (sysname)
+      legend (leg)
     endif
     hold off;
-  else                  # return values
+  else                                                  # return values
     y_r = y{1};
     t_r = t{1};
     x_r = x{1};
