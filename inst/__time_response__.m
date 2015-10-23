@@ -22,7 +22,6 @@
 ## Created: October 2009
 ## Version: 0.5
 
-% function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
 function [y, t, x] = __time_response__ (response, args, plotflag)
 
   idx = cellfun (@islogical, args);
@@ -135,7 +134,31 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
 
 
   if (plotflag)                                         # display plot
-    [p, m] = size (sys_cell{1});
+    ## extract plotting styles
+    tmp = cumsum (sys_idx);
+    tmp(sys_idx | ! sty_idx) = 0;
+    n_sys = nnz (sys_idx);
+    sty = arrayfun (@(x) args(tmp == x), 1:n_sys, "uniformoutput", false);
+
+    ## default plotting styles if empty
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty(idx) = def(idx);
+
+    ## get system names for legend
+    leg = cell (1, n_sys);
+    idx = find (sys_idx);
+    for k = 1:n
+      leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+    endfor
+
+    outname = get (args(sys_idx){end}, "outname");
+    outname = __labels__ (outname, "y");
+
+    [p, m] = size (args(sys_idx){1})
+    
     switch (response)
       case "initial"
         str = "Response to Initial Conditions";
@@ -155,31 +178,16 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
       otherwise
         error ("time_response: invalid response type");
     endswitch
-    
-    style_idx = find (cellfun (@ischar, args));
-    outname = get (sys_cell{end}, "outname");
-    outname = __labels__ (outname, "y");
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-  
+
+
     for k = 1 : n_sys                                   # for every system
-      if (k == n_sys)
-        lim = numel (args);
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        color = colororder(1+rem (k-1, rc), :);
-        style = {"color", color};   
-      endif
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            plot (t{k}, y{k}(:, i, j), style{:});
+            plot (t{k}, y{k}(:, i, j), sty{k});
             hold on;
             grid on;
             if (k == n_sys)
@@ -200,7 +208,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            stairs (t{k}, y{k}(:, i, j), style{:});
+            stairs (t{k}, y{k}(:, i, j), sty{k});
             hold on;
             grid on;
             if (k == n_sys)
@@ -219,7 +227,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
     endfor
     xlabel ("Time [s]");
     if (p == 1 && m == 1)
-      legend (sysname)
+      legend (leg)
     endif
     hold off;
   endif
