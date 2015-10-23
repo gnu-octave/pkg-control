@@ -110,6 +110,9 @@ control-3.0.0   Release Date: 2015-mm-dd   Release Manager: Lukas Reichlin
 
  ** lsim
 
+    Fixed bug #46247.  <http://savannah.gnu.org/bugs/?46247>
+    (Reported by Lutz Mager and Piet Wertelaers)
+
     Support logical arrays as input signal.  Before, logical arrays were
     simply ignored without notice, which could lead to unexpected results.
     Additionally, lsim received the same improvements as the other time and
