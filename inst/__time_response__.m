@@ -140,6 +140,10 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
     n_sys = nnz (sys_idx);
     sty = arrayfun (@(x) args(tmp == x), 1:n_sys, "uniformoutput", false);
 
+    ## FIXME: raise warning for strings before the first LTI model instead
+    ##        of simply ignoring them, e.g.  step ('style', sys1, ...)
+    ##        maybe also check this if we don't display a plot
+
     ## default plotting styles if empty
     colororder = get (gca, "colororder");
     rc = rows (colororder);
