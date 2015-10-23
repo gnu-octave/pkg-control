@@ -113,61 +113,24 @@ function [y_r, t_r, x_r] = lsim (varargin)
       print_usage ();
   endswitch
 
-
-
-
-
-
-
-  sys_idx = find (cellfun (@isa, varargin, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
-  sys_cell = cellfun (@ss, varargin(sys_idx), "uniformoutput", false);  # convert to state-space
-
-  if (! size_equal (sys_cell{:}))
-    error ("lsim: models must have equal sizes");
+  if (is_real_vector (u))                               # allow row vectors for single-input systems
+    u = vec (u);
+  elseif (isempty (u))                                  # ! is_real_matrix (u)  already tested
+    error ("lsim: input signal 'u' must be a real-valued matrix");
   endif
 
-  mat_idx = find (cellfun (@is_real_matrix, varargin));                 # indices of matrix arguments
-  n_mat = length (mat_idx);                                         # number of vector arguments
-  n_sys = length (sys_cell);                                        # number of LTI systems
-
-  t = [];
-  x0 = [];
-
-  if (n_mat < 1)
-    error ("lsim: require input signal 'u'");
-  else
-    arg = varargin{mat_idx(1)};
-    if (is_real_vector (arg))
-      u = reshape (arg, [], 1);                     # allow row vectors for single-input systems
-    elseif (is_real_matrix (arg));
-      u = arg;
-    else
-      error ("lsim: input signal 'u' must be an array of real numbers");
-    endif
-    if (n_mat > 1)                                  # time vector t
-      arg = varargin{mat_idx(2)};
-      if (is_real_vector (arg) || isempty (arg))
-        t = arg;
-      else
-        error ("lsim: time vector 't' must be real-valued or empty");
-      endif
-      if (n_mat > 2)                                # initial state vector x0
-        arg = varargin{mat_idx(3)};
-        if (is_real_vector (arg))
-          x0 = arg;
-        else
-          error ("lsim: initial state vector 'x0' must be a real-valued vector");
-        endif
-        if (n_mat > 3)
-          warning ("lsim: ignored");
-        endif
-      endif
-    endif
+  if (! is_real_vector (t) && ! isempty (t))
+    error ("lsim: time vector 't' must be real-valued or empty");
   endif
+  
+  if (! is_real_vector (x0) && ! isempty (x0))
+    error ("lsim: initial state vector 'x0' must be empty or a real-valued vector");
+  endif
+
 
   ## function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
   
-  [y, t, x] = cellfun (@__linear_simulation__, sys_cell, {u}, {t}, {x0}, "uniformoutput", false);
+  [y, t, x] = cellfun (@__linear_simulation__, varargin(sys_idx), {u}, {t}, {x0}, "uniformoutput", false);
 
 
   if (nargout == 0)                             # plot information
