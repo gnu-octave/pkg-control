@@ -52,11 +52,33 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
 
   switch (response)
     case "initial"
-    
-    
+      switch (nnz (mat_idx))
+        case 0
+          error ("initial: require initial state vector 'x0'");
+        case 1
+          x0 = args{mat_idx};
+        case 2
+          [x0, tfinal] = args{mat_idx};
+        case 3
+          [x0, tfinal, dt] = args{mat_idx};
+        otherwise
+          evalin ("caller", "print_usage ()");
+      endswitch
+      if (! is_real_vector (x0))
+        error ("initial: initial state vector 'x0' must be a real-valued vector");
+      endif
     
     case {"step", "impulse", "ramp"}
-    
+      switch (nnz (mat_idx))
+        case 0
+          ## nothing to here, just prevent case 'otherwise'
+        case 1
+          tfinal = args{mat_idx};
+        case 2
+          [tfinal, dt] = args{mat_idx};
+        otherwise
+          evalin ("caller", "print_usage ()");
+      endswitch
     
     otherwise
       error ("time_response: invalid response type '%s'", response);
