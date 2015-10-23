@@ -63,7 +63,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4
+## Version: 0.5
 
 function [y_r, t_r, x_r] = lsim (varargin)
 
@@ -74,6 +74,50 @@ function [y_r, t_r, x_r] = lsim (varargin)
   if (nargin < 2)
     print_usage ();
   endif
+
+  idx = cellfun (@islogical, varargin);
+  tmp = cellfun (@double, varargin(idx), "uniformoutput", false);
+  varargin(idx) = tmp;
+
+  sys_idx = cellfun (@isa, varargin, {"lti"});          # LTI models
+  mat_idx = cellfun (@is_real_matrix, varargin);        # matrices
+  sty_idx = cellfun (@ischar, varargin);                # string (style arguments)
+
+  inv_idx = ! (sys_idx | mat_idx | sty_idx);            # invalid arguments
+
+  if (any (inv_idx))
+    warning ("lsim: arguments number %s are invalid and are being ignored", ...
+             mat2str (find (inv_idx)(:).'));
+  endif
+
+  if (nnz (sys_idx) == 0)
+    error ("lsim: require at least one LTI model");
+  endif
+
+  if (! size_equal (varargin{sys_idx}))
+    error ("lsim: all LTI models must have equal size");
+  endif
+
+  t = [];  x0 = [];                                     # default arguments
+
+  switch (nnz (mat_idx))
+    case 0
+      error ("lsim: require input signal 'u'");
+    case 1
+      u = varargin{mat_idx};
+    case 2
+      [u, t] = varargin{mat_idx};
+    case 3
+      [u, t, x0] = varargin{mat_idx};
+    otherwise
+      print_usage ();
+  endswitch
+
+
+
+
+
+
 
   sys_idx = find (cellfun (@isa, varargin, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
   sys_cell = cellfun (@ss, varargin(sys_idx), "uniformoutput", false);  # convert to state-space
