@@ -20,121 +20,145 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.4.1
+## Version: 0.5
 
-function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
+function [y, t, x] = __time_response__ (response, args, plotflag)
 
-  sys_idx = find (cellfun (@isa, args, {"lti"}));                   # look for LTI models, 'find' needed for plot styles
-  sys_cell = cellfun (@ss, args(sys_idx), "uniformoutput", false);  # convert to state-space
+  idx = cellfun (@islogical, args);
+  tmp = cellfun (@double, args(idx), "uniformoutput", false);
+  args(idx) = tmp;
 
-  if (! size_equal (sys_cell{:}))
-    error ("%s: models must have equal sizes", response);
+  sys_idx = cellfun (@isa, args, {"lti"});                          # LTI models
+  mat_idx = cellfun (@is_real_matrix, args);                        # matrices
+  sty_idx = cellfun (@ischar, args);                                # strings (style arguments)
+
+  inv_idx = ! (sys_idx | mat_idx | sty_idx);                        # invalid arguments
+
+  if (any (inv_idx))
+    warning ("%s: arguments number %s are invalid and are being ignored", ...
+             response, mat2str (find (inv_idx)(:).'));
   endif
 
-  vec_idx = find (cellfun (@is_real_matrix, args));                 # indices of vector arguments
-  n_vec = length (vec_idx);                                         # number of vector arguments
-  n_sys = length (sys_cell);                                        # number of LTI systems
-
-  tfinal = [];
-  dt = [];
-  x0 = [];
-
-  ## extract tfinal/t, dt, x0 from args
-  if (strcmpi (response, "initial"))
-    if (n_vec < 1)
-      error ("initial: require initial state vector 'x0'");
-    else                                                            # initial state vector x0 specified
-      arg = args{vec_idx(1)};
-      if (is_real_vector (arg))
-        x0 = arg;
-      else
-        error ("initial: initial state vector 'x0' must be a vector of real values");
-      endif
-      if (n_vec > 1)                                                # tfinal or time vector t specified
-        arg = args{vec_idx(2)};
-        if (issample (arg))
-          tfinal = arg;
-        elseif (isempty (arg))
-          ## tfinal = [];                                           # nothing to do here
-        elseif (is_real_vector (arg))
-          dt = abs (arg(2) - arg(1));                               # assume that t is regularly spaced
-          tfinal = arg(end);
-        else  
-          warning ("initial: argument number %d ignored", vec_idx(2));
-        endif
-        if (n_vec > 2)                                              # sampling time dt specified
-          arg = args{vec_idx(3)};
-          if (issample (arg))
-            dt = arg;
-          else
-            warning ("initial: argument number %d ignored", vec_idx(3));
-          endif
-          if (n_vec > 3)
-            warning ("initial: ignored");
-          endif
-        endif
-      endif
-    endif 
-  else                                                              # step or impulse response
-    if (n_vec > 0)                                                  # tfinal or time vector t specified
-      arg = args{vec_idx(1)};
-      if (issample (arg))
-        tfinal = arg;
-      elseif (isempty (arg))
-        ## tfinal = [];                                             # nothing to do here
-      elseif (is_real_vector (arg))
-        dt = abs (arg(2) - arg(1));                                 # assume that t is regularly spaced
-        tfinal = arg(end);
-      else  
-        warning ("%s: argument number %d ignored", response, vec_idx(1));
-      endif
-      if (n_vec > 1)                                                # sampling time dt specified
-        arg = args{vec_idx(2)};
-        if (issample (arg))
-          dt = arg;
-        else
-          warning ("%s: argument number %d ignored", response, vec_idx(2));
-        endif
-        if (n_vec > 2)
-          warning ("%s: ignored", response);
-        endif
-      endif
-    endif
+  if (nnz (sys_idx) == 0)
+    error ("%s: require at least one LTI model", response);
   endif
-  ## TODO: share common code between initial and step/impulse
 
-  [tfinal, dt] = cellfun (@__sim_horizon__, sys_cell, {tfinal}, {dt}, "uniformoutput", false);
+  if (! size_equal (args{sys_idx}))
+    error ("%s: all LTI models must have equal size", response);
+  endif
+
+  tfinal = [];  dt = [];  x0 = [];                                  # default arguments
+
+  switch (response)
+    case "initial"
+      switch (nnz (mat_idx))
+        case 0
+          error ("initial: require initial state vector 'x0'");
+        case 1
+          x0 = args{mat_idx};
+        case 2
+          [x0, tfinal] = args{mat_idx};
+        case 3
+          [x0, tfinal, dt] = args{mat_idx};
+        otherwise
+          evalin ("caller", "print_usage ()");
+      endswitch
+      if (! is_real_vector (x0))
+        error ("initial: initial state vector 'x0' must be a real-valued vector");
+      endif
+    
+    case {"step", "impulse", "ramp"}
+      switch (nnz (mat_idx))
+        case 0
+          ## nothing to here, just prevent case 'otherwise'
+        case 1
+          tfinal = args{mat_idx};
+        case 2
+          [tfinal, dt] = args{mat_idx};
+        otherwise
+          evalin ("caller", "print_usage ()");
+      endswitch
+    
+    otherwise
+      error ("time_response: invalid response type '%s'", response);
+  endswitch
+  
+  if (issample (tfinal) || isempty (tfinal))
+    ## nothing to do here
+  elseif (is_real_vector (tfinal))
+    dt = abs (tfinal(end) - tfinal(1)) / (length (tfinal) - 1);
+    tfinal = abs (tfinal(end));
+  else
+    evalin ("caller", "print_usage ()");
+  endif
+
+  if (isempty (dt))
+    ## nothing to do here
+  elseif (issample (dt))
+    ## nothing to do here
+  else
+    evalin ("caller", "print_usage ()");
+  endif
+
+  [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
 
-  ct_idx = cellfun (@isct, sys_cell);
-  sys_dt_cell = sys_cell;
-  tmp = cellfun (@c2d, sys_cell(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
-  sys_dt_cell(ct_idx) = tmp;
+  ct_idx = cellfun (@isct, args(sys_idx));
+  sys_dt = args(sys_idx);
+  tmp = cellfun (@c2d, args(sys_idx)(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
+  sys_dt(ct_idx) = tmp;
 
   ## time vector
-  t = @cellfun (@(dt) reshape (0 : dt : tfinal, [], 1), dt, "uniformoutput", false);
+  t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, "uniformoutput", false);
+  
+  ## alternative code
+  ## t = cellfun (@(dt) vec (0 : dt : tfinal), dt, "uniformoutput", false);
 
-  ## function [y, x_arr] = __initial_response__ (sys, sys_dt, t, x0)
+  ## function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
   ## function [y, x_arr] = __step_response__ (sys_dt, t)
   ## function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
   ## function [y, x_arr] = __ramp_response__ (sys_dt, t)
 
   switch (response)
     case "initial"
-      [y, x] = cellfun (@__initial_response__, sys_dt_cell, t, {x0}, "uniformoutput", false);
+      [y, x] = cellfun (@__initial_response__, sys_dt, t, {x0}, "uniformoutput", false);
     case "step"
-      [y, x] = cellfun (@__step_response__, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__step_response__, sys_dt, t, "uniformoutput", false);
     case "impulse"
-      [y, x] = cellfun (@__impulse_response__, sys_cell, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__impulse_response__, args(sys_idx), sys_dt, t, "uniformoutput", false);
     case "ramp"
-      [y, x] = cellfun (@__ramp_response__, sys_dt_cell, t, "uniformoutput", false);
+      [y, x] = cellfun (@__ramp_response__, sys_dt, t, "uniformoutput", false);
     otherwise
       error ("time_response: invalid response type");
   endswitch
 
 
   if (plotflag)                                         # display plot
-    [p, m] = size (sys_cell{1});
+    ## extract plotting styles
+    tmp = cumsum (sys_idx);
+    tmp(sys_idx | ! sty_idx) = 0;
+    n_sys = nnz (sys_idx);
+    sty = arrayfun (@(x) args(tmp == x), 1:n_sys, "uniformoutput", false);
+
+    ## default plotting styles if empty
+    colororder = get (gca, "colororder");
+    rc = rows (colororder);
+    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
+    idx = cellfun (@isempty, sty);
+    sty(idx) = def(idx);
+
+    ## get system names for legend
+    leg = cell (1, n_sys);
+    idx = find (sys_idx);
+    for k = 1 : n_sys
+      leg(k) = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+    endfor
+
+    outname = get (args(sys_idx){end}, "outname");
+    outname = __labels__ (outname, "y");
+
+    [p, m] = size (args(sys_idx){1});
+    
     switch (response)
       case "initial"
         str = "Response to Initial Conditions";
@@ -154,31 +178,16 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
       otherwise
         error ("time_response: invalid response type");
     endswitch
-    
-    style_idx = find (cellfun (@ischar, args));
-    outname = get (sys_cell{end}, "outname");
-    outname = __labels__ (outname, "y");
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-  
+
+
     for k = 1 : n_sys                                   # for every system
-      if (k == n_sys)
-        lim = numel (args);
-      else
-        lim = sys_idx(k+1);
-      endif
-      style = args(style_idx(style_idx > sys_idx(k) & style_idx <= lim));
-      if (isempty (style))
-        color = colororder(1+rem (k-1, rc), :);
-        style = {"color", color};   
-      endif
       if (ct_idx(k))                                    # continuous-time system                                           
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            plot (t{k}, y{k}(:, i, j), style{:});
+            plot (t{k}, y{k}(:, i, j), sty{k}{:});
             hold on;
             grid on;
             if (k == n_sys)
@@ -199,7 +208,7 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
             if (p != 1 || cols != 1)
               subplot (p, cols, (i-1)*cols+j);
             endif
-            stairs (t{k}, y{k}(:, i, j), style{:});
+            stairs (t{k}, y{k}(:, i, j), sty{k}{:});
             hold on;
             grid on;
             if (k == n_sys)
@@ -218,7 +227,7 @@ function [y, t, x] = __time_response__ (response, args, sysname, plotflag)
     endfor
     xlabel ("Time [s]");
     if (p == 1 && m == 1)
-      legend (sysname)
+      legend (leg)
     endif
     hold off;
   endif

@@ -63,7 +63,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 1.0
 
 function [y_r, t_r, x_r] = step (varargin)
 
@@ -71,22 +71,7 @@ function [y_r, t_r, x_r] = step (varargin)
     print_usage ();
   endif
 
-  if (nargout)
-    sysname = {};
-  else  
-    sys_idx = find (cellfun (@isa, varargin, {"lti"}));
-    len = length (sys_idx);
-    sysname = cell (len, 1);
-    for k = 1 : len
-      try
-        sysname{k} = inputname(sys_idx(k));
-      catch
-        sysname{k} = "";
-      end_try_catch
-    endfor
-  endif
-
-  [y, t, x] = __time_response__ ("step", varargin, sysname, ! nargout);
+  [y, t, x] = __time_response__ ("step", varargin, ! nargout);
 
   if (nargout)
     y_r = y{1};
