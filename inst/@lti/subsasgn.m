@@ -21,7 +21,7 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.2
+## Version: 0.3
 
 function sys = subsasgn (sys, idx, val)
 
@@ -33,12 +33,22 @@ function sys = subsasgn (sys, idx, val)
       if (length (idx) == 1)
         sys = set (sys, idx.subs, val);
       else
-        prop = idx(1).subs;
-        sys = set (sys, prop, subsasgn (get (sys, prop), idx(2:end), val));
+        key = idx(1).subs;
+        sys = set (sys, key, subsasgn (get (sys, key), idx(2:end), val));
+      endif
+
+    case "()"
+      if (numel (idx(1).subs) > 2)      # sys(:, :, ...) = ltisys
+        ## bug #45314  <https://savannah.gnu.org/bugs/?45314>
+        error (["lti: subsasgn: arrays of linear models are not supported (yet).  ", ...
+                "as a workaround, try to use cells of LTI models instead."]);
+      else                              # sys(out_idx, in_idx).a = mat  
+        error (["lti: subsasgn: invalid subscripted assignment type '()'.  ", ...
+                "you must select an LTI key first, i.e.  sys.keyname(...) = ..."]);
       endif
 
     otherwise
-      error ("lti: subsasgn: invalid subscripted assignment type");
+      error ("lti: subsasgn: invalid subscripted assignment type '%s'", idx(1).type);
 
   endswitch
 
