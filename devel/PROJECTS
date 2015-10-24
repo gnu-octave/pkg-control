@@ -6,6 +6,25 @@ Control PROJECTS                                          -*- text -*-
 grep FIXME and/or TODO for more information
 
 
+----------------
+Missing Features:
+----------------
+
+  * time delays                                     (challenging)
+
+  * arrays of LTI models                            (tedious)
+      e.g.  sys(:,:,1) = ss (-2, 3, 4, 5)
+      needs conversion of all  sys.(fieldname)
+      to cells, except for  sys.lti
+      requires a lot of cellfun statements!
+
+  * time/input/output/state units                   (easy)
+      (for LTI models, no effect on system behavior)
+
+  * zpk models                                      (routine)
+      (not a wrapper for tf models)
+      needs attention for conversions
+
 -------
 General:
 -------
