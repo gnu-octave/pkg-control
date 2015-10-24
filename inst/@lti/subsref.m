@@ -32,21 +32,22 @@ function a = subsref (a, s)
   switch (s(1).type)
     case "()"
       idx = s(1).subs;
-      if (numel (idx) == 2)
-        a = __sys_prune__ (a, idx{1}, idx{2});
-      elseif (numel (idx) == 1)
-        a = __freqresp__ (a, idx{1});  
-      elseif (numel (idx) > 2)
-        ## bug #45314  <https://savannah.gnu.org/bugs/?45314>
-        error (["lti: subsref: arrays of linear models are not supported (yet).  ", ...
-                "as a workaround, try to use cells of LTI models instead."]);
-      else
-        ## NOTE: for example, Octave returns  a = a()  for  a = rand (2, 2)
-        ##       so we do the same for LTI models.
-        ## a = a;  # superfluous
-        ## error (["lti: subsref: invalid subscripted reference of type '()'.  ", ...
-        ##         "need one or two arguments inside the brackets."]);
-      endif
+      switch (numel (idx))
+        case 2
+          a = __sys_prune__ (a, idx{1}, idx{2});
+        case 1
+          a = freqresp (a, idx{1});
+        case 0
+          ## NOTE: for example, Octave returns  a = a()  for  a = rand (2, 2)
+          ##       so we do the same for LTI models.
+          ## a = a;  # superfluous
+          ## error (["lti: subsref: invalid subscripted reference of type '()'.  ", ...
+          ##         "need one or two arguments inside the brackets."]);
+        otherwise
+          ## bug #45314  <https://savannah.gnu.org/bugs/?45314>
+          error (["lti: subsref: arrays of linear models are not supported (yet).  ", ...
+                  "as a workaround, try to use cells of LTI models instead."]);
+      endswitch
     case "."
       fld = s(1).subs;
       a = get (a, fld);

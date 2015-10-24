@@ -49,7 +49,7 @@ function H = freqresp (sys, w)
   endif
 
   if (! is_real_vector (w))  # catches freqresp (sys, sys) and freqresp (w, sys) as well
-    error ("freqresp: second argument must be a real vector");
+    error ("freqresp: second argument 'w' must be a real-valued vector of frequencies");
   endif
 
   H = __freqresp__ (sys, w);
