@@ -94,8 +94,16 @@ function [y_r, t_r, x_r] = lsim (varargin)
     error ("lsim: require at least one LTI model");
   endif
 
+  if (nargout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
+    print_usage ();
+  endif
+
   if (! size_equal (varargin{sys_idx}))
     error ("lsim: all LTI models must have equal size");
+  endif
+
+  if (any (find (sty_idx) < find (sys_idx)(1)))
+    warning ("lsim: strings in front of first LTI model are being ignored");
   endif
 
   t = [];  x0 = [];                                     # default arguments
@@ -143,10 +151,6 @@ function [y_r, t_r, x_r] = lsim (varargin)
     tmp(sys_idx | ! sty_idx) = 0;
     n_sys = nnz (sys_idx);
     sty = arrayfun (@(x) varargin(tmp == x), 1:n_sys, "uniformoutput", false);
-
-    ## FIXME: raise warning for strings before the first LTI model instead
-    ##        of simply ignoring them, e.g.  lsim ('style', sys1, ...)
-    ##        maybe also check this if we don't display a plot
 
     ## default plotting styles if empty
     colororder = get (gca, "colororder");
