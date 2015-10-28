@@ -88,9 +88,6 @@ function [pol_r, zer_r] = pzmap (varargin)
     tmp(sys_idx | ! sty_idx) = 0;
     n = nnz (sys_idx);
     sty = arrayfun (@(x) varargin(tmp == x), 1:n, "uniformoutput", false);
-  
-    ## FIXME: raise warning for strings before the first LTI model instead
-    ##        of simply ignoring them, e.g.  pzmap ('style', sys1, ...)
 
     colororder = get (gca, "colororder");
     rc = rows (colororder);
