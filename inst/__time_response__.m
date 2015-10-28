@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.5
 
-function [y, t, x] = __time_response__ (response, args, plotflag)
+function [y, t, x] = __time_response__ (response, args, nout)
 
   idx = cellfun (@islogical, args);
   tmp = cellfun (@double, args(idx), "uniformoutput", false);
@@ -41,6 +41,10 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
 
   if (nnz (sys_idx) == 0)
     error ("%s: require at least one LTI model", response);
+  endif
+
+  if (nout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
+    evalin ("caller", "print_usage ()");
   endif
 
   if (! size_equal (args{sys_idx}))
@@ -133,7 +137,7 @@ function [y, t, x] = __time_response__ (response, args, plotflag)
   endswitch
 
 
-  if (plotflag)                                         # display plot
+  if (nout == 0)                                        # display plot
     ## extract plotting styles
     tmp = cumsum (sys_idx);
     tmp(sys_idx | ! sty_idx) = 0;

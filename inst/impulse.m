@@ -71,7 +71,7 @@ function [y_r, t_r, x_r] = impulse (varargin)
     print_usage ();
   endif
   
-  [y, t, x] = __time_response__ ("impulse", varargin, ! nargout);
+  [y, t, x] = __time_response__ ("impulse", varargin, nargout);
 
   if (nargout)
     y_r = y{1};

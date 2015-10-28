@@ -83,7 +83,7 @@ function [y_r, t_r, x_r] = initial (varargin)
     print_usage ();
   endif
 
-  [y, t, x] = __time_response__ ("initial", varargin, ! nargout);
+  [y, t, x] = __time_response__ ("initial", varargin, nargout);
 
   if (nargout)
     y_r = y{1};

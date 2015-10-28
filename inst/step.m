@@ -71,7 +71,7 @@ function [y_r, t_r, x_r] = step (varargin)
     print_usage ();
   endif
 
-  [y, t, x] = __time_response__ ("step", varargin, ! nargout);
+  [y, t, x] = __time_response__ ("step", varargin, nargout);
 
   if (nargout)
     y_r = y{1};
