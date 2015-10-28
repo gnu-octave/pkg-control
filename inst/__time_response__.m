@@ -51,6 +51,10 @@ function [y, t, x] = __time_response__ (response, args, nout)
     error ("%s: all LTI models must have equal size", response);
   endif
 
+  if (any (find (sty_idx) < find (sys_idx)(1)))
+    warning ("%s: strings in front of first LTI model are being ignored", response);
+  endif
+
   tfinal = [];  dt = [];  x0 = [];                                  # default arguments
 
   switch (response)
@@ -143,10 +147,6 @@ function [y, t, x] = __time_response__ (response, args, nout)
     tmp(sys_idx | ! sty_idx) = 0;
     n_sys = nnz (sys_idx);
     sty = arrayfun (@(x) args(tmp == x), 1:n_sys, "uniformoutput", false);
-
-    ## FIXME: raise warning for strings before the first LTI model instead
-    ##        of simply ignoring them, e.g.  step ('style', sys1, ...)
-    ##        maybe also check this if we don't display a plot
 
     ## default plotting styles if empty
     colororder = get (gca, "colororder");
