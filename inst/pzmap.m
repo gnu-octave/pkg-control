@@ -62,6 +62,18 @@ function [pol_r, zer_r] = pzmap (varargin)
              mat2str (find (inv_idx)(:).'));
   endif
 
+  if (nnz (sys_idx) == 0)
+    error ("pzmap: require at least one LTI model");
+  endif
+
+  if (nargout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
+    print_usage ();
+  endif
+
+  if (any (find (sty_idx) < find (sys_idx)(1)))
+    warning ("pzmap: strings in front of first LTI model are being ignored");
+  endif
+
   pol = cellfun (@pole, varargin(sys_idx), "uniformoutput", false);
   zer = cellfun (@zero, varargin(sys_idx), "uniformoutput", false);
 
