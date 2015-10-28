@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, sty, leg] = __frequency_response__ (caller, args) 
+function [H, w, sty, leg] = __frequency_response__ (caller, args, nout = 0) 
 
   ## CALLER         | MIMO  | RANGE | CELL  |
   ## ---------------+-------+-------+-------+
@@ -65,8 +65,16 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args)
     error ("%s: require at least one LTI model", caller);
   endif
 
+  if (nout > 0 && (nnz (sys_idx) > 1 || any (s_idx)))
+    evalin ("caller", "print_usage ()");
+  endif
+
   if (! mimoflag && ! all (cellfun (@issiso, args(sys_idx))))
     error ("%s: require SISO systems", caller);
+  endif
+
+  if (any (find (s_idx) < find (sys_idx)(1)))
+    warning ("%s: strings in front of first LTI model are being ignored", caller);
   endif
 
   ## determine frequency vectors
@@ -105,9 +113,6 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args)
   tmp(sys_idx | ! s_idx) = 0;
   n = nnz (sys_idx);
   sty = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false);
-  
-  ## FIXME: raise warning for strings before the first LTI model instead
-  ##        of simply ignoring them, e.g.  bode ('style', sys1, ...)
 
   ## get system names for legend
   ## "''" needed for  bode (lticell{:})

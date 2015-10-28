@@ -63,7 +63,7 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("nichols", varargin);
+  [H, w, sty, leg] = __frequency_response__ ("nichols", varargin, nargout);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);

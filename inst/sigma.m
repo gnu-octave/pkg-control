@@ -63,7 +63,7 @@ function [sv_r, w_r] = sigma (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("sigma", varargin);
+  [H, w, sty, leg] = __frequency_response__ ("sigma", varargin, nargout);
 
   sv = cellfun (@(H) cellfun (@svd, H, "uniformoutput", false), H, "uniformoutput", false);
   sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);
