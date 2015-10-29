@@ -64,7 +64,7 @@
 function sys = __sys_connect__ (sys, m)
 
   ## FIXME: error for nonsensical stuff like  feedback (ss (1), ss (-1))
-  ##        how to detect this?  all-zero descriptor matrix?  ! any (sys.e)
+  ##        how to detect this?  all-zero descriptor matrix?  ! any (sys.e(:))
   ## TODO:  investigate whether all-zero sys.e make sense,
   ##        before disabling them in a rash decision.
 
