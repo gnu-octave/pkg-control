@@ -62,7 +62,7 @@ rcond (sys.a)
 % Now let's see this system:
 G = dss (1, 2, 3, 4, 0)
 
-% sys.a is invertible and sys.e is zero, so
+% G.a is invertible and G.e is zero, so
 Gmin = G.d - G.c / G.a * G.b
 
 
@@ -75,6 +75,8 @@ Gmin = G.d - G.c / G.a * G.b
 % - @ss/__sys_connect__.m should error out because of algebraic loops if
 %   E is zero and A is not invertible
 %   ! any (sys.e(:)) && rcond (sys.a) < eps
+%   otherwise (zero E and invertible A),
+%   use  y = [D - C A^-1 B] u  and set  sys.e = []
 
 % I'll have to consult my pillow :-)
 
