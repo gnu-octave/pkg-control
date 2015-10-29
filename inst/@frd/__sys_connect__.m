@@ -42,6 +42,8 @@
 
 function sys = __sys_connect__ (sys, M)
 
+  ## FIXME: feedback (frd (ss (1)), frd (ss (-1)))
+
   [p, m, l] = size (sys.H);
 
   I = eye (p);
