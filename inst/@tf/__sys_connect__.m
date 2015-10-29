@@ -46,7 +46,7 @@ function sys = __sys_connect__ (sys, M)
 
   ## WARNING: The code below is a cheap hack to quickly enable SISO TF connections.
 
-  ## TODO: Check for den = 0, e.g. in feedback (tf (1), tf (-1))
+  ## FIXME: Check for den = 0, e.g. in  feedback (tf (1), tf (-1))
 
   if (p == 2 && m == 2 && num{1,2} == 0 && num{2,1} == 0 ...
       && M(1,1) == 0 && M(2,2) == 0)
