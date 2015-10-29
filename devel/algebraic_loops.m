@@ -70,8 +70,11 @@ Gmin = G.d - G.c / G.a * G.b
 % - @ss/__set__.m should not accept all-zero E matrices if A is not invertible,
 %   because the system contains algebraic loops.  Therefore it would not be
 %   possible to enter such systems in the 'dss' function.
+%   (For the same reason we refuse zero denominators in 'tf')
+%
 % - @ss/__minreal__.m (and possibly sminreal) should use the formula
 %   y = [D - C A^-1 B] u  if E is zero and A is invertible
+%
 % - @ss/__sys_connect__.m should error out because of algebraic loops if
 %   E is zero and A is not invertible
 %   ! any (sys.e(:)) && rcond (sys.a) < eps
