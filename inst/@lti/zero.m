@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2015   Lukas F. Reichlin
+## Copyright (C) 2009-2016   Lukas F. Reichlin
 ## Copyright (C) 2011        Ferdinand Svaricek, UniBw Munich.
 ##
 ## This file is part of LTI Syncope.
