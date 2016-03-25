@@ -39,13 +39,13 @@ function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
   if (is_real_scalar (ntype))
     if (ntype == 2)
       ntype = "2";
-    elseif (isinf (ntype))
-      ntype = "inf";
     else
       error ("lti: norm: invalid norm type");
     endif
   elseif (ischar (ntype))
     ntype = lower (ntype);
+  elseif ((numel (ntype) == 1) && isnumeric (ntype) && isinf (ntype))
+    ntype = "inf";
   else
     error ("lti: norm: invalid norm type");
   endif
@@ -53,10 +53,8 @@ function [gain, varargout] = norm (sys, ntype = "2", tol = 0.01)
   switch (ntype)
     case "2"
       gain = h2norm (sys);
-
     case "inf"
       [gain, varargout{1}] = linfnorm (sys, tol);
-
     otherwise
       error ("lti: norm: invalid norm type");
   endswitch
