@@ -147,7 +147,7 @@ For internal use only.")
         static const char* warn_msg[] = {
             "0: OK",
 /* 0+%d: %d */  "violations of the numerical stability condition "
-                "NORM(F) <= 100*NORM(A)/NORM(B) occured during the "
+                "NORM(F) <= 100*NORM(A)/NORM(B) occurred during the "
                 "assignment of eigenvalues."};
 
         error_msg ("place", info, 4, err_msg);

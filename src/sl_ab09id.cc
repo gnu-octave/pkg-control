@@ -369,7 +369,7 @@ For internal use only.")
                 "given system; in this case NR is set equal to the "
                 "order of the ALPHA-unstable part.",
 /* 10+%d: %d */ "violations of the numerical stability condition "
-                "occured during the assignment of eigenvalues in the "
+                "occurred during the assignment of eigenvalues in the "
                 "SLICOT Library routines SB08CD and/or SB08DD."};
 
 
