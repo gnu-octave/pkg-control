@@ -91,6 +91,15 @@ function [y, t, x] = __time_response__ (response, args, nout)
       error ("time_response: invalid response type '%s'", response);
   endswitch
   
+  switch (response)
+    case "step"
+      response1 = "zoh";
+    case "impulse"
+      response1 = "impulse";
+    otherwise
+      response1 = "zoh";
+  endswitch
+  
   if (issample (tfinal) || isempty (tfinal))
     ## nothing to do here
   elseif (is_real_vector (tfinal))
@@ -113,7 +122,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
 
   ct_idx = cellfun (@isct, args(sys_idx));
   sys_dt = args(sys_idx);
-  tmp = cellfun (@c2d, args(sys_idx)(ct_idx), dt(ct_idx), {"zoh"}, "uniformoutput", false);
+  tmp = cellfun (@c2d, args(sys_idx)(ct_idx), dt(ct_idx), {response1}, "uniformoutput", false);
   sys_dt(ct_idx) = tmp;
 
   ## time vector
@@ -305,10 +314,10 @@ endfunction
 
 function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
-  [~, B] = ssdata (sys);
+ # [~, B] = ssdata (sys);
   [F, G, C, D, dt] = ssdata (sys_dt);                   # system must be proper
   dt = abs (dt);                                        # use 1 second if tsam is unspecified (-1)
-  discrete = ! isct (sys);
+  discrete = ! isct (sys_dt);
 
   n = rows (F);                                         # number of states
   m = columns (G);                                      # number of inputs
@@ -330,7 +339,7 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
       x_arr(1, :, j) = x;
       x = G * u / dt;
     else
-      x = B * u;                                        # B, not G!
+      x = G * u;                                        #NO NO B, not G!
       y(1, :, j) = C * x;
       x_arr(1, :, j) = x;
       x = F * x;

@@ -31,6 +31,8 @@
 ## Optional conversion method.  If not specified, default method @var{"zoh"}
 ## is taken.
 ## @table @var
+## @item 'impulse'
+## Impulse Invarient transformation.
 ## @item 'zoh'
 ## Zero-order hold or matrix exponential.
 ## @item 'tustin', 'bilin'
