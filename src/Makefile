@@ -44,8 +44,12 @@ __control_helper_functions__.oct: __control_helper_functions__.cc
 	$(MKOCTFILE) __control_helper_functions__.cc
 
 clean:
-	rm -rf *.o core octave-core *.oct *~ *.f slicot sltmp
+	$(RM) -r *.o core octave-core *.oct *~ *.f slicot sltmp
 
 realclean: clean
-	rm -rf *.a
+	$(RM) -r *.a
 
+## This should also remove any configure cache which clean should not
+## remove according to GNU guidelines.
+## https://www.gnu.org/prep/standards/html_node/Standard-Targets.html
+distclean: clean realclean
