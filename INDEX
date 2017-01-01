@@ -40,6 +40,7 @@ Model Interconnections
 Model Characteristics
   ctrb
   ctrbf
+  esort
   @lti/dcgain
   gram
   hsvd
