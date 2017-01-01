@@ -4,8 +4,8 @@ Summary of important user-visible changes for releases of the control package
 control-n.n.n
 ===============================================================================
 
- ** New function:
-    esort
+ ** New functions:
+    dsort, esort
 
 ===============================================================================
 control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
