@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
@@ -36,19 +35,19 @@ extern "C"
     int F77_FUNC (sb16cd, SB16CD)
                  (char& DICO, char& JOBD, char& JOBMR, char& JOBCF,
                   char& ORDSEL,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  octave_idx_type& NCR,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* D, octave_idx_type& LDD,
-                  double* F, octave_idx_type& LDF,
-                  double* G, octave_idx_type& LDG,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  F77_INT& NCR,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* D, F77_INT& LDD,
+                  double* F, F77_INT& LDF,
+                  double* G, F77_INT& LDG,
                   double* HSV,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& IWARN, octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& IWARN, F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb16cd__", "__control_slicot_functions__.oct");    
@@ -79,16 +78,16 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const octave_idx_type idico = args(4).int_value ();
-        octave_idx_type ncr = args(5).int_value ();
-        const octave_idx_type iordsel = args(6).int_value ();
-        const octave_idx_type ijobd = args(7).int_value ();
-        const octave_idx_type ijobmr = args(8).int_value ();
+        const F77_INT idico = args(4).int_value ();
+        F77_INT ncr = args(5).int_value ();
+        const F77_INT iordsel = args(6).int_value ();
+        const F77_INT ijobd = args(7).int_value ();
+        const F77_INT ijobmr = args(8).int_value ();
                        
         Matrix f = args(9).matrix_value ();
         Matrix g = args(10).matrix_value ();
 
-        const octave_idx_type ijobcf = args(11).int_value ();
+        const F77_INT ijobcf = args(11).int_value ();
         double tol = args(12).double_value ();
 
         if (idico == 0)
@@ -124,36 +123,36 @@ For internal use only.")
         }
 
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldd;
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
+        F77_INT ldd;
         
         if (jobd == 'Z')
             ldd = 1;
         else
             ldd = max (1, p);
 
-        octave_idx_type ldf = max (1, m);
-        octave_idx_type ldg = max (1, n);
+        F77_INT ldf = max (1, m);
+        F77_INT ldg = max (1, n);
 
         // arguments out
         ColumnVector hsv (n);
 
         // workspace
-        octave_idx_type liwork;
+        F77_INT liwork;
 
         if (jobmr == 'B')
             liwork = 0;
         else                // if JOBMR = 'F'
             liwork = n;
 
-        octave_idx_type ldwork;
-        octave_idx_type mp;
+        F77_INT ldwork;
+        F77_INT mp;
 
         if (jobcf == 'L')
             mp = m;
@@ -164,12 +163,12 @@ For internal use only.")
                               n*(n + max(n,mp) + min(n,mp) + 6));
 
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type iwarn = 0;
-        octave_idx_type info = 0;
+        F77_INT iwarn = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine SB16CD

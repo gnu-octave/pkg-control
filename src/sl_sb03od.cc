@@ -28,21 +28,20 @@ Version: 0.3
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (sb03od, SB03OD)
                  (char& DICO, char& FACT, char& TRANS,
-                  octave_idx_type& N, octave_idx_type& M,
-                  double* A, octave_idx_type& LDA,
-                  double* Q, octave_idx_type& LDQ,
-                  double* B, octave_idx_type& LDB,
+                  F77_INT& N, F77_INT& M,
+                  double* A, F77_INT& LDA,
+                  double* Q, F77_INT& LDQ,
+                  double* B, F77_INT& LDB,
                   double& SCALE,
                   double* WR, double* WI,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb03od__", "__control_slicot_functions__.oct");    
@@ -69,21 +68,21 @@ For internal use only.")
         
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
-        octave_idx_type discrete = args(2).int_value ();
+        F77_INT discrete = args(2).int_value ();
         
         if (discrete == 0)
           dico = 'C';
         else
           dico = 'D';
         
-        octave_idx_type n = a.rows ();
-        octave_idx_type m = b.rows ();
-        // octave_idx_type m = b.columns ();
+        F77_INT n = TO_F77_INT (a.rows ());
+        F77_INT m = TO_F77_INT (b.rows ());
+        // F77_INT m = TO_F77_INT (b.columns ());
         
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldq = max (1, n);
-        octave_idx_type ldb = max (1, n, m);
-        // octave_idx_type ldb = max (1, n);
+        F77_INT lda = max (1, n);
+        F77_INT ldq = max (1, n);
+        F77_INT ldb = max (1, n, m);
+        // F77_INT ldb = max (1, n);
 
         b.resize (ldb, n);
         // b.resize (ldb, max (m, n));
@@ -96,12 +95,12 @@ For internal use only.")
         ColumnVector wi (n);
         
         // workspace
-        octave_idx_type ldwork = max (1, 4*n + min (m, n));
+        F77_INT ldwork = max (1, 4*n + min (m, n));
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
         
 
         // SLICOT routine SB03OD

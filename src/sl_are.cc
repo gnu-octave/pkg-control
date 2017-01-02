@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 #include <complex>
 
@@ -37,17 +36,17 @@ extern "C"
     int F77_FUNC (sb02mt, SB02MT)
                  (char& JOBG, char& JOBL,
                   char& FACT, char& UPLO,
-                  octave_idx_type& N, octave_idx_type& M,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* Q, octave_idx_type& LDQ,
-                  double* R, octave_idx_type& LDR,
-                  double* L, octave_idx_type& LDL,
-                  octave_idx_type* IPIV, octave_idx_type& OUFACT,
-                  double* G, octave_idx_type& LDG,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT& N, F77_INT& M,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* Q, F77_INT& LDQ,
+                  double* R, F77_INT& LDR,
+                  double* L, F77_INT& LDL,
+                  F77_INT* IPIV, F77_INT& OUFACT,
+                  double* G, F77_INT& LDG,
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 
 
     int F77_FUNC (sb02rd, SB02RD)
@@ -56,21 +55,21 @@ extern "C"
                   char& UPLO, char& SCAL,
                   char& SORT, char& FACT,
                   char& LYAPUN,
-                  octave_idx_type& N,
-                  double* A, octave_idx_type& LDA,
-                  double* T, octave_idx_type& LDT,
-                  double* V, octave_idx_type& LDV,
-                  double* G, octave_idx_type& LDG,
-                  double* Q, octave_idx_type& LDQ,
-                  double* X, octave_idx_type& LDX,
+                  F77_INT& N,
+                  double* A, F77_INT& LDA,
+                  double* T, F77_INT& LDT,
+                  double* V, F77_INT& LDV,
+                  double* G, F77_INT& LDG,
+                  double* Q, F77_INT& LDQ,
+                  double* X, F77_INT& LDX,
                   double& SEP,
                   double& RCOND, double& FERR,
                   double* WR, double* WI,
-                  double* S, octave_idx_type& LDS,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
+                  double* S, F77_INT& LDS,
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
                   bool* BWORK,
-                  octave_idx_type& INFO);
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_are__", "__control_slicot_functions__.oct");    
@@ -103,8 +102,8 @@ For internal use only.")
         Matrix q = args(2).matrix_value ();
         Matrix r = args(3).matrix_value ();
         Matrix l = args(4).matrix_value ();
-        octave_idx_type discrete = args(5).int_value ();
-        octave_idx_type ijobl = args(6).int_value ();
+        F77_INT discrete = args(5).int_value ();
+        F77_INT ijobl = args(6).int_value ();
 
         if (discrete == 0)
             dico = 'C';
@@ -116,32 +115,32 @@ For internal use only.")
         else
             jobl = 'N';
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldq = max (1, n);
-        octave_idx_type ldr = max (1, m);
-        octave_idx_type ldl = max (1, n);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldq = max (1, n);
+        F77_INT ldr = max (1, m);
+        F77_INT ldl = max (1, n);
         
         // arguments out
-        octave_idx_type ldg = max (1, n);
+        F77_INT ldg = max (1, n);
         Matrix g (ldg, n);
 
         // unused output arguments
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, ipiv, m);
-        octave_idx_type oufact;
+        OCTAVE_LOCAL_BUFFER (F77_INT, ipiv, m);
+        F77_INT oufact;
 
         // workspace
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_a, m);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork_a, m);
 
-        octave_idx_type ldwork_a = max (2, 3*m, n*m);
+        F77_INT ldwork_a = max (2, 3*m, n*m);
         OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
 
 
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine SB02MT
@@ -188,10 +187,10 @@ For internal use only.")
         char sort = 'S';
         char lyapun = 'O';
         
-        octave_idx_type ldt = max (1, n);
-        octave_idx_type ldv = max (1, n);
-        octave_idx_type ldx = max (1, n);
-        octave_idx_type lds = max (1, 2*n);
+        F77_INT ldt = max (1, n);
+        F77_INT ldv = max (1, n);
+        F77_INT ldx = max (1, n);
+        F77_INT lds = max (1, 2*n);
         
         // arguments out
         Matrix x (ldx, n);
@@ -209,10 +208,10 @@ For internal use only.")
         Matrix s (lds, 2*n);
 
         // workspace
-        octave_idx_type liwork_b = max (2*n, n*n);
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_b, liwork_b);
+        F77_INT liwork_b = max (2*n, n*n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork_b, liwork_b);
 
-        octave_idx_type ldwork_b = 5 + max (1, 4*n*n + 8*n);
+        F77_INT ldwork_b = 5 + max (1, 4*n*n + 8*n);
         OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
 
         OCTAVE_LOCAL_BUFFER (bool, bwork_b, 2*n);
@@ -274,7 +273,7 @@ For internal use only.")
         // assemble complex vector - adapted from DEFUN complex in data.cc
         ComplexColumnVector pole (n, Complex ());
 
-        for (octave_idx_type i = 0; i < n; i++)
+        for (F77_INT i = 0; i < n; i++)
             pole.xelem (i) = Complex (wr(i), wi(i));
 
         // return value

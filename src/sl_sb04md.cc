@@ -28,20 +28,19 @@ Version: 0.3
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (sb04md, SB04MD)
-                 (octave_idx_type& N, octave_idx_type& M,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* Z, octave_idx_type& LDZ,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                 (F77_INT& N, F77_INT& M,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* Z, F77_INT& LDZ,
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb04md__", "__control_slicot_functions__.oct");    
@@ -65,25 +64,25 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         
-        octave_idx_type n = a.rows ();
-        octave_idx_type m = b.rows ();
+        F77_INT n = TO_F77_INT (a.rows ());
+        F77_INT m = TO_F77_INT (b.rows ());
         
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, m);
-        octave_idx_type ldc = max (1, n);
-        octave_idx_type ldz = max (1, m);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, m);
+        F77_INT ldc = max (1, n);
+        F77_INT ldz = max (1, m);
         
         // arguments out
         Matrix z (ldz, m);
         
         // workspace
-        octave_idx_type ldwork = max (1, 2*n*n + 8*n, 5*m, n + m);
+        F77_INT ldwork = max (1, 2*n*n + 8*n, 5*m, n + m);
         
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, 4*n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, 4*n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
         
 
         // SLICOT routine SB04MD

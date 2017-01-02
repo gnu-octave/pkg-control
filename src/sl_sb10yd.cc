@@ -28,26 +28,25 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include <complex>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (sb10yd, SB10YD)
-                 (octave_idx_type& DISCFL, octave_idx_type& FLAG,
-                  octave_idx_type& LENDAT,
+                 (F77_INT& DISCFL, F77_INT& FLAG,
+                  F77_INT& LENDAT,
                   double* RFRDAT, double* IFRDAT,
                   double* OMEGA,
-                  octave_idx_type& N,
-                  double* A, octave_idx_type& LDA,
+                  F77_INT& N,
+                  double* A, F77_INT& LDA,
                   double* B,
                   double* C,
                   double* D,
                   double& TOL,
-                  octave_idx_type* IWORK, double* DWORK, octave_idx_type& LDWORK,
-                  Complex* ZWORK, octave_idx_type& LZWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK, double* DWORK, F77_INT& LDWORK,
+                  Complex* ZWORK, F77_INT& LZWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb10yd__", "__control_slicot_functions__.oct");    
@@ -70,13 +69,13 @@ For internal use only.")
         Matrix rfrdat = args(0).matrix_value ();
         Matrix ifrdat = args(1).matrix_value ();
         Matrix omega = args(2).matrix_value ();
-        octave_idx_type n = args(3).int_value ();
-        octave_idx_type discfl = args(4).int_value ();
-        octave_idx_type flag = args(5).int_value ();
+        F77_INT n = args(3).int_value ();
+        F77_INT discfl = args(4).int_value ();
+        F77_INT flag = args(5).int_value ();
         
-        octave_idx_type lendat = omega.rows ();      // number of frequencies
+        F77_INT lendat = TO_F77_INT (omega.rows ());      // number of frequencies
 
-        octave_idx_type lda = max (1, n);
+        F77_INT lda = max (1, n);
         
         // arguments out
         Matrix a (lda, n);
@@ -85,16 +84,16 @@ For internal use only.")
         Matrix d (1, 1);
         
         // workspace
-        octave_idx_type liwork = max (2, 2*n + 1);
-        octave_idx_type ldwork;
-        octave_idx_type lzwork;
-        octave_idx_type hnpts = 2048;
+        F77_INT liwork = max (2, 2*n + 1);
+        F77_INT ldwork;
+        F77_INT lzwork;
+        F77_INT hnpts = 2048;
         
-        octave_idx_type lw1 = 2*lendat + 4*hnpts;
-        octave_idx_type lw2 =   lendat + 6*hnpts;
-        octave_idx_type mn  = min (2*lendat, 2*n+1);
-        octave_idx_type lw3;
-        octave_idx_type lw4;
+        F77_INT lw1 = 2*lendat + 4*hnpts;
+        F77_INT lw2 =   lendat + 6*hnpts;
+        F77_INT mn  = min (2*lendat, 2*n+1);
+        F77_INT lw3;
+        F77_INT lw4;
         
         if (n > 0)
         {
@@ -115,7 +114,7 @@ For internal use only.")
        
         ldwork = max (2, lw1, lw2, lw3, lw4);
         
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         OCTAVE_LOCAL_BUFFER (Complex, zwork, lzwork);
         
@@ -123,7 +122,7 @@ For internal use only.")
         double tol = 0;
         
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine SB10YD

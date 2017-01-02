@@ -28,7 +28,6 @@ Version: 0.4
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 #include <complex>
 
@@ -39,25 +38,25 @@ extern "C"
                   char& FACT, char& UPLO,
                   char& JOBL, char& SCAL,
                   char& SORT, char& ACC,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  double* A, octave_idx_type& LDA,
-                  double* E, octave_idx_type& LDE,
-                  double* B, octave_idx_type& LDB,
-                  double* Q, octave_idx_type& LDQ,
-                  double* R, octave_idx_type& LDR,
-                  double* L, octave_idx_type& LDL,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  double* A, F77_INT& LDA,
+                  double* E, F77_INT& LDE,
+                  double* B, F77_INT& LDB,
+                  double* Q, F77_INT& LDQ,
+                  double* R, F77_INT& LDR,
+                  double* L, F77_INT& LDL,
                   double& RCONDU,
-                  double* X, octave_idx_type& LDX,
+                  double* X, F77_INT& LDX,
                   double* ALFAR, double* ALFAI,
                   double* BETA,
-                  double* S, octave_idx_type& LDS,
-                  double* T, octave_idx_type& LDT,
-                  double* U, octave_idx_type& LDU,
+                  double* S, F77_INT& LDS,
+                  double* T, F77_INT& LDT,
+                  double* U, F77_INT& LDU,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
                   bool* BWORK,
-                  octave_idx_type& IWARN, octave_idx_type& INFO);
+                  F77_INT& IWARN, F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sg02ad__", "__control_slicot_functions__.oct");    
@@ -92,8 +91,8 @@ For internal use only.")
         Matrix q = args(3).matrix_value ();
         Matrix r = args(4).matrix_value ();
         Matrix l = args(5).matrix_value ();
-        octave_idx_type discrete = args(6).int_value ();
-        octave_idx_type ijobl = args(7).int_value ();
+        F77_INT discrete = args(6).int_value ();
+        F77_INT ijobl = args(7).int_value ();
 
         if (discrete == 0)
             dico = 'C';
@@ -105,53 +104,53 @@ For internal use only.")
         else
             jobl = 'N';
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = 0;              // p: number of outputs, not used because FACT = 'N'
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = 0;              // p: number of outputs, not used because FACT = 'N'
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type lde = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldq = max (1, n);
-        octave_idx_type ldr = max (1, m);
-        octave_idx_type ldl = max (1, n);
+        F77_INT lda = max (1, n);
+        F77_INT lde = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldq = max (1, n);
+        F77_INT ldr = max (1, m);
+        F77_INT ldl = max (1, n);
 
         // arguments out
         double rcondu;
 
-        octave_idx_type ldx = max (1, n);
+        F77_INT ldx = max (1, n);
         Matrix x (ldx, n);
 
-        octave_idx_type nu = 2*n;
+        F77_INT nu = 2*n;
         ColumnVector alfar (nu);
         ColumnVector alfai (nu);
         ColumnVector beta (nu);
 
         // unused output arguments
-        octave_idx_type lds = max (1, 2*n + m);
+        F77_INT lds = max (1, 2*n + m);
         OCTAVE_LOCAL_BUFFER (double, s, lds * lds);
 
-        octave_idx_type ldt = max (1, 2*n + m);
+        F77_INT ldt = max (1, 2*n + m);
         OCTAVE_LOCAL_BUFFER (double, t, ldt * 2*n);
 
-        octave_idx_type ldu = max (1, 2*n);
+        F77_INT ldu = max (1, 2*n);
         OCTAVE_LOCAL_BUFFER (double, u, ldu * 2*n);
 
         // tolerance
         double tol = 0;  // use default value
 
         // workspace
-        octave_idx_type liwork = max (1, m, 2*n);
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        F77_INT liwork = max (1, m, 2*n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
 
-        octave_idx_type ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
+        F77_INT ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
 
         // error indicator
-        octave_idx_type iwarn;
-        octave_idx_type info;
+        F77_INT iwarn;
+        F77_INT info;
 
 
         // SLICOT routine SG02AD
@@ -224,7 +223,7 @@ For internal use only.")
         
         ComplexColumnVector pole (n, Complex ());
 
-        for (octave_idx_type i = 0; i < n; i++)
+        for (F77_INT i = 0; i < n; i++)
             pole.xelem (i) = Complex (poler(i), polei(i));
 
         // return value

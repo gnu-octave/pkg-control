@@ -28,11 +28,21 @@ Version: 0.2
 #ifndef COMMON_H
 #define COMMON_H
 
-octave_idx_type max (octave_idx_type a, octave_idx_type b);
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c);
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d);
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d, octave_idx_type e);
-octave_idx_type min (octave_idx_type a, octave_idx_type b);
+#include <octave/f77-fcn.h>
+
+#if defined (OCTAVE_HAVE_F77_INT_TYPE)
+#  define TO_F77_INT(x) octave::to_f77_int (x)
+#else
+typedef octave_idx_type F77_INT;
+#  define TO_F77_INT(x) (x)
+#endif
+
+F77_INT max (F77_INT a, F77_INT b);
+F77_INT max (F77_INT a, F77_INT b, F77_INT c);
+F77_INT max (F77_INT a, F77_INT b, F77_INT c, F77_INT d);
+F77_INT max (F77_INT a, F77_INT b, F77_INT c, F77_INT d, F77_INT e);
+F77_INT min (F77_INT a, F77_INT b);
+
 void error_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[]);
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[]);
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[], octave_idx_type offset);

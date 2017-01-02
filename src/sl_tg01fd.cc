@@ -28,25 +28,24 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (tg01fd, TG01FD)
                  (char& COMPQ, char& COMPZ, char& JOBA,
-                  octave_idx_type& L, octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  double* A, octave_idx_type& LDA,
-                  double* E, octave_idx_type& LDE,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* Q, octave_idx_type& LDQ,
-                  double* Z, octave_idx_type& LDZ,
-                  octave_idx_type& RANKE, octave_idx_type& RNKA22,
+                  F77_INT& L, F77_INT& N, F77_INT& M, F77_INT& P,
+                  double* A, F77_INT& LDA,
+                  double* E, F77_INT& LDE,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* Q, F77_INT& LDQ,
+                  double* Z, F77_INT& LDZ,
+                  F77_INT& RANKE, F77_INT& RNKA22,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01fd__", "__control_slicot_functions__.oct");    
@@ -74,7 +73,7 @@ For internal use only.")
         Matrix e = args(1).matrix_value ();
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
-        const octave_idx_type qz_flag = args(4).int_value ();
+        const F77_INT qz_flag = args(4).int_value ();
         double tol = args(5).double_value ();
         
         if (qz_flag == 0)
@@ -88,31 +87,31 @@ For internal use only.")
             compz = 'I';
         }
 
-        octave_idx_type l = a.rows ();
-        octave_idx_type n = l;
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT l = TO_F77_INT (a.rows ());
+        F77_INT n = l;
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, l);
-        octave_idx_type lde = max (1, l);
-        octave_idx_type ldb = max (1, l);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldq = max (1, l);
-        octave_idx_type ldz = max (1, n);
+        F77_INT lda = max (1, l);
+        F77_INT lde = max (1, l);
+        F77_INT ldb = max (1, l);
+        F77_INT ldc = max (1, p);
+        F77_INT ldq = max (1, l);
+        F77_INT ldz = max (1, n);
 
         // arguments out
         Matrix q(l, l, 0.);
         Matrix z(n, n, 0.);
         Matrix empty(0, 0);
-        octave_idx_type ranke, rnka22;
+        F77_INT ranke, rnka22;
         
         // workspace
-        octave_idx_type ldwork = max (1, n+p, min (l,n) + max (3*n-1, m, l));
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
+        F77_INT ldwork = max (1, n+p, min (l,n) + max (3*n-1, m, l));
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type info = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine TG01FD

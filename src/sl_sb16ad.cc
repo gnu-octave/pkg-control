@@ -29,7 +29,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
@@ -37,23 +36,23 @@ extern "C"
     int F77_FUNC (sb16ad, SB16AD)
                  (char& DICO, char& JOBC, char& JOBO, char& JOBMR,
                   char& WEIGHT, char& EQUIL, char& ORDSEL,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  octave_idx_type& NC, octave_idx_type& NCR,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  F77_INT& NC, F77_INT& NCR,
                   double& ALPHA,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* D, octave_idx_type& LDD,
-                  double* AC, octave_idx_type& LDAC,
-                  double* BC, octave_idx_type& LDBC,
-                  double* CC, octave_idx_type& LDCC,
-                  double* DC, octave_idx_type& LDDC,
-                  octave_idx_type& NCS,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* D, F77_INT& LDD,
+                  double* AC, F77_INT& LDAC,
+                  double* BC, F77_INT& LDBC,
+                  double* CC, F77_INT& LDCC,
+                  double* DC, F77_INT& LDDC,
+                  F77_INT& NCS,
                   double* HSVC,
                   double& TOL1, double& TOL2,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& IWARN, octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& IWARN, F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb16ad__", "__control_slicot_functions__.oct");    
@@ -86,21 +85,21 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const octave_idx_type idico = args(4).int_value ();
-        const octave_idx_type iequil = args(5).int_value ();
-        octave_idx_type ncr = args(6).int_value ();
-        const octave_idx_type iordsel = args(7).int_value ();
+        const F77_INT idico = args(4).int_value ();
+        const F77_INT iequil = args(5).int_value ();
+        F77_INT ncr = args(6).int_value ();
+        const F77_INT iordsel = args(7).int_value ();
         double alpha = args(8).double_value ();
-        const octave_idx_type ijobmr = args(9).int_value ();
+        const F77_INT ijobmr = args(9).int_value ();
                        
         Matrix ac = args(10).matrix_value ();
         Matrix bc = args(11).matrix_value ();
         Matrix cc = args(12).matrix_value ();
         Matrix dc = args(13).matrix_value ();
         
-        const octave_idx_type iweight = args(14).int_value ();
-        const octave_idx_type ijobc = args(15).int_value ();
-        const octave_idx_type ijobo = args(16).int_value ();
+        const F77_INT iweight = args(14).int_value ();
+        const F77_INT ijobc = args(15).int_value ();
+        const F77_INT ijobo = args(16).int_value ();
 
         double tol1 = args(17).double_value ();
         double tol2 = args(18).double_value ();
@@ -166,30 +165,30 @@ For internal use only.")
                 error ("__sl_sb16ad__: argument weight invalid");
         }
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
         
-        octave_idx_type nc = ac.rows ();
+        F77_INT nc = TO_F77_INT (ac.rows ());
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldd = max (1, p);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
+        F77_INT ldd = max (1, p);
 
-        octave_idx_type ldac = max (1, nc);
-        octave_idx_type ldbc = max (1, nc);
-        octave_idx_type ldcc = max (1, m);
-        octave_idx_type lddc = max (1, m);
+        F77_INT ldac = max (1, nc);
+        F77_INT ldbc = max (1, nc);
+        F77_INT ldcc = max (1, m);
+        F77_INT lddc = max (1, m);
 
         // arguments out
-        octave_idx_type ncs;
+        F77_INT ncs;
         ColumnVector hsvc (n);
 
         // workspace
-        octave_idx_type liwork;
-        octave_idx_type liwrk1;
-        octave_idx_type liwrk2;
+        F77_INT liwork;
+        F77_INT liwrk1;
+        F77_INT liwrk2;
 
         switch (jobmr)
         {
@@ -210,9 +209,9 @@ For internal use only.")
 
         liwork = max (1, liwrk1, liwrk2);
 
-        octave_idx_type ldwork;
-        octave_idx_type lfreq;
-        octave_idx_type lsqred;
+        F77_INT ldwork;
+        F77_INT lfreq;
+        F77_INT lsqred;
 
         if (weight == 'N')
         {
@@ -231,12 +230,12 @@ For internal use only.")
         lsqred = max (1, 2*nc*nc+5*nc);
         ldwork = 2*nc*nc + max (1, lfreq, lsqred);
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type iwarn = 0;
-        octave_idx_type info = 0;
+        F77_INT iwarn = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine SB16AD

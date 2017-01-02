@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <octave/f77-fcn.h>
 #include <octave/Cell.h>
 #include "common.h"
 
@@ -37,17 +36,17 @@ extern "C"
     int F77_FUNC (ib01ad, IB01AD)
                  (char& METH, char& ALG, char& JOBD,
                   char& BATCH, char& CONCT, char& CTRL,
-                  octave_idx_type& NOBR, octave_idx_type& M, octave_idx_type& L,
-                  octave_idx_type& NSMP,
-                  double* U, octave_idx_type& LDU,
-                  double* Y, octave_idx_type& LDY,
-                  octave_idx_type& N,
-                  double* R, octave_idx_type& LDR,
+                  F77_INT& NOBR, F77_INT& M, F77_INT& L,
+                  F77_INT& NSMP,
+                  double* U, F77_INT& LDU,
+                  double* Y, F77_INT& LDY,
+                  F77_INT& N,
+                  double* R, F77_INT& LDR,
                   double* SV,
                   double& RCOND, double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& IWARN, octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& IWARN, F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ib01ad__", "__control_slicot_functions__.oct");
@@ -81,13 +80,13 @@ For internal use only.")
         
         const Cell y_cell = args(0).cell_value ();
         const Cell u_cell = args(1).cell_value ();
-        octave_idx_type nobr = args(2).int_value ();
-        octave_idx_type nuser = args(3).int_value ();
+        F77_INT nobr = args(2).int_value ();
+        F77_INT nuser = args(3).int_value ();
         
-        const octave_idx_type imeth = args(4).int_value ();
-        const octave_idx_type ialg = args(5).int_value ();
-        const octave_idx_type iconct = args(6).int_value ();
-        const octave_idx_type ictrl = args(7).int_value ();     // ignored
+        const F77_INT imeth = args(4).int_value ();
+        const F77_INT ialg = args(5).int_value ();
+        const F77_INT iconct = args(6).int_value ();
+        const F77_INT ictrl = args(7).int_value ();     // ignored
         
         double rcond = args(8).double_value ();
         double tol_a = args(9).double_value ();
@@ -145,14 +144,14 @@ For internal use only.")
             ctrl = 'N';
 */
         // m and l are equal for all experiments, checked by iddata class
-        octave_idx_type n_exp = y_cell.nelem ();            // number of experiments
-        octave_idx_type m = u_cell.elem(0).columns ();      // m: number of inputs
-        octave_idx_type l = y_cell.elem(0).columns ();      // l: number of outputs
-        octave_idx_type nsmpl = 0;                          // total number of samples
+        F77_INT n_exp = TO_F77_INT (y_cell.nelem ());            // number of experiments
+        F77_INT m = TO_F77_INT (u_cell.elem(0).columns ());      // m: number of inputs
+        F77_INT l = TO_F77_INT (y_cell.elem(0).columns ());      // l: number of outputs
+        F77_INT nsmpl = 0;                          // total number of samples
 
         // arguments out
-        octave_idx_type n;
-        octave_idx_type ldr;
+        F77_INT n;
+        F77_INT ldr;
         
         if (meth_a == 'M' && jobd == 'M')
             ldr = max (2*(m+l)*nobr, 3*m*nobr);
@@ -166,7 +165,7 @@ For internal use only.")
 
 
         // repeat for every experiment in the dataset
-        for (octave_idx_type i = 0; i < n_exp; i++)
+        for (F77_INT i = 0; i < n_exp; i++)
         {
             if (n_exp == 1)
                 batch = 'O';        // one block only
@@ -181,9 +180,9 @@ For internal use only.")
             Matrix u = u_cell.elem(i).matrix_value ();
 
             // y.rows == u.rows  is checked by iddata class
-            // octave_idx_type m = u.columns ();   // m: number of inputs
-            // octave_idx_type l = y.columns ();   // l: number of outputs
-            octave_idx_type nsmp = y.rows ();   // nsmp: number of samples in the current experiment
+            // F77_INT m = TO_F77_INT (u.columns ());   // m: number of inputs
+            // F77_INT l = TO_F77_INT (y.columns ());   // l: number of outputs
+            F77_INT nsmp = TO_F77_INT (y.rows ());   // nsmp: number of samples in the current experiment
             nsmpl += nsmp;          // nsmpl: total number of samples of all experiments
 
             // minimal nsmp size checked by __slicot_identification__.m
@@ -198,17 +197,17 @@ For internal use only.")
                     error ("__sl_ident__: require NSMP >= 2*NOBR");
             }
         
-            octave_idx_type ldu;
+            F77_INT ldu;
         
             if (m == 0)
                 ldu = 1;
             else                    // m > 0
                 ldu = nsmp;
 
-            octave_idx_type ldy = nsmp;
+            F77_INT ldy = nsmp;
 
             // workspace
-            octave_idx_type liwork_a;
+            F77_INT liwork_a;
 
             if (meth_a == 'N')            // if METH = 'N'
                 liwork_a = (m+l)*nobr;
@@ -219,8 +218,8 @@ For internal use only.")
 
             // TODO: Handle 'k' for DWORK
 
-            octave_idx_type ldwork_a;
-            octave_idx_type ns = nsmp - 2*nobr + 1;
+            F77_INT ldwork_a;
+            F77_INT ns = nsmp - 2*nobr + 1;
         
             if (alg == 'C')
             {
@@ -256,7 +255,7 @@ For internal use only.")
             }
             else    // (alg == 'Q')
             {
-                // octave_idx_type ns = nsmp - 2*nobr + 1;
+                // F77_INT ns = nsmp - 2*nobr + 1;
                 
                 if (ldr >= ns && batch == 'F')
                 {
@@ -306,12 +305,12 @@ For internal use only.")
             */
 
 
-            OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork_a, liwork_a);
+            OCTAVE_LOCAL_BUFFER (F77_INT, iwork_a, liwork_a);
             OCTAVE_LOCAL_BUFFER (double, dwork_a, ldwork_a);
         
             // error indicators
-            octave_idx_type iwarn_a = 0;
-            octave_idx_type info_a = 0;
+            F77_INT iwarn_a = 0;
+            F77_INT info_a = 0;
 
 
             // SLICOT routine IB01AD
@@ -370,7 +369,7 @@ For internal use only.")
 
 
         // resize
-        octave_idx_type rs = 2*(m+l)*nobr;
+        F77_INT rs = 2*(m+l)*nobr;
         r.resize (rs, rs);
 
         

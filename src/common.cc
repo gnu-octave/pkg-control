@@ -28,7 +28,7 @@ Version: 0.4
 
 #include <octave/oct.h>
 
-octave_idx_type max (octave_idx_type a, octave_idx_type b)
+F77_INT max (F77_INT a, F77_INT b)
 {
     if (a > b)
         return a;
@@ -36,22 +36,22 @@ octave_idx_type max (octave_idx_type a, octave_idx_type b)
         return b;
 }
 
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c)
+F77_INT max (F77_INT a, F77_INT b, F77_INT c)
 {
     return max (max (a, b), c);
 }
 
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d)
+F77_INT max (F77_INT a, F77_INT b, F77_INT c, F77_INT d)
 {    
     return max (max (a, b), max (c, d));
 }
 
-octave_idx_type max (octave_idx_type a, octave_idx_type b, octave_idx_type c, octave_idx_type d, octave_idx_type e)
+F77_INT max (F77_INT a, F77_INT b, F77_INT c, F77_INT d, F77_INT e)
 {
     return max (max (a, b, c, d), e);
 }
 
-octave_idx_type min (octave_idx_type a, octave_idx_type b)
+F77_INT min (F77_INT a, F77_INT b)
 {
     if (a < b)
         return a;

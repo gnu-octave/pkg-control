@@ -26,7 +26,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 #include <complex>
 #include <xpow.h>
@@ -34,8 +33,8 @@ Version: 0.2
 extern "C"
 { 
     int F77_FUNC (tg04bx, TG04BX)
-                 (octave_idx_type& IP, octave_idx_type& IZ,
-                  double* A, octave_idx_type& LDA,
+                 (F77_INT& IP, F77_INT& IZ,
+                  double* A, F77_INT& LDA,
                   double* E,
                   double* B,
                   double* C,
@@ -43,7 +42,7 @@ extern "C"
                   double* PR, double* PI,
                   double* ZR, double* ZI,
                   double& GAIN,
-                  octave_idx_type* IWORK);
+                  F77_INT* IWORK);
 }
 
 // PKG_ADD: autoload ("__sl_tg04bx__", "__control_slicot_functions__.oct");    
@@ -75,9 +74,9 @@ For internal use only.")
         ColumnVector zr = args(7).column_vector_value ();
         ColumnVector zi = args(8).column_vector_value ();
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type ip = pr.length ();  // ip: number of finite poles
-        octave_idx_type iz = zr.length ();  // iz: number of zeros
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT ip = TO_F77_INT (pr.length ());  // ip: number of finite poles
+        F77_INT iz = TO_F77_INT (zr.length ());  // iz: number of zeros
         
         // For ss, IP = n is always true.
         // However, dss models with poles at infinity
@@ -86,13 +85,13 @@ For internal use only.")
         // Take pr.length == pi.length == ip for granted,
         // and the same for iz, zr and zi.
         
-        octave_idx_type lda = max (1, n);
+        F77_INT lda = max (1, n);
 
         // arguments out
         double gain;
 
         // workspace
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, lda);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, lda);
 
         
         F77_XFCN (tg04bx, TG04BX,

@@ -28,20 +28,19 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (mb05nd, MB05ND)
-                 (octave_idx_type& N, double& DELTA,
-                  double* A, octave_idx_type& LDA,
-                  double* EX, octave_idx_type& LDEX,
-                  double* EXINT, octave_idx_type& LDEXINT,
+                 (F77_INT& N, double& DELTA,
+                  double* A, F77_INT& LDA,
+                  double* EX, F77_INT& LDEX,
+                  double* EXINT, F77_INT& LDEXINT,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_mb05nd__", "__control_slicot_functions__.oct");    
@@ -65,22 +64,22 @@ For internal use only.")
         double delta = args(1).double_value ();
         double tol = args(2).double_value (); 
         
-        octave_idx_type n = a.rows ();
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldex = max (1, n);
-        octave_idx_type ldexin = max (1, n);
+        F77_INT n = TO_F77_INT (a.rows ());
+        F77_INT lda = max (1, n);
+        F77_INT ldex = max (1, n);
+        F77_INT ldexin = max (1, n);
 
         // arguments out
         Matrix ex (ldex, n);
         Matrix exint (ldexin, n);
         
         // workspace
-        octave_idx_type ldwork = max (1, 2*n*n);                 // optimum performance
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
+        F77_INT ldwork = max (1, 2*n*n);                 // optimum performance
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type info = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine MB05ND

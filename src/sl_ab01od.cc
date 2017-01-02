@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
@@ -36,17 +35,17 @@ extern "C"
     int F77_FUNC (ab01od, AB01OD)
                  (char& STAGES,
                   char& JOBU, char& JOBV,
-                  octave_idx_type& N, octave_idx_type& M,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* U, octave_idx_type& LDU,
-                  double* V, octave_idx_type& LDV,
-                  octave_idx_type& NCONT, octave_idx_type& INDCON,
-                  octave_idx_type* KSTAIR,
+                  F77_INT& N, F77_INT& M,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* U, F77_INT& LDU,
+                  double* V, F77_INT& LDV,
+                  F77_INT& NCONT, F77_INT& INDCON,
+                  F77_INT* KSTAIR,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
  
 // PKG_ADD: autoload ("__sl_ab01od__", "__control_slicot_functions__.oct");    
@@ -74,31 +73,31 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         double tol = args(2).double_value ();
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldu = max (1, n);
-        octave_idx_type ldv = 1;
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldu = max (1, n);
+        F77_INT ldv = 1;
 
         // arguments out
         Matrix u (ldu, n);
         double* v = 0;          // not referenced because stages = 'F'
 
-        octave_idx_type ncont;
-        octave_idx_type indcon;
+        F77_INT ncont;
+        F77_INT indcon;
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, kstair, n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, kstair, n);
         
         // workspace
-        octave_idx_type ldwork = max (1, n + max (n, 3*m));
+        F77_INT ldwork = max (1, n + max (n, 3*m));
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, m);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine AB01OD

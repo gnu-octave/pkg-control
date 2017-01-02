@@ -28,7 +28,6 @@ Version: 0.8
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 #include <complex>
 #include <xpow.h>
@@ -37,31 +36,31 @@ extern "C"
 { 
     int F77_FUNC (ab08nd, AB08ND)
                  (char& EQUIL,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  const double* A, octave_idx_type& LDA,
-                  const double* B, octave_idx_type& LDB,
-                  const double* C, octave_idx_type& LDC,
-                  const double* D, octave_idx_type& LDD,
-                  octave_idx_type& NU, octave_idx_type& RANK, octave_idx_type& DINFZ,
-                  octave_idx_type& NKROR, octave_idx_type& NKROL, octave_idx_type* INFZ,
-                  octave_idx_type* KRONR, octave_idx_type* KRONL,
-                  double* AF, octave_idx_type& LDAF,
-                  double* BF, octave_idx_type& LDBF,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  const double* A, F77_INT& LDA,
+                  const double* B, F77_INT& LDB,
+                  const double* C, F77_INT& LDC,
+                  const double* D, F77_INT& LDD,
+                  F77_INT& NU, F77_INT& RANK, F77_INT& DINFZ,
+                  F77_INT& NKROR, F77_INT& NKROL, F77_INT* INFZ,
+                  F77_INT* KRONR, F77_INT* KRONL,
+                  double* AF, F77_INT& LDAF,
+                  double* BF, F77_INT& LDBF,
                   double& TOL,
-                  octave_idx_type* IWORK, double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK, double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
                                    
     int F77_FUNC (dggev, DGGEV)
                  (char& JOBVL, char& JOBVR,
-                  octave_idx_type& N,
-                  double* AF, octave_idx_type& LDAF,
-                  double* BF, octave_idx_type& LDBF,
+                  F77_INT& N,
+                  double* AF, F77_INT& LDAF,
+                  double* BF, F77_INT& LDBF,
                   double* ALPHAR, double* ALPHAI,
                   double* BETA,
-                  double* VL, octave_idx_type& LDVL,
-                  double* VR, octave_idx_type& LDVR,
-                  double* WORK, octave_idx_type& LWORK,
-                  octave_idx_type& INFO);
+                  double* VL, F77_INT& LDVL,
+                  double* VR, F77_INT& LDVR,
+                  double* WORK, F77_INT& LWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab08nd__", "__control_slicot_functions__.oct");    
@@ -87,48 +86,48 @@ For internal use only.")
         const Matrix b = args(1).matrix_value ();
         const Matrix c = args(2).matrix_value ();
         const Matrix d = args(3).matrix_value ();
-        const octave_idx_type scaled = args(4).int_value ();
+        const F77_INT scaled = args(4).int_value ();
         
         if (scaled == 0)
             equil = 'S';
         else
             equil = 'N';
         
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
         
-        octave_idx_type lda = max (1, a.rows ());
-        octave_idx_type ldb = max (1, b.rows ());
-        octave_idx_type ldc = max (1, c.rows ());
-        octave_idx_type ldd = max (1, d.rows ());
+        F77_INT lda = max (1, TO_F77_INT (a.rows ()));
+        F77_INT ldb = max (1, TO_F77_INT (b.rows ()));
+        F77_INT ldc = max (1, TO_F77_INT (c.rows ()));
+        F77_INT ldd = max (1, TO_F77_INT (d.rows ()));
         
         // arguments out
-        octave_idx_type nu;
-        octave_idx_type rank;
-        octave_idx_type dinfz;
-        octave_idx_type nkror;
-        octave_idx_type nkrol;
+        F77_INT nu;
+        F77_INT rank;
+        F77_INT dinfz;
+        F77_INT nkror;
+        F77_INT nkrol;
         
-        octave_idx_type ldaf = max (1, n + m);
-        octave_idx_type ldbf = max (1, n + p);
+        F77_INT ldaf = max (1, n + m);
+        F77_INT ldbf = max (1, n + p);
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, infz, n);
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronr, 1 + max (n, m));
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, kronl, 1 + max (n, p));
+        OCTAVE_LOCAL_BUFFER (F77_INT, infz, n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, kronr, 1 + max (n, m));
+        OCTAVE_LOCAL_BUFFER (F77_INT, kronl, 1 + max (n, p));
         
         OCTAVE_LOCAL_BUFFER (double, af, ldaf * (n + min (p, m)));
         OCTAVE_LOCAL_BUFFER (double, bf, ldbf * (n + m));
 
         // workspace
-        octave_idx_type s = max (m, p);
-        octave_idx_type ldwork = max (1, max (s, n) + max (3*s-1, n+s));
+        F77_INT s = max (m, p);
+        F77_INT ldwork = max (1, max (s, n) + max (3*s-1, n+s));
         
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, s);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, s);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
         
         // tolerance
         double tol = 0;     // AB08ND uses DLAMCH for default tolerance
@@ -162,18 +161,18 @@ For internal use only.")
         char jobvr = 'N';
 
         double* vl = 0;     // not referenced because jobvl = 'N'
-        octave_idx_type ldvl = 1;
+        F77_INT ldvl = 1;
         double* vr = 0;     // not referenced because jobvr = 'N'
-        octave_idx_type ldvr = 1;
+        F77_INT ldvr = 1;
         
-        octave_idx_type lwork = max (1, 8*nu);
+        F77_INT lwork = max (1, 8*nu);
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
         ColumnVector alphar (nu);
         ColumnVector alphai (nu);
         ColumnVector beta (nu);
         
-        octave_idx_type info2;
+        F77_INT info2;
         
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,
@@ -213,7 +212,7 @@ For internal use only.")
 
         ComplexColumnVector zero (nu, Complex ());
 
-        for (octave_idx_type i = 0; i < nu; i++)
+        for (F77_INT i = 0; i < nu; i++)
             zero.xelem (i) = Complex (zeror(i), zeroi(i));
 
         // prepare additional outputs for info struct
@@ -221,13 +220,13 @@ For internal use only.")
         RowVector kronrr (nkror);
         RowVector kronlr (nkrol);
         
-        for (octave_idx_type i = 0; i < dinfz; i++)
+        for (F77_INT i = 0; i < dinfz; i++)
             infzr.xelem (i) = infz[i];
         
-        for (octave_idx_type i = 0; i < nkror; i++)
+        for (F77_INT i = 0; i < nkror; i++)
             kronrr.xelem (i) = kronr[i];
         
-        for (octave_idx_type i = 0; i < nkrol; i++)
+        for (F77_INT i = 0; i < nkrol; i++)
             kronlr.xelem (i) = kronl[i];
 
         // return values

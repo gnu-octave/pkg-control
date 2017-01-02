@@ -28,24 +28,23 @@ Version: 0.5
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (tg01jd, TG01JD)
                  (char& JOB, char& SYSTYP, char& EQUIL,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  double* A, octave_idx_type& LDA,
-                  double* E, octave_idx_type& LDE,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  octave_idx_type& NR,
-                  octave_idx_type* INFRED,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  double* A, F77_INT& LDA,
+                  double* E, F77_INT& LDE,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  F77_INT& NR,
+                  F77_INT* INFRED,
                   double& TOL,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01jd__", "__control_slicot_functions__.oct");    
@@ -74,9 +73,9 @@ For internal use only.")
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
-        const octave_idx_type scaled = args(5).int_value ();
-        const octave_idx_type ijob = args(6).int_value ();
-        const octave_idx_type isystyp = args(7).int_value ();
+        const F77_INT scaled = args(5).int_value ();
+        const F77_INT ijob = args(6).int_value ();
+        const F77_INT isystyp = args(7).int_value ();
         
         if (scaled == 0)
             equil = 'S';
@@ -113,14 +112,14 @@ For internal use only.")
                 error ("__sl_tg01jd__: argument systyp invalid");
         }
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type lde = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc;
+        F77_INT lda = max (1, n);
+        F77_INT lde = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc;
 
         if (n == 0)
             ldc = 1;
@@ -138,14 +137,14 @@ For internal use only.")
         c.resize (ldc, n);
 
         // arguments out
-        octave_idx_type nr;
-        octave_idx_type infred[7];
+        F77_INT nr;
+        F77_INT infred[7];
         
         // workspace
-        octave_idx_type liwork = n + max (m, p);
-        octave_idx_type ldwork;
-        // octave_idx_type ldwork = max (n, 2*m, 2*p);
-        // octave_idx_type ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
+        F77_INT liwork = n + max (m, p);
+        F77_INT ldwork;
+        // F77_INT ldwork = max (n, 2*m, 2*p);
+        // F77_INT ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);
         
         if (equil == 'S')
             ldwork = max (8*n, 2*m, 2*p);
@@ -168,11 +167,11 @@ For internal use only.")
                 order reduction took place.
         */
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type info = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine TG01JD

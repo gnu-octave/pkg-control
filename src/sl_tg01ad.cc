@@ -28,22 +28,21 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (tg01ad, TG01AD)
                  (char& JOB,
-                  octave_idx_type& L, octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  F77_INT& L, F77_INT& N, F77_INT& M, F77_INT& P,
                   double& TRESH,
-                  double* A, octave_idx_type& LDA,
-                  double* E, octave_idx_type& LDE,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
+                  double* A, F77_INT& LDA,
+                  double* E, F77_INT& LDE,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
                   double* LSCALE, double *RSCALE,
                   double* DWORK,
-                  octave_idx_type& INFO);
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01ad__", "__control_slicot_functions__.oct");    
@@ -71,15 +70,15 @@ For internal use only.")
         Matrix c = args(3).matrix_value ();
         double tresh = args(4).double_value ();
 
-        octave_idx_type l = a.rows ();
-        octave_idx_type n = a.columns ();   // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT l = TO_F77_INT (a.rows ());
+        F77_INT n = TO_F77_INT (a.columns ());   // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, l);
-        octave_idx_type lde = max (1, l);
-        octave_idx_type ldb = max (1, l);
-        octave_idx_type ldc = max (1, p);
+        F77_INT lda = max (1, l);
+        F77_INT lde = max (1, l);
+        F77_INT ldb = max (1, l);
+        F77_INT ldc = max (1, p);
 
 
         // arguments out
@@ -90,7 +89,7 @@ For internal use only.")
         OCTAVE_LOCAL_BUFFER (double, dwork, 3*(l+n));
 
         // error indicators
-        octave_idx_type info = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine TG01AD

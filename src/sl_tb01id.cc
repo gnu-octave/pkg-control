@@ -28,20 +28,19 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (tb01id, TB01ID)
                  (char& JOB,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
                   double& MAXRED,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
                   double* SCALE,
-                  octave_idx_type& INFO);
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tb01id__", "__control_slicot_functions__.oct");    
@@ -68,13 +67,13 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         double maxred = args(3).double_value ();
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
         
 
         // arguments out
@@ -82,7 +81,7 @@ For internal use only.")
 
         
         // error indicators
-        octave_idx_type info = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine TB01ID

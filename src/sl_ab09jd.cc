@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
@@ -36,27 +35,27 @@ extern "C"
     int F77_FUNC (ab09jd, AB09JD)
                  (char& JOBV, char& JOBW, char& JOBINV,
                   char& DICO, char& EQUIL, char& ORDSEL,
-                  octave_idx_type& N, octave_idx_type& NV, octave_idx_type& NW, octave_idx_type& M, octave_idx_type& P,
-                  octave_idx_type& NR,
+                  F77_INT& N, F77_INT& NV, F77_INT& NW, F77_INT& M, F77_INT& P,
+                  F77_INT& NR,
                   double& ALPHA,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* D, octave_idx_type& LDD,
-                  double* AV, octave_idx_type& LDAV,
-                  double* BV, octave_idx_type& LDBV,
-                  double* CV, octave_idx_type& LDCV,
-                  double* DV, octave_idx_type& LDDV,
-                  double* AW, octave_idx_type& LDAW,
-                  double* BW, octave_idx_type& LDBW,
-                  double* CW, octave_idx_type& LDCW,
-                  double* DW, octave_idx_type& LDDW,
-                  octave_idx_type& NS,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* D, F77_INT& LDD,
+                  double* AV, F77_INT& LDAV,
+                  double* BV, F77_INT& LDBV,
+                  double* CV, F77_INT& LDCV,
+                  double* DV, F77_INT& LDDV,
+                  double* AW, F77_INT& LDAW,
+                  double* BW, F77_INT& LDBW,
+                  double* CW, F77_INT& LDCW,
+                  double* DW, F77_INT& LDDW,
+                  F77_INT& NS,
                   double* HSV,
                   double& TOL1, double& TOL2,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& IWARN, octave_idx_type& INFO);
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& IWARN, F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab09jd__", "__control_slicot_functions__.oct");         
@@ -88,25 +87,25 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         
-        const octave_idx_type idico = args(4).int_value ();
-        const octave_idx_type iequil = args(5).int_value ();
-        octave_idx_type nr = args(6).int_value ();
-        const octave_idx_type iordsel = args(7).int_value ();
+        const F77_INT idico = args(4).int_value ();
+        const F77_INT iequil = args(5).int_value ();
+        F77_INT nr = args(6).int_value ();
+        const F77_INT iordsel = args(7).int_value ();
         double alpha = args(8).double_value ();
                  
-        const octave_idx_type ijobv = args(9).int_value ();       
+        const F77_INT ijobv = args(9).int_value ();       
         Matrix av = args(10).matrix_value ();
         Matrix bv = args(11).matrix_value ();
         Matrix cv = args(12).matrix_value ();
         Matrix dv = args(13).matrix_value ();
 
-        const octave_idx_type ijobw = args(14).int_value ();        
+        const F77_INT ijobw = args(14).int_value ();        
         Matrix aw = args(15).matrix_value ();
         Matrix bw = args(16).matrix_value ();
         Matrix cw = args(17).matrix_value ();
         Matrix dw = args(18).matrix_value ();
 
-        const octave_idx_type ijobinv = args(19).int_value ();
+        const F77_INT ijobinv = args(19).int_value ();
         double tol1 = args(20).double_value ();
         double tol2 = args(21).double_value ();
 
@@ -182,35 +181,35 @@ For internal use only.")
         else
             ordsel = 'A';
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type nv = av.rows ();
-        octave_idx_type nw = aw.rows ();
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT nv = TO_F77_INT (av.rows ());
+        F77_INT nw = TO_F77_INT (aw.rows ());
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldd = max (1, p);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
+        F77_INT ldd = max (1, p);
 
-        octave_idx_type ldav = max (1, nv);
-        octave_idx_type ldbv = max (1, nv);
-        octave_idx_type ldcv = max (1, p);
-        octave_idx_type lddv = max (1, p);
+        F77_INT ldav = max (1, nv);
+        F77_INT ldbv = max (1, nv);
+        F77_INT ldcv = max (1, p);
+        F77_INT lddv = max (1, p);
 
-        octave_idx_type ldaw = max (1, nw);
-        octave_idx_type ldbw = max (1, nw);
-        octave_idx_type ldcw = max (1, m);
-        octave_idx_type lddw = max (1, m);
+        F77_INT ldaw = max (1, nw);
+        F77_INT ldbw = max (1, nw);
+        F77_INT ldcw = max (1, m);
+        F77_INT lddw = max (1, m);
 
         // arguments out
-        octave_idx_type ns;
+        F77_INT ns;
         ColumnVector hsv (n);
 
         // workspace
-        octave_idx_type liwork;
-        octave_idx_type tmpc;
-        octave_idx_type tmpd;
+        F77_INT liwork;
+        F77_INT tmpc;
+        F77_INT tmpd;
 
         if (jobv == 'N')
             tmpc = 0;
@@ -227,13 +226,13 @@ For internal use only.")
         else
             liwork = max (1, n, m, tmpc, tmpd);
 
-        octave_idx_type ldwork;
-        octave_idx_type nvp = nv + p;
-        octave_idx_type nwm = nw + m;
-        octave_idx_type ldw1;
-        octave_idx_type ldw2;
-        octave_idx_type ldw3 = n*(2*n + max (n, m, p) + 5) + n*(n+1)/2;
-        octave_idx_type ldw4 = n*(m+p+2) + 2*m*p + min (n, m) + max (3*m+1, min (n, m) + p);
+        F77_INT ldwork;
+        F77_INT nvp = nv + p;
+        F77_INT nwm = nw + m;
+        F77_INT ldw1;
+        F77_INT ldw2;
+        F77_INT ldw3 = n*(2*n + max (n, m, p) + 5) + n*(n+1)/2;
+        F77_INT ldw4 = n*(m+p+2) + 2*m*p + min (n, m) + max (3*m+1, min (n, m) + p);
         
         if (jobv == 'N')
         {
@@ -257,12 +256,12 @@ For internal use only.")
         
         ldwork = max (ldw1, ldw2, ldw3, ldw4);
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, liwork);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, liwork);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type iwarn = 0;
-        octave_idx_type info = 0;
+        F77_INT iwarn = 0;
+        F77_INT info = 0;
 
 
         // SLICOT routine AB09JD

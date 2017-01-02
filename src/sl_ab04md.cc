@@ -29,22 +29,21 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (ab04md, AB04MD)
                  (char& TYPE,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
                   double& ALPHA, double& BETA,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* D, octave_idx_type& LDD,
-                  octave_idx_type* IWORK,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* D, F77_INT& LDD,
+                  F77_INT* IWORK,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_ab04md__", "__control_slicot_functions__.oct");    
@@ -73,30 +72,30 @@ For internal use only.")
         
         double alpha = args(4).double_value ();
         double beta = args(5).double_value ();
-        octave_idx_type discrete = args(6).int_value ();
+        F77_INT discrete = args(6).int_value ();
 
         if (discrete == 0)
             type = 'C';
         else
             type = 'D';
         
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
         
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldd = max (1, p);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
+        F77_INT ldd = max (1, p);
         
         // workspace
-        octave_idx_type ldwork = max (1, n);
+        F77_INT ldwork = max (1, n);
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, n);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine AB04MD

@@ -28,7 +28,6 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
@@ -36,19 +35,19 @@ extern "C"
     int F77_FUNC (tg01hd, TG01HD)
                  (char& JOBCON,
                   char& COMPQ, char& COMPZ,
-                  octave_idx_type& N, octave_idx_type& M, octave_idx_type& P,
-                  double* A, octave_idx_type& LDA,
-                  double* E, octave_idx_type& LDE,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* Q, octave_idx_type& LDQ,
-                  double* Z, octave_idx_type& LDZ,
-                  octave_idx_type& NCONT, octave_idx_type& NIUCON,
-                  octave_idx_type& NRBLCK,
-                  octave_idx_type* RTAU,
+                  F77_INT& N, F77_INT& M, F77_INT& P,
+                  double* A, F77_INT& LDA,
+                  double* E, F77_INT& LDE,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* Q, F77_INT& LDQ,
+                  double* Z, F77_INT& LDZ,
+                  F77_INT& NCONT, F77_INT& NIUCON,
+                  F77_INT& NRBLCK,
+                  F77_INT* RTAU,
                   double& TOL,
-                  octave_idx_type* IWORK, double* DWORK,
-                  octave_idx_type& INFO);
+                  F77_INT* IWORK, double* DWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_tg01hd__", "__control_slicot_functions__.oct");    
@@ -74,35 +73,35 @@ DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
 
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type p = c.rows ();      // p: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT p = TO_F77_INT (c.rows ());      // p: number of outputs
 
-        octave_idx_type lda = max (1, n);
-        octave_idx_type lde = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, p);
-        octave_idx_type ldq = max (1, n);
-        octave_idx_type ldz = max (1, n);
+        F77_INT lda = max (1, n);
+        F77_INT lde = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, p);
+        F77_INT ldq = max (1, n);
+        F77_INT ldz = max (1, n);
 
         // arguments out
         Matrix q (ldq, n);
         Matrix z (ldz, n);
 
-        octave_idx_type ncont;
-        octave_idx_type niucon;
-        octave_idx_type nrblck;
+        F77_INT ncont;
+        F77_INT niucon;
+        F77_INT nrblck;
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, rtau, n);
+        OCTAVE_LOCAL_BUFFER (F77_INT, rtau, n);
         
         // workspace
-        octave_idx_type ldwork = max (n, 2*m);
+        F77_INT ldwork = max (n, 2*m);
 
-        OCTAVE_LOCAL_BUFFER (octave_idx_type, iwork, m);
+        OCTAVE_LOCAL_BUFFER (F77_INT, iwork, m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine TG01HD

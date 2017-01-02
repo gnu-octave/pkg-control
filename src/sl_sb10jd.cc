@@ -28,21 +28,20 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
-#include <f77-fcn.h>
 #include "common.h"
 
 extern "C"
 { 
     int F77_FUNC (sb10jd, SB10JD)
-                 (octave_idx_type& N, octave_idx_type& M, octave_idx_type& NP,
-                  double* A, octave_idx_type& LDA,
-                  double* B, octave_idx_type& LDB,
-                  double* C, octave_idx_type& LDC,
-                  double* D, octave_idx_type& LDD,
-                  double* E, octave_idx_type& LDE,
-                  octave_idx_type& NSYS,
-                  double* DWORK, octave_idx_type& LDWORK,
-                  octave_idx_type& INFO);
+                 (F77_INT& N, F77_INT& M, F77_INT& NP,
+                  double* A, F77_INT& LDA,
+                  double* B, F77_INT& LDB,
+                  double* C, F77_INT& LDC,
+                  double* D, F77_INT& LDD,
+                  double* E, F77_INT& LDE,
+                  F77_INT& NSYS,
+                  double* DWORK, F77_INT& LDWORK,
+                  F77_INT& INFO);
 }
 
 // PKG_ADD: autoload ("__sl_sb10jd__", "__control_slicot_functions__.oct");    
@@ -68,25 +67,25 @@ For internal use only.")
         Matrix d = args(3).matrix_value ();
         Matrix e = args(4).matrix_value ();
         
-        octave_idx_type n = a.rows ();      // n: number of states
-        octave_idx_type m = b.columns ();   // m: number of inputs
-        octave_idx_type np = c.rows ();     // np: number of outputs
+        F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
+        F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
+        F77_INT np = TO_F77_INT (c.rows ());     // np: number of outputs
         
-        octave_idx_type lda = max (1, n);
-        octave_idx_type ldb = max (1, n);
-        octave_idx_type ldc = max (1, np);
-        octave_idx_type ldd = max (1, np);
-        octave_idx_type lde = max (1, n);
+        F77_INT lda = max (1, n);
+        F77_INT ldb = max (1, n);
+        F77_INT ldc = max (1, np);
+        F77_INT ldd = max (1, np);
+        F77_INT lde = max (1, n);
 
         // arguments out
-        octave_idx_type nsys;
+        F77_INT nsys;
         
         // workspace
-        octave_idx_type ldwork = max (1, 2*n*n + 2*n + n*max (5, n + m + np));
+        F77_INT ldwork = max (1, 2*n*n + 2*n + n*max (5, n + m + np));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicator
-        octave_idx_type info;
+        F77_INT info;
 
 
         // SLICOT routine SB10JD
