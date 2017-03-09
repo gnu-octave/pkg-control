@@ -28,6 +28,8 @@ Version: 0.4
 
 #include <octave/oct.h>
 
+#include "common.h"
+
 F77_INT max (F77_INT a, F77_INT b)
 {
     if (a > b)
