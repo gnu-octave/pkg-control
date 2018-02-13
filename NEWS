@@ -5,7 +5,7 @@ control-n.n.n
 ===============================================================================
 
  ** New functions:
-    dsort, esort
+    acker, dsort, esort
 
 ===============================================================================
 control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin

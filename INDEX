@@ -82,6 +82,7 @@ Frequency Domain Analysis
   sensitivity
   sigma
 Pole Placement
+  acker
   place
   rlocus
 Optimal Control
