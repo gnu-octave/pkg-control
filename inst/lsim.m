@@ -185,6 +185,9 @@ function [y_r, t_r, x_r] = lsim (varargin)
           endif
           plot (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
+          # input should be plotted in the background using uistack, which isn't
+          # implemented yet
+          plot (t{k}, u, 'Color', [0.5 0.5 0.5]);       # plot input
           grid on;
           if (k == n_sys)
             axis tight
@@ -202,6 +205,9 @@ function [y_r, t_r, x_r] = lsim (varargin)
           endif
           stairs (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
+          # input should be plotted in the background using uistack, which isn't
+          # implemented yet
+          plot (t{k}, u, 'Color', [0.5 0.5 0.5]);       # plot input
           grid on;
           if (k == n_sys)
             axis tight;
