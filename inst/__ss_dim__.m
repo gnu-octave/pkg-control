@@ -25,10 +25,6 @@
 
 function [p, m, n] = __ss_dim__ (a, b, c, d, e = [])
 
-  if (! is_real_matrix (a, b, c, d, e))
-    error ("ss: system matrices must be real-valued");
-  endif
-
   [arows, acols] = size (a);
   [brows, bcols] = size (b);
   [crows, ccols] = size (c);

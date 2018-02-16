@@ -58,6 +58,7 @@
 ## @end example
 ## @end ifnottex
 ##
+## @seealso{place}
 ## @end deftypefn
 
 ## This function uses equation (4) from the paper
@@ -87,13 +88,13 @@ function K = acker(A, b, p)
   p_A = zeros (size(A)(1), 1);
 
   for i=1:size (A)(1)+1
-    p_A = p_A + p(i)*A^(size (A)(2)-(i-1));
+    p_A = p_A + p(i) * A ^ (size (A)(2) - (i - 1));
   end
 
   var = zeros (1, size (ctrb (A,b)));
   var(size(ctrb(A,b))) = 1;
 
-  K = var*inv (ctrb (A, b))*p_A;
+  K = var * inv (ctrb (A, b)) * p_A;
 
 endfunction
 
