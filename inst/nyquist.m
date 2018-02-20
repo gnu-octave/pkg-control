@@ -86,7 +86,7 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     neg_args = horzcat (cellfun (@horzcat, re, imn, sty_neg, "uniformoutput", false){:});
 
 
-    h = plot (pos_args{:}, neg_args{:});
+    h = plot (pos_args{:}, neg_args{:},-1,0,'r+');
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
