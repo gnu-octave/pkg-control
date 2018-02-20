@@ -173,7 +173,7 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
       endif
     case "ext"                                  # extended (for nyquist)
       if (any (abs (pol) < sqrt (eps)))         # look for integrators
-        ## dec_min -= 0.5;
+        dec_min -= 0.5;
         dec_max += 2;
       else 
         dec_min -= 2;
