@@ -93,7 +93,7 @@ For internal use only.")
         F77_INT ldd = max (1, l);
 
         // m and l are equal for all experiments, checked by iddata class
-        F77_INT n_exp = TO_F77_INT (y_cell.nelem ());            // number of experiments
+        F77_INT n_exp = TO_F77_INT (y_cell.numel ());            // number of experiments
 
 
         // arguments out

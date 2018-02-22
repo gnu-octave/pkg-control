@@ -62,7 +62,7 @@ Read the source code in @code{lti_input_idx.cc} for details.\n\
   // first, check whether a cell is passed
   if (nargin == 1 && args(0).is_defined () && args(0).is_cell ())
   {
-    octave_idx_type len = args(0).cell_value().nelem();
+    octave_idx_type len = args(0).cell_value().numel();
     octave_idx_type idx = len;
     octave_idx_type offset = 0;
 

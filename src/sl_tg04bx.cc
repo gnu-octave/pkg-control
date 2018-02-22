@@ -75,8 +75,8 @@ For internal use only.")
         ColumnVector zi = args(8).column_vector_value ();
 
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
-        F77_INT ip = TO_F77_INT (pr.length ());  // ip: number of finite poles
-        F77_INT iz = TO_F77_INT (zr.length ());  // iz: number of zeros
+        F77_INT ip = TO_F77_INT (pr.numel ());  // ip: number of finite poles
+        F77_INT iz = TO_F77_INT (zr.numel ());  // iz: number of zeros
         
         // For ss, IP = n is always true.
         // However, dss models with poles at infinity

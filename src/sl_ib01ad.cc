@@ -144,7 +144,7 @@ For internal use only.")
             ctrl = 'N';
 */
         // m and l are equal for all experiments, checked by iddata class
-        F77_INT n_exp = TO_F77_INT (y_cell.nelem ());            // number of experiments
+        F77_INT n_exp = TO_F77_INT (y_cell.numel ());            // number of experiments
         F77_INT m = TO_F77_INT (u_cell.elem(0).columns ());      // m: number of inputs
         F77_INT l = TO_F77_INT (y_cell.elem(0).columns ());      // l: number of outputs
         F77_INT nsmpl = 0;                          // total number of samples
