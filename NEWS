@@ -1,11 +1,18 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-n.n.n
+control-3.1.0      Release Date: 2018-02-25
 ===============================================================================
 
- ** New functions:
-    acker, dsort, esort
+ ** New functions: acker, dsort, esort.
+
+ ** Function lsim now plots inputs as well.
+
+ ** Class 'ss' should now work with complex inputs.
+
+ ** Extend nyquist plots.
+
+ ** Fixed warnings with newer Octave versions.
 
 ===============================================================================
 control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
