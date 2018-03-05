@@ -1,5 +1,19 @@
 Summary of important user-visible changes for releases of the control package
 
+
+
+====================================================
+impulse fixes Doug Stewart
+====================================================
+
+ ** The Impulse section hes been rewritten, and a new file -- imp_invar.m -- 
+    added. the old system tried to use the "zoh" to get an impulse response
+    but that is imposable. 
+    
+ ** The new file "imp_invar.m" converts a Laplace tranfer function to a 
+    discrete tranfer function
+    
+
 ===============================================================================
 control-3.1.0      Release Date: 2018-02-25
 ===============================================================================

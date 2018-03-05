@@ -80,3 +80,26 @@ function [y_r, t_r, x_r] = impulse (varargin)
   endif
 
 endfunction
+
+
+## test the analogue response to an impulse input.
+%!test
+%! t=0:0.1:.3;
+%! sys=tf(0.9375,[1 2 4])
+%! y=impulse(sys,t)
+%! assert (y(1), 0, eps);
+%! assert (y(2), 0.084405001160727, 2*eps);
+%! assert (y(3), 0.150460144774958, 2*eps);
+%! assert (y(4), 0.199104909042133, 2*eps);
+
+## Test the discrete response to an impulse input.
+%!test
+%! t=0:0.1:.4;
+%! sys=tf(0.9375,[1 2 4]);
+%! sys2=c2d(sys, 0.1, "impulse");
+%! y=impulse(sys2,t);
+%! assert (y(1), 0, eps);
+%! assert (y(2), 0.084405001160727, 2*eps);
+%! assert (y(3), 0.150460144774958, 2*eps);
+%! assert (y(4), 0.199104909042133, 2*eps);
+
