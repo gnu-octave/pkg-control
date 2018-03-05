@@ -5,3 +5,6 @@
 ## graphics_toolkit gnuplot
 figure
 rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
+
+this works as of feb 2018
+
