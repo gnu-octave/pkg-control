@@ -85,8 +85,8 @@ endfunction
 ## test the analogue response to an impulse input.
 %!test
 %! t=0:0.1:.3;
-%! sys=tf(0.9375,[1 2 4])
-%! y=impulse(sys,t)
+%! sys=tf(0.9375,[1 2 4]);
+%! y=impulse(sys,t);
 %! assert (y(1), 0, eps);
 %! assert (y(2), 0.084405001160727, 2*eps);
 %! assert (y(3), 0.150460144774958, 2*eps);
@@ -102,4 +102,12 @@ endfunction
 %! assert (y(2), 0.084405001160727, 2*eps);
 %! assert (y(3), 0.150460144774958, 2*eps);
 %! assert (y(4), 0.199104909042133, 2*eps);
+
+## test from bug 
+%!test
+%! s = tf("s"); 
+%! R = 1/s; 
+%! y= impulse(R);
+%! assert (y(1), 1, eps);
+
 
