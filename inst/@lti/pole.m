@@ -32,7 +32,7 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## For (descriptor) state-space models, @command{pole}
+## For (descriptor) state-space models and system/state matrices, @command{pole}
 ## relies on Octave's @command{eig}.
 ## For @acronym{SISO} transfer functions, @command{pole}
 ## uses Octave's @command{roots}.
@@ -43,18 +43,36 @@
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Contributor: Mark Bronsfeld <m.brnsfld@googlemail.com>
 ## Created: October 2009
-## Version: 0.1
+## Version: 0.2
 
 function pol = pole (sys)
 
-  if (nargin > 1)
-    print_usage ();
-  endif
-
-  pol = __pole__ (sys);
+   if(nargin == 1) # pole(sys)
+     if(!(isa(sys, "lti")) && issquare(sys))
+       pol = eig(sys);
+     elseif(isa(sys, "lti"))
+       pol = __pole__(sys);
+     else
+       error("pole: argument must be an LTI system");
+     endif
+   else
+     print_usage();
+   endif
 
 endfunction
+
+ 
+%!shared pol_exp, pol_obs
+%! A = [-1, 0,  0; 
+%!          0,  -2, 0; 
+%!          0,  0,  -3];
+%! pol_exp = [-3; 
+%!                   -2; 
+%!                   -1];
+%! pol_obs = pole(A);
+%!assert(pol_obs, pol_exp, 0);
 
 ## Poles of descriptor state-space model
 %!shared pol, pol_exp, infp, kronr, kronl, infp_exp, kronr_exp, kronl_exp
