@@ -4,7 +4,9 @@ Summary of important user-visible changes for releases of the control package
 ===============================================================================
 control-3.1.0      Release Date: 2018-02-25
 ===============================================================================
-
+ 
+ ** New function: damp
+ 
  ** Changed nelem to numel and length to numel to remove the warnings
     during installation.
 
