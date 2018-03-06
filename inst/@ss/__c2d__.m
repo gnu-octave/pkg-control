@@ -42,6 +42,11 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
         [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss_bilin__ (sys.a, sys.b, sys.c, sys.d, sys.e, beta, false);
       endif
 
+    case "i"                       # "impulse"
+      [b a] = tfdata(sys,'v');
+      [bz az] = imp_invar (b , a , 1/tsam , tol = 1e-4);
+      sys = tf (bz,az,tsam);
+      
     case "m"                       # "matched"
       tmp = ss (c2d (zpk (sys), tsam, method));
       sys.e = tmp.e;
