@@ -214,7 +214,7 @@ For internal use only.")
         F77_INT ldwork_b = 5 + max (1, 4*n*n + 8*n);
         OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
 
-        OCTAVE_LOCAL_BUFFER (bool, bwork_b, 2*n);
+        OCTAVE_LOCAL_BUFFER (F77_LOGICAL, bwork_b, 2*n);
 
  
         // SLICOT routine SB02RD

@@ -516,7 +516,7 @@ For internal use only.")
 
         OCTAVE_LOCAL_BUFFER (F77_INT, iwork_b, liwork_b);
         OCTAVE_LOCAL_BUFFER (double, dwork_b, ldwork_b);
-        OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
+        OCTAVE_LOCAL_BUFFER (F77_LOGICAL, bwork, 2*n);
 
 
         // error indicators

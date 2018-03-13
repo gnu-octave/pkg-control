@@ -146,7 +146,7 @@ For internal use only.")
         F77_INT ldwork = max (7*(2*n + 1) + 16, 16*n, 2*n + m, 3*m);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
-        OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
+        OCTAVE_LOCAL_BUFFER (F77_LOGICAL, bwork, 2*n);
 
         // error indicator
         F77_INT iwarn;

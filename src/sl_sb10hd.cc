@@ -110,7 +110,7 @@ For internal use only.")
         
         OCTAVE_LOCAL_BUFFER (F77_INT, iwork, max (2*n, n*n));
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
-        OCTAVE_LOCAL_BUFFER (bool, bwork, 2*n);
+        OCTAVE_LOCAL_BUFFER (F77_LOGICAL, bwork, 2*n);
         
         // error indicator
         F77_INT info;
