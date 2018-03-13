@@ -64,7 +64,7 @@ extern "C"
                   double& TOL,
                   F77_INT* IWORK,
                   double* DWORK, F77_INT& LDWORK,
-                  bool* BWORK,
+                  F77_LOGICAL* BWORK,
                   F77_INT& IWARN, F77_INT& INFO);
 
     int F77_FUNC (ib01cd, IB01CD)

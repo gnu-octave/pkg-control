@@ -54,7 +54,7 @@ extern "C"
                   double& GTOL, double& ACTOL,
                   F77_INT* IWORK, F77_INT& LIWORK,
                   double* DWORK, F77_INT& LDWORK,
-                  bool* BWORK, F77_INT& LBWORK,
+                  F77_LOGICAL* BWORK, F77_INT& LBWORK,
                   F77_INT& INFO);
 }
 
