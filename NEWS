@@ -2,7 +2,7 @@ Summary of important user-visible changes for releases of the control package
 
 
 ===============================================================================
-control-3.1.0      Release Date: 2018-02-25
+control-3.1.0      Release Date: 2018-03-11
 ===============================================================================
  
  ** New function: damp
@@ -11,11 +11,11 @@ control-3.1.0      Release Date: 2018-02-25
     during installation.
 
  ** The Impulse section has been rewritten, and a new file -- imp_invar.m -- 
-    added. the old system tried to use the "zoh" to get an impulse response
-    but that is imposable.
+    added. The old system tried to use the "zoh" to get an impulse response
+    but that is impossible.
 
- ** The new file "imp_invar.m" converts a Laplace tranfer function to a 
-    discrete tranfer function
+ ** The new function "imp_invar.m" converts a Laplace tranfer function
+    to a discrete tranfer function.
 
  ** New functions: acker, dsort, esort.
 
