@@ -174,7 +174,7 @@ endfunction
 %!          -2;
 %!          -3 ];
 %!
-%! [Wn_obs, zeta_obs, P_obs] = damp (A);
+%! [Wn_obs, zeta_obs, P_obs] = damp (ss (A, ones (3, 1)));
 %!
 %! assert (Wn_obs, Wn_exp, 0);
 %! assert (zeta_obs, zeta_exp, 0);

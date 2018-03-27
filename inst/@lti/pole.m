@@ -71,7 +71,8 @@ endfunction
 %! pol_exp = [-3; 
 %!                   -2; 
 %!                   -1];
-%! pol_obs = pole(A);
+%! pol_obs = pole (ss (A, ones (3, 1)));
+%!
 %!assert(pol_obs, pol_exp, 0);
 
 ## Poles of descriptor state-space model
