@@ -17,25 +17,52 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
-## DC gain of @acronym{LTI} model.
+## Compute the DC gain of @acronym{LTI} system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## @acronym{LTI} system.
+## @acronym{LTI} system created by tf(), ss(), dss(), etc.
 ## @end table
 ##
 ## @strong{Outputs}
 ## @table @var
 ## @item k
-## DC gain matrice.  For a system with m inputs and p outputs, the array @var{k}
+## DC gain matrix. For a system with m inputs and p outputs, the array @var{k}
 ## has dimensions [p, m].
 ## @end table
 ##
-## @seealso{freqresp}
+## Transfer function for a continuous state space system (A,B,C,D)
+## G(s) = C * inv(s*I - A) * B + D
+##
+## DC Gain: evaluate G(s) as s -> 0:
+## k = C * inv(-A) * B + D
+##
+## Transfer function for a discrete state space system (A,B,C,D,T)
+## G(z) = C * inv(z*I - A) * B + D
+##
+## DC Gain: evaluate G(z) as z -> 1:
+## k = C * inv(I-A) * B + D
+##
+## @strong{Example}
+## @example
+## G = Transfer function 'G' from input 'u1' to output ...
+##
+##                1          
+## y1:  ---------------------
+##      s^3 + 2 s^2 + 3 s + 4
+##
+##
+## octave:1> K = dcgain(G)
+##
+## K =  0.25000
+## @end example
+
+## @seealso{freqresp,tf,ss,dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
+## Author: Geraint Paul Bevan <geraint.bevan@gcu.ac.uk>
 ## Created: October 2009
 ## Version: 0.1
 
@@ -48,3 +75,7 @@ function gain = dcgain (sys)
   gain = __freqresp__ (sys, 0);
 
 endfunction
+
+%!assert( dcgain( tf(1,[1,1]) )                   , 1   )
+%!assert( dcgain( tf(2,[1,1]) )                   , 2   )
+%!assert( dcgain( ss([0,1;-2,-3],[0;1],[1,0],0) ) , 0.5 )
