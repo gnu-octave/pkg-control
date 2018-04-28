@@ -80,3 +80,18 @@ function [y_r, t_r, x_r] = step (varargin)
   endif
 
 endfunction
+
+%!demo
+%! clf;
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! step(g);
+%! title ("Step response of a PT2 transfer function");
+
+%!demo
+%! clf;
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! h = c2d(g,0.1);
+%! step(h);
+%! title ("Step response of a discretized PT2 transfer function");

@@ -110,4 +110,17 @@ endfunction
 %! y= impulse(R);
 %! assert (y(1), 1, eps);
 
+%!demo
+%! clf;
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! impulse(g);
+%! title ("Impulse response of a PT2 transfer function");
 
+%!demo
+%! clf;
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! h = c2d(g,0.1);
+%! impulse(h);
+%! title ("Impulse response of a discretized PT2 transfer function");
