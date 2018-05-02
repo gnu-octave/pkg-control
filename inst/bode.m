@@ -98,3 +98,19 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   endif
 
 endfunction
+
+%!demo
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! bode(g);
+
+%!test
+%! s = tf('s');
+%! K = 1;
+%! T = 2;
+%! g = K/(1+T*s);
+%! [mag phas w] = bode(g);
+%! mag_dB = 20*log10(mag);
+%! index = find(mag_dB < -3,1);
+%! w_cutoff = w(index);
+%! assert (1/T, w_cutoff, eps);

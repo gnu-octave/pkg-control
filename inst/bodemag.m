@@ -85,3 +85,8 @@ function [mag_r, w_r] = bodemag (varargin)
   endif
 
 endfunction
+
+%!demo
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! bodemag(g);

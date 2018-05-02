@@ -102,3 +102,8 @@ function [re_r, im_r, w_r] = nyquist (varargin)
   endif
 
 endfunction
+
+%!demo
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! nyquist(g);
