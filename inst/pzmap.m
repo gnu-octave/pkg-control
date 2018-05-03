@@ -110,10 +110,16 @@ function [pol_r, zer_r] = pzmap (varargin)
         leg_args{k} = "";       # needed for  pzmap (lticell{:})
       end_try_catch
     endfor
-      
+
     ## FIXME: try to combine "x", "o" and style for custom colors
 
-    h = plot (pol_args{:}, zer_args{:});
+    ## If no zeroes then just plot the poles
+    if (isempty ( zer{:}))
+       h = plot (pol_args{:});
+    else
+       h = plot (pol_args{:}, zer_args{:});
+    endif
+
     grid ("on")  
     title ("Pole-Zero Map")
     xlabel ("Real Axis")
