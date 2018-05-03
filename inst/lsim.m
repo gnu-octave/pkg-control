@@ -301,3 +301,19 @@ endfunction
 
 
 ## TODO: add test cases
+
+%!demo
+%! clf;
+%! A = [-3   0   0;
+%!       0  -2   1;
+%!      10 -17   0];
+%! B = [4;
+%!      0;
+%!      0];
+%! C = [0 0 1];
+%! D = 0;
+%! sys = ss(A,B,C,D);
+%! t = 0:0.01:10;
+%! u = zeros (length(t) ,1);
+%! x0 = [0 0.1 0];
+%! lsim(sys, u, t, x0);

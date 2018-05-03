@@ -90,3 +90,8 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
   endif
 
 endfunction
+
+%!demo
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! nichols(g);
