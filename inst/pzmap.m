@@ -113,9 +113,11 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     ## FIXME: try to combine "x", "o" and style for custom colors
 
-    ## If no zeroes then just plot the poles
+    ## If no zeroes then just plot the poles and vice versa
     if (isempty ( zer{:}))
        h = plot (pol_args{:});
+    elseif  (isempty ( pol{:}))
+       h = plot (zer_args{:});
     else
        h = plot (pol_args{:}, zer_args{:});
     endif
@@ -131,3 +133,26 @@ function [pol_r, zer_r] = pzmap (varargin)
   endif
   
 endfunction
+
+%!demo
+%! s = tf('s');
+%! g = (s-1)/(s-2)/(s-3);
+%! pzmap(g);
+
+%!test
+%! s = tf('s');
+%! g = (s-1)/(s-2)/(s-3);
+%! [pol zer] = pzmap(g);
+%! assert(sort(pol), [2 3]', 2*eps);
+%! assert(zer, 1, eps);
+
+%!demo
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! pzmap(g);
+
+%!test
+%! s = tf('s');
+%! g = 1/(2*s^2+3*s+4);
+%! pol = pzmap(g);
+%! assert(sort(pol), sort(roots([2 3 4]')), eps);
