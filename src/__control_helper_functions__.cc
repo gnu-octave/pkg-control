@@ -6,7 +6,7 @@
 #include "is_zp_vector.cc"
 #include "lti_input_idx.cc"
 
-#include "nfields2.cc"  // delete this if support for Octave 3.8 gets dropped
+// #include "nfields2.cc"  // delete this if support for Octave 3.8 gets dropped
 
 
 
