@@ -50,8 +50,8 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
         {
             if (args(i).ndims () != 2
                 || (args(i).rows () > 1 && args(i).columns () > 1)
-                || ! args(i).is_numeric_type ()
-                || ! (args(i).is_complex_type () || args(i).is_real_type ()))
+                || ! args(i).isnumeric ()
+                || ! (args(i).iscomplex () || args(i).isreal ()))
             {
                 retval = false;
                 break;
