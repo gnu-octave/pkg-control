@@ -72,7 +72,7 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         double tol = args(2).double_value ();
-
+f77_exception_encountered
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
         F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
 
@@ -116,8 +116,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("__sl_ab01od__: exception in SLICOT subroutine AB01OD");
+//        if (f77_exception_encountered)
+//            error ("__sl_ab01od__: exception in SLICOT subroutine AB01OD");
             
         if (info != 0)
             error ("__sl_ab01od__: AB01OD returned info = %d", info);

@@ -315,8 +315,8 @@ For internal use only.")
                   dwork, ldwork,
                   iwarn, info));
 
-        if (f77_exception_encountered)
-            error ("modred: exception in SLICOT subroutine AB09ID");
+//        if (f77_exception_encountered)
+//            error ("modred: exception in SLICOT subroutine AB09ID");
 
 
         static const char* err_msg[] = {

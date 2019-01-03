@@ -174,8 +174,8 @@ For internal use only.")
                   bwork,
                   iwarn, info));
 
-        if (f77_exception_encountered)
-            error ("bstmodred: exception in SLICOT subroutine AB09HD");
+//        if (f77_exception_encountered)
+//           error ("bstmodred: exception in SLICOT subroutine AB09HD");
 
 
         static const char* err_msg[] = {

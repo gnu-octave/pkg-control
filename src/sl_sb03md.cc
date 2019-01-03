@@ -118,8 +118,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("lyap: __sl_sb03md__: exception in SLICOT subroutine SB03MD");
+//        if (f77_exception_encountered)
+//            error ("lyap: __sl_sb03md__: exception in SLICOT subroutine SB03MD");
 
         if (info != 0)
             error ("lyap: __sl_sb03md__: SB03MD returned info = %d", info);

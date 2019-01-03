@@ -115,8 +115,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("lyapchol: __sl_sb03od__: exception in SLICOT subroutine SB03OD");
+//        if (f77_exception_encountered)
+//            error ("lyapchol: __sl_sb03od__: exception in SLICOT subroutine SB03OD");
 
         if (info != 0)
             error ("lyapchol: __sl_sb03od__: SB03OD returned info = %d", info);

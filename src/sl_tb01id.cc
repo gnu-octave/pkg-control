@@ -95,8 +95,8 @@ For internal use only.")
                   scale.fortran_vec (),
                   info));
 
-        if (f77_exception_encountered)
-            error ("ss: prescale: __sl_tb01id__: exception in SLICOT subroutine TB01ID");
+//        if (f77_exception_encountered)
+//            error ("ss: prescale: __sl_tb01id__: exception in SLICOT subroutine TB01ID");
             
         if (info != 0)
             error ("ss: prescale: __sl_tb01id__: TB01ID returned info = %d", info);

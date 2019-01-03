@@ -159,8 +159,8 @@ For internal use only.")
                       iwarn_c, info_c));
 
 
-            if (f77_exception_encountered)
-                error ("__sl_ib01cd__: exception in SLICOT subroutine IB01CD");
+//            if (f77_exception_encountered)
+//                error ("__sl_ib01cd__: exception in SLICOT subroutine IB01CD");
 
             static const char* err_msg_c[] = {
                 "0: OK",

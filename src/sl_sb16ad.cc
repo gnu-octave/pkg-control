@@ -261,8 +261,8 @@ For internal use only.")
                   iwarn, info));
 
 
-        if (f77_exception_encountered)
-            error ("conred: exception in SLICOT subroutine SB16AD");
+//        if (f77_exception_encountered)
+//            error ("conred: exception in SLICOT subroutine SB16AD");
 
         static const char* err_msg[] = {
             "0: OK",

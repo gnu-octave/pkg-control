@@ -122,8 +122,8 @@ DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
                   iwork, dwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("__sl_tg01hd__: exception in SLICOT subroutine TG01HD");
+//        if (f77_exception_encountered)
+//            error ("__sl_tg01hd__: exception in SLICOT subroutine TG01HD");
             
         if (info != 0)
             error ("__sl_tg01hd__: TG01HD returned info = %d", info);

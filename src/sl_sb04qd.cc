@@ -96,8 +96,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("dlyap: __sl_sb04qd__: exception in SLICOT subroutine SB04QD");
+//        if (f77_exception_encountered)
+//            error ("dlyap: __sl_sb04qd__: exception in SLICOT subroutine SB04QD");
 
         if (info != 0)
             error ("dlyap: __sl_sb04qd__: SB04QD returned info = %d", info);

@@ -150,8 +150,8 @@ For internal use only.")
                   bwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("hinfsyn: __sl_sb10dd__: exception in SLICOT subroutine SB10DD");
+//        if (f77_exception_encountered)
+//            error ("hinfsyn: __sl_sb10dd__: exception in SLICOT subroutine SB10DD");
 
         static const char* err_msg[] = {
             "0: OK",

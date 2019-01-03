@@ -189,8 +189,8 @@ For internal use only.")
                   bwork, lbwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("hinfsyn: __sl_sb10ad__: exception in SLICOT subroutine SB10AD");
+//        if (f77_exception_encountered)
+//            error ("hinfsyn: __sl_sb10ad__: exception in SLICOT subroutine SB10AD");
 
         static const char* err_msg[] = {
             "0: successful exit",

@@ -111,8 +111,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-        if (f77_exception_encountered)
-            error ("__sl_ab04md__: exception in SLICOT subroutine AB04MD");
+//        if (f77_exception_encountered)
+//            error ("__sl_ab04md__: exception in SLICOT subroutine AB04MD");
 
         if (info != 0)
             error ("__sl_ab04md__: AB04MD returned info = %d", info);
