@@ -6,6 +6,13 @@ control-x.y.z      Release Date: yyyy-mm-dd
 
  ** New function: ss2ss
  
+ ** Fixed many warnings
+
+ ** added demos to rlocus, pzmap, bode, nichols, nyquist,
+    impulse, lsim, ramp and step
+
+ ** improved pzmap to plot with only zeros
+
 ===============================================================================
 control-3.1.0      Release Date: 2018-03-11
 ===============================================================================
