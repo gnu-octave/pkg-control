@@ -48,7 +48,7 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
     {
         for (octave_idx_type i = 0; i < nargin; i++)
         {
-            if (args(i).ndims () != 2 || ! args(i).isscalar ()
+            if (args(i).ndims () != 2 || ! args(i).is_scalar_type ()
                 || ! args(i).isnumeric () || ! args(i).isreal ())
             {
                 retval = false;
