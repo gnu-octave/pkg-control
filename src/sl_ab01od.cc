@@ -72,7 +72,7 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         Matrix b = args(1).matrix_value ();
         double tol = args(2).double_value ();
-f77_exception_encountered
+//    f77_exception_encountered
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
         F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs
 

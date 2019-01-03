@@ -182,7 +182,7 @@ For internal use only.")
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
         F77_INT info2;
-        f77_exception_encountered
+//        f77_exception_encountered
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,
                   nfz,
