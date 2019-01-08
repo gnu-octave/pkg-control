@@ -13,6 +13,8 @@ LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 AR := $(shell $(MKOCTFILE) -p AR)
 
+CXXFLAGS_PKG := -Wall -Wno-deprecated-declarations $(CXXFLAGS_PKG_APPEND)
+
 all: __control_slicot_functions__.oct \
      __control_helper_functions__.oct
 
@@ -37,11 +39,11 @@ slicotlibrary.a: slicot.tar.gz
 # slicot functions
 __control_slicot_functions__.oct: __control_slicot_functions__.cc slicotlibrary.a
 	LFLAGS="$(LFLAGS)" \
-    $(MKOCTFILE) __control_slicot_functions__.cc common.cc slicotlibrary.a
+    $(MKOCTFILE) $(CXXFLAGS_PKG) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helper functions
 __control_helper_functions__.oct: __control_helper_functions__.cc
-	$(MKOCTFILE) __control_helper_functions__.cc
+	$(MKOCTFILE) $(CXXFLAGS_PKG) __control_helper_functions__.cc
 
 clean:
 	$(RM) -r *.o core octave-core *.oct *~ *.f slicot sltmp
