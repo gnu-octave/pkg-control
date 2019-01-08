@@ -170,8 +170,8 @@ For internal use only.")
                   bwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("are: __sl_sb02od__: exception in SLICOT subroutine SB02OD");
+        if (f77_exception_encountered)
+            error ("are: __sl_sb02od__: exception in SLICOT subroutine SB02OD");
 
         static const char* err_msg[] = {
             "0: OK",

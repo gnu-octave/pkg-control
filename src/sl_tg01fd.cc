@@ -130,8 +130,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("__sl_tg01fd__: exception in SLICOT subroutine TG01FD");
+        if (f77_exception_encountered)
+            error ("__sl_tg01fd__: exception in SLICOT subroutine TG01FD");
             
         if (info != 0)
             error ("__sl_tg01fd__: TG01FD returned info = %d", info);

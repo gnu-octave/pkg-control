@@ -98,7 +98,7 @@ For internal use only.")
         
         // workspace
         F77_INT ldwork = max (1, n*(max (n, m, p) + 5) + n*(n+1)/2);
-        f77_exception_encountered
+        
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
@@ -118,8 +118,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("hsvd: __sl_ab13ad__: exception in SLICOT subroutine AB13AD");
+        if (f77_exception_encountered)
+            error ("hsvd: __sl_ab13ad__: exception in SLICOT subroutine AB13AD");
             
         if (info != 0)
             error ("hsvd: __sl_ab13ad__: AB13AD returned info = %d", info);

@@ -93,8 +93,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("__sl_mb05nd__: exception in SLICOT subroutine MB05ND");
+        if (f77_exception_encountered)
+            error ("__sl_mb05nd__: exception in SLICOT subroutine MB05ND");
         
         if (info > 0)
         {

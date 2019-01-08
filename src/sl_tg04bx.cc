@@ -106,8 +106,8 @@ For internal use only.")
                   gain,
                   iwork));
                   
-//        if (f77_exception_encountered)
-//            error ("dss: zero: __sl_tg04bx__: exception in TG04BX");
+        if (f77_exception_encountered)
+            error ("dss: zero: __sl_tg04bx__: exception in TG04BX");
 
         // return values
         retval(0) = octave_value (gain);

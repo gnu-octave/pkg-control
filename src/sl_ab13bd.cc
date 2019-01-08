@@ -22,7 +22,7 @@ Uses SLICOT AB13BD by courtesy of NICONET e.V.
 <http://www.slicot.org>
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-Created: November 2009f77_exception_encountered
+Created: November 2009
 Version: 0.5
 
 */
@@ -118,8 +118,8 @@ For internal use only.")
                          iwarn,
                          info);
 
-//       if (f77_exception_encountered)
-//            error ("lti: norm: __sl_ab13bd__: exception in SLICOT subroutine AB13BD");
+        if (f77_exception_encountered)
+            error ("lti: norm: __sl_ab13bd__: exception in SLICOT subroutine AB13BD");
             
         if (info != 0)
             error ("lti: norm: __sl_ab13bd__: AB13BD returned info = %d", info);

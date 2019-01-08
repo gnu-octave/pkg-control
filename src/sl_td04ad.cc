@@ -130,8 +130,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("tf2ss: __sl_td04ad__: exception in SLICOT subroutine TD04AD");
+        if (f77_exception_encountered)
+            error ("tf2ss: __sl_td04ad__: exception in SLICOT subroutine TD04AD");
 
         if (info != 0)
             error ("tf2ss: __sl_td04ad__: TD04AD returned info = %d", info);

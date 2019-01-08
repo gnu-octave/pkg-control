@@ -141,8 +141,8 @@ For internal use only.")
                   zwork, lzwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("fitfrd: __sl_sb10yd__: exception in SLICOT subroutine SB10YD");
+        if (f77_exception_encountered)
+            error ("fitfrd: __sl_sb10yd__: exception in SLICOT subroutine SB10YD");
             
         if (info != 0)
             error ("fitfrd: __sl_sb10yd__: SB10YD returned info = %d", info);

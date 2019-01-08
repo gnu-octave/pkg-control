@@ -127,8 +127,8 @@ For internal use only.")
                   bwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("ncfsyn: __sl_sb10id__: exception in SLICOT subroutine SB10ID");
+        if (f77_exception_encountered)
+            error ("ncfsyn: __sl_sb10id__: exception in SLICOT subroutine SB10ID");
 
         static const char* err_msg[] = {
             "0: OK",

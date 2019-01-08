@@ -23,7 +23,7 @@ Uses SLICOT SB01BD by courtesy of NICONET e.V.
 
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Created: November 2009
-Version: 0.6f77_exception_encountered
+Version: 0.6
 
 */
 
@@ -121,8 +121,8 @@ For internal use only.")
                   dwork, ldwork,
                   iwarn, info));
 
-//       if (f77_exception_encountered)
-//            error ("place: __sl_sb01bd__: exception in SLICOT subroutine SB01BD");
+        if (f77_exception_encountered)
+            error ("place: __sl_sb01bd__: exception in SLICOT subroutine SB01BD");
             
         static const char* err_msg[] = {
             "0: OK",

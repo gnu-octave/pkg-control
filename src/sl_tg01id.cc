@@ -124,8 +124,8 @@ DEFUN_DLD (__sl_tg01id__, args, nargout, "Slicot TG01ID Release 5.0")
                   iwork, dwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("__sl_tg01id__: exception in SLICOT subroutine TG01ID");
+        if (f77_exception_encountered)
+            error ("__sl_tg01id__: exception in SLICOT subroutine TG01ID");
             
         if (info != 0)
             error ("__sl_tg01id__: TG01ID returned info = %d", info);

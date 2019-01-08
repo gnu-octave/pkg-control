@@ -130,8 +130,8 @@ For internal use only.")
                   bwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("ncfsyn: __sl_sb10zd__: exception in SLICOT subroutine SB10ZD");
+        if (f77_exception_encountered)
+            error ("ncfsyn: __sl_sb10zd__: exception in SLICOT subroutine SB10ZD");
 
         static const char* err_msg[] = {
             "0: OK",

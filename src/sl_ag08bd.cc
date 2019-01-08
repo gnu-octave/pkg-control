@@ -152,8 +152,8 @@ For internal use only.")
                   iwork, dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("dss: zero: __sl_ag08bd__: exception in SLICOT subroutine AG08BD");
+        if (f77_exception_encountered)
+            error ("dss: zero: __sl_ag08bd__: exception in SLICOT subroutine AG08BD");
             
         if (info != 0)
             error ("dss: zero: __sl_ag08bd__: AG08BD returned info = %d", info);
@@ -182,7 +182,7 @@ For internal use only.")
         OCTAVE_LOCAL_BUFFER (double, work, lwork);
         
         F77_INT info2;
-        f77_exception_encountered
+        
         F77_XFCN (dggev, DGGEV,
                  (jobvl, jobvr,
                   nfz,
@@ -195,8 +195,8 @@ For internal use only.")
                   work, lwork,
                   info2));
                                  
-//        if (f77_exception_encountered)
-//            error ("dss: zero: __sl_ag08bd__: exception in LAPACK subroutine DGGEV");
+        if (f77_exception_encountered)
+            error ("dss: zero: __sl_ag08bd__: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
             error ("dss: zero: __sl_ag08bd__: DGGEV returned info = %d", info2);

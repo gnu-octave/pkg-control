@@ -179,8 +179,8 @@ For internal use only.")
                   bwork,
                   iwarn, info));
 
-//        if (f77_exception_encountered)
-//            error ("are: __sl_sg02ad__: exception in SLICOT subroutine SG02AD");
+        if (f77_exception_encountered)
+            error ("are: __sl_sg02ad__: exception in SLICOT subroutine SG02AD");
 
         static const char* err_msg[] = {
             "0: OK",

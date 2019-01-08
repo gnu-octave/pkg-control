@@ -189,8 +189,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("dss: minreal: __sl_tg01jd__: exception in SLICOT subroutine TG01JD");
+        if (f77_exception_encountered)
+            error ("dss: minreal: __sl_tg01jd__: exception in SLICOT subroutine TG01JD");
             
         if (info != 0)
             error ("dss: minreal: __sl_tg01jd__: TG01JD returned info = %d", info);

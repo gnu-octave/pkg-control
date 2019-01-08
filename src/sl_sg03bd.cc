@@ -123,8 +123,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("lyap: __sl_sg03bd__: exception in SLICOT subroutine SG03BD");
+        if (f77_exception_encountered)
+            error ("lyap: __sl_sg03bd__: exception in SLICOT subroutine SG03BD");
 
         if (info != 0)
             error ("lyap: __sl_sg03bd__: SG03BD returned info = %d", info);

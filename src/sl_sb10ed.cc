@@ -138,8 +138,8 @@ For internal use only.")
                   bwork,
                   info));
 
- //       if (f77_exception_encountered)
- //           error ("h2syn: __sl_sb10ed__: exception in SLICOT subroutine SB10ED");
+        if (f77_exception_encountered)
+            error ("h2syn: __sl_sb10ed__: exception in SLICOT subroutine SB10ED");
 
         static const char* err_msg[] = {
             "0: OK",

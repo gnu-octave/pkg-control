@@ -190,8 +190,8 @@ For internal use only.")
                   iwarn, info));
 
 
-//        if (f77_exception_encountered)
-//            error ("fwcfconred: exception in SLICOT subroutine SB16CD");
+        if (f77_exception_encountered)
+            error ("fwcfconred: exception in SLICOT subroutine SB16CD");
 
         static const char* err_msg[] = {
             "0: OK",

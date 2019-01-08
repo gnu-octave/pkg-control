@@ -290,8 +290,8 @@ For internal use only.")
                   dwork, ldwork,
                   iwarn, info));
 
-//        if (f77_exception_encountered)
-//            error ("hnamodred: exception in SLICOT subroutine AB09JD");
+        if (f77_exception_encountered)
+            error ("hnamodred: exception in SLICOT subroutine AB09JD");
 
 
         static const char* err_msg[] = {

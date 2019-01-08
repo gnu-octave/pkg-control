@@ -149,8 +149,8 @@ For internal use only.")
                   iwork, dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("ss: zero: __sl_ab08nd__: exception in SLICOT subroutine AB08ND");
+        if (f77_exception_encountered)
+            error ("ss: zero: __sl_ab08nd__: exception in SLICOT subroutine AB08ND");
             
         if (info != 0)
             error ("ss: zero: __sl_ab08nd__: AB08ND returned info = %d", info);
@@ -186,8 +186,8 @@ For internal use only.")
                   work, lwork,
                   info2));
                                  
-//        if (f77_exception_encountered)
-//            error ("ss: zero: __sl_ab08nd__: exception in LAPACK subroutine DGGEV");
+        if (f77_exception_encountered)
+            error ("ss: zero: __sl_ab08nd__: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
             error ("ss: zero: __sl_ab08nd__: DGGEV returned info = %d", info2);

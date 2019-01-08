@@ -330,8 +330,8 @@ For internal use only.")
                       iwarn_a, info_a));
 
 
-//            if (f77_exception_encountered)
-//                error ("ident: exception in SLICOT subroutine IB01AD");
+            if (f77_exception_encountered)
+                error ("ident: exception in SLICOT subroutine IB01AD");
 
             static const char* err_msg[] = {
                 "0: OK",

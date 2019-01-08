@@ -119,8 +119,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("ss: minreal: __sl_tb01pd__: exception in SLICOT subroutine TB01PD");
+        if (f77_exception_encountered)
+            error ("ss: minreal: __sl_tb01pd__: exception in SLICOT subroutine TB01PD");
             
         if (info != 0)
             error ("ss: minreal: __sl_tb01pd__: TB01PD returned info = %d", info);

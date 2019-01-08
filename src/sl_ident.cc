@@ -366,8 +366,8 @@ For internal use only.")
                       iwarn_a, info_a));
 
 
-//            if (f77_exception_encountered)
-//                error ("ident: exception in SLICOT subroutine IB01AD");
+            if (f77_exception_encountered)
+                error ("ident: exception in SLICOT subroutine IB01AD");
 
             static const char* err_msg[] = {
                 "0: OK",
@@ -545,8 +545,8 @@ For internal use only.")
                   iwarn_b, info_b));
 
 
-//        if (f77_exception_encountered)
-//            error ("ident: exception in SLICOT subroutine IB01BD");
+        if (f77_exception_encountered)
+            error ("ident: exception in SLICOT subroutine IB01BD");
 
         static const char* err_msg_b[] = {
             "0: OK",
@@ -667,8 +667,8 @@ For internal use only.")
                       iwarn_c, info_c));
 
 
-//            if (f77_exception_encountered)
-//                error ("ident: exception in SLICOT subroutine IB01CD");
+            if (f77_exception_encountered)
+                error ("ident: exception in SLICOT subroutine IB01CD");
 
             static const char* err_msg_c[] = {
                 "0: OK",

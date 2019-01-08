@@ -143,8 +143,8 @@ For internal use only.")
                   cwork, lcwork,
                   info));
 
-//       if (f77_exception_encountered)
-//            error ("lti: norm: __sl_ab13dd__: exception in SLICOT subroutine AB13DD");
+        if (f77_exception_encountered)
+            error ("lti: norm: __sl_ab13dd__: exception in SLICOT subroutine AB13DD");
 
         static const char* err_msg[] = {
             "0: OK",

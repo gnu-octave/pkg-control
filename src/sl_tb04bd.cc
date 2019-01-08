@@ -131,8 +131,8 @@ For internal use only.")
                   dwork, ldwork,
                   info));
 
-//        if (f77_exception_encountered)
-//            error ("ss2tf: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
+        if (f77_exception_encountered)
+            error ("ss2tf: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
 
         if (info != 0)
             error ("ss2tf: __sl_tb04bd__: TB04BD returned info = %d", info);
