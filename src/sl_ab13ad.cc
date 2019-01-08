@@ -98,7 +98,7 @@ For internal use only.")
         
         // workspace
         F77_INT ldwork = max (1, n*(max (n, m, p) + 5) + n*(n+1)/2);
-//        f77_exception_encountered
+        f77_exception_encountered
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
         
         // error indicators
