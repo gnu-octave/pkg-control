@@ -295,7 +295,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);
     endfor
-    legend ("boxon", 2);
+    legend ("boxon");
     grid ("on");
     axis (axlim);
     title (["Root Locus of ", inputname(1)]);
