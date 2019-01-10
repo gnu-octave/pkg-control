@@ -85,7 +85,7 @@ void warning_msg (const char name[], int index, octave_idx_type max, const char*
         warning ("%s: unknown warning, iwarn = %d", name, index);
 }
 
-void warning_msg (const char name[], int index, octave_idx_type max, const char* msg[], octave_idx_type offset)
+void warning_msg (const char name[], int index, octave_idx_type max, const char* msg[], int offset)
 {
     if (index == 0)
         return;
