@@ -71,7 +71,7 @@ For internal use only.")
 
         // arguments in
         char meth_a;
-//        char meth_b;
+        char meth_b;
         char alg;
         char jobd;
         char batch;
