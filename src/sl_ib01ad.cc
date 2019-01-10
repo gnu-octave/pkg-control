@@ -71,7 +71,7 @@ For internal use only.")
 
         // arguments in
         char meth_a;
-        char meth_b;
+//        char meth_b;
         char alg;
         char jobd;
         char batch;
@@ -81,18 +81,18 @@ For internal use only.")
         const Cell y_cell = args(0).cell_value ();
         const Cell u_cell = args(1).cell_value ();
         F77_INT nobr = args(2).int_value ();
-        F77_INT nuser = args(3).int_value ();
+//        F77_INT nuser = args(3).int_value ();
         
         const F77_INT imeth = args(4).int_value ();
         const F77_INT ialg = args(5).int_value ();
         const F77_INT iconct = args(6).int_value ();
-        const F77_INT ictrl = args(7).int_value ();     // ignored
+//        const F77_INT ictrl = args(7).int_value ();     // ignored
         
         double rcond = args(8).double_value ();
         double tol_a = args(9).double_value ();
 
-        double tol_b = rcond;
-        double tol_c = rcond;
+//        double tol_b = rcond;
+//        doublet ol_c = rcond;
         
             
         switch (imeth)
