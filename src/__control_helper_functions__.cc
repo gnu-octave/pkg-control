@@ -6,9 +6,6 @@
 #include "is_zp_vector.cc"
 #include "lti_input_idx.cc"
 
-// #include "nfields2.cc"  // delete this if support for Octave 3.8 gets dropped
-
-
 
 // stub function to avoid gen_doc_cache warning upon package installation
 DEFUN_DLD (__control_helper_functions__, args, nargout,

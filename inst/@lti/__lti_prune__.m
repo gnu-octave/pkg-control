@@ -42,14 +42,14 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
     in_idx = vertcat (tmp{:});
   endif
 
-  if (nfields2 (lti.outgroup))
+  if (numfields (lti.outgroup))
     p = numel (lti.outname);                        # get size before pruning outnames!
     [lti.outgroup, empty] = structfun (@(x) __group_prune__ (x, out_idx, p), lti.outgroup, "uniformoutput", false);
     empty = cell2mat (struct2cell (empty));
     fields = fieldnames (lti.outgroup);
     lti.outgroup = rmfield (lti.outgroup, fields(empty));
   endif
-  if (nfields2 (lti.ingroup))
+  if (numfields (lti.ingroup))
     m = numel (lti.inname); 
     [lti.ingroup, empty] = structfun (@(x) __group_prune__ (x, in_idx, m), lti.ingroup, "uniformoutput", false);
     empty = cell2mat (struct2cell (empty));

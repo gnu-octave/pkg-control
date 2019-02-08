@@ -24,11 +24,11 @@
 
 function display (sys)
 
-  if (nfields2 (sys.ingroup) > 0)
+  if (numfields (sys.ingroup) > 0)
     __disp_group__ (sys.ingroup, "Input");
   endif
   
-  if (nfields2 (sys.outgroup) > 0)
+  if (numfields (sys.outgroup) > 0)
     __disp_group__ (sys.outgroup, "Output");
   endif
 
