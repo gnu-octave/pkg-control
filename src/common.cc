@@ -61,20 +61,20 @@ F77_INT min (F77_INT a, F77_INT b)
         return b;
 }
 
-void error_msg (const char name[], int index, octave_idx_type max, const char* msg[])
+void error_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[])
 {
     if (index == 0)
         return;
 
     if (index < 0)
-        error ("%s: the %d-th argument had an invalid value", name, index);
+        error ("%s: the %ld-th argument had an invalid value", name, static_cast<long> (index));
     else if (index <= max)
         error ("%s: %s", name, msg[index]);
     else
-        error ("%s: unknown error, info = %d", name, index);
+        error ("%s: unknown error, info = %ld", name, static_cast<long> (index));
 }
 
-void warning_msg (const char name[], int index, octave_idx_type max, const char* msg[])
+void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[])
 {
     if (index == 0)
         return;
@@ -82,10 +82,10 @@ void warning_msg (const char name[], int index, octave_idx_type max, const char*
     if (index > 0 && index <= max)
         warning ("%s: %s", name, msg[index]);
     else
-        warning ("%s: unknown warning, iwarn = %d", name, index);
+        warning ("%s: unknown warning, iwarn = %ld", name, static_cast<long> (index));
 }
 
-void warning_msg (const char name[], int index, octave_idx_type max, const char* msg[], int offset)
+void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[], octave_idx_type offset)
 {
     if (index == 0)
         return;
@@ -93,7 +93,8 @@ void warning_msg (const char name[], int index, octave_idx_type max, const char*
     if (index > 0 && index <= max)
         warning ("%s: %s", name, msg[index]);
     else if (index > offset)
-        warning ("%s: %d+%d: %d %s", name, offset, index-offset, index-offset, msg[max+1]);
+        warning ("%s: %ld+%ld: %ld %s", name, static_cast<long> (offset), static_cast<long> (index - offset),
+                 static_cast<long> (index - offset), msg[max+1]);
     else
-        warning ("%s: unknown warning, iwarn = %d", name, index);
+        warning ("%s: unknown warning, iwarn = %ld", name, static_cast<long> (index));
 }
