@@ -47,4 +47,12 @@ void error_msg (const char name[], octave_idx_type index, octave_idx_type max, c
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[]);
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[], octave_idx_type offset);
 
+// FIXME: Keep until Octave 4.2 and older are no longer supported.
+// This conditional defines f77_exception_encountered as a dummy constant
+// to preserve code that needed to check its value to work correctly in older
+// versions of Octave.
+#if defined (OCTAVE_MAJOR_VERSION) && OCTAVE_MAJOR_VERSION >= 6
+static const int f77_exception_encountered = 0;
+#endif
+
 #endif
