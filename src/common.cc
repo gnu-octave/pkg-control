@@ -26,6 +26,7 @@ Version: 0.4
 */
 
 
+#include <sstream>
 #include <octave/oct.h>
 
 #include "common.h"
@@ -66,12 +67,16 @@ void error_msg (const char name[], octave_idx_type index, octave_idx_type max, c
     if (index == 0)
         return;
 
+    std::ostringstream os;
+
     if (index < 0)
-        error ("%s: the %ld-th argument had an invalid value", name, static_cast<long> (index));
+        os << name << ": the " << index << "-th argument had an invalid value";
     else if (index <= max)
-        error ("%s: %s", name, msg[index]);
+        os << name << ": " << msg[index];
     else
-        error ("%s: unknown error, info = %ld", name, static_cast<long> (index));
+        os << name << ": unknown error, info = " << index;
+
+    error ("%s", os.str ().c_str ());
 }
 
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[])
@@ -79,10 +84,14 @@ void warning_msg (const char name[], octave_idx_type index, octave_idx_type max,
     if (index == 0)
         return;
 
+    std::ostringstream os;
+
     if (index > 0 && index <= max)
-        warning ("%s: %s", name, msg[index]);
+        os << name << ": " << msg[index];
     else
-        warning ("%s: unknown warning, iwarn = %ld", name, static_cast<long> (index));
+        os << name << ": unknown warning, iwarn = " << index;
+
+    warning ("%s", os.str ().c_str ());
 }
 
 void warning_msg (const char name[], octave_idx_type index, octave_idx_type max, const char* msg[], octave_idx_type offset)
@@ -90,11 +99,14 @@ void warning_msg (const char name[], octave_idx_type index, octave_idx_type max,
     if (index == 0)
         return;
 
+    std::ostringstream os;
+
     if (index > 0 && index <= max)
-        warning ("%s: %s", name, msg[index]);
+        os << name << ": " << msg[index];
     else if (index > offset)
-        warning ("%s: %ld+%ld: %ld %s", name, static_cast<long> (offset), static_cast<long> (index - offset),
-                 static_cast<long> (index - offset), msg[max+1]);
+        os << name << ": " << offset << "+" << (index - offset) << ": " << (index - offset) << " " << msg[max+1];
     else
-        warning ("%s: unknown warning, iwarn = %ld", name, static_cast<long> (index));
+        os << name << ": unknown warning, iwarn = " << index;
+
+    warning ("%s", os.str ().c_str ());
 }
