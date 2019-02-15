@@ -20,8 +20,10 @@
 ## @deftypefnx{Function File} {@var{C} =} pid (@var{Kp}, @var{Ki})
 ## @deftypefnx{Function File} {@var{C} =} pid (@var{Kp}, @var{Ki}, @var{Kd})
 ## @deftypefnx{Function File} {@var{C} =} pid (@var{Kp}, @var{Ki}, @var{Kd}, @var{Tf})
+## @deftypefnx{Function File} {@var{C} =} pid (@var{Kp}, @var{Ki}, @var{Kd}, @var{Tf}, @var{Ts})
 ## Return the transfer function @var{C} of the @acronym{PID} controller
 ## in parallel form with first-order roll-off.
+## With a valid @var{Ts} a discrete-time system is created.
 ##
 ## @example
 ## @group
@@ -36,13 +38,13 @@
 ## Created: June 2015
 ## Version: 0.1
 
-## TODO: discrete-time case, dozens of options, ...
+## TODO: dozens of options, ...
 ##       If you wish to kill time with this repetitive task,
 ##       I'm happy to add your work :-)
 
-function C = pid (Kp = 1, Ki = 0, Kd = 0, Tf = 0)
+function C = pid (Kp = 1, Ki = 0, Kd = 0, Tf = 0, Ts = 0)
 
-  if (! is_real_scalar (Kp, Ki, Kd, Tf) || nargin > 4)
+  if (! is_real_scalar (Kp, Ki, Kd, Tf, Ts) || nargin > 5 )
     print_usage ();
   endif
 
@@ -51,9 +53,9 @@ function C = pid (Kp = 1, Ki = 0, Kd = 0, Tf = 0)
   endif
 
   if (Ki == 0)    # minimal realization if  num(3) == 0  and  den(3) == 0
-    C = tf ([Kp*Tf+Kd, Kp], [Tf, 1]);
+    C = tf ([Kp*Tf+Kd, Kp], [Tf, 1], Ts);
   else
-    C = tf ([Kp*Tf+Kd, Kp+Ki*Tf, Ki], [Tf, 1, 0]);
+    C = tf ([Kp*Tf+Kd, Kp+Ki*Tf, Ki], [Tf, 1, 0], Ts);
   endif
 
 endfunction
