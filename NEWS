@@ -1,8 +1,9 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-x.y.z      Release Date: yyyy-mm-dd
+control-3.1.2      Release Date: yyyy-mm-dd
 ===============================================================================
+ ** new function sgrid
 
  ** New function: ss2ss
  
