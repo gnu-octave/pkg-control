@@ -82,6 +82,7 @@ Frequency Domain Analysis
   nichols
   nyquist
   sensitivity
+  sgrid
   sigma
 Pole Placement
   acker
@@ -166,12 +167,14 @@ Overloaded IDDATA Operators
   @iddata/subsref
   @iddata/vertcat
 Miscellaneous
+  display
   db2mag
   mag2db
   options
   pid
   pidstd
   repsys
+  ss2ss
   strseq
   test_control
   thiran
