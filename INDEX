@@ -27,6 +27,7 @@ Model Conversions
   @lti/d2d
   @lti/prescale
   @lti/xperm
+  @ss/ss2ss
 Model Interconnections
   append
   @lti/blkdiag
@@ -167,14 +168,13 @@ Overloaded IDDATA Operators
   @iddata/subsref
   @iddata/vertcat
 Miscellaneous
-  display
+  @ss/display
   db2mag
   mag2db
   options
   pid
   pidstd
   repsys
-  ss2ss
   strseq
   test_control
   thiran
