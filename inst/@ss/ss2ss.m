@@ -15,7 +15,9 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{SYS_TRANSFORMED} =} ss2ss (@var{SYS}, @var{T})
+## @end deftypefn
 ## @deftypefn {Function File} {[@var{A_TRANSFORMED} @var{B_TRANSFORMED} @var{C_TRANSFORMED} @var{D_TRANSFORMED}] =} ss2ss (@var{A},  @var{B}, @var{C}, @var{D}, @var{T})
+## @end deftypefn
 ## Applies the similarity transformation T to a state-space model
 ##
 ## Given the state space model
