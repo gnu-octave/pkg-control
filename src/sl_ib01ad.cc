@@ -71,7 +71,6 @@ For internal use only.")
 
         // arguments in
         char meth_a;
-        char meth_b;
         char alg;
         char jobd;
         char batch;
@@ -99,15 +98,12 @@ For internal use only.")
         {
             case 0:
                 meth_a = 'M';
-                meth_b = 'M';
                 break;
             case 1:
                 meth_a = 'N';
-                meth_b = 'N';
                 break;
             case 2:
                 meth_a = 'N';    // no typo here
-                meth_b = 'C';
                 break;
             default:
                 error ("__sl_ib01ad__: argument 'meth' invalid");
@@ -239,7 +235,7 @@ For internal use only.")
                     else    // (jobd == 'N')
                         ldwork_a = 5*l*nobr;
                 }
-                else    // meth_b == 'N' && (batch == 'L' || batch == 'O')
+                else    // meth_a == 'N' && (batch == 'L' || batch == 'O')
                 {
                     ldwork_a = 5*(m+l)*nobr + 1;
                 }
