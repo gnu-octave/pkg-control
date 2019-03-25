@@ -57,7 +57,7 @@
 ##
 ## K =  0.25000
 ## @end example
-
+##
 ## @seealso{freqresp,tf,ss,dss}
 ## @end deftypefn
 
