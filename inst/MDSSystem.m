@@ -1,7 +1,10 @@
 %% -*- texinfo -*-
 %% Robust control of a mass-damper-spring system.
+##
 %% Type @code{which MDSSystem} to locate,
+##
 %% @code{edit MDSSystem} to open and simply
+##
 %% @code{MDSSystem} to run the example file.
 
 % ===============================================================================
