@@ -35,6 +35,7 @@ Version: 0.2
 #else
 typedef octave_idx_type F77_INT;
 #  define TO_F77_INT(x) (x)
+typedef octave_idx_type F77_LOGICAL;
 #endif
 
 F77_INT max (F77_INT a, F77_INT b);
