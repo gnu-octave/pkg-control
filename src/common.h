@@ -56,4 +56,6 @@ void warning_msg (const char name[], octave_idx_type index, octave_idx_type max,
 static const int f77_exception_encountered = 0;
 #endif
 
+#include "config.h"
+
 #endif

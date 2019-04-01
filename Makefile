@@ -45,6 +45,7 @@ $(RELEASE_DIR): .hg/dirstate
 	hg archive \
 	  --exclude ".hg*" --exclude "Makefile" --exclude "devel" \
 	  --type files "$@"
+	cd "$@/src" && ./bootstrap && $(RM) -r "autom4te.cache"
 	chmod -R a+rX,u+w,go-w "$@"
 
 $(HTML_DIR): install

@@ -26,6 +26,7 @@ Version: 0.1
 */
 
 #include <octave/oct.h>
+#include "config.h"
 
 // PKG_ADD: autoload ("is_zp_vector", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_zp_vector, args, nargout,
@@ -50,8 +51,8 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
         {
             if (args(i).ndims () != 2
                 || (args(i).rows () > 1 && args(i).columns () > 1)
-                || ! args(i).isnumeric ()
-                || ! (args(i).iscomplex () || args(i).isreal ()))
+                || ! args(i).OV_ISNUMERIC ()
+                || ! (args(i).OV_ISCOMPLEX () || args(i).OV_ISREAL()))
             {
                 retval = false;
                 break;

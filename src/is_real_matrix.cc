@@ -26,6 +26,7 @@ Version: 0.2
 */
 
 #include <octave/oct.h>
+#include "config.h"
 
 // PKG_ADD: autoload ("is_real_matrix", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_real_matrix, args, nargout,
@@ -48,8 +49,8 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
     {
         for (octave_idx_type i = 0; i < nargin; i++)
         {
-            if (args(i).ndims () != 2 || ! args(i).isnumeric ()
-                || ! args(i).isreal ())
+            if (args(i).ndims () != 2 || ! args(i).OV_ISNUMERIC ()
+                || ! args(i).OV_ISREAL ())
             {
                 retval = false;
                 break;

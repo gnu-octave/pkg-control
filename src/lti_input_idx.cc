@@ -47,6 +47,7 @@ Version: 0.1
 
 
 #include <octave/oct.h>
+#include "config.h"
 
 // PKG_ADD: autoload ("__lti_input_idx__", "__control_helper_functions__.oct");    
 DEFUN_DLD (__lti_input_idx__, args, ,
@@ -60,7 +61,7 @@ Read the source code in @code{lti_input_idx.cc} for details.\n\
   octave_idx_type nargin = args.length ();
 
   // first, check whether a cell is passed
-  if (nargin == 1 && args(0).is_defined () && args(0).iscell ())
+  if (nargin == 1 && args(0).is_defined () && args(0).OV_ISCELL ())
   {
     octave_idx_type len = args(0).cell_value().numel();
     octave_idx_type idx = len;
@@ -87,7 +88,7 @@ Read the source code in @code{lti_input_idx.cc} for details.\n\
     //    and after strings) are not recognized as objects.
     //      ss (a, b, ltisys, c, d, 'key', val, 'lti', ltisys)
     if (len > 0 && idx > 0
-        && args(0).cell_value().elem(idx-1).isobject ())
+        && args(0).cell_value().elem(idx-1).OV_ISOBJECT ())
     {
       offset = 1;
     }
