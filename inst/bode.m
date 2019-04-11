@@ -69,6 +69,22 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
+## check for poles and zeroes at the origin
+  for h=1:numel (varargin)
+  # test for pure integrators  (poles at origin)
+  sys1 = varargin{h}
+  [num,den] = tfdata (sys1,'v');
+   numberofpoles = sum (roots (den) == 0);
+    if (numberofpoles > 0)
+       pha(h)={cell2mat(pha(h))-round(numberofpoles./4)*360};
+    endif
+  # test for zeroes at the origin
+  numberofzeroes = sum (roots (num) == 0)
+    if (numberofzeroes > 0)
+      pha(h)={cell2mat(pha(h))+floor((numberofzeroes +1)./4)*360};
+    endif
+  endfor
+
   if (! nargout)
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
