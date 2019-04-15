@@ -25,6 +25,11 @@
 
 function p = conj_ct (p)
 
-  p.poly(2:2:end) = -p.poly(2:2:end);
+ if (mod(numel(p.poly),2) == 0)
+    #even powers of s
+     p.poly(2:2:end) = -p.poly(2:2:end);
+  else #odd
+     p.poly(1:2:end) = -p.poly(1:2:end);
+  endif
 
 endfunction

@@ -31,10 +31,22 @@ function sys = __ctranspose__ (sys, ct)
     num = cellfun (@conj_ct, num, "uniformoutput", false);
     den = cellfun (@conj_ct, den, "uniformoutput", false);
   else      # discrete-time
-    num = cellfun (@conj_dt, num, "uniformoutput", false);
-    den = cellfun (@conj_dt, den, "uniformoutput", false);
-    ## TODO: shall I make "den" a monic polynomial?
-  endif
+    ## Both num and den must be the same length 
+    ## for the flip command,
+    ## so add leading zeros to the shortest one.
+    ng=get(num{1});
+    dg=get(den{1});
+    nng=numel(ng);
+    ndg=numel(dg);
+    if (nng>ndg)
+      dg=  [zeros(1,nng-ndg) dg];
+    else
+      ng= [zeros(1,ndg-nng) ng] ;
+    endif
+    ## the flip effectively replaces every z with 1/z 
+    num={tfpoly(flip(ng))};
+    den={tfpoly(flip(dg))}; 
+  endif  
 
   sys.num = num.';
   sys.den = den.';
