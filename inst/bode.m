@@ -69,10 +69,10 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
-  if ( isa(varargin(nargin),'tf'))
-    numsys=nargin;
+  if (isa(varargin(nargin), 'tf'))
+    numsys = nargin;
   else
-    numsys=nargin-1;
+    numsys = nargin -1;
   endif
 
 ## check for poles and zeroes at the origin
