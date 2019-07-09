@@ -28,10 +28,12 @@ function retsys = __sys_group__ (sys1, sys2)
 
   if (! isa (sys1, "frd"))
     sys1 = frd (sys1, sys2.w);
+    sys1.lti = sys2.lti;
   endif
 
   if (! isa (sys2, "frd"))
     sys2 = frd (sys2, sys1.w);
+    sys2.lti = sys1.lti;
   endif
 
   retsys = frd ();
