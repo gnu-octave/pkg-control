@@ -160,6 +160,24 @@
 ## @end group
 ## @end example
 ##
+## @strong{Note on compatibility}
+##
+## If the state-space model @var{sys} is converted from a transfer
+## function, the resulting state-space model can be transformed into
+## the form computed by Matlab (a controllable canonical form with
+## flipped state variables order) by using the following
+## similarity transformation:
+##
+## @example
+## @group
+## n = size (sys.a, 1)
+## QSi = inv (ctrb (sys))
+## T(n,:) = QSi(n,:)
+## for i=n-1:-1:1, T(i,:) = T(i+1,:)*sys.a, endfor
+## sys_ml = ss2ss (sys, T)
+## @end group
+## @end example
+##
 ## @seealso{tf, dss}
 ## @end deftypefn
 

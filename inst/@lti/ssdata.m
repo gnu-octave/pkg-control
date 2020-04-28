@@ -41,6 +41,14 @@
 ## Sampling time in seconds.  If @var{sys} is a continuous-time model,
 ## a zero is returned.
 ## @end table
+##
+## @strong{Note on compatibility}
+##
+## If @var{sys} is given by an input-output description, like, e.g.,
+## a transfer function, the resulting state-space model has a
+## different form than the one provided by Matlab,
+## see @code{ss} for details.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
