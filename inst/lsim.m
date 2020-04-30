@@ -236,7 +236,7 @@ endfunction
 
 function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
 
-  method = "zoh";
+  method = "tustin";
   [urows, ucols] = size (u);
   len_t = length (t);
 
