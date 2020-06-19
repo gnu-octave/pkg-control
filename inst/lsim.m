@@ -253,7 +253,7 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
       dt = abs (t(end) - t(1)) / (urows - 1);   # assume that t is regularly spaced
       t = vec (linspace (t(1), t(end), urows));
     endif
-    sys = c2d (sys, dt, method);                # convert to discrete-time model
+    sys = c2d (ss (sys), dt, method);           # convert to discrete-time model (in ss for accuracy)
   else                                          # discrete-time system
     dt = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
     if (isempty (t))                            # lsim (sys, u)
