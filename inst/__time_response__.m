@@ -74,7 +74,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
       if (! is_real_vector (x0))
         error ("initial: initial state vector 'x0' must be a real-valued vector");
       endif
-    
+
     case {"step", "impulse", "ramp"}
       switch (nnz (mat_idx))
         case 0
@@ -86,11 +86,11 @@ function [y, t, x] = __time_response__ (response, args, nout)
         otherwise
           evalin ("caller", "print_usage ()");
       endswitch
-    
+
     otherwise
       error ("time_response: invalid response type '%s'", response);
   endswitch
-  
+
   switch (response)
     case "step"
       response1 = "zoh";
@@ -99,7 +99,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     otherwise
       response1 = "zoh";
   endswitch
-  
+
   if (issample (tfinal) || isempty (tfinal))
     ## nothing to do here
   elseif (is_real_vector (tfinal))
@@ -120,14 +120,23 @@ function [y, t, x] = __time_response__ (response, args, nout)
   [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
 
-  ct_idx = cellfun (@isct, args(sys_idx));
+  ## discretizaiton of continuous time systems
+  ## do this in state space for more accurate results
   sys_dt = args(sys_idx);
-  tmp = cellfun (@c2d, args(sys_idx)(ct_idx), dt(ct_idx), {response1}, "uniformoutput", false);
-  sys_dt(ct_idx) = tmp;
+  ct_idx = cellfun (@isct, sys_dt);
+  sys_ct = sys_dt(ct_idx);
+  ## FIXME: ss can not be applied via cellfun ()? Use a for-loop instead
+  ##        "lti: subsasgn: invalid subscripted assignment type '()'"
+  sys_ctss = cell (size (sys_ct));
+  for i = 1:length (sys_ct)
+    sys_ctss{i} = ss (sys_ct{i});
+  endfor
+  sys_ct2dt = cellfun (@c2d, sys_ctss, dt(ct_idx), {response1}, "uniformoutput", false);
+  sys_dt(ct_idx) = sys_ct2dt;
 
   ## time vector
   t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, "uniformoutput", false);
-  
+
   ## alternative code
   ## t = cellfun (@(dt) vec (0 : dt : tfinal), dt, "uniformoutput", false);
 
@@ -175,7 +184,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     outname = __labels__ (outname, "y");
 
     [p, m] = size (args(sys_idx){1});
-    
+
     switch (response)
       case "initial"
         str = "Response to Initial Conditions";
@@ -198,7 +207,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
 
 
     for k = 1 : n_sys                                   # for every system
-      if (ct_idx(k))                                    # continuous-time system                                           
+      if (ct_idx(k))                                    # continuous-time system
         for i = 1 : p                                   # for every output
           for j = 1 : cols                              # for every input (except for initial where cols=1)
             if (p != 1 || cols != 1)
@@ -280,7 +289,7 @@ function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
   endfor
 
 endfunction
-  
+
 
 function [y, x_arr] = __step_response__ (sys_dt, t)
 
@@ -334,7 +343,7 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
     u(j) = 1;
 
     if (discrete)
-      x = zeros (n, 1);                                 # zero by definition 
+      x = zeros (n, 1);                                 # zero by definition
       y(1, :, j) = D * u / dt;
       x_arr(1, :, j) = x;
       x = G * u / dt;
