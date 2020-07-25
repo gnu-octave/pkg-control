@@ -63,7 +63,16 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         double delta = args(1).double_value ();
         double tol = args(2).double_value (); 
-        
+
+        if (a.numel () == 0)
+          {
+            // given matrix is empty, just return the empty matrix,
+            // otherise mb05d would make a [](1x0) matrix from it
+            retval(0) = a;
+            retval(1) = a;
+            return retval;
+          }
+
         F77_INT n = TO_F77_INT (a.rows ());
         F77_INT lda = max (1, n);
         F77_INT ldex = max (1, n);
