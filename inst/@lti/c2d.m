@@ -35,6 +35,9 @@
 ## Impulse Invarient transformation.
 ## @item 'zoh'
 ## Zero-order hold or matrix exponential.
+## @item 'foh'
+## First-order hold, linear approximation of the input signals between
+## two sample times
 ## @item 'tustin', 'bilin'
 ## Bilinear transformation or Tustin approximation.
 ## @item 'prewarp'

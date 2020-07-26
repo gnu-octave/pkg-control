@@ -30,6 +30,24 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
       [sys.a, tmp] = __sl_mb05nd__ (sys.a, tsam, eps); 
       sys.b = tmp * sys.b;         # G
 
+    case {"f"}            # {"foh"}
+                          # http://people.duke.edu/~hpgavin/cee541/LTI.pdf page 33
+      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
+      n = size (sys.a,1);
+      m = size (sys.b,2);
+      M = [ sys.a      sys.b      zeros(n,m);...
+            zeros(m,n) zeros(m,m) eye(m,m);...
+            zeros(m,n) zeros(m,m) zeros(m,m) ];
+      expM = __sl_mb05nd__ (M, tsam, eps);
+      sys.a = expM(1:n,1:n);
+      Bd    = expM(1:n,n+1:n+m);
+      Bdd   = expM(1:n,n+m+1:end);
+      Bd0   = Bd - Bdd/tsam;      # input matrix for u(k)
+      Bd1   = Bdd/tsam;           # input matrix for u(k+1)
+      sys.b = Bd0 + sys.a*Bd1;    # input matrix for ss with new state z(k) = x(k) - Bd1*u(k)
+      sys.d = sys.d + sys.c*Bd1;  # throughput for ss with new state z
+      sys = ss (sys.a, sys.b, sys.c, sys.d, tsam, 'userdata', Bd1); # store Bd1 in userdata
+
     case {"t", "b", "p"}           # {"tustin", "bilin", "prewarp"}
       if (method(1) == "p")        # prewarping
         beta = w0 / tan (w0*tsam/2);

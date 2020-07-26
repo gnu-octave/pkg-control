@@ -236,11 +236,12 @@ endfunction
 
 function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
 
-  method = "tustin";
+  method = "foh";
   [urows, ucols] = size (u);
   len_t = length (t);
 
   if (isct (sys))                               # continuous-time system
+    was_ct = 1;
     if (isempty (t))                            # lsim (sys, u, [], ...)
       error ("lsim: time vector 't' must not be empty");
     elseif (len_t == 1)                         # lsim (sys, u, tfinal, ...)
@@ -255,6 +256,7 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
     endif
     sys = c2d (ss (sys), dt, method);           # convert to discrete-time model (in ss for accuracy)
   else                                          # discrete-time system
+    was_ct = 0;
     dt = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
     if (isempty (t))                            # lsim (sys, u)
       t = vec (linspace (0, dt*(urows-1), urows));
@@ -290,6 +292,13 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
 
   x = vec (x0);                                 # make sure that x is a column vector
 
+  ## When discretization method was foh transform initial state into
+  ## the states representing the foh form.
+  ## The required matrix "Bd1" is stored by c2d in sys.userdata
+  if was_ct && (method == 'foh') && (max (size (sys.userdata)) > 0)
+    x = x - sys.userdata * u(1,:)';
+  endif
+
   ## simulation
   for k = 1 : urows
     y(k, :) = C * x  +  D * u(k, :).';
@@ -297,7 +306,13 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
     x = A * x  +  B * u(k, :).';
   endfor
 
-endfunction
+  ## When discretization method was foh transform back from foh states
+  ## into original state
+  if was_ct && (method == 'foh') && (max (size (sys.userdata)) > 0)
+    x_arr = x_arr + u * sys.userdata';
+  endif
+
+  endfunction
 
 
 ## TODO: add test cases
