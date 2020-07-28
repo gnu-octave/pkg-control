@@ -206,6 +206,41 @@ endfunction
 %!assert (Mo, Me, 1e-4);
 
 
+## first-order hold
+## user function
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  1.0  0.0
+%!        0.0 -1.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (c2d (ss (A, B, C, D), 2, "foh"));
+%!
+%! Ae = [ 11.4019    8.6836
+%!         8.6836   11.4019 ];
+%!
+%! Be = [  37.5206  -43.4256
+%!         43.4256  -37.5206 ];
+%!
+%! Ce = [ -1.0000   0.0000
+%!         0.0000   1.0000 ];
+%!
+%! De = [ -0.0690   2.5056
+%!         2.5056  -2.0690 ];
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [Ae, Be; Ce, De];
+%!
+%!assert (Mo, Me, 1e-4);
+
+
 ## bilinear transformation with pre-warping
 ## both directions
 %!shared Mo, Me
@@ -227,6 +262,7 @@ endfunction
 %! Me = [A, B; C, D];
 %!
 %!assert (Mo, Me, 1e-4);
+
 
 ## matrix exponential
 %!shared Aex, Aexint, Aex_exp, Aexint_exp
