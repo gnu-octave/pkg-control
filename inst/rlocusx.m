@@ -226,6 +226,9 @@ function rlocusx(sys,varargin)
     plot([0,0],[ymin,ymax],'-k');  % draw imag axis (stability)
   end
 
+  % Disable legend autoupdate, '' avoids a dummy entry 'data 1'
+  legend ('','autoupdate','off');
+
   % Draw the open poles and zeros
   plot(real(p),imag(p),'x;open loop poles;','markersize',ms,'linewidth',lw,'color',col_zp);
   plot(real(z),imag(z),'o;open loop zeros;','markersize',ms,'linewidth',lw,'color',col_zp);
