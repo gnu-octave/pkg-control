@@ -27,7 +27,7 @@
 ## together with damping and frequency of conjugate complex pole pairs.@*
 ## All possible interaction by mouse clicks or keys are:
 ##
-## @table
+## @table @asis
 ## @item Left click: Display related gain and all resulting
 ##                   closed loop poles together with damping
 ##                   and frequency
