@@ -3,6 +3,19 @@
      $                   ALPHAR, ALPHAI, BETA, IWORK, DWORK, LDWORK,
      $                   INFO )
 C
+C     WARNING
+C
+C     This file alters the SLICOT routine SG03AD.  It is intended
+C     for use from the Octave Control Systems Package and modifies
+C     the original SLICOT implementation.  This file itself is *NOT*
+C     part of SLICOT and the authors from NICONET e.V. are *NOT*
+C     responsible for it.  See file DESCRIPTION for the current
+C     maintainer of the Octave control package.
+C
+C     In altered implementation the deprecated LAPACK routine DGEGS
+C     is replaced by DGGES.
+C
+C
 C     SLICOT RELEASE 5.0.
 C
 C     Copyright (c) 2002-2010 NICONET e.V.
@@ -214,7 +227,7 @@ C                   Hessenberg part of the array A is not in upper
 C                   quasitriangular form;
 C             = 2:  FACT = 'N' and the pencil A - lambda * E cannot be
 C                   reduced to generalized Schur form: LAPACK routine
-C                   DGEGS has failed to converge;
+C                   DGGES has failed to converge;
 C             = 3:  DICO = 'D' and the pencil A - lambda * E has a
 C                   pair of reciprocal eigenvalues. That is, lambda_i =
 C                   1/lambda_j for some i and j, where lambda_i and
@@ -375,7 +388,7 @@ C     .. Parameters ..
 C     .. Scalar Arguments ..
       CHARACTER         DICO, FACT, JOB, TRANS, UPLO
       DOUBLE PRECISION  FERR, SCALE, SEP
-      INTEGER           INFO, LDA, LDE, LDQ, LDWORK, LDX, LDZ, N
+      INTEGER           INFO, LDA, LDE, LDQ, LDWORK, LDX, LDZ, N, SDIM
 C     .. Array Arguments ..
       DOUBLE PRECISION  A(LDA,*), ALPHAI(*), ALPHAR(*), BETA(*),
      $                  DWORK(*), E(LDE,*), Q(LDQ,*), X(LDX,*),
@@ -392,7 +405,7 @@ C     .. External Functions ..
       LOGICAL           LSAME
       EXTERNAL          DLAMCH, DNRM2, LSAME
 C     .. External Subroutines ..
-      EXTERNAL          DCOPY, DGEGS, DLACON, MB01RD, MB01RW, SG03AX,
+      EXTERNAL          DCOPY, DGGES, DLACON, MB01RD, MB01RW, SG03AX,
      $                  SG03AY, XERBLA
 C     .. Intrinsic Functions ..
       INTRINSIC         DBLE, INT, MAX, MIN
@@ -443,13 +456,13 @@ C
             IF ( ISFACT ) THEN
                MINWRK = MAX( N, 1 )
             ELSE
-               MINWRK = MAX( 4*N, 1 )
+               MINWRK = MAX( 8*N+16, 1 )
             END IF
          ELSE
             IF ( ISFACT ) THEN
                MINWRK = MAX( 2*N*N, 1 )
             ELSE
-               MINWRK = MAX( 2*N*N, 4*N, 1 )
+               MINWRK = MAX( 2*N*N, 8*N+16, 1 )
             END IF
          END IF
          IF ( MINWRK .GT. LDWORK ) THEN
@@ -492,9 +505,11 @@ C           E := Q**T * E * Z   (upper triangular)
 C
 C        ( Workspace: >= MAX(1,4*N) )
 C
-         CALL DGEGS( 'Vectors', 'Vectors', N, A, LDA, E, LDE, ALPHAR,
-     $               ALPHAI, BETA, Q, LDQ, Z, LDZ, DWORK, LDWORK,
-     $               INFO1 )
+C    The routine DGEGS is removed from LAPACK and replaced by DGGES.
+C    The new sorting option is not used.
+         CALL DGGES( 'Vectors', 'Vectors', 'N', 0, N, A, LDA, E, LDE,
+     $               SDIM, ALPHAR, ALPHAI, BETA,
+     $               Q, LDQ, Z, LDZ, DWORK, LDWORK, 0, INFO1 )
          IF ( INFO1 .NE. 0 ) THEN
             INFO = 2
             RETURN
