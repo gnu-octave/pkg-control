@@ -25,11 +25,16 @@ all: __control_slicot_functions__.oct \
 # It has the extension .fortran such that
 # it is not deleted by rm *.f when using
 # the developer makefile makefile_control.m
+# The other rotuines *.fortan are modified versions
+# of the original slicot routines.
 slicotlibrary.a: slicot.tar.gz
 	tar -xzf slicot.tar.gz
 	mkdir sltmp
 	mv slicot/src/*.f ./sltmp
 	mv slicot/src_aux/*.f ./sltmp
+	cp SG03AD.fortran ./sltmp/SG03AD.f
+	cp SG03BD.fortran ./sltmp/SG03BD.f
+	cp SB04OD.fortran ./sltmp/SB04OD.f
 	cp TG04BX.fortran ./sltmp/TG04BX.f
 	cp TB01ZD.fortran ./sltmp/TB01ZD.f
 	cd sltmp; $(MKOCTFILE) -c *.f
