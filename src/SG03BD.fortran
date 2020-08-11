@@ -2,6 +2,19 @@
      $                   LDQ, Z, LDZ, B, LDB, SCALE, ALPHAR, ALPHAI,
      $                   BETA, DWORK, LDWORK, INFO )
 C
+C     WARNING
+C
+C     This file alters the SLICOT routine SG03AD.  It is intended
+C     for use from the Octave Control Systems Package and modifies
+C     the original SLICOT implementation.  This file itself is *NOT*
+C     part of SLICOT and the authors from NICONET e.V. are *NOT*
+C     responsible for it.  See file DESCRIPTION for the current
+C     maintainer of the Octave control package.
+C
+C     In altered implementation the deprecated LAPACK routine DGEGS
+C     is replaced by DGGES.
+C
+C
 C     SLICOT RELEASE 5.0.
 C
 C     Copyright (c) 2002-2010 NICONET e.V.
@@ -463,7 +476,7 @@ C     .. Array Arguments ..
      $                  BETA(*), DWORK(*), E(LDE,*), Q(LDQ,*), Z(LDZ,*)
 C     .. Local Scalars ..
       DOUBLE PRECISION  S1, S2, SAFMIN, WI, WR1, WR2
-      INTEGER           I, INFO1, MINMN, MINWRK, OPTWRK
+      INTEGER           I, INFO1, MINMN, MINWRK, OPTWRK, SDIM
       LOGICAL           ISDISC, ISFACT, ISTRAN
 C     .. Local Arrays ..
       DOUBLE PRECISION  E1(2,2)
@@ -472,7 +485,7 @@ C     .. External Functions ..
       LOGICAL           LSAME
       EXTERNAL          DLAMCH, DLAPY2, LSAME
 C     .. External Subroutines ..
-      EXTERNAL          DCOPY, DGEGS, DGEMM, DGEMV, DGEQRF, DGERQF,
+      EXTERNAL          DCOPY, DGGES, DGEMM, DGEMV, DGEQRF, DGERQF,
      $                  DLACPY, DLAG2, DLASET, DSCAL, DTRMM, SG03BU,
      $                  SG03BV, XERBLA
 C     .. Intrinsic Functions ..
@@ -490,7 +503,7 @@ C
       IF (ISFACT ) THEN
          MINWRK = MAX( 1, 2*N, 6*N-6 )
       ELSE
-         MINWRK = MAX( 1, 4*N, 6*N-6 )
+         MINWRK = MAX( 1, 8*N, 6*N+16 )
       END IF
 C
 C     Check the scalar input parameters.
@@ -559,9 +572,9 @@ C           E := Q**T * E * Z   (upper triangular)
 C
 C        ( Workspace: >= MAX(1,4*N) )
 C
-         CALL DGEGS( 'Vectors', 'Vectors', N, A, LDA, E, LDE, ALPHAR,
-     $               ALPHAI, BETA, Q, LDQ, Z, LDZ, DWORK, LDWORK,
-     $               INFO1 )
+         CALL DGGES( 'Vectors', 'Vectors', 'N', 0, N,
+     $               A, LDA, E, LDE, SDIM, ALPHAR, ALPHAI, BETA,
+     $               Q, LDQ, Z, LDZ, DWORK, LDWORK, 0, INFO1)
          IF ( INFO1 .NE. 0 ) THEN
             INFO = 4
             RETURN

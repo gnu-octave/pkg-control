@@ -100,7 +100,7 @@ For internal use only.")
         ColumnVector beta (n);
         
         // workspace
-        F77_INT ldwork = max (1, 4*n, 6*n-6);
+        F77_INT ldwork = 8*n + 16;
         
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
