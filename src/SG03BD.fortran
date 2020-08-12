@@ -4,7 +4,7 @@
 C
 C     WARNING
 C
-C     This file alters the SLICOT routine SG03AD.  It is intended
+C     This file alters the SLICOT routine SG03BD. It is intended
 C     for use from the Octave Control Systems Package and modifies
 C     the original SLICOT implementation.  This file itself is *NOT*
 C     part of SLICOT and the authors from NICONET e.V. are *NOT*
