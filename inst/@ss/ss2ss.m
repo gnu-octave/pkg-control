@@ -138,21 +138,21 @@ function [first_out, second_out, third_out, fourth_out] = ss2ss(first_in, second
 endfunction
 
 %!test
-%! A = [1 2 3; 4 5 6; 7 8 9]
-%! B = [1; 2; 3]
-%! C = [-1 0 1]
-%! D = 0
+%! A = [1 2 3; 4 5 6; 7 8 9];
+%! B = [1; 2; 3];
+%! C = [-1 0 1];
+%! D = 0;
 %! 
-%! [T E] = eig(A)
+%! [T E] = eig(A);
 %! 
-%! original_system = ss(A,B,C,D)
-%! transformed_system = ss2ss(original_system,T)
-%! assert(transformed_system.a, [0.5755    2.006  -0.8179; 6.684    13.62   -2.585; -4.476   -7.826   0.8073],e-14)
-%! assert(transformed_system.b, [-0.5789; -3.148; 1.631],e-14)
-%! assert(transformed_system.c, [0.8912  -0.2231    1.112],e-14)
-%! assert(transformed_system.d, 0)
-%! retransformed_system = ss2ss(transformed_system,inv(T))
-%! assert(original_system.a,retransformed_system.a,e-14)
-%! assert(original_system.b,retransformed_system.b,e-14)
-%! assert(original_system.c,retransformed_system.c,e-14)
-%! assert(original_system.d,retransformed_system.d,e-14)
+%! original_system = ss(A,B,C,D);
+%! transformed_system = ss2ss(original_system,T);
+%! assert(transformed_system.a, [0.5755    2.006  -0.8179; 6.684    13.62   -2.585; -4.476   -7.826   0.8073],e-14);
+%! assert(transformed_system.b, [-0.5789; -3.148; 1.631],e-14);
+%! assert(transformed_system.c, [0.8912  -0.2231    1.112],e-14);
+%! assert(transformed_system.d, 0);
+%! retransformed_system = ss2ss(transformed_system,inv(T));
+%! assert(original_system.a,retransformed_system.a,e-14);
+%! assert(original_system.b,retransformed_system.b,e-14);
+%! assert(original_system.c,retransformed_system.c,e-14);
+%! assert(original_system.d,retransformed_system.d,e-14);
