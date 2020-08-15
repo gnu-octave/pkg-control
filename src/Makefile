@@ -32,11 +32,20 @@ slicotlibrary.a: slicot.tar.gz
 	mkdir sltmp
 	mv slicot/src/*.f ./sltmp
 	mv slicot/src_aux/*.f ./sltmp
+	cp AB08NX.fortran ./sltmp/AB08NX.f
+	cp AG08BY.fortran ./sltmp/AG08BY.f
+	cp SB01BY.fortran ./sltmp/SB01BY.f
+	cp SB01FY.fortran ./sltmp/SB01FY.f
+	cp SB04OD.fortran ./sltmp/SB04OD.f
+	cp SB06ND.fortran ./sltmp/SB06ND.f
 	cp SG03AD.fortran ./sltmp/SG03AD.f
 	cp SG03BD.fortran ./sltmp/SG03BD.f
-	cp SB04OD.fortran ./sltmp/SB04OD.f
-	cp TG04BX.fortran ./sltmp/TG04BX.f
+	cp TB01MD.fortran ./sltmp/TB01MD.f
+	cp TB01ND.fortran ./sltmp/TB01ND.f
 	cp TB01ZD.fortran ./sltmp/TB01ZD.f
+	cp TG04BX.fortran ./sltmp/TG04BX.f
+	cp ODLTZM.fortran ./sltmp/ODLTZM.f
+	cp makefile.slicot ./sltmp/makefile
 	cd sltmp; $(MKOCTFILE) -c *.f
 	$(AR) -rc slicotlibrary.a ./sltmp/*.o
 	rm -rf sltmp slicot
