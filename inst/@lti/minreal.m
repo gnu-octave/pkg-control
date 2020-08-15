@@ -129,13 +129,13 @@ endfunction
 %! sys = dss (A, B, C, D, E, "scaled", true);
 %! sysmin = minreal (sys, 0.0);
 %! [Ar, Br, Cr, Dr, Er] = dssdata (sysmin);
-%! [num,den]=tfdata(sys)
+%! [num,den]=tfdata(sys);
 %! sysmin = minreal (sys, 1e-6);
-%! [num2,den2]=tfdata(sysmin)
+%! [num2,den2]=tfdata(sysmin);
 %! sys3 = dss (Ar, Br, Cr, Dr, Er, "scaled", true);
-%! [num3,den3]=tfdata(sys3)
+%! [num3,den3]=tfdata(sys3);
 %! sysmin3 = minreal (sys3, 1e-6);
-%! [num3a,den3a]=tfdata(sysmin3)
+%! [num3a,den3a]=tfdata(sysmin3);
 %!
 %!assert (num, num2 , 1e-4);
 %!assert (den, den2 , 1e-4);
