@@ -11,7 +11,7 @@ endif
 ifndef FLIBS
 FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
-LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 AR := $(shell $(MKOCTFILE) -p AR)
 
@@ -59,7 +59,7 @@ slicotlibrary.a: slicot.tar.gz
 
 # slicot functions
 __control_slicot_functions__.oct: __control_slicot_functions__.cc common.cc slicotlibrary.a
-	LFLAGS="$(LFLAGS)" \
+	LDFLAGS="$(LDFLAGS)" \
     $(MKOCTFILE) $(PKG_CXXFLAGS) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helper functions
