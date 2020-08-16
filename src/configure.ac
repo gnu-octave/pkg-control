@@ -92,7 +92,6 @@ OF_OCTAVE_LIST_ALT_SYMS([
 ],
    [oct-alt-includes.h])
 
-
 LIBS=$TLIBS
 LDFLAGS=$TLDFLAGS
 CXXFLAGS=$TCXXFLAGS
@@ -100,4 +99,11 @@ CPPFLAGS=$TCPPFLAGS
 AC_LANG_POP([C++])
 # End of checks for Octave features.
 
-AC_OUTPUT
+# Test for newer DGGES routine in LAPACK
+AC_LANG_PUSH([Fortran 77])
+AC_SEARCH_LIBS(dgges, lapack,[HAVE_DGGES=1],[HAVE_DGGES=0])
+AC_LANG_POP([Fortran 77])
+AC_SUBST(HAVE_DGGES)
+
+# Output results and subst variables in Makefile.conf.in
+AC_OUTPUT(Makefile.conf)
