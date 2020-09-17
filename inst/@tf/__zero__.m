@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.3
 
-function [zer, gain, info] = __zero__ (sys)
+function [zer, gain, info] = __zero__ (sys, ~)
 
   if (issiso (sys))
     num = get (sys.num{1});
