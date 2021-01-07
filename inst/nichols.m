@@ -63,13 +63,23 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("nichols", varargin, nargout);
+  [H, w, sty, sys_idx] = __frequency_response__ ("nichols", varargin, nargout);
+
+  numsys = length (sys_idx);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
+
+    ## get system names and create the legend
+    leg = cell (1, numsys);
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+    endfor
+
+    ## plot
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
     plot_args = horzcat (cellfun (@horzcat, pha, mag_db, sty, "uniformoutput", false){:});
@@ -83,10 +93,14 @@ function [mag_r, pha_r, w_r] = nichols (varargin)
     xlabel ("Phase [deg]")
     ylabel ("Magnitude [dB]")
     legend (leg)
+
   else
+
+    ## no plotting, assign values to the output parameters
     mag_r = mag{1};
     pha_r = pha{1};
     w_r = w{1};
+
   endif
 
 endfunction
