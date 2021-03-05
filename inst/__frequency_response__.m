@@ -66,7 +66,7 @@ function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
   endif
 
   if (nout > 0 && (nnz (sys_idx) > 1 || any (s_idx)))
-    evalin ("caller", "print_usage ()");
+    print_usage (caller);
   endif
 
   if (! mimoflag && ! all (cellfun (@issiso, args(sys_idx))))
