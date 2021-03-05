@@ -70,8 +70,13 @@ function [y_r, t_r, x_r] = impulse (varargin)
   if (nargin == 0)
     print_usage ();
   endif
+
+  names = cell (1,nargin);
+  for i = 1:nargin
+    names{i} = inputname (i);
+  end
   
-  [y, t, x] = __time_response__ ("impulse", varargin, nargout);
+  [y, t, x] = __time_response__ ("impulse", varargin, names, nargout);
 
   if (nargout)
     y_r = y{1};

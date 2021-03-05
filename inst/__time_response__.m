@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.5
 
-function [y, t, x] = __time_response__ (response, args, nout)
+function [y, t, x] = __time_response__ (response, args, names, nout)
 
   idx = cellfun (@islogical, args);
   tmp = cellfun (@double, args(idx), "uniformoutput", false);
@@ -44,7 +44,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
   endif
 
   if (nout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   if (! size_equal (args{sys_idx}))
@@ -69,7 +69,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
         case 3
           [x0, tfinal, dt] = args{mat_idx};
         otherwise
-          evalin ("caller", "print_usage ()");
+          print_usage (response);
       endswitch
       if (! is_real_vector (x0))
         error ("initial: initial state vector 'x0' must be a real-valued vector");
@@ -84,7 +84,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
         case 2
           [tfinal, dt] = args{mat_idx};
         otherwise
-          evalin ("caller", "print_usage ()");
+          print_usage (response);
       endswitch
 
     otherwise
@@ -106,7 +106,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     dt = abs (tfinal(end) - tfinal(1)) / (length (tfinal) - 1);
     tfinal = abs (tfinal(end));
   else
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   if (isempty (dt))
@@ -114,7 +114,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
   elseif (issample (dt))
     ## nothing to do here
   else
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
@@ -194,7 +194,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     leg = cell (1, n_sys);
     idx = find (sys_idx);
     for k = 1 : n_sys
-      leg{k} = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+      leg{k} = names{idx(k)};
     endfor
 
     outname = get (args(sys_idx){end}, "outname");
