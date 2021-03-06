@@ -63,12 +63,20 @@ function [sv_r, w_r] = sigma (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("sigma", varargin, nargout);
+  [H, w, sty, sys_idx] = __frequency_response__ ("sigma", varargin, nargout);
+
+  numsys = length (sys_idx);
 
   sv = cellfun (@(H) cellfun (@svd, H, "uniformoutput", false), H, "uniformoutput", false);
   sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);
 
   if (! nargout)  # plot the information
+
+    ## get system names and create the legend
+    leg = cell (1, numsys);
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+    endfor
 
     ## convert to dB for plotting
     sv_db = cellfun (@mag2db, sv, "uniformoutput", false);
@@ -95,9 +103,12 @@ function [sv_r, w_r] = sigma (varargin)
     xlabel ("Frequency [rad/s]")
     ylabel ("Singular Values [dB]")
     legend (h(idx), leg)
+
   else            # return values
+
     sv_r = sv{1};
     w_r = reshape (w{1}, [], 1);
+
   endif
 
 endfunction

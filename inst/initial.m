@@ -83,7 +83,12 @@ function [y_r, t_r, x_r] = initial (varargin)
     print_usage ();
   endif
 
-  [y, t, x] = __time_response__ ("initial", varargin, nargout);
+  names = cell (1,nargin);
+  for i = 1:nargin
+    names{i} = inputname (i);
+  end
+
+  [y, t, x] = __time_response__ ("initial", varargin, names, nargout);
 
   if (nargout)
     y_r = y{1};

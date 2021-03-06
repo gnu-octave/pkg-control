@@ -63,35 +63,39 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("bode", varargin, nargout);
-  
+  [H, w, sty, sys_idx] = __frequency_response__ ("bode", varargin, nargout);
+
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
-  if (isa(varargin(nargin), 'tf'))
-    numsys = nargin;
-  else
-    numsys = nargin -1;
-  endif
+  numsys = length (sys_idx);
 
-## check for poles and zeroes at the origin
-  for h=1:numsys
+## check for poles and zeroes at the origin for each of the numsys systems
+  for h = 1:numsys
   # test for pure integrators  (poles at origin)
-  sys1 = varargin{h}
+  sys1 = varargin{sys_idx(h)};
   [num,den] = tfdata (sys1,'v');
    numberofpoles = sum (roots (den) == 0);
     if (numberofpoles > 0)
        pha(h)={cell2mat(pha(h))-round(numberofpoles./4)*360};
     endif
   # test for zeroes at the origin
-  numberofzeroes = sum (roots (num) == 0)
+  numberofzeroes = sum (roots (num) == 0);
     if (numberofzeroes > 0)
       pha(h)={cell2mat(pha(h))+floor((numberofzeroes +1)./4)*360};
     endif
   endfor
 
   if (! nargout)
+
+    ## get system names and create the legend
+    leg = cell (1, numsys);
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+    endfor
+
+    ## plot
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
@@ -104,6 +108,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     title ("Bode Diagram")
     ylabel ("Magnitude [dB]")
+    legend (leg)
 
     subplot (2, 1, 2)
     semilogx (pha_args{:})
@@ -113,10 +118,14 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
     legend (leg)
+
   else
+
+    ## no plotting, assign values to the output parameters
     mag_r = mag{1};
     pha_r = pha{1};
     w_r = w{1};
+
   endif
 
 endfunction

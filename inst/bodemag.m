@@ -61,12 +61,22 @@ function [mag_r, w_r] = bodemag (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("bodemag", varargin, nargout);
+  [H, w, sty, sys_idx] = __frequency_response__ ("bodemag", varargin, nargout);
+
+  numsys = length (sys_idx);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
 
   if (! nargout)
+
+    ## get system names and create the legend
+    leg = cell (1, numsys);
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+    endfor
+
+    ## plot
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
     
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
@@ -80,8 +90,11 @@ function [mag_r, w_r] = bodemag (varargin)
     ylabel ("Magnitude [dB]")
     legend (leg)
   else
+
+    ## no plotting, assign values to the output parameters
     mag_r = mag{1};
     w_r = w{1};
+
   endif
 
 endfunction

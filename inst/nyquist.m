@@ -63,13 +63,23 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, leg] = __frequency_response__ ("nyquist", varargin, nargout);
+  [H, w, sty, sys_idx] = __frequency_response__ ("nyquist", varargin, nargout);
+
+  numsys = length (sys_idx);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   re = cellfun (@real, H, "uniformoutput", false);
   im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
+
+    ## get system names and create the legend
+    leg = cell (1, numsys);
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+    endfor
+
+    ## plot
     len = numel (H);
     colororder = get (gca, "colororder");
     rc = rows (colororder);
@@ -95,10 +105,14 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
     legend (h(1:len), leg)
+
   else
+
+    ## no plotting, assign values to the output parameters
     re_r = re{1};
     im_r = im{1};
     w_r = w{1};
+
   endif
 
 endfunction

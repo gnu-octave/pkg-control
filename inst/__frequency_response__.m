@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, sty, leg] = __frequency_response__ (caller, args, nout = 0) 
+function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
 
   ## CALLER         | MIMO  | RANGE | CELL  |
   ## ---------------+-------+-------+-------+
@@ -66,7 +66,7 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args, nout = 0)
   endif
 
   if (nout > 0 && (nnz (sys_idx) > 1 || any (s_idx)))
-    evalin ("caller", "print_usage ()");
+    print_usage (caller);
   endif
 
   if (! mimoflag && ! all (cellfun (@issiso, args(sys_idx))))
@@ -114,12 +114,7 @@ function [H, w, sty, leg] = __frequency_response__ (caller, args, nout = 0)
   n = nnz (sys_idx);
   sty = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false);
 
-  ## get system names for legend
-  ## "''" needed for  bode (lticell{:})
-  leg = cell (1, n);
+  ## get the systems among the input args for later building the legend
   idx = find (sys_idx);
-  for k = 1:n
-    leg{k} = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
-  endfor
 
 endfunction

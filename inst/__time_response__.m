@@ -22,7 +22,7 @@
 ## Created: October 2009
 ## Version: 0.5
 
-function [y, t, x] = __time_response__ (response, args, nout)
+function [y, t, x] = __time_response__ (response, args, names, nout)
 
   idx = cellfun (@islogical, args);
   tmp = cellfun (@double, args(idx), "uniformoutput", false);
@@ -44,7 +44,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
   endif
 
   if (nout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   if (! size_equal (args{sys_idx}))
@@ -69,7 +69,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
         case 3
           [x0, tfinal, dt] = args{mat_idx};
         otherwise
-          evalin ("caller", "print_usage ()");
+          print_usage (response);
       endswitch
       if (! is_real_vector (x0))
         error ("initial: initial state vector 'x0' must be a real-valued vector");
@@ -84,7 +84,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
         case 2
           [tfinal, dt] = args{mat_idx};
         otherwise
-          evalin ("caller", "print_usage ()");
+          print_usage (response);
       endswitch
 
     otherwise
@@ -106,7 +106,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     dt = abs (tfinal(end) - tfinal(1)) / (length (tfinal) - 1);
     tfinal = abs (tfinal(end));
   else
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   if (isempty (dt))
@@ -114,7 +114,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
   elseif (issample (dt))
     ## nothing to do here
   else
-    evalin ("caller", "print_usage ()");
+    print_usage (response);
   endif
 
   [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
@@ -134,8 +134,25 @@ function [y, t, x] = __time_response__ (response, args, nout)
   sys_ct2dt = cellfun (@c2d, sys_ctss, dt(ct_idx), {response1}, "uniformoutput", false);
   sys_dt(ct_idx) = sys_ct2dt;
 
-  ## time vector
-  t = cellfun (@(dt) vec (linspace (0, tfinal, tfinal/dt+1)), dt, "uniformoutput", false);
+  ## time vector: we have to consider the following cases:
+  ##              1. ct system: last sample is tfinal (ensured by __sim_horizon__)
+  ##              2. dt system
+  ##                  a) nout > 0 (no plotting): last sample is less or equal tfinal
+  ##                  b) nout > 0 (plotting): last sample is the first greater
+  ##                     than tfinal (we need xlim([0,tfinal]) for the plot)
+  if nout > 0
+    dt_extra = cell2mat (dt) .* ct_idx;
+  else
+    dt_extra = cell2mat (dt);
+  end
+  t = cell (size(dt));
+  for i = 1:length(t)
+    t{i} = vec (0:dt{i}:tfinal);
+    if (ct_idx(i) == 0) && (nout == 0) && (length (t{i}) * dt{i} < tfinal)
+      ## Discrete time system, no plotting, and last sampling is before tfinal
+      t{i}(end+1) = t{i}(end) + dt{i};
+    end
+  end
 
   ## alternative code
   ## t = cellfun (@(dt) vec (0 : dt : tfinal), dt, "uniformoutput", false);
@@ -177,7 +194,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
     leg = cell (1, n_sys);
     idx = find (sys_idx);
     for k = 1 : n_sys
-      leg{k} = evalin ("caller", sprintf ("inputname(%d)", idx(k)), "''");
+      leg{k} = names{idx(k)};
     endfor
 
     outname = get (args(sys_idx){end}, "outname");
@@ -252,6 +269,7 @@ function [y, t, x] = __time_response__ (response, args, nout)
       endif
     endfor
     xlabel ("Time [s]");
+    xlim ([0, tfinal]);
     if (p == 1 && m == 1)
       legend (leg)
     endif
@@ -463,7 +481,13 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     endif
 
     if (continuous)
-      N = tfinal / dt;
+
+      ## Always select N such that tfinal < N*dt =< tfinal+dt
+      N = fix (tfinal / dt) + 1;
+
+      ## Ensure that tfinal is an integer multiple of dt and by
+      ## the selection of N as above, we alwys reduce dt a little bit
+      dt = tfinal/N;
 
       if (N < N_MIN)
         dt = tfinal / N_MIN;
