@@ -39,6 +39,7 @@
 
 function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
 
+  N = 1000;     # intervals within the w range
   isc = iscell (sys_cell);
 
   if (! isc)                                    # __sys2frd__ methods pass LTI models not in cells
@@ -67,7 +68,7 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
     idx = find (zp > 10^dec_min & zp < 10^dec_max);
     zp = zp(idx);
 
-    w = logspace (dec_min, dec_max, 500);
+    w = logspace (dec_min, dec_max, N);
     w = unique ([w, zp]);                       # unique also sorts frequency vector
 
     w = repmat ({w}, 1, len);                   # return cell of frequency vectors
@@ -83,7 +84,7 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
                    zp, dec_min, dec_max, "uniformoutput", false);
     zp = cellfun (@(zp, idx) zp(idx), zp, idx, "uniformoutput", false);
 
-    w = cellfun (@logspace, dec_min, dec_max, {500}, "uniformoutput", false);
+    w = cellfun (@logspace, dec_min, dec_max, {N}, "uniformoutput", false);
     w = cellfun (@(w, zp) unique ([w, zp]), w, zp, "uniformoutput", false);
     ## unique also sorts frequency vector
 

@@ -468,7 +468,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     ev_max = max (abs (ev));
 
     if (continuous)
-      dt = 0.2 * pi / ev_max;
+      dt = 0.1 * pi / ev_max;
     endif
 
     if (isempty (tfinal))
