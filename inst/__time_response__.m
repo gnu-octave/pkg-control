@@ -422,13 +422,15 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel
 
-  TOL = 1.0e-10;                                        # values below TOL are assumed to be zero
-  N_MIN = 50;                                           # min number of points
-  N_MAX = 2000;                                         # max number of points
-  N_DEF = 1000;                                         # default number of points
+  N_MIN = 100;                                          # min number of points
+  N_MAX = 10000;                                        # max number of points
+  N_DEF = 2000;                                         # default number of points
   T_DEF = 10;                                           # default simulation time
 
   ev = pole (sys);
+
+  TOL = max (abs (ev))*1.0e-10 + 2*eps;                 # values below TOL are assumed to be zero,
+                                                        # avoid TOL = 0
   n = length (ev);                                      # number of states/poles
   continuous = isct (sys);
   discrete = ! continuous;
@@ -448,8 +450,8 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ## remove poles near zero from eigenvalue array ev
   nk = n;
-  for k = 1 : n
-    if (abs (real (ev(k))) < TOL)
+    for k = 1 : n
+    if (abs (ev(k)) < TOL)
       ev(k) = 0;
       nk -= 1;
     endif
@@ -463,17 +465,34 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     if (continuous)
       dt = tfinal / N_DEF;
     endif
+
   else
+
     ev = ev(find (ev));
     ev_max = max (abs (ev));
+    w_min = min (abs (imag (ev(find (imag (ev) > TOL)))));
 
     if (continuous)
       dt = 0.1 * pi / ev_max;
     endif
 
+    auto_tfinal = 0;  % flag for computed or given tfinal
+
     if (isempty (tfinal))
-      ev_min = min (abs (real (ev)));
-      tfinal = 5.0 / ev_min;
+      ev_min = min (abs (ev));
+      ev_real_min = min (abs (real (ev)));
+
+      den = min ([ev_min, ev_real_min]);
+      if (den < TOL)
+        den =  max([ev_min, ev_real_min])
+      endif
+
+      tfinal = 5 / den;
+      auto_tfinal = 1;  # remeber that tfinal was computed, not given by the user
+
+      if (tfinal < 3*pi/w_min)
+        tfinal = 3*pi/w_min;   % make sure we see enough from slowest oscilation
+      endif
 
       ## round up
       yy = 10^(ceil (log10 (tfinal)) - 1);
@@ -494,9 +513,21 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
       endif
 
       if (N > N_MAX)
-        dt = tfinal / N_MAX;
+        ## N is larger then N_MAX -> increase dt or reduce tfinal
+        if (auto_tfinal)
+          ## tfinal was computed: make it shorter and leave dt as it is in order to
+          ## avoid aliasing
+          tfinal = dt * N_MAX;  # adapt tfinal, not dt
+          yy = 10^(ceil (log10 (tfinal)) - 1);  # round up again, since tfinal has changed
+          tfinal = yy * ceil (tfinal / yy);
+        else
+          ## tfinal was selected by the user, do not change it, increase dt instead
+          dt = tfinal / N_MAX;
+        endif
       endif
+
     endif
+
   endif
 
   if (continuous && ! isempty (Ts))                     # catch case cont. system with dt specified
