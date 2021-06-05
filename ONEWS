@@ -1,0 +1,884 @@
+Summary of important user-visible changes for older releases of the control package
+
+===============================================================================
+control-2.8.5   Release Date: 2015-10-01   Release Manager: Lukas Reichlin
+===============================================================================
+
+** nyquist, nichols
+   Specifying a frequency range no longer errors out,
+   i.e. nyquist (sys, {wmin, wmax})
+
+** pid, pidstd
+   New functions for improved Matlab compatibility.
+
+** ss
+   Support  ss (a, b, c, 0)  for Matlab compatibility.
+   (Thanks to Thomas Vasileiou)
+
+** tf
+   Fixed a problem which caused the expression below to fail.
+
+     tf (Boeing707) \ tf (Boeing707)
+
+
+===============================================================================
+control-2.8.4   Release Date: 2015-09-02   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   Fixed a bug which affected interconnections of MIMO transfer functions.
+   (Reported by Piet Wertelaers)
+
+** VLFamp
+   Included new demo created by Thomas D. Dean.
+
+
+===============================================================================
+control-2.8.3   Release Date: 2015-07-01   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models & iddata datasets
+   Support partial matching of property names.
+
+** mpower
+   Fixed bug #45336.  <http://savannah.gnu.org/bugs/?45336>
+   Improved reliability for the power computation of MIMO transfer functions.
+   (Reported by Nick Jankowski)
+
+** set
+   Fixed bug #45371.  <http://savannah.gnu.org/bugs/?45371>
+   The iddata properties 'name', 'notes' and 'userdata' are now stored as
+   expected.  (Thanks to Petr Ledvina)
+
+
+===============================================================================
+control-2.8.2   Release Date: 2015-06-15   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   Fixed a problem when converting certain MIMO descriptor state-space systems
+   to transfer function models.
+
+** minreal
+   Fixed bug #43263.  <http://savannah.gnu.org/bugs/?43263>
+   Affected were transfer function models.  (Thanks to Endre Kozma)
+
+** n4sid, moesp, moen4
+   Fixed bug #41716.  <http://savannah.gnu.org/bugs/?41716>
+   Display a meaningful error message when the iddata dataset contains not
+   enough samples per experiment.  (Reported by John W. Eaton)
+
+** rlocus
+   Fixed bug #44949.  <http://savannah.gnu.org/bugs/?44949>
+   Fixed a problem with discontinuous plots for systems like the one below.
+   (Thanks to Doug Stewart)
+
+     sys = tf ([1 0 0 0 0 0 1], [1 0 0 0 1 0 0 0 0 1])
+     rlocus (sys)
+
+
+===============================================================================
+control-2.8.1   Release Date: 2015-05-03   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   -- Revamped the modifications of TB01ZD from control version 2.8.0.
+      The function now uses LAPACK routines to find the maximum norm element.
+      (Thanks to Thomas Vasileiou)
+   -- Improved error handling when converting state-space models.
+
+
+===============================================================================
+control-2.8.0   Release Date: 2015-03-22   Release Manager: Lukas Reichlin
+===============================================================================
+
+** zero
+   Compatibility fix in the C++ oct-file to support the upcoming Octave 4.0.
+   (Thanks to Andreas Weber)
+
+** isminimumphase
+   Reverted changes from control-2.6.6.  According to the definition of
+   Byrnes/Isidori, the function tests whether the system has asymptotically
+   stable zero dynamics.  The poles are not tested.
+   Note that the definition from Wikipedia is mixed up.
+   For details, see the help text of the function (help @lti/isminimumphase)
+   and the papers referenced therein.  (Thanks to Ulf Schaper)
+
+** series
+   Fixed a bug which gave unnecessary error messages when the function is
+   called with 4 arguments.  (Thanks to Ulf Schaper)
+
+** tf
+   Resolved issues in MIMO state-space to transfer function conversion
+   by implementing a more robust algorithm in SLICOT routine TB01ZD.
+   The same algorithm is used in Octave's krylov function.
+   (Thanks to Thomas Vasileiou)
+
+** It is now possible to cross-compile the control package.
+   (Thanks to John Donoghue)
+
+** Support for 64bit indexing, i.e. Octave versions built with the --enable-64
+   option.  (Thanks to Mike Miller)
+
+** The control package now depends on Octave version 3.8.0 or beyond.
+
+** In order to comply with modified Octave Forge rules, the package no longer
+   auto-loads by default.  See "help pkg" for details on auto-loading.
+
+
+===============================================================================
+control-2.6.6   Release Date: 2014-10-11   Release Manager: Lukas Reichlin
+===============================================================================
+
+** isminimumphase
+   According to <http://en.wikipedia.org/wiki/Minimum_phase>, both the zeros
+   and the poles of a minimum-phase system must be strictly inside the left
+   complex half-plane (continuous-time case) or inside the unit circle
+   (discrete-time case).  Previously, the poles were not tested.
+   (Thanks to Endre Kozma)
+
+
+===============================================================================
+control-2.6.5   Release Date: 2014-06-16   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   -- The operator "times" (.*) no longer errors out when it is called with one
+      SISO and one MIMO LTI system.  The operator behaves now the same way as
+      Octave's built-in "times" for one scalar and one matrix.
+   -- The function "repmat" is now overloaded for LTI systems.
+   -- Added function "repsys" as an alias for "repmat" for the sake of Matlab
+      compatibility.
+
+** zero
+   Fix crash in case of empty state-space models, e.g.
+
+     zero (ss)
+
+
+===============================================================================
+control-2.6.4   Release Date: 2014-05-05   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   -- Fixed bug #42082.  <https://savannah.gnu.org/bugs/?42082>
+      The operators mtimes (*), mldivide (\) and mrdivide (/) no longer error
+      out when they are called with one SISO and one MIMO LTI system.  They now
+      behave the same way as they do with one scalar and one matrix.
+   -- Refuse struct arrays as input and output groups.
+   -- Display non-empty properties of type 'name'.
+
+** TF models
+   -- Added TF-specific horzcat ([tf1, tf2]) and vertcat ([tf1; tf2]) operators
+      which override the general LTI operators.  Their introduction avoids the
+      conversion to state-space and back when MIMO transfer functions are
+      concatenated horizontally and/or vertically.
+   -- Added operator times (.*) to compute Hadamard/Schur product of two
+      transfer function matrices.  This operator is useful to compute the
+      Relative-Gain Array (RGA), e.g.
+
+        G = tf (Boeing707)
+        RGA = G .* inv (G).'
+        RGA(0)
+
+
+===============================================================================
+control-2.6.3   Release Date: 2014-04-22   Release Manager: Lukas Reichlin
+===============================================================================
+
+** SS models
+   For interconnections, support special case where the internal matrix
+   (I - D*M) is singular, e.g.
+
+     feedback (ss (-1, 1, 4, 1), '+')
+
+** FRD models
+   Fixed bug which let frequency response plots fail, e.g.
+
+     bode (frd (tf (1, [1, 1])))
+
+** tf
+   Refuse denominators which are zero.
+
+** c2d
+   For zero-order hold approximation, use SLICOT MB05ND instead of Octave's
+   "expm" to compute the matrix exponential.  Better accuracy is to be expected.
+
+** connect
+   -- Improved argument checking for legacy connection matrix.
+   -- Document usage of index-based interconnections.
+
+** inv
+   -- Handle i/o names and groups correctly.
+   -- Conserve the meaning of states by using the Matlab-compatible formula
+      instead of the SLICOT-compatible one.
+   -- Always use conversion to state-space and back for the inversion of
+      MIMO transfer functions, even for 2x2 systems.
+
+** pole
+   Compute poles of descriptor state-space models with SLICOT AG08BD instead
+   of Octave's built-in "eig" function.
+
+** zero
+   The gain of descriptor state-space models is now computed correctly.
+
+   (Special thanks to Thomas Vasileiou for all the fixes above)
+
+** rlocus
+   -- Function "rlocus" now supports the fltk graphics toolkit.
+      (Thanks to Doug Stewart)
+   -- Fixed bug #41820.  <https://savannah.gnu.org/bugs/?41820>
+      Function "rlocus" no longer errors out for certain systems like
+
+        rlocus (tf ([1, 4, 4], [1, 8, 1, 8, 0]))
+
+** transpose, ctranspose
+   Delete i/o groups of transposed (sys.') or conjugate transposed (sys')
+   LTI models.
+
+** IDDATA identification datasets
+   Raise an error if non-real-valued input or output matrices are assigned to
+   time-domain datasets via the "set" function or subscripted assignment.
+
+
+===============================================================================
+control-2.6.2   Release Date: 2014-02-02   Release Manager: Lukas Reichlin
+===============================================================================
+
+** hinfsyn, mixsyn
+   By default, hinfsyn and mixsyn compute now an optimal instead of a
+   suboptimal controller.  Furthermore, Matlab compatibility is improved if
+   hinfsyn/mixsyn is called with more than three/four input arguments.
+   (Thanks to Thomas Vasileiou for the gamma iteration)
+   The old behavior (sub-optimal controller) can be restored by the expressions
+
+     hinfsyn (P, nmeas, ncont, 'method', 'sub')
+     mixsyn (G, W1, W2, W3, 'method', 'sub')
+
+** h2syn, hinfsyn, mixsyn, ncfsyn
+   For Matlab compatibility, the third return argument is now norm "gamma".
+   The info struct is now returned as fourth argument.
+
+     [K, N, gamma, info] = *syn (G, …)
+
+** mktito
+   New function to partition plant for robust control.  "mktito" is also used
+   by function "augw".  If a plant is partitioned that way, one can omit the
+   inputs "nmeas" and "ncon" when calling the functions "hinfsyn" and "h2syn".
+
+** ss
+   The conversion of realizable descriptor systems to regular state-space form
+   is now possible, even when the descriptor matrix "E" is singular.
+   (Thanks to Thomas Vasileiou and Bruce Minaker)
+
+
+===============================================================================
+control-2.6.1   Release Date: 2013-12-10   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   Raise an error if the user tries to create an ingroup or outgroup with
+   indices larger than the number of inputs m or outputs p.
+
+** thiran
+   New function to approximate a continuous-time delay by a discrete-time
+   allpass Thiran filter.  (Thanks to Thomas Vasileiou and Spencer Jackson)
+
+** end
+   "end" indexing for LTI and IDDATA objects works now as expected.
+
+
+===============================================================================
+control-2.6.0   Release Date: 2013-10-24   Release Manager: Lukas Reichlin
+===============================================================================
+
+** LTI models
+   -- Support for name-based channel selection in various commands.
+      Example:  sys = Boeing707, sys('pitch', {'rudder', 'thrust'})
+      instead of  sys(2, [2, 1]).
+   -- New properties "ingroup" and "outgroup" to pool several channels:
+      sys.ingroup.controls = [3, 1], sys.outgroup.measurements = [1, 2]
+      sys('measurements', 'controls')  instead of  sys([1, 2], [3, 1]).
+   -- Support names instead of indices in commands like "feedback" and "xperm".
+
+** connect
+   Support name-based interconnections.  This means that the LTI models passed
+   to "connect" will be interconnected automatically if they have their inputs
+   and outputs named accordingly.
+
+** sumblk
+   New function to build summing junctions for name-based interconnections
+   by "connect".  Example: Sum = sumblk ('e = r - y + n')
+
+** tf
+   State-space to transfer function conversions of static gains,
+   e.g. "tf (ss (5))", no longer error out.  (Thanks to Thomas Vasileiou)
+
+** IDDATA identification datasets
+   Support for name-based output, input and experiment selection similar to
+   LTI models.
+
+
+===============================================================================
+control-2.4.5   Release Date: 2013-10-07   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Compatibility to GNU Octave 3.8
+   Replaced line continuation marker "\" by "..." to avoid deprecated syntax
+   warning.  (Thanks to John W. Eaton)
+
+** db2mag, mag2db
+   New functions to convert Decibels to Magnitude and vice versa.
+
+** d2d
+   New function for resampling of discrete-time models.
+
+
+===============================================================================
+control-2.4.4   Release Date: 2013-08-11   Release Manager: Lukas Reichlin
+===============================================================================
+
+** zero
+   -- Fix documentation.  Function "zero" computes the invariant zeros, not the
+      transmission zeros when it is called with one input argument.
+   -- Added new options to compute the system, transmission, input decoupling
+      and output decoupling zeros besides the already existing invariant zeros.
+      Examples: z = zero (sys, 'system'), z = zero (sys, 'transmission')
+   -- Return an "info" struct as third output argument.  It contains additional
+      rank information as well as Kronecker indices and the numbers of infinite
+      elementary divisors.  Example: [z, k, info] = zero (sys)
+   (Special thanks to Ferdinand Svaricek)
+
+** resample
+   The "resample" function for "iddata" identification datasets now handles
+   unspecified sampling times (tsam = -1) correctly.
+
+** Time response functions (impulse, initial, lsim, ramp, step)
+   Fix a thinko introduced with control-2.4.3.  In some cases, several
+   responses were mistakingly plotted on the same subplot.
+   (Thanks to Thomas Vasileiou)
+
+** Various documentation enhancements and fixes.
+
+
+===============================================================================
+control-2.4.3   Release Date: 2013-07-12   Release Manager: Lukas Reichlin
+===============================================================================
+
+** resample
+   The resample function for iddata sets now adjusts the sampling time
+   correctly after resampling.
+
+** Time response functions (impulse, initial, lsim, ramp, step)
+   Don't use subplot for SISO models.  This allows the user to plot different
+   responses on a single figure by calling subplot.  (Thanks to Matthias Meier)
+
+** h2syn, hinfsyn, mixsyn, ncfsyn
+   Third return argument is now an info struct.
+   [K, N, info] = *syn (G, …)
+
+** optiPID
+   Beef up documentation.
+
+
+===============================================================================
+control-2.4.2   Release Date: 2013-02-16   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Transfer function to state-space conversion (Thanks to Thomas Vasileiou):
+   -- Fix crash.
+   -- Fix bug if denominators are zero.
+
+** minreal
+   Fix crash in minreal for state-space systems.  (Thanks to Thomas Vasileiou)
+
+** sigma
+   The plot types 1, 2, 3 were no longer supported since the introduction of
+   multi-system plots in control-2.3.54.  The help text is now updated
+   accordingly and cruft is removed from the codebase.
+
+** mixsyn, ncfsyn, Madievski
+   Beef up help text.
+
+
+===============================================================================
+control-2.4.1   Release Date: 2012-11-01   Release Manager: Lukas Reichlin
+===============================================================================
+
+** impulse, initial, lsim, step
+   These time response functions now error out correctly when the user tries to
+   plot multiple systems in one window with mismatching numbers of inputs and
+   outputs.  The problem was caused by Octave's built-in function "size_equal"
+   which gave false positives for LTI objects.  The problem is solved by
+   overloading the built-in function with a new LTI method "size_equal".
+
+** ramp
+   Added a new time domain analysis function "ramp" which plots/computes the
+   system's response to a ramp signal.
+
+** c2d, d2c
+   Added matched pole/zero discretization method "matched".
+   Usage:  Gd = c2d (Gc, Ts, 'matched'),  Gc = d2c (Gd, 'matched')
+
+** doc/control.pdf
+   Revised PDF manual.  There is now a function index at the end of the manual.
+   Improved docstrings in several functions.
+
+
+===============================================================================
+control-2.4.0   Release Date: 2012-09-26   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Multiplot feature for time-domain plotting:
+
+     impulse    lsim
+     initial    step
+
+   Supported are now function calls like
+   impulse (sys1, sys2, ...), step (sys1, 'b', sys2, 'r', ...)
+   lsim (sys1, '-k', sys2, '--k', u), initial (sys, sys2, x0)
+   The multiplot feature for frequency-domain plotting has already been
+   introduced with control-2.3.54.
+
+** Anderson, Madievski, MDSSystem, optiPID
+   Updated example scripts to use new multiplot feature.
+
+** sensitivity
+   Fixed a problem with plotting, introduced with control-2.3.54.
+
+** doc/control.pdf
+   Updated PDF manual.
+
+
+===============================================================================
+control-2.3.54   Release Date: 2012-09-15   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Multiplot feature for frequency-domain plotting:
+
+     bode       nichols     pzmap
+     bodemag    nyquist     sigma
+
+   The functions above support calls like
+   sigma (sys1, sys2, ...), nyquist (sys1, 'b', sys2, 'r', ...),
+   bode (sys1, '-k', sys2, '-.k', sys3, ':k', {wmin, wmax}).
+   Time domain functions are not yet multiplot ready, but they will follow in
+   control-2.4.0.
+
+** plot
+   A selection of experiments from iddata identification datasets can be
+   plotted by  plot (dat, exp)  instead of  plot (dat(:,:,:,exp)).
+
+** sensitivity
+   Fixed a problem where an error was raised about an undefined function
+   "issiso".
+
+** All SLICOT function names have now leading and trailing underscores to
+   emphasize their private nature.
+
+
+===============================================================================
+control-2.3.53   Release Date: 2012-08-27   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Added new functions for system identification, including:
+
+     arx        iddata       ifft
+     moen4      detrend      nkshift
+     moesp      fft          plot
+     n4sid      filter       resample
+
+** sensitivity
+   Added new function to compute and plot the sensitivity margin Ms.
+
+** feedback
+   Fixed an argument check which caused false positive error messages.
+   It was a copy-paste mistake affecting non-square systems.
+   (Thanks to Tony Olivo)
+
+
+===============================================================================
+control-2.3.52   Release Date: 2012-06-25   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Fixed a silly mistake in MIMO transfer function to state-space conversion.
+   The bug has been introduced with control-2.3.51.
+   (Thanks to Jim Rawlings for providing the test case)
+
+** dlqe, lqe
+   Added new functions for linear quadratic estimators.
+   (Thanks to Megan Zagrobelny)
+
+** Upon request of the Debian maintainers, the tex-files  control.tex  and
+   functions.texi  for generating  control.pdf  are included in the doc folder,
+   next to  control.pdf.  Note that  functions.texi  is generated automatically
+   by the scripts in the control/devel folder and the package generate_html.
+   They are not included in the control package and can be found on the
+   OctaveForge SVN server.
+
+** Minor improvements in various help texts.
+
+
+===============================================================================
+control-2.3.51   Release Date: 2012-06-03   Release Manager: Lukas Reichlin
+===============================================================================
+
+** filt, filtdata, tf
+   -- Added function "filt" to specify disrete-time transfer functions in DSP
+      format, i.e. z^-1.
+   -- Added function "filtdata" to return any type of discrete-time LTI model
+      in DSP format.
+   -- tf models have a new property "inv".  To display a discrete-time TF sys
+      in z^-1, set  sys.inv=true.  In order to switch to z, set  sys.inv=false.
+      "filt" sets property "inv" to true (z^-1) by default, while "tf" uses
+      false (z) as default value.
+
+** ctranspose
+   Conjugate transpose or pertransposition of LTI objects.
+   Used by Octave for "sys'".  For a transfer-function matrix G, G' denotes the
+   conjugate of G given by G.'(-s) for a continuous-time system or G.'(1/z) for
+   a discrete-time system.  The frequency response of the pertransposition of G
+   is the Hermitian (conjugate) transpose of G(jw),
+   i.e. freqresp (G', w) = freqresp (G, w)'.
+   WARNING: Do NOT use this for dual problems, use the transpose "sys.'"
+   (note the dot) instead.
+
+** test_control
+   Add a few remarks to the help text regarding the severity of failing tests.
+
+** Makefile fixed to work with non-standard linker options e.g on
+   Apple.
+
+** The conversion to state-space of multi-input transfer functions with common
+   row denominators is now handled more efficiently.
+
+
+===============================================================================
+control-2.3.50   Release Date: 2012-03-06   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Added new functions for frequency-weighted model and controller order
+   reduction:
+
+     bstmodred      btaconred
+     btamodred      cfconred
+     hnamodred      fwcfconred
+     spamodred      spaconred
+
+** Anderson, Madievski
+   -- Added two examples for controller reduction.  The m-files are named after
+      the authors of the corresponding papers.
+
+** fitfrd
+   -- Added function to fit frequency response data with a state-space model.
+
+** set
+   -- The set command doesn't need a return argument anymore in order to save
+      the modified values.  set (sys, "key", value)  is now equivalent to
+      sys = set (sys, "key", value).
+
+** Require Octave version 3.6.0 or better.  (The frequency response plotting
+   commands have been simplified.  They now use the fixed "axis tight" command.
+   This is a first step towards multiple systems in one plot,
+   e.g. bode (sys1, sys2, sys3).  Furthermore, the code takes advantage of the
+   new "arrayfun" function which became a faster oct-file instead of an m-file)
+
+** Revised package installation and cleanup efforts under the hood.
+   The new solution compiles the SLICOT library in a less barbaric way and
+   creates only a single oct-file containing all the SLICOT routines.
+   This also brings along faster compile times.
+   (Special thanks to Hans Buchmann, Carlo De Falco and Michael Goffioul for
+   their advice)
+
+** doc/control.pdf
+   -- Extended PDF manual.
+
+
+===============================================================================
+control-2.2.5   Release Date: 2012-02-09   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved Matlab compatibility for frequency response commands.  It is now
+   possible to specify a frequency range.  Example: bode (sys, {wmin, wmax})
+   where wmin and wmax denote frequencies in rad/s.
+
+** margin
+   -- Fixed a variable name such that discrete-time models are plotted
+      without an error. (Thanks to Renato Caldas)
+
+
+===============================================================================
+control-2.2.4   Release Date: 2012-01-07   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Compatibility with Octave 3.6.0.  (The makefile must specify the libraries
+   that mkoctfile needs to link.  Thanks to Marco Atzeri and Carlo De Falco)
+
+** ctrbf, obsvf
+   -- Added new functions to compute controllable and observable block
+      Hessenberg realizations based on SLICOT TB01UD.
+      (Thanks to Benjamin Fernandez and Alexandre Felipe)
+
+
+===============================================================================
+control-2.2.3   Release Date: 2011-12-07   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved performance when computing the frequency response of transfer
+   function models by orders of magnitude.  (I realized that "polyval" can
+   evaluate a polynomial at several values at once in a vectorized manner.)
+
+** bode, bodemag, nichols, sigma
+   -- Fixed a hang when plotting pairs of purely imaginary poles or zeros.
+      The hang was caused by nonsensical (Inf, NaN) axis values.
+      (Reported by Laurent Tissier)
+
+** Use single instead of double quotes when displaying names of TF and FRD
+   models.
+
+
+===============================================================================
+control-2.2.2   Release Date: 2011-12-04   Release Manager: Lukas Reichlin
+===============================================================================
+
+** Improved error messages for place, ARE solvers and robust control commands.
+
+** minreal, ss
+   -- Fixed a crash for descriptor models.  minreal for dss models as well as
+      conversion from non-proper transfer functions to descriptor state-space
+      models should work now as expected.
+
+** ss
+   -- Revised default tolerance for transfer function to state-space conversion
+      by SLICOT TD04AD.
+
+** Better performance when computing the frequency response of SISO transfer
+   function models.
+
+** Reorganized tests.  Most tests have been moved from "ltimodels" to the files
+   of the LTI methods being tested.  All available tests can be executed by
+   "test_control".
+
+** The NEWS file is handled correctly when using Octave version 3.6.
+   Type "news("control")" or "news control" to display the news (3.6 only).
+
+
+===============================================================================
+control-2.2.1   Release Date: 2011-10-24   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   -- Fixed a nasty bug that prevented shortening of numerator and denominator
+      polynomials consisting solely of zeros.
+   -- MIMO support for descriptor state-space to transfer function conversion.
+      Usage: tf_sys = tf (dss_sys)
+   -- MIMO support for interconnections of non-proper transfer functions via
+      internal conversion to state-space.
+
+** ss
+   -- Support conversion from non-proper transfer function to descriptor state-
+      space.  Usage: dss_sys = ss (tf_sys)
+
+** c2d, d2c
+   -- Support bilinear transformation of descriptor state-space models.
+
+** inv
+   -- Support the inversion of MIMO transfer functions.  Inverses of 2x2 TFs are
+      computed directly, larger models are computed internally in state-space.
+
+** place
+   -- Return the number of fixed, assigned and uncontrollable poles in a single
+      "info" struct instead of three individual output arguments.
+
+** rlocus
+   -- Clarify usage statement in help string.
+   -- Check whether system is SISO.
+
+** MDSSystem
+   -- Display bode plots of controllers instead of singular value plots of the
+      closed loops.
+
+** hsvd
+   -- Added option "alpha" to specify the alpha-stability boundary for the
+      eigenvalues of the state dynamics matrix A.
+
+** isctrb, isobsv
+   -- Return number of controllable/observable states as a second output
+      argument.
+
+** doc/control.pdf
+   -- Added preface to PDF manual.
+
+
+===============================================================================
+control-2.2.0   Release Date: 2011-09-26   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ss
+   -- Transfer function to state-space conversion uses now SLICOT TD04AD.
+      Conversion of MIMO models is now supported.  Usage: ss_sys = ss (tf_sys)
+
+** tf
+   -- Support for interconnections of MIMO transfer functions.  This is done by
+      an internal conversion to a minimal state-space representation.  With the
+      current tf2ss and ss2tf conversions, only proper transfer function are
+      supported.  This limitation does not exist for SISO transfer functions.
+   -- Fixed a cellfun statement that caused problems on MinGW32 builds and
+      possibly some others.  (Reported by Bernhard Weller)
+
+** pole, zero
+   -- Computation of poles and zeros of MIMO transfer functions is now possible
+      via conversion to state-space.  Please note that the state-space
+      realization of SLICOT TD04AD is a minimal one.  Therefore certain poles
+      and zeros might be missing.
+
+** zpk, zpkdata
+   -- Included wrappers that create transfer function models from zero-pole-gain
+      data (zpk) and zero-pole-gain data from lti models (zpkdata).  They are
+      stop-gap measures for compatibility until ZPK models are implemented.
+
+** tfdata
+   -- "vector" option added.  For SISO models, it returns numerator and
+      denominator directly as column vectors instead of cells containing a
+      single column vector.
+
+** doc/control.pdf
+   -- Revised PDF manual.
+
+
+===============================================================================
+control-2.1.55   Release Date: 2011-09-07   Release Manager: Lukas Reichlin
+===============================================================================
+
+** c2d
+   -- Support for "tustin" and "prewarp" method added.
+   -- Transfer functions are now supported via the state-space methods.
+   -- Improved Texinfo string.
+
+** d2c
+   -- Discrete to continuous-time conversion added.  However, support is
+      limited to the zero-order hold, tustin and pre-warping methods.
+
+** Conversion from descriptor to regular state-space is now performed by SLICOT
+   routine SB10JD.  Better numerical results are to be expected over the
+   previous naive inversion formula.  This conversion is used internally for
+   ssdata and some other functions.
+
+
+===============================================================================
+control-2.1.54   Release Date: 2011-08-22   Release Manager: Lukas Reichlin
+===============================================================================
+
+** tf
+   -- State-space to transfer function conversion uses now SLICOT TB04BD.
+      Conversion of MIMO models is now supported.  Usage: tf_sys = tf (ss_sys)
+   -- Display an empty line between title and numerator for better readability.
+   -- Display whether model is static, continuous- or discrete-time.
+
+** A PDF manual is included for the first time.  It is located inside the "doc"
+   folder.  It has been generated automatically from the Texinfo help strings
+   and is not yet completely sorted out.
+
+
+===============================================================================
+control-2.1.53   Release Date: 2011-08-08   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ncfsyn
+   -- Added support for McFarlane/Glover loop shaping design procedure.
+      "ncfsyn" stands for Normalized Coprime Factor Synthesis.
+
+** MDSSystem
+   -- Added example script which demonstrates the usage of the robust control
+      commands "mixsyn" and "ncfsyn".
+
+** Texinfo help strings of several functions have been extended, although
+   documentation still leaves a lot to be desired.
+
+
+===============================================================================
+control-2.1.52   Release Date: 2011-07-27   Release Manager: Lukas Reichlin
+===============================================================================
+
+** hsvd
+   -- Use scaling unless state-space model property "scaled" is set to true.
+
+** norm
+   -- Use scaling for computation of L-infinity norm unless state-space model
+      property "scaled" is set to true.
+
+** minreal
+   -- Use scaling for state-space and descriptor state-space models unless
+      property "scaled" is set to true.
+   -- More accurate results are to be expected for descriptor state-space
+      models by performing only those reduction phases where effective order
+      reduction occurs. This is achieved by saving the system matrices before
+      each phase and restoring them if no order reduction took place.
+
+** zero
+   -- Use scaling for state-space and descriptor state-space models unless
+      property "scaled" is set to true.
+
+** frdata
+   -- The frequency response is now returned correctly as an array and not as a
+      vector, unless the "vector" option is set and the system is single-input
+      single-output.
+   -- Added help text.
+
+
+===============================================================================
+control-2.1.51   Release Date: 2011-07-21   Release Manager: Lukas Reichlin
+===============================================================================
+
+** frd
+   -- Support for Frequency Response Data (frd) measurement "models".
+
+
+===============================================================================
+control-2.1.50   Release Date: 2011-07-06   Release Manager: Lukas Reichlin
+===============================================================================
+
+** ss
+   -- Support for property "scaled".  By default, it is set to "false".
+
+** prescale
+   -- Scaling for state-space models (SLICOT TB01ID) and descriptor models
+      (SLICOT TG01AD).
+
+** freqresp
+   -- Scale state-space models using @lti/prescale.m if property "scaled" is
+      set to "false".  Frequency response commands now perform automatic
+      scaling unless model property "scaled" is set to "true".
+
+
+===============================================================================
+control-2.0.2   Release Date: 2011-03-18   Release Manager: Lukas Reichlin
+===============================================================================
+
+** lsim
+   -- Fixed a logical error that refused valid initial state vectors.  It was
+      due to a thinko introduced with the changes in control-2.0.1.
+      (Thanks to Rob Frohne)
+
+
+===============================================================================
+control-2.0.1   Release Date: 2011-03-06   Release Manager: Lukas Reichlin
+===============================================================================
+
+** lsim
+   -- Support time vectors not starting at zero. (Thanks to Rob Frohne)
+   -- Improved help text.
+
+** zero
+   -- The gain of descriptor state-space models is now computed correctly.
+      (fingers crossed)
+
+
+===============================================================================
+control-2.0.0   Release Date: 2011-02-08   Release Manager: Lukas Reichlin
+===============================================================================
+
+** First official release.
+
+
+===============================================================================

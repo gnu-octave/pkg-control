@@ -89,6 +89,7 @@ Pole Placement
   acker
   place
   rlocus
+  rlocusx
 Optimal Control
   augstate
   dlqe
