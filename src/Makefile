@@ -29,6 +29,10 @@ all: __control_slicot_functions__.oct \
 # the developer makefile makefile_control.m
 # The other rotuines *.fortan are modified versions
 # of the original slicot routines.
+#
+# MA02ID.f use in its original version is compiled by an
+# extra command suppressing warnings on indexing errors
+#
 slicotlibrary.a: slicot.tar.gz
 	tar -xzf slicot.tar.gz
 	mkdir sltmp
@@ -36,12 +40,10 @@ slicotlibrary.a: slicot.tar.gz
 	mv slicot/src_aux/*.f ./sltmp
 	if [ "$(HAVE_DGGES)" = "1" ]; then \
 		echo "copy routines using DGGES"; \
-		set -x; \
 		cp SB04OD.fortran ./sltmp/SB04OD.f; \
 		cp SG03AD.fortran ./sltmp/SG03AD.f; \
 		cp SG03BD.fortran ./sltmp/SG03BD.f; \
 	fi;
-	@echo "copy routines using ODLTZM";
 	cp AB08NX.fortran ./sltmp/AB08NX.f
 	cp AG08BY.fortran ./sltmp/AG08BY.f
 	cp SB01BY.fortran ./sltmp/SB01BY.f
@@ -53,7 +55,7 @@ slicotlibrary.a: slicot.tar.gz
 	cp TG04BX.fortran ./sltmp/TG04BX.f
 	cp ODLTZM.fortran ./sltmp/ODLTZM.f
 	cp makefile.slicot ./sltmp/makefile
-	cd sltmp; $(MKOCTFILE) -c *.f
+	cd sltmp; $(MKOCTFILE) -w -c MA02ID.f; rm MA02ID.f; $(MKOCTFILE) -c *.f;
 	$(AR) -rc slicotlibrary.a ./sltmp/*.o
 	rm -rf sltmp slicot
 
