@@ -1,3 +1,5 @@
+-include ./Makefile.conf
+
 MKOCTFILE ?= mkoctfile
 
 ifndef LAPACK_LIBS
@@ -9,7 +11,7 @@ endif
 ifndef FLIBS
 FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
-LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 AR := $(shell $(MKOCTFILE) -p AR)
 
@@ -25,20 +27,39 @@ all: __control_slicot_functions__.oct \
 # It has the extension .fortran such that
 # it is not deleted by rm *.f when using
 # the developer makefile makefile_control.m
+# The other rotuines *.fortan are modified versions
+# of the original slicot routines.
 slicotlibrary.a: slicot.tar.gz
 	tar -xzf slicot.tar.gz
 	mkdir sltmp
 	mv slicot/src/*.f ./sltmp
 	mv slicot/src_aux/*.f ./sltmp
-	cp TG04BX.fortran ./sltmp/TG04BX.f
+	if [ "$(HAVE_DGGES)" = "1" ]; then \
+		echo "copy routines using DGGES"; \
+		set -x; \
+		cp SB04OD.fortran ./sltmp/SB04OD.f; \
+		cp SG03AD.fortran ./sltmp/SG03AD.f; \
+		cp SG03BD.fortran ./sltmp/SG03BD.f; \
+	fi;
+	@echo "copy routines using ODLTZM";
+	cp AB08NX.fortran ./sltmp/AB08NX.f
+	cp AG08BY.fortran ./sltmp/AG08BY.f
+	cp SB01BY.fortran ./sltmp/SB01BY.f
+	cp SB01FY.fortran ./sltmp/SB01FY.f
+	cp SB06ND.fortran ./sltmp/SB06ND.f
+	cp TB01MD.fortran ./sltmp/TB01MD.f
+	cp TB01ND.fortran ./sltmp/TB01ND.f
 	cp TB01ZD.fortran ./sltmp/TB01ZD.f
+	cp TG04BX.fortran ./sltmp/TG04BX.f
+	cp ODLTZM.fortran ./sltmp/ODLTZM.f
+	cp makefile.slicot ./sltmp/makefile
 	cd sltmp; $(MKOCTFILE) -c *.f
 	$(AR) -rc slicotlibrary.a ./sltmp/*.o
 	rm -rf sltmp slicot
 
 # slicot functions
 __control_slicot_functions__.oct: __control_slicot_functions__.cc common.cc slicotlibrary.a
-	LFLAGS="$(LFLAGS)" \
+	LDFLAGS="$(LDFLAGS)" \
     $(MKOCTFILE) $(PKG_CXXFLAGS) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helper functions

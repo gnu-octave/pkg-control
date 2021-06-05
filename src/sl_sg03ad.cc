@@ -106,7 +106,7 @@ For internal use only.")
         // workspace
         F77_INT* iwork = 0;  // not referenced because job = X
         
-        F77_INT ldwork = max (1, 4*n);
+        F77_INT ldwork = max (1, 8*n+16);
         OCTAVE_LOCAL_BUFFER (double, dwork, ldwork);
 
         // error indicator
