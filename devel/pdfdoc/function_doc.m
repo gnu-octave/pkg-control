@@ -24,27 +24,23 @@ for k = 1:numel (list {1}.provides)
 
         % fprintf (fid, '@section %s\n', group.category);
         fprintf (fid, '@chapter %s\n', group.category);
-        
+        firstslash = 0;
+
         for k=1:numel(functions)
-                [TEXT, FORMAT] = get_help_text (functions(k));
                 fun = functions{k};
+                [TEXT, FORMAT] = get_help_text (fun);
                 if (fun(1) == "@")
-                  % fprintf (fid, '@subsection @%s\n', fun);
                   fprintf (fid, '@section @%s\n', fun);
-                  if (strncmp (fun, "@lti/", 5))
-                    fprintf (fid, '@findex %s\n', fun(6:end));
-                  elseif (strncmp (fun, "@iddata/", 8))
-                    fprintf (fid, '@findex %s\n', fun(9:end));
-                  else
-                    error ("function_doc: unknown class");
-                  endif
+                  firstslash = (find (fun == '/'))(1);
+                  if ! firstslash
+                    error (["function_doc: unknown class ", fun]);
+                  end
+                  fprintf (fid, '@findex %s\n', fun(firstslash+1:end));
                 else
-                  % fprintf (fid, '@subsection %s\n', fun);
-                  % fprintf (fid, '@node %s\n', fun);
                   fprintf (fid, '@section %s\n', fun);
                   fprintf (fid, '@findex %s\n', fun);
                 endif
-                fprintf (fid,TEXT);
+                fwrite (fid,TEXT);
         end
         
 end
