@@ -104,7 +104,7 @@ For internal use only.")
             error ("__sl_sb10jd__: exception in SLICOT subroutine SB10JD");
 
         if (info != 0)
-            error ("__sl_sb10jd__: SB10JD returned info = %d", info);
+            error ("__sl_sb10jd__: SB10JD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (nsys, nsys);

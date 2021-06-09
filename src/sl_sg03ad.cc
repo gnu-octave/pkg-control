@@ -136,8 +136,8 @@ For internal use only.")
             error ("lyap: __sl_sg03ad__: exception in SLICOT subroutine SG03AD");
 
         if (info != 0)
-            error ("lyap: __sl_sg03ad__: SG03AD returned info = %d", info);
-        
+            error ("lyap: __sl_sg03ad__: SG03AD returned info = %d", static_cast<int> (info));
+
         // return values
         retval(0) = x;
         retval(1) = octave_value (scale);

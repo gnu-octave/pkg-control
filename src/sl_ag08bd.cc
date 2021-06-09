@@ -156,7 +156,7 @@ For internal use only.")
             error ("dss: zero: __sl_ag08bd__: exception in SLICOT subroutine AG08BD");
             
         if (info != 0)
-            error ("dss: zero: __sl_ag08bd__: AG08BD returned info = %d", info);
+            error ("dss: zero: __sl_ag08bd__: AG08BD returned info = %d", static_cast<int> (info));
 
 
         // DGGEV Part
@@ -199,7 +199,7 @@ For internal use only.")
             error ("dss: zero: __sl_ag08bd__: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
-            error ("dss: zero: __sl_ag08bd__: DGGEV returned info = %d", info2);
+            error ("dss: zero: __sl_ag08bd__: DGGEV returned info = %d", static_cast<int> (info2));
 
         // assemble complex vector - adapted from DEFUN complex in data.cc
         // LAPACK DGGEV.f says:

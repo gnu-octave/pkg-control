@@ -134,7 +134,7 @@ For internal use only.")
             error ("tf2ss: __sl_td04ad__: exception in SLICOT subroutine TD04AD");
 
         if (info != 0)
-            error ("tf2ss: __sl_td04ad__: TD04AD returned info = %d", info);
+            error ("tf2ss: __sl_td04ad__: TD04AD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (nr, nr);

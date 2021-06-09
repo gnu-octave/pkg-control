@@ -134,7 +134,7 @@ For internal use only.")
             error ("__sl_tg01fd__: exception in SLICOT subroutine TG01FD");
             
         if (info != 0)
-            error ("__sl_tg01fd__: TG01FD returned info = %d", info);
+            error ("__sl_tg01fd__: TG01FD returned info = %d", static_cast<int> (info));
 
         // return values
         retval(0) = a;

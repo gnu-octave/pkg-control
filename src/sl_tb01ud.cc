@@ -120,7 +120,7 @@ For internal use only.")
             error ("__sl_tb01ud__: exception in SLICOT subroutine TB01UD");
             
         if (info != 0)
-            error ("__sl_tb01ud__: TB01UD returned info = %d", info);
+            error ("__sl_tb01ud__: TB01UD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (n, n);
