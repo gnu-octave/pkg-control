@@ -26,7 +26,7 @@
 ## @group
 ## AXA' - X + B = 0      (Lyapunov Equation)
 ##
-## AXB' - X + C = 0      (Sylvester Equation)
+## AXB - X + C = 0       (Sylvester Equation)
 ##
 ## AXA' - EXE' + B = 0   (Generalized Lyapunov Equation)
 ## @end group
