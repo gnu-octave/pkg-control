@@ -62,9 +62,19 @@ function [x, scale] = dlyap (a, b, c, e)
                 inputname (1), inputname (2));
       endif
 
-      [x, scale] = __sl_sb03md__ (a, -b, true);     # AXA' - X = -B
+      if issymmetric (b)
+
+        ## The 'normal' case where b is symmetric
+        [x, scale] = __sl_sb03md__ (a, -b, true);     # AXA' - X = -B
+        ## x /= scale;                                # 0 < scale <= 1
+
+      else
+
+        ## b is non-symmetric, solve as Sylvester equation
+        x = __sl_sb04qd__ (-a, a', b);    # AXB - X = -C  (A = a, B = a', C = b)
+
+      endif
   
-      ## x /= scale;                           # 0 < scale <= 1
   
     case 3                                     # Sylvester equation
   
