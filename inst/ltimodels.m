@@ -389,7 +389,8 @@ endfunction
 %!   endfor
 %! endfor
 %!
-%! NUMe = {[1, 5, 7], [1]; [1], [1, 5, 5]};
+%! NUMe = {[1, 5, 7], [0 1]; [0 0 1], [1, 5, 5]};
+%!
 %! DENe = {[1, 5, 6], [1, 2]; [1, 5, 6], [1, 3, 2]};
 %!
 %!assert (NUM, NUMe, 1e-4);
@@ -409,7 +410,7 @@ endfunction
 %!
 %! [NUM, DEN] = tfdata (ss (A, B, C, D));
 %!
-%! NUMe = {[1]};
+%! NUMe = {[0, 1]};
 %!
 %! DENe = {[1, 0]};
 %!
