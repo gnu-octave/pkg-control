@@ -214,7 +214,7 @@ endfunction
 %! sys = filt (num, den);
 %! [n1, d1] = filtdata (sys, "vector");
 %! [n2, d2] = tfdata (sys, "vector");
-%! n2e = [3, 0];
+%! n2e = [0, 3, 0];
 %! d2e = [1, 4, 2];
 %!assert (n1, num, 1e-4);
 %!assert (d1, den, 1e-4);

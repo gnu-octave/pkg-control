@@ -25,11 +25,16 @@
 function val = __get__ (sys, key)
 
   switch (key)   # {<internal name>, <user name>}
-    case "num"
-      val = cellfun (@get, sys.num, "uniformoutput", false);
 
-    case "den"
-      val = cellfun (@get, sys.den, "uniformoutput", false);
+    case {"num","den"}
+      ## Give numerator and denominator of a tf component the same length
+      [num, den] = __make_tf_polys_equally_long__ (sys);
+      ## Get the coefficients of the polys with normalized length
+      if key == "num"
+        val = cellfun (@get, num, "uniformoutput", false);
+      else
+        val = cellfun (@get, den, "uniformoutput", false);
+      endif
 
     case {"tfvar", "variable"}
       val = sys.tfvar;
@@ -42,6 +47,7 @@ function val = __get__ (sys, key)
 
     otherwise
       error ("tf: get: invalid key name '%s'", key);
+
   endswitch
 
 endfunction
