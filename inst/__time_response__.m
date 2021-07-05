@@ -484,7 +484,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
       den = min ([ev_min, ev_real_min]);
       if (den < TOL)
-        den =  max([ev_min, ev_real_min])
+        den =  max([ev_min, ev_real_min]);
       endif
 
       tfinal = 5 / den;

@@ -2,13 +2,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-3.3.0+     Current Development, Release Date: YYYY-MM-DD
+control-3.3.1+     Current Development, Release Date: YYYY-MM-DD
 ===============================================================================
 
- ** new function rlocusx providing gain, damping and frequency for
-    selected poles together with the possibility to generate open
-    loop bode plots and simulations of the closed loop for selected
-    closed loop poles
+===============================================================================
+control-3.3.1      Release Date: 2021-07-05
+===============================================================================
+
+ ** Fixed time response for first order systems
 
 ===============================================================================
 control-3.3.0      Release Date: 2021-06-19
