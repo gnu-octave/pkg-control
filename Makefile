@@ -19,7 +19,7 @@ M_SOURCES   := $(wildcard inst/*.m)
 CC_SOURCES  := $(wildcard src/*.cc)
 PKG_ADD     := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
 
-OCTAVE ?= octave --no-window-system --silent
+OCTAVE ?= octave --silent
 
 .PHONY: help dist html release install all check run clean
 
@@ -51,7 +51,7 @@ $(RELEASE_DIR): .hg/dirstate
 $(HTML_DIR): install
 	@echo "Generating HTML documentation. This may take a while ..."
 	-$(RM) -r "$@"
-	$(OCTAVE) --no-window-system --silent \
+	$(OCTAVE) \
 	  --eval "pkg load generate_html; " \
 	  --eval "pkg load $(PACKAGE);" \
 	  --eval 'generate_package_html ("${PACKAGE}", "$@", "octave-forge");'
