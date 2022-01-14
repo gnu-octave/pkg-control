@@ -236,9 +236,9 @@ function rlocusx(sys,varargin)
   % Draw root locii
   for j = 1:n
     if ( j == 1 )           % legend only once
-      form = '-3;locus;';
+      form = '-;locus;';
     else
-      form = '-3';
+      form = '-';
     end
     cj = (j-1)/(n-1); % each branch in a slightly different color
     col = col_rl2*cj + col_rl1*(1-cj);

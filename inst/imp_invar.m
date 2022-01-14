@@ -142,7 +142,7 @@ endfunction
 
 function ret = addvecs1 (v11, v22)
   ml = max (numel (v11), numel (v22));
-  ret = prepad1 (v11, ml) .+ prepad1 (v22, ml);
+  ret = prepad1 (v11, ml) + prepad1 (v22, ml);
 endfunction
 
 
