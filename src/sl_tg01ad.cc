@@ -109,7 +109,7 @@ For internal use only.")
             error ("ss: prescale: __sl_tg01ad__: exception in SLICOT subroutine TG01AD");
             
         if (info != 0)
-            error ("ss: prescale: __sl_tg01ad__: TG01AD returned info = %d", info);
+            error ("ss: prescale: __sl_tg01ad__: TG01AD returned info = %d", static_cast<int> (info));
 
 
         // return values

@@ -145,7 +145,7 @@ For internal use only.")
             error ("fitfrd: __sl_sb10yd__: exception in SLICOT subroutine SB10YD");
             
         if (info != 0)
-            error ("fitfrd: __sl_sb10yd__: SB10YD returned info = %d", info);
+            error ("fitfrd: __sl_sb10yd__: SB10YD returned info = %d", static_cast<int> (info));
         
         // return values
         retval(0) = a;

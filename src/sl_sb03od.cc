@@ -119,7 +119,7 @@ For internal use only.")
             error ("lyapchol: __sl_sb03od__: exception in SLICOT subroutine SB03OD");
 
         if (info != 0)
-            error ("lyapchol: __sl_sb03od__: SB03OD returned info = %d", info);
+            error ("lyapchol: __sl_sb03od__: SB03OD returned info = %d", static_cast<int> (info));
 
         // resize
         b.resize (n, n);

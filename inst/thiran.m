@@ -129,7 +129,7 @@ endfunction
 %! sys = thiran (0.5, 0.1);
 %! [num, den] = tfdata (sys, "vector");
 %!assert (den, [1, 0, 0, 0, 0, 0], eps);
-%!assert (num, 1, eps);
+%!assert (num, [0, 0, 0, 0, 0, 1], eps);
 
 %!error (thiran (-1, 1));
 %!error (thiran (1, -1));

@@ -430,7 +430,8 @@ For internal use only.")
         //F77_INT nsmpl = nsmp;
         
         if (nsmpl < 2*(m+l)*nobr)
-            error ("__sl_ident__: nsmpl (%d) < 2*(m+l)*nobr (%d)", nsmpl, nobr);
+            error ("__sl_ident__: nsmpl (%d) < 2*(m+l)*nobr (%d)",
+                   static_cast<int> (nsmpl), static_cast<int> (nobr));
         
         // arguments out
         F77_INT lda = max (1, n);

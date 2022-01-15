@@ -99,7 +99,7 @@ For internal use only.")
             error ("ss: prescale: __sl_tb01id__: exception in SLICOT subroutine TB01ID");
             
         if (info != 0)
-            error ("ss: prescale: __sl_tb01id__: TB01ID returned info = %d", info);
+            error ("ss: prescale: __sl_tb01id__: TB01ID returned info = %d", static_cast<int> (info));
 
 
         // return values

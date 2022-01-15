@@ -123,7 +123,7 @@ For internal use only.")
             error ("ss: minreal: __sl_tb01pd__: exception in SLICOT subroutine TB01PD");
             
         if (info != 0)
-            error ("ss: minreal: __sl_tb01pd__: TB01PD returned info = %d", info);
+            error ("ss: minreal: __sl_tb01pd__: TB01PD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (nr, nr);

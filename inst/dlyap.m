@@ -26,7 +26,7 @@
 ## @group
 ## AXA' - X + B = 0      (Lyapunov Equation)
 ##
-## AXB' - X + C = 0      (Sylvester Equation)
+## AXB - X + C = 0       (Sylvester Equation)
 ##
 ## AXA' - EXE' + B = 0   (Generalized Lyapunov Equation)
 ## @end group
@@ -62,9 +62,19 @@ function [x, scale] = dlyap (a, b, c, e)
                 inputname (1), inputname (2));
       endif
 
-      [x, scale] = __sl_sb03md__ (a, -b, true);     # AXA' - X = -B
+      if issymmetric (b)
+
+        ## The 'normal' case where b is symmetric
+        [x, scale] = __sl_sb03md__ (a, -b, true);     # AXA' - X = -B
+        ## x /= scale;                                # 0 < scale <= 1
+
+      else
+
+        ## b is non-symmetric, solve as Sylvester equation
+        x = __sl_sb04qd__ (-a, a', b);    # AXB - X = -C  (A = a, B = a', C = b)
+
+      endif
   
-      ## x /= scale;                           # 0 < scale <= 1
   
     case 3                                     # Sylvester equation
   
@@ -140,6 +150,24 @@ endfunction
 %!
 %!assert (X, X_exp, 1e-4);
 
+## Lyapunov with non-symmetric B
+%!shared X, X_exp
+%! A = [3.0   1.0   1.0
+%!      1.0   3.0   0.0
+%!      0.0   0.0   3.0];
+%!
+%! B = [1.0   0.2   2.0
+%!      0.5   0.5   1.0
+%!      1.0  -2.0   1.0];
+%!
+%! X = dlyap (A.', -B);
+%!
+%! X_exp = [0.1390   -0.0514    0.1831
+%!         -0.0086    0.0676    0.0422
+%!          0.2005   -0.3233   -0.0362];
+%!
+%!assert (X, X_exp, 1e-4);
+
 ## Sylvester
 %!shared X, X_exp
 %! A = [1.0   2.0   3.0 
@@ -163,4 +191,23 @@ endfunction
 %!assert (X, X_exp, 1e-4);
 
 ## Generalized Lyapunov
-## TODO: add a test
+%!shared X, X_exp
+%! A = [3.0   1.0   1.0
+%!      1.0   3.0   0.0
+%!      1.0   0.0   2.0];
+%!
+%! E = [1.0   3.0   0.0
+%!      3.0   2.0   1.0
+%!      1.0   0.0   1.0];
+%!
+%! B = [ -3.0  -10.0   7.0
+%!      -10.0  -14.0  -2.0
+%!        7.0   -2.0   9.0 ];
+%!
+%! X = dlyap (A, B, [], E);
+%!
+%! X_exp = [-2.0000   -1.0000   0.0000
+%!          -1.0000   -3.0000  -1.0000
+%!           0.0000   -1.0000  -3.0000];
+%!
+%!assert (X, X_exp, 1e-4);

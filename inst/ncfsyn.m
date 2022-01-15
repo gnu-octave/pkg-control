@@ -174,9 +174,11 @@
 ## @end iftex
 ## @ifnottex
 ## @example
+## @verbatim
 ##                               -1            -1            -1
 ## min || N(K) ||   ,    N = | W1   | (I - K G)   | W1   G W2   |
 ##  K            oo          | W2 G |
+## @end verbatim
 ## @end example
 ## @end ifnottex
 ## @iftex
@@ -238,7 +240,7 @@
 ## @strong{Block Diagram of N}
 ## @example
 ## @group
-##
+## @verbatim
 ##             ^ z1              ^ z2
 ##             |                 |
 ##  w1  +      |   +--------+    |            +--------+
@@ -247,6 +249,7 @@
 ##        |                        w2  |                    |
 ##        |                                                 |
 ##        +-------------------------------------------------+
+## @end verbatim
 ## @end group
 ## @end example
 ##

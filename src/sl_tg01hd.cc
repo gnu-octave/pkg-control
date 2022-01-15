@@ -126,7 +126,7 @@ DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
             error ("__sl_tg01hd__: exception in SLICOT subroutine TG01HD");
             
         if (info != 0)
-            error ("__sl_tg01hd__: TG01HD returned info = %d", info);
+            error ("__sl_tg01hd__: TG01HD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (n, n);

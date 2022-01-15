@@ -127,7 +127,7 @@ For internal use only.")
             error ("lyap: __sl_sg03bd__: exception in SLICOT subroutine SG03BD");
 
         if (info != 0)
-            error ("lyap: __sl_sg03bd__: SG03BD returned info = %d", info);
+            error ("lyap: __sl_sg03bd__: SG03BD returned info = %d", static_cast<int> (info));
 
         // resize
         b.resize (n, n);

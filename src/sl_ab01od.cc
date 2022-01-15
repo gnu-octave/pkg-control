@@ -120,7 +120,7 @@ For internal use only.")
             error ("__sl_ab01od__: exception in SLICOT subroutine AB01OD");
             
         if (info != 0)
-            error ("__sl_ab01od__: AB01OD returned info = %d", info);
+            error ("__sl_ab01od__: AB01OD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (n, n);

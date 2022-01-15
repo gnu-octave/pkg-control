@@ -484,13 +484,13 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
       den = min ([ev_min, ev_real_min]);
       if (den < TOL)
-        den =  max([ev_min, ev_real_min])
+        den =  max([ev_min, ev_real_min]);
       endif
 
       tfinal = 5 / den;
       auto_tfinal = 1;  # remeber that tfinal was computed, not given by the user
 
-      if (tfinal < 3*pi/w_min)
+      if ((length (w_min) > 0) && (tfinal < 3*pi/w_min))
         tfinal = 3*pi/w_min;   % make sure we see enough from slowest oscilation
       endif
 

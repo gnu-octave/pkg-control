@@ -122,7 +122,7 @@ For internal use only.")
             error ("hsvd: __sl_ab13ad__: exception in SLICOT subroutine AB13AD");
             
         if (info != 0)
-            error ("hsvd: __sl_ab13ad__: AB13AD returned info = %d", info);
+            error ("hsvd: __sl_ab13ad__: AB13AD returned info = %d", static_cast<int> (info));
 
         // resize
         hsv.resize (ns);

@@ -153,7 +153,7 @@ For internal use only.")
             error ("ss: zero: __sl_ab08nd__: exception in SLICOT subroutine AB08ND");
             
         if (info != 0)
-            error ("ss: zero: __sl_ab08nd__: AB08ND returned info = %d", info);
+            error ("ss: zero: __sl_ab08nd__: AB08ND returned info = %d", static_cast<int> (info));
         
         
         // DGGEV Part
@@ -190,7 +190,7 @@ For internal use only.")
             error ("ss: zero: __sl_ab08nd__: exception in LAPACK subroutine DGGEV");
             
         if (info2 != 0)
-            error ("ss: zero: __sl_ab08nd__: DGGEV returned info = %d", info2);
+            error ("ss: zero: __sl_ab08nd__: DGGEV returned info = %d", static_cast<int> (info2));
 
         // calculate gain
         octave_value gain = Matrix (0, 0);;

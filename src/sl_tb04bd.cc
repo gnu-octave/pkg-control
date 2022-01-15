@@ -135,7 +135,7 @@ For internal use only.")
             error ("ss2tf: __sl_tb04bd__: exception in SLICOT subroutine TB04BD");
 
         if (info != 0)
-            error ("ss2tf: __sl_tb04bd__: TB04BD returned info = %d", info);
+            error ("ss2tf: __sl_tb04bd__: TB04BD returned info = %d", static_cast<int> (info));
 
 
         // return values

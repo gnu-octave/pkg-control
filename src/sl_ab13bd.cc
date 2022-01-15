@@ -122,10 +122,10 @@ For internal use only.")
             error ("lti: norm: __sl_ab13bd__: exception in SLICOT subroutine AB13BD");
             
         if (info != 0)
-            error ("lti: norm: __sl_ab13bd__: AB13BD returned info = %d", info);
+            error ("lti: norm: __sl_ab13bd__: AB13BD returned info = %d", static_cast<int> (info));
 
         if (iwarn != 0)
-            warning ("lti: norm: __sl_ab13bd__: AB13BD returned iwarn = %d", iwarn);
+            warning ("lti: norm: __sl_ab13bd__: AB13BD returned iwarn = %d", static_cast<int> (iwarn));
         
         // return value
         retval(0) = octave_value (norm);

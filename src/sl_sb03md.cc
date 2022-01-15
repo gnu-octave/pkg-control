@@ -122,7 +122,7 @@ For internal use only.")
             error ("lyap: __sl_sb03md__: exception in SLICOT subroutine SB03MD");
 
         if (info != 0)
-            error ("lyap: __sl_sb03md__: SB03MD returned info = %d", info);
+            error ("lyap: __sl_sb03md__: SB03MD returned info = %d", static_cast<int> (info));
         
         // return values
         retval(0) = c;

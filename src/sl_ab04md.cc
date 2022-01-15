@@ -115,7 +115,7 @@ For internal use only.")
             error ("__sl_ab04md__: exception in SLICOT subroutine AB04MD");
 
         if (info != 0)
-            error ("__sl_ab04md__: AB04MD returned info = %d", info);
+            error ("__sl_ab04md__: AB04MD returned info = %d", static_cast<int> (info));
         
         // return values
         retval(0) = a;

@@ -193,7 +193,7 @@ For internal use only.")
             error ("dss: minreal: __sl_tg01jd__: exception in SLICOT subroutine TG01JD");
             
         if (info != 0)
-            error ("dss: minreal: __sl_tg01jd__: TG01JD returned info = %d", info);
+            error ("dss: minreal: __sl_tg01jd__: TG01JD returned info = %d", static_cast<int> (info));
 
         // resize
         a.resize (nr, nr);

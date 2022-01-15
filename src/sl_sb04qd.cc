@@ -100,7 +100,7 @@ For internal use only.")
             error ("dlyap: __sl_sb04qd__: exception in SLICOT subroutine SB04QD");
 
         if (info != 0)
-            error ("dlyap: __sl_sb04qd__: SB04QD returned info = %d", info);
+            error ("dlyap: __sl_sb04qd__: SB04QD returned info = %d", static_cast<int> (info));
         
         // return values
         retval(0) = c;
