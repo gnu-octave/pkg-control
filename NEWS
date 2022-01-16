@@ -2,7 +2,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-3.3.1+     Current Development, Release Date: YYYY-MM-DD
+control-3.4.0     Release Date: 2022-01-16
 ===============================================================================
 
  ** Fix lyapunov equ. in dlyap if B is non-symmetric (bug #49801)
@@ -11,8 +11,8 @@ control-3.3.1+     Current Development, Release Date: YYYY-MM-DD
 
  ** Returned num and den of tfdate have same length (bug #43947)
 
- ** Fixes for Octave 7.1.0: removed deprecated .+ in imp_invar.m,
-    fix unsupported plot style in rlocusx.m
+ ** Fixes for Octave 7.1.0: removed deprecated .+ operator and
+    unsupported plot style
 
 ===============================================================================
 control-3.3.1      Release Date: 2021-07-05
