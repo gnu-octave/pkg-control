@@ -286,9 +286,9 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       args{3,kk} = "go;zeros;";
     endif
     hplt = plot (args{:});
-    set (hplt(kk--), "markersize", 2);
+    set (hplt(kk--), "markersize", 6);
     if (! isempty (rlzer))
-      set (hplt(kk--), "markersize", 2);
+      set (hplt(kk--), "markersize", 6);
     endif
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);

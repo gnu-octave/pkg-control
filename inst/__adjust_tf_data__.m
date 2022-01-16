@@ -43,6 +43,14 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
     den = {den};
   endif
 
+  ## Now check for static gain if all tfs have size num and size den of one
+  num_scalar = cellfun (@(p) length (p) == 1, num);
+  den_scalar = cellfun (@(p) length (p) == 1, den);
+  if (all (num_scalar) && all (den_scalar))
+    ## All tf components are of the form b0/a0 (static gain)
+    tsam = -2;
+  endif
+
   ## NOTE: the 'tfpoly' constructor checks its vector as well,
   ##       but its error message would make little sense for users
   ##       and would make it hard for them to identify the invalid argument.

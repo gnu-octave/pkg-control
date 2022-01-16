@@ -28,23 +28,31 @@
 ## All possible interaction by mouse clicks or keys are:
 ##
 ## @table @asis
-## @item Left click: Display related gain and all resulting
-##                   closed loop poles together with damping
-##                   and frequency
-## @item @kbd{s}: Simulate the step response for the gain of
+## @item Left click: Gain, damping and Frequency
+##                Displays related gain and all resulting
+##                closed loop poles together with damping
+##                and frequency
+## @item @kbd{s}: Step response
+##                Simulates the step response for the gain of
 ##                of the most recently selected pole locations
-## @item @kbd{i}: Simulate the impulse response for the most
+## @item @kbd{i}: Impulse response
+##                Simulates the impulse response for the most
 ##                recently selected gain
-## @item @kbd{b}: Provide the open loop bode plot for the most
+## @item @kbd{b}: Bode plot
+##                Provides the open loop bode plot for the most
 ##                recently selected gain
-## @item @kbd{m}: Provide the open loop bode plot with stability
+## @item @kbd{m}: Stability margins
+##                Provides the open loop bode plot with stability
 ##                margins for the most recently selected gain
-## @item @kbd{a}: Provide all four aforementioned plots
-## @item @kbd{c}: Remove all closed loop pole markers and
-##                annotations
-## @item @kbd{d}: Delete all open figures with simulation and
+## @item @kbd{a}: All plots
+##                Provide sall four aforementioned plots
+## @item @kbd{c}: Clear
+##                Removes all closed loop pole markers and annotations
+## @item @kbd{d}: Delete
+##                Removes all open figures with simulation and
 ##                bode plots
-## @item @kbd{x}: leaves the interactive mode and re-activates
+## @item @kbd{x}: Exit
+##                Exits the interactive mode and re-activates
 ##                the octave prompt
 ## @end table
 ##
@@ -236,9 +244,9 @@ function rlocusx(sys,varargin)
   % Draw root locii
   for j = 1:n
     if ( j == 1 )           % legend only once
-      form = '-3;locus;';
+      form = '-;locus;';
     else
-      form = '-3';
+      form = '-';
     end
     cj = (j-1)/(n-1); % each branch in a slightly different color
     col = col_rl2*cj + col_rl1*(1-cj);
