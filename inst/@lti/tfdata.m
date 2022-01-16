@@ -67,7 +67,6 @@ function [num, den, tsam] = tfdata (sys, rtype = "cell")
   tsam = sys.tsam;
 
   if (! strncmpi (rtype, "t", 1))                # != tfpoly
-    [num, den] = __make_tf_polys_equally_long__ (tf (num,den));
     num = cellfun (@get, num, "uniformoutput", false);
     den = cellfun (@get, den, "uniformoutput", false);
   endif

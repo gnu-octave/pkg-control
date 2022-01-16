@@ -156,7 +156,7 @@ endfunction
 %! b = G1min.den{1, 1};
 %! c = G2min.num{1, 1};
 %! d = G2min.den{1, 1};
-%!assert (a, [0, 5, 0], 1e-4);
+%!assert (a, [5, 0], 1e-4);
 %!assert (b, [1, 1, 1], 1e-4);
 %!assert (c, 0.5, 1e-4);
 %!assert (d, 1, 1e-4);
