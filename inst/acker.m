@@ -69,7 +69,8 @@
 
 ## Author: Fabian Alexander Wilms <f.alexander.wilms@gmail.com>
 ## Created: May 2017
-## Version: 0.1
+## Revised: March 2022, Torsten Lilge (compacter and faster code)
+## Version: 0.2
 
 function k = acker(A, b, p)
 
@@ -85,18 +86,7 @@ function k = acker(A, b, p)
     error ("acker: p must be a vector of size of A, here %d", size (A,1));
   endif
 
-  p = poly (p);
-
-  p_A = zeros (size(A)(1), 1);
-
-  for i=1:size (A)(1)+1
-    p_A = p_A + p(i) * A ^ (size (A)(2) - (i - 1));
-  end
-
-  var = zeros (1, size (ctrb (A,b)));
-  var(size(ctrb(A,b))) = 1;
-
-  k = var * inv (ctrb (A, b)) * p_A;
+  k = (inv (ctrb (A, b)))(end,:) * polyvalm (poly (p), A);
 
 endfunction
 
