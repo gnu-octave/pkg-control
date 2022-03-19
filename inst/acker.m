@@ -26,26 +26,13 @@
 ## @example
 ## @group
 ##       .
-##       x = Ax + bu
-## @end group
-## @end example
-## @end ifnottex
-## 
-## and the desired closed-loop behaviour
-##
-## @tex
-## $$ p(s) = s^n + \alpha_1 s^{n-1} + ... + \alpha_n $$
-## @end tex
-## @ifnottex
-## @example
-## @group
-##       p(s) = s^n + a1*s^(n-1) + ... + an
+##       x = @var{A}x + @var{b}u
 ## @end group
 ## @end example
 ## @end ifnottex
 ##
-## via the vector p containing the roots of the polynom, the state feedback
-## matrix k is calculated:
+## and the desired eigenvalues of the closed loop in the vector @var{p},
+## the state feedback vector k is calculated in the form
 ##
 ## @tex
 ## $$ k = (k_1 k_2 ... k_n) $$
@@ -53,10 +40,25 @@
 ## @ifnottex
 ## @example
 ## @group
-##       k = (k1 k2 ... kn)
+##       @var{k} = (k1 k2 ... kn)
 ## @end group
 ## @end example
 ## @end ifnottex
+##
+## such that the closed loop system matrix
+##
+## @tex
+## $$ A - b\,k $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##       @var{A} - @var{b}@var{k}
+## @end group
+## @end example
+## @end ifnottex
+##
+## has the eigenvalues given in @var{p}.
 ##
 ## @seealso{place}
 ## @end deftypefn
@@ -69,7 +71,7 @@
 ## Created: May 2017
 ## Version: 0.1
 
-function K = acker(A, b, p)
+function k = acker(A, b, p)
 
   if (nargin != 3)
     print_usage ();
@@ -94,7 +96,7 @@ function K = acker(A, b, p)
   var = zeros (1, size (ctrb (A,b)));
   var(size(ctrb(A,b))) = 1;
 
-  K = var * inv (ctrb (A, b)) * p_A;
+  k = var * inv (ctrb (A, b)) * p_A;
 
 endfunction
 
