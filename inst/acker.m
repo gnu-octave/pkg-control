@@ -74,13 +74,13 @@ function K = acker(A, b, p)
   if (nargin != 3)
     print_usage ();
   endif
-  
+
   if (! is_real_square_matrix (A) || ! is_real_vector (b) || rows (A) != rows (b))
       error ("acker: matrix A and vector b not conformal");
   endif
-  
-  if (! isnumeric (p) || ! isvector (p) || isempty (p))  # p could be complex
-    error ("acker: p must be a vector");
+
+  if (! isnumeric (p) || ! isvector (p) || isempty (p) || (length (p) != size (A,1)))  # p could be complex
+    error ("acker: p must be a vector of size of A, here %d", size (A,1));
   endif
 
   p = poly (p);
