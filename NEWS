@@ -5,6 +5,8 @@ Summary of important user-visible changes for releases of the control package
 control-3.4.0+    Current Stable, Release Date: YYYY-MM-DD
 ===============================================================================
 
+ ** acker: Checking length of vector with desired poles (bug #62053),
+           compacter and faster code
 
 ===============================================================================
 control-3.4.0     Release Date: 2022-01-16
