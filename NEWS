@@ -7,9 +7,11 @@ control-3.5.0+    Current Development, Release Date: YYYY-MM-DD
 
 
 ===============================================================================
-control-3.4.0+    Current Stable, Release Date: YYYY-MM-DD
+control-3.4.0+    Current stable branch, not yet released
 ===============================================================================
 
+ ** acker: Checking length of vector with desired poles (bug #62053),
+           compacter and faster code
 
 ===============================================================================
 control-3.4.0     Release Date: 2022-01-16

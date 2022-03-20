@@ -138,8 +138,9 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
     endif
   else
     ## continuous
-    iip = find (abs(pol) > norm(pol)*eps);
-    iiz = find (abs(zer) > norm(zer)*eps);
+    pol_zeros = [zer pol];
+    iip = find (abs(pol) > norm(pol_zeros)*eps);
+    iiz = find (abs(zer) > norm(pol_zeros)*eps);
 
     if (! isempty (zer))
       czer = zer(iiz);
