@@ -61,7 +61,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
       endif
 
     case "i"                       # "impulse"
-      [b a] = tfdata(sys,'v');
+      [b a] = tfdata(sys);
       [bz az] = imp_invar (b , a , 1/tsam , tol = 1e-4);
       sys = tf (bz,az,tsam);
       
