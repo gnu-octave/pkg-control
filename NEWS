@@ -5,6 +5,9 @@ Summary of important user-visible changes for releases of the control package
 control-3.5.0+    Current default branch, not yet released
 ===============================================================================
 
+ ** c2d: allow mimo systems for impulse invariant discretization
+
+ ** impulse: allow systems with feedthrough
 
 ===============================================================================
 control-3.4.0+    Current stable branch, not yet released
