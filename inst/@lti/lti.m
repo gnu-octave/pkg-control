@@ -22,7 +22,7 @@
 ## Created: September 2009
 ## Version: 0.2
 
-function ltisys = lti (p = 0, m = 0, tsam = -2)
+function ltisys = lti (p = 0, m = 0, tsam = -1)
 
   if (nargin != 3 || ! is_real_scalar (p, m, tsam))
     error ("lti: constructor for 'lti' class, intended for internal use only");

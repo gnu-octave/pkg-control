@@ -206,7 +206,7 @@ function sys = tf (varargin)
   endif
   
   num = {}; den = {};                           # default transfer matrix
-  tsam = -2;                                    # default sampling time
+  tsam = -1;                                    # default sampling time
 
   [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 

@@ -97,7 +97,7 @@ function [f, info] = place (a, b, p = [], alpha = [], tol = [])
     p = b;
     sys = a;
     [a, b] = ssdata (sys);         # descriptor matrice e should be regular
-    discrete = ! isct (sys);       # treat tsam = -2 as continuous system
+    discrete = ! isct (sys);
   else                             # place (a, b, p), place (a, b, p, alpha), place (a, b, p, alpha, tol)
     if (nargin < 3)                # nargin > 5 already tested
       print_usage ();

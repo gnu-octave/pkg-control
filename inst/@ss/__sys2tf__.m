@@ -29,7 +29,7 @@ function [retsys, retlti] = __sys2tf__ (sys)
   try
     [a, b, c, d, tsam, scaled] = ssdata (sys);  # system could be a descriptor model
 
-    if (tsam == -2 || isempty (a))              # static gain
+    if (isstaticgain (sys))              # static gain
       sg_flag = true;
     else
       [num, den] = __sl_tb04bd__ (a, b, c, d, scaled);

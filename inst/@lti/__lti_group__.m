@@ -56,10 +56,6 @@ function retlti = __lti_group__ (lti1, lti2, dim = "blkdiag")
 
   if (lti1.tsam == lti2.tsam)
     retlti.tsam = lti1.tsam;
-  elseif (lti1.tsam == -2)
-    retlti.tsam = lti2.tsam;
-  elseif (lti2.tsam == -2)
-    retlti.tsam = lti1.tsam;
   elseif (lti1.tsam == -1 && lti2.tsam > 0)
     retlti.tsam = lti2.tsam;
   elseif (lti2.tsam == -1 && lti1.tsam > 0)

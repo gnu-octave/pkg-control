@@ -31,8 +31,6 @@
 ## Accept real scalars @var{ts} > 0 and @var{ts} == -1.
 ## @item flg = -10
 ## Accept real scalars @var{ts} >= 0 and @var{ts} == -1.
-## @item flg = -2
-## Accept real scalars @var{ts} >= 0, @var{ts} == -1 and @var{ts} == -2.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -65,8 +63,6 @@ function bool = issample (tsam, flg = 1)
       bool = is_real_scalar (tsam) && (tsam > 0 || tsam == -1);
     case -10  # continuous or discrete, tsam unspecified
       bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1);
-    case -2   # accept static gains
-      bool = is_real_scalar (tsam) && (tsam >= 0 || tsam == -1 || tsam == -2);
     otherwise
       print_usage ();
   endswitch
