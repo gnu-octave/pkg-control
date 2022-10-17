@@ -44,6 +44,8 @@ function bool = isdt (ltisys)
     print_usage ();
   endif
 
-  bool = (ltisys.tsam != 0);
+  # Treat static gains (tsam = -2) as ct systems since there is
+  # no more information on its sampling time
+  bool = ((ltisys.tsam != 0) && (ltisys.tsam != -2));
 
 endfunction
