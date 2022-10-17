@@ -12,7 +12,6 @@ syntax: regexp
 (^|/)octave-core$
 (^|/).*\.tar\.gz$
 
-(^|/).*\.orig$
 (^|/)aclocal\.m4$
 (^|/)configure$
 (^|/)autom4te\.cache($|/)
@@ -30,6 +29,3 @@ syntax: regexp
 
 # Other text editors often create these
 (^|/)~.*
-
-# The target folder
-^target

@@ -25,6 +25,11 @@
 
 function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
 
+  if (isempty (a))                      # static system
+    a = [];                             # avoid [](nx0) or [](0xn)
+    tsam = -2;
+  endif
+
   if (isempty (d))
     if (all (size (c) == 0))            # ss (a, b), ss (a, b, [], [], ...), but allow c(0xn) and d(0xm)
       c = eye (size (a));
@@ -37,6 +42,7 @@ function [a, b, c, d, tsam] = __adjust_ss_data__ (a, b, c, d, tsam);
   if (isempty (b) && isempty (c))       # sys = ss ([], [], [], d)
     b = zeros (0, columns (d));
     c = zeros (rows (d), 0);
+    tsam = -2;
   endif
 
   if (is_real_scalar (d) && d == 0)     # ss (a, b, c, 0)  (for matlab compatibility)

@@ -124,7 +124,7 @@ function sys = frd (varargin)
   endif
 
   H = []; w = [];                       # default frequency response data
-  tsam = -1;                            # default sampling time
+  tsam = -2;                            # default sampling time
   
   [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 

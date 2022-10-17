@@ -44,6 +44,6 @@ function bool = isct (ltisys)
     print_usage ();
   endif
 
-  bool = (ltisys.tsam == 0);
+  bool = (ltisys.tsam == 0 || ltisys.tsam == -2);
 
 endfunction
