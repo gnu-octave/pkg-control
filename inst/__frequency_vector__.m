@@ -112,7 +112,7 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
   zer = zero (sys);
   pol = pole (sys);
   tsam = abs (get (sys, "tsam"));               # tsam could be -1
-  discrete = ! isct (sys);                      # static gains (tsam = -2) are assumed continuous
+  discrete = ! isct (sys);
   
   ## make sure zer, pol are row vectors
   pol = reshape (pol, 1, []);

@@ -26,7 +26,7 @@ function sys = __set__ (sys, key, val)
 
   switch (key)   # {<internal name>, <user name>}
     case "num"
-      if (get (sys, "tsam") == -2)   # NOTE: sys.lti.tsam  would call 'get' via 'subsref'
+      if (isstaticgain (sys))
         error (["tf: set: tinkering with numerators of static gains is disabled on purpose.  " ...
                 "to avoid this error, set the sampling time of your LTI model first."]);
       elseif (sys.inv)               # FIXME: f = filt (1, [1 0 0 1]),  f.num = 1
@@ -39,7 +39,7 @@ function sys = __set__ (sys, key, val)
       sys.num = num;
 
     case "den"
-      if (get (sys, "tsam") == -2)
+      if (isstaticgain (sys))
         error (["tf: set: tinkering with denominators of static gains is disabled on purpose.  " ...
                 "to avoid this error, set the sampling time of your LTI model first."]);
       elseif (sys.inv)               # FIXME: f = filt ([1 0 0 1], 1),  f.den = 1

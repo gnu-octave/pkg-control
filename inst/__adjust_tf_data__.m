@@ -23,16 +23,17 @@
 ## Created: October 2015
 ## Version: 0.1
 
-function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
+function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -1)
 
+  static_gain = false;
   if (isempty (den))                    # tf (num, []),  where [] could be {} as well
     if (isempty (num))                  # tf ([], [])
       num = den = {};
-      tsam = -2;
+      static_gain = true;
     elseif (is_real_matrix (num))       # static gain  tf (matrix),  tf (matrix, [])
       num = num2cell (num);
       den = num2cell (ones (size (num)));
-      tsam = -2;
+      static_gain = true;
     endif
   endif
 
@@ -48,7 +49,7 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
   den_scalar = cellfun (@(p) (find (p != 0, 1) == length (p)) || (length (find (p != 0, 1)) == 0), den);
   if (all (num_scalar) && all (den_scalar))
     ## All tf components are of the form b0/a0 (static gain)
-    tsam = -2;
+    static_gain = true;
   endif
 
   ## NOTE: the 'tfpoly' constructor checks its vector as well,
@@ -84,10 +85,10 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -2)
     error ("tf: denominator(s) cannot be zero");
   endif
   
-  if (tsam == 0)
-    tfvar = "s";
-  elseif (tsam == -2)
+  if (static_gain)
     tfvar = "x";
+  elseif (tsam == 0)
+    tfvar = "s";
   else
     tfvar = "z";
   endif

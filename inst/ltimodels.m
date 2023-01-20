@@ -73,15 +73,24 @@ endfunction
 ## isct, isdt
 %!shared ltisys
 %! ltisys = tf (12);
-%!assert (ltisys.ts, -2);
+%!assert (ltisys.ts, 0);
+%!assert (isstaticgain (ltisys));
 %!assert (isct (ltisys));
 %!assert (! isdt (ltisys));
 
 %!shared ltisys
 %! ltisys = ss (17);
-%!assert (ltisys.ts, -2);
-%!assert (isct (ltisys));
+%!assert (ltisys.ts, 0);
+%!assert (isstaticgain (ltisys));
 %!assert (! isdt (ltisys));
+%!assert (isct (ltisys));
+
+%!shared ltisys
+%! ltisys = tf ({[0 9],[0 0 10]},{2,5},2);
+%!assert (ltisys.ts, 2);
+%!assert (isstaticgain (ltisys));
+%!assert (isdt (ltisys));
+%!assert (! isct (ltisys));
 
 %!shared ltisys
 %! ltisys = tf (1, [1 1]);
@@ -95,6 +104,13 @@ endfunction
 %!assert (ltisys.ts, ts);
 %!assert (! isct (ltisys));
 %!assert (isdt (ltisys));
+
+%!shared ltisys
+%! ltisys = ss ([],[],[], 3);
+%!assert (ltisys.ts, 0);
+%!assert (isstaticgain (ltisys));
+%!assert (isct (ltisys));
+%!assert (! isdt (ltisys));
 
 
 
