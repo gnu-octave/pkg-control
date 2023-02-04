@@ -36,6 +36,5 @@
     - Provide the related commit in the repository
     - Provide the related md5sums
 7. `hg tag 'control-X.Y.Z'`
-
-
-
+8. Merge `release_preparation` into stable
+9. Merge `stable` into `default`
