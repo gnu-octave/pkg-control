@@ -26,10 +26,6 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
 
   if (strncmpi (method, "i", 1))    # "impulse invariant"
-        
-    if (! issiso (sys))
-      error ("tf: c2d: require SISO system for impulse invariant method");
-    endif
     
     sys=imp_invar(sys,1/tsam);
     

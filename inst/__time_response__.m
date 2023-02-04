@@ -130,6 +130,33 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
   sys_ctss = cell (size (sys_ct));
   for i = 1:length (sys_ct)
     sys_ctss{i} = ss (sys_ct{i});
+    # impulse response for systems with direct feedthrough needs special care:
+    # get the response without the resulting delta-inpulses in the outputs
+    # and print a warning
+    if strcmp (response1,"impulse")
+      [nz_y, nz_u] = find (sys_ctss{i}.d);
+      if ! isempty (nz_y)
+        # there is at least one direct feedthrough, prepare a warning message
+        msg = ["System has a direct feedthrough!\n", ...
+               "The impulse %f*delta(t) is omitted in the impulse response\n", ...
+               "from input \"%s\" to output \"%s\""];
+      endif
+      for jj = 1:length (nz_y)
+        # get the names of all input/output channels with feedthrough
+        in = sys_ctss{i}.inputname{nz_u(jj)};
+        out = sys_ctss{i}.outputname{nz_y(jj)};
+        if isempty (in)
+          in = ['u', num2str(nz_u(jj))];  # default name
+        endif
+        if isempty (out)
+          out = ['y', num2str(nz_y(jj))];  # default name
+        endif
+        # print the warning
+        warning (msg, sys_ctss{i}.d, in, out);
+      endfor
+      ## compute impulse response for remaining system without feedthrough
+      sys_ctss{i}.d = 0*sys_ctss{i}.d;
+    endif
   endfor
   sys_ct2dt = cellfun (@c2d, sys_ctss, dt(ct_idx), {response1}, "uniformoutput", false);
   sys_dt(ct_idx) = sys_ct2dt;
