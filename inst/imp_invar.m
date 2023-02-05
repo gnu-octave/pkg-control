@@ -52,76 +52,99 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
   if (nargin < 1)
     print_usage;
   endif
-  
+
   if (isa (b, "tf") == 1)
-  ## the input is an LTI object  
+  ## the input is an LTI object
   ## therefore inputs are (sys,fs,tol)
   ## so b is sys
   ## and a is fs
   ## and fs is tol
-  
+
     if (exist("fs","var") != 0)
       tol = fs;
     else
       tol=0.0001;
-    endif 
-    
+    endif
+
     if (exist ("a") == 1)
       fs=a;
     else
       fs=1;
     endif
-    
-    [b a] = tfdata (b , "v");
+
+    [b a] = tfdata (b);
   else
-     ## the input is vectors
+     ## the input is cell array with vectors
     if (exist ("fs") == 0)
       fs = 1;
     endif
+    if ! iscell (a)
+      a = {a};
+    endif
+    if ! iscell (b)
+      b = {b};
+    endif
+    if size (a) != size (b)
+      error ("cell arrays with numerators and denominators must be of same size");
+    endif
   endif
-    
+
   if (isempty (fs))
     fs = 1;
   endif
-   
+
   if (isempty (tol))
     tol = 1e-4;
   endif
-    
+
   T = 1/fs;
-  [r, p, k, e] = residue (b, a); # partial fraction expansion
 
-  if (length (k) > 0) # Greater than zero means we cannot do impulse invariance
-    error("Order numerator >= order denominator");
-  endif
+  # init solution (just to get cell arrays of right size
+  rn = b;
+  rd = a;
 
-  
-  p = -p;
-  p = -exp(-p.*T);
-  L = length (r);
-  if (L == 1)
-    retn = [r(1) 0];
-    retd = [1 p(1)];
-  else
-    rr = nump (r(1), e(1), T, [1 p(1)]);
-    [retn retd] = acpfwm (rr, [1 p(1)], r(2), [1 p(2)], e(2), T);
-    for k=3:L
-      [retn retd] = acpfwm (retn, retd, r(k), [1 p(k)], e(k), T);
+  for oi = 1:size(a,1)
+    # for all outputs
+      for ii = 1:size(a,2)
+      # for all inputs
+
+      [r, p, k, e] = residue (b{oi,ii}, a{oi,ii}); # partial fraction expansion
+
+      if (length (k) > 0) # Greater than zero means we cannot do impulse invariance
+        error("Order numerator >= order denominator");
+      endif
+
+      p = -p;
+      p = -exp(-p.*T);
+      L = length (r);
+      if (L == 1)
+        retn = [r(1) 0];
+        retd = [1 p(1)];
+      else
+        rr = nump (r(1), e(1), T, [1 p(1)]);
+        [retn retd] = acpfwm (rr, [1 p(1)], r(2), [1 p(2)], e(2), T);
+        for k=3:L
+          [retn retd] = acpfwm (retn, retd, r(k), [1 p(k)], e(k), T);
+        endfor
+      endif
+
+      retn = real (retn);
+      retn (abs (retn) < 1e-14) = 0; # Get rid of any imaginary parts from round off errors
+      rn{oi,ii} = retn;
+      rd{oi,ii} = real (retd);
+
     endfor
-  endif
+  endfor
 
-  rn = real (retn);
-  rn (abs (rn) < 1e-14) = 0; # Get rid of any imaginary parts from round off errors
-  rd = real (retd);
-  sys11 = tf (rn, rd, T);
-  sys2 = minreal (sys11, tol); # Use this to remove the common roots.
-  
+  sys1 = tf (rn, rd, T);
+  sys2 = minreal (sys1, tol); # Use this to remove the common roots.
+
   if (nargout() < 2)
     bz = sys2;
   else
-    [bz, az] = tfdata (sys2, "v");
+    [bz, az] = tfdata (sys2);
   endif
-  
+
 endfunction
 
 
@@ -160,7 +183,7 @@ function ret = addvecs (v11, v22)
   endif
   ret = v11 + v22;
 endfunction
-   
+
 
 
 function v1 = convm (v1, v2, m)
@@ -229,4 +252,3 @@ function [retn retd] = acpfwm (c1,d1,c2,d2,m,T)
   retn = addvecs (n1, n2);
   retd = conv (d1, d2m);
 endfunction
-
