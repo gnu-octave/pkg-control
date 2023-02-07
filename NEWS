@@ -2,19 +2,23 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-3.5.0+    Current default branch, not yet released
+control-3.5.0    Release date 2023-02-04
 ===============================================================================
 
  ** c2d: allow mimo systems for impulse invariant discretization
 
  ** impulse: allow systems with feedthrough
 
-===============================================================================
-control-3.4.0+    Current stable branch, not yet released
-===============================================================================
-
  ** acker: Checking length of vector with desired poles (bug #62053),
-           compacter and faster code
+           compacter and faster code,
+           fix bug resulting from Octave 8 zeros() function (bug #63744)
+
+ ** fix freq. vector for bode etc. for systems with very small zeros
+    or poles (bug #62186)
+
+ ** isdt: treat static gain as ct due to missing sampling time
+
+ ** tf: improve detection of static gain systems (bug #63661)
 
 ===============================================================================
 control-3.4.0     Release Date: 2022-01-16

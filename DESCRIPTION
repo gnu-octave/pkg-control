@@ -1,6 +1,6 @@
 Name: control
-Version: 3.4.0+
-Date: YYYY-MM-DD
+Version: 3.5.0
+Date: 2023-02-04
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Alexander Wilms <f.alexander.wilms@gmail.com>, Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mailbox.org>
 Title: Computer-Aided Control System Design
