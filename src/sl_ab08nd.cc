@@ -82,10 +82,10 @@ For internal use only.")
         // arguments in
         char equil;
         
-        const Matrix a = args(0).matrix_value ();
-        const Matrix b = args(1).matrix_value ();
-        const Matrix c = args(2).matrix_value ();
-        const Matrix d = args(3).matrix_value ();
+        Matrix a = args(0).matrix_value ();
+        Matrix b = args(1).matrix_value ();
+        Matrix c = args(2).matrix_value ();
+        Matrix d = args(3).matrix_value ();
         const F77_INT scaled = args(4).int_value ();
         
         if (scaled == 0)
@@ -198,7 +198,7 @@ For internal use only.")
         if (m == 1 && p == 1)
         {
             if (nu < n)
-                gain = c * xpow (a, double (n-1-nu)).matrix_value() * b;
+                gain = c * octave::xpow (a, double (n-1-nu)).matrix_value() * b;
             else
                 gain = d;
         }
