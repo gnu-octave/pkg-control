@@ -181,7 +181,7 @@
 ## @end tex
 ## @end iftex
 ## @end itemize
-## 
+##
 ## @strong{Algorithm}@*
 ## Uses SLICOT AB09HD by courtesy of
 ## @uref{http://www.slicot.org, NICONET e.V.}
@@ -196,7 +196,7 @@ function [Gr, info] = bstmodred (G, varargin)
   if (nargin == 0)
     print_usage ();
   endif
-  
+
   if (! isa (G, "lti"))
     error ("bstmodred: first argument must be an LTI system");
   endif
@@ -215,18 +215,18 @@ function [Gr, info] = bstmodred (G, varargin)
   endif
 
   nkv = numel (varargin);                          # number of keys and values
-  
+
   if (rem (nkv, 2))
     error ("bstmodred: keys and values must come in pairs");
   endif
 
   [a, b, c, d, tsam, scaled] = ssdata (G);
   dt = isdt (G);
-  
+
   ## default arguments
   alpha = __modred_default_alpha__ (dt);
   beta = 0;
-  tol1 = 0; 
+  tol1 = 0;
   tol2 = 0;
   ordsel = 1;
   nr = 0;
@@ -248,7 +248,7 @@ function [Gr, info] = bstmodred (G, varargin)
 
       case "alpha"
         alpha = __modred_check_alpha__ (val, dt);
-        
+
       case "beta"
         if (! issample (val, 0))
           error ("bstmodred: argument %s must be BETA >= 0", varargin{k});
@@ -264,7 +264,7 @@ function [Gr, info] = bstmodred (G, varargin)
           case {"sr-spa", "s"}       # 'S':  use the square-root Singular Perturbation Approximation method
             job = 2;
           case {"bfsr-spa", "p"}     # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
-            job = 3; 
+            job = 3;
           otherwise
             error ("bstmodred: '%s' is an invalid approximation method", val);
         endswitch
@@ -276,7 +276,7 @@ function [Gr, info] = bstmodred (G, varargin)
         warning ("bstmodred: invalid property name '%s' ignored", key);
     endswitch
   endfor
-  
+
   ## perform model order reduction
   [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09hd__ (a, b, c, d, dt, scaled, job, nr, ordsel, alpha, beta, ...
                                             tol1, tol2);
@@ -344,8 +344,22 @@ endfunction
 %!
 %! HSVe = [  0.8803   0.8506   0.8038   0.4494   0.3973   0.0214   0.0209 ].';
 %!
-%! Mo = [Ao, Bo; Co, Do];
-%! Me = [Ae, Be; Ce, De];
+%! # Solution might not be unique. Therefore, transform system into
+%! # a unique canonical form, here the diagonal form
+%! [Tde, ewe] = eig (Ae);
+%! [Tdo, ewo] = eig (Ao);
+%! Tdei = inv (Tde);
+%! Tdoi = inv (Tdo);
+%! Ade = Tdei * Ae * Tde;
+%! Ado = Tdoi * Ao * Tdo;
+%! Bde = Tdei * Be;
+%! Bdo = Tdoi * Bo;
+%! Cde = Ce * Tde;
+%! Cdo = Co * Tdo;
+%!
+%! # Compare these forms (D is not affected by transfromation
+%! Mo = [Ado, Bdo; Cdo, Do];
+%! Me = [Ade, Bde; Cde, De];
 %!
 %!assert (Mo, Me, 1e-4);
 %!assert (Info.hsv, HSVe, 1e-4);
