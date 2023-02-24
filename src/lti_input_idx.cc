@@ -93,8 +93,8 @@ Read the source code in @code{lti_input_idx.cc} for details.\n\
       offset = 1;
     }
 
-    Range mat_idx (1, idx-offset);
-    Range opt_idx (idx+1-offset, len);
+    octave::range<double> mat_idx (1, idx-offset);
+    octave::range<double> opt_idx (idx+1-offset, len);
 
     retval(2) = offset;     // abused as logical in the LTI constructors
     retval(1) = opt_idx;
