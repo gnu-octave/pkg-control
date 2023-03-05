@@ -283,22 +283,27 @@ endfunction
 %! V = ss (AV, BV, CV, DV);
 %!
 %! [Gr, Info] = btamodred (G, 2, "left", V);
-%! [Ao, Bo, Co, Do] = ssdata (Gr);
 %!
 %! Ae = [  9.1900   0.0000
 %!         0.0000 -34.5297 ];
 %!
-%! Be = [ 11.9593
-%!        16.9329 ];
+%! Be = [ -11.9593
+%!        -16.9329 ];
 %!
-%! Ce = [  2.8955   6.9152 ];
+%! Ce = [  -2.8955   -6.9152 ];
 %!
 %! De = [  0.0000 ];
 %!
-%! HSVe = [  3.8253   0.2005 ].';
+%! # Since btamodred approximates the input/output behavior
+%! # only input/output behavior is tested. The state space
+%! # representaton might have different signs of the states.
+%! [numo, deno] = tfdata (Gr, "vector");
+%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
 %!
-%! Mo = [Ao, Bo; Co, Do];
-%! Me = [Ae, Be; Ce, De];
+%! Mo = [numo deno]/deno(end); # normalize transfer function to a0 = 1
+%! Me = [nume dene]/dene(end); # normalize transfer function to a0 = 1
+%!
+%! HSVe = [  3.8253   0.2005 ].';
 %!
 %!assert (Mo, Me, 1e-4);
 %!assert (Info.hsv, HSVe, 1e-4);

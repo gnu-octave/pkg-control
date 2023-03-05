@@ -465,7 +465,7 @@ endfunction
 %!        -0.1968
 %!         0.0525
 %!         0.0361 ];
-%! 
+%!
 %! De = [ -0.0041 ];
 %!
 %! Ke = [ -1.9513
@@ -943,10 +943,23 @@ endfunction
 %!        -0.0037  -0.0461  -0.1177   0.0092  -0.0242
 %!         0.0476  -0.0237  -0.0159   0.0174   0.0464 ];
 %!
-%!assert (abs (SYS.A), abs (Ae), 1e-4);
-%!assert (abs (SYS.B), abs (Be), 1e-4);
-%!assert (abs (SYS.C), abs (Ce), 1e-4);
-%!assert (abs (SYS.D), abs (De), 1e-4);
+%! # Since moen4 identifies the input/output behavior
+%! # only input/output behavior is tested. The state space
+%! # representaton is not unique.
+%! [numo, deno] = tfdata (SYS);
+%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De));
+%! Mo = [];
+%! Me = [];
+%! for iy = 1:size(Ce,1)
+%!   for iu = 1:size(Be,2)
+%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
+%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
+%!   endfor
+%! endfor
+%!
+%! assert (Mo, Me, 1e-4);
 
 
 ## [96-007] Data of a CD-player arm
@@ -3028,7 +3041,21 @@ endfunction
 %! De = [ -0.4997   0.0451
 %!        -1.0011  -0.5567 ];
 %!
-%!assert (SYS.A, Ae, 1e-4);
-%!assert (SYS.B, Be, 1e-4);
-%!assert (SYS.C, Ce, 1e-4);
-%!assert (SYS.D, De, 1e-4);
+%! # Since moen4 identifies the input/output behavior
+%! # only input/output behavior is tested. The state space
+%! # representaton is not unique.
+%! [numo, deno] = tfdata (SYS);
+%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De));
+%! Mo = [];
+%! Me = [];
+%! for iy = 1:size(Ce,1)
+%!   for iu = 1:size(Be,2)
+%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
+%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
+%!   endfor
+%! endfor
+%!
+%! assert (Mo, Me, 1e-3);
+
