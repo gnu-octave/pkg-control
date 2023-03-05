@@ -111,7 +111,7 @@
 ## @example
 ##           -1
 ## V = (I-G*K) *G ,  W = I
-## @end example         
+## @end example
 ## @end ifnottex
 ##
 ## @item 'right', 'input'
@@ -125,7 +125,7 @@
 ## @example
 ##                    -1
 ## V = I ,  W = (I-G*K) *G
-## @end example                    
+## @end example
 ## @end ifnottex
 ##
 ## @item 'both', 'performance'
@@ -260,7 +260,6 @@ endfunction
 %! K = ss (AC, BC, CC, DC, "scaled", true);
 %!
 %! [Kr, Info] = btaconred (G, K, 2, "weight", "input", "feedback", "+");
-%! [Ao, Bo, Co, Do] = ssdata (Kr);
 %!
 %! Ae = [   9.1900   0.0000
 %!          0.0000 -34.5297 ];
@@ -272,10 +271,17 @@ endfunction
 %!
 %! De = [   0.0000 ];
 %!
-%! HSVCe = [  3.8253   0.2005 ].';
+%! # Since btaconred approximates an output controller,
+%! # only its input/output behavior is important and is tested.
+%! # The state space representaton might have different signs
+%! # of the states.
 %!
-%! Mo = [Ao, Bo; Co, Do];
-%! Me = [Ae, Be; Ce, De];
+%! [numo deno] = tfdata (Kr, "vector");
+%! [nume dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
+%! Mo = [numo deno]/deno(end); # normalize transfer function to a0 = 1
+%! Me = [nume dene]/dene(end); # normalize transfer function to a0 = 1
+%!
+%! HSVCe = [  3.8253   0.2005 ].';
 %!
 %!assert (Mo, Me, 1e-4);
 %!assert (Info.hsvc, HSVCe, 1e-4);

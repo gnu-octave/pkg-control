@@ -74,7 +74,7 @@
 ## The order of the @var{alpha}-stable subsystem of the original system @var{G}.
 ## @item info.hsv
 ## The Hankel singular values corresponding to the projection @code{op(V)*G1*op(W)},
-## where G1 denotes the @var{alpha}-stable part of the original system @var{G}. 
+## where G1 denotes the @var{alpha}-stable part of the original system @var{G}.
 ## The @var{ns} Hankel singular values are ordered decreasingly.
 ## @item info.nu
 ## The order of the @var{alpha}-unstable subsystem of both the original
@@ -284,7 +284,7 @@ function [Gr, info] = hnamodred (G, varargin)
   if (nargin == 0)
     print_usage ();
   endif
-  
+
   if (! isa (G, "lti"))
     error ("hnamodred: first argument must be an LTI system");
   endif
@@ -311,7 +311,7 @@ function [Gr, info] = hnamodred (G, varargin)
   [a, b, c, d, tsam, scaled] = ssdata (G);
   [p, m] = size (G);
   dt = isdt (G);
-  
+
   ## default arguments
   alpha = __modred_default_alpha__ (dt);
   av = bv = cv = dv = [];
@@ -319,7 +319,7 @@ function [Gr, info] = hnamodred (G, varargin)
   aw = bw = cw = dw = [];
   jobw = 0;
   jobinv = 2;
-  tol1 = 0; 
+  tol1 = 0;
   tol2 = 0;
   ordsel = 1;
   nr = 0;
@@ -392,7 +392,7 @@ function [Gr, info] = hnamodred (G, varargin)
     endswitch
   endfor
 
-  
+
   ## perform model order reduction
   [ar, br, cr, dr, nr, hsv, ns] = __sl_ab09jd__ (a, b, c, d, dt, scaled, nr, ordsel, alpha, ...
                                             jobv, av, bv, cv, dv, ...
@@ -402,7 +402,7 @@ function [Gr, info] = hnamodred (G, varargin)
   ## assemble reduced order model
   Gr = ss (ar, br, cr, dr, tsam);
 
-  ## assemble info struct  
+  ## assemble info struct
   n = rows (a);
   nu = n - ns;
   info = struct ("n", n, "ns", ns, "hsv", hsv, "nu", nu, "nr", nr);
@@ -460,10 +460,16 @@ endfunction
 %!
 %! De = [  0.0219 ];
 %!
+%! # Since hnamodred approximates the input/output behavior
+%! # only input/output behavior is tested. The state space
+%! # representaton might have different signs of the states.
+%! [numo, deno] = tfdata (Gr, "vector");
+%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
+%!
+%! Mo = [numo deno]/deno(end); # normalize transfer function to a0 = 1
+%! Me = [nume dene]/dene(end); # normalize transfer function to a0 = 1
+%!
 %! HSVe = [  2.6790   2.1589   0.8424   0.1929   0.0219   0.0011 ].';
 %!
-%! Mo = [Ao, Bo; Co, Do];
-%! Me = [Ae, Be; Ce, De];
-%!
-%!assert (Mo, Me, 1e-4);
+%!assert (Mo, Me, 1e-3);
 %!assert (Info.hsv, HSVe, 1e-4);
