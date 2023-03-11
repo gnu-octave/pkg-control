@@ -39,12 +39,12 @@ help:
 %.tar.gz: %
 	tar -c -f - --posix -C "$(TARGET_DIR)/" "$(notdir $<)" | gzip -9n > "$@"
 
-$(RELEASE_DIR): .hg/dirstate
+$(RELEASE_DIR): .git/index
 	@echo "Creating package version $(VERSION) release ..."
 	-$(RM) -r "$@"
-	hg archive \
-	  --exclude ".hg*" --exclude "Makefile" --exclude "devel" \
-	  --type files "$@"
+	mkdir -p "$@"
+	git archive -o "$@/tmp.tar" HEAD
+	cd "$@" && tar -xf tmp.tar && $(RM) tmp.tar
 	cd "$@/src" && ./bootstrap && $(RM) -r "autom4te.cache"
 	chmod -R a+rX,u+w,go-w "$@"
 
@@ -61,7 +61,7 @@ dist: $(RELEASE_TARBALL)
 html: $(HTML_TARBALL)
 
 release: dist html
-	md5sum $(RELEASE_TARBALL) $(HTML_TARBALL)
+	md256sum $(RELEASE_TARBALL) $(HTML_TARBALL)
 	@echo "Create a release ticket at https://sourceforge.net/p/octave/package-releases/"
 	@echo 'Execute: hg tag "control-${VERSION}"'
 
