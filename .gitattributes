@@ -3,3 +3,4 @@
 .git*       export-ignore
 /Makefile   export-ignore
 devel       export-ignore
+docs        export-ignore
