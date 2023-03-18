@@ -16,8 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} mrdivide
 ## Matrix right division of @acronym{LTI} objects.  If necessary, object conversion
 ## is done by sys_group in mtimes.  Used by Octave for "sys1 / sys2".
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

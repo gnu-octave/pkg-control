@@ -17,7 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {[@var{K}, @var{N}, @var{gamma}, @var{info}] =} ncfsyn (@var{G}, @var{W1}, @var{W2}, @var{factor})
-## Loop shaping H-infinity synthesis.  Compute positive feedback controller using 
+## Loop shaping H-infinity synthesis.  Compute positive feedback controller using
 ## the McFarlane/Glover loop shaping design procedure [1].
 ## Using a precompensator @var{W1} and/or a postcompensator @var{W2}, the singular values
 ## of the nominal plant @var{G} are shaped to give a desired open-loop shape.
@@ -26,114 +26,96 @@
 ## We assume that @var{W1} and @var{W2} are such that @var{Gs} contains no hidden modes.
 ## It is relatively easy to approximate the closed-loop requirements by the following
 ## open-loop objectives [2]:
+##
 ## @enumerate
 ## @item For @emph{disturbance rejection} make
-## @iftex
 ## @tex
-## $\\underline{\\sigma}(W_2 G W_1)$
+## \(\underline{\sigma}(W_2 G W_1)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-## 
+## sigma_l (W2 G W1)
 ## @end example
 ## @end ifnottex
 ## large; valid for frequencies at which
-## @iftex
 ## @tex
-## $\\underline{\\sigma}(G_S) \\gg 1$.
+## \(\underline{\sigma}(G_S) \gg 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-## 
+## sigma_l (Gs) >> 1.
 ## @end example
 ## @end ifnottex
 ## @item For @emph{noise attenuation} make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(W_2 G W_1)$
+## \(\overline{\sigma}(W_2 G W_1)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## sigma_h (W2 G W1)
 ## @end example
 ## @end ifnottex
 ## small; valid for frequencies at which
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(G_S) \\ll 1$.
+## \(\overline{\sigma}(G_S) \ll 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## sigma_h (Gs) << 1
 ## @end example
 ## @end ifnottex
 ## @item For @emph{reference tracking} make
-## @iftex
 ## @tex
-## $\\underline{\\sigma}(W_2 G W_1)$
+## \(\underline{\sigma}(W_2 G W_1)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## sigma_l (W2 G W1)
 ## @end example
 ## @end ifnottex
 ## large; valid for frequencies at which
-## @iftex
 ## @tex
-## $\\underline{\\sigma}(G_S) \\gg 1$.
+## \(\underline{\sigma}(G_S) \gg 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## sigma_l (Gs) >> 1
 ## @end example
 ## @end ifnottex
 ## @item For @emph{robust stability} to a multiplicative output perturbation
-## @iftex
 ## @tex
-## $G_p = (I + \\Delta) G$, make
+## \(G_p = (I + \Delta) G\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## Gp = (I + Delta) G
 ## @end example
 ## @end ifnottex
-## @iftex
+## make
 ## @tex
-## $\\overline{\\sigma}(W_2 G W_1)$
+## \(\overline{\sigma}(W_2 G W_1)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-##
+## sigma_h (W2 G W1)
 ## @end example
 ## @end ifnottex
 ## small; valid for frequencies at which
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(G_S) \\ll 1$.
+## \(\overline{\sigma}(G_S) \ll 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
-## .
+## sigma_h (Gs) << 1
 ## @end example
 ## @end ifnottex
 ## @end enumerate
 ## Then a stabilizing controller @var{Ks} is synthesized for shaped plant @var{Gs}.
 ## The final positive feedback controller @var{K} is then constructed by combining
 ## the
-## @iftex
 ## @tex
-## $H_{\\infty}$
+## \(H_{\infty}\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## H-infinity
@@ -143,22 +125,18 @@
 ## such that @code{K = W1 Ks W2}.
 ## In [1] is stated further that the given robust stabilization objective can be
 ## interpreted as a
-## @iftex
 ## @tex
-## $H_{\\infty}$
+## \(H_{\infty}\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## H-infinity
 ## @end example
 ## @end ifnottex
 ## problem formulation of minimizing the
-## @iftex
 ## @tex
-## $H_{\\infty}$
+## \(H_{\infty}\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## H-infinity
@@ -166,12 +144,10 @@
 ## @end ifnottex
 ## norm of the frequency weighted gain from disturbances on the plant input and output
 ## to the controller input and output as follows:
-## @iftex
 ## @tex
-## $$ \\underset{K}{\\min} \\, || N(K) ||_{\\infty}, $$
-## $$ N = | W_{1}^{-1}; W_2 G | \\ (I - K G)^{-1} \\ | W_1, \\ G W_{2}^{-1} | $$
+## $$ \underset{K}{\min} \, || N(K) ||_{\infty}, $$
+## $$ N = | W_{1}^{-1}; W_2 G | \ (I - K G)^{-1} \ | W_1, \ G W_{2}^{-1} | $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## @verbatim
@@ -181,11 +157,6 @@
 ## @end verbatim
 ## @end example
 ## @end ifnottex
-## @iftex
-## @tex
-## 
-## @end tex
-## @end iftex
 ##
 ## @code{[K, N] = ncfsyn (G, W1, W2, f)}
 ## The function @command{ncfsyn} - the somewhat cryptic name stands
@@ -258,7 +229,7 @@
 ## @uref{http://www.slicot.org, NICONET e.V.}
 ##
 ## @strong{References}@*
-## [1] D. McFarlane and K. Glover, 
+## [1] D. McFarlane and K. Glover,
 ## @cite{A Loop Shaping Design Procedure Using H-infinity Synthesis},
 ## IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.@*
 ## [2] S. Skogestad and I. Postlethwaite,
@@ -276,11 +247,11 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
   if (nargin == 0 || nargin > 4)
     print_usage ();
   endif
-  
+
   if (! isa (G, "lti"))
     error ("ncfsyn: first argument must be an LTI system");
   endif
-  
+
   if (! is_real_scalar (factor) || factor < 1.0)
     error ("ncfsyn: fourth argument invalid");
   endif
@@ -289,7 +260,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   W1 = __adjust_weighting__ (W1, m);
   W2 = __adjust_weighting__ (W2, p);
-  
+
   Gs = W2 * G * W1;            # shaped plant
 
   [a, b, c, d, tsam] = ssdata (Gs);
@@ -305,7 +276,7 @@ function [K, varargout] = ncfsyn (G, W1 = [], W2 = [], factor = 1.0)
 
   ## controller
   Ks = ss (ak, bk, ck, dk, tsam);
-  
+
   K = W1 * Ks * W2;
 
   if (nargout > 1)
@@ -365,22 +336,22 @@ endfunction
 %!       -8.0  4.0  7.0 -1.0 -3.0  0.0
 %!        2.0  5.0  8.0 -9.0  1.0 -4.0
 %!        3.0 -5.0  8.0  0.0  2.0 -6.0 ];
-%!   
+%!
 %! B = [ -3.0 -4.0
 %!        2.0  0.0
 %!       -5.0 -7.0
 %!        4.0 -6.0
 %!       -3.0  9.0
 %!        1.0 -2.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -4.0  0.0 -3.0
 %!       -3.0  0.0  5.0 -1.0  1.0  1.0
 %!       -7.0  5.0  0.0 -8.0  2.0 -2.0 ];
-%!  
+%!
 %! D = [  1.0 -2.0
 %!        0.0  4.0
 %!        5.0 -3.0 ];
-%!    
+%!
 %! FACTOR = 1.0;
 %!
 %! [AK, BK, CK, DK, RCOND] = __sl_sb10id__ (A, B, C, D, FACTOR);
@@ -420,22 +391,22 @@ endfunction
 %!       -8.0  4.0  7.0 -1.0 -3.0  0.0
 %!        2.0  5.0  8.0 -9.0  1.0 -4.0
 %!        3.0 -5.0  8.0  0.0  2.0 -6.0 ];
-%!   
+%!
 %! B = [ -3.0 -4.0
 %!        2.0  0.0
 %!       -5.0 -7.0
 %!        4.0 -6.0
 %!       -3.0  9.0
 %!        1.0 -2.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -4.0  0.0 -3.0
 %!       -3.0  0.0  5.0 -1.0  1.0  1.0
 %!       -7.0  5.0  0.0 -8.0  2.0 -2.0 ];
-%!  
+%!
 %! D = [  1.0 -2.0
 %!        0.0  4.0
 %!        5.0 -3.0 ];
-%!    
+%!
 %! FACTOR = 1.0;
 %!
 %! G = ss (A, B, C, D);
@@ -476,17 +447,17 @@ endfunction
 %!        0.1  0.0  0.0 -0.1 -0.1  0.0
 %!        0.0  0.3  0.6  0.2  0.1 -0.4
 %!        0.2 -0.4  0.0  0.0  0.2 -0.2 ];
-%!   
+%!
 %! B = [ -1.0 -2.0
-%!        1.0  3.0 
-%!       -3.0 -4.0 
-%!        1.0 -2.0 
+%!        1.0  3.0
+%!       -3.0 -4.0
+%!        1.0 -2.0
 %!        0.0  1.0
 %!        1.0  5.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -2.0  0.0 -3.0
 %!       -3.0  0.0  1.0 -1.0  1.0 -1.0 ];
-%!    
+%!
 %! FACTOR = 1.1;
 %!
 %! [AK, BK, CK, DK, RCOND] = __sl_sb10kd__ (A, B, C, FACTOR);
@@ -528,17 +499,17 @@ endfunction
 %!        0.1  0.0  0.0 -0.1 -0.1  0.0
 %!        0.0  0.3  0.6  0.2  0.1 -0.4
 %!        0.2 -0.4  0.0  0.0  0.2 -0.2 ];
-%!   
+%!
 %! B = [ -1.0 -2.0
-%!        1.0  3.0 
-%!       -3.0 -4.0 
-%!        1.0 -2.0 
+%!        1.0  3.0
+%!       -3.0 -4.0
+%!        1.0 -2.0
 %!        0.0  1.0
 %!        1.0  5.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -2.0  0.0 -3.0
 %!       -3.0  0.0  1.0 -1.0  1.0 -1.0 ];
-%!    
+%!
 %! FACTOR = 1.1;
 %!
 %! G = ss (A, B, C, [], 1);  # value of sampling time doesn't matter
@@ -581,22 +552,22 @@ endfunction
 %!        1.0  0.0  0.0 -1.0 -1.0  0.0
 %!        0.0  0.3  0.6  2.0  0.1 -0.4
 %!        0.2 -4.0  0.0  0.0  0.2 -2.0 ];
-%!   
+%!
 %! B = [ -1.0 -2.0
-%!        1.0  3.0 
-%!       -3.0 -4.0 
-%!        1.0 -2.0 
+%!        1.0  3.0
+%!       -3.0 -4.0
+%!        1.0 -2.0
 %!        0.0  1.0
 %!        1.0  5.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -2.0  0.0 -3.0
 %!       -3.0  0.0  1.0 -1.0  1.0 -1.0
 %!        2.0  4.0 -3.0  0.0  5.0  1.0 ];
-%!  
+%!
 %! D = [ 10.0 -6.0
 %!       -7.0  8.0
 %!        2.0 -4.0 ];
-%!    
+%!
 %! FACTOR = 1.1;
 %!
 %! [AK, BK, CK, DK, RCOND] = __sl_sb10zd__ (A, B, C, D, FACTOR, 0.0);
@@ -638,22 +609,22 @@ endfunction
 %!        1.0  0.0  0.0 -1.0 -1.0  0.0
 %!        0.0  0.3  0.6  2.0  0.1 -0.4
 %!        0.2 -4.0  0.0  0.0  0.2 -2.0 ];
-%!   
+%!
 %! B = [ -1.0 -2.0
-%!        1.0  3.0 
-%!       -3.0 -4.0 
-%!        1.0 -2.0 
+%!        1.0  3.0
+%!       -3.0 -4.0
+%!        1.0 -2.0
 %!        0.0  1.0
 %!        1.0  5.0 ];
-%!   
+%!
 %! C = [  1.0 -1.0  2.0 -2.0  0.0 -3.0
 %!       -3.0  0.0  1.0 -1.0  1.0 -1.0
 %!        2.0  4.0 -3.0  0.0  5.0  1.0 ];
-%!  
+%!
 %! D = [ 10.0 -6.0
 %!       -7.0  8.0
 %!        2.0 -4.0 ];
-%!    
+%!
 %! FACTOR = 1.1;
 %!
 %! G = ss (A, B, C, D, 1);  # value of sampling time doesn't matter

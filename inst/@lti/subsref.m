@@ -16,8 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} subsref
 ## Subscripted reference for @acronym{LTI} objects.
 ## Used by Octave for "sys = sys(2:4, :)" or "val = sys.prop".
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

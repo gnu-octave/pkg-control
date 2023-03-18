@@ -1,5 +1,13 @@
 %% -*- texinfo -*-
-%% Frequency-weighted coprime factorization controller reduction.
+%% @deftypefn  {Example Script} {} Anderson
+%%
+%% Frequency-weighted coprime factorization controller reduction [1].
+%%
+%% @*@strong{References}@*
+%% [1] Anderson, B.D.O.:
+%% @cite{Controller Reduction: Concepts and Approaches},
+%% IEEE Transactions of Automatic Control, Vol. 34, No. 8, August 1989.
+%% @end deftypefn
 
 % ===============================================================================
 % Coprime Factorization Controller Reduction     Lukas Reichlin     December 2011
@@ -22,12 +30,12 @@ A = [ -0.161      -6.004      -0.58215    -9.9835     -0.40727    -3.982       0
        0.0         0.0         0.0         0.0         0.0         0.0         1.0         0.0     ];
 
 B = [  1.0
-       0.0  
-       0.0  
-       0.0  
-       0.0  
-       0.0  
-       0.0  
+       0.0
+       0.0
+       0.0
+       0.0
+       0.0
+       0.0
        0.0 ];
 
 C = [  0.0         0.0         6.4432e-3   2.3196e-3   7.1252e-2   1.0002      0.10455     0.99551 ];

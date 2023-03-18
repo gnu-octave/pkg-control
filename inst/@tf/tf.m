@@ -116,10 +116,7 @@
 ##       s + 1
 ## 
 ## Continuous-time model.
-## @end group
-## @end example
-## @example
-## @group
+##
 ## octave:3> z = tf ('z', 0.2);
 ## octave:4> H = 0.095/(z-0.9)
 ## 
@@ -131,18 +128,11 @@
 ## 
 ## Sampling time: 0.2 s
 ## Discrete-time model.
-## @end group
-## @end example
-## @example
-## @group
+##
 ## octave:5> num = @{[1, 5, 7], [1]; [1, 7], [1, 5, 5]@};
 ## octave:6> den = @{[1, 5, 6], [1, 2]; [1, 8, 6], [1, 3, 2]@};
 ## octave:7> sys = tf (num, den)
-## @end group
-## @end example
 ## 
-## @example
-## @group
 ## Transfer function 'sys' from input 'u1' to output ...
 ## 
 ##       s^2 + 5 s + 7
@@ -152,11 +142,7 @@
 ##           s + 7    
 ##  y2:  -------------
 ##       s^2 + 8 s + 6
-## @end group
-## @end example
 ## 
-## @example
-## @group
 ## Transfer function 'sys' from input 'u2' to output ...
 ## 
 ##         1  

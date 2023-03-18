@@ -21,6 +21,7 @@
 ## @deftypefnx {Function File} ltimodels
 ## @deftypefnx {Function File} ltimodels (@var{systype})
 ## Test suite and help for @acronym{LTI} models.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

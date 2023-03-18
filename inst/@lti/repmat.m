@@ -22,6 +22,7 @@
 ## Form a block transfer matrix of @var{sys} with @var{m} copies vertically
 ## and @var{n} copies horizontally.  If @var{n} is not specified, it is set to @var{m}.
 ## @code{repmat (sys, 2, 3)} is equivalent to @code{[sys, sys, sys; sys, sys, sys]}.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

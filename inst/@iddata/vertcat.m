@@ -23,6 +23,7 @@
 ## @code{dat.u@{e@} = [dat1.u@{e@}; dat2.u@{e@}; @dots{}]}
 ## where @var{e} denotes the experiment.
 ## The number of experiments, outputs and inputs must be equal for all datasets.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

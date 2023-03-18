@@ -20,11 +20,9 @@
 ## Solve stacked S/KS/T H-infinity problem.
 ## Mixed-sensitivity is the name given to transfer function shaping problems in which
 ## the sensitivity function
-## @iftex
 ## @tex
-## $ S = (I + G K)^{-1} $
+## $$ S = (I + G K)^{-1} $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##              -1
@@ -33,11 +31,9 @@
 ## @end ifnottex
 ## is shaped along with one or more other closed-loop transfer functions such as @var{K S}
 ## or the complementary sensitivity function
-## @iftex
 ## @tex
-## $ T = I - S = (I + G K)^{-1} G K $
+## $$ T = I - S = (I + G K)^{-1} G K $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##                      -1
@@ -48,111 +44,104 @@
 ## @var{K} the (sub-)optimal controller to be found.  The shaping of multivariable
 ## transfer functions is based on the idea that a satisfactory definition of gain
 ## (range of gain) for a matrix transfer function is given by the singular values
-## @iftex
 ## @tex
-## $\\sigma$
+## \(\sigma\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## sigma
 ## @end ifnottex
 ## of the transfer function. Hence the classical loop-shaping ideas of feedback design
 ## can be generalized to multivariable systems.  In addition to the requirement that
 ## @var{K} stabilizes @var{G}, the closed-loop objectives are as follows [1]:
+##
 ## @enumerate
 ## @item For @emph{disturbance rejection} make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(S)$
+## \(\overline{\sigma}(S)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h (S)
+## @end example
 ## @end ifnottex
 ## small.
 ## @item For @emph{noise attenuation} make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(T)$
+## \(\overline{\sigma}(T)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h (T)
+## @end example
 ## @end ifnottex
 ## small.
 ## @item For @emph{reference tracking} make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(T) \\approx \\underline{\\sigma}(T) \\approx 1$.
+## \(\overline{\sigma}(T) \approx \underline{\sigma}(T) \approx 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h(T) approx sigma_l(T) approx 1
+## @end example
 ## @end ifnottex
 ## @item For @emph{input usage (control energy) reduction} make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(K S)$
+## \(\overline{\sigma}(K S)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h (K S)
+## @end example
 ## @end ifnottex
 ## small.
 ## @item For @emph{robust stability} in the presence of an additive perturbation
-## @iftex
 ## @tex
-## $G_p = G + \\Delta$,
+## \(G_p = G + \Delta\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## Gp = G + Delta
+## @end example
 ## @end ifnottex
 ## make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(K S)$
+## \(\overline{\sigma}(K S)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h (K S)
+## @end example
 ## @end ifnottex
 ## small.
 ## @item For @emph{robust stability} in the presence of a multiplicative output perturbation
-## @iftex
 ## @tex
-## $G_p = (I + \\Delta) G$,
+## \(G_p = (I + \Delta) G\),
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## Gp = (I+ Delta) G
 ## @end ifnottex
 ## make
-## @iftex
 ## @tex
-## $\\overline{\\sigma}(T)$
+## \(\overline{\sigma}(T)\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## 
+## @example
+## sigma_h (T)
+## @end example
 ## @end ifnottex
 ## small.
 ## @end enumerate
 ## In order to find a robust controller for the so-called stacked
-## @iftex
 ## @tex
-## $S/KS/T \\ H_{\\infty}$
+## \(S/KS/T\, H_{\infty}\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## S/KS/T H-infinity
 ## @end ifnottex
 ## problem, the user function @command{mixsyn} minimizes the following criterion
-## @iftex
 ## @tex
-## $$ \\underset{K}{\\min} || N(K) ||_{\\infty}, \\quad N = | W_1 S; \\ W_2 K S; \\ W_3 T |$$
+## $$ \underset{K}{\min} || N(K) ||_{\infty}, \quad N = | W_1 S; \,W_2 K S; \, W_3 T |$$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##                              | W1 S   |
@@ -168,12 +157,10 @@
 ## A few points are to be considered when choosing the weights.
 ## The weigths @var{Wi} must all be proper and stable.  Therefore if one wishes,
 ## for example, to minimize @var{S} at low frequencies by a weighting @var{W1} including
-## integral action, 
-## @iftex
+## integral action,
 ## @tex
-## ${1 \\over s}$
+## \(\frac{1}{s}\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## 1
@@ -182,11 +169,9 @@
 ## @end example
 ## @end ifnottex
 ## needs to be approximated by
-## @iftex
 ## @tex
-## ${1 \\over s + \\epsilon}$, where $\\epsilon \\ll 1$.
+## \(\frac{1}{s + \epsilon}, \mbox{ where } \epsilon \ll 1\).
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##   1
@@ -197,11 +182,9 @@
 ## Similarly one might be interested in weighting @var{K S} with a non-proper weight
 ## @var{W2} to ensure that @var{K} is small outside the system bandwidth.
 ## The trick here is to replace a non-proper term such as
-## @iftex
 ## @tex
-## $ 1 + \\tau_1 s $ by $ {1 + \\tau_1 s \\over 1 + \\tau_2 s} $, where
+## $$ 1 + \tau_1 s \mbox{ by } \frac{1 + \tau_1 s}{1 + \tau_2 s}, \,\, \tau_2 \ll \tau_1$$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##                 1 + T1 s
@@ -209,12 +192,7 @@
 ##                 1 + T2 s
 ## @end example
 ## @end ifnottex
-## @iftex
-## @tex
-## $\\tau_2 \\ll \\tau_1$
-## @end tex
-## @end iftex
-## [1, 2]. 
+## For more details, see [1], [2].
 ##
 ##
 ## @strong{Inputs}
@@ -228,7 +206,7 @@
 ## @acronym{LTI} model to penalize large control inputs.  Bounds the largest singular values of @var{KS}.
 ## Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item W3
-## @acronym{LTI} model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+## @acronym{LTI} model of robustness and noise sensitivity weight.  Bounds the largest singular values of
 ## complementary sensitivity @var{T}.  Model must be empty @code{[]}, SISO or of appropriate size.
 ## @item @dots{}
 ## Optional arguments of @command{hinfsyn}.  Type @command{help hinfsyn} for more information.
@@ -239,7 +217,7 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item K
+## @item K 
 ## State-space model of the H-infinity (sub-)optimal controller.
 ## @item N
 ## State-space model of the lower LFT of @var{P} and @var{K}.
@@ -263,36 +241,27 @@
 ##                                     | W1 S   |
 ## gamma = min||N(K)||             N = | W2 K S | = lft (P, K)
 ##          K         inf              | W3 T   |
-## @end group
-## @end example
-## @example
-## @group
-##                                                       +------+  z1
-##             +---------------------------------------->|  W1  |----->
-##             |                                         +------+
-##             |                                         +------+  z2
-##             |                 +---------------------->|  W2  |----->
-##             |                 |                       +------+
-##  r   +    e |   +--------+  u |   +--------+  y       +------+  z3
-## ----->(+)---+-->|  K(s)  |----+-->|  G(s)  |----+---->|  W3  |----->
-##        ^ -      +--------+        +--------+    |     +------+
-##        |                                        |
-##        +----------------------------------------+
-## @end group
-## @end example
-## @example
-## @group
+##
+##                                               +------+ z1
+##            +--------------------------------->|  W1  |---->
+##            |                                  +------+
+##            |                                  +------+ z2
+##            |               +----------------->|  W2  |---->
+##            |               |                  +------+
+##  r  +    e |  +--------+ u |  +--------+ y    +------+ z3
+##  --->(+)---+->|  K(s)  |---+->|  G(s)  |---+->|  W3  |---->
+##       ^ -     +--------+      +--------+   |  +------+
+##       |                                    |
+##       +------------------------------------+
+## 
 ##                +--------+
 ##                |        |-----> z1 (p1x1)          z1 = W1 e
 ##  r (px1) ----->|  P(s)  |-----> z2 (p2x1)          z2 = W2 u
 ##                |        |-----> z3 (p3x1)          z3 = W3 y
 ##  u (mx1) ----->|        |-----> e (px1)            e = r - y
 ##                +--------+
-## @end group
-## @end example
-## @example
-## @group
-##                +--------+  
+##
+##                +--------+
 ##        r ----->|        |-----> z
 ##                |  P(s)  |
 ##        u +---->|        |-----+ e
@@ -301,17 +270,11 @@
 ##          |     +--------+     |
 ##          +-----|  K(s)  |<----+
 ##                +--------+
-## @end group
-## @end example
-## @example
-## @group
-##                +--------+      
+##
+##                +--------+
 ##        r ----->|  N(s)  |-----> z
 ##                +--------+
-## @end group
-## @end example
-## @example
-## @group
+##
 ## Extended Plant:  P = augw (G, W1, W2, W3)
 ## Controller:      K = mixsyn (G, W1, W2, W3)
 ## Entire System:   N = lft (P, K)
@@ -349,7 +312,7 @@ function [K, N, gamma, info] = mixsyn (G, W1 = [], W2 = [], W3 = [], varargin)
   [p, m] = size (G);
 
   P = augw (G, W1, W2, W3);
-  
+
   [K, N, gamma, info] = hinfsyn (P, p, m, varargin{:});
 
 endfunction

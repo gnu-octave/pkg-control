@@ -16,8 +16,24 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Function File} {@var{SYSP} = } inv (@var{SYS}, @var{E})
 ## Matrix power of @acronym{LTI} objects.  The exponent must be an integer.
 ## Used by Octave for "sys^int".
+##
+## @strong{Inputs}
+## @table @var
+## @item SYS
+## System for which the power by exponent @var{E} has to be calculated.
+## @item E
+## Exponent (integer).
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item SYSP
+## Resulting power of @var{SYS} by @var{E}.
+## @end table
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

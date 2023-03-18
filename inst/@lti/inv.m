@@ -16,7 +16,21 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Function File} {@var{SYSI} = } inv (@var{SYS})
 ## Inversion of @acronym{LTI} objects.
+##
+## @strong{Inputs}
+## @table @var
+## @item SYS
+## System to be inverted.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item SYSI
+## Inverteted system of @var{SYS}.
+## @end table
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

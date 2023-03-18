@@ -24,6 +24,7 @@
 ## in input argument @var{dat}.  @command{set} can handle multiple keys in one call:
 ## @code{set (dat, 'key1', val1, 'key2', val2, 'key3', val3)}.
 ## @code{set (dat)} prints a list of the object's key names.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -42,6 +42,14 @@
 ## @end table
 ##
 ## @strong{Equations}
+## @tex
+## $$ E_s = T_l\,E\,T_r \\
+##    A_s = T_l\,A\,T_r \\
+##    B_s = T_l\,B \\
+##    C_s =      C\,T_r \\
+##    D_s =      D $$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ## Es = Tl * E * Tr
@@ -51,6 +59,7 @@
 ## Ds =      D
 ## @end group
 ## @end example
+## @end ifnottex
 ##
 ## For proper state-space models, @var{Tl} and @var{Tr} are inverse of each other.
 ##

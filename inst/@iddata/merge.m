@@ -22,6 +22,7 @@
 ## @code{dat.y = [dat1.y; dat2.y; @dots{}]}
 ## @code{dat.u = [dat1.u; dat2.u; @dots{}]}
 ## The number of outputs and inputs must be equal for all datasets.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -20,6 +20,7 @@
 ## @deftypefnx {Function File} {@var{dat} =} diff (@var{dat}, @var{k})
 ## Return @var{k}-th difference of outputs and inputs of dataset @var{dat}.
 ## If @var{k} is not specified, default value 1 is taken.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

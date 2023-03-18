@@ -14,8 +14,8 @@
 ## this program; if not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{SYS_TRANSFORMED} =} ss2ss (@var{SYS}, @var{T})
-## @deftypefnx {Function File} {[@var{A_TRANSFORMED} @var{B_TRANSFORMED} @var{C_TRANSFORMED} @var{D_TRANSFORMED}] =} ss2ss (@var{A},  @var{B}, @var{C}, @var{D}, @var{T})
+## @deftypefn {Function File} {@var{SYS_T} =} ss2ss (@var{SYS}, @var{T})
+## @deftypefnx {Function File} {[@var{A_T} @var{B_T} @var{C_T} @var{D_T}] =} ss2ss (@var{A},  @var{B}, @var{C}, @var{D}, @var{T})
 ## Applies the similarity transformation T to a state-space model
 ##
 ## Given the state space model
@@ -51,7 +51,7 @@
 ## state-space model which is based on the new state vector
 ##
 ## @tex
-## $$ \dot \bar{x} = TAT^{-1}\bar{x} + TBu $$
+## $$ \dot{\bar{x}} = TAT^{-1}\bar{x} + TBu $$
 ## $$ y = CT^{-1}\bar{x} + Du $$
 ## @end tex
 ## @ifnottex
@@ -113,10 +113,10 @@ function [first_out, second_out, third_out, fourth_out] = ss2ss(first_in, second
       T = inv(fifth_in);
   endswitch
    
-  A_TRANSFORMED = inv(T)*A*T;
-  B_TRANSFORMED = inv(T)*B;
-  C_TRANSFORMED = C*T;
-  D_TRANSFORMED = D;
+  A_T = inv(T)*A*T;
+  B_T = inv(T)*B;
+  C_T = C*T;
+  D_T = D;
   
   % make number of output variables depend on nargin
   switch nargin
@@ -124,15 +124,15 @@ function [first_out, second_out, third_out, fourth_out] = ss2ss(first_in, second
       if nargout > 1
         error('Too many output arguments')  
       endif
-      first_out = ss(A_TRANSFORMED,B_TRANSFORMED,C_TRANSFORMED,D_TRANSFORMED);
+      first_out = ss(A_T,B_T,C_T,D_T);
     case 5
       if nargout > 4
         error('Too many output arguments')  
       endif
-      first_out = A_TRANSFORMED;
-      second_out = B_TRANSFORMED;
-      third_out = C_TRANSFORMED;
-      fourth_out = D_TRANSFORMED;
+      first_out = A_T;
+      second_out = B_T;
+      third_out = C_T;
+      fourth_out = D_T;
   endswitch
   
 endfunction

@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} blkdiag (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
 ## Block-diagonal concatenation of @acronym{LTI} models.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

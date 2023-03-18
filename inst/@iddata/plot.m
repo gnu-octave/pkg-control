@@ -25,6 +25,7 @@
 ## If the plot of a single experiment should be saved by the
 ## @command{print} command, use @code{plot(dat,exp)},
 ## where @var{exp} denotes the desired experiment.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

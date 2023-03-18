@@ -16,9 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} times
 ## Hadamard/Schur product of transfer function matrices.
 ## Also known as element-wise multiplication.
-## Used by Octave for "sys1 .* sys2".@*
+## Used by Octave for "sys1 .* sys2".
+##
 ## @strong{Example}
 ## @example
 ## @group
@@ -29,6 +31,8 @@
 ## RGA(0)
 ## @end group
 ## @end example
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: April 2014
