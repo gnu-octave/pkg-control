@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: ramp</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Time Domain Analysis">
+                    <i class="fas fa-list-alt"></i>
+                    Time Domain Analysis
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>ramp</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</i></dt>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</i></dt>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys1</var>, &hellip;, <var>t</var>)</i></dt>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys1</var>, &hellip;, <var>tfinal</var>)</i></dt>
+<dt><u>Function File:</u> <b>ramp</b><i> (<var>sys1</var>, &hellip;, <var>tfinal</var>, <var>dt</var>)</i></dt>
+<dt><u>Function File:</u> [<var>y</var>, <var>t</var>, <var>x</var>] = <b>ramp</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>y</var>, <var>t</var>, <var>x</var>] = <b>ramp</b><i> (<var>sys</var>, <var>t</var>)</i></dt>
+<dt><u>Function File:</u> [<var>y</var>, <var>t</var>, <var>x</var>] = <b>ramp</b><i> (<var>sys</var>, <var>tfinal</var>)</i></dt>
+<dt><u>Function File:</u> [<var>y</var>, <var>t</var>, <var>x</var>] = <b>ramp</b><i> (<var>sys</var>, <var>tfinal</var>, <var>dt</var>)</i></dt>
+</dl>
+<p> Ramp response of <acronym>LTI</acronym> system.
+ If no output arguments are given, the response is printed on the screen.
+</p> <div class="ms-5">
+ 
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model.
+ </p></dd>
+<dt> <var>t</var></dt>
+</dl>
+<p> Time vector.  Should be evenly spaced.  If not specified, it is calculated by
+ the poles of the system to reflect adequately the response transients.
+ </p></dd>
+<dt> <var>tfinal</var></dt>
+</dl>
+<p> Optional simulation horizon.  If not specified, it is calculated by
+ the poles of the system to reflect adequately the response transients.
+ </p></dd>
+<dt> <var>dt</var></dt>
+</dl>
+<p> Optional sampling time.  Be sure to choose it small enough to capture transient
+ phenomena.  If not specified, it is calculated by the poles of the system.
+ </p></dd>
+<dt> <var>&rsquo;style&rsquo;</var></dt>
+</dl>
+<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code>help plot</code> for details.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>y</var></dt>
+</dl>
+<p> Output response array.  Has as many rows as time samples (length of t)
+ and as many columns as outputs.
+ </p></dd>
+<dt> <var>t</var></dt>
+</dl>
+<p> Time row vector.
+ </p></dd>
+<dt> <var>x</var></dt>
+</dl>
+<p> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.
+ </p></dd>
+</dl>
+
+<p> <strong>See also: </strong>
+  <a href="impulse.html">impulse</a>, 
+  <a href="initial.html">initial</a>, 
+  <a href="lsim.html">lsim</a>, 
+  <a href="step.html">step</a>
+</p>
+</div>
+        <div class="container-xl my-4">
+          <div class="card rounded">
+            <div class="card-header card-header-mod">
+              <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+                  <h3 class="d-inline-block mr-2">
+                  Example: 1
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="container bg-light">
+                <div class="row">
+                  <table><tbody><tr>
+                    <td>&nbsp;</td>
+                    <td><pre class="example">
+
+ clf;
+ s = tf('s');
+ g = 1/(2*s^2+3*s+4);
+ ramp(g);
+ title ("Ramp response of a PT2 transfer function");
+
+                    </pre></td></tr></tbody>
+                  </table>
+                  <div class="text-center">
+                    <img src="assets/ramp_101.png" class="rounded img-thumbnail" alt="plotted figure">
+                  </div><p></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-xl my-4">
+          <div class="card rounded">
+            <div class="card-header card-header-mod">
+              <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+                  <h3 class="d-inline-block mr-2">
+                  Example: 2
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="container bg-light">
+                <div class="row">
+                  <table><tbody><tr>
+                    <td>&nbsp;</td>
+                    <td><pre class="example">
+
+ clf;
+ s = tf('s');
+ g = 1/(2*s^2+3*s+4);
+ h = c2d(g,0.1);
+ ramp(h);
+ title ("Ramp response of a discretized PT2 transfer function");
+
+                    </pre></td></tr></tbody>
+                  </table>
+                  <div class="text-center">
+                    <img src="assets/ramp_201.png" class="rounded img-thumbnail" alt="plotted figure">
+                  </div><p></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

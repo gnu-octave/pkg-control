@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: frd</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Linear Time Invariant Models">
+                    <i class="fas fa-list-alt"></i>
+                    Linear Time Invariant Models
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>frd</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>sys</var>, <var>w</var>)</i></dt>
+<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>H</var>, <var>w</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>H</var>, <var>w</var>, <var>tsam</var>, &hellip;)</i></dt>
+</dl>
+<p> Create or convert to frequency response data.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model to be converted to frequency response data.
+ If second argument <var>w</var> is omitted, the interesting
+ frequency range is calculated by the zeros and poles of <var>sys</var>.
+ </p></dd>
+<dt> <var>H</var></dt>
+</dl>
+<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+ response from input j to output i at frequency k.  In the SISO case,
+ a vector (lw-by-1) or (1-by-lw) is accepted as well.
+ </p></dd>
+<dt> <var>w</var></dt>
+</dl>
+<p> Frequency vector (lw-by-1) in radian per second [rad/s].
+ Frequencies must be in ascending order.
+ </p></dd>
+<dt> <var>tsam</var></dt>
+</dl>
+<p> Sampling time in seconds.  If <var>tsam</var> is not specified,
+ a continuous-time model is assumed.
+ </p></dd>
+<dt> <var>&hellip;</var></dt>
+</dl>
+<p> Optional pairs of properties and values.
+ Type <code>set (frd)</code> for more information.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> Frequency response data object.
+ </p></dd>
+</dl>
+
+<p> <strong>Option Keys and Values</strong>
+ </p><dl compact="compact">
+<dt> <var>&rsquo;H&rsquo;</var></dt>
+</dl>
+<p> Frequency response array.  See &rsquo;Inputs&rsquo; for details.
+</p>
+ </dd>
+<dt> <var>&rsquo;w&rsquo;</var></dt>
+</dl>
+<p> Frequency vector.  See &rsquo;Inputs&rsquo; for details.
+</p>
+ </dd>
+<dt> <var>&rsquo;tsam&rsquo;</var></dt>
+</dl>
+<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
+</p>
+ </dd>
+<dt> <var>&rsquo;inname&rsquo;</var></dt>
+</dl>
+<p> The name of the input channels in <var>sys</var>.
+ Cell vector of length m containing strings.
+ Default names are <code>{'u1', 'u2', ...}</code>
+</p>
+ </dd>
+<dt> <var>&rsquo;outname&rsquo;</var></dt>
+</dl>
+<p> The name of the output channels in <var>sys</var>.
+ Cell vector of length p containing strings.
+ Default names are <code>{'y1', 'y2', ...}</code>
+</p>
+ </dd>
+<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
+</dl>
+<p> Struct with input group names as field names and
+ vectors of input indices as field values.
+ Default is an empty struct.
+</p>
+ </dd>
+<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
+</dl>
+<p> Struct with output group names as field names and
+ vectors of output indices as field values.
+ Default is an empty struct.
+</p>
+ </dd>
+<dt> <var>&rsquo;name&rsquo;</var></dt>
+</dl>
+<p> String containing the name of the model.
+</p>
+ </dd>
+<dt> <var>&rsquo;notes&rsquo;</var></dt>
+</dl>
+<p> String or cell of string containing comments.
+</p>
+ </dd>
+<dt> <var>&rsquo;userdata&rsquo;</var></dt>
+</dl>
+<p> Any data type.
+ </p></dd>
+</dl>
+
+<p> <strong>See also: </strong>
+  <a href="dss.html">dss</a>, 
+  <a href="ss.html">ss</a>, 
+  <a href="tf.html">tf</a>
+</p>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

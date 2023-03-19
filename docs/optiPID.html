@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: optiPID</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Examples">
+                    <i class="fas fa-list-alt"></i>
+                    Examples
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>optiPID</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Example Script:</u> <b>optiPID</b></dt>
+</dl>
+<p> Numerical optimization of a PID controller using an objective function.
+</p>
+<div class="ms-5">
+<p> The objective function is located in the file <code>optiPIDfun</code>.
+ Type <code>which optiPID</code> to locate, <code>edit optiPID</code> to open
+ and simply <code>optiPID</code> to run the example file.
+ In this example called <code>optiPID</code>, loosely based on [1], it is assumed
+ that the plant
+ $$ P(s) = \frac{1}{(s^{2} + s + 1)(s + 1)^{4}} $$
+  is controlled by a PID controller with second-order roll-off
+ $$ C(s) = K_P (1 + \frac{1}{T_Is} + T_D s) \frac{1}{(\tau s + 1)^{2}} $$
+  in the usual negative feedback structure
+ $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) C(s)}{1 + P(s)C(s)} $$
+  The plant P(s) is of higher order but benign.  The initial values for the
+ controller parameters
+ \(K_P,T_I\mbox{ and } T_D\)
+  are obtained by applying the
+ Astroem and Haegglund rules [2].  These values are to be improved using a
+ numerical optimization as shown below.
+ As with all numerical methods, this approach can never guarantee that a
+ proposed solution is a global minimum.  Therefore, good initial guesses for
+ the parameters to be optimized are very important.
+ The Octave function <code>fminsearch</code> minimizes the objective function <var>J</var>,
+ which is chosen to be
+ $$ J(K_P, T_I, T_D) = \mu_1  \int_0^{\infty} \! t |e(t)| dt + \mu_2  (|| y(t) ||_{\infty} - 1) + \mu_3 ||S(jw)||_{\infty} $$
+  This particular objective function penalizes the integral of time-weighted absolute error
+ $$ ITAE = \int_0^{\infty} \! t |e(t)| dt $$
+  and the maximum overshoot
+ $$ y_{max} - 1 = || y(t) ||_{\infty} - 1 $$
+  to a unity reference step
+ \(r(t) = \varepsilon (t)\)
+ in the time domain. In the frequency domain, the sensitivity
+ \(M_s = ||S(jw)||_{\infty}\)
+  is minimized for good robustness, where S(s) denotes the <em>sensitivity</em> transfer function
+ $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
+  The constants
+ \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
+  are <em>relative weighting factors</em> or &laquo;tuning knobs&raquo;
+ which reflect the importance of the different design goals. Varying these factors
+ corresponds to changing the emphasis from, say, high performance to good robustness.
+ The main advantage of this approach is the possibility to explore the tradeoffs of
+ the design problem in a systematic way.
+ In a first approach, all three design objectives are weigthed equally.
+ In subsequent iterations, the parameters
+ \(\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20\)
+  are found to yield satisfactory closed-loop performance.  This controller results
+ in a system with virtually no overshoot and a phase margin of 64 degrees.
+</p>
+ <br><p><strong>References</strong><br>
+ [1] Guzzella, L.
+ <cite>Analysis and Design of SISO Control Systems</cite>,
+ VDF Hochschulverlag, ETH Zurich, 2007<br>
+ [2] Astroem, K. and Haegglund, T.
+ <cite>PID Controllers: Theory, Design and Tuning</cite>,
+ Second Edition,
+ Instrument Society of America, 1995
+ </p>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

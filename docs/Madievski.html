@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: Madievski</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Examples">
+                    <i class="fas fa-list-alt"></i>
+                    Examples
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>Madievski</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Example Script:</u> <b>Madievski</b></dt>
+</dl>
+<p> Demonstration of frequency-weighted controller reduction.
+</p>
+<div class="ms-5">
+<p> The system considered in this example has been studied by Madievski and
+ Anderson [1] and comprises four spinning disks.  The disks are connected by a
+ flexible rod, a motor applies torque to the third disk, and the angular
+ displacement of the first disk is the variable of interest. The state-space
+ model of eighth order is non-minimumphase and unstable.
+ The continuous-time LQG controller used in [1] is open-loop stable and of
+ eighth order like the plant.  This eighth-order controller shall be reduced by
+ frequency-weighted singular perturbation approximation (SPA).
+ The major aim of this reduction is the preservation of the closed-loop
+ transfer function.  This means that the error in approximation of the
+ controller <var>K</var> by the reduced-order controller <var>Kr</var> is minimized by
+ $$ \underset{K_r}{\\min} \ || W \ (K - K_r) \ V ||_{\infty} $$
+  where weights <var>W</var> and <var>V</var> are dictated by the requirement to preserve
+ (as far as possible) the closed-loop transfer function.  In minimizing the
+ error, they cause the approximation process for <var>K</var> to be more accurate at
+ certain frequencies.  Suggested by [1] is the use of the following stability
+ and performance enforcing weights:
+ $$ W = (I - G K)^{-1} G,  \qquad V = (I - G K)^{-1} $$
+  This example script reduces the eighth-order controller to orders four and two
+ by the function call
+ <code>Kr = spaconred (G, K, nr, 'feedback', '-')</code>
+ where argument <var>nr</var> denotes the desired order (4 or 2).  The key-value
+ pair <code>'feedback', '-'</code> allows the reduction of negative feedback
+ controllers while the default setting expects positive feedback controllers.
+ The frequency responses of the original and reduced-order controllers are
+ depicted in figure 1, the step responses of the closed loop in figure 2.
+ There is no visible difference between the step responses of the closed-loop
+ systems with original (blue) and fourth order (green) controllers.
+ The second order controller (red) causes ripples in the step response, but
+ otherwise the behavior of the system is unaltered.  This leads to the
+ conclusion that function <code>spaconred</code> is well suited to reduce the
+ order of controllers considerably, while stability and performance are
+ retained.
+</p>
+
+</div>
+
+ <br><p><strong>Reference</strong><br>
+ [1] Madievski, A.G. and Anderson, B.D.O.
+ <cite>Sampled-Data Controller Reduction Procedure</cite>,
+ IEEE Transactions of Automatic Control,
+ Vol. 40, No. 11, November 1995
+</p>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

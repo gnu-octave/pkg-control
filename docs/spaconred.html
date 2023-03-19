@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: spaconred</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Controller Reduction">
+                    <i class="fas fa-list-alt"></i>
+                    Controller Reduction
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>spaconred</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> [<var>Kr</var>, <var>info</var>] = <b>spaconred</b><i> (<var>G</var>, <var>K</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>Kr</var>, <var>info</var>] = <b>spaconred</b><i> (<var>G</var>, <var>K</var>, <var>ncr</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>Kr</var>, <var>info</var>] = <b>spaconred</b><i> (<var>G</var>, <var>K</var>, <var>opt</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>Kr</var>, <var>info</var>] = <b>spaconred</b><i> (<var>G</var>, <var>K</var>, <var>ncr</var>, <var>opt</var>, &hellip;)</i></dt>
+</dl>
+
+<p> Controller reduction by frequency-weighted Singular Perturbation Approximation (SPA).
+ Given a plant <var>G</var> and a stabilizing controller <var>K</var>, determine a reduced
+ order controller <var>Kr</var> such that the closed-loop system is stable and closed-loop
+ performance is retained.
+</p>
+<div class="ms-5">
+<p> The algorithm tries to minimize the frequency-weighted error
+   where <var>V</var> and <var>W</var> denote output and input weightings.
+</p>
+
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>G</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model of the plant.
+ It has m inputs, p outputs and n states.
+ </p></dd>
+<dt> <var>K</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model of the controller.
+ It has p inputs, m outputs and nc states.
+ </p></dd>
+<dt> <var>ncr</var></dt>
+</dl>
+<p> The desired order of the resulting reduced order controller <var>Kr</var>.
+ If not specified, <var>ncr</var> is chosen automatically according
+ to the description of key <var>&rsquo;order&rsquo;</var>.
+ </p></dd>
+<dt> <var>&hellip;</var></dt>
+</dl>
+<p> Optional pairs of keys and values.  <code>&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
+ </p></dd>
+<dt> <var>opt</var></dt>
+</dl>
+<p> Optional struct with keys as field names.
+ Struct <var>opt</var> can be created directly or
+ by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>Kr</var></dt>
+</dl>
+<p> State-space model of reduced order controller.
+ </p></dd>
+<dt> <var>info</var></dt>
+</dl>
+<p> Struct containing additional information.
+ </p><dl compact="compact">
+<dt> <var>info.ncr</var></dt>
+</dl>
+<p> The order of the obtained reduced order controller <var>Kr</var>.
+ </p></dd>
+<dt> <var>info.ncs</var></dt>
+</dl>
+<p> The order of the alpha-stable part of original controller <var>K</var>.
+ </p></dd>
+<dt> <var>info.hsvc</var></dt>
+</dl>
+<p> The Hankel singular values of the alpha-stable part of <var>K</var>.
+ The <var>ncs</var> Hankel singular values are ordered decreasingly.
+ </p></dd>
+</dl>
+</dd>
+</dl>
+
+<p> <strong>Option Keys and Values</strong>
+ </p><dl compact="compact">
+<dt> <var>&rsquo;order&rsquo;, &rsquo;ncr&rsquo;</var></dt>
+</dl>
+<p> The desired order of the resulting reduced order controller <var>Kr</var>.
+ If not specified, <var>ncr</var> is chosen automatically such that states with
+ Hankel singular values <var>info.hsvc</var> &gt; <var>tol1</var> are retained.
+</p>
+ </dd>
+<dt> <var>&rsquo;method&rsquo;</var></dt>
+</dl>
+<p> Order reduction approach to be used as follows:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;sr&rsquo;, &rsquo;s&rsquo;</var></dt>
+</dl>
+<p> Use the square-root Singular Perturbation Approximation method.
+ </p></dd>
+<dt> <var>&rsquo;bfsr&rsquo;, &rsquo;p&rsquo;</var></dt>
+</dl>
+<p> Use the balancing-free square-root Singular Perturbation Approximation method.  Default method.
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;weight&rsquo;</var></dt>
+</dl>
+<p> Specifies the type of frequency-weighting as follows:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;none&rsquo;</var></dt>
+</dl>
+<p> No weightings are used (V = I, W = I).
+</p>
+ </dd>
+<dt> <var>&rsquo;left&rsquo;, &rsquo;output&rsquo;</var></dt>
+</dl>
+<p> Use stability enforcing left (output) weighting
+</p>  
+ </dd>
+<dt> <var>&rsquo;right&rsquo;, &rsquo;input&rsquo;</var></dt>
+</dl>
+<p> Use stability enforcing right (input) weighting
+</p>  
+ </dd>
+<dt> <var>&rsquo;both&rsquo;, &rsquo;performance&rsquo;</var></dt>
+</dl>
+<p> Use stability and performance enforcing weightings
+   Default value.
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;feedback&rsquo;</var></dt>
+</dl>
+<p> Specifies whether <var>K</var> is a positive or negative feedback controller:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;+&rsquo;</var></dt>
+</dl>
+<p> Use positive feedback controller.  Default value.
+ </p></dd>
+<dt> <var>&rsquo;-&rsquo;</var></dt>
+</dl>
+<p> Use negative feedback controller.
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;alpha&rsquo;</var></dt>
+</dl>
+<p> Specifies the ALPHA-stability boundary for the eigenvalues
+ of the state dynamics matrix <var>K.A</var>.  For a continuous-time
+ controller, ALPHA &lt;= 0 is the boundary value for
+ the real parts of eigenvalues, while for a discrete-time
+ controller, 0 &lt;= ALPHA &lt;= 1 represents the
+ boundary value for the moduli of eigenvalues.
+ The ALPHA-stability domain does not include the boundary.
+ Default value is 0 for continuous-time controllers and
+ 1 for discrete-time controllers.
+</p>
+ </dd>
+<dt> <var>&rsquo;tol1&rsquo;</var></dt>
+</dl>
+<p> If <var>&rsquo;order&rsquo;</var> is not specified, <var>tol1</var> contains the tolerance for
+ determining the order of the reduced controller.
+ For model reduction, the recommended value of <var>tol1</var> is
+ c*info.hsvc(1), where c lies in the interval [0.00001, 0.001].
+ Default value is info.ncs*eps*info.hsvc(1).
+ If <var>&rsquo;order&rsquo;</var> is specified, the value of <var>tol1</var> is ignored.
+</p>
+ </dd>
+<dt> <var>&rsquo;tol2&rsquo;</var></dt>
+</dl>
+<p> The tolerance for determining the order of a minimal
+ realization of the ALPHA-stable part of the given
+ controller.  TOL2 &lt;= TOL1.
+ If not specified, ncs*eps*info.hsvc(1) is chosen.
+</p>
+ </dd>
+<dt> <var>&rsquo;gram-ctrb&rsquo;</var></dt>
+</dl>
+<p> Specifies the choice of frequency-weighted controllability
+ Grammian as follows:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;standard&rsquo;</var></dt>
+</dl>
+<p> Choice corresponding to standard Enns&rsquo; method [1].  Default method.
+ </p></dd>
+<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+</dl>
+<p> Choice corresponding to the stability enhanced
+ modified Enns&rsquo; method of [2].
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;gram-obsv&rsquo;</var></dt>
+</dl>
+<p> Specifies the choice of frequency-weighted observability
+ Grammian as follows:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;standard&rsquo;</var></dt>
+</dl>
+<p> Choice corresponding to standard Enns&rsquo; method [1].  Default method.
+ </p></dd>
+<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+</dl>
+<p> Choice corresponding to the stability enhanced
+ modified Enns&rsquo; method of [2].
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
+</dl>
+<p> Boolean indicating whether equilibration (scaling) should be
+ performed on <var>G</var> and <var>K</var> prior to order reduction.
+ Default value is false if both <code>G.scaled == true, K.scaled == true</code>
+ and true otherwise.
+ Note that for <acronym>MIMO</acronym> models, proper scaling of both inputs and outputs
+ is of utmost importance.  The input and output scaling can <strong>not</strong>
+ be done by the equilibration option or the <code>prescale</code> function
+ because these functions perform state transformations only.
+ Furthermore, signals should not be scaled simply to a certain range.
+ For all inputs (or outputs), a certain change should be of the same
+ importance for the model.
+ </p></dd>
+</dl>
+
+<p> <strong>Algorithm</strong><br>
+ Uses SLICOT SB16AD by courtesy of
+ <a href="http://www.slicot.org">NICONET e.V.</a>
+ </p>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

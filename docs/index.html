@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=https://gnu-octave.github.io/packages/control>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-2 mb-2 mb-sm-0">
+              <img src="assets/control.png" class="d-block m-auto" alt="control">
+            </div>
+            <div class="col-sm-9 col-md-10">
+              <h3 class="d-inline-block mr-2">control</h3>
+              <b>3.5.0+&nbsp;2023-xx-xx</b>
+              <p class="indent">
+                Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT Library
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+           <p>Select Category:
+             <select name="cat" onchange="location = this.options[this.selectedIndex].value;">
+             <option value="#Examples">Examples</option>
+             <option value="#Linear Time Invariant Models">Linear Time Invariant Models</option>
+             <option value="#Model Data Access">Model Data Access</option>
+             <option value="#Model Conversions">Model Conversions</option>
+             <option value="#Model Interconnections">Model Interconnections</option>
+             <option value="#Model Characteristics">Model Characteristics</option>
+             <option value="#Model Simplification">Model Simplification</option>
+             <option value="#Time Domain Analysis">Time Domain Analysis</option>
+             <option value="#Frequency Domain Analysis">Frequency Domain Analysis</option>
+             <option value="#Pole Placement">Pole Placement</option>
+             <option value="#Optimal Control">Optimal Control</option>
+             <option value="#Robust Control">Robust Control</option>
+             <option value="#Matrix Equation Solvers">Matrix Equation Solvers</option>
+             <option value="#Model Reduction">Model Reduction</option>
+             <option value="#Controller Reduction">Controller Reduction</option>
+             <option value="#Experimental Data Handling">Experimental Data Handling</option>
+             <option value="#System Identification">System Identification</option>
+             <option value="#Overloaded LTI Operators">Overloaded LTI Operators</option>
+             <option value="#Overloaded IDDATA Operators">Overloaded IDDATA Operators</option>
+             <option value="#Miscellaneous">Miscellaneous</option>
+             </select>
+           <p>
+
+           <h3 class="category">
+             <a name="Examples">Examples</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="MDSSystem.html">MDSSystem</a>
+                   </code></b>
+                 </td>
+                 <td>Run the example for robust control of a mass-damper-spring system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="optiPID.html">optiPID</a>
+                   </code></b>
+                 </td>
+                 <td>Numerical optimization of a PID controller using an objective function.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Anderson.html">Anderson</a>
+                   </code></b>
+                 </td>
+                 <td>Frequency-weighted coprime factorization controller reduction [1].</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Madievski.html">Madievski</a>
+                   </code></b>
+                 </td>
+                 <td>Demonstration of frequency-weighted controller reduction.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="VLFamp.html">VLFamp</a>
+                   </code></b>
+                 </td>
+                 <td>Calculations on a two stage preamp for a multi-turn, air-core solenoid
+loop antenna for the reception of signals below 30kHz.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Linear Time Invariant Models">Linear Time Invariant Models</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dss.html">dss</a>
+                   </code></b>
+                 </td>
+                 <td>Create or convert to descriptor state-space model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="filt.html">filt</a>
+                   </code></b>
+                 </td>
+                 <td>Create discrete-time transfer function model from data in DSP format.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="frd.html">frd</a>
+                   </code></b>
+                 </td>
+                 <td>Create or convert to frequency response data.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="ss.html">ss</a>
+                   </code></b>
+                 </td>
+                 <td>Create or convert to state-space model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="tf.html">tf</a>
+                   </code></b>
+                 </td>
+                 <td>Create or convert to transfer function model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="zpk.html">zpk</a>
+                   </code></b>
+                 </td>
+                 <td>Create transfer function model from zero-pole-gain data.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Data Access">Model Data Access</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_dssdata.html">@lti/dssdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access descriptor state-space model data.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_filtdata.html">@lti/filtdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access discrete-time transfer function data in DSP format.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_frdata.html">@lti/frdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access frequency response data.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_get.html">@lti/get</a>
+                   </code></b>
+                 </td>
+                 <td>Access key values of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_set.html">@lti/set</a>
+                   </code></b>
+                 </td>
+                 <td>Set or modify properties of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_ssdata.html">@lti/ssdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access state-space model data.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_tfdata.html">@lti/tfdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access transfer function data.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_zpkdata.html">@lti/zpkdata</a>
+                   </code></b>
+                 </td>
+                 <td>Access zero-pole-gain data.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Conversions">Model Conversions</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_c2d.html">@lti/c2d</a>
+                   </code></b>
+                 </td>
+                 <td>Convert the continuous LTI model into its discrete-time equivalent.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_d2c.html">@lti/d2c</a>
+                   </code></b>
+                 </td>
+                 <td>Convert the discrete LTI model into its continuous-time equivalent.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_d2d.html">@lti/d2d</a>
+                   </code></b>
+                 </td>
+                 <td>Resample discrete-time LTI model to sampling time TSAM.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_prescale.html">@lti/prescale</a>
+                   </code></b>
+                 </td>
+                 <td>Scale state-space model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_xperm.html">@lti/xperm</a>
+                   </code></b>
+                 </td>
+                 <td>Reorder states in state-space models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@ss_ss2ss.html">@ss/ss2ss</a>
+                   </code></b>
+                 </td>
+                 <td>Applies the similarity transformation T to a state-space model</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Interconnections">Model Interconnections</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="append.html">append</a>
+                   </code></b>
+                 </td>
+                 <td>Group LTI models by appending their inputs and outputs.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_blkdiag.html">@lti/blkdiag</a>
+                   </code></b>
+                 </td>
+                 <td>Block-diagonal concatenation of LTI models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_connect.html">@lti/connect</a>
+                   </code></b>
+                 </td>
+                 <td>Name-based or index-based interconnections between the inputs and
+outputs of LTI models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_feedback.html">@lti/feedback</a>
+                   </code></b>
+                 </td>
+                 <td>Feedback connection of two LTI models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_lft.html">@lti/lft</a>
+                   </code></b>
+                 </td>
+                 <td>Linear fractional tranformation, also known as Redheffer star product.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_mconnect.html">@lti/mconnect</a>
+                   </code></b>
+                 </td>
+                 <td>Arbitrary interconnections between the inputs and outputs of an LTI
+model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_parallel.html">@lti/parallel</a>
+                   </code></b>
+                 </td>
+                 <td>Parallel connection of two LTI systems.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_series.html">@lti/series</a>
+                   </code></b>
+                 </td>
+                 <td>Series connection of two LTI models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="sumblk.html">sumblk</a>
+                   </code></b>
+                 </td>
+                 <td>Create summing junction S from string FORMULA for name-based
+interconnections.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Characteristics">Model Characteristics</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="ctrb.html">ctrb</a>
+                   </code></b>
+                 </td>
+                 <td>Return controllability matrix.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="ctrbf.html">ctrbf</a>
+                   </code></b>
+                 </td>
+                 <td>If Co=ctrb(A,B) has rank r <= n = SIZE(A,1), then there is a similarity
+transformation Tc such that Tc = [t1 t2] where t1 is the controllable
+subspace and t2 is orthogonal to t1</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="damp.html">damp</a>
+                   </code></b>
+                 </td>
+                 <td>Calculate natural frequencies, damping ratios and poles.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dsort.html">dsort</a>
+                   </code></b>
+                 </td>
+                 <td>Sort discrete-time poles by magnitude (in decreasing order).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="esort.html">esort</a>
+                   </code></b>
+                 </td>
+                 <td>Sort continuous-time poles by real part (in decreasing order).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_dcgain.html">@lti/dcgain</a>
+                   </code></b>
+                 </td>
+                 <td>Compute the DC gain of LTI system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="gram.html">gram</a>
+                   </code></b>
+                 </td>
+                 <td>'gram (SYS, "c")' returns the controllability gramian of the
+(continuous- or discrete-time) system SYS.  'gram (SYS, "o")' returns
+the observability gramian of the (continuous- or discrete-time) system
+SYS.  'gram (A, B)' returns the con...</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="hsvd.html">hsvd</a>
+                   </code></b>
+                 </td>
+                 <td>Hankel singular values of the stable part of an LTI model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_isct.html">@lti/isct</a>
+                   </code></b>
+                 </td>
+                 <td>Determine whether LTI model is a continuous-time system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="isctrb.html">isctrb</a>
+                   </code></b>
+                 </td>
+                 <td>Logical check for system controllability.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="isdetectable.html">isdetectable</a>
+                   </code></b>
+                 </td>
+                 <td>Logical test for system detectability.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_isdt.html">@lti/isdt</a>
+                   </code></b>
+                 </td>
+                 <td>Determine whether LTI model is a discrete-time system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_isminimumphase.html">@lti/isminimumphase</a>
+                   </code></b>
+                 </td>
+                 <td>Determine whether LTI system has asymptotically stable zero dynamics.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="isobsv.html">isobsv</a>
+                   </code></b>
+                 </td>
+                 <td>Logical check for system observability.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_issiso.html">@lti/issiso</a>
+                   </code></b>
+                 </td>
+                 <td>Determine whether LTI model is single-input/single-output (SISO).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="isstabilizable.html">isstabilizable</a>
+                   </code></b>
+                 </td>
+                 <td>Logical check for system stabilizability.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_isstable.html">@lti/isstable</a>
+                   </code></b>
+                 </td>
+                 <td>Determine whether LTI system is stable.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_norm.html">@lti/norm</a>
+                   </code></b>
+                 </td>
+                 <td>Return H-2 or L-inf norm of LTI model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="obsv.html">obsv</a>
+                   </code></b>
+                 </td>
+                 <td>Return observability matrix.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="obsvf.html">obsvf</a>
+                   </code></b>
+                 </td>
+                 <td>If Ob=obsv(A,C) has rank r <= n = SIZE(A,1), then there is a similarity
+transformation Tc such that To = [t1;t2] where t1 is c and t2 is
+orthogonal to t1</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_pole.html">@lti/pole</a>
+                   </code></b>
+                 </td>
+                 <td>Compute poles of LTI system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="pzmap.html">pzmap</a>
+                   </code></b>
+                 </td>
+                 <td>Plot the poles and zeros of an LTI system in the complex plane.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_size.html">@lti/size</a>
+                   </code></b>
+                 </td>
+                 <td>LTI model size, i.e.  number of outputs and inputs.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_zero.html">@lti/zero</a>
+                   </code></b>
+                 </td>
+                 <td>Compute zeros and gain of LTI model.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Simplification">Model Simplification</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_minreal.html">@lti/minreal</a>
+                   </code></b>
+                 </td>
+                 <td>Minimal realization or zero-pole cancellation of LTI models.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_sminreal.html">@lti/sminreal</a>
+                   </code></b>
+                 </td>
+                 <td>Perform state-space model reduction based on structure.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Time Domain Analysis">Time Domain Analysis</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="covar.html">covar</a>
+                   </code></b>
+                 </td>
+                 <td>Return the steady-state covariance.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="gensig.html">gensig</a>
+                   </code></b>
+                 </td>
+                 <td>Generate periodic signal.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="impulse.html">impulse</a>
+                   </code></b>
+                 </td>
+                 <td>Impulse response of LTI system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="imp_invar.html">imp_invar</a>
+                   </code></b>
+                 </td>
+                 <td>Converts analog filter with coefficients B and A and/or SYS_IN to
+digital, conserving impulse response.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="initial.html">initial</a>
+                   </code></b>
+                 </td>
+                 <td>Initial condition response of state-space model.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="lsim.html">lsim</a>
+                   </code></b>
+                 </td>
+                 <td>Simulate LTI model response to arbitrary inputs.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="ramp.html">ramp</a>
+                   </code></b>
+                 </td>
+                 <td>Ramp response of LTI system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="step.html">step</a>
+                   </code></b>
+                 </td>
+                 <td>Step response of LTI system.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Frequency Domain Analysis">Frequency Domain Analysis</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="bode.html">bode</a>
+                   </code></b>
+                 </td>
+                 <td>Bode diagram of frequency response.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="bodemag.html">bodemag</a>
+                   </code></b>
+                 </td>
+                 <td>Bode magnitude diagram of frequency response.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_freqresp.html">@lti/freqresp</a>
+                   </code></b>
+                 </td>
+                 <td>Evaluate frequency response at given frequencies.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="margin.html">margin</a>
+                   </code></b>
+                 </td>
+                 <td>Gain and phase margin of a system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="nichols.html">nichols</a>
+                   </code></b>
+                 </td>
+                 <td>Nichols chart of frequency response.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="nyquist.html">nyquist</a>
+                   </code></b>
+                 </td>
+                 <td>Nyquist diagram of frequency response.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="sensitivity.html">sensitivity</a>
+                   </code></b>
+                 </td>
+                 <td>Return sensitivity margin MS.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="sgrid.html">sgrid</a>
+                   </code></b>
+                 </td>
+                 <td>Display an grid in the complex s-plane.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="sigma.html">sigma</a>
+                   </code></b>
+                 </td>
+                 <td>Singular values of frequency response.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Pole Placement">Pole Placement</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="acker.html">acker</a>
+                   </code></b>
+                 </td>
+                 <td>Calculates the state feedback matrix of a completely controllable SISO
+system using Ackermann's formula</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="place.html">place</a>
+                   </code></b>
+                 </td>
+                 <td>Pole assignment for a given matrix pair (A,B) such that 'p = eig
+(A-B*F)'.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="rlocus.html">rlocus</a>
+                   </code></b>
+                 </td>
+                 <td>Display root locus plot of the specified SISO system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="rlocusx.html">rlocusx</a>
+                   </code></b>
+                 </td>
+                 <td>Interactive root locus plot of the specified SISO system SYS.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Optimal Control">Optimal Control</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="augstate.html">augstate</a>
+                   </code></b>
+                 </td>
+                 <td>Append state vector x of system SYS to output vector y.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dlqe.html">dlqe</a>
+                   </code></b>
+                 </td>
+                 <td>Kalman filter for discrete-time systems.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dlqr.html">dlqr</a>
+                   </code></b>
+                 </td>
+                 <td>Linear-quadratic regulator for discrete-time systems.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="estim.html">estim</a>
+                   </code></b>
+                 </td>
+                 <td>Return state estimator for a given estimator gain.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="kalman.html">kalman</a>
+                   </code></b>
+                 </td>
+                 <td>Design Kalman estimator for LTI systems.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="lqe.html">lqe</a>
+                   </code></b>
+                 </td>
+                 <td>Kalman filter for continuous-time systems.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="lqr.html">lqr</a>
+                   </code></b>
+                 </td>
+                 <td>Linear-quadratic regulator.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Robust Control">Robust Control</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="augw.html">augw</a>
+                   </code></b>
+                 </td>
+                 <td>Extend plant for stacked S/KS/T problem.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="fitfrd.html">fitfrd</a>
+                   </code></b>
+                 </td>
+                 <td>Fit frequency response data with a state-space system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="h2syn.html">h2syn</a>
+                   </code></b>
+                 </td>
+                 <td>H-2 control synthesis for LTI plant.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="hinfsyn.html">hinfsyn</a>
+                   </code></b>
+                 </td>
+                 <td>H-infinity control synthesis for LTI plant.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="mixsyn.html">mixsyn</a>
+                   </code></b>
+                 </td>
+                 <td>Solve stacked S/KS/T H-infinity problem.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="mktito.html">mktito</a>
+                   </code></b>
+                 </td>
+                 <td>Partition LTI plant P for robust controller synthesis.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="ncfsyn.html">ncfsyn</a>
+                   </code></b>
+                 </td>
+                 <td>Loop shaping H-infinity synthesis.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Matrix Equation Solvers">Matrix Equation Solvers</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="care.html">care</a>
+                   </code></b>
+                 </td>
+                 <td>Solve continuous-time algebraic Riccati equation (ARE).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dare.html">dare</a>
+                   </code></b>
+                 </td>
+                 <td>Solve discrete-time algebraic Riccati equation (ARE).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dlyap.html">dlyap</a>
+                   </code></b>
+                 </td>
+                 <td>Solve discrete-time Lyapunov or Sylvester equations.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="dlyapchol.html">dlyapchol</a>
+                   </code></b>
+                 </td>
+                 <td>Compute Cholesky factor of discrete-time Lyapunov equations.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="lyap.html">lyap</a>
+                   </code></b>
+                 </td>
+                 <td>Solve continuous-time Lyapunov or Sylvester equations.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="lyapchol.html">lyapchol</a>
+                   </code></b>
+                 </td>
+                 <td>Compute Cholesky factor of continuous-time Lyapunov equations.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Model Reduction">Model Reduction</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="bstmodred.html">bstmodred</a>
+                   </code></b>
+                 </td>
+                 <td>Model order reduction by Balanced Stochastic Truncation (BST) method.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="btamodred.html">btamodred</a>
+                   </code></b>
+                 </td>
+                 <td>Model order reduction by frequency weighted Balanced Truncation
+Approximation (BTA) method.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="hnamodred.html">hnamodred</a>
+                   </code></b>
+                 </td>
+                 <td>Model order reduction by frequency weighted optimal Hankel-norm (HNA)
+method.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="spamodred.html">spamodred</a>
+                   </code></b>
+                 </td>
+                 <td>Model order reduction by frequency weighted Singular Perturbation
+Approximation (SPA).</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Controller Reduction">Controller Reduction</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="btaconred.html">btaconred</a>
+                   </code></b>
+                 </td>
+                 <td>Controller reduction by frequency-weighted Balanced Truncation
+Approximation (BTA).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="cfconred.html">cfconred</a>
+                   </code></b>
+                 </td>
+                 <td>Reduction of state-feedback-observer based controller by coprime
+factorization (CF).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="fwcfconred.html">fwcfconred</a>
+                   </code></b>
+                 </td>
+                 <td>Reduction of state-feedback-observer based controller by
+frequency-weighted coprime factorization (FW CF).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="spaconred.html">spaconred</a>
+                   </code></b>
+                 </td>
+                 <td>Controller reduction by frequency-weighted Singular Perturbation
+Approximation (SPA).</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Experimental Data Handling">Experimental Data Handling</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="iddata.html">iddata</a>
+                   </code></b>
+                 </td>
+                 <td>Create identification dataset of output and input signals.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_cat.html">@iddata/cat</a>
+                   </code></b>
+                 </td>
+                 <td>Concatenate iddata sets along dimension DIM.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_detrend.html">@iddata/detrend</a>
+                   </code></b>
+                 </td>
+                 <td>Detrend outputs and inputs of dataset DAT by removing the best fit of a
+polynomial of order ORD.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_diff.html">@iddata/diff</a>
+                   </code></b>
+                 </td>
+                 <td>Return K-th difference of outputs and inputs of dataset DAT.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_fft.html">@iddata/fft</a>
+                   </code></b>
+                 </td>
+                 <td>Transform iddata objects from time to frequency domain using a Fast
+Fourier Transform (FFT) algorithm.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_filter.html">@iddata/filter</a>
+                   </code></b>
+                 </td>
+                 <td>Filter output and input signals of dataset DAT.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_get.html">@iddata/get</a>
+                   </code></b>
+                 </td>
+                 <td>Access key values of iddata objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_ifft.html">@iddata/ifft</a>
+                   </code></b>
+                 </td>
+                 <td>Transform iddata objects from frequency to time domain.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_merge.html">@iddata/merge</a>
+                   </code></b>
+                 </td>
+                 <td>Concatenate experiments of iddata datasets.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_nkshift.html">@iddata/nkshift</a>
+                   </code></b>
+                 </td>
+                 <td>Shift input channels of dataset DAT according to integer NK.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_plot.html">@iddata/plot</a>
+                   </code></b>
+                 </td>
+                 <td>Plot signals of iddata identification datasets on the screen.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_resample.html">@iddata/resample</a>
+                   </code></b>
+                 </td>
+                 <td>Change the sample rate of the output and input signals in dataset DAT by
+a factor of 'p/q'.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_set.html">@iddata/set</a>
+                   </code></b>
+                 </td>
+                 <td>Set or modify keys of iddata objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_size.html">@iddata/size</a>
+                   </code></b>
+                 </td>
+                 <td>Return dimensions of iddata set DAT.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="System Identification">System Identification</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="arx.html">arx</a>
+                   </code></b>
+                 </td>
+                 <td>Estimate ARX model using QR factorization.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="moen4.html">moen4</a>
+                   </code></b>
+                 </td>
+                 <td>Estimate state-space model using combined subspace method: MOESP
+algorithm for finding the matrices A and C, and N4SID algorithm for
+finding the matrices B and D.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="moesp.html">moesp</a>
+                   </code></b>
+                 </td>
+                 <td>Estimate state-space model using MOESP algorithm.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="n4sid.html">n4sid</a>
+                   </code></b>
+                 </td>
+                 <td>Estimate state-space model using N4SID algorithm.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Overloaded LTI Operators">Overloaded LTI Operators</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_ctranspose.html">@lti/ctranspose</a>
+                   </code></b>
+                 </td>
+                 <td>Conjugate transpose or pertransposition of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_end.html">@lti/end</a>
+                   </code></b>
+                 </td>
+                 <td>End indexing for LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_horzcat.html">@lti/horzcat</a>
+                   </code></b>
+                 </td>
+                 <td>Horizontal concatenation of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_inv.html">@lti/inv</a>
+                   </code></b>
+                 </td>
+                 <td>Inversion of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_minus.html">@lti/minus</a>
+                   </code></b>
+                 </td>
+                 <td>Binary subtraction of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_mldivide.html">@lti/mldivide</a>
+                   </code></b>
+                 </td>
+                 <td>Matrix left division of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_mpower.html">@lti/mpower</a>
+                   </code></b>
+                 </td>
+                 <td>Matrix power of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_mrdivide.html">@lti/mrdivide</a>
+                   </code></b>
+                 </td>
+                 <td>Matrix right division of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_mtimes.html">@lti/mtimes</a>
+                   </code></b>
+                 </td>
+                 <td>Matrix multiplication of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_plus.html">@lti/plus</a>
+                   </code></b>
+                 </td>
+                 <td>Binary addition of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_repmat.html">@lti/repmat</a>
+                   </code></b>
+                 </td>
+                 <td>Form a block transfer matrix of SYS with M copies vertically and N
+copies horizontally.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_subsasgn.html">@lti/subsasgn</a>
+                   </code></b>
+                 </td>
+                 <td>Subscripted assignment for LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_subsref.html">@lti/subsref</a>
+                   </code></b>
+                 </td>
+                 <td>Subscripted reference for LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_times.html">@lti/times</a>
+                   </code></b>
+                 </td>
+                 <td>Hadamard/Schur product of transfer function matrices.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_transpose.html">@lti/transpose</a>
+                   </code></b>
+                 </td>
+                 <td>Transpose of LTI objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_uminus.html">@lti/uminus</a>
+                   </code></b>
+                 </td>
+                 <td>Unary minus of LTI object.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_uplus.html">@lti/uplus</a>
+                   </code></b>
+                 </td>
+                 <td>Unary plus of LTI object.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@lti_vertcat.html">@lti/vertcat</a>
+                   </code></b>
+                 </td>
+                 <td>Vertical concatenation of LTI objects.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Overloaded IDDATA Operators">Overloaded IDDATA Operators</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_end.html">@iddata/end</a>
+                   </code></b>
+                 </td>
+                 <td>End indexing for IDDATA objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_horzcat.html">@iddata/horzcat</a>
+                   </code></b>
+                 </td>
+                 <td>Horizontal concatenation of iddata datasets.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_subsasgn.html">@iddata/subsasgn</a>
+                   </code></b>
+                 </td>
+                 <td>Subscripted assignment for iddata objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_subsref.html">@iddata/subsref</a>
+                   </code></b>
+                 </td>
+                 <td>Subscripted reference for iddata objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@iddata_vertcat.html">@iddata/vertcat</a>
+                   </code></b>
+                 </td>
+                 <td>Vertical concatenation of iddata datasets.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
+             <a name="Miscellaneous">Miscellaneous</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="@ss_display.html">@ss/display</a>
+                   </code></b>
+                 </td>
+                 <td>Display routine for SS objects.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="db2mag.html">db2mag</a>
+                   </code></b>
+                 </td>
+                 <td>Convert Decibels (dB) to Magnitude.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="mag2db.html">mag2db</a>
+                   </code></b>
+                 </td>
+                 <td>Convert Magnitude to Decibels (dB).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="options.html">options</a>
+                   </code></b>
+                 </td>
+                 <td>Create options struct OPT from a number of key and value pairs.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="pid.html">pid</a>
+                   </code></b>
+                 </td>
+                 <td>Return the transfer function C of the PID controller in parallel form
+with first-order roll-off.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="pidstd.html">pidstd</a>
+                   </code></b>
+                 </td>
+                 <td>Return the transfer function C of the PID controller in standard form
+with first-order roll-off.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="repsys.html">repsys</a>
+                   </code></b>
+                 </td>
+                 <td>Form a block transfer matrix of SYS with M copies vertically and N
+copies horizontally.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="strseq.html">strseq</a>
+                   </code></b>
+                 </td>
+                 <td>Return a cell vector of indexed strings by appending the indices IDX to
+the string STR.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="test_control.html">test_control</a>
+                   </code></b>
+                 </td>
+                 <td>Execute all available tests at once.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="thiran.html">thiran</a>
+                   </code></b>
+                 </td>
+                 <td>Approximation of continuous-time delay using a discrete-time allpass
+Thiran filter.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="BMWengine.html">BMWengine</a>
+                   </code></b>
+                 </td>
+                 <td>Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Boeing707.html">Boeing707</a>
+                   </code></b>
+                 </td>
+                 <td>Creates a linearized state-space model of a Boeing 707-321 aircraft at
+V=80 m/s (M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="WestlandLynx.html">WestlandLynx</a>
+                   </code></b>
+                 </td>
+                 <td>Model of the Westland Lynx Helicopter about hover.</td>
+               </tr>
+             </tbody>
+           </table>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

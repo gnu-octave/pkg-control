@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: margin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Frequency Domain Analysis">
+                    <i class="fas fa-list-alt"></i>
+                    Frequency Domain Analysis
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>margin</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> [<var>gamma</var>, <var>phi</var>, <var>w_gamma</var>, <var>w_phi</var>] = <b>margin</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>gamma</var>, <var>phi</var>, <var>w_gamma</var>, <var>w_phi</var>] = <b>margin</b><i> (<var>sys</var>, <var>tol</var>)</i></dt>
+</dl>
+<p> Gain and phase margin of a system.
+ If no output arguments are given, both gain and phase margin are plotted on a bode diagram.
+ Otherwise, the margins and their corresponding frequencies are computed and returned.
+ A more robust criterion to assess the stability of a feedback system is the sensitivity Ms
+ computed by function <code>sensitivity</code>.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model.  Must be a single-input and single-output (SISO) system.
+ </p></dd>
+<dt> <var>tol</var></dt>
+</dl>
+<p> Imaginary parts below <var>tol</var> are assumed to be zero.
+ If not specified, default value <code>sqrt (eps)</code> is taken.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>gamma</var></dt>
+</dl>
+<p> Gain margin (as gain, not dBs).
+ </p></dd>
+<dt> <var>phi</var></dt>
+</dl>
+<p> Phase margin (in degrees).
+ </p></dd>
+<dt> <var>w_gamma</var></dt>
+</dl>
+<p> Frequency for the gain margin (in rad/s).
+ </p></dd>
+<dt> <var>w_phi</var></dt>
+</dl>
+<p> Frequency for the phase margin (in rad/s).
+ </p></dd>
+</dl>
+
+<p> <strong>Algorithm</strong><br>
+ Uses function <code>roots</code> to calculate the frequencies
+ <var>w_gamma</var>, <var>w_phi</var> from special polynomials created
+ from the transfer function of <var>sys</var> as listed below
+ in section &laquo;Equations&raquo;.
+</p>
+<p> <strong>Equations</strong>
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> CONTINUOUS-TIME SYSTEMS
+ Gain Margin
+         _               _
+ L(jw) = L(jw)      BTW: L(jw) = L(-jw) = conj (L(jw))
+
+ num(jw)   num(-jw)
+ ------- = --------
+ den(jw)   den(-jw)
+
+ num(jw) den(-jw) = num(-jw) den(jw)
+
+ imag (num(jw) den(-jw)) = 0
+ imag (num(-jw) den(jw)) = 0
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Phase Margin
+           |num(jw)|
+ |L(jw)| = |-------| = 1
+           |den(jw)|
+   _     2      2
+ z z = Re z + Im z
+
+ num(jw)   num(-jw)
+ ------- * -------- = 1
+ den(jw)   den(-jw)
+
+ num(jw) num(-jw) - den(jw) den(-jw) = 0
+
+ real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> DISCRETE-TIME SYSTEMS
+ Gain Margin
+                              jwT         log z
+ L(z) = L(1/z)      BTW: z = e    --&gt; w = -----
+                                           j T
+ num(z)   num(1/z)
+ ------ = --------
+ den(z)   den(1/z)
+
+ num(z) den(1/z) - num(1/z) den(z) = 0
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Phase Margin
+          |num(z)|
+ |L(z)| = |------| = 1
+          |den(z)|
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> L(z) L(1/z) = 1
+
+ num(z)   num(1/z)
+ ------ * -------- = 1
+ den(z)   den(1/z)
+
+ num(z) num(1/z) - den(z) den(1/z) = 0
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> PS: How to get L(1/z)
+           4       3       2
+ p(z) = a z  +  b z  +  c z  +  d z  +  e
+
+             -4      -3      -2      -1
+ p(1/z) = a z  +  b z  +  c z  +  d z  +  e
+
+           -4                    2       3       4
+        = z   ( a  +  b z  +  c z  +  d z  +  e z  )
+
+               4       3       2                     4
+        = ( e z  +  d z  +  c z  +  b z  +  a ) / ( z  )
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> <strong>See also: </strong>
+  <a href="sensitivity.html">sensitivity</a>, 
+roots
+</p>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
