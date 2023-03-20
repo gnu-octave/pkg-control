@@ -2,7 +2,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-3.5.0+   Current stable branch (not yet released)
+control-3.5.1   Release date 2023-03-21
 ===============================================================================
 
  ** fix build errors when installing in Octave 9
