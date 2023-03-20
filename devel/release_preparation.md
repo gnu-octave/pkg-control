@@ -2,11 +2,11 @@
 
 ## Set version number etc.
 
-1. Merge branch `default` into branch `release_preparation`
+1. Possibly merge branch `dev` into branch `main`
 2. Update `NEWS`, possibly move old entries into `ONEWS`
 3. Update version in `DESCRIPTION`
 4. Update version in `src/configure.ac`
-5. `hg commit` for storing above changes
+5. `git commit` for storing above changes
 
 ## Testing
 
@@ -18,7 +18,7 @@
         - correct version number?
     3. `pkg test control` in Octave
     4. `pkg uninstall control` in Octave
-    5. `make install`
+    5. `make release` (including docs)
         - any warnings or even errors?
         - correct version number?
     6. `pkg test control` in Octave
@@ -28,13 +28,14 @@
 5. `make release`<br>
    *Alternatively*, this can be done by the following separate commands
     1. `make dist`
-    4. `md5sum target/control-X.Y.Z.tar.gz`
-    1. `make html`
-    4. `md5sum target/control-html.tar.gz`
-6. Create a [package release ticket on Sourceforge](https://sourceforge.net/p/octave/package-releases/):
-    - Upload `control-X.Y.Z.tar.gz` and `control-html.tar.gz`
-    - Provide the related commit in the repository
-    - Provide the related md5sums
-7. `hg tag 'control-X.Y.Z'`
-8. Merge `release_preparation` into stable
-9. Merge `stable` into `default`
+    4. `sha256sum target/control-X.Y.Z.tar.gz`
+    1. `make install`
+    2. `make docs`
+3. `git commit` for the docs
+4. `git tag control-X.Y.Z`
+5. `git push`, docs should be automatically be published
+5. Make release in Github
+    - Select tag
+    - Upload `control-X.Y.Z.tar.gz`
+6. Update `control.yaml` in `packages` repository and make a pull request
+9. Merge `main` into `dev`
