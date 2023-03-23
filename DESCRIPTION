@@ -8,4 +8,4 @@ Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, 
 Depends: octave (>= 4.0.0)
 Autoload: no
 License: GPLv3+
-Url: https://github.com/gnu-octave/control
+Url: https://github.com/gnu-octave/pkg-control
