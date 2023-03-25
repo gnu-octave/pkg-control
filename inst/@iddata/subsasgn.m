@@ -16,8 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} subsasgn
 ## Subscripted assignment for iddata objects.
 ## Used by Octave for "dat.property = value".
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2012

@@ -12,8 +12,7 @@ VERSION := $(shell grep "^Version: " DESCRIPTION | cut -f2 -d" ")
 TARGET_DIR      := target
 RELEASE_DIR     := $(TARGET_DIR)/$(PACKAGE)-$(VERSION)
 RELEASE_TARBALL := $(TARGET_DIR)/$(PACKAGE)-$(VERSION).tar.gz
-HTML_DIR        := $(TARGET_DIR)/$(PACKAGE)-html
-HTML_TARBALL    := $(TARGET_DIR)/$(PACKAGE)-html.tar.gz
+DOCS_DIR        := docs
 
 M_SOURCES   := $(wildcard inst/*.m)
 CC_SOURCES  := $(wildcard src/*.cc)
@@ -21,54 +20,53 @@ PKG_ADD     := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M
 
 OCTAVE ?= octave --silent
 
-.PHONY: help dist html release install all check run clean
+.PHONY: help dist docs release install all check run clean
 
 help:
 	@echo "Targets:"
 	@echo "   dist    - Create $(RELEASE_TARBALL) for release"
-	@echo "   html    - Create $(HTML_TARBALL) for release"
-	@echo "   release - Create both of the above and show md5sums"
+	@echo "   docs    - Create html documentation in $(DOCS_DIR), assumes"
+	@echo "             current version of $(PACKAGE) is installed"
+	@echo "   release - Create dist, install and create docs,"
+	@echo "             shows sha256sum of tarball"
 	@echo
 	@echo "   install - Install the package in GNU Octave"
 	@echo "   all     - Build all oct files"
 	@echo "   check   - Execute package tests (w/o install)"
 	@echo "   run     - Run Octave with development in PATH (no install)"
 	@echo
-	@echo "   clean   - Remove releases, html documentation, and oct files"
+	@echo "   clean   - Remove releases and oct files"
 
 %.tar.gz: %
 	tar -c -f - --posix -C "$(TARGET_DIR)/" "$(notdir $<)" | gzip -9n > "$@"
 
-$(RELEASE_DIR): .hg/dirstate
+$(RELEASE_DIR): .git/index
 	@echo "Creating package version $(VERSION) release ..."
 	-$(RM) -r "$@"
-	hg archive \
-	  --exclude ".hg*" --exclude "Makefile" --exclude "devel" \
-	  --type files "$@"
+	mkdir -p "$@"
+	git archive -o "$@/tmp.tar" HEAD
+	cd "$@" && tar -xf tmp.tar && $(RM) tmp.tar
 	cd "$@/src" && ./bootstrap && $(RM) -r "autom4te.cache"
 	chmod -R a+rX,u+w,go-w "$@"
 
-$(HTML_DIR): install
-	@echo "Generating HTML documentation. This may take a while ..."
-	-$(RM) -r "$@"
-	$(OCTAVE) \
-	  --eval "pkg load generate_html; " \
-	  --eval "pkg load $(PACKAGE);" \
-	  --eval 'generate_package_html ("${PACKAGE}", "$@", "octave-forge");'
-	chmod -R a+rX,u+w,go-w $@
+docs:
+	@echo "Updating HTML documentation. This may take a while ..."
+	cd "$(DOCS_DIR)" && $(OCTAVE) \
+	                      --eval "pkg load pkg-octave-doc; " \
+	                      --eval "pkg load $(PACKAGE);" \
+	                      --eval 'package_texi2html ("${PACKAGE}");'
+	convert -resize 140x100 devel/control-logo.svg docs/assets/control.png
 
 dist: $(RELEASE_TARBALL)
-html: $(HTML_TARBALL)
 
-release: dist html
-	md5sum $(RELEASE_TARBALL) $(HTML_TARBALL)
-	@echo "Create a release ticket at https://sourceforge.net/p/octave/package-releases/"
-	@echo 'Execute: hg tag "control-${VERSION}"'
+release: dist install docs
+	sha256sum $(RELEASE_TARBALL)
+	@echo ''
+	@echo '* Execute: git tag "control-${VERSION}"'
+	@echo "* Push main branch to https://github.com/gnu-octave/statistics"
+	@echo "* Update control.yaml in https://github.com/gnu-octave/packages"
+	@echo "  and create a pull request for the changes in this file"
 
-## Note that in development versions this target may fail if we are dependent
-## on unreleased versions.  This is by design, to force possible developers
-## to set this up by hand (either using the "-nodeps" option" or changing the
-## dependencies on DESCRIPTION.
 install: $(RELEASE_TARBALL)
 	@echo "Installing package locally ..."
 	$(OCTAVE) --eval 'pkg ("install", "${RELEASE_TARBALL}")'

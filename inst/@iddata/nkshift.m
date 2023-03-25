@@ -25,6 +25,7 @@
 ## If a third argument @var{'append'} is passed, the output signals are left
 ## untouched while @var{nk} zeros are appended to the (shortened) input signals
 ## such that the number of samples in @var{dat} remains constant.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

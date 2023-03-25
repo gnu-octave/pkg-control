@@ -16,8 +16,11 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} end
 ## End indexing for @acronym{LTI} objects.
 ## Used by Octave for "sys(1:end, end-1)".
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2013

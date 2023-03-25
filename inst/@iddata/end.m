@@ -16,8 +16,10 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} end
 ## End indexing for @acronym{IDDATA} objects.
 ## Used by Octave for "dat(1:end)".
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: December 2013

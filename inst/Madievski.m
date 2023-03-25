@@ -1,5 +1,7 @@
 %% -*- texinfo -*-
+%% @deftypefn  {Example Script} {} Madievski
 %% Demonstration of frequency-weighted controller reduction.
+%%
 %% The system considered in this example has been studied by Madievski and
 %% Anderson [1] and comprises four spinning disks.  The disks are connected by a
 %% flexible rod, a motor applies torque to the third disk, and the angular
@@ -11,11 +13,9 @@
 %% The major aim of this reduction is the preservation of the closed-loop
 %% transfer function.  This means that the error in approximation of the
 %% controller @var{K} by the reduced-order controller @var{Kr} is minimized by
-%% @iftex
 %% @tex
-%% $$ \\underset{K_r}{\\min} \\ || W \\ (K - K_r) \\ V ||_{\\infty} $$
+%% $$ \underset{K_r}{\\min} \ || W \ (K - K_r) \ V ||_{\infty} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %% min ||W (K-Kr) V||
@@ -27,11 +27,9 @@
 %% error, they cause the approximation process for @var{K} to be more accurate at
 %% certain frequencies.  Suggested by [1] is the use of the following stability
 %% and performance enforcing weights:
-%% @iftex
 %% @tex
-%% $$ W = (I - G K)^{-1} G,  \\qquad V = (I - G K)^{-1} $$
+%% $$ W = (I - G K)^{-1} G,  \qquad V = (I - G K)^{-1} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %%              -1                      -1
@@ -53,6 +51,9 @@
 %% conclusion that function @command{spaconred} is well suited to reduce the
 %% order of controllers considerably, while stability and performance are
 %% retained.
+%%
+%% @end deftypefn
+%%
 %% @*@strong{Reference}@*
 %% [1] Madievski, A.G. and Anderson, B.D.O.
 %% @cite{Sampled-Data Controller Reduction Procedure},
@@ -142,7 +143,7 @@ w = {1e-2, 1e1};
 figure (1)
 bode (K, Kr4, Kr2, w)
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'Location', 'SouthWest')
-    
+
 % Step Response of Closed Loop
 figure (2)
 step (T, Tr4, Tr2, 100)

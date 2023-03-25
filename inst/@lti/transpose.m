@@ -16,9 +16,12 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} transpose
 ## Transpose of @acronym{LTI} objects.  Used by Octave for "sys.'".
 ## Useful for dual problems, i.e. controllability and observability
 ## or designing estimator gains with @command{lqr} and @command{place}.
+##
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: February 2010

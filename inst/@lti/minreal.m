@@ -19,6 +19,7 @@
 ## @deftypefn {Function File} {@var{sys} =} minreal (@var{sys})
 ## @deftypefnx {Function File} {@var{sys} =} minreal (@var{sys}, @var{tol})
 ## Minimal realization or zero-pole cancellation of @acronym{LTI} models.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

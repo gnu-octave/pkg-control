@@ -24,6 +24,7 @@
 ## in input argument @var{sys}.  @command{set} can handle multiple properties in one call:
 ## @code{set (sys, 'key1', val1, 'key2', val2, 'key3', val3)}.
 ## @code{set (sys)} prints a list of the object's key names.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

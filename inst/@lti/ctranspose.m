@@ -16,6 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Function File} {@var{SYST} =} ctranspose (@var{SYS})
 ## Conjugate transpose or pertransposition of @acronym{LTI} objects.
 ## Used by Octave for "sys'".
 ## For a transfer-function matrix G, G' denotes the conjugate
@@ -26,6 +27,19 @@
 ## freqresp (G', w) = freqresp (G, w)'.
 ## @strong{WARNING:} Do @strong{NOT} use this for dual problems,
 ## use the transpose "sys.'" (note the dot) instead.
+##
+## @strong{Inputs}
+## @table @var
+## @item SYS
+## System to be transposed.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item SYST
+## Conjugate transposed of @var{SYS}.
+## @end table
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2012

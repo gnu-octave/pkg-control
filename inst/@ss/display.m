@@ -16,7 +16,15 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Function File} {} display (@var{SYS})
 ## Display routine for SS objects.
+##
+## @strong{Inputs}
+## @table @var
+## @item SYS
+## System to be displayed.
+## @end table
+## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

@@ -15,14 +15,15 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {} {} sgrid
-## @deftypefnx {} {} sgrid on
-## @deftypefnx {} {} sgrid off
-## @deftypefnx {} {} sgrid (@var{z}, @var{w})
-## @deftypefnx {} {} sgrid (@var{hax}, @dots{})
+## @deftypefn  {Function File} {} sgrid
+## @deftypefnx {Function File} {} sgrid on
+## @deftypefnx {Function File} {} sgrid off
+## @deftypefnx {Function File} {} sgrid (@var{z}, @var{w})
+## @deftypefnx {Function File} {} sgrid (@var{hax}, @dots{})
+## Display an grid in the complex s-plane.
 ##
 ## Control the display of s-plane grid with :
-## @itemize @minus
+## @itemize
 ## @item
 ## zeta lines corresponding to damping ratios and
 ## @item
@@ -43,7 +44,7 @@
 ## @noindent
 ## where @var{Z} and @var{W} are :
 ##
-## @itemize @bullet
+## @itemize
 ## @item
 ## @var{Z} vector of constant zeta values to plot as lines
 ##
@@ -52,30 +53,25 @@
 ## @end itemize
 ##
 ## Example of usage:
-##
 ## @example
 ## sgrid on	create the s-plane grid
-##
 ## sgrid off 	remove the s-plane grid
-##
 ## sgrid		toggle the s-plane grid visibility
-##
 ## sgrid ([0.3, 0.8, @dots{}], [10, 75, @dots{}])   create:
-##
 ## @example
-## @itemize @minus
+## @itemize
 ## @item
 ## zeta lines for 0.3, 0.8, @dots{} 
 ## @item
 ## omega circles for 10, 75, @dots{} [rad/s] 
 ## @end itemize
 ## @end example
-##
 ## sgrid (@var{hax}, @qcode{"on"})   create the s-plane grid for the axis 
 ##                     handle @var{hax}
 ## @end example
 ##
 ## @seealso{grid}
+##
 ## @end deftypefn
 
 ## Author: Stefan Mátéfi-Tempfli

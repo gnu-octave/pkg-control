@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: n4sid</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#System Identification">
+                    <i class="fas fa-list-alt"></i>
+                    System Identification
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>n4sid</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> [<var>sys</var>, <var>x0</var>, <var>info</var>] = <b>n4sid</b><i> (<var>dat</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>sys</var>, <var>x0</var>, <var>info</var>] = <b>n4sid</b><i> (<var>dat</var>, <var>n</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>sys</var>, <var>x0</var>, <var>info</var>] = <b>n4sid</b><i> (<var>dat</var>, <var>opt</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> [<var>sys</var>, <var>x0</var>, <var>info</var>] = <b>n4sid</b><i> (<var>dat</var>, <var>n</var>, <var>opt</var>, &hellip;)</i></dt>
+</dl>
+<p> Estimate state-space model using <acronym>N4SID</acronym> algorithm.
+ <acronym>N4SID</acronym>: Numerical algorithm for Subspace State Space System IDentification.
+ If no output arguments are given, the singular values are
+ plotted on the screen in order to estimate the system order.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>dat</var></dt>
+</dl>
+<p> iddata set containing the measurements, i.e. time-domain signals.
+ </p></dd>
+<dt> <var>n</var></dt>
+</dl>
+<p> The desired order of the resulting state-space system <var>sys</var>.
+ If not specified, <var>n</var> is chosen automatically according
+ to the singular values and tolerances.
+ </p></dd>
+<dt> <var>&hellip;</var></dt>
+</dl>
+<p> Optional pairs of keys and values.  <code>'key1', value1, 'key2', value2</code>.
+ </p></dd>
+<dt> <var>opt</var></dt>
+</dl>
+<p> Optional struct with keys as field names.
+ Struct <var>opt</var> can be created directly or
+ by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+ </p></dd>
+</dl>
+
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> Discrete-time state-space model.
+ </p></dd>
+<dt> <var>x0</var></dt>
+</dl>
+<p> Initial state vector.  If <var>dat</var> is a multi-experiment dataset,
+ <var>x0</var> becomes a cell vector containing an initial state vector
+ for each experiment.
+ </p></dd>
+<dt> <var>info</var></dt>
+</dl>
+<p> Struct containing additional information.
+ </p><dl compact="compact">
+<dt> <var>info.K</var></dt>
+</dl>
+<p> Kalman gain matrix.
+ </p></dd>
+<dt> <var>info.Q</var></dt>
+</dl>
+<p> State covariance matrix.
+ </p></dd>
+<dt> <var>info.Ry</var></dt>
+</dl>
+<p> Output covariance matrix.
+ </p></dd>
+<dt> <var>info.S</var></dt>
+</dl>
+<p> State-output cross-covariance matrix.
+ </p></dd>
+<dt> <var>info.L</var></dt>
+</dl>
+<p> Noise variance matrix factor. LL&rsquo;=Ry.
+ </p></dd>
+</dl>
+</dd>
+</dl>
+
+
+
+<p> <strong>Option Keys and Values</strong>
+ </p><dl compact="compact">
+<dt> <var>&rsquo;n&rsquo;</var></dt>
+</dl>
+<p> The desired order of the resulting state-space system <var>sys</var>.
+ <var>s</var> &gt; <var>n</var> &gt; 0.
+</p>
+ </dd>
+<dt> <var>&rsquo;s&rsquo;</var></dt>
+</dl>
+<p> The number of block rows <var>s</var> in the input and output
+ block Hankel matrices to be processed.  <var>s</var> &gt; 0.
+ In the MOESP theory, <var>s</var> should be larger than <var>n</var>,
+ the estimated dimension of state vector.
+</p>
+ </dd>
+<dt> <var>&rsquo;alg&rsquo;, &rsquo;algorithm&rsquo;</var></dt>
+</dl>
+<p> Specifies the algorithm for computing the triangular
+ factor R, as follows:
+ </p><dl compact="compact">
+<dt> <var>&rsquo;C&rsquo;</var></dt>
+</dl>
+<p> Cholesky algorithm applied to the correlation
+ matrix of the input-output data.  Default method.
+ </p></dd>
+<dt> <var>&rsquo;F&rsquo;</var></dt>
+</dl>
+<p> Fast QR algorithm.
+ </p></dd>
+<dt> <var>&rsquo;Q&rsquo;</var></dt>
+</dl>
+<p> QR algorithm applied to the concatenated block
+ Hankel matrices.
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;tol&rsquo;</var></dt>
+</dl>
+<p> Absolute tolerance used for determining an estimate of
+ the system order.  If  <var>tol</var> &gt;= 0,  the estimate is
+ indicated by the index of the last singular value greater
+ than or equal to <var>tol</var>.  (Singular values less than <var>tol</var>
+ are considered as zero.)  When  <var>tol</var> = 0,  an internally
+ computed default value,  <var>tol</var> = <var>s</var>*<var>eps</var>*SV(1),  is used,
+ where  SV(1)  is the maximal singular value, and <var>eps</var> is
+ the relative machine precision.
+ When <var>tol</var> &lt; 0,  the estimate is indicated by the
+ index of the singular value that has the largest
+ logarithmic gap to its successor.  Default value is 0.
+</p>
+ </dd>
+<dt> <var>&rsquo;rcond&rsquo;</var></dt>
+</dl>
+<p> The tolerance to be used for estimating the rank of
+ matrices. If the user sets <var>rcond</var> &gt; 0,  the given value
+ of <var>rcond</var> is used as a lower bound for the reciprocal
+ condition number;  an m-by-n matrix whose estimated
+ condition number is less than  1/<var>rcond</var>  is considered to
+ be of full rank.  If the user sets <var>rcond</var> &lt;= 0,  then an
+ implicitly computed, default tolerance, defined by
+ <var>rcond</var> = m*n*<var>eps</var>,  is used instead, where <var>eps</var> is the
+ relative machine precision.  Default value is 0.
+</p>
+ </dd>
+<dt> <var>&rsquo;confirm&rsquo;</var></dt>
+</dl>
+<p> Specifies whether or not the user&rsquo;s confirmation of the
+ system order estimate is desired, as follows:
+ </p><dl compact="compact">
+<dt> <var>true</var></dt>
+</dl>
+<p> User&rsquo;s confirmation.
+ </p></dd>
+<dt> <var>false</var></dt>
+</dl>
+<p> No confirmation.  Default value.
+ </p></dd>
+</dl>
+
+ </dd>
+<dt> <var>&rsquo;noiseinput&rsquo;</var></dt>
+</dl>
+<p> The desired type of noise input channels.
+ </p><dl compact="compact">
+<dt> <var>&rsquo;n&rsquo;</var></dt>
+</dl>
+<p> No error inputs.  Default value.
+</p>  
+ </dd>
+<dt> <var>&rsquo;e&rsquo;</var></dt>
+</dl>
+<p> Return <var>sys</var> as a (p-by-m+p) state-space model with
+ both measured input channels u and noise channels e
+ with covariance matrix <var>Ry</var>.
+</p>  
+ </dd>
+<dt> <var>&rsquo;v&rsquo;</var></dt>
+</dl>
+<p> Return <var>sys</var> as a (p-by-m+p) state-space model with
+ both measured input channels u and white noise channels v
+ with identity covariance matrix.
+</p>  
+ </dd>
+<dt> <var>&rsquo;k&rsquo;</var></dt>
+</dl>
+<p> Return <var>sys</var> as a Kalman predictor for simulation.
+</p>  
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+<p> <strong>Algorithm</strong><br>
+ Uses SLICOT IB01AD, IB01BD and IB01CD by courtesy of
+ <a href="http://www.slicot.org">NICONET e.V.</a>
+</p>
+
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/n4sid.m">n4sid</a>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

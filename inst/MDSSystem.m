@@ -1,11 +1,12 @@
-%% -*- texinfo -*-
-%% Robust control of a mass-damper-spring system.
+## -*- texinfo -*-
+## @deftypefn  {Function File} {} MDSSystem ()
 ##
-%% Type @code{which MDSSystem} to locate,
+## Run the example for robust control of a
+## mass-damper-spring system.
 ##
-%% @code{edit MDSSystem} to open and simply
+## @end deftypefn
 ##
-%% @code{MDSSystem} to run the example file.
+## Run @code{edit MDSSystem} to open the example file.
 
 % ===============================================================================
 % Robust Control of a Mass-Damper-Spring System     Lukas Reichlin    August 2011
@@ -20,7 +21,7 @@ clear all, close all, clc
 % ===============================================================================
 % System Model
 % ===============================================================================
-%                +---------------+  
+%                +---------------+
 %                | d_m   0    0  |
 %          +-----|  0   d_c   0  |<----+
 %      u_m |     |  0    0   d_k |     | y_m

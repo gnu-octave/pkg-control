@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: bodemag</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Frequency Domain Analysis">
+                    <i class="fas fa-list-alt"></i>
+                    Frequency Domain Analysis
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>bodemag</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> <b>bodemag</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> <b>bodemag</b><i> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</i></dt>
+<dt><u>Function File:</u> <b>bodemag</b><i> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>w</var>)</i></dt>
+<dt><u>Function File:</u> <b>bodemag</b><i> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</i></dt>
+<dt><u>Function File:</u> [<var>mag</var>, <var>w</var>] = <b>bodemag</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>mag</var>, <var>w</var>] = <b>bodemag</b><i> (<var>sys</var>, <var>w</var>)</i></dt>
+</dl>
+<p> Bode magnitude diagram of frequency response.  If no output arguments are given,
+ the response is printed on the screen.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> system.  Must be a single-input and single-output (SISO) system.
+ </p></dd>
+<dt> <var>w</var></dt>
+</dl>
+<p> Optional vector of frequency values.  If <var>w</var> is not specified,
+ it is calculated by the zeros and poles of the system.
+ Alternatively, the cell <code>{wmin, wmax}</code> specifies a frequency range,
+ where <var>wmin</var> and <var>wmax</var> denote minimum and maximum frequencies
+ in rad/s.
+ </p></dd>
+<dt> <var>&rsquo;style&rsquo;</var></dt>
+</dl>
+<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code>help plot</code> for details.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>mag</var></dt>
+</dl>
+<p> Vector of magnitude.  Has length of frequency vector <var>w</var>.
+ </p></dd>
+<dt> <var>w</var></dt>
+</dl>
+<p> Vector of frequency values used.
+ </p></dd>
+</dl>
+
+<p> <strong>See also: </strong>
+  <a href="bode.html">bode</a>, 
+  <a href="nichols.html">nichols</a>, 
+  <a href="nyquist.html">nyquist</a>, 
+  <a href="sigma.html">sigma</a>
+</p>
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/bodemag.m">bodemag</a>
+</div>
+        <div class="container-xl my-4">
+          <div class="card rounded">
+            <div class="card-header card-header-mod">
+              <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+                  <h3 class="d-inline-block mr-2">
+                  Example: 1
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="container bg-light">
+                <div class="row">
+                  <table><tbody><tr>
+                    <td>&nbsp;</td>
+                    <td><pre class="example">
+
+ s = tf('s');
+ g = 1/(2*s^2+3*s+4);
+ bodemag(g);
+
+                    </pre></td></tr></tbody>
+                  </table>
+                  <div class="text-center">
+                    <img src="assets/bodemag_101.png" class="rounded img-thumbnail" alt="plotted figure">
+                  </div><p></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} append (@var{sys1}, @var{sys2}, @dots{}, @var{sysN})
 ## Group @acronym{LTI} models by appending their inputs and outputs.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

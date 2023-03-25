@@ -94,12 +94,21 @@
 ## @end table
 ##
 ## @strong{Example}
+## @tex
+## $$H(z^{-1}) = \frac{3z^{-1}}{1 + 4z^-1 + 2z^-2}$$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ##                 3 z^-1     
 ## H(z^-1) = -------------------
 ##           1 + 4 z^-1 + 2 z^-2
 ##
+## @end group
+## @end example
+## @end ifnottex
+## @example
+## @group
 ## octave:1> H = filt ([0, 3], [1, 4, 2])
 ## 
 ## Transfer function 'H' from input 'u1' to output ...

@@ -21,6 +21,7 @@
 ## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{dat}, @var{'key1'}, @var{'key2'}, @dots{})
 ## Access key values of iddata objects.
 ## Type @command{get(dat)} to display a list of available keys.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

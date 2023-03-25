@@ -1,0 +1,41 @@
+# temp files from tex or compilation
+
+*.dvi
+*.pdf
+*.aux
+*.log
+*.cp
+*.fn
+*.toc
+*.a
+*.o
+*.octave*.octlink
+*.tar.gz
+*.orig
+
+functions.texi
+
+# temp file from configure
+
+aclocal.m4
+configure
+autom4te.cache
+
+# temp info and doc files
+
+/doc/**/*.info-*
+/doc/**/stamp-vti
+/doc/**/version.texi
+
+# temp directories
+
+/assets
+/src/slicot_src/*.f
+/target
+
+# Emacs tools create these
+TAGS$
+semantic.cache
+# Other text editors often create these
+~.*
+

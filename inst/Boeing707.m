@@ -18,19 +18,24 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} Boeing707 ()
 ## Creates a linearized state-space model of a Boeing 707-321 aircraft
-## at @var{v}=80 m/s 
-## @iftex
+## at 
 ## @tex
-## ($M = 0.26$, $G_{a0} = -3^{\\circ}$, ${\\alpha}_0 = 4^{\\circ}$, ${\\kappa}= 50^{\\circ}$).
+## \(v=80\,\frac{m}{s} (M = 0.26,\, G_{a0} = -3^{\circ},\, {\alpha}_0 = 4^{\circ},\, {\kappa}= 50^{\\circ}\)).
 ## @end tex
-## @end iftex
 ## @ifnottex
-## (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).
+## @var{v}=80 m/s (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).
 ## @end ifnottex
 ##
-## System inputs: (1) thrust and (2) elevator angle.
-##
-## System outputs:  (1) airspeed and (2) pitch angle.
+## System inputs:
+## @enumerate
+## @item Thrust
+## @item Elevator angle
+## @end enumerate
+## System outputs:
+## @enumerate
+## @item Airspeed
+## @item Pitch angle
+## @end enumerate
 ##
 ## @strong{Reference}: R. Brockhaus: @cite{Flugregelung} (Flight
 ## Control), Springer, 1994.

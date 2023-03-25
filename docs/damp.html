@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: damp</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Model Characteristics">
+                    <i class="fas fa-list-alt"></i>
+                    Model Characteristics
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>damp</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> damp <b>(</b><i><var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>Wn</var>, <var>zeta</var>] = <b>damp</b><i>(<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>Wn</var>, <var>zeta</var>, <var>P</var>] = <b>damp</b><i>(<var>sys</var>)</i></dt>
+</dl>
+<p> Calculate natural frequencies, damping ratios and poles.
+</p>
+<div class="ms-5">
+<p> If no output is specified, display overview table containing poles, 
+ magnitude (if <var>sys</var> is a discrete-time model), damping ratios, natural 
+ frequencies and time constants.
+</p>
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>Wn</var></dt>
+</dl>
+<p> Natural frequencies of each pole of <var>sys</var> (in increasing order).
+ The frequency unit is rad/s (radians per second).
+ If <var>sys</var> is a discrete-time model with specified sample time, <var>Wn</var> 
+ contains the natural frequencies of the equivalent continuous-time poles 
+ (see Algorithms).  If <var>sys</var> has an unspecified sample time 
+ (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>Wn</var>.
+ </p></dd>
+<dt> <var>zeta</var></dt>
+</dl>
+<p> Damping ratios of each pole of <var>sys</var> (in the same order as <var>Wn</var>).
+ If <var>sys</var> is a discrete-time model with specified sample time, 
+ <var>zeta</var> contains the damping ratios of the equivalent continuous-time 
+ poles (see Algorithms).  If <var>sys</var> has an unspecified sample time
+ (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>zeta</var>.
+ </p></dd>
+<dt> <var>P</var></dt>
+</dl>
+<p> Poles of <var>sys</var> (in the same order as <var>Wn</var>).
+ </p></dd>
+</dl>
+
+<p> <strong>Algorithm</strong><br>
+ </p><dl compact="compact">
+<dt> <var>Pole</var></dt>
+</dl>
+<p> Poles s (or z for discrete-time models) are calculated via <code>pole</code> 
+ and resorted in order of increasing natural frequency.
+ </p></dd>
+<dt> <var>Equivalent continuous-time pole</var></dt>
+</dl>
+<p> s = log (z) / sys.tsam (discrete-time models only)
+ </p></dd>
+<dt> <var>Magnitude</var></dt>
+</dl>
+<p> mag = abs (z) (discrete-time models only)
+ </p></dd>
+<dt> <var>Natural Frequency</var></dt>
+</dl>
+<p> Wn = abs (s)
+ </p></dd>
+<dt> <var>Damping ratio</var></dt>
+</dl>
+<p> zeta = -cos (arg (s))
+ </p></dd>
+<dt> <var>Time constant</var></dt>
+</dl>
+<p> tau = 1 / (Wn * zeta)
+ </p></dd>
+</dl>
+
+<p> <strong>See also: </strong>
+  <a href="dsort.html">dsort</a>, 
+eig, 
+  <a href="esort.html">esort</a>, 
+pole, 
+  <a href="pzmap.html">pzmap</a>, 
+zero
+</p>
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/damp.m">damp</a>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

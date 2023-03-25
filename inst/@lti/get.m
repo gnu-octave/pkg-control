@@ -20,6 +20,7 @@
 ## @deftypefnx {Function File} {@var{value} =} get (@var{sys}, @var{"key"})
 ## @deftypefnx {Function File} {[@var{val1}, @var{val2}, @dots{}] =} get (@var{sys}, @var{"key1"}, @var{"key2"}, @dots{})
 ## Access key values of @acronym{LTI} objects.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

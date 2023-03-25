@@ -1,28 +1,26 @@
 %% -*- texinfo -*-
+%% @deftypefn  {Example Script} {} optiPID
 %% Numerical optimization of a PID controller using an objective function.
+%%
 %% The objective function is located in the file @command{optiPIDfun}.
 %% Type @code{which optiPID} to locate, @code{edit optiPID} to open
 %% and simply @code{optiPID} to run the example file.
 %% In this example called @code{optiPID}, loosely based on [1], it is assumed
 %% that the plant
-%% @iftex
 %% @tex
-%% $$ P(s) = {1 \\over (s^{2} + s + 1)\\ (s + 1)^{4}} $$
+%% $$ P(s) = \frac{1}{(s^{2} + s + 1)(s + 1)^{4}} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %%                   1
 %% P(s) = -----------------------
-%%        (s^2 + s + 1) (s + 1)^4 
+%%        (s^2 + s + 1) (s + 1)^4
 %% @end example
 %% @end ifnottex
 %% is controlled by a PID controller with second-order roll-off
-%% @iftex
 %% @tex
-%% $$ C(s) = k_p \\ (1 + {1 \\over T_i \\ s} + T_d \\ s) \\ {1 \\over (\\tau \\ s + 1)^{2}} $$
+%% $$ C(s) = K_P (1 + \frac{1}{T_Is} + T_D s) \frac{1}{(\tau s + 1)^{2}} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %%                  1                1
@@ -31,11 +29,9 @@
 %% @end example
 %% @end ifnottex
 %% in the usual negative feedback structure
-%% @iftex
 %% @tex
-%% $$ T(s) = {L(s) \\over 1 + L(s)} = {P(s) \\ C(s) \\over 1 + P(s) \\ C(s)} $$
+%% $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) C(s)}{1 + P(s)C(s)} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %%          L(s)       P(s) C(s)
@@ -45,11 +41,9 @@
 %% @end ifnottex
 %% The plant P(s) is of higher order but benign.  The initial values for the
 %% controller parameters
-%% @iftex
 %% @tex
-%% $k_p$, $T_i$ and $T_d$
+%% \(K_P,T_I\mbox{ and } T_D\)
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% Kp, Ti and Td
 %% @end ifnottex
@@ -61,37 +55,31 @@
 %% the parameters to be optimized are very important.
 %% The Octave function @code{fminsearch} minimizes the objective function @var{J},
 %% which is chosen to be
-%% @iftex
 %% @tex
-%% $$ J(k_p, T_i, T_d) = \\mu_1 \\cdot \\int_0^{\\infty} \\! t \\ |e(t)| \\ dt \\ + \\ \\mu_2 \\cdot (|| y(t) ||_{\\infty} - 1) \\ + \\ \\mu_3 \\cdot ||S(jw)||_{\\infty} $$
+%% $$ J(K_P, T_I, T_D) = \mu_1  \int_0^{\infty} \! t |e(t)| dt + \mu_2  (|| y(t) ||_{\infty} - 1) + \mu_3 ||S(jw)||_{\infty} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
-%%                     inf 
+%%                     inf
 %% J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||    - 1)  +  mu3 ||S(jw)||
 %%                      0                               inf                       inf
 %% @end example
 %% @end ifnottex
 %% This particular objective function penalizes the integral of time-weighted absolute error
-%% @iftex
 %% @tex
-%% $$ ITAE = \\int_0^{\\infty} \\! t \\ |e(t)| \\ dt $$
+%% $$ ITAE = \int_0^{\infty} \! t |e(t)| dt $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
-%%        inf 
+%%        inf
 %% ITAE = INT t |e(t)| dt
-%%         0             
+%%         0
 %% @end example
 %% @end ifnottex
 %% and the maximum overshoot
-%% @iftex
 %% @tex
-%% $$ y_{max} - 1 = || y(t) ||_{\\infty} - 1 $$
+%% $$ y_{max} - 1 = || y(t) ||_{\infty} - 1 $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %% y    - 1 = ||y(t)||    - 1
@@ -99,29 +87,23 @@
 %% @end example
 %% @end ifnottex
 %% to a unity reference step
-%% @iftex
 %% @tex
-%% $r(t) = \\varepsilon (t)$
+%% \(r(t) = \varepsilon (t)\)
 %% @end tex
-%% @end iftex
 %% in the time domain. In the frequency domain, the sensitivity
-%% @iftex
 %% @tex
-%% $$ M_s = ||S(jw)||_{\\infty} $$
+%% \(M_s = ||S(jw)||_{\infty}\)
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %% Ms = ||S(jw)||
 %%               inf
 %% @end example
 %% @end ifnottex
-%% is minimized for good robustness, where S(jw) denotes the @emph{sensitivity} transfer function
-%% @iftex
+%% is minimized for good robustness, where S(s) denotes the @emph{sensitivity} transfer function
 %% @tex
-%% $$ S(s) = {1 \\over 1 + L(s)} = {1 \\over 1 + P(s) \\ C(s)} $$
+%% $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% @example
 %%            1            1
@@ -130,11 +112,9 @@
 %% @end example
 %% @end ifnottex
 %% The constants
-%% @iftex
 %% @tex
-%% $\\mu_1$, $\\mu_2$ and $\\mu_3$
+%% \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% mu1, mu2 and mu3
 %% @end ifnottex
@@ -145,11 +125,9 @@
 %% the design problem in a systematic way.
 %% In a first approach, all three design objectives are weigthed equally.
 %% In subsequent iterations, the parameters
-%% @iftex
 %% @tex
-%% $\\mu_1 = 1$, $\\mu_2 = 10$ and $\\mu_3 = 20$
+%% \(\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20\)
 %% @end tex
-%% @end iftex
 %% @ifnottex
 %% mu1 = 1, mu2 = 10 and mu3 = 20
 %% @end ifnottex
@@ -164,6 +142,7 @@
 %% @cite{PID Controllers: Theory, Design and Tuning},
 %% Second Edition,
 %% Instrument Society of America, 1995
+%% @end deftypefn
 
 % ===============================================================================
 % optiPID                          Lukas Reichlin                       July 2009

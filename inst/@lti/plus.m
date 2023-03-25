@@ -16,9 +16,13 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
+## @deftypefn{Overloaded Operator} {} plus
 ## Binary addition of @acronym{LTI} objects.  If necessary, object conversion
 ## is done by sys_group.  Used by Octave for "sys1 + sys2".
 ## Operation is also known as "parallel connection".
+##
+## @end deftypefn
+
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: September 2009

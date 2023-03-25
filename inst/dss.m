@@ -98,13 +98,17 @@
 ## @end table
 ##
 ## @strong{Equations}
+## @tex
+## $$E\, \dot{x} = A\,x + B\,u$$
+## $$y = C\,x + D\,u$$
+## @end tex
+## @ifnottex
 ## @example
-## @group
 ##   .
 ## E x = A x + B u
 ##   y = C x + D u
-## @end group
 ## @end example
+## @end ifnottex
 ##
 ## @seealso{ss, tf}
 ## @end deftypefn

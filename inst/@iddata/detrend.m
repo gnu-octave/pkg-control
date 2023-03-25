@@ -22,6 +22,7 @@
 ## removing the best fit of a polynomial of order @var{ord}.
 ## If @var{ord} is not specified, default value 0 is taken.
 ## This corresponds to removing a constant.
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

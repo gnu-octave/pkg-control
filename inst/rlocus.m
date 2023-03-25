@@ -51,6 +51,7 @@
 ##         +---------------------------------+
 ## @end group
 ## @end example
+## @seealso{rlocusx}
 ## @end deftypefn
 
 ## Author: David Clem

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Computer-Aided Control System Design: augw</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <style>
+    var {
+      font-style: italics;
+      font-weight: bold;
+    }
+    td {
+      vertical-align: top;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="bg-dark">
+      <div class="container-xl">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href=index.html>
+              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              Computer-Aided Control System Design
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#Robust Control">
+                    <i class="fas fa-list-alt"></i>
+                    Robust Control
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://gnu-octave.github.io/packages/">
+                  <img src="assets/octave-logo.svg" alt="GNU Octave logo" class="d-inline-block align-top" width="25" height="25">
+                    Octave Packages
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.octave.org">
+                    <i class="fas fa-home"></i>
+                    GNU Octave website
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="container-xl my-4">
+      <div class="card rounded">
+        <div class="card-header card-header-mod">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+              <h3 class="d-inline-block mr-2">
+              Function&nbsp;Reference: <b><code>augw</code></b>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+<dl>
+<dt><u>Function File:</u> <var>P</var> = <b>augw</b><i> (<var>G</var>, <var>W1</var>, <var>W2</var>, <var>W3</var>)</i></dt>
+</dl>
+<p> Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
+ can be solved by h2syn or hinfsyn.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>G</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model of plant.
+ </p></dd>
+<dt> <var>W1</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model of performance weight.  Bounds the largest singular values of sensitivity <var>S</var>.
+ Model must be empty <code>[]</code>, SISO or of appropriate size.
+ </p></dd>
+<dt> <var>W2</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model to penalize large control inputs.  Bounds the largest singular values of <var>KS</var>.
+ Model must be empty <code>[]</code>, SISO or of appropriate size.
+ </p></dd>
+<dt> <var>W3</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+ complementary sensitivity <var>T</var>.  Model must be empty <code>[]</code>, SISO or of appropriate size.
+ </p></dd>
+</dl>
+
+<p> All inputs must be proper/realizable.
+ Scalars, vectors and matrices are possible instead of <acronym>LTI</acronym> models.
+</p>
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>P</var></dt>
+</dl>
+<p> State-space model of augmented plant.
+ </p></dd>
+</dl>
+
+<p> <strong>Block Diagram</strong>
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+     | W1 | -W1*G |     z1 = W1 r  -  W1 G u
+     | 0  |  W2   |     z2 =          W2   u
+ P = | 0  |  W3*G |     z3 =          W3 G u
+     |----+-------|
+     | I  |    -G |     e  =    r  -     G u
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                                                       +------+  z1
+             +----------------------------------------&gt;|  W1  |-----&gt;
+             |                                         +------+
+             |                                         +------+  z2
+             |                 +----------------------&gt;|  W2  |-----&gt;
+             |                 |                       +------+
+  r   +    e |   +--------+  u |   +--------+  y       +------+  z3
+ -----&gt;(+)---+--&gt;|  K(s)  |----+--&gt;|  G(s)  |----+----&gt;|  W3  |-----&gt;
+        ^ -      +--------+        +--------+    |     +------+
+        |                                        |
+        +----------------------------------------+
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                +--------+
+                |        |-----&gt; z1 (p1x1)          z1 = W1 e
+  r (px1) -----&gt;|  P(s)  |-----&gt; z2 (p2x1)          z2 = W2 u
+                |        |-----&gt; z3 (p3x1)          z3 = W3 y
+  u (mx1) -----&gt;|        |-----&gt; e (px1)            e = r - y
+                +--------+
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                +--------+  
+        r -----&gt;|        |-----&gt; z
+                |  P(s)  |
+        u +----&gt;|        |-----+ e
+          |     +--------+     |
+          |                    |
+          |     +--------+     |
+          +-----|  K(s)  |&lt;----+
+                +--------+
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> <strong>References</strong><br>
+ [1] Skogestad, S. and Postlethwaite I. (2005)
+ <cite>Multivariable Feedback Control: Analysis and Design:
+ Second Edition</cite>.  Wiley.
+</p>
+<p> <strong>See also: </strong>
+  <a href="h2syn.html">h2syn</a>, 
+  <a href="hinfsyn.html">hinfsyn</a>, 
+  <a href="mixsyn.html">mixsyn</a>
+</p>
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/augw.m">augw</a>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
