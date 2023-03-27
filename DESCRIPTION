@@ -4,7 +4,7 @@ Date: 2023-xx-xx
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Alexander Wilms <f.alexander.wilms@gmail.com>, Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mailbox.org>
 Title: Computer-Aided Control System Design
-Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave, based on the proven SLICOT Library
+Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave
 Depends: octave (>= 4.0.0)
 Autoload: no
 License: GPLv3+
