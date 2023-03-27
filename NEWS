@@ -2,6 +2,12 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-3.99.99+  Current branch for new slicot routines (not yet released)
+===============================================================================
+
+ ** use current version of the SLICOT routines
+
+===============================================================================
 control-3.5.99+  Current default branch (not yet released)
 ===============================================================================
 

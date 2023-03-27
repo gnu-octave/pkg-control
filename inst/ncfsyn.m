@@ -225,8 +225,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB10ID, SB10KD and SB10ZD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10ID, SB10KD and SB10ZD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
 ## [1] D. McFarlane and K. Glover,

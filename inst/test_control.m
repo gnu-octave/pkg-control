@@ -19,7 +19,10 @@
 ## @deftypefn {Script File} {} test_control
 ## Execute all available tests at once.
 ##
-## The Octave control package is based on the @uref{http://www.slicot.org, @acronym{SLICOT}} library.
+## The Octave control package uses the 
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT library},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisites
 ## for Octave itself.
 ## In case of failing tests, it is highly recommended to use
@@ -34,8 +37,6 @@
 ## the control package uses such transformations by default when
 ## calculating the frequency responses and a few other things.
 ## However, arguments like the Hankel singular Values (@acronym{HSV}) must not change.
-## Differing @acronym{HSV}s and failing algorithms are known for using Framework Accelerate
-## from Mac OS X 10.7.
 ##
 ## @end deftypefn
 

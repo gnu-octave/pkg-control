@@ -58,8 +58,10 @@
 ##
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT AB01OD and TG01HD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB01OD and TG01HD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+##
 ## See @command{isstabilizable} for description of computational method.
 ## @seealso{isstabilizable, isstable, isctrb, isobsv}
 ## @end deftypefn

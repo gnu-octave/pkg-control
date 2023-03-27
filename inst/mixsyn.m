@@ -285,8 +285,9 @@
 ##
 ## @strong{Algorithm}@*
 ## Relies on functions @command{augw} and @command{hinfsyn},
-## which use SLICOT SB10FD, SB10DD and SB10AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## which use @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD, SB10DD and SB10AD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
 ## [1] Skogestad, S. and Postlethwaite I. (2005)

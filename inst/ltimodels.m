@@ -22,6 +22,10 @@
 ## @deftypefnx {Function File} ltimodels (@var{systype})
 ## Test suite and help for @acronym{LTI} models.
 ##
+## Some test are based on the @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT library},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -374,9 +378,18 @@ endfunction
 %!        0.0   1.0 ];
 %!
 %! [NUM, DEN] = tfdata (ss (A, B, C, D));
+%! ## remove possibly existing idendical pole/zero pairs
+%! for i=1:2
+%!   for j=1:2
+%!     gcdij = polygcd (NUM{i,j},DEN{i,j});
+%!     if length (gcdij) > 1
+%!       NUM{i,j} = deconv (NUM{i,j}, gcdij);
+%!       DEN{i,j} = deconv (DEN{i,j}, gcdij);
+%!     endif
+%!   endfor
+%! endfor
 %!
 %! NUMe = {[1, 5, 7], [1]; [1], [1, 5, 5]};
-%!
 %! DENe = {[1, 5, 6], [1, 2]; [1, 5, 6], [1, 3, 2]};
 %!
 %!assert (NUM, NUMe, 1e-4);

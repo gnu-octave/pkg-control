@@ -17,8 +17,9 @@
 
 ## -*- texinfo -*-
 ## Minimal realization of SS models.  The physical meaning of states is lost.
-## Uses SLICOT TB01PD and TG01JD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT TB01PD and TG01JD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009

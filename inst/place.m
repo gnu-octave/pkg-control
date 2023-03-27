@@ -73,8 +73,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB01BD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB01BD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.

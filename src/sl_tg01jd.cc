@@ -56,7 +56,7 @@ For internal use only.")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
-    
+
     if (nargin != 8)
     {
         print_usage ();
@@ -77,6 +77,8 @@ For internal use only.")
         const F77_INT ijob = args(6).int_value ();
         const F77_INT isystyp = args(7).int_value ();
         
+        F77_INT c_factor = 1;
+
         if (scaled == 0)
             equil = 'S';
         else
@@ -86,6 +88,7 @@ For internal use only.")
         {
             case 0:
                 job = 'I';
+                c_factor = 2;
                 break;
             case 1:
                 job = 'C';
@@ -101,6 +104,7 @@ For internal use only.")
         {
             case 0:
                 systyp = 'R';
+                c_factor = 2;
                 break;
             case 1:
                 systyp = 'S';
@@ -141,7 +145,7 @@ For internal use only.")
         F77_INT infred[7];
         
         // workspace
-        F77_INT liwork = n + max (m, p);
+        F77_INT liwork = c_factor*n + max (m, p);
         F77_INT ldwork;
         // F77_INT ldwork = max (n, 2*m, 2*p);
         // F77_INT ldwork = n * (2*n + m + p) + max (n, 2*m, 2*p);

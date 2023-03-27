@@ -59,8 +59,9 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT AB01OD and TG01HD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB01OD and TG01HD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @example
 ## @group
 ## * Calculate staircase form (SLICOT AB01OD)

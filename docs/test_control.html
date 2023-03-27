@@ -76,7 +76,10 @@
 <p> Execute all available tests at once.
 </p>
 <div class="ms-5">
-<p> The Octave control package is based on the <a href="http://www.slicot.org"><acronym>SLICOT</acronym></a> library.
+<p> The Octave control package uses the 
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT library</a>,
+ Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  <acronym>SLICOT</acronym> needs <acronym>BLAS</acronym> and <acronym>LAPACK</acronym> libraries which are also prerequisites
  for Octave itself.
  In case of failing tests, it is highly recommended to use
@@ -91,8 +94,6 @@
  the control package uses such transformations by default when
  calculating the frequency responses and a few other things.
  However, arguments like the Hankel singular Values (<acronym>HSV</acronym>) must not change.
- Differing <acronym>HSV</acronym>s and failing algorithms are known for using Framework Accelerate
- from Mac OS X 10.7.
 </p>
 
 <p><strong>Source Code: </strong>

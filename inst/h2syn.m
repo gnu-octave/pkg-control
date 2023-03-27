@@ -79,8 +79,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB10HD and SB10ED by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10HD and SB10ED},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{augw, lqr, dlqr, kalman}
 ## @end deftypefn
