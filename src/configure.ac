@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([control], [3.5.1])
+AC_INIT([control], [3.5.2])
 AC_CONFIG_SRCDIR([sl_ab01od.cc])
 AC_CONFIG_HEADERS([config.h])
 
