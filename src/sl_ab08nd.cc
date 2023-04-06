@@ -198,7 +198,11 @@ For internal use only.")
         if (m == 1 && p == 1)
         {
             if (nu < n)
+#if OCTAVE_MAJOR_VERSION > 8
                 gain = c * octave::xpow (a, double (n-1-nu)).matrix_value() * b;
+#else
+                gain = c * xpow (a, double (n-1-nu)).matrix_value() * b;
+#endif
             else
                 gain = d;
         }
