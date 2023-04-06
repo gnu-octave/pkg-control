@@ -14,6 +14,12 @@ control-3.5.99+  Current default branch (not yet released)
  ** allow discrete-time purely static gain systems with a sampling time
 
 ===============================================================================
+control-3.5.2   Release date 2023-04-05
+===============================================================================
+
+ ** fix build errors when installing in Octave 6
+
+===============================================================================
 control-3.5.1   Release date 2023-03-21
 ===============================================================================
 
