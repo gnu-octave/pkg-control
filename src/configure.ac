@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([control], [3.5.99+])
+AC_INIT([control], [3.99.99+])
 AC_CONFIG_SRCDIR([sl_ab01od.cc])
 AC_CONFIG_HEADERS([config.h])
 
@@ -98,6 +98,10 @@ CXXFLAGS=$TCXXFLAGS
 CPPFLAGS=$TCPPFLAGS
 AC_LANG_POP([C++])
 # End of checks for Octave features.
+
+## The following test result is not used anymore but is left
+## as an example in this file. The result is inserted into
+## Makefile.conf.in resulting in Makefile.conf
 
 # Test for newer DGGES routine in LAPACK
 AC_LANG_PUSH([Fortran 77])

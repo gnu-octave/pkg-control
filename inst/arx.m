@@ -82,8 +82,10 @@
 ## @strong{Algorithm}@*
 ## Uses the formulae given in [1] on pages 318-319,
 ## 'Solving for the LS Estimate by QR Factorization'.
-## For the initial conditions, SLICOT IB01CD is used by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT IB01CD}
+## for initial conditions,
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
 ## [1] Ljung, L. (1999)

@@ -64,8 +64,9 @@
 ## For proper state-space models, @var{Tl} and @var{Tr} are inverse of each other.
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT TB01ID and TG01AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}.
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT TB01ID and TG01AD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

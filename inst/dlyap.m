@@ -33,8 +33,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB03MD, SB04QD and SG03AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB03MD, SB04QD and SG03AD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{dlyapchol, lyap, lyapchol}
 ## @end deftypefn

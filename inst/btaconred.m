@@ -215,8 +215,9 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT SB16AD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB16AD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

@@ -22,8 +22,9 @@
 ## Return H-2 or L-inf norm of @acronym{LTI} model.
 ##
 ## @strong{Algorithm}@*
-## Uses SLICOT AB13BD and AB13DD by courtesy of
-## @uref{http://www.slicot.org, NICONET e.V.}
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB13BD and AB13DD},
+## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
