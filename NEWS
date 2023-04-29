@@ -5,8 +5,11 @@ Summary of important user-visible changes for releases of the control package
 control-3.5.99+  Current default branch (not yet released)
 ===============================================================================
 
- ** allow discrete-time purely static gain systems with a sampling time
+ ** added unit circle (for discrete-time) systems ans axes to the
+    pole/zero maps plotted by pzmap()
 
+ ** allow discrete-time purely static gain systems with a sampling time
+ 
  ** added metainfo file octave-control.metainfo.xml
 
 ===============================================================================
