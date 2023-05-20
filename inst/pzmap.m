@@ -116,9 +116,9 @@ function [pol_r, zer_r] = pzmap (varargin)
     ## FIXME: try to combine "x", "o" and style for custom colors
 
     ## If no zeroes then just plot the poles and vice versa
-    if (isempty (zer))
+    if (isempty (zer{:}))
        h = plot (pol_args{:});
-    elseif  (isempty (pol))
+    elseif  (isempty (pol{:}))
        h = plot (zer_args{:});
     else
        h = plot (pol_args{:}, zer_args{:});

@@ -196,7 +196,7 @@ function __sgrid_create__(hax, hg, v_z, v_w)
     for (i = 1:length(v_w))
       v_sgrid.w(i) = plot(v_w(i)*cos(pi/2:0.01:3*pi/2),
                           v_w(i)*sin(pi/2:0.01:3*pi/2), 
-                          "-k", "linewidth", 0.15,
+                          ":k", "linewidth", 0.6,
                           "parent", hg);
     endfor
   
