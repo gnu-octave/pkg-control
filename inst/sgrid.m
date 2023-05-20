@@ -24,10 +24,8 @@
 ##
 ## Control the display of s-plane grid with :
 ## @itemize
-## @item
-## zeta lines corresponding to damping ratios and
-## @item
-## omega circles corresponding to undamped natural frequencies
+## @item zeta lines corresponding to damping ratios and
+## @item omega circles corresponding to undamped natural frequencies
 ## @end itemize
 ##
 ## The function state input may be either @qcode{"on"} or @qcode{"off"}
@@ -43,13 +41,9 @@
 ##
 ## @noindent
 ## where @var{Z} and @var{W} are :
-##
 ## @itemize
-## @item
-## @var{Z} vector of constant zeta values to plot as lines
-##
-## @item
-## @var{W} vector of constant omega values to plot as circles
+## @item @var{Z} vector of constant zeta values to plot as lines
+## @item @var{W} vector of constant omega values to plot as circles
 ## @end itemize
 ##
 ## Example of usage:
@@ -60,17 +54,15 @@
 ## sgrid ([0.3, 0.8, @dots{}], [10, 75, @dots{}])   create:
 ## @example
 ## @itemize
-## @item
-## zeta lines for 0.3, 0.8, @dots{} 
-## @item
-## omega circles for 10, 75, @dots{} [rad/s] 
+## @item zeta lines for 0.3, 0.8, @dots{} 
+## @item omega circles for 10, 75, @dots{} [rad/s] 
 ## @end itemize
 ## @end example
 ## sgrid (@var{hax}, @qcode{"on"})   create the s-plane grid for the axis 
 ##                     handle @var{hax}
 ## @end example
 ##
-## @seealso{grid}
+## @seealso{grid,zgrid}
 ##
 ## @end deftypefn
 
@@ -146,7 +138,7 @@ function sgrid(varargin)
       __sgrid_create__(hax, hg,v_z, v_w)
     else
       v_user = get(hg, "userdata");
-      if (!isequal(v_z, v_user.z) | !isequal(v_w, v_user.w))
+      if (!isequal(v_z, v_user.z) || !isequal(v_w, v_user.w))
         __sgrid_delete_handles__(hg);
         __sgrid_create__(hax, hg, v_z, v_w)
       elseif (strcmp(get(hg, "visible"), "off"))
@@ -196,7 +188,7 @@ function __sgrid_create__(hax, hg, v_z, v_w)
     for (i = 1:length(v_w))
       v_sgrid.w(i) = plot(v_w(i)*cos(pi/2:0.01:3*pi/2),
                           v_w(i)*sin(pi/2:0.01:3*pi/2), 
-                          "-k", "linewidth", 0.15,
+                          ":k", "linewidth", 0.6,
                           "parent", hg);
     endfor
   

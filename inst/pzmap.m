@@ -91,8 +91,8 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     colororder = get (gca, "colororder");
     rc = rows (colororder);
-    def_pol = arrayfun (@(k) {"x", "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
-    def_zer = arrayfun (@(k) {"o", "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    def_pol = arrayfun (@(k) {"x", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    def_zer = arrayfun (@(k) {"o", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
     idx = cellfun (@isempty, sty);
     sty_pol = sty_zer = sty;
     sty_pol(idx) = def_pol(idx);
@@ -103,20 +103,22 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     leg_args = cell (1, n);
     idx = find (sys_idx);
+    dt = false;
     for k = 1 : n
       try
         leg_args{k} = inputname (idx(k));
       catch
         leg_args{k} = "";       # needed for  pzmap (lticell{:})
       end_try_catch
+      dt = dt || (varargin{idx(k)}.tsam != 0);
     endfor
 
     ## FIXME: try to combine "x", "o" and style for custom colors
 
     ## If no zeroes then just plot the poles and vice versa
-    if (isempty ( zer{:}))
+    if (isempty (zer{:}))
        h = plot (pol_args{:});
-    elseif  (isempty ( pol{:}))
+    elseif  (isempty (pol{:}))
        h = plot (zer_args{:});
     else
        h = plot (pol_args{:}, zer_args{:});
@@ -126,8 +128,41 @@ function [pol_r, zer_r] = pzmap (varargin)
     title ("Pole-Zero Map")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+
+    xl = xlim();
+    yl = ylim();
+
+    dx = (xl(2)-xl(1))/10;
+    xl(1) = xl(1) - dx;
+    xl(2) = xl(2) + dx;
+    dy = (yl(2)-yl(1))/10;
+    yl(1) = yl(1) - dy;
+    yl(2) = yl(2) + dy;
+
+    hold on;
+
+    a = gca ();
+    % avoid flickering while drawing axis / stablity region
+    set (a, 'xlimmode', 'manual');
+    set (a, 'ylimmode', 'manual');
+    plot ([0,0], [yl(1)-dy*100, yl(2)+dy*100], '-', 'color', [0.7 0.7 0.7]);
+    plot ([xl(1)-dx*100, xl(2)+dx*100], [0,0], '-', 'color', [0.7 0.7 0.7]);
+    if dt
+      t = 0:0.05:6.3;
+      plot(cos(t),sin(t),'-', 'color', [0.7 0.7 0.7]);
+    endif
+    set (a, 'xlimmode', 'auto');
+    set (a, 'ylimmode', 'auto');
+
+    xlim(xl);
+    ylim(yl);
+
+    hold off;
+
     legend (h(1:n), leg_args)
-  else
+
+
+    else
     pol_r = pol{1};
     zer_r = zer{1};
   endif

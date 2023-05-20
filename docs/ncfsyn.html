@@ -85,19 +85,19 @@
 </p>
 <div class="ms-5">
  <ol>
-<li> For <em>disturbance rejection</em> make
+<li> For <math>disturbance rejection</math> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <em>noise attenuation</em> make
+  </li><li> For <math>noise attenuation</math> make
  \(\overline{\sigma}(W_2 G W_1)\)
   small; valid for frequencies at which
  \(\overline{\sigma}(G_S) \ll 1\)
-  </li><li> For <em>reference tracking</em> make
+  </li><li> For <math>reference tracking</math> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <em>robust stability</em> to a multiplicative output perturbation
+  </li><li> For <math>robust stability</math> to a multiplicative output perturbation
  \(G_p = (I + \Delta) G\)
   make
  \(\overline{\sigma}(W_2 G W_1)\)
@@ -121,7 +121,7 @@
 </p> 
 <p> <code>[K, N] = ncfsyn (G, W1, W2, f)</code>
  The function <code>ncfsyn</code> - the somewhat cryptic name stands
- for <em>normalized coprime factorization synthesis</em> - allows the specification of
+ for <math>normalized coprime factorization synthesis</math> - allows the specification of
  an additional argument, factor <var>f</var>.  Default value <code>f = 1</code> implies that an
  optimal controller is required, whereas <code>f &gt; 1</code> implies that a suboptimal
  controller is required, achieving a performance that is <var>f</var> times less than optimal.
@@ -159,7 +159,7 @@
 <dt> <var>K</var></dt>
 </dl>
 <p> State-space model of the H-infinity loop-shaping controller.
- Note that <var>K</var> is a <em>positive</em> feedback controller.
+ Note that <var>K</var> is a <math>positive</math> feedback controller.
  </p></dd>
 <dt> <var>N</var></dt>
 </dl>

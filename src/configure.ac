@@ -99,10 +99,6 @@ CPPFLAGS=$TCPPFLAGS
 AC_LANG_POP([C++])
 # End of checks for Octave features.
 
-## The following test result is not used anymore but is left
-## as an example in this file. The result is inserted into
-## Makefile.conf.in resulting in Makefile.conf
-
 # Test for newer DGGES routine in LAPACK
 AC_LANG_PUSH([Fortran 77])
 AC_SEARCH_LIBS(dgges, lapack,[HAVE_DGGES=1],[HAVE_DGGES=0])
