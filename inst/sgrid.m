@@ -70,7 +70,7 @@
 ##                     handle @var{hax}
 ## @end example
 ##
-## @seealso{grid}
+## @seealso{grid,zgrid}
 ##
 ## @end deftypefn
 
@@ -146,7 +146,7 @@ function sgrid(varargin)
       __sgrid_create__(hax, hg,v_z, v_w)
     else
       v_user = get(hg, "userdata");
-      if (!isequal(v_z, v_user.z) | !isequal(v_w, v_user.w))
+      if (!isequal(v_z, v_user.z) || !isequal(v_w, v_user.w))
         __sgrid_delete_handles__(hg);
         __sgrid_create__(hax, hg, v_z, v_w)
       elseif (strcmp(get(hg, "visible"), "off"))
