@@ -2,11 +2,14 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-3.5.99+  Current default branch (not yet released)
+control-3.6.0  Release date 2023-05-20
 ===============================================================================
 
- ** added unit circle (for discrete-time) systems ans axes to the
-    pole/zero maps plotted by pzmap()
+ ** zgrid: new function for grid lines with constant eigenfrequency
+    and damping for discrete-time pole/zero maps
+
+ ** pzamp: added unit circle (for discrete-time) systems and axes to the
+    pole/zero maps
 
  ** allow discrete-time purely static gain systems with a sampling time
  
