@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Computer-Aided Control System Design: sgrid</title>
+    <title>Computer-Aided Control System Design: zgrid</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -64,36 +64,36 @@
           <div class="row d-flex flex-wrap align-items-center">
             <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
               <h3 class="d-inline-block mr-2">
-              Function&nbsp;Reference: <b><code>sgrid</code></b>
+              Function&nbsp;Reference: <b><code>zgrid</code></b>
               </h3>
             </div>
           </div>
         </div>
         <div class="card-body">
 <dl>
-<dt><u>Function File:</u> <b>sgrid</b></dt>
-<dt><u>Function File:</u> <b>sgrid</b><i> on</i></dt>
-<dt><u>Function File:</u> <b>sgrid</b><i> off</i></dt>
-<dt><u>Function File:</u> <b>sgrid</b><i> (<var>z</var>, <var>w</var>)</i></dt>
-<dt><u>Function File:</u> <b>sgrid</b><i> (<var>hax</var>, &hellip;)</i></dt>
+<dt><u>Function File:</u> <b>zgrid</b></dt>
+<dt><u>Function File:</u> <b>zgrid</b><i> on</i></dt>
+<dt><u>Function File:</u> <b>zgrid</b><i> off</i></dt>
+<dt><u>Function File:</u> <b>zgrid</b><i> (<var>z</var>, <var>w</var>)</i></dt>
+<dt><u>Function File:</u> <b>zgrid</b><i> (<var>hax</var>, &hellip;)</i></dt>
 </dl>
-<p> Display an grid in the complex s-plane.
+<p> Display an grid in the complex z-plane.
 </p>
 <div class="ms-5">
-<p> Control the display of s-plane grid with :
+<p> Control the display of z-plane grid with :
  </p><ul>
 <li> zeta lines corresponding to damping ratios and
- </li><li> omega circles corresponding to undamped natural frequencies
+ </li><li> omega lines corresponding to undamped natural frequencies
  </li></ul>
 
 <p> The function state input may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>
  for creating or removing the grid. If omitted, a new grid is created 
  when it does not exist or the visibility of the current grid is toggled.
 </p>
-<p> The sgrid will automatically plot the grid lines at nice values or
+<p> The zgrid will automatically plot the grid lines at nice values or
  at constant values specified by two arguments :
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> sgrid (<var>Z</var>, <var>W</var>)
+ <table><tr><td>&nbsp;</td><td><pre class="example"> zgrid (<var>Z</var>, <var>W</var>)
  </pre></td></tr></table>
 
  <p> where <var>Z</var> and <var>W</var> are :
@@ -103,25 +103,25 @@
  </li></ul>
 
 <p> Example of usage:
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> sgrid on	create the s-plane grid
- sgrid off 	remove the s-plane grid
- sgrid		toggle the s-plane grid visibility
- sgrid ([0.3, 0.8, &hellip;], [10, 75, &hellip;])   create:
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> zgrid on	  create the z-plane grid
+ zgrid off 	remove the z-plane grid
+ zgrid		  toggle the z-plane grid visibility
+ zgrid ([0.3, 0.8, &hellip;], [0.25*pid, 0.5*pi, &hellip;])   create:
  </pre><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><ul>
 <li><pre class="example"> zeta lines for 0.3, 0.8, &hellip; 
- </pre></li><li><pre class="example"> omega circles for 10, 75, &hellip; [rad/s] 
+ </pre></li><li><pre class="example"> omega lines for 0.25*pi/T, 0.5*pi/T, &hellip; [rad/s] 
  </pre></li></ul>
 <pre class="example"> </pre></td></tr></table>
-<pre class="example"> sgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the s-plane grid for the axis 
+<pre class="example"> zgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the z-plane grid for the axis 
                      handle <var>hax</var>
  </pre></td></tr></table>
 
 <p> <strong>See also: </strong>
 grid, 
-  <a href="zgrid.html">zgrid</a>
+  <a href="sgrid.html">sgrid</a>
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/sgrid.m">sgrid</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/zgrid.m">zgrid</a>
 </div>
         <div class="container-xl my-4">
           <div class="card rounded">
@@ -142,89 +142,16 @@ grid,
                     <td><pre class="example">
 
  clf;
- num = 1; den = [1 4 5 0];
- sys = tf(num, den);
- rlocus(sys);
- sgrid on;
+ num = [1 0.25]; den = [1 -1.5 0];
+ sys = tf(num, den, 1);
+ rlocus(sys,0.01,0,3.5);
+ ylim([-1.1,1.1]);
+ zgrid on;
 
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/sgrid_101.png" class="rounded img-thumbnail" alt="plotted figure">
-                  </div><p></p>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="container-xl my-4">
-          <div class="card rounded">
-            <div class="card-header card-header-mod">
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 2
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="container bg-light">
-                <div class="row">
-                  <table><tbody><tr>
-                    <td>&nbsp;</td>
-                    <td><pre class="example">
-
- clf;
- num = [1 3]; den = [1 5 20 16 0];
- sys = tf(num, den);
- rlocus(sys);
- hfig = get(0, "currentfigure");
- hax = get(hfig, "currentaxes");
- sgrid(hax, "on");
-
-                    </pre></td></tr></tbody>
-                  </table>
-                  <div class="text-center">
-                    <img src="assets/sgrid_201.png" class="rounded img-thumbnail" alt="plotted figure">
-                  </div><p></p>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="container-xl my-4">
-          <div class="card rounded">
-            <div class="card-header card-header-mod">
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 3
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="container bg-light">
-                <div class="row">
-                  <table><tbody><tr>
-                    <td>&nbsp;</td>
-                    <td><pre class="example">
-
- clf;
- num = 1; den = [1 4 5 0];
- sys = tf(num, den);
- rlocus(sys);
- sgrid([0.5 0.7 0.89], [1 1.66 2.23]);
-
-                    </pre></td></tr></tbody>
-                  </table>
-                  <div class="text-center">
-                    <img src="assets/sgrid_301.png" class="rounded img-thumbnail" alt="plotted figure">
+                    <img src="assets/zgrid_101.png" class="rounded img-thumbnail" alt="plotted figure">
                   </div><p></p>
 
                 </div>
