@@ -33,7 +33,8 @@ The release is created manually [on github](https://github.com/gnu-octave/pkg-co
 2. Update `NEWS`, possibly move old entries into `ONEWS`
 3. Update version in `DESCRIPTION`
 4. Update version in `src/configure.ac`
-5. `hg commit` for storing above changes
+5. Update `INDEX` if a new function was added
+5. `git commit` for storing above changes
 
 ## Testing
 
