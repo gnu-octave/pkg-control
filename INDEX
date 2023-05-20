@@ -85,6 +85,7 @@ Frequency Domain Analysis
   sensitivity
   sgrid
   sigma
+  zgrid
 Pole Placement
   acker
   place
