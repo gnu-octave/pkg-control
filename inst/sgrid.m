@@ -24,10 +24,8 @@
 ##
 ## Control the display of s-plane grid with :
 ## @itemize
-## @item
-## zeta lines corresponding to damping ratios and
-## @item
-## omega circles corresponding to undamped natural frequencies
+## @item zeta lines corresponding to damping ratios and
+## @item omega circles corresponding to undamped natural frequencies
 ## @end itemize
 ##
 ## The function state input may be either @qcode{"on"} or @qcode{"off"}
@@ -43,13 +41,9 @@
 ##
 ## @noindent
 ## where @var{Z} and @var{W} are :
-##
 ## @itemize
-## @item
-## @var{Z} vector of constant zeta values to plot as lines
-##
-## @item
-## @var{W} vector of constant omega values to plot as circles
+## @item @var{Z} vector of constant zeta values to plot as lines
+## @item @var{W} vector of constant omega values to plot as circles
 ## @end itemize
 ##
 ## Example of usage:
@@ -60,10 +54,8 @@
 ## sgrid ([0.3, 0.8, @dots{}], [10, 75, @dots{}])   create:
 ## @example
 ## @itemize
-## @item
-## zeta lines for 0.3, 0.8, @dots{} 
-## @item
-## omega circles for 10, 75, @dots{} [rad/s] 
+## @item zeta lines for 0.3, 0.8, @dots{} 
+## @item omega circles for 10, 75, @dots{} [rad/s] 
 ## @end itemize
 ## @end example
 ## sgrid (@var{hax}, @qcode{"on"})   create the s-plane grid for the axis 
