@@ -49,7 +49,7 @@
        inkscape:collect="always"
        id="linearGradient996">
       <stop
-         style="stop-color:#59c5de;stop-opacity:1"
+         style="stop-color:#bfd8de;stop-opacity:0.35628167"
          offset="0"
          id="stop992" />
       <stop
@@ -61,7 +61,7 @@
        inkscape:collect="always"
        id="linearGradient945">
       <stop
-         style="stop-color:#ff7f2a;stop-opacity:1"
+         style="stop-color:#ffd5b8;stop-opacity:0.59607846"
          offset="0"
          id="stop941" />
       <stop
@@ -187,10 +187,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient945"
        id="linearGradient947"
-       x1="20.139288"
-       y1="20.674444"
-       x2="20.082886"
-       y2="5.5424981"
+       x1="20.372915"
+       y1="18.520832"
+       x2="20.372915"
+       y2="10.583333"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(-0.52916665,2.6458334)" />
     <linearGradient
@@ -199,10 +199,10 @@
        id="linearGradient990"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(-0.46664858,17.138639)"
-       x1="20.141203"
-       y1="18.732531"
-       x2="20.24176"
-       y2="5.6656175" />
+       x1="20.310398"
+       y1="17.257193"
+       x2="20.310398"
+       y2="10.642611" />
     <radialGradient
        cx="182.9837"
        cy="395.04871"
@@ -233,7 +233,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
