@@ -26,6 +26,9 @@
 
 function retsys = __sys_group__ (sys1, sys2)
 
+  % If one system is just a numeric value, create a proper lti system
+  [sys1, sys2] = __numeric_to_lti__ (sys1, sys2);
+
   if (! isa (sys1, "tf"))
     sys1 = tf (sys1);
   endif

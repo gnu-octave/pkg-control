@@ -8,6 +8,13 @@ control-3.99.99+  Current branch for new slicot routines (not yet released)
  ** use current version of the SLICOT routines
 
 ===============================================================================
+control-3.6.1  Release date 2023-07-10
+===============================================================================
+
+ ** fix bug #64374: numeric constants are converted into proper lti
+    systems before being interconnected to discrete time-systems
+
+===============================================================================
 control-3.6.0  Release date 2023-05-20
 ===============================================================================
 
@@ -18,7 +25,7 @@ control-3.6.0  Release date 2023-05-20
     pole/zero maps
 
  ** allow discrete-time purely static gain systems with a sampling time
-
+ 
  ** added metainfo file octave-control.metainfo.xml
 
 ===============================================================================
