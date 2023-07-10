@@ -41,7 +41,10 @@ Releasing the package should be done in the *release* branch as github will depl
 5. `git push` (docs should be automatically be published by github)
 6. `git push origin control-X.Y.Z` (push the tag) 
 5. Make release on github (see below: *Publishing the release*)
-6. Update `control.yaml` in the repository `gnu-octave/packages` repository and create a pull request
+6. Update `control.yaml`
+    1. update in the repository `gnu-octave/packages`
+    2. create a pull request
+    3. merge pull request after all tests have passed
 9. `git checkout main`
 10. `git merge release`
 11. `git checkout dev`
