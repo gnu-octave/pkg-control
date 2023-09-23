@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
-AC_INIT([control], [3.99.99+])
+AC_PREREQ([2.71])
+AC_INIT([control],[3.99.99+])
 AC_CONFIG_SRCDIR([sl_ab01od.cc])
 AC_CONFIG_HEADERS([config.h])
 
@@ -106,4 +106,5 @@ AC_LANG_POP([Fortran 77])
 AC_SUBST(HAVE_DGGES)
 
 # Output results and subst variables in Makefile.conf.in
-AC_OUTPUT(Makefile.conf)
+AC_CONFIG_FILES([Makefile.conf])
+AC_OUTPUT
