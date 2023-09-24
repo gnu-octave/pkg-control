@@ -13,7 +13,7 @@ As of 24.03.2023, the developemnt of the **control** package was moved from [Sou
 
 ## Used Libraries
 
-Control uses some routines of the of the [SLICOT-Reference library](https://github.com/SLICOT/SLICOT-Reference) (Copyright (c) 2020, SLICOT). The sources of the used routines are included in the released control package archive `control-x.y.z.tar.gz` in the directory `src/slicot-src`) and are compiled for the target system while installing the control package for Octave. 
+Control uses some routines of the [SLICOT-Reference library](https://github.com/SLICOT/SLICOT-Reference) (Copyright (c) 2020, SLICOT). The sources of the used routines are included in the released control package archive `control-x.y.z.tar.gz` in the directory `src/slicot-src`) and are compiled for the target system while installing the control package for Octave. 
 
 The SLICOT files are available under the  *BSD 3-Clause License* which can be found in the file `src/slicot-src/LICENSE` or [in the SLICOT-Reference repository](https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE).
 
