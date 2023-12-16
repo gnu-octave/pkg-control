@@ -2,6 +2,13 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-3.6.2  Not yet released
+===============================================================================
+
+ ** fixed duration of time responses like step for systems with
+    oscillations ans improved graphical output
+
+===============================================================================
 control-3.6.1  Release date 2023-07-10
 ===============================================================================
 
@@ -19,7 +26,7 @@ control-3.6.0  Release date 2023-05-20
     pole/zero maps
 
  ** allow discrete-time purely static gain systems with a sampling time
- 
+
  ** added metainfo file octave-control.metainfo.xml
 
 ===============================================================================
@@ -104,7 +111,7 @@ control-3.2.0      Release Date: 2019-04-01
  ** new function sgrid
 
  ** New function: ss2ss
- 
+
  ** Fixed many warnings
 
  ** added demos to rlocus, pzmap, bode, nichols, nyquist,
@@ -115,13 +122,13 @@ control-3.2.0      Release Date: 2019-04-01
 ===============================================================================
 control-3.1.0      Release Date: 2018-03-11
 ===============================================================================
- 
+
  ** New function: damp
- 
+
  ** Changed nelem to numel and length to numel to remove the warnings
     during installation.
 
- ** The Impulse section has been rewritten, and a new file -- imp_invar.m -- 
+ ** The Impulse section has been rewritten, and a new file -- imp_invar.m --
     added. The old system tried to use the "zoh" to get an impulse response
     but that is impossible.
 
@@ -157,16 +164,16 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
     Therefore, any larger piece of software is likely to contain bugs.
     But the author is confident that he squashed considerably more bugs
     than he introduced in this release.  So if you waver between updating now
-    and waiting for control-3.0.x, the author's suggestion is definitely 
+    and waiting for control-3.0.x, the author's suggestion is definitely
     to update now.
-    
+
  ** As always, your feedback is highly appreciated!  Even if you think that
     the control package is "fubar".  If you just follow the German saying
     "gesehen, gelacht, geloescht" - which roughly translates into
     "seen it, laughed at it, deleted it" - there's only little chance for
     improvement!  So if you think you've found a bug, please take the time
     to report your findings on Octave's bugtracker:
-    
+
       <http://savannah.gnu.org/bugs/?group=octave>
 
     See the link below for more information about how to report problems:
@@ -190,20 +197,20 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
  ** LTI models in general
 
     Improved handling of key-value pairs in all constructors for LTI models:
-    
+
       tf (matrix, 'key1', val1, ...),  ss (a, b, 'key1', val1, ...)
 
     Support inheritance of LTI properties in many variations:
 
       tf (num, den, ltisys),  ss (a, b, ltisys, 'key1', val1, ...)
       sys.lti = ltisys,  zpk (z, p, k, Ts, 'var', 'q', 'lti', ltisys, ...)
-    
+
     Accept [] as an alias for unspecified sampling time (Ts = -1):
-    
+
       filt ('q^-1', []),  ss (a, b, c, d, []),  sys.Ts = []
-    
+
     Automatic vector expansion for input and output names:
-    
+
       sys.inname = 'str',  sys.outname = ''  (for MIMO systems)
 
 
@@ -215,7 +222,7 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
  ** ss
 
     Support for the following special cases has been added:
-    
+
       ss (sys, 'explicit')   % convert descriptor system to regular one
       ss (sys, 'minimal')    % equivalent to  minreal (ss (sys))
 
@@ -223,9 +230,9 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
 
     Restrict transfer function variable to the candidates 's', 'p' for
     continuous-time and 'z', 'q', 'z^-1', 'q^-1' for discrete-time models.
-       
+
       s = tf ('s'),  z = tf ('z^-1', Ts),  tf (num, den, Ts, 'var', 'q')
-       
+
     Previous control versions supported any string, which could be quite
     misleading, see bug #45371.  <http://savannah.gnu.org/bugs/?43586>
 
@@ -233,7 +240,7 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
 
     Fixed bug #42495.  <http://savannah.gnu.org/bugs/?42495>
     It is now possible to specify a frequency vector of length 1, e.g.
-    
+
       [mag, phase] = bode (sys, 1)
 
     Furthermore, the functions raise an error or warning if invalid arguments
@@ -241,7 +248,7 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
     which could be confusing.
 
  ** step, impulse, initial, ramp
- 
+
     The time response functions now raise an error or warning if invalid
     arguments are passed to them.  As it was the case for frequency response
     functions, they used to simply ignore invalid arguments.
@@ -275,11 +282,11 @@ control-3.0.0   Release Date: 2015-10-30   Release Manager: Lukas Reichlin
 
     Add input/output/state names to the returned system.  Support name-based
     selection of inputs (arguments 'sensors' and 'known').
- 
+
  ** sumblk
 
     Add signal names as input/output groups if argument  n > 1.
- 
+
  ** minreal
 
     If state-space models already have a minimal realization, then no state
