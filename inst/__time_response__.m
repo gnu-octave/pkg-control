@@ -226,6 +226,8 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
     outname = get (args(sys_idx){end}, "outname");
     outname = __labels__ (outname, "y");
+    inname = get (args(sys_idx){end}, "inname");
+    inname = __labels__ (inname, "u");
 
     [p, m] = size (args(sys_idx){1});
 
@@ -248,59 +250,55 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       otherwise
         error ("time_response: invalid response type");
     endswitch
+  
+    for i = 1 : p                                   # for every output
+      for j = 1 : cols                              # for every input (except for initial where cols=1)
 
+        if (p != 1 || cols != 1)
+          subplot (p, cols, (i-1)*cols+j);
+        endif
 
-    for k = 1 : n_sys                                   # for every system
-      if (ct_idx(k))                                    # continuous-time system
-        for i = 1 : p                                   # for every output
-          for j = 1 : cols                              # for every input (except for initial where cols=1)
-            if (p != 1 || cols != 1)
-              subplot (p, cols, (i-1)*cols+j);
-            endif
+        box on;
+
+        for k = 1 : n_sys                                 # for every system
+          if (ct_idx(k))    # continuous-time system
             plot (t{k}, y{k}(:, i, j), sty{k}{:});
-            hold on;
-            grid on;
-            if (k == n_sys)
-              axis tight
-              ylim (__axis_margin__ (ylim))
-              if (j == 1)
-                ylabel (outname{i});
-                if (i == 1)
-                  title (str);
-                endif
-              endif
-            endif
-          endfor
-        endfor
-      else                                              # discrete-time system
-        for i = 1 : p                                   # for every output
-          for j = 1 : cols                              # for every input (except for initial where cols=1)
-            if (p != 1 || cols != 1)
-              subplot (p, cols, (i-1)*cols+j);
-            endif
+          else              # discrete-time system
             stairs (t{k}, y{k}(:, i, j), sty{k}{:});
-            hold on;
-            grid on;
-            if (k == n_sys)
-              axis tight;
-              ylim (__axis_margin__ (ylim))
-              if (j == 1)
-                ylabel (outname{i});
-                if (i == 1)
-                  title (str);
-                endif
-              endif
+          endif
+          hold on;
+          grid on;
+          if (k == n_sys)
+            axis tight
+            xlim ([0, tfinal]);
+            ylim (__axis_margin__ (ylim))
+            xlabel ("Time [s]");
+            ylabel (outname{i});
+            title (inname{j}, "fontweight", "normal");
+            if n_sys > 1
+              legend (leg)
             endif
-          endfor
+          endif
         endfor
-      endif
+
+        hold off;
+     
+      endfor
     endfor
-    xlabel ("Time [s]");
-    xlim ([0, tfinal]);
+
     if (p == 1 && m == 1)
-      legend (leg)
+      title (str);  # normal title
+    else
+      # create title manually (create axes object on whole figure and put text)
+      f_pos = get (gcf(), 'position');
+      fs = get (gca(), 'fontsize');
+      last_plot = gca ();
+      dummy = axes( 'visible', 'off', 'position', [0 0 1 1]);
+      text (dummy, 0.5, 1-1.2*fs/f_pos(4), str, ...
+            'fontsize', 1.2*fs, 'fontweight', 'bold', 'horizontalalignment', 'center');
+      set (gcf (), 'currentaxes', last_plot); # focus back to last subplot
     endif
-    hold off;
+
   endif
 
 endfunction
