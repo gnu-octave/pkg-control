@@ -497,7 +497,16 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
     ev = ev(find (ev));
     ev_max = max (abs (ev));
-    w_min = min (abs (imag (ev(find (imag (ev) > TOL)))));
+
+    ev_conj_compl = ev (find (imag (ev) > TOL));
+    if length (ev_conj_compl) > 0
+      Dw0 = -real (ev_conj_compl);
+      w   = imag (ev_conj_compl);
+      t_osc = min ( 12*pi./w, 4./Dw0 );
+      t_max_osc = max (t_osc);  # get max display time for slowest oscillation
+    else
+      t_max_osc = 0;
+    endif
 
     if (continuous)
       dt = 0.1 * pi / ev_max;
@@ -506,7 +515,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     auto_tfinal = 0;  % flag for computed or given tfinal
 
     if (isempty (tfinal))
-      ev_min = min (abs (ev));
+      ev_min = min (abs (real (ev)));
       ev_real_min = min (abs (real (ev)));
 
       den = min ([ev_min, ev_real_min]);
@@ -514,12 +523,10 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
         den =  max([ev_min, ev_real_min]);
       endif
 
-      tfinal = 5 / den;
+      tfinal = 6 / den;
       auto_tfinal = 1;  # remeber that tfinal was computed, not given by the user
 
-      if ((length (w_min) > 0) && (tfinal < 3*pi/w_min))
-        tfinal = 3*pi/w_min;   % make sure we see enough from slowest oscilation
-      endif
+      tfinal = max (tfinal, t_max_osc); # make sure to show enough oscillations
 
       ## round up
       yy = 10^(ceil (log10 (tfinal)) - 1);
