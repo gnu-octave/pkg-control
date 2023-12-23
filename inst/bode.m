@@ -66,6 +66,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   [H, w, sty, sys_idx, H_auto, w_auto] = __frequency_response__ ("bode", varargin, nargout);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  H_auto = cellfun (@reshape, H_auto, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
   pha_auto = cellfun (@(H_auto) unwrap (arg (H_auto)) * 180 / pi, H_auto, "uniformoutput", false);
@@ -75,11 +76,15 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   ## and compare this asymptotic value to initial phase for the full auto
   ## w-range, which is supposed to start at sufficiently small values fo w
   initial_phase = cellfun(@(x) x(1), pha_auto);
+  all_poles = cell(1,numsys);
+  all_zeros = cell(1,numsys);
   for h = 1:numsys
     sys1 = varargin{sys_idx(h)};
     [num,den] = tfdata (sys1,'v');
-    n_poles_at_origin = sum (roots (den) == 0);
-    n_zeros_at_origin = sum (roots (num) == 0);
+    all_poles{h} = roots (den);
+    all_zeros{h} = roots (num);
+    n_poles_at_origin = sum (all_poles{h} == 0);
+    n_zeros_at_origin = sum (all_zeros{h} == 0);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
     pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/360)*360};
   endfor
@@ -104,10 +109,55 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     else
       ## w range is identical to auto range, just use the phase for the
       ## auto range
-      pha(h) = {pha_auto(h)};
+      pha(h) = pha_auto(h);
     endif
   endfor
-    
+
+  ## now fix the phase in case of a conjugate complex pair of poles on the
+  ## imag. axis
+
+  tol = sqrt (eps);
+  max_idx = length (pha{1});
+
+  w0_poles = cellfun (@(p) imag (p(abs(real(p))<tol & imag(p)>0)), all_poles,...
+                      'uniformoutput', false);
+  w0_zeros = cellfun (@(p) imag (p(abs(real(p))<tol & imag(p)>0)), all_zeros,...
+                      'uniformoutput', false);
+
+  dpha = cellfun (@diff, pha, 'uniformoutput', false);
+
+  w0_inc = cellfun (@(dp) find (dp > 90), dpha, 'uniformoutput', false);
+  w0_dec = cellfun (@(dp) find (dp < -90), dpha, 'uniformoutput', false);
+
+
+  for h = 1:numsys
+
+    for j = 1:length(w0_inc{h})
+      if (w0_inc{h}(j)-2 > 0 && w0_inc{h}(j)+2 <= max_idx)
+        lb = w{h}(w0_inc{h}(j)-2) < w0_poles{h};
+        ub = w{h}(w0_inc{h}(j)+2) > w0_poles{h};
+        if sum (lb & ub) == 1
+          ## phase is increasing although poles
+          pha{h}(w0_inc{h}(j)+1:end) -= 360;
+        endif
+      endif
+    endfor
+
+    for j = 1:length(w0_dec{h})
+      if (w0_dec{h}(j)-2 > 0 && w0_dec{h}(j)+2 <= max_idx)
+        lb = w{h}(w0_dec{h}(j)-2) < w0_zeros{h};
+        ub = w{h}(w0_dec{h}(j)+2) > w0_zeros{h};
+        if sum (lb & ub) == 1
+          ## phase is decreasing although zeros
+          pha{h}(w0_inc{h}(j)+1:end) += 360;
+        endif
+      endif
+    endfor
+
+  endfor
+
+
+  ## do the plotting
 
   if (! nargout)
 

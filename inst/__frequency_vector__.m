@@ -71,6 +71,20 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
     w = logspace (dec_min, dec_max, N);
     w = unique ([w, zp]);                       # unique also sorts frequency vector
 
+    zp_idx = lookup (w, zp);                    # get indices of p/z locatin in w range
+    for i = 1:length (zp_idx)
+      # check if a p/z-omega is very close to another w value and remove latter
+      w_scaling = w(zp_idx(i)-1)/w(zp_idx(i)-2);  # current factor between w values
+      w_prev = w(zp_idx(i))/w(zp_idx(i)-1);     # factor from p/z-w to previous value
+      if log10(w_prev)/log10(w_scaling) < 1e-6
+        w(zp_idx(i)-1) = [];                    # remove w too close to p/z-w
+      else
+        w_next = w(zp_idx(i)+1)/w(zp_idx(i));   # factor from next w to p/z-w
+        if log10(w_next)/log10(w_scaling) < 1e-6
+          w(zp_idx(i)+1) = [];                  # remove w too close to p/z-w
+        endif
+      endif
+    endfor
     w = repmat ({w}, 1, len);                   # return cell of frequency vectors
 
   elseif (strcmpi (wbounds, "ext"))             # plots with implicit frequencies
