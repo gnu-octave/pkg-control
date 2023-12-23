@@ -63,29 +63,51 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx] = __frequency_response__ ("bode", varargin, nargout);
+  [H, w, sty, sys_idx, H_auto, w_auto] = __frequency_response__ ("bode", varargin, nargout);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
-
+  pha_auto = cellfun (@(H_auto) unwrap (arg (H_auto)) * 180 / pi, H_auto, "uniformoutput", false);
   numsys = length (sys_idx);
 
-## check for poles and zeroes at the origin for each of the numsys systems
+  ## check for poles and zeroes at the origin for each of the numsys systems
+  ## and compare this asymptotic value to initial phase for the full auto
+  ## w-range, which is supposed to start at sufficiently small values fo w
+  initial_phase = cellfun(@(x) x(1), pha_auto);
   for h = 1:numsys
-  # test for pure integrators  (poles at origin)
-  sys1 = varargin{sys_idx(h)};
-  [num,den] = tfdata (sys1,'v');
-   numberofpoles = sum (roots (den) == 0);
-    if (numberofpoles > 0)
-       pha(h)={cell2mat(pha(h))-round(numberofpoles./4)*360};
-    endif
-  # test for zeroes at the origin
-  numberofzeroes = sum (roots (num) == 0);
-    if (numberofzeroes > 0)
-      pha(h)={cell2mat(pha(h))+floor((numberofzeroes +1)./4)*360};
+    sys1 = varargin{sys_idx(h)};
+    [num,den] = tfdata (sys1,'v');
+    n_poles_at_origin = sum (roots (den) == 0);
+    n_zeros_at_origin = sum (roots (num) == 0);
+    asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
+    pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/360)*360};
+  endfor
+
+  ## check if possibly given w-range is at higher frequencies and provide
+  ## missing "history" for the the phase
+  initial_phase = cellfun(@(x) x(1), pha);
+  for h = 1:numsys
+    if (length (w{h}) != length (w_auto{h})) || any (w{h} - w_auto{h})
+      ## the w-range to use is not the auto (full) range, thus, make sure
+      ## the inforamtion on the phase form beginning  at small frequencies
+      ## is used to determine the correct pahse at the beginning of the desired
+      ## w range
+      if w{h}(1) > w_auto{h}(1)
+        ## w range starts at higher frequencies; get the nearest w in the auto
+        ## range and add +/-360 degrees minimizing the differenze betwenn the
+        ## phases
+        pha_idx = length (find (w_auto{h} < w{h}(1)));
+        pha_cmp = pha_auto{h}(pha_idx);
+        pha(h)={cell2mat(pha(h)) + round((pha_cmp - initial_phase(h))/360)*360};
+      endif
+    else
+      ## w range is identical to auto range, just use the phase for the
+      ## auto range
+      pha(h) = {pha_auto(h)};
     endif
   endfor
+    
 
   if (! nargout)
 
