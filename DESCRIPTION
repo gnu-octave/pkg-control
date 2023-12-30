@@ -1,10 +1,12 @@
 Name: control
 Version: 3.99.99+
-Date: 2023-xx-xx
+Date: 2024-xx-xx
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Alexander Wilms <f.alexander.wilms@gmail.com>, Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mailbox.org>
-Title: Computer-Aided Control System Design
-Description: Computer-Aided Control System Design (CACSD) Tools for GNU Octave
+Title: Control Package
+Description: Control package for GNU Octave including system analysis and
+  control synthesis. The package uses some routines of the the SLICOT-Reference
+  library.
 Depends: octave (>= 4.0.0)
 Autoload: no
 License: GPLv3+

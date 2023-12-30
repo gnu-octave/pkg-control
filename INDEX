@@ -172,6 +172,7 @@ Overloaded IDDATA Operators
 Miscellaneous
   @ss/display
   db2mag
+  doc_control
   mag2db
   options
   pid

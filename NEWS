@@ -5,7 +5,7 @@ Summary of important user-visible changes for releases of the control package
 control-3.99.99+  Current branch for new slicot routines (not yet released)
 ===============================================================================
 
- ** use current version of the SLICOT routines
+ ** use current version of the SLICOT routines from Github
 
 ===============================================================================
 control-3.6.1  Release date 2023-07-10

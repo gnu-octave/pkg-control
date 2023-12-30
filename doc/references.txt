@@ -24,7 +24,7 @@ Linear Quadratic Methods
 Dover Publications
 1990
 
-Aström, K. and Hägglund, T.
+√Östr√∂m, K. and H√§gglund, T.
 PID Controllers
 Theory, Design and Tuning
 Second Edition

@@ -16,7 +16,7 @@ DOCS_DIR        := docs
 
 SC_SMOD := slicot-reference
 SC_SRC  := src/slicot/src
-SC_DOC  := doc/slicot
+SC_DOC  := doc/SLICOT
 
 M_SOURCES   := $(wildcard inst/*.m)
 CC_SOURCES  := $(wildcard src/*.cc)
@@ -64,14 +64,15 @@ $(RELEASE_DIR): .git/index
 	@echo "  git archive ..."
 	@git archive -o $@/tmp.tar HEAD
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
-	@echo "  copy routines from slicot ..."
+	@echo "  copy packinfo ..."
+	@echo "  copy files from slicot ..."
 	@mkdir -p $@/$(SC_SRC)
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src/*.f
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src_aux/*.f
 	@cp $(SC_SMOD)/LICENSE   $@/$(SC_SRC)/../
 	@cp $(SC_SMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
-	@cp $(SC_SMOD)/LICENSE   $@/$(SC_DOC)/../
-	@cp $(SC_SMOD)/README.md $@/$(SC_DOC)/../README-SLICOT.md
+	@cp $(SC_SMOD)/LICENSE   $@/$(SC_DOC)/
+	@cp $(SC_SMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
 	@cp src/TG04BX.f $@/$(SC_SRC) 
 	@echo "  bootstrap ..."
 	@cd $@/src && ./bootstrap && $(RM) -r "autom4te.cache"
