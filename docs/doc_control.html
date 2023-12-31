@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: @iddata/end</title>
+    <title>Control Package: doc_control</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -35,9 +35,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html#Overloaded IDDATA Operators">
+                  <a class="nav-link" href="index.html#Miscellaneous">
                     <i class="fas fa-list-alt"></i>
-                    Overloaded IDDATA Operators
+                    Miscellaneous
                   </a>
                 </li>
                 <li class="nav-item">
@@ -64,19 +64,48 @@
           <div class="row d-flex flex-wrap align-items-center">
             <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
               <h3 class="d-inline-block mr-2">
-              Function&nbsp;Reference: <b><code>@iddata/end</code></b>
+              Function&nbsp;Reference: <b><code>doc_control</code></b>
               </h3>
             </div>
           </div>
         </div>
         <div class="card-body">
 <dl>
-<dt><u>Overloaded Operator:</u> <b>end</b></dt>
+<dt><u>Function File:</u> <var>st</var> = <b>doc_control</b><i> (<var>fcn1</var>, <var>fcn2</var>, ...)</i></dt>
 </dl>
-<p> End indexing for <acronym>IDDATA</acronym> objects.
- Used by Octave for &quot;dat(1:end)&quot;.
- </p><<div class="ms-5">
-/dd></dl>
+<p> Open online documentation of the Control package in the system&rsquo;s
+ standard browser.
+</p>
+<div class="ms-5">
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>fcn1, fcn2, ...</var></dt>
+</dl>
+<p> Function names for which the documentation should be displayed.
+ If no function name is given, the index of the documentation is shown.
+ </p></dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>st</var></dt>
+</dl>
+<p> The return value <var>st</var> has one of the values:
+ </p><ul>
+<li>
+ &lsquo;<samp>0</samp>&rsquo; Found and opened system browser successfully.
+ </li><li>
+ &lsquo;<samp>1</samp>&rsquo; System browser not found.
+ </li><li>
+ &lsquo;<samp>2</samp>&rsquo; System browser found, but an error occurred.
+ </li></ul>
+</dd>
+</dl>
+
+
+<p><strong>Source Code: </strong>
+  <a href="">doc_control</a>
+</div>
 
 
         </div>
