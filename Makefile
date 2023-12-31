@@ -91,9 +91,9 @@ release: dist install docs
 	sha256sum $(RELEASE_TARBALL)
 	@echo ''
 	@echo '* Execute: git tag "control-${VERSION}"'
-	@echo "* Push main branch to https://github.com/gnu-octave/statistics"
+	@echo "* Push release branch to https://github.com/gnu-octave/pkg-control"
 	@echo "* Update control.yaml in https://github.com/gnu-octave/packages"
-	@echo "  and create a pull request for the changes in this file"
+	@echo "  and create/merge a pull request for the changes in this file"
 
 install: $(RELEASE_TARBALL)
 	@echo 'Installing package "${RELEASE_TARBALL}" locally ...'

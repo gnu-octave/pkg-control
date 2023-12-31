@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
+function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args, nout = 0)
 
   ## CALLER         | MIMO  | RANGE | CELL  |
   ## ---------------+-------+-------+-------+
@@ -78,6 +78,7 @@ function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
   endif
 
   ## determine frequency vectors
+  w_auto = __frequency_vector__ (args(sys_idx), wbounds);
   if (any (r_idx))                                  # if there are frequency ranges
     if (nnz (r_idx) > 1)
       warning ("%s: several frequency ranges specified, taking the last one", caller);
@@ -95,7 +96,7 @@ function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
     w = args(w_idx){end};
     w = repmat ({w}, 1, nnz (sys_idx));
   else                                              # there are neither frequency ranges nor vectors    
-    w = __frequency_vector__ (args(sys_idx), wbounds);
+    w = w_auto;
   endif
 
   ## temporarily save frequency vectors of FRD models
@@ -104,6 +105,7 @@ function [H, w, sty, idx] = __frequency_response__ (caller, args, nout = 0)
 
   ## compute frequency response H for all LTI models
   H = cellfun (@__freqresp__, args(sys_idx), w, {cellflag}, "uniformoutput", false);
+  H_auto = cellfun (@__freqresp__, args(sys_idx), w_auto, {cellflag}, "uniformoutput", false);
 
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;

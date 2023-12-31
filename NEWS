@@ -7,6 +7,9 @@ control-3.99.99+  Current branch for new slicot routines (not yet released)
 
  ** use current version of the SLICOT routines from Github
 
+ ** fixed duration of time responses like step for systems with
+    oscillations ans improved graphical output
+
 ===============================================================================
 control-3.6.1  Release date 2023-07-10
 ===============================================================================
@@ -25,7 +28,7 @@ control-3.6.0  Release date 2023-05-20
     pole/zero maps
 
  ** allow discrete-time purely static gain systems with a sampling time
- 
+
  ** added metainfo file octave-control.metainfo.xml
 
 ===============================================================================
