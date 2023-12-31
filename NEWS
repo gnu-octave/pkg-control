@@ -7,6 +7,9 @@ control-3.99.99+  Current branch for new slicot routines (not yet released)
 
  ** use current version of the SLICOT routines from Github
 
+ ** fixed phase in bode plot for system with poles/zeros at
+    the origin (credits to Juan, see bug bug #61355, comment #10)
+
  ** fixed duration of time responses like step for systems with
     oscillations ans improved graphical output
 
