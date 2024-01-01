@@ -345,22 +345,22 @@ endfunction
 %!
 %! HSVe = [  0.8803   0.8506   0.8038   0.4494   0.3973   0.0214   0.0209 ].';
 %!
-%! # Solution might not be unique. Therefore, transform system into
-%! # a unique canonical form, here the diagonal form
-%! [Tde, ewe] = eig (Ae);
-%! [Tdo, ewo] = eig (Ao);
-%! Tdei = inv (Tde);
-%! Tdoi = inv (Tdo);
-%! Ade = Tdei * Ae * Tde;
-%! Ado = Tdoi * Ao * Tdo;
-%! Bde = Tdei * Be;
-%! Bdo = Tdoi * Bo;
-%! Cde = Ce * Tde;
-%! Cdo = Co * Tdo;
+%! # Since bstmodred identifies the input/output behavior
+%! # only input/output behavior is tested. The state space
+%! # representation is not unique.
+%! [numo, deno] = tfdata (Gr, "vector");
+%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
 %!
-%! # Compare these forms (D is not affected by transfromation
-%! Mo = [Ado, Bdo; Cdo, Do];
-%! Me = [Ade, Bde; Cde, De];
+%! Mo = [];
+%! Me = [];
+%! for iy = 1:size(Ce,1)
+%!   for iu = 1:size(Be,2)
+%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
+%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
+%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
+%!   endfor
+%! endfor
 %!
 %!assert (Mo, Me, 1e-4);
 %!assert (Info.hsv, HSVe, 1e-4);
