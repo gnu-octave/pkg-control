@@ -33,6 +33,10 @@ autom4te.cache
 /src/slicot_src/*.f
 /target
 
+# release checklists
+
+devel/release/release_*.md
+
 # Emacs tools create these
 TAGS$
 semantic.cache
