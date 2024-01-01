@@ -43,81 +43,8 @@
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: May 2010
 ## Version: 0.6
+##
+## Modified 01.01.2024 by Torsten Lilge <ttl-octave@mailbox.org>
+## Use pkg test control instead of calling all tests separatly
 
-## test collection
-test ltimodels
-
-## LTI methods
-test @lti/c2d
-test @lti/connect
-test @lti/d2c
-test @lti/d2d
-test @lti/feedback
-test @lti/horzcat
-test @lti/inv
-test @lti/isminimumphase
-test @lti/minreal
-test @lti/mtimes
-test @lti/norm
-test @lti/plus
-test @lti/pole
-test @lti/prescale
-test @lti/sminreal
-test @lti/subsref
-test @lti/zero
-
-## robust control
-test h2syn
-test hinfsyn
-test ncfsyn
-
-## ARE solvers
-test care
-test dare
-test kalman
-
-## Lyapunov
-test covar
-test dlyap
-## test dlyapchol  # TODO: add tests
-test gram
-test lyap
-test lyapchol
-
-## model order reduction
-test bstmodred
-test btamodred
-test hnamodred
-## test spamodred  # TODO: create test case
-
-## controller order reduction
-test btaconred
-test cfconred
-test fwcfconred
-## test spaconred  # TODO: create test case
-
-## various oct-files
-test ctrbf
-test hsvd
-test place
-
-## various m-files
-test db2mag
-test ctrb
-test filt
-test initial
-test issample
-test mag2db
-test margin
-test obsv
-test sigma
-test thiran
-test __dss2ss__
-
-## identification
-test @iddata/iddata
-test @iddata/cat
-test @iddata/detrend
-test @iddata/fft
-test fitfrd
-test moen4
+pkg test control
