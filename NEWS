@@ -5,7 +5,8 @@ Summary of important user-visible changes for releases of the control package
 control-3.99.99+  Current branch for new slicot routines (not yet released)
 ===============================================================================
 
- ** use current version of the SLICOT routines from Github
+ ** use current version of the SLICOT-Reference routines v5.8
+    from Github (https://github.com/SLICOT/SLICOT-Reference/tree/main)
 
  ** fixed phase in bode plot for system with poles/zeros at
     the origin (credits to Juan, see bug bug #61355, comment #10)

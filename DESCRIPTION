@@ -5,9 +5,8 @@ Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Alexander Wilms <f.alexander.wilms@gmail.com>, Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mailbox.org>
 Title: Control Package
 Description: Control package for GNU Octave including system analysis and
-  control synthesis. The package uses some routines of the the SLICOT-Reference
-  library.
+ control synthesis. The package uses routines of the SLICOT-Reference library.
 Depends: octave (>= 4.0.0)
 Autoload: no
-License: GPLv3+
+License: GPLv3+, BSD 3-Clause License (SLICOT files)
 Url: https://github.com/gnu-octave/pkg-control
