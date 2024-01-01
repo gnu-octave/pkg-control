@@ -66,6 +66,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   [H, w, sty, sys_idx, H_auto, w_auto] = __frequency_response__ ("bode", varargin, nargout);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
+  H_auto = cellfun (@reshape, H_auto, {[]}, {1}, "uniformoutput", false);
   mag = cellfun (@abs, H, "uniformoutput", false);
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
   pha_auto = cellfun (@(H_auto) unwrap (arg (H_auto)) * 180 / pi, H_auto, "uniformoutput", false);
