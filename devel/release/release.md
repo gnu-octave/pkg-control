@@ -37,17 +37,17 @@ Releasing the package should be done in the *release* branch as github will depl
 5. [ ] `make release`<br>
    *Alternatively*, this can be done by the following separate commands
     1. [ ] `make dist`
-    4. [ ] `sha256sum target/control-X.Y.Z.tar.gz`
     1. [ ] `make install`
     2. [ ] `make docs` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
+    4. [ ] `sha256sum target/control-X.Y.Z.tar.gz`
 3. [ ] `git commit` (atleast the new docs)
 4. [ ] `git tag control-X.Y.Z`
 5. [ ] `git push` (docs should be automatically be published by github)
 6. [ ] `git push origin control-X.Y.Z` (push the tag) 
 5. [ ] Make release on github (see below: *Publishing the release*)
 6. [ ] Update `control.yaml`
-    1. [ ] update in the repository `gnu-octave/packages`
-    2. [ ] create a pull request
+    1. [ ] update in repository `gnu-octave/packages` or in a forked one
+    2. [ ] create a pull request (tests are starting automatically)
     3. [ ] merge pull request after all tests have passed
 9. [ ] `git checkout main`
 10. [ ] `git merge release`

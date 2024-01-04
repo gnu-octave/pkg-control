@@ -92,6 +92,8 @@ release: dist install docs
 	@echo ''
 	@echo '* Execute: git tag "control-${VERSION}"'
 	@echo "* Push release branch to https://github.com/gnu-octave/pkg-control"
+	@echo "* Push new tag to https://github.com/gnu-octave/pkg-control"
+	@echo "* Create a new release on https://github.com/gnu-octave/pkg-control"
 	@echo "* Update control.yaml in https://github.com/gnu-octave/packages"
 	@echo "  and create/merge a pull request for the changes in this file"
 
