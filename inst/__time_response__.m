@@ -20,7 +20,6 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
 
 function [y, t, x] = __time_response__ (response, args, names, nout)
 
@@ -35,24 +34,25 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
   inv_idx = ! (sys_idx | mat_idx | sty_idx);                        # invalid arguments
 
   if (any (inv_idx))
-    warning ("%s: arguments number %s are invalid and are being ignored", ...
+    warning ("%s: arguments number %s are invalid and are being ignored\n", ...
              response, mat2str (find (inv_idx)(:).'));
   endif
 
   if (nnz (sys_idx) == 0)
-    error ("%s: require at least one LTI model", response);
+    error ("%s: require at least one LTI model\n", response);
   endif
 
-  if (nout > 0 && (nnz (sys_idx) > 1 || any (sty_idx)))
-    print_usage (response);
-  endif
-
-  if (! size_equal (args{sys_idx}))
-    error ("%s: all LTI models must have equal size", response);
+  if (nout > 0)
+    if nnz (sys_idx) > 1
+      error ("%s: with output arguments, only one system is allowed\n", response);
+    endif
+    if any (sty_idx)
+      warning ("%s: with output arguments, all style parameters are ignored\n", response); 
+    endif
   endif
 
   if (any (find (sty_idx) < find (sys_idx)(1)))
-    warning ("%s: strings in front of first LTI model are being ignored", response);
+    warning ("%s: strings in front of first LTI model are being ignored\n", response);
   endif
 
   tfinal = [];  dt = [];  x0 = [];                                  # default arguments
@@ -61,7 +61,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
     case "initial"
       switch (nnz (mat_idx))
         case 0
-          error ("initial: require initial state vector 'x0'");
+          error ("initial: require initial state vector 'x0'\n");
         case 1
           x0 = args{mat_idx};
         case 2
@@ -72,7 +72,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
           print_usage (response);
       endswitch
       if (! is_real_vector (x0))
-        error ("initial: initial state vector 'x0' must be a real-valued vector");
+        error ("initial: initial state vector 'x0' must be a real-valued vector\n");
       endif
 
     case {"step", "impulse", "ramp"}
@@ -88,7 +88,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       endswitch
 
     otherwise
-      error ("time_response: invalid response type '%s'", response);
+      error ("time_response: invalid response type '%s'\n", response);
   endswitch
 
   switch (response)
@@ -139,7 +139,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
         # there is at least one direct feedthrough, prepare a warning message
         msg = ["System has a direct feedthrough!\n", ...
                "The impulse %f*delta(t) is omitted in the impulse response\n", ...
-               "from input \"%s\" to output \"%s\""];
+               "from input \"%s\" to output \"%s\"\n"];
       endif
       for jj = 1:length (nz_y)
         # get the names of all input/output channels with feedthrough
@@ -199,7 +199,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
     case "ramp"
       [y, x] = cellfun (@__ramp_response__, sys_dt, t, "uniformoutput", false);
     otherwise
-      error ("time_response: invalid response type");
+      error ("time_response: invalid response type\n");
   endswitch
 
 
@@ -217,19 +217,26 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
     idx = cellfun (@isempty, sty);
     sty(idx) = def(idx);
 
-    ## get system names for legend
-    leg = cell (1, n_sys);
-    idx = find (sys_idx);
-    for k = 1 : n_sys
-      leg{k} = names{idx(k)};
-    endfor
+    ## get index for system names (legend)
+    leg_idx = find (sys_idx);
 
-    outname = get (args(sys_idx){end}, "outname");
+    ## get max sizes
+    [p, m] = cellfun (@size, args(sys_idx), 'uniformoutput', false);
+    p = cell2mat (p);
+    m = cell2mat (m);
+    rows = max (p);
+    cols = max (m);
+
+    ## get in/outnames, take ui and yi for more than one system
+    if n_sys == 1
+      outname = get (args(sys_idx){1}, "outname");
+      inname = get (args(sys_idx){1}, "inname");
+    else
+      outname = cell(cell(1,rows));
+      inname = cell(cell(1,cols));
+    endif
     outname = __labels__ (outname, "y");
-    inname = get (args(sys_idx){end}, "inname");
     inname = __labels__ (inname, "u");
-
-    [p, m] = size (args(sys_idx){1});
 
     switch (response)
       case "initial"
@@ -238,55 +245,81 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
         ## yfinal = zeros (p, 1);
       case "step"
         str = "Step Response";
-        cols = m;
         ## yfinal = dcgain (sys_cell{1});
       case "impulse"
         str = "Impulse Response";
-        cols = m;
         ## yfinal = zeros (p, m);
       case "ramp"
         str = "Ramp Response";
-        cols = m;
       otherwise
-        error ("time_response: invalid response type");
+        error ("time_response: invalid response type '%s'\n", response);
     endswitch
   
-    for i = 1 : p                                   # for every output
-      for j = 1 : cols                              # for every input (except for initial where cols=1)
-
-        if (p != 1 || cols != 1)
-          subplot (p, cols, (i-1)*cols+j);
-        endif
-
-        box on;
-
-        for k = 1 : n_sys                                 # for every system
-          if (ct_idx(k))    # continuous-time system
-            plot (t{k}, y{k}(:, i, j), sty{k}{:});
-          else              # discrete-time system
-            stairs (t{k}, y{k}(:, i, j), sty{k}{:});
-          endif
-          hold on;
-          grid on;
-          if (k == n_sys)
-            axis tight
-            xlim ([0, tfinal]);
-            ylim (__axis_margin__ (ylim))
-            xlabel ("Time [s]");
-            ylabel (outname{i});
-            title (inname{j}, "fontweight", "normal");
-            if n_sys > 1
-              legend (leg)
-            endif
+    ## get last system present in the subplots
+    last_system = zeros (rows, cols);
+    for i = 1 : rows  
+      for j = 1 : cols
+        for k = 1 : n_sys
+          if (p(k) >= i) && (m(k) >= j)
+            last_system(i,j) = k;
           endif
         endfor
-
-        hold off;
-     
       endfor
     endfor
 
-    if (p == 1 && m == 1)
+    ## loop over all subplots
+    for i = 1 : rows              # for every output
+      for j = 1 : cols            # for every input (except for initial where cols=1)
+        if last_system(i,j) > 0   # only if there is a system with this in-/output combination
+
+%          if (rows > 1 || cols > 1)
+            subplot (rows, cols, (i-1)*cols+j);
+%          endif
+          box on;
+  
+          for k = 1 : last_system(i,j)                # for every system for this in-/output
+              
+            p_sys = size (args(sys_idx){k}, 1);
+            m_sys = size (args(sys_idx){k}, 2);
+            if (p_sys >= i) && (m_sys >= j)           # only if system has this in-/output
+
+                if n_sys > 1
+                  leg = [';',names{leg_idx(k)},';'];
+                else
+                  leg = "";
+                endif
+                if (ct_idx(k))    # continuous-time system
+                  plot (t{k}, y{k}(:, i, j), sty{k}{:}, leg);
+                else              # discrete-time system
+                  stairs (t{k}, y{k}(:, i, j), sty{k}{:}, leg);
+                endif
+                hold on;
+                if k == last_system(i,j)
+                  ## do the following only for last system in this subplot
+                  grid on;
+                  axis tight
+                  xlim ([0, tfinal]);
+                  ylim (__axis_margin__ (ylim))
+                  xlabel ("Time [s]");
+                  ylabel (outname{i});
+                  if (! strcmp (response, "initial")) && (rows > 1 || cols > 1)
+                    title (inname{j}, "fontweight", "normal");
+                  endif
+                endif
+     
+            endif
+
+          endfor
+
+        endif
+
+        hold off;
+
+      endfor
+
+    endfor
+
+    if (rows == 1 && cols == 1)
       title (str);  # normal title
     else
       # create title manually (create axes object on whole figure and put text)
@@ -321,7 +354,7 @@ function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
   x = reshape (x0, [], 1);                              # make sure that x is a column vector
 
   if (n != length (x0) || ! is_real_vector (x0))
-    error ("initial: x0 must be a real vector with %d elements", n);
+    error ("initial: x0 must be a real vector with %d elements\n", n);
   endif
 
   ## simulation
