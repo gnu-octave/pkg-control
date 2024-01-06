@@ -58,7 +58,7 @@ function [pol_r, zer_r] = pzmap (varargin)
   inv_idx = ! (sys_idx | sty_idx);                  # invalid arguments
   
   if (any (inv_idx))
-    warning ("pzmap: arguments number %s are invalid and are being ignored", ...
+    warning ("pzmap: arguments number %s are invalid and are being ignored\n", ...
              mat2str (find (inv_idx)(:).'));
   endif
 
@@ -71,7 +71,7 @@ function [pol_r, zer_r] = pzmap (varargin)
   endif
 
   if (any (find (sty_idx) < find (sys_idx)(1)))
-    warning ("pzmap: strings in front of first LTI model are being ignored");
+    warning ("pzmap: strings in front of first LTI model are being ignored\n");
   endif
 
   pol = cellfun (@pole, varargin(sys_idx), "uniformoutput", false);

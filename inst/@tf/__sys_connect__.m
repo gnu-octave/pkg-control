@@ -100,7 +100,7 @@ function sys = __sys_connect__ (sys, M)
 
   else
     ## MIMO case, convert to state-space and back.
-    warning ("tf: converting to minimal state-space for MIMO TF interconnections");
+    warning ("tf: converting to minimal state-space for MIMO TF interconnections\n");
     sys = tf (__sys_connect__ (ss (sys), M));
     
   endif

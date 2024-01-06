@@ -52,7 +52,7 @@ function sys = sminreal (sys, tol = 0)
   endif
 
   if (! isa (sys, "ss"))
-    warning ("sminreal: system not in state-space form");
+    warning ("sminreal: system not in state-space form\n");
     sys = ss (sys);          # needed by __sys_prune__
   endif
 

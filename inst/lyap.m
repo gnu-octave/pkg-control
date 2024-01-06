@@ -118,7 +118,7 @@ function [x, scale] = lyap (a, b, c, e)
   endswitch
 
   if (scale < 1)
-    warning ("lyap: solution scaled by %g to prevent overflow", scale);
+    warning ("lyap: solution scaled by %g to prevent overflow\n", scale);
   endif
 
 endfunction

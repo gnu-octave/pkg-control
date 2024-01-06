@@ -146,11 +146,11 @@ function sys = lft (sys1, sys2, nu, ny)
   [p, m] = size (sys);
 
   if (m == 0)
-    warning ("lft: resulting system has no inputs");
+    warning ("lft: resulting system has no inputs\n");
   endif
 
   if (p == 0)
-    warning ("lft: resulting system has no outputs");
+    warning ("lft: resulting system has no outputs\n");
   endif
 
 endfunction

@@ -88,7 +88,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
       print_usage ();
     endif
     if (! isa (a, "ss"))
-      warning ("isstabilizable: converting to minimal state-space realization");
+      warning ("isstabilizable: converting to minimal state-space realization\n");
     endif
     tol = b;
     dflg = ! isct (a);

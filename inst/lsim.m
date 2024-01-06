@@ -86,7 +86,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
   inv_idx = ! (sys_idx | mat_idx | sty_idx);            # invalid arguments
 
   if (any (inv_idx))
-    warning ("lsim: arguments number %s are invalid and are being ignored", ...
+    warning ("lsim: arguments number %s are invalid and are being ignored\n", ...
              mat2str (find (inv_idx)(:).'));
   endif
 
@@ -103,7 +103,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
   endif
 
   if (any (find (sty_idx) < find (sys_idx)(1)))
-    warning ("lsim: strings in front of first LTI model are being ignored");
+    warning ("lsim: strings in front of first LTI model are being ignored\n");
   endif
 
   t = [];  x0 = [];                                     # default arguments

@@ -191,7 +191,7 @@ C_AH = optiPIDctrl (kp_AH, Ti_AH, Td_AH);
 C_par_0 = [kp_AH; Ti_AH; Td_AH];
 
 % Optimization
-warning ('optiPID: optimization starts, please be patient ...');
+warning ('optiPID: optimization starts, please be patient ...\n');
 C_par_opt = fminsearch (@optiPIDfun, C_par_0);
 
 % Optimized Controller

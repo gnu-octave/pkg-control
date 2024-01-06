@@ -24,6 +24,6 @@
 
 function sys = __minreal__ (sys, tol)
 
-  warning ("frd: minreal: frequency responses are always minimal");
+  warning ("frd: minreal: frequency responses are always minimal\n");
 
 endfunction

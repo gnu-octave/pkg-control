@@ -118,7 +118,7 @@ function [sys, x0, info] = __slicot_identification__ (method, nout, dat, varargi
       case {"noiseinput", "noiseinputs", "noise", "input", "inputs"}
         noise = val;
       otherwise
-        warning ("%s: invalid property name '%s' ignored", method, key);
+        warning ("%s: invalid property name '%s' ignored\n", method, key);
     endswitch
   endfor
   

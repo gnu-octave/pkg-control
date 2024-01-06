@@ -54,7 +54,7 @@ function sys = xperm (sys, st_idx)
   endif
 
   if (! isa (sys, "ss"))
-    warning ("xperm: system not in state-space form");
+    warning ("xperm: system not in state-space form\n");
     sys = ss (sys);
   endif
 

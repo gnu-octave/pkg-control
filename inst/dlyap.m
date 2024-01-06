@@ -127,7 +127,7 @@ function [x, scale] = dlyap (a, b, c, e)
   endswitch
 
   if (scale < 1)
-    warning ("dlyap: solution scaled by %g to prevent overflow", scale);
+    warning ("dlyap: solution scaled by %g to prevent overflow\n", scale);
   endif
 
 endfunction

@@ -80,7 +80,7 @@ function [retsys, varargout] = prescale (sys)
   endif
 
   if (! isa (sys, "ss"))
-    warning ("prescale: system not in state-space form");
+    warning ("prescale: system not in state-space form\n");
     sys = ss (sys);
   endif
 

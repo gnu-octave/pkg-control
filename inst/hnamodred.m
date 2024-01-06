@@ -389,7 +389,7 @@ function [Gr, info] = hnamodred (G, varargin)
         scaled = __modred_check_equil__ (val);
 
       otherwise
-        warning ("hnamodred: invalid property name '%s' ignored", key);
+        warning ("hnamodred: invalid property name '%s' ignored\n", key);
     endswitch
   endfor
 

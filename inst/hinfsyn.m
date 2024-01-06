@@ -214,7 +214,7 @@ function [K, varargout] = hinfsyn (P, varargin)
           error ("hinfsyn: invalid method '%s'", val);
         endif
       otherwise
-        warning ("hinfsyn: invalid property name '%s' ignored", key);
+        warning ("hinfsyn: invalid property name '%s' ignored\n", key);
     endswitch
   endfor
 

@@ -57,7 +57,7 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
   inv_idx = ! (sys_idx | w_idx | r_idx | s_idx);    # look for invalid arguments
 
   if (any (inv_idx))
-    warning ("%s: argument(s) number %s are invalid and are being ignored", ...
+    warning ("%s: argument(s) number %s are invalid and are being ignored\n", ...
              caller, mat2str (find (inv_idx)(:).'));
   endif
 
@@ -74,14 +74,14 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
   endif
 
   if (any (find (s_idx) < find (sys_idx)(1)))
-    warning ("%s: strings in front of first LTI model are being ignored", caller);
+    warning ("%s: strings in front of first LTI model are being ignored\n", caller);
   endif
 
   ## determine frequency vectors
   w_auto = __frequency_vector__ (args(sys_idx), wbounds);
   if (any (r_idx))                                  # if there are frequency ranges
     if (nnz (r_idx) > 1)
-      warning ("%s: several frequency ranges specified, taking the last one", caller);
+      warning ("%s: several frequency ranges specified, taking the last one\n", caller);
     endif
     r = args(r_idx){end};
     if (numel (r) == 2 && issample (r{1}) && issample (r{2}) && r{1} < r{2})
@@ -91,7 +91,7 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
     endif
   elseif (any (w_idx))                              # are there any frequency vectors?
     if (nnz (r_idx) > 1)
-      warning ("%s: several frequency vectors specified, taking the last one", caller);
+      warning ("%s: several frequency vectors specified, taking the last one\n", caller);
     endif
     w = args(w_idx){end};
     w = repmat ({w}, 1, nnz (sys_idx));

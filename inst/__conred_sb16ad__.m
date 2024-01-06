@@ -144,7 +144,7 @@ function [Kr, info] = __conred_sb16ad__ (method, varargin)
         negfb = __conred_check_feedback_sign__ (val);
 
       otherwise
-        warning ("%sconred: invalid property name '%s' ignored", method, key);
+        warning ("%sconred: invalid property name '%s' ignored\n", method, key);
     endswitch
   endfor
 

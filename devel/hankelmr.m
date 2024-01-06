@@ -30,7 +30,7 @@ function [Gr, info] = hankelmr (varargin)
   if (! warned)
     warned = true;
     warning ("control:wrapper",
-             "control: 'hankelmr' is just a compatibility wrapper for 'hnamodred'");
+             "control: 'hankelmr' is just a compatibility wrapper for 'hnamodred'\n");
   endif
 
   [Gr, info] = hnamodred (varargin{:});

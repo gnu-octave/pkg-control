@@ -41,7 +41,7 @@ function augsys = augstate (sys)
   endif
 
   if (! isa (sys, "ss"))
-    warning ("augstate: system not in state-space form");
+    warning ("augstate: system not in state-space form\n");
     sys = ss (sys);
   endif
 

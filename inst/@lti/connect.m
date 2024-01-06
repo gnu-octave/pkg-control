@@ -182,7 +182,7 @@ function sys = connect (varargin)
       scl = ss (mat, "inname", inname_u, "outname", inname);
       sys = sys * scl;
       if (is_real_vector (in_idx))
-        warning ("connect: use names instead of indices for argument 'inputs'");
+        warning ("connect: use names instead of indices for argument 'inputs'\n");
       endif
     endif
 

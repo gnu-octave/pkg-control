@@ -214,7 +214,7 @@ function [Kr, info] = fwcfconred (G, F, L, varargin)
         negfb = __conred_check_feedback_sign__ (val);
 
       otherwise
-        warning ("fwcfconred: invalid property name '%s' ignored", key);
+        warning ("fwcfconred: invalid property name '%s' ignored\n", key);
     endswitch
   endfor
 

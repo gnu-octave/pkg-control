@@ -30,7 +30,7 @@ function [Gr, info] = bstmr (varargin)
   if (! warned)
     warned = true;
     warning ("control:wrapper",
-             "control: 'bstmr' is just a compatibility wrapper for 'bstmodred'");
+             "control: 'bstmr' is just a compatibility wrapper for 'bstmodred'\n");
   endif
 
   [Gr, info] = bstmodred (varargin{:});
