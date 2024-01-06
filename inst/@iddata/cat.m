@@ -159,11 +159,11 @@ function check_experiments (tmp, e)
   endif
   
   if (! compare_strings (tmp.expname))
-    warning ("iddata: cat: experiment names don't match")
+    warning ("iddata: cat: experiment names don't match\n")
   endif
 
   if (numel (e) > 1 && ! isequal (tmp.tsam))
-    warning ("iddata: cat: sampling times don't match");
+    warning ("iddata: cat: sampling times don't match\n");
   endif
 
 endfunction
@@ -177,11 +177,11 @@ function check_outputs (tmp, p)
   endif
   
   if (! compare_strings (tmp.outname))
-    warning ("iddata: cat: output names don't match")
+    warning ("iddata: cat: output names don't match\n")
   endif
 
   if (! compare_strings (tmp.outunit))
-    warning ("iddata: cat: output units don't match")
+    warning ("iddata: cat: output units don't match\n")
   endif
 
 endfunction
@@ -195,11 +195,11 @@ function check_inputs (tmp, m)
   endif
 
   if (! compare_strings (tmp.inname))
-    warning ("iddata: cat: input names don't match")
+    warning ("iddata: cat: input names don't match\n")
   endif
 
   if (! compare_strings (tmp.inunit))
-    warning ("iddata: cat: input units don't match")
+    warning ("iddata: cat: input units don't match\n")
   endif
 
 endfunction

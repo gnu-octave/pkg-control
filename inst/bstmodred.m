@@ -274,7 +274,7 @@ function [Gr, info] = bstmodred (G, varargin)
         scaled = __modred_check_equil__ (val);
 
       otherwise
-        warning ("bstmodred: invalid property name '%s' ignored", key);
+        warning ("bstmodred: invalid property name '%s' ignored\n", key);
     endswitch
   endfor
 

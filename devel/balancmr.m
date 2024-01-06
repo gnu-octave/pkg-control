@@ -30,7 +30,7 @@ function [Gr, info] = balancmr (varargin)
   if (! warned)
     warned = true;
     warning ("control:wrapper",
-             "control: 'balancmr' is just a compatibility wrapper for 'btamodred'");
+             "control: 'balancmr' is just a compatibility wrapper for 'btamodred'\n");
   endif
 
   [Gr, info] = btamodred (varargin{:});

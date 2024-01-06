@@ -30,7 +30,7 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
       [n, m] = size (sys.b);       # n: states, m: inputs
       tmp = logm ([sys.a, sys.b; zeros(m,n), eye(m)]) / tsam;
       if (norm (imag (tmp), inf) > sqrt (eps))
-        warning ("ss: d2c: possibly inaccurate results");
+        warning ("ss: d2c: possibly inaccurate results\n");
       endif
       sys.a = real (tmp(1:n, 1:n));
       sys.b = real (tmp(1:n, n+1:n+m));

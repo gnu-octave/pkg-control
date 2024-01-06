@@ -147,7 +147,7 @@ function [sys, varargout] = arx (dat, varargin)
           error ("arx: channel-wise 'nk' matrices not supported yet");
         endif
       otherwise
-        warning ("arx: invalid property name '%s' ignored", key);
+        warning ("arx: invalid property name '%s' ignored\n", key);
     endswitch
   endfor
 
@@ -288,9 +288,9 @@ function x = __ls_svd__ (A, b)
   S = diag (S);                                     # extract main diagonal
   r = sum (S > eps*S(1));
   if (r < length (S))
-    warning ("arx: rank-deficient coefficient matrix");
-    warning ("sampling time too small");
-    warning ("persistence of excitation");
+    warning ("arx: rank-deficient coefficient matrix\n");
+    warning ("sampling time too small\n");
+    warning ("persistence of excitation\n");
   endif
   V = V(:, 1:r);
   S = S(1:r);

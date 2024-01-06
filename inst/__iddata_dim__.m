@@ -60,11 +60,11 @@ function [p, m] = __experiment_dim__ (y, u = [])
   endif
 
   if (ly < p)
-    warning ("iddata:transpose", "iddata: more outputs than samples - matrice 'y' should probably be transposed");
+    warning ("iddata:transpose", "iddata: more outputs than samples - matrice 'y' should probably be transposed\n");
   endif
   
   if (lu < m)
-    warning ("iddata:transpose", "iddata: more inputs than samples - matrice 'u' should probably be transposed");
+    warning ("iddata:transpose", "iddata: more inputs than samples - matrice 'u' should probably be transposed\n");
   endif
 
 endfunction

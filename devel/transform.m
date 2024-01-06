@@ -76,7 +76,7 @@ function retsys = transform (sys, Tl, Tr = [], Tu = [], Ty = [])
   endif
   
   if (! isa (sys, "ss"))
-    warning ("transform: system not in state-space form");
+    warning ("transform: system not in state-space form\n");
     sys = ss (sys);
   endif
   

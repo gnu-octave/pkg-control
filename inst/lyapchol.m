@@ -98,7 +98,7 @@ function [u, scale] = lyapchol (a, b, e)
   endswitch
 
   if (scale < 1)
-    warning ("lyapchol: solution scaled by %g to prevent overflow", scale);
+    warning ("lyapchol: solution scaled by %g to prevent overflow\n", scale);
   endif
 
 endfunction

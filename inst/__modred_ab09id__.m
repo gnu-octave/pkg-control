@@ -129,7 +129,7 @@ function [Gr, info] = __modred_ab09id__ (method, varargin)
         scaled = __modred_check_equil__ (val);
 
       otherwise
-        warning ("%smodred: invalid property name '%s' ignored", method, key);
+        warning ("%smodred: invalid property name '%s' ignored\n", method, key);
     endswitch
   endfor
 

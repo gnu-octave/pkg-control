@@ -72,7 +72,7 @@ function st = doc_control (varargin)
           status = sti;
         endif
       else
-        warning ('argument %d is not a string', i);
+        warning ("argument %d is not a string\n", i);
       endif
 
     endfor

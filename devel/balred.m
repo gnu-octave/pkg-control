@@ -30,7 +30,7 @@ function [Gr, info] = balred (varargin)
   if (! warned)
     warned = true;
     warning ("control:wrapper",
-             "control: 'balred' is just a compatibility wrapper for 'spamodred'");
+             "control: 'balred' is just a compatibility wrapper for 'spamodred'\n");
   endif
 
   [Gr, info] = spamodred (varargin{:});
