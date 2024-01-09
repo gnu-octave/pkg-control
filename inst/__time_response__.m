@@ -204,6 +204,13 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
 
   if (nout == 0)                                        # display plot
+
+    ## handle names and set reasonable names if empty
+    idx_no_name = cellfun (@isempty, names);
+    sys_numbers = find (idx_no_name);
+    names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys ',num2str(x)], ...
+                                  sys_numbers(:), "uniformoutput", false));
+
     ## extract plotting styles
     tmp = cumsum (sys_idx);
     tmp(sys_idx | ! sty_idx) = 0;
@@ -214,8 +221,9 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
     colororder = get (gca, "colororder");
     rc = rows (colororder);
     def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
-    idx = cellfun (@isempty, sty);
-    sty(idx) = def(idx);
+    idx_no_sty = cellfun (@isempty, sty);
+    sty(idx_no_sty) = def(idx_no_sty);
+    idx_sty = ! idx_no_sty;
 
     ## get index for system names (legend)
     leg_idx = find (sys_idx);
@@ -272,9 +280,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       for j = 1 : cols            # for every input (except for initial where cols=1)
         if last_system(i,j) > 0   # only if there is a system with this in-/output combination
 
-%          if (rows > 1 || cols > 1)
-            subplot (rows, cols, (i-1)*cols+j);
-%          endif
+          subplot (rows, cols, (i-1)*cols+j);
           box on;
   
           for k = 1 : last_system(i,j)                # for every system for this in-/output
@@ -283,15 +289,27 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
             m_sys = size (args(sys_idx){k}, 2);
             if (p_sys >= i) && (m_sys >= j)           # only if system has this in-/output
 
-                if n_sys > 1
-                  leg = [';',names{leg_idx(k)},';'];
-                else
-                  leg = "";
+                ## determine the text for the legend if we have more than
+                ## one system but only for the forst subplot were all systems
+                ## are included
+                if (n_sys > 1) && (i == 1) && (j == 1) 
+                  ## we need a legend
+                  if (idx_no_sty(k))
+                    ## no style given
+                    sty{k}{end+1} = [';',names{leg_idx(k)},';'];
+                  else
+                    ## already a style given
+                    if (length (strfind (sty{k}{1}, ";")) < 2)
+                      ## no description included
+                      sty{k}{1,1} = [sty{k}{1,1},';',names{leg_idx(k)},';'];
+                    endif
+                  endif
                 endif
+
                 if (ct_idx(k))    # continuous-time system
-                  plot (t{k}, y{k}(:, i, j), sty{k}{:}, leg);
+                  plot (t{k}, y{k}(:, i, j), sty{k}{:});
                 else              # discrete-time system
-                  stairs (t{k}, y{k}(:, i, j), sty{k}{:}, leg);
+                  stairs (t{k}, y{k}(:, i, j), sty{k}{:});
                 endif
                 hold on;
                 if k == last_system(i,j)
@@ -310,6 +328,8 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
             endif
 
           endfor
+
+          hold off;
 
         endif
 
