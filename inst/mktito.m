@@ -50,9 +50,9 @@
 ##  K         norm
 ##
 ##                +--------+  
-##        w ----->|        |-----> z
+##   w = u1 ----->|        |-----> z = y1
 ##                |  P(s)  |
-##        u +---->|        |-----+ v
+##   u = u2 +---->|        |-----+ y = y2
 ##          |     +--------+     |
 ##          |                    |
 ##          |     +--------+     |
@@ -60,7 +60,7 @@
 ##                +--------+
 ##
 ##                +--------+      
-##        w ----->|  N(s)  |-----> z
+##   w = u1 ----->|  N(s)  |-----> z = y1
 ##                +--------+
 ## @end group
 ## @end example
@@ -96,11 +96,11 @@ function P = mktito (P, nmeas, ncon)
     error ("mktito: third argument 'ncon' invalid");
   endif
   
-  outgroup = struct ("Z", 1:p-nmeas, "V", p-nmeas+1:p);
-  outname = vertcat (strseq ("z", 1:p-nmeas), strseq ("v", 1:nmeas));
+  outgroup = struct ("Y1", 1:p-nmeas, "Y2", p-nmeas+1:p);
+  outname = vertcat (strseq ("y", 1:p));
   
-  ingroup = struct ("W", 1:m-ncon, "U", m-ncon+1:m);
-  inname = vertcat (strseq ("w", 1:m-ncon), strseq ("u", 1:ncon));
+  ingroup = struct ("U1", 1:m-ncon, "U2", m-ncon+1:m);
+  inname = vertcat (strseq ("u", 1:m));
 
   P = set (P, "outgroup", outgroup, "ingroup", ingroup, ...
               "outname", outname, "inname", inname);
