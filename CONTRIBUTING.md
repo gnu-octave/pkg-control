@@ -1,5 +1,24 @@
 # How to Contribute
 
+## Ways to contribute
+
+There are many ways to help improving the **control** package for GNU Octave.
+
+### Improving the documentation
+
+If you find a function or feature with missing, erroneous, incomplete or incomprehensible help text, you can help us by contributing changes to address the issues. For writing help texts using the [Texinfo](https://www.gnu.org/software/texinfo/) format, please refer to [License and Documentation](#license-and-documentation).
+
+### Reporting and/or fixing bugs
+
+Bugs and feature requests for GNU Octave including the packages are tracked on [Savannah](https://savannah.gnu.org/bugs/?group=octave). When browsing bugs, you can select *Octave Forge Package* as category and search for *(control)* in the summary. This should provide a list of reported bugs for the control package. Please feel free to start working on a fix or to help by testing. Patches for fixing the bug can be attached to a comment in the bug report or by opening a pull request in the package's repository (see [Contribution Workflow](#contribution-workflow)).
+
+If you would like to report a new bug, please go over existing bugs before in order to avoid duplicate reports. When reporting a new bug or feature request, please make sure that you select the category *Octave Forge Package* and that the summary begins with *[octave forge] (control)*.
+
+### Discussions
+
+If you have any questions or suggestions on how to extend or improve the package, please feel free to participate the community on 
+[GNU Octave Discourse](https://octave.discourse.group/).
+
 ## License and Documentation
 
 The **control** package is distributed under [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html) (except for the used SLICOT files). If you are submitting a few function, it should be licensed under GPLv3+ with the following header (use appropriate year, name, etc.) as shown below:
@@ -79,12 +98,12 @@ Like test, demos are also located at the end of the file. A small demo for `pzma
 %! pzmap(g);
 ```
 
-## Contribution workflow
+## Contribution Workflow
 
 As in many other open-source projects the usual way to contribute to the control package is to
 
 - fork the in repository,
-- on your fork, and
+- make changes, like, e.g., fix a bug or add a new feature in your fork, and
 - send pull requests to the original repository.
 
 Please also refer to this [detailed description on collaborating with pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests).
