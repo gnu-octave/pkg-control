@@ -93,36 +93,58 @@ function [pol_r, zer_r] = pzmap (varargin)
     rc = rows (colororder);
     def_pol = arrayfun (@(k) {"x", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
     def_zer = arrayfun (@(k) {"o", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
-    idx = cellfun (@isempty, sty);
+    idx_no_sty = cellfun (@isempty, sty);
     sty_pol = sty_zer = sty;
-    sty_pol(idx) = def_pol(idx);
-    sty_zer(idx) = def_zer(idx);
-
-    pol_args = horzcat (cellfun (@horzcat, pol_re, pol_im, sty_pol, "uniformoutput", false){:});
-    zer_args = horzcat (cellfun (@horzcat, zer_re, zer_im, sty_zer, "uniformoutput", false){:});
+    sty_pol(idx_no_sty) = def_pol(idx_no_sty);
+    sty_zer(idx_no_sty) = def_zer(idx_no_sty);
 
     leg_args = cell (1, n);
     idx = find (sys_idx);
     dt = false;
     for k = 1 : n
-      try
-        leg_args{k} = inputname (idx(k));
-      catch
-        leg_args{k} = "";       # needed for  pzmap (lticell{:})
-      end_try_catch
+      if (! idx_no_sty(k))
+        ## style given, only allow custom colors, no custom markers
+        [opt,vopt] = __pltopt__ ('pzmap', sty{k}, false);
+        if (! @isempty (opt.color))
+          sty_pol{1,k} = {"x", "linewidth", 2, "color", opt.color};
+          sty_zer{1,k} = {"o", "linewidth", 2, "color", opt.color};
+        else
+          if (! vopt)
+            warning ("pzmap: ignoring undefined color value in style \"%s\"\n", sty{k}{1,1});
+          endif
+          sty_pol(k) = def_pol(k);
+          sty_zer(k) = def_zer(k);
+        endif
+      endif
       dt = dt || (varargin{idx(k)}.tsam != 0);
     endfor
 
-    ## FIXME: try to combine "x", "o" and style for custom colors
+    pol_args = horzcat (cellfun (@horzcat, pol_re, pol_im, sty_pol, "uniformoutput", false){:});
+    zer_args = horzcat (cellfun (@horzcat, zer_re, zer_im, sty_zer, "uniformoutput", false){:});
+
+    hold on;
 
     ## If no zeroes then just plot the poles and vice versa
-    if (isempty (zer{:}))
-       h = plot (pol_args{:});
-    elseif  (isempty (pol{:}))
-       h = plot (zer_args{:});
-    else
-       h = plot (pol_args{:}, zer_args{:});
-    endif
+    h = [];
+    leg_args = cell ();
+    for k = 1:n
+      name = inputname (idx(k));
+      if (isempty (name))
+        name = ["Sys ", num2str(k)];       # needed for  pzmap (lticell{:})
+      endif
+      if (isempty (zer_re{1,k}))
+        hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:});
+        leg_args = { leg_args{:}, ["poles ", name] }; 
+      elseif  (isempty (pol_re{1,k}))
+        hx = plot (zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
+        leg_args = { leg_args{:}, ["zeros ", name] }; 
+      else
+        hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:}, ...
+                   zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
+        leg_args = { leg_args{:}, ["poles ", name], ["zeros ", name] }; 
+      endif
+      h = [ h; hx ];
+    endfor
 
     grid ("on")  
     title ("Pole-Zero Map")
@@ -138,8 +160,6 @@ function [pol_r, zer_r] = pzmap (varargin)
     dy = (yl(2)-yl(1))/10;
     yl(1) = yl(1) - dy;
     yl(2) = yl(2) + dy;
-
-    hold on;
 
     a = gca ();
     % avoid flickering while drawing axis / stablity region
@@ -159,7 +179,7 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     hold off;
 
-    legend (h(1:n), leg_args)
+    legend (h, leg_args)
 
 
     else
