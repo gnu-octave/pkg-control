@@ -157,6 +157,7 @@ endfunction
 function __zgrid_create__(hax, hg, v_z, v_w)
 
     hold on;
+    box on;
     v_user.z = v_z;
     v_user.w = v_w;
     v_user.cl = [ xlim() ylim() ];
