@@ -22,15 +22,17 @@
 ## @deftypefnx {Function File} {[@var{p}, @var{z}] =} pzmap (@var{sys})
 ## Plot the poles and zeros of an LTI system in the complex plane.
 ## If no output arguments are given, the result is plotted on the screen.
-## Otherwise, the poles and zeros are computed and returned.
+## Otherwise, the poles and zeros are computed and returned. Note that
+## only one system is processed when output arguments are given.
 ##
 ## @strong{Inputs}
 ## @table @var
-## @item sys
-## @acronym{LTI} model.
+## @item sys, sys1, ...
+## @acronym{LTI} model(s).
 ## @item 'style'
-## Line style and color, e.g. 'r' for a solid red line or '-.k' for a dash-dotted
-## black line.  See @command{help plot} for details.
+## Color, e.g. 'r' for a red. See @command{help plot} for details.
+## Marker or line styles are ignored as poles and zeros have the
+## fixed marker types 'x' and 'o' repectively.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -146,7 +148,8 @@ function [pol_r, zer_r] = pzmap (varargin)
       h = [ h; hx ];
     endfor
 
-    grid ("on")  
+    grid on
+    box on
     title ("Pole-Zero Map")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
@@ -181,30 +184,34 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     legend (h, leg_args)
 
+  else
 
-    else
+    ## output arguments: only one system is allowed as input
     pol_r = pol{1};
     zer_r = zer{1};
+
   endif
   
 endfunction
 
+
+%!demo
+%! z = tf('z',1);
+%! G1z = (z+1)/(z-0.75)/(z^2-1*z+1);
+%! pzmap(G1z);
+
 %!demo
 %! s = tf('s');
-%! g = (s-1)/(s-2)/(s-3);
-%! pzmap(g);
+%! G1 = 1/(2*s^2+3*s+4);
+%! G2 = (1-s)/(1+s)/(s^2+s+1);
+%! pzmap(G1,G2);
 
 %!test
 %! s = tf('s');
-%! g = (s-1)/(s-2)/(s-3);
-%! [pol zer] = pzmap(g);
+%! G = (s-1)/(s-2)/(s-3);
+%! [pol zer] = pzmap(G);
 %! assert(sort(pol), [2 3]', 2*eps);
 %! assert(zer, 1, eps);
-
-%!demo
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! pzmap(g);
 
 %!test
 %! s = tf('s');
