@@ -1,5 +1,6 @@
 ## Copyright (C) 2009-2015   Lukas F. Reichlin
 ## Copyright (C) 2016 Douglas A. Stewart
+## Copyright (C) 2024 Torsten Lilge
 ## This file is part of LTI Syncope.
 ##
 ## LTI Syncope is free software: you can redistribute it and/or modify
@@ -25,22 +26,28 @@
 ## Converts analog filter with coefficients @var{b} and @var{a} and/or @var{sys_in} to digital,
 ## conserving impulse response.
 ##
+## MIMO systems are only supported with @var{sys_in} as input argument.
+##
 ## If @var{fs} is not specified, or is an empty vector, it defaults to 1Hz.
 ##
 ## If @var{tol} is not specified, it defaults to 0.0001 (0.1%)
-## This function does the inverse of invimpinvar so that the following example should
-## restore the original values of @var{a} and @var{b}.
 ##
-## @command{invimpinvar} implements the reverse of this function.
-## @example
-## [b, a] = impinvar (b, a);
-## [b, a] = invimpinvar (b, a);
-## @end example
+## @strong{Algorithm}
 ##
-## Reference: Thomas J. Cavicchi (1996) ``Impulse invariance and multiple-order
-## poles''. IEEE transactions on signal processing, Vol 44 (9): 2344--2347
+## The step equivalent discretization of G(s) (zoh) results in
+## G_zoh(z) = (z-1)/z * Z@{G(s)/s@} where Z@{@} is the z-transformation.
+## The transfer function of the impulse equivalent discretization
+## is given by T*Z@{G(s)@}. Therefore, the zoh discretizaiton method for
+## s*G(s) multipled by T*z/(z-1) leads to the desired result.
 ##
-## @seealso{zoh, bilinear, invimpinvar}
+## @strong{Remark}
+##
+## For the impulse response of a discrete-time system, the input
+## sequence @{1/T,0,0,0,...@} and not the unit impulse is considered.
+## For this reason, the factor T is required for the impulse invaraint
+## discretizaiton (see Algorithm).
+##
+## @seealso{c2d}
 ## @end deftypefn
 
 
@@ -53,12 +60,14 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
     print_usage;
   endif
 
-  if (isa (b, "tf") == 1)
-  ## the input is an LTI object
-  ## therefore inputs are (sys,fs,tol)
-  ## so b is sys
-  ## and a is fs
-  ## and fs is tol
+  if (isa (b, "lti"))
+
+    ## the input is an LTI object, therefore inputs are (sys,fs,tol)
+    ## so b is sys, a is fs, and fs is tol
+    ## in this case, MIMO systems are allowed
+
+    [ny, nu] = size (b);
+    [bcell, acell] = tfdata (b);
 
     if (exist("fs","var") != 0)
       tol = fs;
@@ -72,21 +81,31 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
       fs=1;
     endif
 
-    [b a] = tfdata (b);
   else
-     ## the input is cell array with vectors
+
+    ## some internal functions call imp_invar with polynomials in cells
+    if (iscell (b))
+      b = b{1,1};
+    endif
+    if (iscell (a))
+      a = a{1,1};
+    endif
+
+    ## the input is vectors
+    if (! (ismatrix (b) && ismatrix (a))) || ...
+        ((min (size (b)) != 1) && (min (size (a)) != 1))
+      error ("imp_invar: first two arguments must be vectors\n");
+    endif
     if (exist ("fs") == 0)
       fs = 1;
     endif
-    if ! iscell (a)
-      a = {a};
-    endif
-    if ! iscell (b)
-      b = {b};
-    endif
-    if size (a) != size (b)
-      error ("cell arrays with numerators and denominators must be of same size");
-    endif
+
+    ny = nu = 1;
+    bcell = cell ();
+    acell = cell ();
+    bcell{1,1} = b;
+    acell{1,1} = a;
+
   endif
 
   if (isempty (fs))
@@ -99,156 +118,78 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
 
   T = 1/fs;
 
-  # init solution (just to get cell arrays of right size
-  rn = b;
-  rd = a;
+  bz = cell (ny,nu);
+  az = bz;
 
-  for oi = 1:size(a,1)
-    # for all outputs
-      for ii = 1:size(a,2)
-      # for all inputs
+  for iy = 1:ny
+    for iu = 1:nu
 
-      [r, p, k, e] = residue (b{oi,ii}, a{oi,ii}); # partial fraction expansion
+      b = remove_leading_zeros (bcell{iy,iu});
+      a = remove_leading_zeros (acell{iy,iu});
 
-      if (length (k) > 0) # Greater than zero means we cannot do impulse invariance
+      if (length (b) >= length (a))
         error("Order numerator >= order denominator");
       endif
 
-      p = -p;
-      p = -exp(-p.*T);
-      L = length (r);
-      if (L == 1)
-        retn = [r(1) 0];
-        retd = [1 p(1)];
-      else
-        rr = nump (r(1), e(1), T, [1 p(1)]);
-        [retn retd] = acpfwm (rr, [1 p(1)], r(2), [1 p(2)], e(2), T);
-        for k=3:L
-          [retn retd] = acpfwm (retn, retd, r(k), [1 p(k)], e(k), T);
-        endfor
-      endif
+      ## Apply zoh method for s*G(s) and multiply the result by z/(z-1).
+      b = conv (b, [1 0]);              # multiply by s
+      G_zoh = c2d (tf (b,a), T, 'zoh'); # zoh method for s*G(s)
 
-      retn = real (retn);
-      retn (abs (retn) < 1e-14) = 0; # Get rid of any imaginary parts from round off errors
-      rn{oi,ii} = retn;
-      rd{oi,ii} = real (retd);
+      [bzz,azz] = tfdata (G_zoh, 'v');  # get polynomials of result
+      bzz = remove_leading_zeros (bzz);
+      bzz = conv (bzz, [T 0]);          # multiply numerator by T*z
+      azz = conv (azz, [1 -1]);         # multiply denominator by z-1
+
+      sys1 = tf (bzz, azz, T);
+      sys2 = minreal (sys1, tol); # Use this to remove the common roots.
+
+      [bz{iy,iu}, az{iy,iu}] = tfdata (sys2, "v");
 
     endfor
   endfor
 
-  sys1 = tf (rn, rd, T);
-  sys2 = minreal (sys1, tol); # Use this to remove the common roots.
-
   if (nargout() < 2)
-    bz = sys2;
+    bz = tf (bz, az, T);
   else
-    [bz, az] = tfdata (sys2);
-  endif
-
-endfunction
-
-
-function ret = addvecs2 (v11, v22)
-  ## Add 2 vectors when they have different lengths.
-  l1 = numel (v11);
-  l2 = numel (v22);
-  if (l1 != l2)
-    if (l1 > l2)
-      v22 = prepad (v22,l1);
-    else
-      v11 = prepad (v11, l2);
+    if (ny*nu == 1)
+      bz = bz{1,1};
+      az = az{1,1};
     endif
   endif
-  ret = v11 + v22;
+
 endfunction
 
 
-function ret = addvecs1 (v11, v22)
-  ml = max (numel (v11), numel (v22));
-  ret = prepad1 (v11, ml) + prepad1 (v22, ml);
-endfunction
+function x_clean = remove_leading_zeros (x)
 
-
-
-function ret = addvecs (v11, v22)
-  ## Add 2 vectors when they have different lengths.
-  l1 = numel (v11);
-  l2 = numel (v22);
-  if (l1 != l2)
-    if (l1 > l2)
-     v22=[zeros(1,l1-l2) v22];
-    else
-     v11=[zeros(1,l2-l1) v11];
-    endif
+  nonzero = find (x);
+  if length (nonzero) == 0
+    x_clean = 0;
+  else
+    x_clean = x(nonzero(1):end);
   endif
-  ret = v11 + v22;
+
 endfunction
 
 
+## Tests
+##
+%!shared bz1, az1, bz2, az2, bz1_e, az1_e, bz2_e, az2_e
+%!
+%! s = tf ('s');
+%! Gs = (s-2)*(s-1)*(s+5)/s/(s+1)/(s+2)^3/(s+3)/(s+4);
+%! [b,a] = tfdata (Gs, 'v');
+%! [bz1,az1] = imp_invar (Gs, 2);
+%! [bz2,az2] = imp_invar (b, a, 5);
+%!
+%! bz1_e = 1/2*[-0.0000  0.0036 -0.0128  0.0039  0.0125 -0.0001 -0.0001  0.0000];
+%! az1_e = [ 1.0000 -3.0686  3.7873 -2.4518  0.9020 -0.1886  0.0207 -0.0009];
+%!
+%! bz2_e = 1/5*[-0.0000  0.0007 -0.0007  -0.0025  0.0032 -0.0004 -0.0001  0.0000];
+%! az2_e = [ 1.0000 -4.8278  9.8933 -11.1569  7.4787 -2.9798  0.6534 -0.0608];
+%!
+%!assert (az1, az1_e, 1e-4);
+%!assert (bz1, bz1_e, 1e-4);
+%!assert (az2, az2_e, 1e-4);
+%!assert (bz2, bz2_e, 1e-4);
 
-function v1 = convm (v1, v2, m)
-  ## If m=0 then return v1
-  ## This function mutiplies 2 poynomials together
-  ## with the second poly raised to the power M
-  ## If v1 == v2 then when m=1 you get v1^2
-  ## If v1 != v2 then you get v1*v2^m
-
-  while (m > 0)
-    v1 = conv (v1, v2);
-    m--;
-  endwhile
-endfunction
-
-
-
-
-function ret = nump (c1,m,T,p)
-  ## create the numerator plynomial
-  ## for the Z transform.
-  ## c1 is the gain for this term
-  ## m is the multiplicity of this term
-  ## T is the time period 1/fs
-  ## p is the denominator (pole) of this term
-
-  p=-p(2); # get the root value
-  switch m  # multiplicity of the term.
-    case{1}
-      ret = [c1 0];
-    case{2}
-      ret = [c1*T*p 0];
-    case{3};
-      ret = c1*([T^2 *p, T^2 *p^2, 0]) / 2;
-    case{4}
-      ret = c1*[T^3 *p, 4*T^3 *p^2, T^3 *p^3] / 6;
-    case(5)
-      ret = c1*[T^4 *p, 11*T^4 *p^2,  11*T^4 *p^3, T^4 *p^4] / 24;
-    case(6)
-      ret = c1*[T^5 *p, 26*T^5 *p^2, 66*T^5 *p^3, 26*T^5 *p^4, T^5 *p^5] / 120;
-    case(7)
-      ret = c1*[T^6 *p, 57*T^6 *p^2, 302*T^6 *p^3, 302*T^6 *p^4, 57*T^6 *p^5, T^6 *p^6] / factorial(6);
-    otherwise
-      error ("Too many repeated roots");
-  endswitch
-endfunction
-
-
-
-function [retn retd] = acpfwm (c1,d1,c2,d2,m,T)
-  ## add_complex_poly_fracion_with_multiplicity(a,b,m)
-  ## Partial fraction expansion creates
-  ## a set of polynomials  Cn/(s+Rn)^m
-  ## Take 2 of these and add them together.
-  ## c1/(s+d1) is assumed to have a multiplicity of 1
-  ## and c2/(s+d2)^m has a multiplicity of m
-
-  ## first do (s+d2)^m
-  d2m = convm (d2, d2, m-1);
-  ## Now calculate the numerator.
-  c2m = nump (c2, m, T, d2);
-  ## Cross multiply.
-  n1 = conv (c1, d2m);
-  n2 = conv (c2m, d1);
-  ## And put it all together.
-  retn = addvecs (n1, n2);
-  retd = conv (d1, d2m);
-endfunction
