@@ -62,8 +62,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
     case "i"                       # "impulse"
       [b a] = tfdata(sys);
-      [bz az] = imp_invar (b , a , 1/tsam , tol = 1e-4);
-      sys = tf (bz,az,tsam);
+      sys = imp_invar (sys , 1/tsam , tol = 1e-4);
       
     case "m"                       # "matched"
       tmp = ss (c2d (zpk (sys), tsam, method));

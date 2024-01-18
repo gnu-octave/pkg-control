@@ -58,6 +58,11 @@
 ## State trajectories array.  Has @code{length (t)} rows and as many columns as states.
 ## @end table
 ##
+## @strong{Remark}
+##
+## For the impulse response of a discrete-time system, the input
+## sequence @{1/T,0,0,0,...@} and not the unit impulse is considered.
+##
 ## @seealso{initial, lsim, step}
 ## @end deftypefn
 

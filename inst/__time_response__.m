@@ -120,11 +120,18 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
   [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
 
+  ## handle names and set reasonable names if empty
+  idx_no_name = cellfun (@isempty, names);
+  sys_numbers = find (idx_no_name);
+  names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys ',num2str(x)], ...
+                                sys_numbers(:), "uniformoutput", false));
+
   ## discretizaiton of continuous time systems
   ## do this in state space for more accurate results
   sys_dt = args(sys_idx);
   ct_idx = cellfun (@isct, sys_dt);
   sys_ct = sys_dt(ct_idx);
+  sys_idx_ct = find (ct_idx);
   ## FIXME: ss can not be applied via cellfun ()? Use a for-loop instead
   ##        "lti: subsasgn: invalid subscripted assignment type '()'"
   sys_ctss = cell (size (sys_ct));
@@ -137,22 +144,24 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       [nz_y, nz_u] = find (sys_ctss{i}.d);
       if ! isempty (nz_y)
         # there is at least one direct feedthrough, prepare a warning message
-        msg = ["System has a direct feedthrough!\n", ...
-               "The impulse %f*delta(t) is omitted in the impulse response\n", ...
+        msg = ["System \"%s\" has direct feedthrough!\n", ...
+               "The impulse %f*delta(t) is omitted in the impulse response ", ...
                "from input \"%s\" to output \"%s\"\n"];
       endif
-      for jj = 1:length (nz_y)
-        # get the names of all input/output channels with feedthrough
-        in = sys_ctss{i}.inputname{nz_u(jj)};
-        out = sys_ctss{i}.outputname{nz_y(jj)};
-        if isempty (in)
-          in = ['u', num2str(nz_u(jj))];  # default name
-        endif
-        if isempty (out)
-          out = ['y', num2str(nz_y(jj))];  # default name
-        endif
-        # print the warning
-        warning (msg, sys_ctss{i}.d, in, out);
+      for jy = 1:length (nz_y)
+        for ju = 1:length (nz_u)
+          # get the names of all input/output channels with feedthrough
+          in = sys_ctss{i}.inputname{nz_u(ju)};
+          out = sys_ctss{i}.outputname{nz_y(jy)};
+          if isempty (in)
+            in = ['u', num2str(nz_u(ju))];  # default name
+          endif
+          if isempty (out)
+            out = ['y', num2str(nz_y(jy))];  # default name
+          endif
+          # print the warning
+          warning (msg, names{sys_idx_ct(i)}, sys_ctss{i}.d(jy,ju), in, out);
+        endfor
       endfor
       ## compute impulse response for remaining system without feedthrough
       sys_ctss{i}.d = 0*sys_ctss{i}.d;
@@ -205,12 +214,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
   if (nout == 0)                                        # display plot
 
-    ## handle names and set reasonable names if empty
-    idx_no_name = cellfun (@isempty, names);
-    sys_numbers = find (idx_no_name);
-    names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys ',num2str(x)], ...
-                                  sys_numbers(:), "uniformoutput", false));
-
     ## extract plotting styles
     tmp = cumsum (sys_idx);
     tmp(sys_idx | ! sty_idx) = 0;
@@ -262,10 +265,10 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       otherwise
         error ("time_response: invalid response type '%s'\n", response);
     endswitch
-  
+
     ## get last system present in the subplots
     last_system = zeros (rows, cols);
-    for i = 1 : rows  
+    for i = 1 : rows
       for j = 1 : cols
         for k = 1 : n_sys
           if (p(k) >= i) && (m(k) >= j)
@@ -282,9 +285,9 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
           subplot (rows, cols, (i-1)*cols+j);
           box on;
-  
+
           for k = 1 : last_system(i,j)                # for every system for this in-/output
-              
+
             p_sys = size (args(sys_idx){k}, 1);
             m_sys = size (args(sys_idx){k}, 2);
             if (p_sys >= i) && (m_sys >= j)           # only if system has this in-/output
@@ -292,7 +295,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
                 ## determine the text for the legend if we have more than
                 ## one system but only for the forst subplot were all systems
                 ## are included
-                if (n_sys > 1) && (i == 1) && (j == 1) 
+                if (n_sys > 1) && (i == 1) && (j == 1)
                   ## we need a legend
                   if (idx_no_sty(k))
                     ## no style given
@@ -309,7 +312,8 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
                 if (ct_idx(k))    # continuous-time system
                   plot (t{k}, y{k}(:, i, j), sty{k}{:});
                 else              # discrete-time system
-                  stairs (t{k}, y{k}(:, i, j), sty{k}{:});
+                  [tstep,ystep] = stairs (t{k}, y{k}(:, i, j));
+                  plot (tstep, ystep, sty{k}{:});
                 endif
                 hold on;
                 if k == last_system(i,j)
@@ -324,7 +328,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
                     title (inname{j}, "fontweight", "normal");
                   endif
                 endif
-     
+
             endif
 
           endfor
@@ -419,10 +423,8 @@ endfunction
 
 function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
 
- # [~, B] = ssdata (sys);
   [F, G, C, D, dt] = ssdata (sys_dt);                   # system must be proper
   dt = abs (dt);                                        # use 1 second if tsam is unspecified (-1)
-  discrete = ! isct (sys_dt);
 
   n = rows (F);                                         # number of states
   m = columns (G);                                      # number of inputs
@@ -434,21 +436,15 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
   x_arr = zeros (l_t, n, m);
 
   for j = 1 : m                                         # for every input channel
-    ## initial conditions
+
     u = zeros (m, 1);
     u(j) = 1;
 
-    if (discrete)
-      x = zeros (n, 1);                                 # zero by definition
-      y(1, :, j) = D * u / dt;
-      x_arr(1, :, j) = x;
-      x = G * u / dt;
-    else
-      x = G * u;                                        #NO NO B, not G!
-      y(1, :, j) = C * x;
-      x_arr(1, :, j) = x;
-      x = F * x;
-    endif
+    ## initial conditions
+    x = zeros (n, 1);                                 # zero by definition
+    y(1, :, j) = D * u / dt;                          # impulse is 1/dt
+    x_arr(1, :, j) = x;
+    x = G * u / dt;
 
     ## simulation
     for k = 2 : l_t
@@ -456,12 +452,8 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
       x_arr(k, :, j) = x;
       x = F * x;
     endfor
-  endfor
 
-  if (discrete)
-    y *= dt;
-    x_arr *= dt;
-  endif
+  endfor
 
 endfunction
 
