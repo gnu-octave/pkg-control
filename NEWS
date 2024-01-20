@@ -5,6 +5,11 @@ Summary of important user-visible changes for releases of the control package
 control-4.0.99+  Not yet released
 ===============================================================================
 
+ ** c2d: impulse invariant discrete-time models for MIMO systems
+    and state space representations
+
+ ** New algorithm for imp_invar, also allowing MIMO systems
+
  ** allow time responses for several systems with different sizes
 
  ** fix graphic styles in pzmap (bug #57716)
