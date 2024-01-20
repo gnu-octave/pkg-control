@@ -160,6 +160,55 @@ endfunction
 %!assert (Mo, Me, 1e-4);
 
 
+## impulse invariant
+%!shared Mo, Me
+%! A = [  1.0  0.5
+%!        0.5  1.0 ];
+%!
+%! B = [  0.0 -1.0
+%!        1.0  0.0 ];
+%!
+%! C = [ -1.0  0.0
+%!        0.0  1.0 ];
+%!
+%! D = [  0.0  0.0
+%!        0.0  0.0 ];
+%!
+%! [Ao, Bo, Co, Do] = ssdata (c2d (ss(A,B,C,D), 2, "imp"));
+%!
+%! Ae = [ 11.4019   8.6836
+%!         8.6836  11.4019 ];
+%!
+%! Be = [ 17.3673 -22.8038
+%!        22.8038 -17.3673 ];
+%!
+%! Ce = [ -1.0000   0.0000
+%!         0.0000   1.0000 ];
+%!
+%! De = [  0.0000   2.0000
+%!         2.0000   0.0000 ];
+%!
+%! Mo = [Ao, Bo; Co, Do];
+%! Me = [Ae, Be; Ce, De];
+%!
+%!assert (Mo, Me, 1e-4);
+
+
+## impulse invariant for transfer function
+%!shared Mo, Me
+%! G = tf ({[1 0],1;[1],1},{[1 1 1],[1 1];[1 0],[1 2 1]});
+%!
+%! [nuo, dno] = tfdata (c2d (G, 2, "imp"));
+%!
+%! nue = {[2 -0.3011 0], [2 0]; [2 0], [0 0.5413 0]};
+%! dne = {[1 0.1181 0.1353], [1 -0.1353]; [1 -1], [1 -0.2707 0.01832]};
+%!
+%! Mo = [ nuo{1,1} nuo{1,2} nuo{2,1} nuo{2,2} dno{1,1} dno{1,2} dno{2,1} dno{2,2} ];
+%! Me = [ nue{1,1} nue{1,2} nue{2,1} nue{2,2} dne{1,1} dne{1,2} dne{2,1} dne{2,2} ];
+%!
+%!assert (Mo, Me, 1e-4);
+
+
 ## bilinear transformation
 ## both directions
 %!shared Mo, Me

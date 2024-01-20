@@ -1,4 +1,5 @@
 ## Copyright (C) 2009-2016   Lukas F. Reichlin
+## Copyright (C)             Torsten Lilge
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -20,7 +21,6 @@
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
-## Version: 0.5
 
 function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
@@ -61,8 +61,23 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
       endif
 
     case "i"                       # "impulse"
-      [b a] = tfdata(sys);
-      sys = imp_invar (sys , 1/tsam , tol = 1e-4);
+
+      if (any (sys.d(:)))
+        error ("c2d: impuls invariant discrete-time models only supported for systems without direct feedthrough\n");
+      endif
+
+      ## cont-time: u(t) = delta(t)
+      ##            x(0) = Phi(0)*B = B  (Phi(0) = 0)
+      ##            x(t) = Phi(t)*B
+      ##            y(0) = C*B
+      ##            y(t) = C*x(t)
+      ## disc-time  x(k+1) = Ad*x(k) + Bd*u(k)
+      ##            y(k)   = Cd*x(k) + Dd*u(k)
+      ##        =>  Ad = Phi(T),  Bd = Phi(T)*B*T, Cd = C, Dd = C*B*T
+      [sys.a, sys.b, sys.c, sys.d, sys.e] = __dss2ss__ (sys.a, sys.b, sys.c, sys.d, sys.e);
+      [sys.a, tmp] = __sl_mb05nd__ (sys.a, tsam, eps); 
+      sys.d = sys.c * sys.b * tsam;
+      sys.b = sys.a * sys.b * tsam;
       
     case "m"                       # "matched"
       tmp = ss (c2d (zpk (sys), tsam, method));

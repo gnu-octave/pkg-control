@@ -27,6 +27,11 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
   if (strncmpi (method, "i", 1))    # "impulse invariant"
     
+    [~,~,~,D] = ssdata (sys);
+    if (any (D(:)))
+      error ("c2d: impuls invariant discrete-time models only supported for systems without direct feedthrough\n");
+    endif
+    
     sys=imp_invar(sys,1/tsam);
     
   elseif (strncmpi (method, "m", 1))    # "matched"

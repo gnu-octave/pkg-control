@@ -28,9 +28,34 @@
 ##
 ## MIMO systems are only supported with @var{sys_in} as input argument.
 ##
-## If @var{fs} is not specified, or is an empty vector, it defaults to 1Hz.
+## @strong{Inputs}
+## @table @var
+## @item b
+## Numerator coefficients of continuous-time LTI system. 
+## @item a
+## Denominator coefficients of continuous-time LTI system.
+## @item fs 
+## Sampling frequency. If @var{fs} is not specified, or is an empty vector,
+## it defaults to 1Hz.
+## tol
+## Tolerance of the internally used function minreal for canceling identical
+## poles and zeros. If @var{tol} is not specified, it defaults to 0.0001 (0.1%).
+## @item sys_in
+## System definition of the continuous-time LTI system. This can also be
+## a MIMO system.
+## @end table
 ##
-## If @var{tol} is not specified, it defaults to 0.0001 (0.1%)
+## @strong{Outputs}
+## @table @var
+## @item b_out
+## Numerator coefficients of the discrete-time impulse invariant LTI system. 
+## @item a_out
+## Denominator coefficients of the discrete-time impulse invariant LTI system. 
+## @item sys_out
+## Discrete-time impulse invaraiant LTI system. If @var{sys_in} is given as
+## state space representation, @var{sys_out} is also returned in state space,
+## otherwise as transfer function.
+## @end table
 ##
 ## @strong{Algorithm}
 ##
@@ -65,10 +90,6 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
     ## the input is an LTI object, therefore inputs are (sys,fs,tol)
     ## so b is sys, a is fs, and fs is tol
     ## in this case, MIMO systems are allowed
-
-    [ny, nu] = size (b);
-    [bcell, acell] = tfdata (b);
-
     if (exist("fs","var") != 0)
       tol = fs;
     else
@@ -80,6 +101,17 @@ function [bz az] = imp_invar (b , a , fs , tol = 1e-4)
     else
       fs=1;
     endif
+
+    ## lti system given in state space and nargout == 1?
+    ## if yes, just return discretized system in state space
+    if ( isa (b,"ss") && (nargout == 1) )
+      bz = c2d (b, 1/fs, "imp");
+      return;
+    endif
+
+    ## get all polynomials in a cell array
+    [ny, nu] = size (b);
+    [bcell, acell] = tfdata (b);
 
   else
 
