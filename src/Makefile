@@ -27,7 +27,7 @@ all: __control_slicot_functions__.oct \
 # Compile SLICOT library
 #
 # MA02ID.f compiled by an extra command 
-# uppressing warnings on indexing errors
+# suppressing warnings on indexing errors
 #
 slicotlibrary.a: slicot
 	cd $(SC_SRC) && $(MKOCTFILE) -w -c MA02ID.f; mv MA02ID.f x && $(MKOCTFILE) -c *.f && mv x MA02ID.f
