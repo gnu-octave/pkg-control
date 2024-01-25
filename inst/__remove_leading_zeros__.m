@@ -1,13 +1,13 @@
-## Copyright (C) 2009-2016   Lukas F. Reichlin
+## Copyright (C) 2024   Torsten Lilge
 ##
-## This file is part of LTI Syncope.
+## This file is part of GNU Octave's Control Package.
 ##
-## LTI Syncope is free software: you can redistribute it and/or modify
+## This file free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
 ##
-## LTI Syncope is distributed in the hope that it will be useful,
+## This file is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
@@ -16,26 +16,24 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Remove trailing zeros from a polynomial, except for polynomials
-## which are of length 1.  For internal use only.
+## Remove leading zeros from a polynomial or a cell array of polynomials.
+## polynomials of length one are not changed. For internal use only.
 
-## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: April 2012
-## Version: 0.1
+## Author: Torsten Lilge <ttl-octave@mailbox.org>
 
-function p = __remove_trailing_zeros__ (p)
+function p = __remove_leading_zeros__ (p)
 
   if (isa (p, "cell"))
-    p = cellfun (@__remove_trailing_zeros__, p, "uniformoutput", false);
+    p = cellfun (@__remove_leading_zeros__, p, "uniformoutput", false);
     return;
   endif
 
   idx = find (p != 0);
   
   if (isempty (idx))
-    p = 0;
+    return;
   else
-    p = p(1 : idx(end));
+    p = p(idx(1):end);
   endif
 
 endfunction

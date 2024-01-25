@@ -38,6 +38,9 @@ function [retsys, retlti] = __sys2ss__ (sys)
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
 
+  num = __remove_leading_zeros__ (num);
+  den = __remove_leading_zeros__ (den);
+
   len_num = cellfun (@length, num);
   len_den = cellfun (@length, den);
 
@@ -157,16 +160,3 @@ function vec = __conv__ (vec, varargin)
 
 endfunction
 
-
-## remove leading zeros from polynomial vector
-function p = __remove_leading_zeros__ (p)
-
-  idx = find (p != 0, 1);
-
-  if (isempty (idx))
-    p = 0;
-  else
-    p = p(idx : end);
-  endif
-
-endfunction
