@@ -67,6 +67,13 @@ function [retsys, retlti] = __sys2ss__ (sys)
     a = blkdiag (a1, a2);
     b = vertcat (b1, b2);
     c = horzcat (c1, c2);
+
+    ## fix numerical problems
+    e(abs(e) < 2*eps) = 0;
+    a(abs(a) < 2*eps) = 0;
+    b(abs(b) < 2*eps) = 0;
+    c(abs(c) < 2*eps) = 0;
+
     retsys = dss (a, b, c, [], e);
   else                    # proper transfer function
     [a, b, c, d] = __proper_tf2ss__ (num, den, p, m);
