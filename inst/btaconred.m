@@ -273,14 +273,36 @@ endfunction
 %! De = [   0.0000 ];
 %!
 %! # Since btaconred approximates an output controller,
-%! # only its input/output behavior is important and is tested.
+%! # only its input/output behavior is important and is tested
+%! # using n first Markov parameters.
 %! # The state space representaton might have different signs
 %! # of the states.
+%! # By multiplying the matrices for the Markov parameters, numeric errors
+%! # would propagate, therefor the accuracy of the results are limited to
+%! # the accuracy of the given expected results
 %!
-%! [numo deno] = tfdata (Kr, "vector");
-%! [nume dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
-%! Mo = [numo deno]/deno(end); # normalize transfer function to a0 = 1
-%! Me = [nume dene]/dene(end); # normalize transfer function to a0 = 1
+%! [Ao,Bo,Co,Do] = ssdata (Kr);
+%! Ao = round (Ao*1e4)/1e4;
+%! Bo = round (Bo*1e4)/1e4;
+%! Co = round (Co*1e4)/1e4;
+%! Do = round (Do*1e4)/1e4;
+%!
+%! n = size(Ao,1);
+%! m = size(Bo,2);
+%! p = size(Co,1);
+%! Mo = zeros (p,(n+1)*m);
+%! Me = zeros (p,(n+1)*m);
+%! Mo(:,1:m) = Do;
+%! Me(:,1:m) = De;
+%! 
+%! Aoi = eye (n,n);
+%! Aei = eye (n,n);
+%! for i = 1:n
+%!  Mo(:,(i-1)*m+1:i*m) = Co*Aoi*Bo;
+%!  Me(:,(i-1)*m+1:i*m) = Ce*Aei*Be;
+%!  Aoi = Aoi*Ao;
+%!  Aei = Aei*Ae;
+%! endfor
 %!
 %! HSVCe = [  3.8253   0.2005 ].';
 %!
