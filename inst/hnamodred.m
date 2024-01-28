@@ -461,14 +461,36 @@ endfunction
 %!
 %! De = [  0.0219 ];
 %!
-%! # Since hnamodred approximates the input/output behavior
-%! # only input/output behavior is tested. The state space
-%! # representaton might have different signs of the states.
-%! [numo, deno] = tfdata (Gr, "vector");
-%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
+%! # Since hnamodred approximates the input/output behavior only
+%! # input/output behavior is tested using n first Markov parameters.
+%! # The state space representaton might have different signs
+%! # of the states.
+%! # By multiplying the matrices for the Markov parameters, numeric errors
+%! # would propagate, therefor the accuracy of the results are limited to
+%! # the accuracy of the given expected results
 %!
-%! Mo = [numo deno]/deno(end); # normalize transfer function to a0 = 1
-%! Me = [nume dene]/dene(end); # normalize transfer function to a0 = 1
+%! [Ao,Bo,Co,Do] = ssdata (Gr);
+%! Ao = round (Ao*1e4)/1e4;
+%! Bo = round (Bo*1e4)/1e4;
+%! Co = round (Co*1e4)/1e4;
+%! Do = round (Do*1e4)/1e4;
+%!
+%! n = size(Ao,1);
+%! m = size(Bo,2);
+%! p = size(Co,1);
+%! Mo = zeros (p,(n+1)*m);
+%! Me = zeros (p,(n+1)*m);
+%! Mo(:,1:m) = Do;
+%! Me(:,1:m) = De;
+%! 
+%! Aoi = eye (n,n);
+%! Aei = eye (n,n);
+%! for i = 1:n
+%!  Mo(:,i*m+1:(i+1)*m) = Co*Aoi*Bo;
+%!  Me(:,i*m+1:(i+1)*m) = Ce*Aei*Be;
+%!  Aoi = Aoi*Ao;
+%!  Aei = Aei*Ae;
+%! endfor
 %!
 %! HSVe = [  2.6790   2.1589   0.8424   0.1929   0.0219   0.0011 ].';
 %!

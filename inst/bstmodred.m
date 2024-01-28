@@ -318,11 +318,11 @@ endfunction
 %!         0.0000   0.0000
 %!         0.0000   0.0000 ];
 %!
-%! G = ss (A, B, C, D, "scaled", true);
+%! sys = ss (A, B, C, D, "scaled", true);
 %!
-%! [Gr, Info] = bstmodred (G, "beta", 1.0, "tol1", 0.1, "tol2", 0.0);
-%! [Ao, Bo, Co, Do] = ssdata (Gr);
+%! [sys_red, Info] = bstmodred (sys, "beta", 1.0, "tol1", 0.1, "tol2", 0.0);
 %!
+%! # Expected results
 %! Ae = [  1.2729   0.0000   6.5947   0.0000  -3.4229
 %!         0.0000   0.8169   0.0000   2.4821   0.0000
 %!        -2.9889   0.0000  -2.9028   0.0000  -0.3692
@@ -345,22 +345,36 @@ endfunction
 %!
 %! HSVe = [  0.8803   0.8506   0.8038   0.4494   0.3973   0.0214   0.0209 ].';
 %!
-%! # Since bstmodred identifies the input/output behavior
-%! # only input/output behavior is tested. The state space
-%! # representation is not unique.
-%! [numo, deno] = tfdata (Gr, "vector");
-%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De), "vector");
+%! # Since bstmodred reduces the model while approximaton the input/output
+%! # behavior, only input/output behavior is tested by means of the first
+%! # n markov parameters. The state space representation is not unique.
+%! # By multiplying the matrices for the Markov parameters, numeric errors
+%! # would propagate, therefor the accuracy of the results are limited to
+%! # the accuracy of the given expected results
 %!
-%! Mo = [];
-%! Me = [];
-%! for iy = 1:size(Ce,1)
-%!   for iu = 1:size(Be,2)
-%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
-%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
-%!   endfor
+%! [Ao, Bo, Co, Do] = ssdata (sys_red);
+%! Ao = round (Ao*1e4)/1e4;
+%! Bo = round (Bo*1e4)/1e4;
+%! Co = round (Co*1e4)/1e4;
+%! Do = round (Do*1e4)/1e4;
+%!
+%! n = size(Ao,1);
+%! m = size(Bo,2);
+%! p = size(Co,1);
+%! Mo = zeros (p,(n+1)*m);
+%! Me = zeros (p,(n+1)*m);
+%! Mo(:,1:m) = Do;
+%! Me(:,1:m) = De;
+%! 
+%! Aoi = eye (n,n);
+%! Aei = eye (n,n);
+%! for i = 1:n
+%!  Mo(:,(i-1)*m+1:i*m) = Co*Aoi*Bo;
+%!  Me(:,(i-1)*m+1:i*m) = Ce*Aei*Be;
+%!  Aoi = Aoi*Ao;
+%!  Aei = Aei*Ae;
 %! endfor
-%!
-%!assert (Mo, Me, 1e-4);
-%!assert (Info.hsv, HSVe, 1e-4);
+%! 
+%!assert (Mo, Me, 1e-4)
+%!assert (Info.hsv, HSVe, 1e-4)
+ 

@@ -15,11 +15,17 @@
 
 functions.texi
 
-# temp file from configure
+# temp file from configure and make
 
+src/slicot/src 
+*~
 aclocal.m4
 configure
 autom4te.cache
+Makefile.conf
+oct-alt-includes.h
+config.*
+*.oct
 
 # temp info and doc files
 

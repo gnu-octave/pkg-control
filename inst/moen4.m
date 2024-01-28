@@ -944,20 +944,35 @@ endfunction
 %!        -0.0037  -0.0461  -0.1177   0.0092  -0.0242
 %!         0.0476  -0.0237  -0.0159   0.0174   0.0464 ];
 %!
-%! # Since moen4 identifies the input/output behavior
-%! # only input/output behavior is tested. The state space
-%! # representaton is not unique.
-%! [numo, deno] = tfdata (SYS);
-%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De));
-%! Mo = [];
-%! Me = [];
-%! for iy = 1:size(Ce,1)
-%!   for iu = 1:size(Be,2)
-%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
-%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
-%!   endfor
+%! # Since moen4 identifies the input/output behavior only
+%! # input/output behavior is tested using n first Markov parameters.
+%! # The state space representaton might have different signs
+%! # of the states.
+%! # By multiplying the matrices for the Markov parameters, numeric errors
+%! # would propagate, therefor the accuracy of the results are limited to
+%! # the accuracy of the given expected results
+%!
+%! [Ao,Bo,Co,Do] = ssdata (SYS);
+%! Ao = round (Ao*1e4)/1e4;
+%! Bo = round (Bo*1e4)/1e4;
+%! Co = round (Co*1e4)/1e4;
+%! Do = round (Do*1e4)/1e4;
+%!
+%! n = size(Ao,1);
+%! m = size(Bo,2);
+%! p = size(Co,1);
+%! Mo = zeros (p,(n+1)*m);
+%! Me = zeros (p,(n+1)*m);
+%! Mo(:,1:m) = Do;
+%! Me(:,1:m) = De;
+%! 
+%! Aoi = eye (n,n);
+%! Aei = eye (n,n);
+%! for i = 1:n
+%!  Mo(:,i*m+1:(i+1)*m) = Co*Aoi*Bo;
+%!  Me(:,i*m+1:(i+1)*m) = Ce*Aei*Be;
+%!  Aoi = Aoi*Ao;
+%!  Aei = Aei*Ae;
 %! endfor
 %!
 %! assert (Mo, Me, 1e-4);
@@ -3042,20 +3057,34 @@ endfunction
 %! De = [ -0.4997   0.0451
 %!        -1.0011  -0.5567 ];
 %!
-%! # Since moen4 identifies the input/output behavior
-%! # only input/output behavior is tested. The state space
-%! # representaton is not unique.
-%! [numo, deno] = tfdata (SYS);
-%! [nume, dene] = tfdata (ss (Ae,Be,Ce,De));
-%! Mo = [];
-%! Me = [];
-%! for iy = 1:size(Ce,1)
-%!   for iu = 1:size(Be,2)
-%!     d = max (abs(deno{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Mo = [ Mo ; numo{iy,iu}'/d ; deno{iy,iu}'/d ];
-%!     d = max (abs(dene{iy,iu}));  # normalize to largest den coefficient (numerical reasons)
-%!     Me = [ Me ; nume{iy,iu}'/d ; dene{iy,iu}'/d ];
-%!   endfor
+%! # Since moen4 identifies the input/output behavior only
+%! # input/output behavior is tested using n first Markov parameters.
+%! # The state space representaton might have different signs
+%! # of the states.
+%! # By multiplying the matrices for the Markov parameters, numeric errors
+%! # would propagate, therefor the accuracy of the results are limited to
+%! # the accuracy of the given expected results
+%! [Ao,Bo,Co,Do] = ssdata (SYS);
+%! Ao = round (Ao*1e4)/1e4;
+%! Bo = round (Bo*1e4)/1e4;
+%! Co = round (Co*1e4)/1e4;
+%! Do = round (Do*1e4)/1e4;
+%!
+%! n = size(Ao,1);
+%! m = size(Bo,2);
+%! p = size(Co,1);
+%! Mo = zeros (p,(n+1)*m);
+%! Me = zeros (p,(n+1)*m);
+%! Mo(:,1:m) = Do;
+%! Me(:,1:m) = De;
+%! 
+%! Aoi = eye (n,n);
+%! Aei = eye (n,n);
+%! for i = 1:n
+%!  Mo(:,i*m+1:(i+1)*m) = Co*Aoi*Bo;
+%!  Me(:,i*m+1:(i+1)*m) = Ce*Aei*Be;
+%!  Aoi = Aoi*Ao;
+%!  Aei = Aei*Ae;
 %! endfor
 %!
 %! assert (Mo, Me, 1e-3);
