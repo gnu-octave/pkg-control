@@ -80,7 +80,7 @@ function [y_r, t_r, x_r] = impulse (varargin)
   for i = 1:nargin
     names{i} = inputname (i);
   end
-  
+
   [y, t, x] = __time_response__ ("impulse", varargin, names, nargout);
 
   if (nargout)
@@ -92,31 +92,39 @@ function [y_r, t_r, x_r] = impulse (varargin)
 endfunction
 
 
-## test the analogue response to an impulse input.
+## Test the analogue response to an impulse input.
+## In this case the system in converted into state space
+## and then discretized. In the test below, the system is
+## discretized as transfer function and then transferred into
+## state space for simulating the impulse response. The results
+## differ in a quantity larger than 2*eps, therefore 10*eps is
+## chosen as tolerance.
 %!test
-%! t=0:0.1:.3;
-%! sys=tf(0.9375,[1 2 4]);
+%! t=0:1:4;
+%! sys=tf(1,[1 2 2 1]);
 %! y=impulse(sys,t);
 %! assert (y(1), 0, eps);
-%! assert (y(2), 0.084405001160727, 2*eps);
-%! assert (y(3), 0.150460144774958, 2*eps);
-%! assert (y(4), 0.199104909042133, 2*eps);
+%! assert (y(2), 0.241686482894434, 2*eps);
+%! assert (y(3), 0.404040547757057, 2*eps);
+%! assert (y(4), 0.307384479794317, 2*eps);
+%! assert (y(5), 0.121908527560869, 6*eps);  # error propagation
 
 ## Test the discrete response to an impulse input.
 %!test
-%! t=0:0.1:.4;
-%! sys=tf(0.9375,[1 2 4]);
-%! sys2=c2d(sys, 0.1, "impulse");
+%! t=0:1:4;
+%! sys=tf(1,[1 2 2 1]);
+%! sys2=c2d(sys, 1, "impulse");
 %! y=impulse(sys2,t);
 %! assert (y(1), 0, eps);
-%! assert (y(2), 0.084405001160727, 2*eps);
-%! assert (y(3), 0.150460144774958, 2*eps);
-%! assert (y(4), 0.199104909042133, 2*eps);
+%! assert (y(2), 0.241686482894434, 2*eps);
+%! assert (y(3), 0.404040547757057, 2*eps);
+%! assert (y(4), 0.307384479794317, 2*eps);
+%! assert (y(5), 0.121908527560869, 6*eps);  # error propagation
 
-## test from bug 
+## test from bug
 %!test
-%! s = tf("s"); 
-%! R = 1/s; 
+%! s = tf("s");
+%! R = 1/s;
 %! y= impulse(R);
 %! assert (y(1), 1, eps);
 
