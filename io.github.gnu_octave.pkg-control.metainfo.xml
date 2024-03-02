@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright 2023 Torsten Lilge
+Copyright 2024 Torsten Lilge
 
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
@@ -8,11 +8,13 @@ notice and this notice are preserved.  This file is offered as-is,
 without any warranty.
 -->
 <component type="addon">
-  <id>octave-control</id>
-  <extends>org.octave.octave.desktop</extends>
+  <id>io.github.gnu_octave.pkg-control</id>
+  <extends>org.octave.Octave</extends>
   <name>Control Design and Analysis</name>
-  <summary>Control design, dynamics system analysis, time and frequency domain, simulation</summary>
+  <summary>The control package for GNU Octave</summary>
   <keywords>
+    <keyword>Octave</keyword>
+    <keyword>Control</keyword>
     <keyword>Linear Time Invariant Models</keyword>
     <keyword>Time Domain Analysis</keyword>
     <keyword>Frequency Domain Analysis</keyword>
@@ -23,10 +25,17 @@ without any warranty.
     <keyword>Model and Controller Reduction</keyword>
     <keyword>System Identification</keyword>
   </keywords>
+  <description>
+    <p>
+      The Control package for GNU Octave is a collection of functions
+      for system analysis and control synthesis. The package uses
+      routines of the SLICOT-Reference library.
+    </p>
+  </description>
   <url type="homepage">https://gnu-octave.github.io/packages/control/</url>
   <url type="bugtracker">https://octave.space/savannah/?Action=get&Format=HTMLCSS&Title=[octave%20forge]%20(control)</url>
   <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-3.0+</project_license>
-  <developer_name>Octave-Forge Community</developer_name>
+  <project_license>GPL-3.0-or-later and BSD-3-Clause</project_license>
+  <developer_name>Octave Community</developer_name>
   <update_contact>octave-maintainers@gnu.org</update_contact>
 </component>
