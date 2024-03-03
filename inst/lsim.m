@@ -134,14 +134,14 @@ function [y_r, t_r, x_r] = lsim (varargin)
   if (! isequal (t, unique (t)))
     error ("lsim: time vector 't' must be sorted");
   endif
-  
+
   if (! is_real_vector (x0) && ! isempty (x0))
     error ("lsim: initial state vector 'x0' must be empty or a real-valued vector");
   endif
 
 
   ## function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
-  
+
   [y, t, x] = cellfun (@__linear_simulation__, varargin(sys_idx), {u}, {t}, {x0}, "uniformoutput", false);
 
 
@@ -158,7 +158,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
     def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
     idx = cellfun (@isempty, sty);
     sty(idx) = def(idx);
-  
+
     ## get system names for legend
     ## leg = cellfun (@inputname, find (sys_idx), "uniformoutput", false);
     leg = cell (1, n_sys);
@@ -170,7 +170,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
         leg{k} = "";                                    # catch case  lsim (lticell{:}, ...)
       end_try_catch
     endfor
-    
+
     [p, m] = size (varargin(sys_idx){1});
     ct_idx = cellfun (@isct, varargin(sys_idx));
     str = "Linear Simulation Results";
@@ -178,7 +178,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
     outname = __labels__ (outname, "y");
 
     for k = 1 : n_sys                                   # for every system
-      if (ct_idx(k))                                    # continuous-time system                                           
+      if (ct_idx(k))                                    # continuous-time system
         for i = 1 : p                                   # for every output
           if (p != 1)
             subplot (p, 1, i);
@@ -230,7 +230,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
     t_r = t{1};
     x_r = x{1};
   endif
-  
+
 endfunction
 
 
@@ -247,10 +247,14 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
     elseif (len_t == 1)                         # lsim (sys, u, tfinal, ...)
       dt = t / (urows - 1);
       t = vec (linspace (0, t, urows));
-    elseif (len_t != urows)
-      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d)", ...
-             len_t, urows, ucols);
+    elseif ((len_t != urows) && (len_t != ucols))
+      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d) or (%dx%d)\n", ...
+             len_t, urows, ucols, ucols, urows);
     else                                        # lsim (sys, u, t, ...)
+      if (len_t == ucols)
+        u = u';
+        [urows, ucols] = size (u);
+      endif
       dt = abs (t(end) - t(1)) / (urows - 1);   # assume that t is regularly spaced
       t = vec (linspace (t(1), t(end), urows));
     endif
@@ -259,13 +263,26 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
     was_ct = 0;
     dt = abs (get (sys, "tsam"));               # use 1 second as default if tsam is unspecified (-1)
     if (isempty (t))                            # lsim (sys, u)
+      m = length (sys.inputname);               # we can not verify shape of u by length t
+      if ((ucols != m) && (urows != m))
+        error ("lsim: input vector 'u' must have %d columns or rows", m);
+      else
+        if (urows == m)
+          u = u';
+          [urows, ucols] = size (u);
+        endif
+      endif
       t = vec (linspace (0, dt*(urows-1), urows));
     elseif (len_t == 1)                         # lsim (sys, u, tfinal)
       ## TODO: maybe raise warning if  abs (tfinal - dt*(urows-1)) > dt
       t = vec (linspace (0, dt*(urows-1), urows));
-    elseif (len_t != urows)
-      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d)", ...
-             len_t, urows, ucols);
+    elseif ((len_t != urows) && (len_t != ucols))
+      error ("lsim: length of time vector (%d) doesn't match input signal (%dx%d) or (%dx%d)\n", ...
+             len_t, urows, ucols, ucols, urows);
+      if (len_t == ucols)
+        u = u';
+        [urows, ucols] = size (u);
+      endif
     else                                        # lsim (sys, u, t, ...)
       t = vec (linspace (t(1), t(end), len_t));
     endif
@@ -315,7 +332,31 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
   endfunction
 
 
-## TODO: add test cases
+%!test
+%! n = 5;
+%! m = 3;
+%! p = 2;
+%! A = diag ([0:-2:-2*(n-1)]);
+%! B = [ (1:1:n)' (-1:1:n-2)' (2:1:n+1)'];
+%! C = [1 0 1 0 0 ; 0 1 0 1 1 ];
+%! D = zeros (p,m);
+%!
+%! sys = ss(A, B, C, D);
+%! dt = 0.1;
+%! t = 0:dt:1;
+%! x0 = zeros(n,1);
+%! u = [ sin(2*t') cos(3*t') sin(4*t') ];
+%! [y1, t1] = lsim(sys, u, t, x0);
+%! [y2, t2] = lsim(sys, u', t, x0);
+%!
+%! sysd = c2d (sys, dt, 'foh');
+%! x0 = x0 - sysd.userdata * u(1,:)'; # foh-doscretization
+%! [y3, t3] = lsim(sysd, u, [], x0);
+%! [y4, t4] = lsim(sysd, u', [], x0);
+%!
+%! assert (y1,y2,1e-4);
+%! assert (y1,y3,1e-4);
+%! assert (y1,y4,1e-4);
 
 %!demo
 %! clf;
