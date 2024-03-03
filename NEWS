@@ -5,6 +5,14 @@ Summary of important user-visible changes for releases of the control package
 control-4.0.0+  Not yet released
 ===============================================================================
 
+ ** warning messages do not include trace information anymore
+
+ ** mktito: changed name of inputs and outputs for compatibility
+
+ ** more robust test using Markov parameters for several model
+    reduction routines
+
+ ** doc_control ('license') displays license and copyright information
 
 ===============================================================================
 control-4.0.0  Release date 2024-01-04
