@@ -25,6 +25,8 @@
 ## @item fcn1, fcn2, ...
 ## Function names for which the documentation should be displayed.
 ## If no function name is given, the index of the documentation is shown.
+## If one of the function names is 'license', copyright and license
+## information are displayed.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -50,6 +52,7 @@
 function st = doc_control (varargin)
 
   base = 'https://gnu-octave.github.io/pkg-control/';
+  license = 'https://github.com/gnu-octave/pkg-control/blob/main/COPYING';
 
   status = 0;
 
@@ -63,7 +66,11 @@ function st = doc_control (varargin)
 
       if ischar (varargin{i})
         fcn = strtrim (varargin{i});
-        url = [base, strrep(fcn, '/', '_'), '.html'];
+        if (strcmp (fcn, 'license'))
+          url = license;
+        else
+          url = [base, strrep(fcn, '/', '_'), '.html'];
+        endif
         sti = web (url);
         if sti == 1
           status = sti;
