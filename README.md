@@ -8,8 +8,9 @@ The **control** package is a collection of functions for control systems design 
 
 As of 24.03.2023, the developemnt of the **control** package was moved from [SourceForge](https://sourceforge.net/p/octave/control/ci/default/tree/) and [Mercurial](https://en.wikipedia.org/wiki/Mercurial) to [GitHub](https://github.com/gnu-octave/pkg-control) and [Git](https://en.wikipedia.org/wiki/Git). Links related to the control package
 
+- [License and copyright information](https://github.com/gnu-octave/pkg-control/blob/main/COPYING)
 - [Releases](https://github.com/gnu-octave/pkg-control/releases)
-- [Documentation](https://gnu-octave.github.io/pkg-control/)
+- [Documentation](https://gnu-octave.github.io/pkg-control)
 
 ## Used Library SLICOT
 
