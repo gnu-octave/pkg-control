@@ -33,7 +33,7 @@ without any warranty.
     </p>
   </description>
   <url type="homepage">https://gnu-octave.github.io/packages/control/</url>
-  <url type="bugtracker">https://octave.space/savannah/?Action=get&Format=HTMLCSS&Title=[octave%20forge]%20(control)</url>
+  <url type="bugtracker">https://octave.space/savannah/?Action=get&amp;Format=HTMLCSS&amp;Title=[octave%20forge]%20(control)</url>
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0-or-later and BSD-3-Clause</project_license>
   <developer_name>Octave Community</developer_name>
