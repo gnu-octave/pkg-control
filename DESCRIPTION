@@ -1,6 +1,6 @@
 Name: control
-Version: 4.0.0+
-Date: 2024-XX-XX
+Version: 4.0.1
+Date: 2024-03-24
 Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 Maintainer: Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mailbox.org>
 Title: Control Package
