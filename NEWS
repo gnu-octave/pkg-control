@@ -12,10 +12,6 @@ control-4.0.99+  Not yet released
 
  ** allow time responses for several systems with different sizes
 
- ** fix graphic styles in pzmap (bug #57716)
-
- ** changed in-/output names in mktito (bug #63736)
-
 ===============================================================================
 control-4.0.0+  Not yet released
 ===============================================================================
