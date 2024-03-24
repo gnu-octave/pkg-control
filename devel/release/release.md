@@ -40,15 +40,15 @@ Releasing the package should be done in the *release* branch as github will depl
     1. [ ] `make install`
     2. [ ] `make docs` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
     4. [ ] `sha256sum target/control-X.Y.Z.tar.gz`
-3. [ ] `git commit` (atleast the new docs)
+3. [ ] `git commit` (at least the new docs)
 4. [ ] `git tag control-X.Y.Z`
-5. [ ] `git push` (docs should be automatically be published by github)
+5. [ ] `git push origin release:release` (docs should be automatically be published by github)
 6. [ ] `git push origin control-X.Y.Z` (push the tag) 
 5. [ ] Make release on github (see below: *Publishing the release*)
 6. [ ] Update `control.yaml`
-    1. [ ] update in repository `gnu-octave/packages` or in a forked one
+    1. [ ] update in repository forked from `gnu-octave/packages` (update fork before)
     2. [ ] create a pull request (tests are starting automatically)
-    3. [ ] merge pull request after all tests have passed
+    3. [ ] merge pull request after all tests have successfully passed and add the label *package release*
 9. [ ] `git checkout main`
 10. [ ] `git merge release`
 11. [ ] `git checkout dev`
@@ -66,6 +66,8 @@ The release is created manually [on github](https://github.com/gnu-octave/pkg-co
 1. [ ] *Releases*
 2. [ ] *Draft new release*
 3. [ ] *Choose a tag* and select the desired tag `control-X.Y.Z`
+4. [ ] Add description of most important changes and the following note regarding the assets automatically added by github:
+    - **Please note:** The source archives  _Source code (zip)_ and _Source code (tar.gz)_ are automatically added to the release's assets by Github and do **not** contain the complete sources since this project uses submodules for the SLICOT library. All sources that are required for installing the control package in GNU Octave are included in the downloadable archive file _control-x.y.z.tar.gz_. The complete sources (including, e.g., the ones for packaging) are available in the repository which has to be cloned using the option `--recurse-submodules`. 
 3. [ ] Upload `control-X.Y.Z.tar.gz` as binary file
 4. [ ] *Publish release*
 
