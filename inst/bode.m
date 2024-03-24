@@ -108,7 +108,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
       pha(h) = {pha_auto(h)};
     endif
   endfor
-    
+
 
   if (! nargout)
 
@@ -116,6 +116,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     leg = cell (1, numsys);
     for k = 1:numsys
       leg{k} = inputname (sys_idx(k));
+      if (isempty (leg{k}))
+        leg{k} = sprintf("Sys %d", k);
+      endif
     endfor
 
     ## plot
@@ -147,6 +150,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     ## no plotting, assign values to the output parameters
     mag_r = mag{1};
     pha_r = pha{1};
+    if (iscell (pha_r)) # fix possible cell in cell
+      pha_r = pha_r{1};
+    endif
     w_r = w{1};
 
   endif

@@ -13,9 +13,20 @@ control-4.0.99+  Not yet released
  ** allow time responses for several systems with different sizes
 
 ===============================================================================
-control-4.0.0+  Not yet released
+control-4.0.1  Release date 2024-03-24
 ===============================================================================
 
+ ** warning messages do not include trace information anymore
+
+ ** mktito: changed name of inputs and outputs for compatibility
+    (bug #63736)
+
+ ** more robust test using Markov parameters for several model
+    reduction routines (bug #65218)
+
+ ** fix graphic styles in pzmap (bug #57716)
+
+ ** doc_control ('license') displays license and copyright information
 
 ===============================================================================
 control-4.0.0  Release date 2024-01-04

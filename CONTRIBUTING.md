@@ -12,7 +12,7 @@ If you find a function or feature with missing, erroneous, incomplete or incompr
 
 Bugs and feature requests for GNU Octave including the packages are tracked on [Savannah](https://savannah.gnu.org/bugs/?group=octave). When browsing bugs, you can select *Octave Forge Package* as category and search for *(control)* in the summary. This should provide a list of reported bugs for the control package. Please feel free to start working on a fix or to help by testing. Patches for fixing the bug can be attached to a comment in the bug report or by opening a pull request in the package's repository (see [Contribution Workflow](#contribution-workflow)).
 
-If you would like to report a new bug, please go over existing bugs before in order to avoid duplicate reports. When reporting a new bug or feature request, please make sure that you select the category *Octave Forge Package* and that the summary begins with *[octave forge] (control)*.
+If you would like to report a new bug, please go over existing bugs before in order to avoid duplicate reports. When reporting a new bug or feature request, please make sure that you select the category *Octave Package* and that the summary begins with *[octave forge] (control)*.
 
 ### Discussions
 
