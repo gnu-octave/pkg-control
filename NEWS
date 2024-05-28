@@ -26,6 +26,8 @@ control-4.0.1  Release date 2024-03-24
 
  ** fix graphic styles in pzmap (bug #57716)
 
+ ** bode: fixed format of the 'phase' output argument 
+
  ** doc_control ('license') displays license and copyright information
 
 ===============================================================================
