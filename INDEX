@@ -98,7 +98,9 @@ Optimal Control
   estim
   kalman
   lqe
+  lqi
   lqr
+  lqry
 Robust Control
   augw
   fitfrd
