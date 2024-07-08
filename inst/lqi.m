@@ -96,9 +96,7 @@ else
   sysg = ss(Ag, Bg, Cg, D, Ts);
 endif
 
-pg = p+n;
-
-[g, x, l] = lqr (Ag, Bg, q, r, s);
+[g, x, l] = lqr (sysg, q, r, s);
 
 endfunction
 
