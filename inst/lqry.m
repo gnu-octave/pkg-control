@@ -90,7 +90,7 @@ endfunction
 %! A = [1 -1; 0 -5];
 %! B = [0;1];
 %! C = [1 0];
-%! D = 0
+%! D = 0;
 %! sys = ss(A,B,C,D);
 %! g = lqry(sys,10,1,1);
 %! assert(eig(A-B*g)<0,'lqry error')
