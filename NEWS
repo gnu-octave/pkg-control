@@ -5,6 +5,9 @@ Summary of important user-visible changes for releases of the control package
 control-4.0.99+  Not yet released
 ===============================================================================
 
+ ** lqry, lqi: new linear quadratic regulator design function,
+    output weighting and with integral part
+
  ** c2d: impulse invariant discrete-time models for MIMO systems
     and state space representations
 
