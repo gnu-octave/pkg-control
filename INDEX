@@ -98,6 +98,7 @@ Optimal Control
   estim
   kalman
   lqe
+  lqg
   lqi
   lqr
   lqry

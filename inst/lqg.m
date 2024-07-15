@@ -17,10 +17,10 @@
 ## see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{g}, @var{x}, @var{l}] =} lqg (@var{sys}, @var{QXU}, @var{QWV})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI}, @var{sensors}, @var{known})
-## @deftypefnx {Function File} {[@var{g}, @var{x}, @var{l}] =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{}, @var{sensors}, @var{known})
+## @deftypefn {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV})
+## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI})
+## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI}, @var{sensors}, @var{known})
+## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{}, @var{sensors}, @var{known})
 ## Linear-quadratic gaussian (LQG) design
 ##
 ## @strong{Inputs}
@@ -92,7 +92,7 @@ function [reg] = lqg (sys, QXU, QWV, QI = [])
   if (isempty(QI))
     K = lqr(sys, Q, R, S);
   else
-    K = lqi(sys, blkdiag(Q, QI), R, S)
+    K = lqi(sys, blkdiag(Q, QI), R, vertcat(S,zeros(p,m)));
   endif
 
   % add noise to system as additional inputs, to use with "kalman" function
@@ -100,14 +100,51 @@ function [reg] = lqg (sys, QXU, QWV, QI = [])
   sys_noisy = ss(a, Bn, c, d, Ts);
 
   [est, L, ~] = kalman(sys_noisy, W, V, N, 1:p, 1:m);
-  [ak, bk, ck, dk, ek, Tsk] = dssdata (est, []);
-  reg = ss(a-b*K-L*c-L*d*K, L, -K, 0,Ts);
 
-  % set variables names
-  [inn, stn, outn, ing, outg] = get (sys, "inname", "stname", "outname", "ingroup", "outgroup");
-  stname = __labels__ (stn, "xhat");
-  outname = vertcat (__labels__ (outn(1:m), "u"));
-  inname = vertcat (__labels__ (outn(1:p), "y"));
-  reg = set (reg, "inname", inname, "stname", stname, "outname", outname);
+  % regulator case
+  if isempty(QI)
+    reg = ss(a-b*K-L*c-L*d*K, L, -K, 0,Ts);
+
+    % set variables names
+    [inn, stn, outn, ing, outg] = get (sys, "inname", "stname", "outname", "ingroup", "outgroup");
+    stname = __labels__ (stn, "xhat");
+    outname = vertcat (__labels__ (outn(1:m), "u"));
+    inname = vertcat (__labels__ (outn(1:p), "y"));
+    reg = set (reg, "inname", inname, "stname", stname, "outname", outname);
+  else
+    % servo case
+    if isct(sys)
+      reg = ss([a-b*K(:,1:(end-p))-L*c+L*d*K(:,1:(end-p)) -b*K(:,(n+1):end)+L*d*K(:,(n+1):end); zeros(p,n) zeros(p,p)], [zeros(n,p) L; ones(p,1) -1.*ones(p,1)], -K, 0,Ts);
+    else
+      reg = ss([a-b*K(:,1:(end-p))-L*c+L*d*K(:,1:(end-p)) -b*K(:,(n+1):end)+L*d*K(:,(n+1):end); zeros(p,n) eye(p,p)], [zeros(n,p) L; Ts.*ones(p,1) -Ts.*ones(p,1)], -K, 0,Ts);
+    endif
+
+    % set variables names
+    [inn, stn, outn, ing, outg] = get (sys, "inname", "stname", "outname", "ingroup", "outgroup");
+    stname = vertcat (__labels__ (stn(1:n), "xhat"), __labels__ (outn(1:p), "xi"));
+    outname = vertcat (__labels__ (outn(1:m), "u"));
+    inname = vertcat (__labels__ (outn(1:p), "r"),__labels__ (outn(1:p), "y"));
+    reg = set (reg, "inname", inname, "stname", stname, "outname", outname);
+  endif
 
 endfunction
+
+%!test
+%! G=zpk([],[-10 -1 -100],2000);
+%! sys=ss(G);
+%! [A B C D]=ssdata(sys);
+%! Q=eye(3);
+%! QI=100;
+%! QXU=blkdiag (Q,1);
+%! QWV=eye(4);
+%! reg=lqg(sys,QXU,QWV);
+%! assert(real(eig(feedback(reg,sys,1)))<0);
+%! reg=lqg(sys,QXU,QWV,QI);
+%! assert(real(eig(feedback(reg,sys,2,1,1)))<0);
+%! Ts=0.01;
+%! Gz=zpk([],[-0.1 0.05 0.004],3,Ts);
+%! sysz=ss(Gz);
+%! regz=lqg(sysz,QXU,QWV);
+%! assert(abs(eig(feedback(regz,sysz,1)))<1);
+%! regz=lqg(sysz,QXU,QWV,QI);
+%! assert(abs(eig(feedback(regz,sysz,2,1,1)))<1);
