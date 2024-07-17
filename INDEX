@@ -89,6 +89,7 @@ Frequency Domain Analysis
 Pole Placement
   acker
   place
+  reg
   rlocus
   rlocusx
 Optimal Control
