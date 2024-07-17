@@ -99,6 +99,8 @@ Optimal Control
   kalman
   lqe
   lqg
+  lqgreg
+  lqgtrack
   lqi
   lqr
   lqry
