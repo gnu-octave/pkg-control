@@ -64,12 +64,10 @@ function [reg] = lqgreg (kest, k)
     % set variables names
     [inn, stn, outn, ing, outg] = get (kest, "inname", "stname", "outname", "ingroup", "outgroup");
     stname = __labels__ (stn, "xhat");
-    %outname = vertcat (__labels__ (outn(1:m), "u"));
     outname = cell(m,1);
     for i=1:m
       outname{i,1} = strcat("u",num2str(i));
     endfor
-    %inname = vertcat (__labels__ (outn(1:p), "y"));
     inname = cell(p,1);
     for i=1:p
       inname{i,1} = strcat("y",num2str(i));
@@ -79,25 +77,25 @@ function [reg] = lqgreg (kest, k)
 endfunction
 
 %!test
-%! G=zpk([],[-10 -1 -100],2000);
-%! sys=ss(G);
+%! G=zpk([], [-10 -1 -100], 2000);
+%! sys = ss(G);
 %! [n, m] = size(sys.b);
 %! [p, ~] = size(sys.c);
-%! Q=eye(3);
+%! Q = eye(3);
 %! R = 1;
-%! S = zeros(3,1);
+%! S = zeros(3, 1);
 %! W = eye(3);
 %! V = 1;
-%! N = zeros(3,1);
+%! N = zeros(3, 1);
 %! K = lqr(sys, Q, R, S);
 %! Bn = [sys.b eye(n)];
 %! sys_noisy = ss(sys.a, Bn, sys.c, sys.d, sys.ts);
 %! [est, L1, ~] = kalman(sys_noisy, W, V, N, 1:p, 1:m);
-%! reg=lqgreg(est,K);
+%! reg = lqgreg(est,K);
 %! assert(real(eig(feedback(reg, sys, 1))) < 0);
-%! Ts=0.01;
+%! Ts = 0.01;
 %! Gz=zpk([], [-0.1 0.05 0.004], 3, Ts);
-%! sysz=ss(Gz);
+%! sysz = ss(Gz);
 %! kz = lqr(sysz, Q, R, S);
 %! Bn = [sysz.b eye(n)];
 %! sys_noisyz = ss(sysz.a, Bn, sysz.c, sysz.d, sysz.ts);

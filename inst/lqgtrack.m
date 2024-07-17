@@ -92,28 +92,28 @@ function [reg] = lqgtrack (kest, k)
 endfunction
 
 %!test
-%! G=zpk([],[-10 -1 -100],2000);
-%! sys=ss(G);
+%! G = zpk([], [-10 -1 -100], 2000);
+%! sys = ss(G);
 %! [n, m] = size(sys.b);
 %! [p, ~] = size(sys.c);
-%! Q=eye(3+p);
+%! Q = eye(3+p);
 %! R = 1;
 %! S = zeros(3+p,1);
 %! W = eye(3);
 %! V = 1;
-%! N = zeros(3,1);
+%! N = zeros(3, 1);
 %! K = lqi(sys, Q, R, S);
 %! Bn = [sys.b eye(n)];
 %! sys_noisy = ss(sys.a, Bn, sys.c, sys.d, sys.ts);
 %! [est, L1, ~] = kalman(sys_noisy, W, V, N, 1:p, 1:m);
-%! reg=lqgtrack(est,K);
-%! assert(real(eig(feedback(reg,sys,2,1,1)))<0);
-%! Ts=0.01;
-%! Gz=zpk([],[-0.1 0.05 0.004],3,Ts);
-%! sysz=ss(Gz);
+%! reg = lqgtrack(est,K);
+%! assert(real(eig(feedback(reg, sys, 2, 1, 1)))<0);
+%! Ts = 0.01;
+%! Gz = zpk([],[-0.1 0.05 0.004], 3, Ts);
+%! sysz = ss(Gz);
 %! kz = lqi(sysz, Q, R, S);
 %! Bn = [sysz.b eye(n)];
 %! sys_noisyz = ss(sysz.a, Bn, sysz.c, sysz.d, sysz.ts);
 %! [estz, L1, ~] = kalman(sys_noisyz, W, V, N, 1:p, 1:m);
-%! regz=lqgtrack(estz,kz);
-%! assert(abs(eig(feedback(regz,sysz,2,1,1)))<1);
+%! regz = lqgtrack(estz,kz);
+%! assert(abs(eig(feedback(regz, sysz, 2, 1, 1)))<1);

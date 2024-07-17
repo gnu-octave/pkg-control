@@ -130,21 +130,21 @@ function [reg] = lqg (sys, QXU, QWV, QI = [])
 endfunction
 
 %!test
-%! G=zpk([],[-10 -1 -100],2000);
-%! sys=ss(G);
-%! [A B C D]=ssdata(sys);
-%! Q=eye(3);
-%! QI=100;
-%! QXU=blkdiag (Q,1);
-%! QWV=eye(4);
-%! reg=lqg(sys,QXU,QWV);
-%! assert(real(eig(feedback(reg,sys,1)))<0);
+%! G = zpk([], [-10 -1 -100], 2000);
+%! sys = ss(G);
+%! [A B C D] = ssdata(sys);
+%! Q = eye(3);
+%! QI = 100;
+%! QXU = blkdiag (Q, 1);
+%! QWV = eye(4);
+%! reg = lqg(sys, QXU, QWV);
+%! assert(real(eig(feedback(reg, sys, 1)))<0);
 %! reg=lqg(sys,QXU,QWV,QI);
-%! assert(real(eig(feedback(reg,sys,2,1,1)))<0);
-%! Ts=0.01;
-%! Gz=zpk([],[-0.1 0.05 0.004],3,Ts);
-%! sysz=ss(Gz);
-%! regz=lqg(sysz,QXU,QWV);
-%! assert(abs(eig(feedback(regz,sysz,1)))<1);
-%! regz=lqg(sysz,QXU,QWV,QI);
-%! assert(abs(eig(feedback(regz,sysz,2,1,1)))<1);
+%! assert(real(eig(feedback(reg, sys, 2, 1, 1)))<0);
+%! Ts = 0.01;
+%! Gz = zpk([], [-0.1 0.05 0.004], 3, Ts);
+%! sysz = ss(Gz);
+%! regz = lqg(sysz, QXU, QWV);
+%! assert(abs(eig(feedback(regz, sysz, 1)))<1);
+%! regz=lqg(sysz, QXU, QWV, QI);
+%! assert(abs(eig(feedback(regz, sysz, 2, 1, 1)))<1);
