@@ -19,8 +19,6 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV})
 ## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI})
-## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{QI}, @var{sensors}, @var{known})
-## @deftypefnx {Function File} {@var{reg} =} lqg (@var{sys}, @var{QXU}, @var{QWV}, @var{}, @var{sensors}, @var{known})
 ## Linear-quadratic gaussian (LQG) design
 ##
 ## @strong{Inputs}
@@ -30,7 +28,7 @@
 ## @item QXU
 ## State and input weighting matrix (n+m-by-n+m).
 ## @item QWV
-## Process and measurement noise covariance matrix (n-by-n).
+## Process and measurement noise covariance matrix (n+p-by-n+p).
 ## @item QI
 ## Optional output weighting matrix for LQG servo control with integral action (p-by-p).  If @var{QI} is not specified, the LQG regulator is computed
 ## @end table
@@ -48,7 +46,7 @@
 ## x = A x + B u,   x(0) = x0
 ##
 ##                   1   T
-## J(x0) = E{ lim   --- INT ([x', u'] Qxu [x u]' + xi' Qi xi) dt}
+## J(x0) = E@{ lim   --- INT ([x', u'] Qxu [x u]' + xi' Qi xi) dt@}
 ##           T->inf  T   0
 ##
 ## @end group
@@ -141,10 +139,17 @@ endfunction
 %! assert(real(eig(feedback(reg, sys, 1)))<0);
 %! reg=lqg(sys,QXU,QWV,QI);
 %! assert(real(eig(feedback(reg, sys, 2, 1, 1)))<0);
-%! Ts = 0.01;
+
+%!test
+%! Ts = 0.1;
 %! Gz = zpk([], [-0.1 0.05 0.004], 3, Ts);
 %! sysz = ss(Gz);
+%! Q = eye(3);
+%! QI = 100;
+%! QXU = blkdiag (Q, 1);
+%! QWV = eye(4);
 %! regz = lqg(sysz, QXU, QWV);
 %! assert(abs(eig(feedback(regz, sysz, 1)))<1);
 %! regz=lqg(sysz, QXU, QWV, QI);
 %! assert(abs(eig(feedback(regz, sysz, 2, 1, 1)))<1);
+
