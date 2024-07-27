@@ -56,7 +56,7 @@ function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
 
   z = cellfun (@roots, num, "uniformoutput", false);
   p = cellfun (@roots, den, "uniformoutput", false);
-  k = cellfun (@(n,d) n(1)/d(1), num, den);
+  k = cellfun (@(n,d) __remove_leading_zeros (n(1))/ remove_leading_zeros (d(1)), num, den);
 
   if (strncmpi (rtype, "v", 1) && issiso (sys))
     z = z{1};
