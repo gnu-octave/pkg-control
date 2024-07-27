@@ -89,6 +89,7 @@ Frequency Domain Analysis
 Pole Placement
   acker
   place
+  reg
   rlocus
   rlocusx
 Optimal Control
@@ -98,6 +99,9 @@ Optimal Control
   estim
   kalman
   lqe
+  lqg
+  lqgreg
+  lqgtrack
   lqi
   lqr
   lqry
