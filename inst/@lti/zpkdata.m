@@ -53,10 +53,12 @@
 function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
 
   [num, den, tsam] = tfdata (sys);
+  num = cellfun (@__remove_leading_zeros__, num, 'uniformoutput', false);
+  den = cellfun (@__remove_leading_zeros__, den, 'uniformoutput', false);
 
   z = cellfun (@roots, num, "uniformoutput", false);
   p = cellfun (@roots, den, "uniformoutput", false);
-  k = cellfun (@(n,d) __remove_leading_zeros (n(1))/ remove_leading_zeros (d(1)), num, den);
+  k = cellfun (@(n,d)  n(1)/d(1), num, den);
 
   if (strncmpi (rtype, "v", 1) && issiso (sys))
     z = z{1};
@@ -64,3 +66,15 @@ function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
   endif
 
 endfunction
+
+
+%!test
+%! ze = {[1];[-2 ; 0]};
+%! pe = {[-1 ; 0];[-4 ; -3 ; -1]};
+%! ke = [ 5 ; 10 ];
+%! sys = zpk (ze, pe, ke);
+%! [zo, po, ko] = zpkdata (sys);
+%! assert (zo, ze, 1e-4);
+%! assert (po, pe, 1e-4);
+%! assert (ko, ke, 1e-4);
+
