@@ -16,7 +16,7 @@ control-4.0.99+  Not yet released
 
  ** New algorithm for imp_invar, also allowing MIMO systems
 
- ** tfdata: returning coefficient lists of same lenght for numerator
+ ** tfdata: returning coefficient lists of same length for numerator
     and denominator (bug #43947)
 
  ** allow time responses for several systems with different sizes
