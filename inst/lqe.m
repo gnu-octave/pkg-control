@@ -25,6 +25,12 @@
 ## @deftypefnx {Function File} {[@var{l}, @var{p}, @var{e}] =} lqe (@var{a}, @var{[]}, @var{c}, @var{q}, @var{r}, @var{s})
 ## Kalman filter for continuous-time systems.
 ##
+## @tex
+## $$ \dot{x} = A\,x + B\,u + G\,w $$
+## $$      y  = C\,x + D\,u + v $$
+## $$ E(w) = 0,\,\, E(v) = 0,\,\, cov(w) = Q,\,\, cov(v) = R,\,\, cov(w,v) = S $$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ## .
@@ -33,6 +39,7 @@
 ## E(w) = 0, E(v) = 0, cov(w) = Q, cov(v) = R, cov(w,v) = S
 ## @end group
 ## @end example
+## @end ifnottex
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -67,15 +74,21 @@
 ## @end table
 ##
 ## @strong{Equations}
+## @tex
+## $$ \dot{x} = A\,x + B\,u + L\,(y - C\, - D\,u) $$
+## $$ E = \sigma (A - L\, C) $$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ## .
-## x = Ax + Bu + L(y - Cx -Du)          
+## x = Ax + Bu + L(y - Cx -Du)
 ##
 ## E = eig(A - L*C)
-## 
+##
 ## @end group
 ## @end example
+## @end ifnottex
 ## @seealso{dare, care, dlqr, lqr, dlqe}
 ## @end deftypefn
 
@@ -106,7 +119,7 @@ function [l, p, e] = lqe (a, g, c, q = [], r = [], s = [])
   endif
 
   l = l.';
-  
+
   ## NOTE: for discrete-time sys, the solution L' from DARE
   ##       is different to L from DLQE (a, s)
 
