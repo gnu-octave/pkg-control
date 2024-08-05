@@ -190,7 +190,8 @@ function rlocusx(sys,varargin)
   ymax = ymax+dy;
 
   % Some constants for colors and markers
-  col_zp  = [0.85000   0.32500   0.09800];  % color of open loop zeros and poles
+  col_z   = [0.00000   0.85000   0.00000];  % color of open loop zeros and poles
+  col_p   = [0.85000   0.00000   0.00000];  % color of open loop zeros and poles
   col_clp = [0.10000   0.10000   0.10000];  % color of closed loop poles
   col_rl1 = [0.00000   0.44700   0.74100];  % color of first branch of rlocus
   col_rl2 = [0.30100   0.74500   0.93300];  % color of last branch of rlocus
@@ -238,8 +239,8 @@ function rlocusx(sys,varargin)
   legend ('','autoupdate','off');
 
   % Draw the open poles and zeros
-  plot(real(p),imag(p),'x;open loop poles;','markersize',ms,'linewidth',lw,'color',col_zp);
-  plot(real(z),imag(z),'o;open loop zeros;','markersize',ms,'linewidth',lw,'color',col_zp);
+  plot(real(p),imag(p),'x;open loop poles;','markersize',ms,'linewidth',lw,'color',col_p);
+  plot(real(z),imag(z),'o;open loop zeros;','markersize',ms,'linewidth',lw,'color',col_z);
 
   % Draw root locii
   for j = 1:n

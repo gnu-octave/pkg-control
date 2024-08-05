@@ -279,16 +279,16 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     ## poles and zeros last
     args{1,++kk} = real (olpol);
     args{2,kk} = imag (olpol);
-    args{3,kk} = "rx;open loop poles;";
+    args{3,kk} = "x;open loop poles;";
     if (! isempty (rlzer))
       args{1,++kk} = real (rlzer);
       args{2,kk} = imag (rlzer);
-      args{3,kk} = "go;zeros;";
+      args{3,kk} = "o;zeros;";
     endif
     hplt = plot (args{:});
-    set (hplt(kk--), "markersize", 6);
+    set (hplt(kk--), {"linewidth", "markersize", "color"}, {1.5, 8, [0, 0.85, 0]});
     if (! isempty (rlzer))
-      set (hplt(kk--), "markersize", 6);
+      set (hplt(kk--), {"linewidth", "markersize", "color"}, {1.5, 8, [0.85, 0, 0]});
     endif
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);
