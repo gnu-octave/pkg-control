@@ -237,6 +237,12 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     %inname = get (sys, "inname");
     %outname = get (sys, "outname");
 
+    % Marker size depending on engine
+    ms = 10;
+    if (strcmp(graphics_toolkit(),'gnuplot'))
+      ms = 6;
+    endif
+
     ## build plot command args pole by pole
 
     n_rlpol = rows (rlpol);
@@ -286,9 +292,9 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       args{3,kk} = "o;zeros;";
     endif
     hplt = plot (args{:});
-    set (hplt(kk--), {"linewidth", "markersize", "color"}, {1.5, 8, [0, 0.85, 0]});
+    set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0, 0.75, 0]});
     if (! isempty (rlzer))
-      set (hplt(kk--), {"linewidth", "markersize", "color"}, {1.5, 8, [0.85, 0, 0]});
+      set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0.75, 0, 0]});
     endif
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);
@@ -296,8 +302,15 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     legend ("boxon");
     grid ("on");
     axis (axlim);
-    title (["Root Locus of ", inputname(1)]);
-    xlabel (sprintf ("Real Axis     gain = [%g, %g]", gvec(1), gvec(ngain)));
+
+    name = inputname (1);
+    if (! isempty (name))
+      name = [name, ' '];
+    endif
+    title_string = sprintf ('Root loucs %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
+    title (title_string);
+
+    xlabel ("Real Axis");
     ylabel ("Imaginary Axis");
     set (gcf (), "visible", "on");
   else

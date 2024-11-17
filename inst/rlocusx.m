@@ -190,8 +190,8 @@ function rlocusx(sys,varargin)
   ymax = ymax+dy;
 
   % Some constants for colors and markers
-  col_z   = [0.00000   0.85000   0.00000];  % color of open loop zeros and poles
-  col_p   = [0.85000   0.00000   0.00000];  % color of open loop zeros and poles
+  col_z   = [0.00000   0.75000   0.00000];  % color of open loop zeros and poles
+  col_p   = [0.75000   0.00000   0.00000];  % color of open loop zeros and poles
   col_clp = [0.10000   0.10000   0.10000];  % color of closed loop poles
   col_rl1 = [0.00000   0.44700   0.74100];  % color of first branch of rlocus
   col_rl2 = [0.30100   0.74500   0.93300];  % color of last branch of rlocus
@@ -203,22 +203,24 @@ function rlocusx(sys,varargin)
   lw_stab = 1;              % line width for region of stability
 
   % Marker size depending on engine
+  ms = 10;
   if (strcmp(graphics_toolkit(),'gnuplot'))
     ms = 6;
-  else
-    ms = 12;
-  end
+  endif
 
   % define a cell array for storing the figures with the
   % Title and lables
   clf (gcf ());
   rlocus_fig = gcf ();                  % remember for resetting focus to this figure
 
-  kmin = sprintf("%.3f",gvec(1));       % Interval of gain
-  kmax = sprintf("%.3f",gvec(end));
+  name = inputname (1);
+  if (! isempty (name))
+    name = [name, ' '];
+  endif
 
+  title_string = sprintf ('Root loucs %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
   set (gcf (), 'numbertitle', 'off');
-  set (gcf (), 'name', ['Root locus (K = ',kmin,' ... ',kmax,')']);
+  set (gcf (), 'name', title_string);
   title('click: gain, s/i: step/imp., b/m: bode/margin, a: all, c: clear, d: del fig., x: end');
 
   box on;
@@ -251,7 +253,7 @@ function rlocusx(sys,varargin)
     else
       form = '-';
     end
-    cj = (j-1)/(n-1); % each branch in a slightly different color
+    cj = (j-1)/n; % each branch in a slightly different color
     col = col_rl2*cj + col_rl1*(1-cj);
     plot(real(rlpol(j,:)),imag(rlpol(j,:)),form,'linewidth',lw,'color',col);
   end
