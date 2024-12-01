@@ -43,6 +43,13 @@
 ## @end table
 ##
 ## @strong{Equations}
+## @tex
+## $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$
+## $$      y  = C\,x + D\,u $$
+## $$ J(x_0) = \int_0^\infty  y^T Q\, y + u^T R\, u + 2\, y^T S\, u \,\, dt $$
+## $$ L = \sigma (A - B\, G) $$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ## .
@@ -56,6 +63,8 @@
 ## L = eig (A - B*G)
 ## @end group
 ## @end example
+## @end ifnottex
+##
 ## @seealso{lqr, dare, dlqr}
 ## @end deftypefn
 

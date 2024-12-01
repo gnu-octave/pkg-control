@@ -58,7 +58,7 @@ function [pol_r, zer_r] = pzmap (varargin)
   sty_idx = cellfun (@ischar, varargin);            # look for strings (plot styles)
 
   inv_idx = ! (sys_idx | sty_idx);                  # invalid arguments
-  
+
   if (any (inv_idx))
     warning ("pzmap: arguments number %s are invalid and are being ignored\n", ...
              mat2str (find (inv_idx)(:).'));
@@ -80,6 +80,12 @@ function [pol_r, zer_r] = pzmap (varargin)
   zer = cellfun (@zero, varargin(sys_idx), "uniformoutput", false);
 
   if (! nargout)
+
+    ms = 10;
+    if (strcmp(graphics_toolkit(),'gnuplot'))
+      ms = 6;
+    endif
+
     pol_re = cellfun (@real, pol, "uniformoutput", false);
     pol_im = cellfun (@imag, pol, "uniformoutput", false);
     zer_re = cellfun (@real, zer, "uniformoutput", false);
@@ -93,8 +99,8 @@ function [pol_r, zer_r] = pzmap (varargin)
 
     colororder = get (gca, "colororder");
     rc = rows (colororder);
-    def_pol = arrayfun (@(k) {"x", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
-    def_zer = arrayfun (@(k) {"o", "linewidth", 2, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    def_pol = arrayfun (@(k) {"x", "linewidth", 2, "markersize", ms, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
+    def_zer = arrayfun (@(k) {"o", "linewidth", 2, "markersize", ms, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
     idx_no_sty = cellfun (@isempty, sty);
     sty_pol = sty_zer = sty;
     sty_pol(idx_no_sty) = def_pol(idx_no_sty);
@@ -136,14 +142,14 @@ function [pol_r, zer_r] = pzmap (varargin)
       endif
       if (isempty (zer_re{1,k}))
         hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:});
-        leg_args = { leg_args{:}, ["poles ", name] }; 
+        leg_args = { leg_args{:}, ["poles ", name] };
       elseif  (isempty (pol_re{1,k}))
         hx = plot (zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
-        leg_args = { leg_args{:}, ["zeros ", name] }; 
+        leg_args = { leg_args{:}, ["zeros ", name] };
       else
         hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:}, ...
                    zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
-        leg_args = { leg_args{:}, ["poles ", name], ["zeros ", name] }; 
+        leg_args = { leg_args{:}, ["poles ", name], ["zeros ", name] };
       endif
       h = [ h; hx ];
     endfor
@@ -191,7 +197,7 @@ function [pol_r, zer_r] = pzmap (varargin)
     zer_r = zer{1};
 
   endif
-  
+
 endfunction
 
 

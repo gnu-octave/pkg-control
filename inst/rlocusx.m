@@ -190,7 +190,8 @@ function rlocusx(sys,varargin)
   ymax = ymax+dy;
 
   % Some constants for colors and markers
-  col_zp  = [0.85000   0.32500   0.09800];  % color of open loop zeros and poles
+  col_z   = [0.00000   0.75000   0.00000];  % color of open loop zeros and poles
+  col_p   = [0.75000   0.00000   0.00000];  % color of open loop zeros and poles
   col_clp = [0.10000   0.10000   0.10000];  % color of closed loop poles
   col_rl1 = [0.00000   0.44700   0.74100];  % color of first branch of rlocus
   col_rl2 = [0.30100   0.74500   0.93300];  % color of last branch of rlocus
@@ -202,23 +203,27 @@ function rlocusx(sys,varargin)
   lw_stab = 1;              % line width for region of stability
 
   % Marker size depending on engine
+  ms = 10;
   if (strcmp(graphics_toolkit(),'gnuplot'))
     ms = 6;
-  else
-    ms = 12;
-  end
+  endif
 
   % define a cell array for storing the figures with the
   % Title and lables
   clf (gcf ());
   rlocus_fig = gcf ();                  % remember for resetting focus to this figure
 
-  kmin = sprintf("%.3f",gvec(1));       % Interval of gain
-  kmax = sprintf("%.3f",gvec(end));
+  name = inputname (1);
+  if (! isempty (name))
+    name = [name, ' '];
+  endif
 
-  title({['Root locus (K = ',kmin,' ... ',kmax,')'];...
-          'click: gain, s/i: step/imp., b/m: bode/margin, a: all, c: clear, d: del fig., x: end'});
+  title_string = sprintf ('Root loucs %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
+  set (gcf (), 'numbertitle', 'off');
+  set (gcf (), 'name', title_string);
+  title('click: gain, s/i: step/imp., b/m: bode/margin, a: all, c: clear, d: del fig., x: end');
 
+  box on;
   hold on;       	% from here on, do not delete what is drawn so far
 
   % Draw the stability region and put axes labels depending
@@ -238,8 +243,8 @@ function rlocusx(sys,varargin)
   legend ('','autoupdate','off');
 
   % Draw the open poles and zeros
-  plot(real(p),imag(p),'x;open loop poles;','markersize',ms,'linewidth',lw,'color',col_zp);
-  plot(real(z),imag(z),'o;open loop zeros;','markersize',ms,'linewidth',lw,'color',col_zp);
+  plot(real(p),imag(p),'x;open loop poles;','markersize',ms,'linewidth',lw,'color',col_p);
+  plot(real(z),imag(z),'o;open loop zeros;','markersize',ms,'linewidth',lw,'color',col_z);
 
   % Draw root locii
   for j = 1:n
@@ -248,7 +253,7 @@ function rlocusx(sys,varargin)
     else
       form = '-';
     end
-    cj = (j-1)/(n-1); % each branch in a slightly different color
+    cj = (j-1)/n; % each branch in a slightly different color
     col = col_rl2*cj + col_rl1*(1-cj);
     plot(real(rlpol(j,:)),imag(rlpol(j,:)),form,'linewidth',lw,'color',col);
   end
@@ -422,11 +427,23 @@ function rlocusx(sys,varargin)
             endfor
           endif
 
-          % Create figure for desired plot
+          % Create figure for desired plot and make sure, it is not hidden
+          % behind the main figure
+          main_pos = get (gcf (), 'position');
+
           fig_h(K_idx, b_idx) = ...
               figure ('DeleteFcn', {@__sim_fig_close_callback__, handle_sim_poles, col_clp},...
                       'name',['K = ',num2str(K),': ',fig_n{b_idx}],...
-                      'numbertitle','off');
+                      'numbertitle','off',...
+                      'visible', 'off');
+
+          child_pos = get (fig_h(K_idx, b_idx), 'position');
+          for i = 1:2
+            if (child_pos(i) == main_pos(i))
+              child_pos(i) = child_pos(i) + (-1)^i*child_pos(i+2)/4;
+            endif
+          endfor
+          set (fig_h(K_idx, b_idx), 'position', child_pos, 'visible', 'on');
 
           % Do the desired plots
           switch (but)
@@ -447,31 +464,35 @@ function rlocusx(sys,varargin)
               if (but == b_step)
                 [y,t] = step (closed_loop);
                 plot ([t(1),t(end)],[1 1],'linewidth',lw,'color',col_r);
+                if (tsam > 0)
+                  [t,y] = stairs (t,y);
+                endif
                 plot (t,y,'linewidth',lw,'color',col_y);
                 ylabel ('closed loop output and reference');
                 title ({['Closed loop step response y for K = ',num2str(K)] });
                 legend ('reference y_r','output y');
               elseif (but == b_imp)
                 [y,t] = impulse (closed_loop);
+                if (tsam > 0)
+                  [t,y] = stairs (t,y);
+                endif
                 plot (t,y,'linewidth',lw,'color',col_y);
                 ylabel ('impulse responce output and reference');
                 title ({['Closed loop impulse response y for K = ',num2str(K)] });
                 legend ('output y');
               endif
 
-              figure (rlocus_fig)   % reset focus to root locus for ginput ()
-
             case {b_bode}
               % Bode plot of open loop
               bode (K*sys)
-              figure (rlocus_fig)   % reset focus to root locus for ginput ()
 
             case {b_marg}
               % Bode plot of open loop
               margin (K*sys)
-              figure (rlocus_fig)   % reset focus to root locus for ginput ()
 
           endswitch
+
+          figure (rlocus_fig)   % reset focus to root locus for ginput ()
 
         endif
 

@@ -17,8 +17,8 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} rlocus (@var{sys}) 
-## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k}) 
+## @deftypefn {Function File} {} rlocus (@var{sys})
+## @deftypefnx {Function File} {[@var{rldata}, @var{k}] =} rlocus (@var{sys}, @var{increment}, @var{min_k}, @var{max_k})
 ## Display root locus plot of the specified @acronym{SISO} system.
 ##
 ## @strong{Inputs}
@@ -34,7 +34,7 @@
 ## @end table
 ##
 ## @strong{Outputs}
-## @table @var 
+## @table @var
 ## @item rldata
 ## Data points plotted: in column 1 real values, in column 2 the imaginary values.
 ## @item k
@@ -78,7 +78,9 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   endif
 
   ## Convert the input to a transfer function if necessary
-  [num, den] = tfdata (sys, "vector");     # extract numerator/denominator polynomials
+  [num_full, den] = tfdata (sys, "vector");     # extract numerator/denominator polynomials
+  num = __remove_leading_zeros__ (num_full);
+  den = __remove_leading_zeros__ (den);
   lnum = length (num);
   lden = length (den);
   ## equalize length of num, den polynomials
@@ -117,7 +119,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   if (! isempty (k_break))
     maxk = max (max (k_break), maxk);
   endif
-  
+
   if (nas == 0)
     maxk = max (1, 2*maxk);                # get at least some root locus
   else
@@ -126,13 +128,13 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     if (dmax == 0)
       dmax = 1;
     endif
- 
+
     ## get gain for dmax along each asymptote, adjust maxk if necessary
     svals = cas + dmax * exp (j*angles);
     kvals = -polyval (den, svals) ./ polyval (num, svals);
     maxk = max (maxk, max (real (kvals)));
   endif
-  
+
   ## check for input arguments:
   if (nargin > 2)
     mink = min_k;
@@ -163,10 +165,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
   rlzer = roots (num);
 
   ## update num to be the same length as den
-  lnum = length (num);  
-  if (lnum < lden)
-    num = [zeros(1,lden - lnum),num];
-  endif
+  num = num_full;
 
   ## compute preliminary pole sets
   nroots = lden - 1;
@@ -175,7 +174,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
    rlpol(1:nroots,ii) = vec(sort_complex_roots (roots (den + gain*num)));
   endfor
 
-  ## set smoothing tolerance 
+  ## set smoothing tolerance
   smtolx = 0.01*(max (max (real (rlpol))) - min (min (real (rlpol))));
   smtoly = 0.01*(max (max (imag (rlpol))) - min (min (imag (rlpol))));
   smtol = max (smtolx, smtoly);
@@ -187,7 +186,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     done = 1 ;                             # assume done
     dp = abs (diff (rlpol.')).';
     maxdp = max (dp);
-    
+
     ## search for poles whose neighbors are distant
     if (lden == 2)
       idx = find (dp > smtol);
@@ -204,7 +203,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       g2 = gvec(i2);
       p2 = rlpol(:,i2);
 
-      ## isolate poles in p1, p2 
+      ## isolate poles in p1, p2
       if (max (abs (p2-p1)) > smtol)
         newg = linspace (g1, g2, 5);
         newg = newg(2:4);
@@ -237,6 +236,12 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
 
     %inname = get (sys, "inname");
     %outname = get (sys, "outname");
+
+    % Marker size depending on engine
+    ms = 10;
+    if (strcmp(graphics_toolkit(),'gnuplot'))
+      ms = 6;
+    endif
 
     ## build plot command args pole by pole
 
@@ -280,16 +285,16 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     ## poles and zeros last
     args{1,++kk} = real (olpol);
     args{2,kk} = imag (olpol);
-    args{3,kk} = "rx;open loop poles;";
+    args{3,kk} = "x;open loop poles;";
     if (! isempty (rlzer))
       args{1,++kk} = real (rlzer);
       args{2,kk} = imag (rlzer);
-      args{3,kk} = "go;zeros;";
+      args{3,kk} = "o;zeros;";
     endif
     hplt = plot (args{:});
-    set (hplt(kk--), "markersize", 6);
+    set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0, 0.75, 0]});
     if (! isempty (rlzer))
-      set (hplt(kk--), "markersize", 6);
+      set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0.75, 0, 0]});
     endif
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);
@@ -297,8 +302,15 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     legend ("boxon");
     grid ("on");
     axis (axlim);
-    title (["Root Locus of ", inputname(1)]);
-    xlabel (sprintf ("Real Axis     gain = [%g, %g]", gvec(1), gvec(ngain)));
+
+    name = inputname (1);
+    if (! isempty (name))
+      name = [name, ' '];
+    endif
+    title_string = sprintf ('Root loucs %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
+    title (title_string);
+
+    xlabel ("Real Axis");
     ylabel ("Imaginary Axis");
     set (gcf (), "visible", "on");
   else
@@ -356,19 +368,33 @@ function c = sort_complex_roots (c)
 
   ## This function sorts complex numbers such that
   ## 1) All the pure reals come first and are sorted.
-  ## 2) All complex numbers are sorted by the regular sort. 
+  ## 2) All complex numbers are sorted by the regular sort.
 
   c = vec (c);
 
   idx = (imag (c) == 0);
   cre = sort (c(idx));
   cim = sort (c(! idx));
-  
+
   c = vertcat (cre, cim);
-  
+
 endfunction
 
 %!demo
 %! s = tf('s');
 %! g = (s^2+2*s+2)/(s*(s^4+9*s^3+33*s^2+51*s+26));
 %! rlocus(g);
+
+%!test
+%! num = [0 0 1];
+%! den = [1 2 0];
+%! G = tf(num,den);
+%! [rldata,ko,~,gvec] = rlocus(G);
+%! idx = floor(length(gvec)/2);
+%! go = gvec(idx);
+%! rlo = rldata(1,idx);
+%! ke = 1;
+%! rle = roots (den + go*num);
+%! assert (ko, ke, 1e-4);
+%! assert (rlo, rle(2), 1e-4);
+

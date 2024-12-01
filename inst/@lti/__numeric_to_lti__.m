@@ -31,22 +31,22 @@ function [sys1, sys2] = __numeric_to_lti__ (sys1, sys2)
   for i = 1:2
     if (! isa (sys{i}, "lti"))
       if (! isa (sys{i}, "numeric"))
-        error ("lti: mtimes: one system is neither an lti system nor a numeric value");
+        error ("lti: mtimes/mplus: one system is neither an lti system nor a numeric value");
       else
         sys{i} = tf (sys{i});
       endif
     endif
   endfor
-  
+
   sys1 = sys{1};
   sys2 = sys{2};
 
   % If one of the two systems is only a static gain, just take the
   % sampling time of the other system
-  if (isstaticgain (sys1) && sys2.tsam > 0)
-    sys1 = c2d (sys1, sys2.tsam);
-  elseif (isstaticgain (sys2) && sys1.tsam > 0)
-    sys2 = c2d (sys2, sys1.tsam);
+  if (isstaticgain(sys1) && (get(sys1,'tsam') == 0) && (get(sys2,'tsam') > 0))
+    sys1 = c2d (sys1, get(sys2,'tsam'));
+  elseif (isstaticgain(sys2)  && (get(sys2,'tsam') == 0) && (get(sys1,'tsam') > 0))
+    sys2 = c2d (sys2, get(sys1,'tsam'));
   endif
 
 endfunction

@@ -40,6 +40,11 @@
 ## @end table
 ##
 ## @strong{Equations}
+## @tex
+## $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$
+## $$ J(x_0) = E \left[ \lim_{T\to\infty} \, \frac{1}{T}\,\int_0^T  [x^T \, u^T ] Q_{xu}\, [x^T \, u^T ]^T + x_i^TQ_i\,x_i \,\, dt \right] $$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
 ## .
@@ -51,6 +56,8 @@
 ##
 ## @end group
 ## @end example
+## @end ifnottex
+##
 ## @seealso{lqr, kalman, lqi}
 ## @end deftypefn
 
