@@ -35,19 +35,15 @@ function str = tfpoly2str (p, tfvar = "x")
     ## first element (highest order)
     a = p.poly(1);
 
-    if (a < 0)
-      cs = "-";
-    else
-      cs = "";
-    endif
+    [a,cs,p1,p2] = __fix_sign__ (a, true);
 
     if (lp == 1)
-      str = [cs, num2str(abs (a), 4)];
+      str = [cs, p1, num2str(a, 4), p2];
     else
-      if (abs (a) == 1)
+      if (a == 1)
         str = [cs, __variable__(tfvar, lp-1)];
       else
-        str = [cs, __coefficient__(a), " ", __variable__(tfvar, lp-1)];
+        str = [cs, p1, num2str(a,4), p2, " ", __variable__(tfvar, lp-1)];
       endif
     endif
 
@@ -57,16 +53,13 @@ function str = tfpoly2str (p, tfvar = "x")
         a = p.poly(k);
 
         if (a != 0)
-          if (a < 0)
-            cs = " - ";
-          else
-            cs = " + ";
-          endif
 
-          if (abs (a) == 1)
+          [a,cs,p1,p2] = __fix_sign__ (a, false);
+
+          if (a == 1)
             str = [str, cs, __variable__(tfvar, lp-k)];
           else
-            str = [str, cs, __coefficient__(a), " ", __variable__(tfvar, lp-k)];
+            str = [str, cs, p1, num2str(a,4), p2, " ", __variable__(tfvar, lp-k)];
           endif
         endif
       endfor
@@ -75,28 +68,37 @@ function str = tfpoly2str (p, tfvar = "x")
       a = p.poly(lp);
 
       if (a != 0)
-        if (a < 0)
-          cs = " - ";
-        else
-          cs = " + ";
-        endif
-
-        str = [str, cs, num2str(abs (a), 4)];
+        [a,cs,p1,p2] = __fix_sign__ (a, false);
+        str = [str, cs, p1, num2str(a,4), p2];
       endif
+
     endif
   endif
 
 endfunction
 
 
-function str = __coefficient__ (a)
+function [a,cs,p1,p2] = __fix_sign__ (a,first)
 
-  b = abs (a);  
-
-  if (b == 1)
-    str = "";
+  if (real (a) < 0)
+    if (first)
+      cs = "-";
+    else
+      cs = " - ";
+    endif
+    a = -a
   else
-    str = num2str (b, 4);
+    if (first)
+      cs = "";
+    else
+      cs = " + ";
+    endif
+  endif
+
+  if (imag(a) != 0)
+    p1 = "("; p2 = ")";
+  else
+    p1 = ""; p2 = "";
   endif
 
 endfunction

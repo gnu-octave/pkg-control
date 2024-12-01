@@ -30,7 +30,7 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -1)
     if (isempty (num))                  # tf ([], [])
       num = den = {};
       static_gain = true;
-    elseif (is_real_matrix (num))       # static gain  tf (matrix),  tf (matrix, [])
+    elseif (is_matrix (num))       # static gain  tf (matrix),  tf (matrix, [])
       num = num2cell (num);
       den = num2cell (ones (size (num)));
       static_gain = true;
@@ -72,9 +72,9 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -1)
   try
     num = cellfun (@tfpoly, num, "uniformoutput", false);
   catch
-    error ("tf: numerator 'num' must be a real-valued, non-empty vector or a cell of such vectors");
+    error ("tf: numerator 'num' must be a non-empty vector or a cell of such vectors");
   end_try_catch
-  
+
   try
     den = cellfun (@tfpoly, den, "uniformoutput", false);
   catch
@@ -84,7 +84,7 @@ function [num, den, tsam, tfvar] = __adjust_tf_data__ (num, den, tsam = -1)
   if (any (cellfun (@is_zero, den)(:)))
     error ("tf: denominator(s) cannot be zero");
   endif
-  
+
   if (static_gain)
     tfvar = "x";
   elseif (tsam == 0)

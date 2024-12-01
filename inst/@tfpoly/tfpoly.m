@@ -36,11 +36,16 @@ function p = tfpoly (a)
         p = a;
         return;
       elseif (is_vector (a))
+        if (! is_real_vector (a))
+          warning (["The resulting transfer function might have complex coefficients.\n", ...
+           "         Most functions from the Control Package won't work for transfer\n", ...
+           "         functions with complex coefficients\n"]);
+        endif
         p.poly = reshape (a, 1, []);
         p = class (p, "tfpoly");
         p = __remove_leading_zeros__ (p);
       else
-        error ("tfpoly: argument must be a real-valued vector");
+        error ("tfpoly: argument must be a vector");
       endif
 
     otherwise
