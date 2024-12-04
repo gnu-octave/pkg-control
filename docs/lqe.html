@@ -361,7 +361,12 @@
 					<li><a href="estim.html" class="text-decoration-none font-monospace"><small>estim</small></a></li>
 					<li><a href="kalman.html" class="text-decoration-none font-monospace"><small>kalman</small></a></li>
 					<li><a href="lqe.html" class="text-decoration-none font-monospace fw-bolder"><small>lqe</small></a></li>
+					<li><a href="lqg.html" class="text-decoration-none font-monospace"><small>lqg</small></a></li>
+					<li><a href="lqgreg.html" class="text-decoration-none font-monospace"><small>lqgreg</small></a></li>
+					<li><a href="lqgtrack.html" class="text-decoration-none font-monospace"><small>lqgtrack</small></a></li>
+					<li><a href="lqi.html" class="text-decoration-none font-monospace"><small>lqi</small></a></li>
 					<li><a href="lqr.html" class="text-decoration-none font-monospace"><small>lqr</small></a></li>
+					<li><a href="lqry.html" class="text-decoration-none font-monospace"><small>lqry</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -420,6 +425,7 @@
 				<ul style="list-style-type: none; padding-left: 20px;">
 					<li><a href="acker.html" class="text-decoration-none font-monospace"><small>acker</small></a></li>
 					<li><a href="place.html" class="text-decoration-none font-monospace"><small>place</small></a></li>
+					<li><a href="reg.html" class="text-decoration-none font-monospace"><small>reg</small></a></li>
 					<li><a href="rlocus.html" class="text-decoration-none font-monospace"><small>rlocus</small></a></li>
 					<li><a href="rlocusx.html" class="text-decoration-none font-monospace"><small>rlocusx</small></a></li>
 				</ul>
@@ -500,12 +506,8 @@
 <p> Kalman filter for continuous-time systems.
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> .
- x = Ax + Bu + Gw   (State equation)
- y = Cx + Du + v    (Measurement Equation)
- E(w) = 0, E(v) = 0, cov(w) = Q, cov(v) = R, cov(w,v) = S
- </pre><pre class="example"> </pre></td></tr></table>
-
+<p> $$ \dot{x} = A\,x + B\,u + G\,w $$$$      y  = C\,x + D\,u + v $$$$ E(w) = 0,\,\, E(v) = 0,\,\, cov(w) = Q,\,\, cov(v) = R,\,\, cov(w,v) = S $$
+</p> 
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys</var></dt>
@@ -559,13 +561,8 @@
 </dl>
 
 <p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> .
- x = Ax + Bu + L(y - Cx -Du)          
-
- E = eig(A - L*C)
- 
- </pre><pre class="example"> </pre></td></tr></table>
-<p> <strong>See also: </strong>
+ $$ \dot{x} = A\,x + B\,u + L\,(y - C\, - D\,u) $$$$ E = \sigma (A - L\, C) $$
+  <strong>See also: </strong>
   <a href="dare.html">dare</a>, 
   <a href="care.html">care</a>, 
   <a href="dlqr.html">dlqr</a>, 

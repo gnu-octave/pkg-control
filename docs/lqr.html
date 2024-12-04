@@ -361,7 +361,12 @@
 					<li><a href="estim.html" class="text-decoration-none font-monospace"><small>estim</small></a></li>
 					<li><a href="kalman.html" class="text-decoration-none font-monospace"><small>kalman</small></a></li>
 					<li><a href="lqe.html" class="text-decoration-none font-monospace"><small>lqe</small></a></li>
+					<li><a href="lqg.html" class="text-decoration-none font-monospace"><small>lqg</small></a></li>
+					<li><a href="lqgreg.html" class="text-decoration-none font-monospace"><small>lqgreg</small></a></li>
+					<li><a href="lqgtrack.html" class="text-decoration-none font-monospace"><small>lqgtrack</small></a></li>
+					<li><a href="lqi.html" class="text-decoration-none font-monospace"><small>lqi</small></a></li>
 					<li><a href="lqr.html" class="text-decoration-none font-monospace fw-bolder"><small>lqr</small></a></li>
+					<li><a href="lqry.html" class="text-decoration-none font-monospace"><small>lqry</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -420,6 +425,7 @@
 				<ul style="list-style-type: none; padding-left: 20px;">
 					<li><a href="acker.html" class="text-decoration-none font-monospace"><small>acker</small></a></li>
 					<li><a href="place.html" class="text-decoration-none font-monospace"><small>place</small></a></li>
+					<li><a href="reg.html" class="text-decoration-none font-monospace"><small>reg</small></a></li>
 					<li><a href="rlocus.html" class="text-decoration-none font-monospace"><small>rlocus</small></a></li>
 					<li><a href="rlocusx.html" class="text-decoration-none font-monospace"><small>rlocusx</small></a></li>
 				</ul>
@@ -549,19 +555,14 @@
 </dl>
 
 <p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> .
- x = A x + B u,   x(0) = x0
-
-         inf
- J(x0) = INT (x' Q x  +  u' R u  +  2 x' S u)  dt
-          0
-
- L = eig (A - B*G)
- </pre><pre class="example"> </pre></td></tr></table>
-<p> <strong>See also: </strong>
+ $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$$$ J(x_0) = \int_0^\infty  x^T Q\, x + u^T R\, u + 2\, x^T S\, u \,\, dt $$$$ L = \sigma (A - B\, G) $$
+ <strong>See also: </strong>
   <a href="care.html">care</a>, 
   <a href="dare.html">dare</a>, 
-  <a href="dlqr.html">dlqr</a>
+  <a href="dlqr.html">dlqr</a>, 
+  <a href="lqry.html">lqry</a>, 
+  <a href="lqi.html">lqi</a>, 
+  <a href="lqg.html">lqg</a>
 </p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lqr.m">lqr</a>
