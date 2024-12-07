@@ -1,6 +1,6 @@
 ---
-name: Control Package
-about: Bugs and feature requests to the Control Package
+name: Report Control Package issues 
+about: Bugs and feature requests for the Control Package
 title: ''
 labels: ''
 assignees: ''
