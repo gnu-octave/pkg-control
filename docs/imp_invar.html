@@ -361,7 +361,12 @@
 					<li><a href="estim.html" class="text-decoration-none font-monospace"><small>estim</small></a></li>
 					<li><a href="kalman.html" class="text-decoration-none font-monospace"><small>kalman</small></a></li>
 					<li><a href="lqe.html" class="text-decoration-none font-monospace"><small>lqe</small></a></li>
+					<li><a href="lqg.html" class="text-decoration-none font-monospace"><small>lqg</small></a></li>
+					<li><a href="lqgreg.html" class="text-decoration-none font-monospace"><small>lqgreg</small></a></li>
+					<li><a href="lqgtrack.html" class="text-decoration-none font-monospace"><small>lqgtrack</small></a></li>
+					<li><a href="lqi.html" class="text-decoration-none font-monospace"><small>lqi</small></a></li>
 					<li><a href="lqr.html" class="text-decoration-none font-monospace"><small>lqr</small></a></li>
+					<li><a href="lqry.html" class="text-decoration-none font-monospace"><small>lqry</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -420,6 +425,7 @@
 				<ul style="list-style-type: none; padding-left: 20px;">
 					<li><a href="acker.html" class="text-decoration-none font-monospace"><small>acker</small></a></li>
 					<li><a href="place.html" class="text-decoration-none font-monospace"><small>place</small></a></li>
+					<li><a href="reg.html" class="text-decoration-none font-monospace"><small>reg</small></a></li>
 					<li><a href="rlocus.html" class="text-decoration-none font-monospace"><small>rlocus</small></a></li>
 					<li><a href="rlocusx.html" class="text-decoration-none font-monospace"><small>rlocusx</small></a></li>
 				</ul>
@@ -500,24 +506,68 @@
  conserving impulse response.
 </p>
 <div class="ms-5">
-<p> If <var>fs</var> is not specified, or is an empty vector, it defaults to 1Hz.
+<p> MIMO systems are only supported with <var>sys_in</var> as input argument.
 </p>
-<p> If <var>tol</var> is not specified, it defaults to 0.0001 (0.1%)
- This function does the inverse of invimpinvar so that the following example should
- restore the original values of <var>a</var> and <var>b</var>.
-</p>
-<p> <code>invimpinvar</code> implements the reverse of this function.
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> [b, a] = impinvar (b, a);
- [b, a] = invimpinvar (b, a);
- </pre></td></tr></table>
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>b</var></dt>
+</dl>
+<p> Numerator coefficients of continuous-time LTI system. 
+ </p></dd>
+<dt> <var>a</var></dt>
+</dl>
+<p> Denominator coefficients of continuous-time LTI system.
+ </p></dd>
+<dt> <var>fs</var> </dt>
+</dl>
+<p> Sampling frequency. If <var>fs</var> is not specified, or is an empty vector,
+ it defaults to 1Hz.
+ tol
+ Tolerance of the internally used function minreal for canceling identical
+ poles and zeros. If <var>tol</var> is not specified, it defaults to 0.0001 (0.1%).
+ </p></dd>
+<dt> <var>sys_in</var></dt>
+</dl>
+<p> System definition of the continuous-time LTI system. This can also be
+ a MIMO system.
+ </p></dd>
+</dl>
 
-<p> Reference: Thomas J. Cavicchi (1996) &ldquo;Impulse invariance and multiple-order
- poles&rdquo;. IEEE transactions on signal processing, Vol 44 (9): 2344&ndash;2347
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>b_out</var></dt>
+</dl>
+<p> Numerator coefficients of the discrete-time impulse invariant LTI system. 
+ </p></dd>
+<dt> <var>a_out</var></dt>
+</dl>
+<p> Denominator coefficients of the discrete-time impulse invariant LTI system. 
+ </p></dd>
+<dt> <var>sys_out</var></dt>
+</dl>
+<p> Discrete-time impulse invaraiant LTI system. If <var>sys_in</var> is given as
+ state space representation, <var>sys_out</var> is also returned in state space,
+ otherwise as transfer function.
+ </p></dd>
+</dl>
+
+<p> <strong>Algorithm</strong>
+</p>
+<p> The step equivalent discretization of G(s) (zoh) results in
+ G_zoh(z) = (z-1)/z * Z{G(s)/s} where Z{} is the z-transformation.
+ The transfer function of the impulse equivalent discretization
+ is given by T*Z{G(s)}. Therefore, the zoh discretizaiton method for
+ s*G(s) multipled by T*z/(z-1) leads to the desired result.
+</p>
+<p> <strong>Remark</strong>
+</p>
+<p> For the impulse response of a discrete-time system, the input
+ sequence {1/T,0,0,0,...} and not the unit impulse is considered.
+ For this reason, the factor T is required for the impulse invaraint
+ discretizaiton (see Algorithm).
 </p>
 <p> <strong>See also: </strong>
-zoh, 
-bilinear, 
-invimpinvar
+c2d
 </p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/imp_invar.m">imp_invar</a>
