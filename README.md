@@ -46,3 +46,6 @@ You can also clone this repository (using the option `--recurse-submodules` sinc
 - `make help`<br>
   Show all targets for `make`
 
+## Contributing to the control package
+
+Information on how to contribute to the control package can be found in [this document](CONTRIBUTING.md).
