@@ -20,7 +20,7 @@ SC_SMOD := ../slicot-reference
 
 AR := $(shell $(MKOCTFILE) -p AR)
 
-PKG_CXXFLAGS := -Wall -Wno-deprecated-declarations $(PKG_CXXFLAGS_APPEND)
+PKG_CXXFLAGS := -Wall $(PKG_CXXFLAGS_APPEND)
 
 all: __control_slicot_functions__.oct \
      __control_helper_functions__.oct

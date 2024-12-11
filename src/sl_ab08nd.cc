@@ -82,10 +82,10 @@ For internal use only.")
         // arguments in
         char equil;
         
-        Matrix a = args(0).matrix_value ();
-        Matrix b = args(1).matrix_value ();
-        Matrix c = args(2).matrix_value ();
-        Matrix d = args(3).matrix_value ();
+        const Matrix a = args(0).matrix_value ();
+        const Matrix b = args(1).matrix_value ();
+        const Matrix c = args(2).matrix_value ();
+        const Matrix d = args(3).matrix_value ();
         const F77_INT scaled = args(4).int_value ();
         
         if (scaled == 0)
@@ -136,10 +136,10 @@ For internal use only.")
         F77_XFCN (ab08nd, AB08ND,
                  (equil,
                   n, m, p,
-                  a.fortran_vec (), lda,
-                  b.fortran_vec (), ldb,
-                  c.fortran_vec (), ldc,
-                  d.fortran_vec (), ldd,
+                  a.data (), lda,
+                  b.data (), ldb,
+                  c.data (), ldc,
+                  d.data (), ldd,
                   nu, rank, dinfz,
                   nkror, nkrol, infz,
                   kronr, kronl,
