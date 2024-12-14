@@ -2,7 +2,13 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-4.1.0  2024-12-06
+control-4.1.0+  Upcoming version 4.1.1, not yet released
+===============================================================================
+
+ ** minor fixes in the build system
+
+===============================================================================
+control-4.1.0  Release date 2024-12-06
 ===============================================================================
 
  ** lqg, lqgtrack, lqgreg, reg: new functions for linear dynamic
