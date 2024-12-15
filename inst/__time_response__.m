@@ -47,7 +47,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       error ("%s: with output arguments, only one system is allowed\n", response);
     endif
     if any (sty_idx)
-      warning ("%s: with output arguments, all style parameters are ignored\n", response); 
+      warning ("%s: with output arguments, all style parameters are ignored\n", response);
     endif
   endif
 
@@ -243,8 +243,8 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       outname = get (args(sys_idx){1}, "outname");
       inname = get (args(sys_idx){1}, "inname");
     else
-      outname = cell(cell(1,rows));
-      inname = cell(cell(1,cols));
+      outname = cell(1,rows);
+      inname = cell(1,cols);
     endif
     outname = __labels__ (outname, "y");
     inname = __labels__ (inname, "u");

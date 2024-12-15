@@ -93,7 +93,7 @@ Read the source code in @code{lti_input_idx.cc} for details.\n\
       offset = 1;
     }
 
-#if OCTAVE_MAJOR_VERSION > 8
+#if OCTAVE_MAJOR_VERSION > 6
     octave::range<double> mat_idx (1, idx-offset);
     octave::range<double> opt_idx (idx+1-offset, len);
 #else
