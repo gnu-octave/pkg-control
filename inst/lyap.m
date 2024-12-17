@@ -33,7 +33,7 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB01SB03MD, SB04MD and SG03AD},
+## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB03MD SB04MD and SG03AD},
 ## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
@@ -50,13 +50,20 @@ function [x, scale] = lyap (a, b, c, e)
 
   switch (nargin)
     case 2                                      # Lyapunov equation
-  
+
+      if (! issymmetric (b))
+        ## b not symmetric,
+        ## use Sylvester equation a*x + x*b + c = 0 with b = a'
+        [x, scale] = lyap (a, a', b);
+        return;
+      endif
+
       if (! is_real_square_matrix (a, b))
         ## error ("lyap: a, b must be real and square");
         error ("lyap: %s, %s must be real and square", ...
                 inputname (1), inputname (2));
       endif
-  
+
       if (rows (a) != rows (b))
         ## error ("lyap: a, b must have the same number of rows");
         error ("lyap: %s, %s must have the same number of rows", ...
@@ -67,9 +74,9 @@ function [x, scale] = lyap (a, b, c, e)
       [x, scale] = __sl_sb03md__ (a, -b, false);     # AX + XA' = -B
 
       ## x /= scale;                            # 0 < scale <= 1
-    
+
     case 3                                      # Sylvester equation
-    
+
       if (! is_real_square_matrix (a, b))
         ## error ("lyap: a, b must be real and square");
         error ("lyap: %s, %s must be real and square", ...
@@ -85,23 +92,23 @@ function [x, scale] = lyap (a, b, c, e)
       x = __sl_sb04md__ (a, b, -c);  # AX + XB = -C
 
     case 4                                      # generalized Lyapunov equation
-    
+
       if (! isempty (c))
         print_usage ();
       endif
-      
+
       if (! is_real_square_matrix (a, b, e))
         ## error ("lyap: a, b, e must be real and square");
         error ("lyap: %s, %s, %s must be real and square", ...
                 inputname (1), inputname (2), inputname (4));
       endif
-      
+
       if (rows (b) != rows (a) || rows (e) != rows (a))
         ## error ("lyap: a, b, e must have the same number of rows");
         error ("lyap: %s, %s, %s must have the same number of rows", ...
                 inputname (1), inputname (2), inputname (4));
       endif
-      
+
       if (! issymmetric (b))
         ## error ("lyap: b must be symmetric");
         error ("lyap: %s must be symmetric", ...
@@ -109,7 +116,7 @@ function [x, scale] = lyap (a, b, c, e)
       endif
 
       [x, scale] = __sl_sg03ad__ (a, e, -b, false);  # AXE' + EXA' = -B
-      
+
       ## x /= scale;                            # 0 < scale <= 1
 
     otherwise
@@ -125,13 +132,30 @@ endfunction
 
 
 ## Lyapunov
-%!shared X, X_exp
-%! A = [1, 2; -3, -4];
-%! Q = [3, 1; 1, 1];
+%!shared M, Me
+%! A = [2.0   1.0   3.0
+%!      0.0   2.0   1.0
+%!      6.0   1.0   2.0];
+%! Q = [3  1  1
+%!      1  1 -1
+%!      1 -1  0];
 %! X = lyap (A, Q);
-%! X_exp = [ 6.1667, -3.8333;
-%!          -3.8333,  3.0000];
-%!assert (X, X_exp, 1e-4);
+%! M = A*X + X*A' + Q;
+%! Me = zeros (3,3);
+%!assert (M, Me, 1e-4);
+
+## Lyapunov with non-symmetric Q
+%!shared M, Me
+%! A = [2.0   1.0   3.0
+%!      0.0   2.0   1.0
+%!      6.0   1.0   2.0];
+%! Q = [3  1 -3
+%!      0  1 -2
+%!      1  1  0];
+%! X = lyap (A, Q);
+%! M = A*X + X*A' + Q;
+%! Me = zeros (3,3);
+%!assert (M, Me, 1e-4);
 
 ## Sylvester
 %!shared X, X_exp
