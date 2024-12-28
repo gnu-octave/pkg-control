@@ -26,7 +26,6 @@ Makefile.conf
 oct-alt-includes.h
 config.*
 *.oct
-control.project
 
 # temp info and doc files
 
