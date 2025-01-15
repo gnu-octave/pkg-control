@@ -30,13 +30,13 @@ Version: 0.2
 
 // PKG_ADD: autoload ("is_real_square_matrix", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_real_square_matrix, args, nargout,
-   "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {} is_real_square_matrix (@var{a}, @dots{})\n\
-Return true if all arguments are real-valued, square matrices and false otherwise.\n\
-@var{[]} is a valid square matrix.\n\
-Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
-@seealso{is_real_matrix, is_real_vector, is_real_scalar}\n\
-@end deftypefn")
+   "-*- texinfo -*-\n"
+   "@deftypefn {Loadable Function} {} is_real_square_matrix (@var{a}, @dots{})@*\n"
+   "Return true if all arguments are real-valued, square matrices and false otherwise.@*\n"
+   "@var{[]} is a valid square matrix.@*\n"
+   "Avoid nasty stuff like @code{true = isreal (\"a\")}@*\n"
+   "@seealso{is_real_matrix, is_real_vector, is_real_scalar}@*\n"
+   "@end deftypefn")
 {
     octave_value retval = true;
     octave_idx_type nargin = args.length ();

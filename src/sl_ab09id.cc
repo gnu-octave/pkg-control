@@ -62,10 +62,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ab09id__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_ab09id__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot AB09ID Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ab09id__ (@dots{})\n"
+   "Wrapper for SLICOT function AB09ID.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -89,7 +90,11 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
-        
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+          error ("__sl_ab09id__: inputs must not contain NaN or Inf\n");
+
         const F77_INT idico = args(4).int_value ();
         const F77_INT iequil = args(5).int_value ();
         F77_INT nr = args(6).int_value ();
@@ -102,11 +107,19 @@ For internal use only.")
         Matrix cv = args(12).matrix_value ();
         Matrix dv = args(13).matrix_value ();
       
+        if (av.any_element_is_inf_or_nan () || bv.any_element_is_inf_or_nan () ||
+            cv.any_element_is_inf_or_nan () || dv.any_element_is_inf_or_nan ())
+          error ("__sl_ab09id__: inputs must not contain NaN or Inf\n");
+
         Matrix aw = args(14).matrix_value ();
         Matrix bw = args(15).matrix_value ();
         Matrix cw = args(16).matrix_value ();
         Matrix dw = args(17).matrix_value ();
         
+        if (aw.any_element_is_inf_or_nan () || bw.any_element_is_inf_or_nan () ||
+            cw.any_element_is_inf_or_nan () || dw.any_element_is_inf_or_nan ())
+          error ("__sl_ab09id__: inputs must not contain NaN or Inf\n");
+
         const F77_INT iweight = args(18).int_value ();
         const F77_INT ijobc = args(19).int_value ();
         double alphac = args(20).double_value ();

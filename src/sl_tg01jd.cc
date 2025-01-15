@@ -49,10 +49,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tg01jd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tg01jd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TG01JD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tg01jd__ (@dots{})\n"
+   "Wrapper for SLICOT function TG01JD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -77,6 +78,10 @@ For internal use only.")
         const F77_INT ijob = args(6).int_value ();
         const F77_INT isystyp = args(7).int_value ();
         
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || e.any_element_is_inf_or_nan ())
+        error ("__sl_tg01jd__: inputs must not contain NaN or Inf\n");
+
         F77_INT c_factor = 1;
 
         if (scaled == 0)

@@ -47,10 +47,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tg04bx__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tg04bx__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TG04BX Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tg04bx__ (@dots{})\n"
+   "Wrapper for SLICOT function TG04BX.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -73,6 +74,11 @@ For internal use only.")
         
         ColumnVector zr = args(7).column_vector_value ();
         ColumnVector zi = args(8).column_vector_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan () ||
+            e.any_element_is_inf_or_nan ())
+        error ("__sl_tg04bx__: inputs must not contain NaN or Inf\n");
 
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
         F77_INT ip = TO_F77_INT (pr.numel ());  // ip: number of finite poles

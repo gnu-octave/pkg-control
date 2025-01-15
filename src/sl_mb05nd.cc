@@ -45,10 +45,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_mb05nd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_mb05nd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot MB05ND Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_mb05nd__ (@dots{})\n"
+   "Wrapper for SLICOT function MB05N.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -63,6 +64,9 @@ For internal use only.")
         Matrix a = args(0).matrix_value ();
         double delta = args(1).double_value ();
         double tol = args(2).double_value (); 
+
+        if (a.any_element_is_inf_or_nan ())
+          error ("__sl_mb05nd__: inputs must not contain NaN or Inf\n");
 
         if (a.numel () == 0)
           {

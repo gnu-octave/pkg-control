@@ -30,13 +30,13 @@ Version: 0.1
 
 // PKG_ADD: autoload ("is_zp_vector", "__control_helper_functions__.oct");    
 DEFUN_DLD (is_zp_vector, args, nargout,
-   "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {} is_zp_vector (@var{a}, @dots{})\n\
-Return true if all arguments are zero-pole vectors and false otherwise.\n\
-@var{[]} is a valid zero-pole vector.\n\
-Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
-@seealso{is_real_matrix, is_real_square_matrix, is_real_vector, is_real_scalar}\n\
-@end deftypefn")
+   "-*- texinfo -*-\n"
+   "@deftypefn {Loadable Function} {} is_zp_vector (@var{a}, @dots{})@*\n"
+   "Return true if all arguments are zero-pole vectors and false otherwise.@*\n"
+   "@var{[]} is a valid zero-pole vector.@*\n"
+   "Avoid nasty stuff like @code{true = isreal (\"a\")}@*\n"
+   "@seealso{is_real_matrix, is_real_square_matrix, is_real_vector, is_real_scalar}@*\n"
+   "@end deftypefn")
 {
     octave_value retval = true;
     octave_idx_type nargin = args.length ();

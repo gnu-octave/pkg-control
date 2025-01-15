@@ -9,9 +9,11 @@
 
 // stub function to avoid gen_doc_cache warning upon package installation
 DEFUN_DLD (__control_helper_functions__, args, nargout,
-   "-*- texinfo -*-\n\
-Helper functions for the control package.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __control_helper_functions__ (@dots{})\n"
+   "Helper functions for the control package.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_value_list retval;
     error ("__control_helper_functions__: for internal use only");

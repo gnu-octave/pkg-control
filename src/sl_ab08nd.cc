@@ -65,10 +65,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ab08nd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_ab08nd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot AB08ND Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ab08nd__ (@dots{})\n"
+   "Wrapper for SLICOT function AB08ND.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -87,6 +88,10 @@ For internal use only.")
         const Matrix c = args(2).matrix_value ();
         const Matrix d = args(3).matrix_value ();
         const F77_INT scaled = args(4).int_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+          error ("__sl_ab08nd__: inputs must not contain NaN or Inf\n");
         
         if (scaled == 0)
             equil = 'S';

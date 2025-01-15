@@ -52,10 +52,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ab13dd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_ab13dd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot AB13DD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ab13dd__ (@dots{})\n"
+   "Wrapper for SLICOT function AB13DD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -81,6 +82,11 @@ For internal use only.")
         F77_INT descriptor = args(6).int_value ();
         double tol = args(7).double_value ();
         const F77_INT scaled = args(8).int_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan () ||
+            e.any_element_is_inf_or_nan ())
+          error ("__sl_ab13dd__: inputs must not contain NaN or Inf\n");
         
         if (discrete == 0)
             dico = 'C';

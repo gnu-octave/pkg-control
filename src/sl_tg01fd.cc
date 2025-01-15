@@ -50,10 +50,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tg01fd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tg01fd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TG01FD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tg01fd__ (@dots{})\n"
+   "Wrapper for SLICOT function TG01FD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -76,6 +77,10 @@ For internal use only.")
         const F77_INT qz_flag = args(4).int_value ();
         double tol = args(5).double_value ();
         
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || e.any_element_is_inf_or_nan ())
+        error ("__sl_tg01fd__: inputs must not contain NaN or Inf\n");
+
         if (qz_flag == 0)
         {
             compq = 'N';

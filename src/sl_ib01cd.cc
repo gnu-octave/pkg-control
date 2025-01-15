@@ -53,10 +53,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ib01cd__", "__control_slicot_functions__.oct");
 DEFUN_DLD (__sl_ib01cd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot IB01CD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ib01cd__ (@dots{})\n"
+   "Wrapper for SLICOT function IB01CD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -79,6 +80,10 @@ For internal use only.")
         Matrix b = args(3).matrix_value ();
         Matrix c = args(4).matrix_value ();
         Matrix d = args(5).matrix_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+          error ("__sl_ib01cd__: inputs must not contain NaN or Inf\n");
         
         double rcond = args(6).double_value ();
         double tol_c = rcond;
@@ -106,6 +111,9 @@ For internal use only.")
             Matrix y = y_cell.elem(i).matrix_value ();
             Matrix u = u_cell.elem(i).matrix_value ();
             
+            if (y.any_element_is_inf_or_nan () || u.any_element_is_inf_or_nan ())
+              error ("__sl_ib01cd__: inputs must not contain NaN or Inf\n");
+
             F77_INT nsmp = TO_F77_INT (y.rows ());   // nsmp: number of samples
             F77_INT ldv = max (1, n);
             

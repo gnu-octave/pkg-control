@@ -48,10 +48,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ab04md__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_ab04md__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot AB04MD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ab04md__ (@dots{})\n"
+   "Wrapper for SLICOT function AB04MD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -73,6 +74,10 @@ For internal use only.")
         double alpha = args(4).double_value ();
         double beta = args(5).double_value ();
         F77_INT discrete = args(6).int_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+          error ("__sl_ab04md__: inputs must not contain NaN or Inf\n");
 
         if (discrete == 0)
             type = 'C';

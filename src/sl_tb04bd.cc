@@ -51,10 +51,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tb04bd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tb04bd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TB04BD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tb04bd__ (@dots{})\n"
+   "Wrapper for SLICOT function TB04BD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -66,6 +67,7 @@ For internal use only.")
     else
     {
         // arguments in
+        // 
         char jobd = 'D';
         char order = 'D';
         char equil;
@@ -75,6 +77,10 @@ For internal use only.")
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
         const F77_INT scaled = args(4).int_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+        error ("__sl_tb04bd__: inputs must not contain NaN or Inf\n");
 
         if (scaled == 0)
             equil = 'S';

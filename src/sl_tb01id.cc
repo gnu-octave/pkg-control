@@ -45,10 +45,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tb01id__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tb01id__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TB01ID Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tb01id__ (@dots{})\n"
+   "Wrapper for SLICOT function TB01ID.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -66,6 +67,10 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         double maxred = args(3).double_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan ())
+        error ("__sl_tb01id__: inputs must not contain NaN or Inf\n");
 
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
         F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs

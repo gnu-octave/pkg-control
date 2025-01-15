@@ -51,11 +51,11 @@ Version: 0.1
 
 // PKG_ADD: autoload ("__lti_input_idx__", "__control_helper_functions__.oct");    
 DEFUN_DLD (__lti_input_idx__, args, ,
-       "-*- texinfo -*-\n\
-@deftypefn {Loadable Function} {[@var{mat_idx}, @var{opt_idx}, @var{obj_flg}] =} __lti_input_idx__ (@var{args})\n\
-Return some indices for cell @var{args}.  For internal use only.\n\
-Read the source code in @code{lti_input_idx.cc} for details.\n\
-@end deftypefn")
+   "-*- texinfo -*-\n"
+   "@deftypefn {Loadable Function} {[@var{mat_idx}, @var{opt_idx}, @var{obj_flg}] =} __lti_input_idx__ (@var{args})@*\n"
+   "Return some indices for cell @var{args}.  For internal use only.@*\n"
+   "Read the source code in @code{lti_input_idx.cc} for details.@*\n"
+   "@end deftypefn")
 {
   octave_value_list retval;
   octave_idx_type nargin = args.length ();
