@@ -516,6 +516,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
         ev(k) = 2 / Ts * (pol - 1) / (pol + 1);
       endif
     endfor
+  TOL = max (abs (ev))*1.0e-10 + 2*eps;                 # new TOL after bilinear transformation
   endif
 
   ## remove poles near zero from eigenvalue array ev
@@ -558,7 +559,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
     auto_tfinal = 0;  % flag for computed or given tfinal
 
     if (isempty (tfinal))
-      ev_min = min (abs (real (ev)));
+      ev_min = min (abs (ev));
       ev_real_min = min (abs (real (ev)));
 
       den = min ([ev_min, ev_real_min]);
