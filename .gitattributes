@@ -1,6 +1,7 @@
 # files and directories that must not be included in the dist archive
 
 .git*             export-ignore
+.editorconfig     export-ignore
 /Makefile         export-ignore
 devel             export-ignore
 docs              export-ignore
