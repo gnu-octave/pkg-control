@@ -54,10 +54,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_td04ad__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_td04ad__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TD04AD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_td04ad__ (@dots{})\n"
+   "Wrapper for SLICOT function TD04AD.@*"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -75,6 +76,11 @@ For internal use only.")
         Matrix dcoeff = args(1).matrix_value ();
         Matrix indexd = args(2).matrix_value ();
         double tol = args(3).double_value ();
+
+        if (ucoeff.any_element_is_inf_or_nan () ||
+            dcoeff.any_element_is_inf_or_nan () ||
+            indexd.any_element_is_inf_or_nan ())
+          error ("__sl_td04ad__: inputs must not contain NaN or Inf\n");
 
         F77_INT p = TO_F77_INT (ucoeff.rows ());      // p: number of outputs
         F77_INT m = TO_F77_INT (ucoeff.columns ());   // m: number of inputs

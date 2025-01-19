@@ -47,10 +47,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_tb01pd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_tb01pd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot TB01PD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tb01pd__ (@dots{})\n"
+   "Wrapper for SLICOT function TB01PD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -71,6 +72,10 @@ For internal use only.")
         double tol = args(3).double_value ();
         const F77_INT scaled = args(4).int_value ();
         
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan ())
+        error ("__sl_tb01pd__: inputs must not contain NaN or Inf\n");
+
         if (scaled == 0)
             equil = 'S';
         else

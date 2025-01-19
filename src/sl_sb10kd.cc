@@ -51,10 +51,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_sb10kd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_sb10kd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot SB10KD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_sb10kd__ (@dots{})\n"
+   "Wrapper for SLICOT function SB10KD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -70,6 +71,10 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan ())
+          error ("__sl_sb10kd__: inputs must not contain NaN or Inf\n");
+
         double factor = args(3).double_value ();
         
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states

@@ -118,13 +118,13 @@
 ## octave:2> b = [10; 11; 12];
 ## octave:3> stname = @{'V', 'A', 'kJ'@};
 ## octave:4> sys = ss (a, b, 'stname', stname)
-## 
+##
 ## sys.a =
 ##         V   A  kJ
 ##    V    1   2   3
 ##    A    4   5   6
 ##    kJ   7   8   9
-## 
+##
 ## sys.b =
 ##        u1
 ##    V   10
@@ -136,15 +136,15 @@
 ##    y1   1   0   0
 ##    y2   0   1   0
 ##    y3   0   0   1
-## 
+##
 ## sys.d =
 ##        u1
 ##    y1   0
 ##    y2   0
 ##    y3   0
-## 
+##
 ## Continuous-time model.
-## octave:5> 
+## octave:5>
 ## @end group
 ## @end example
 ##
@@ -208,7 +208,7 @@ function sys = ss (varargin)
   tsam = 0;                             # default sampling time
 
   [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
-  
+
   switch (numel (mat_idx))
     case 1
       d = varargin{mat_idx};
@@ -264,3 +264,34 @@ function G = dss2ss (G)
   [G.a, G.b, G.c, G.d, G.e] = __dss2ss__ (G.a, G.b, G.c, G.d, G.e);
 
 endfunction
+
+%!test
+%! # Test the example for the SLICOT function TD04AD
+%! den1x = [1.0   6.0  11.0   6.0];
+%! den2x = [1.0   6.0  11.0   6.0];
+%! num11 = [1.0   6.0  12.0   7.0];
+%! num12 = [0.0   1.0   4.0   3.0];
+%! num21 = [0.0   0.0   1.0   1.0];
+%! num22 = [1.0   8.0  20.0  15.0];
+%! G = tf ( {num11, num12 ; num21, num22} , {den1x, den1x ; den2x, den2x} );
+%! [A,B,C,D] = ssdata (ss (G));
+%!
+%! Ae = [ 0.499999999999998  -0.802831617715081   0.938714854383612 ;
+%!        4.404724821517878  -2.338041431261778   2.507602188919887 ;
+%!       -5.554133527986547   1.687202056051516  -4.161958568738229 ];
+%! Be = [-0.200000000000000  -1.250000000000000 ;
+%!                        0  -0.609718066426859 ;
+%!        0.000000000000000   2.221653411194620 ];
+%! Ce = [                 0  -0.867926073205492   0.211918650529080 ;
+%!                        0                   0   0.900230427447532 ];
+%! De = [ 1 0 ;
+%!        0 1 ];
+%!
+%! # State space representations have different structures, therefore
+%! # compare the Markov parameters instead
+%! M = zeros (2,20);
+%! Me = zeros (2,20);
+%! for i = 0:9, M(:,2*i+1:2*i+2) = C*A^i*B; Me(:,2*i+1:2*i+2) = Ce*Ae^i*Be; end;
+%!
+%! assert (M, Me, 1e-6);
+

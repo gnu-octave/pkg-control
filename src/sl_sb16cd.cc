@@ -52,10 +52,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_sb16cd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_sb16cd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot SB16CD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_sb16cd__ (@dots{})\n"
+   "Wrapper for SLICOT function SB16CD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -86,6 +87,11 @@ For internal use only.")
                        
         Matrix f = args(9).matrix_value ();
         Matrix g = args(10).matrix_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan () ||
+            f.any_element_is_inf_or_nan () || g.any_element_is_inf_or_nan ())
+        error ("__sl_sb16cd__: inputs must not contain NaN or Inf\n");
 
         const F77_INT ijobcf = args(11).int_value ();
         double tol = args(12).double_value ();

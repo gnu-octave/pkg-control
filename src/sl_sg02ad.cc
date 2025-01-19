@@ -61,10 +61,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_sg02ad__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_sg02ad__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot SG02AD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_sg02ad__ (@dots{})\n"
+   "Wrapper for SLICOT function SG02AD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -93,6 +94,11 @@ For internal use only.")
         Matrix l = args(5).matrix_value ();
         F77_INT discrete = args(6).int_value ();
         F77_INT ijobl = args(7).int_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            e.any_element_is_inf_or_nan () || q.any_element_is_inf_or_nan () ||
+            r.any_element_is_inf_or_nan () || l.any_element_is_inf_or_nan ())
+        error ("__sl_sg02ad__: inputs must not contain NaN or Inf\n");
 
         if (discrete == 0)
             dico = 'C';

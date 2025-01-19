@@ -51,10 +51,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ib01ad__", "__control_slicot_functions__.oct");
 DEFUN_DLD (__sl_ib01ad__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot IB01AD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ib01ad__ (@dots{})\n"
+   "Wrapper for SLICOT function IB01AD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -93,7 +94,6 @@ For internal use only.")
 //        double tol_b = rcond;
 //        doublet ol_c = rcond;
         
-            
         switch (imeth)
         {
             case 0:
@@ -174,6 +174,9 @@ For internal use only.")
       
             Matrix y = y_cell.elem(i).matrix_value ();
             Matrix u = u_cell.elem(i).matrix_value ();
+
+            if (y.any_element_is_inf_or_nan () || u.any_element_is_inf_or_nan ())
+              error ("__sl_ib01ad__: inputs must not contain NaN or Inf\n");
 
             // y.rows == u.rows  is checked by iddata class
             // F77_INT m = TO_F77_INT (u.columns ());   // m: number of inputs

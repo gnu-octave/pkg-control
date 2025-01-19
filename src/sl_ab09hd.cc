@@ -52,10 +52,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_ab09hd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_ab09hd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot AB09HD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_ab09hd__ (@dots{})\n"
+   "Wrapper for SLICOT function AB09HD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -76,6 +77,10 @@ For internal use only.")
         Matrix b = args(1).matrix_value ();
         Matrix c = args(2).matrix_value ();
         Matrix d = args(3).matrix_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || d.any_element_is_inf_or_nan ())
+          error ("__sl_ab09hd__: inputs must not contain NaN or Inf\n");
         
         const F77_INT idico = args(4).int_value ();
         const F77_INT iequil = args(5).int_value ();

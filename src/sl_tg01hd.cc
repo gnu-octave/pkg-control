@@ -51,7 +51,12 @@ extern "C"
 }
 
 // PKG_ADD: autoload ("__sl_tg01hd__", "__control_slicot_functions__.oct");    
-DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
+DEFUN_DLD (__sl_tg01hd__, args, nargout,
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_tg01hd__ (@dots{})\n"
+   "Wrapper for SLICOT function TG01HD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -72,6 +77,10 @@ DEFUN_DLD (__sl_tg01hd__, args, nargout, "Slicot TG01HD Release 5.0")
         Matrix b = args(2).matrix_value ();
         Matrix c = args(3).matrix_value ();
         double tol = args(4).double_value ();
+
+        if (a.any_element_is_inf_or_nan () || b.any_element_is_inf_or_nan () ||
+            c.any_element_is_inf_or_nan () || e.any_element_is_inf_or_nan ())
+        error ("__sl_tg01hd__: inputs must not contain NaN or Inf\n");
 
         F77_INT n = TO_F77_INT (a.rows ());      // n: number of states
         F77_INT m = TO_F77_INT (b.columns ());   // m: number of inputs

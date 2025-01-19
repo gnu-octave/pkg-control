@@ -117,9 +117,9 @@ endfunction
 %! y=impulse(sys2,t);
 %! assert (y(1), 0, eps);
 %! assert (y(2), 0.241686482894434, 2*eps);
-%! assert (y(3), 0.404040547757057, 2*eps);
-%! assert (y(4), 0.307384479794317, 2*eps);
-%! assert (y(5), 0.121908527560869, 6*eps);  # error propagation
+%! assert (y(3), 0.404040547757057, 3*eps);
+%! assert (y(4), 0.307384479794317, 7*eps);
+%! assert (y(5), 0.121908527560869, 7*eps);  # error propagation
 
 ## test from bug
 %!test

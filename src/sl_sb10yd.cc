@@ -51,10 +51,11 @@ extern "C"
 
 // PKG_ADD: autoload ("__sl_sb10yd__", "__control_slicot_functions__.oct");    
 DEFUN_DLD (__sl_sb10yd__, args, nargout,
-   "-*- texinfo -*-\n\
-Slicot SB10YD Release 5.0\n\
-No argument checking.\n\
-For internal use only.")
+   "-*- texinfo -*-\n"
+   "@deftypefn {} __sl_sb10yd__ (@dots{})\n"
+   "Wrapper for SLICOT function SB10YD.@*\n"
+   "For internal use only.\n"
+   "@end deftypefn")
 {
     octave_idx_type nargin = args.length ();
     octave_value_list retval;
@@ -73,6 +74,11 @@ For internal use only.")
         F77_INT discfl = args(4).int_value ();
         F77_INT flag = args(5).int_value ();
         
+        if (rfrdat.any_element_is_inf_or_nan () ||
+            ifrdat.any_element_is_inf_or_nan () ||
+            omega.any_element_is_inf_or_nan ())
+          error ("__sl_sb10yd__: inputs must not contain NaN or Inf\n");
+
         F77_INT lendat = TO_F77_INT (omega.rows ());      // number of frequencies
 
         F77_INT lda = max (1, n);
