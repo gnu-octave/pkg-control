@@ -47,6 +47,7 @@ help:
 	@echo
 	@echo "   clean     - Remove releases and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
+	@echo " "
 
 %.tar.gz: %
 	@echo "Create $@ ..."
