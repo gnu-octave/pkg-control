@@ -5,11 +5,13 @@ Summary of important user-visible changes for releases of the control package
 control-4.1.0+  Upcoming version 4.1.1, not yet released
 ===============================================================================
 
+ ** fix missing deprecated LAPACK routine DGEGS
+
  ** input parameter checking for NaN and Inf in oct-files in order to
     prevent Octave from hanging (bug #66669)
    
- ** ss (tfsys) with MIMO transfer function 'tfsys' numerically more
-    robust (bug #66651)
+ ** ss: state space from MIMO transfer function 'tfsys' numerically
+    more robust (bug #66651)
 
  ** lyap (A,Q) also for non-symmetric Q (bug #66567)
 

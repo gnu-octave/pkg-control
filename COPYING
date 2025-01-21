@@ -5,7 +5,10 @@
 Git Repository
 
     * slicot-reference: submodule, Copyright (c) 2020, SLICOT 
-                        BSD 3-Clause (see Sec. 3)   
+                        BSD 3-Clause (see Sec. 3)
+
+    * src/src_aux:      See src/src_aux/README.md
+
     * other files:      Copyright see individual files
                         GPLv3+ (see Sec. 2)
 
@@ -13,6 +16,9 @@ Distributed package archive control-x.y.z.tar.gz
 
     * src/slicot:       Copyright (c) 2020, SLICOT
                         BSD 3-Clause (see Sec. 3)
+
+    * src/src_aux:      See src/src_aux/README.md
+
     * other files:      Copyright see individual files
                         GPLv3+ (see Sec. 2)
 
