@@ -75,7 +75,6 @@ $(RELEASE_DIR): .git/index
 	@cp $(SC_SMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
 	@cp $(SC_SMOD)/LICENSE   $@/$(SC_DOC)/
 	@cp $(SC_SMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
-	@cp src/TG04BX.f $@/$(SC_SRC) 
 	@echo "  bootstrap ..."
 	@cd $@/src && ./bootstrap && $(RM) -r "autom4te.cache"
 	@chmod -R a+rX,u+w,go-w "$@"

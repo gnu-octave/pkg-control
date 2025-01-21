@@ -13,11 +13,16 @@ FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
 LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
-# slicot relative to src directory
+# slicot relative to src directory, SC_SRC is the build directory
 SC      := slicot
 SC_SRC  := $(SC)/src
 SC_SMOD := ../slicot-reference
 
+# own and auxilary sources relative to build directory
+SRC := ../..
+SRC_AUX := $(SRC)/src_aux
+
+# other definitions
 AR := $(shell $(MKOCTFILE) -p AR)
 
 PKG_CXXFLAGS := -Wall $(PKG_CXXFLAGS_APPEND)
@@ -28,29 +33,32 @@ all: __control_slicot_functions__.oct \
 # if directly called from repository instead of distributed file structure,
 # copy required files into the slicot source directory.
 
-# TG04BX.f : Own derived version from this src directory
-$(SC_SRC)/TG04BX.f:
-	mkdir -p $(SC_SRC)
-	cp TG04BX.f $(SC_SRC)/
-
 # MA02ID.f : One exemplary file from SLICOT, if not present, other files
 #            are most probably missing as well. Copy all files from the
 #            src directories of the SLICOT submodule.
 $(SC_SRC)/MA02ID.f:
 	mkdir -p $(SC_SRC)
-	cp -t $(SC_SRC) $(SC_SMOD)/src/*.f
-	cp -t $(SC_SRC) $(SC_SMOD)/src_aux/*.f
+	cp $(SC_SMOD)/src/*.f $(SC_SRC)
+	cp $(SC_SMOD)/src_aux/*.f $(SC_SRC)
 	./bootstrap && $(RM) -r "autom4te.cache"
 
 # TODO: Private oct-files for control package.
 
 # Compile SLICOT library
 #
-# MA02ID.f compiled by an extra command 
+# Compile: $(SC_SRC)/*.f   (SLICOT files)
+#          ./TG04BX.f      own derived file
+#          $(SRC_AUX)/*.f  external sources like deprecated
+#                          LAPACK files
+#
+# MA02ID.f is compiled by an extra command
 # suppressing warnings on indexing errors
 #
-slicotlibrary.a: slicot $(SC_SRC)/TG04BX.f $(SC_SRC)/MA02ID.f
-	cd $(SC_SRC) && $(MKOCTFILE) -w -c MA02ID.f; mv MA02ID.f x && $(MKOCTFILE) -c *.f && mv x MA02ID.f
+slicotlibrary.a: slicot $(SC_SRC)/MA02ID.f
+	cd $(SC_SRC) && \
+	  $(MKOCTFILE) -w -c MA02ID.f; mv MA02ID.f x && \
+		$(MKOCTFILE) -c *.f $(SRC)/TG04BX.f $(SRC_AUX)/*.f && \
+		mv x MA02ID.f
 	$(AR) -rc slicotlibrary.a $(SC_SRC)/*.o
 
 # slicot functions
