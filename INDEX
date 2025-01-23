@@ -8,9 +8,9 @@ Examples
 Linear Time Invariant Models
   dss
   filt
-  frd
-  ss
-  tf
+  @frd/frd
+  @ss/ss
+  @tf/tf
   zpk
 Model Data Access
   @lti/dssdata
@@ -131,7 +131,7 @@ Controller Reduction
   fwcfconred
   spaconred
 Experimental Data Handling
-  iddata
+  @iddata/iddata
   @iddata/cat
   @iddata/detrend
   @iddata/diff
