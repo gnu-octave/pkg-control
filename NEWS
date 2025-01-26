@@ -2,6 +2,13 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-4.1.99+  Upcoming version 4.2.0, not yet released
+===============================================================================
+
+** bode: improved handling of poles and zeros on imaginary axis
+   (bug #63393)
+
+===============================================================================
 control-4.1.0+  Upcoming version 4.1.1, not yet released
 ===============================================================================
 
