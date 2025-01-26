@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: frd</title>
+    <title>Control Package: @frd/frd</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -131,7 +131,7 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
-					<li><a href="iddata.html" class="text-decoration-none font-monospace"><small>iddata</small></a></li>
+					<li><a href="@iddata_iddata.html" class="text-decoration-none font-monospace"><small>@iddata/iddata</small></a></li>
 					<li><a href="@iddata_cat.html" class="text-decoration-none font-monospace"><small>@iddata/cat</small></a></li>
 					<li><a href="@iddata_detrend.html" class="text-decoration-none font-monospace"><small>@iddata/detrend</small></a></li>
 					<li><a href="@iddata_diff.html" class="text-decoration-none font-monospace"><small>@iddata/diff</small></a></li>
@@ -179,9 +179,9 @@
 				<ul style="list-style-type: none; padding-left: 20px;">
 					<li><a href="dss.html" class="text-decoration-none font-monospace"><small>dss</small></a></li>
 					<li><a href="filt.html" class="text-decoration-none font-monospace"><small>filt</small></a></li>
-					<li><a href="frd.html" class="text-decoration-none font-monospace fw-bolder"><small>frd</small></a></li>
-					<li><a href="ss.html" class="text-decoration-none font-monospace"><small>ss</small></a></li>
-					<li><a href="tf.html" class="text-decoration-none font-monospace"><small>tf</small></a></li>
+					<li><a href="@frd_frd.html" class="text-decoration-none font-monospace fw-bolder"><small>@frd/frd</small></a></li>
+					<li><a href="@ss_ss.html" class="text-decoration-none font-monospace"><small>@ss/ss</small></a></li>
+					<li><a href="@tf_tf.html" class="text-decoration-none font-monospace"><small>@tf/tf</small></a></li>
 					<li><a href="zpk.html" class="text-decoration-none font-monospace"><small>zpk</small></a></li>
 				</ul>
 				</div>
@@ -490,7 +490,7 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Class&nbsp;Definition: <b><code>frd</code></b>
+                Function&nbsp;Reference: <b><code>@frd/frd</code></b>
                 </h3>
               </div>
             </div>
@@ -606,163 +606,12 @@
 
 <p> <strong>See also: </strong>
   <a href="dss.html">dss</a>, 
-  <a href="ss.html">ss</a>, 
-  <a href="tf.html">tf</a>
+ss, 
+tf
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@frd/frd.m">frd</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@frd/frd.m">@frd/frd</a>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="container-xl my-4">
-          <div class="card rounded">
-            <div class="card-header card-header-mod">
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Method: <b><code>frd</code></b>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-<dl>
-<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>sys</var>)</i></dt>
-<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>sys</var>, <var>w</var>)</i></dt>
-<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>H</var>, <var>w</var>, &hellip;)</i></dt>
-<dt><u>Function File:</u> <var>sys</var> = <b>frd</b><i> (<var>H</var>, <var>w</var>, <var>tsam</var>, &hellip;)</i></dt>
-</dl>
-<p> Create or convert to frequency response data.
-</p>
-<div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
-</dl>
-<p> <acronym>LTI</acronym> model to be converted to frequency response data.
- If second argument <var>w</var> is omitted, the interesting
- frequency range is calculated by the zeros and poles of <var>sys</var>.
- </p></dd>
-<dt> <var>H</var></dt>
-</dl>
-<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
- response from input j to output i at frequency k.  In the SISO case,
- a vector (lw-by-1) or (1-by-lw) is accepted as well.
- </p></dd>
-<dt> <var>w</var></dt>
-</dl>
-<p> Frequency vector (lw-by-1) in radian per second [rad/s].
- Frequencies must be in ascending order.
- </p></dd>
-<dt> <var>tsam</var></dt>
-</dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified,
- a continuous-time model is assumed.
- </p></dd>
-<dt> <var>&hellip;</var></dt>
-</dl>
-<p> Optional pairs of properties and values.
- Type <code>set (frd)</code> for more information.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
-</dl>
-<p> Frequency response data object.
- </p></dd>
-</dl>
-
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;H&rsquo;</var></dt>
-</dl>
-<p> Frequency response array.  See &rsquo;Inputs&rsquo; for details.
-</p>
- </dd>
-<dt> <var>&rsquo;w&rsquo;</var></dt>
-</dl>
-<p> Frequency vector.  See &rsquo;Inputs&rsquo; for details.
-</p>
- </dd>
-<dt> <var>&rsquo;tsam&rsquo;</var></dt>
-</dl>
-<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
-</p>
- </dd>
-<dt> <var>&rsquo;inname&rsquo;</var></dt>
-</dl>
-<p> The name of the input channels in <var>sys</var>.
- Cell vector of length m containing strings.
- Default names are <code>{'u1', 'u2', ...}</code>
-</p>
- </dd>
-<dt> <var>&rsquo;outname&rsquo;</var></dt>
-</dl>
-<p> The name of the output channels in <var>sys</var>.
- Cell vector of length p containing strings.
- Default names are <code>{'y1', 'y2', ...}</code>
-</p>
- </dd>
-<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
-</dl>
-<p> Struct with input group names as field names and
- vectors of input indices as field values.
- Default is an empty struct.
-</p>
- </dd>
-<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
-</dl>
-<p> Struct with output group names as field names and
- vectors of output indices as field values.
- Default is an empty struct.
-</p>
- </dd>
-<dt> <var>&rsquo;name&rsquo;</var></dt>
-</dl>
-<p> String containing the name of the model.
-</p>
- </dd>
-<dt> <var>&rsquo;notes&rsquo;</var></dt>
-</dl>
-<p> String or cell of string containing comments.
-</p>
- </dd>
-<dt> <var>&rsquo;userdata&rsquo;</var></dt>
-</dl>
-<p> Any data type.
- </p></dd>
-</dl>
-
-<p> <strong>See also: </strong>
-  <a href="dss.html">dss</a>, 
-  <a href="ss.html">ss</a>, 
-  <a href="tf.html">tf</a>
-</p>
-</div>
-            </div>
-          </div>
-        </div>
-
 
             </div>
           </div>
