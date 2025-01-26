@@ -29,7 +29,6 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
   ## ---------------+-------+-------+-------+
   ## bode           | false | std   | false |
   ## bodemag        | false | std   | false |
-  ## margin         | false | std   | false |
   ## nichols        | false | ext   | false |
   ## nyquist        | false | ext   | false |
   ## sensitivity    | false | ext   | false |
