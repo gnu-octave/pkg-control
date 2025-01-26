@@ -143,7 +143,6 @@ DEFUN_DLD (__sl_ib01ad__, args, nargout,
         F77_INT n_exp = TO_F77_INT (y_cell.numel ());            // number of experiments
         F77_INT m = TO_F77_INT (u_cell.elem(0).columns ());      // m: number of inputs
         F77_INT l = TO_F77_INT (y_cell.elem(0).columns ());      // l: number of outputs
-        F77_INT nsmpl = 0;                          // total number of samples
 
         // arguments out
         F77_INT n;
@@ -182,7 +181,6 @@ DEFUN_DLD (__sl_ib01ad__, args, nargout,
             // F77_INT m = TO_F77_INT (u.columns ());   // m: number of inputs
             // F77_INT l = TO_F77_INT (y.columns ());   // l: number of outputs
             F77_INT nsmp = TO_F77_INT (y.rows ());   // nsmp: number of samples in the current experiment
-            nsmpl += nsmp;          // nsmpl: total number of samples of all experiments
 
             // minimal nsmp size checked by __slicot_identification__.m
             if (batch == 'O')
