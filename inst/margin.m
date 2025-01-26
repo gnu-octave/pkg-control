@@ -275,61 +275,70 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
 
   endif
 
+  if phi > 180
+    phi = phi - 360;
+  endif
+
 
   if (nargout == 0)                                      # show bode diagram
 
-    [H, w] = __frequency_response__ ("margin", {sys});
-    H = H{1};
-    w = w{1};
+    ## use the nice bode plot
+    bode (sys);
+    wv = xlim ();
+    sys_name = inputname (1);
+    if isempty (sys_name)
+      sys_name = 'Open loop';
+    endif
 
-    H = reshape (H, [], 1);
-    mag_db = 20 * log10 (abs (H));
-    pha = unwrap (arg (H)) * 180 / pi;
+    ## add magnitude margin and relevant frequencies to magnitude plot
+    subplot (2,1,1);
+    magv = ylim ();
+
     gamma_db = 20 * log10 (gamma);
-
-    wv = [min(w), max(w)];
-    ax_vec_mag = __axis_limits__ ([w(:), mag_db(:)]);
-    ax_vec_mag(1:2) = wv;
-    ax_vec_pha = __axis_limits__ ([w(:), pha(:)]);
-    ax_vec_pha(1:2) = wv;
-
     wgm = [w_gamma, w_gamma];
-    mgmh = [-gamma_db, ax_vec_mag(3)];
+    mgmh = [-gamma_db, magv(1)];
     mgm = [0, -gamma_db];
-    pgm = [ax_vec_pha(4), -180];
-
     wpm = [w_phi, w_phi];
-    mpm = [0, ax_vec_mag(3)];
-    ppmh = [ax_vec_pha(4), phi - 180];
-    ppm = [phi - 180, -180];
+    mpm = [0, magv(1)];
 
     title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)",
                          gamma_db, w_gamma, phi, w_phi);
+
+    legend (sys_name);
+    legend ('autoupdate', 'off');
+    hold on
+    semilogx (wv, [0, 0], "-.k", wgm, mgmh, "-.k", wgm, mgm, "r", wpm, mpm, "-.k")
+    title (title_str)
+    hold off
+
+    ## add phase margin and relevant frequencies to phase plot
+    subplot (2,1,2);
+    phav = ylim ();
+
+    pgm = [phav(1), -180];
+    ppmh = [phav(1), phi - 180];
+    ppm = [phi - 180, -180];
+
     if (continuous)
       xl_str = "Frequency [rad/s]";
     else
       xl_str = sprintf ("Frequency [rad/s]     w_N = %g", pi/tsam);
     endif
 
-    subplot (2, 1, 1)
-    semilogx (w, mag_db, "b", wv, [0, 0], "-.k", wgm, mgmh, "-.k", wgm, mgm, "r", wpm, mpm, "-.k")
-    axis (ax_vec_mag)
-    grid ("on")
-    title (title_str)
-    ylabel ("Magnitude [dB]")
-
-    subplot (2, 1, 2)
-    semilogx (w, pha, "b", wv, [-180, -180], "-.k", wgm, pgm, "-.k", wpm, ppmh, "-.k", wpm, ppm, "r")
-    axis (ax_vec_pha)
-    grid ("on")
+    legend (sys_name);
+    legend ('autoupdate', 'off');
+    hold on
+    semilogx (wv, [-180, -180], "-.k", wgm, pgm, "-.k", wpm, ppmh, "-.k", wpm, ppm, "r")
+    hold off
     xlabel (xl_str)
-    ylabel ("Phase [deg]")
 
   else                                                   # return values
+
     gamma_r = gamma;
     phi_r = phi;
     w_gamma_r = w_gamma;
     w_phi_r = w_phi;
+
   endif
 
 endfunction
