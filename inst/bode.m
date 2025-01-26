@@ -109,7 +109,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     else
       ## w range is identical to auto range, just use the phase for the
       ## auto range
-      pha(h) = {pha_auto(h)};
+      pha(h) = pha_auto(h);
     endif
   endfor
 
@@ -199,9 +199,6 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     ## no plotting, assign values to the output parameters
     mag_r = mag{1};
     pha_r = pha{1};
-    if (iscell (pha_r)) # fix possible cell in cell
-      pha_r = pha_r{1};
-    endif
     w_r = w{1};
 
   endif
@@ -217,9 +214,16 @@ endfunction
 %! s = tf('s');
 %! K = 1;
 %! T = 2;
-%! g = K/(1+T*s);
-%! [mag phas w] = bode(g);
+%! G = K/(1+T*s);
+%! [mag phas w] = bode(G);
 %! mag_dB = 20*log10(mag);
 %! index = find(mag_dB < -3,1);
 %! w_cutoff = w(index);
 %! assert (1/T, w_cutoff, eps);
+
+%!test
+%! G = tf ([100 0 1],conv([1 0.00001 1],[1/100 0 1]));
+%! [mag pha w] = bode(G);
+%! pha_final = pha(end);
+%! assert (-180, pha_final, 1e-4);
+
