@@ -21,7 +21,7 @@
 ## @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} cfconred (@var{G}, @var{F}, @var{L}, @var{opt}, @dots{})
 ## @deftypefnx{Function File} {[@var{Kr}, @var{info}] =} cfconred (@var{G}, @var{F}, @var{L}, @var{ncr}, @var{opt}, @dots{})
 ##
-## Reduction of state-feedback-observer based controller by coprime factorization (CF). 
+## Reduction of state-feedback-observer based controller by coprime factorization (CF).
 ## Given a plant @var{G}, state feedback gain @var{F} and full observer gain @var{L},
 ## determine a reduced order controller @var{Kr}.
 ##
@@ -151,7 +151,7 @@ function [Kr, info] = cfconred (G, F, L, varargin)
   if (! is_real_matrix (F))
     error ("cfconred: second argument must be a real matrix");
   endif
-  
+
   if (! is_real_matrix (L))
     error ("cfconred: third argument must be a real matrix");
   endif
@@ -237,11 +237,11 @@ function [Kr, info] = cfconred (G, F, L, varargin)
           case {"sr-spa", "s"}                     # 'S':  use the square-root Singular Perturbation Approximation method
             jobmr = 2;
           case {"bfsr-spa", "p"}                   # 'P':  use the balancing-free square-root Singular Perturbation Approximation method
-            jobmr = 3; 
+            jobmr = 3;
           otherwise
             error ("cfconred: '%s' is an invalid approach", val);
         endswitch
-      
+
       case {"equil", "equilibrate", "equilibration", "scale", "scaling"}
         equil = __modred_check_equil__ (val);
 
@@ -263,11 +263,11 @@ function [Kr, info] = cfconred (G, F, L, varargin)
   ## perform model order reduction
   [acr, bcr, ccr, dcr, ncr, hsv] = __sl_sb16bd__ (a, b, c, d, dt, equil, ncr, ordsel, jobd, jobmr, ...
                                                   F, L, jobcf, tol1, tol2);
-  
+
   ## assemble reduced order controller
   Kr = ss (acr, bcr, ccr, dcr, tsam);
 
-  ## assemble info struct  
+  ## assemble info struct
   info = struct ("ncr", ncr, "hsv", hsv);
 
 endfunction
@@ -312,24 +312,24 @@ endfunction
 %! [Kr, Info] = cfconred (G, F, L, 4, "method", "bfsr-bta", "cf", "left", "feedback", "+");
 %! [Ao, Bo, Co, Do] = ssdata (Kr);
 %!
-%! Ae = [  0.5946  -0.7336   0.1914  -0.3368
-%!         0.5960  -0.0184  -0.1088   0.0207
-%!         1.2253   0.2043   0.1009  -1.4948
-%!        -0.0330  -0.0243   1.3440   0.0035 ];
+%! Ae = [ 5.9461e-01  -7.3360e-01   1.9139e-01  -3.3685e-01
+%!        5.9599e-01  -1.8394e-02  -1.0883e-01   2.0703e-02
+%!        1.2253e+00   2.0431e-01   1.0090e-01  -1.4948e+00
+%!       -3.3005e-02  -2.4264e-02   1.3440e+00   3.5040e-03 ];
 %!
-%! Be = [  0.0015
-%!        -0.0202
-%!         0.0159
-%!        -0.0544 ];
+%! Be = [ 1.4615e-03
+%!       -2.0156e-02
+%!        1.5922e-02
+%!       -5.4442e-02 ];
 %!
-%! Ce = [  0.3534   0.0274   0.0337  -0.0320 ];
+%! Ce = [  0.353400   0.027400   0.033700  -0.032000 ];
 %!
 %! De = [  0.0000 ];
 %!
 %! HSVe = [  4.9078   4.8745   3.8455   3.7811   1.2289   1.1785   0.5176   0.1148 ].';
 %!
-%! Mo = [Ao, Bo; Co, Do];
-%! Me = [Ae, Be; Ce, De];
+%! Mo = [Do, Co*Bo, Co*Ao*Bo, Co*Ao^2*Bo, Co*Ao^3*Bo, Co*Ao^4*Bo];
+%! Me = [De, Ce*Be, Ce*Ae*Be, Ce*Ae^2*Be, Ce*Ae^3*Be, Ce*Ae^4*Be];
 %!
 %!assert (Mo, Me, 1e-4);
 %!assert (Info.hsv, HSVe, 1e-4);

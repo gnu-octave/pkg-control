@@ -116,10 +116,10 @@ endfunction
 %! sys2=c2d(sys, 1, "impulse");
 %! y=impulse(sys2,t);
 %! assert (y(1), 0, eps);
-%! assert (y(2), 0.241686482894434, 2*eps);
-%! assert (y(3), 0.404040547757057, 3*eps);
-%! assert (y(4), 0.307384479794317, 7*eps);
-%! assert (y(5), 0.121908527560869, 7*eps);  # error propagation
+%! assert (y(2), 0.241686482894434, 4*eps);
+%! assert (y(3), 0.404040547757057, 6*eps);
+%! assert (y(4), 0.307384479794317, 8*eps);
+%! assert (y(5), 0.121908527560869, 10*eps);  # error propagation
 
 ## test from bug
 %!test

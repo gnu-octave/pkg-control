@@ -7,6 +7,10 @@ function post_install (d)
   fprintf ('\"packinfo/COPYING\"\n');
 
   fprintf ('\n');
+  fprintf ('Please report bugs and feature requests at\n');
+  fprintf ('https://github.com/gnu-octave/pkg-control/issues\n');
+
+  fprintf ('\n');
   fprintf ('If the control package was updated in the same Octave\n');
   fprintf ('session, you might have to restart Octave.\n');
 
