@@ -2,10 +2,12 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-4.1.0+  Upcoming version 4.1.1, not yet released
+control-4.1.1  Release date 2025-02-09
 ===============================================================================
 
- ** fix missing deprecated LAPACK routine DGEGS
+ ** more robust test in impulse and cfconred
+
+ ** fix possibly missing deprecated LAPACK routine DGEGS
 
  ** input parameter checking for NaN and Inf in oct-files in order to
     prevent Octave from hanging (bug #66669)
