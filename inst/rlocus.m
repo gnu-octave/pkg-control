@@ -292,10 +292,10 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
       args{3,kk} = "o;zeros;";
     endif
     hplt = plot (args{:});
-    set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0, 0.75, 0]});
     if (! isempty (rlzer))
-      set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0.75, 0, 0]});
+      set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0, 0.75, 0]});
     endif
+    set (hplt(kk--), {"linewidth", "markersize", "color"}, {2, ms, [0.75, 0, 0]});
     for ii = 1:rows(rlpol)
       set (hplt(kk--), "linewidth", 2);
     endfor

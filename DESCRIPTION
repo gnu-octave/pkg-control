@@ -9,6 +9,5 @@ Description: Control package for GNU Octave including system analysis and
 Depends: octave (>= 4.0.0)
 Autoload: no
 License: GPLv3-or-later, BSD 3-Clause License (SLICOT files)
-Url: https://gnu-octave.github.io/packages/control
-Repository: https://github.com/gnu-octave/pkg-control
+Url: https://github.com/gnu-octave/pkg-control
 Tracker: https://github.com/gnu-octave/pkg-control/issues
