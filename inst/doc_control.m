@@ -16,7 +16,9 @@
 ## along with the Control package. If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{st} =} doc_control (@var{fcn1}, @var{fcn2}, ...)
+## @deftypefn  {} doc_control @var{fcn1} @var{fcn2}  ...
+## @deftypefnx {} {@var{st} =} doc_control (@var{fcn1}, @var{fcn2},  ...)
+##
 ## Open online documentation of the Control package in the system's
 ## standard browser.
 ##
@@ -72,22 +74,22 @@ function st = doc_control (varargin)
           url = [base, strrep(fcn, '/', '_'), '.html'];
         endif
         sti = web (url);
-        if sti == 1
+        if sti > 1
           status = sti;
           break;
         elseif status == 0
           status = sti;
         endif
       else
-        warning ("argument %d is not a string\n", i);
+        error ("argument %d is not a string\n", i);
       endif
 
     endfor
 
-    if nargout > 0
-      st = status;
-    endif
+  endif
 
+  if nargout > 0
+    st = status;
   endif
 
 endfunction
