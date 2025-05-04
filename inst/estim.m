@@ -52,7 +52,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{kalman, lqe, place}
+## @seealso{estimd, kalman, lqe, place}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -76,7 +76,7 @@ function est = estim (sys, l, sensors = [], known = [])
   if (isempty (sensors))
     sensors = 1 : rows (c);
   endif
-  
+
   if (ischar (sensors))
     sensors = {sensors};
   endif

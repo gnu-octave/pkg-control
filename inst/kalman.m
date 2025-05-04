@@ -64,7 +64,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{care, dare, estim, lqr}
+## @seealso{care, dare, estim, estimd, lqr}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -95,7 +95,7 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = 
     rbar = r + h*q*h.';
     sbar = g * q*h.';
   else
-    rbar = r + h*q*h.'+ h*s + s.'*h.'; 
+    rbar = r + h*q*h.'+ h*s + s.'*h.';
     sbar = g * (q*h.' + s);
   endif
 

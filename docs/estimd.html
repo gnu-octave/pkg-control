@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: mktito</title>
+    <title>Control Package: estimd</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -62,9 +62,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html#Robust Control">
+                  <a class="nav-link" href="index.html#Optimal Control">
                     <i class="fas fa-list-alt"></i>
-                    Robust Control
+                    Optimal Control
                   </a>
                 </li>
                 <li class="nav-item">
@@ -286,7 +286,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<input id="togList11" type="checkbox">
+				<input id="togList11" type="checkbox" checked>
 				<label for="togList11">
 					<span><h6>Optimal Control</h6></span>
 					<span><h6>Optimal Control</h6></span>
@@ -297,7 +297,7 @@
 					<li><a href="dlqe.html" class="text-decoration-none font-monospace"><small>dlqe</small></a></li>
 					<li><a href="dlqr.html" class="text-decoration-none font-monospace"><small>dlqr</small></a></li>
 					<li><a href="estim.html" class="text-decoration-none font-monospace"><small>estim</small></a></li>
-					<li><a href="estimd.html" class="text-decoration-none font-monospace"><small>estimd</small></a></li>
+					<li><a href="estimd.html" class="text-decoration-none font-monospace fw-bolder"><small>estimd</small></a></li>
 					<li><a href="kalman.html" class="text-decoration-none font-monospace"><small>kalman</small></a></li>
 					<li><a href="lqe.html" class="text-decoration-none font-monospace"><small>lqe</small></a></li>
 					<li><a href="lqg.html" class="text-decoration-none font-monospace"><small>lqg</small></a></li>
@@ -310,7 +310,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<input id="togList12" type="checkbox" checked>
+				<input id="togList12" type="checkbox">
 				<label for="togList12">
 					<span><h6>Robust Control</h6></span>
 					<span><h6>Robust Control</h6></span>
@@ -322,7 +322,7 @@
 					<li><a href="h2syn.html" class="text-decoration-none font-monospace"><small>h2syn</small></a></li>
 					<li><a href="hinfsyn.html" class="text-decoration-none font-monospace"><small>hinfsyn</small></a></li>
 					<li><a href="mixsyn.html" class="text-decoration-none font-monospace"><small>mixsyn</small></a></li>
-					<li><a href="mktito.html" class="text-decoration-none font-monospace fw-bolder"><small>mktito</small></a></li>
+					<li><a href="mktito.html" class="text-decoration-none font-monospace"><small>mktito</small></a></li>
 					<li><a href="ncfsyn.html" class="text-decoration-none font-monospace"><small>ncfsyn</small></a></li>
 				</ul>
 				</div>
@@ -491,78 +491,87 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>mktito</code></b>
+                Function&nbsp;Reference: <b><code>estimd</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> <var>P</var> = <b>mktito</b><i> (<var>P</var>, <var>nmeas</var>, <var>ncon</var>)</i></dt>
+<dt><u>Function File:</u> <var>estd</var> = <b>estimd</b><i> (<var>sysd</var>, <var>l</var>)</i></dt>
+<dt><u>Function File:</u> <var>estd</var> = <b>estim</b><i> (<var>sysd</var>, <var>l</var>, <var>sensors</var>, <var>known</var>)</i></dt>
 </dl>
-<p> Partition <acronym>LTI</acronym> plant <var>P</var> for robust controller synthesis.
- If a plant is partitioned this way, one can omit the inputs <var>nmeas</var>
- and <var>ncon</var> when calling the functions <code>hinfsyn</code> and <code>h2syn</code>.
+
+<p> Return discrete-time state estimator for a given estimator gain.
 </p>
 <div class="ms-5">
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<dt> <var>sys</var></dt>
 </dl>
-<p> Generalized plant.
+<p> Discrete-time <acronym>LTI</acronym> model.
  </p></dd>
-<dt> <var>nmeas</var></dt>
+<dt> <var>l</var></dt>
 </dl>
-<p> Number of measured outputs v.  The last <var>nmeas</var> outputs of <var>P</var> are connected to the
- inputs of controller <var>K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
- to calculate the H-2/H-infinity norm.
+<p> State feedback matrix with (A - LC) being asymptotically stable.
  </p></dd>
-<dt> <var>ncon</var></dt>
+<dt> <var>sensors</var></dt>
 </dl>
-<p> Number of controlled inputs u.  The last <var>ncon</var> inputs of <var>P</var> are connected to the
- outputs of controller <var>K</var>.  The remaining inputs w (indices 1 to m-ncon) are excited
- by a harmonic test signal.
+<p> Indices of measured output signals y from <var>sys</var>.  If omitted, all outputs are measured.
+ </p></dd>
+<dt> <var>known</var></dt>
+</dl>
+<p> Indices of known input signals u (deterministic) to <var>sys</var>.  All other inputs to <var>sys</var>
+ are assumed stochastic (w).  If argument <var>known</var> is omitted, no inputs u are known.
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<dt> <var>est</var></dt>
 </dl>
-<p> Partitioned plant.  The input/output groups and names are overwritten with designations
- according to [1].
+<p> State-space model of estimator.
  </p></dd>
 </dl>
 
 <p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
- min||N(K)||             N = lft (P, K)
-  K         norm
-
-                +--------+  
-   w = u1 -----&gt;|        |-----&gt; z = y1
-                |  P(s)  |
-   u = u2 +----&gt;|        |-----+ y = y2
-          |     +--------+     |
-          |                    |
-          |     +--------+     |
-          +-----|  K(s)  |&lt;----+
-                +--------+
-
-                +--------+      
-   w = u1 -----&gt;|  N(s)  |-----&gt; z = y1
-                +--------+
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                                  u  +-------+         ^
+       +----------------------------&gt;|  est  |-------&gt; y
+       |    +-------+     +       y  |   ^   |         ^
+ u ----+---&gt;|  sys  |-----&gt;(+)------&gt;|   x*  |-------&gt; x
+            |       |       ^ +      +-------+
+ w --------&gt;|   x   |       |
+            +-------+       | v
  </pre><pre class="example"> </pre></td></tr></table>
 
-<p> <strong>Reference</strong><br>
- [1] Skogestad, S. and Postlethwaite, I. (2005)
- <cite>Multivariable Feedback Control: Analysis and Design:
- Second Edition</cite>.  Wiley, Chichester, England.
+<p> <strong>Remarks</strong>
 </p>
-
+<p> Unlike the function estim for continuous- and discrete-time systems,
+ this function is for discrete-time systems only and consideres a
+ prediction-correction scheme like the Kalman filter:
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> ^           ^
+ x*(k+1) = A x(k) + B u(k)
+    ^      ^        -1
+    x(k) = x*(k) + A   L (y(k) - C x*(k) - D u(k))
+ </pre><pre class="example"> </pre></td></tr></table>
+<p> The inverse fo the system matrix in the above equations is required
+ for maintaining the desired observer error dynamics given by (A - LC).
+</p>
+<p> The advantage of this structure is that the current measurement y(k)
+ is used for the current estiamted state and not for the next allowing
+ the estimator to react to system disturbances faster. L is the
+ observer feedback matrix for the common observer structure with
+ the matrix (A - LC) being asymptotically stable, i.e. has
+ eigenvalues strictly within the unit circle.
+</p>
+<p> <strong>See also: </strong>
+  <a href="estim.html">estim</a>, 
+  <a href="kalman.html">kalman</a>, 
+  <a href="lqe.html">lqe</a>, 
+  <a href="place.html">place</a>
+</p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/mktito.m">mktito</a>
+  <a href="">estimd</a>
 </div>
-
 
             </div>
           </div>

@@ -5,6 +5,8 @@ Summary of important user-visible changes for releases of the control package
 control-4.1.1+  Next minor version 4.1.2, not yet released
 ===============================================================================
 
+** estimd: new function for creating a discrete-time estimator that uses
+   measurments up to step k for current state estimate at step k
 
 ===============================================================================
 control-4.1.1  Release date 2025-02-09
