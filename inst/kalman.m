@@ -20,6 +20,8 @@
 ## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s})
 ## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{[]}, @var{sensors}, @var{known})
 ## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{[]}, @var{sensors}, @var{known}, @var{type})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known}, @var{type})
 ## Design Kalman estimator for @acronym{LTI} systems.
 ##
 ## @strong{Inputs}
@@ -37,6 +39,10 @@
 ## @item known
 ## Indices of known input signals u (deterministic) to @var{sys}.  All other inputs to @var{sys}
 ## are assumed stochastic.  If argument @var{known} is omitted, no inputs u are known.
+## @item type
+## type of the estimator for discrete-time systems. If set to 'delayed' the current
+## estimation is based on y(k-1), if set to 'current' the current estimation is
+## based on the lates mesaruement y(k). If omitted, the 'delayed' version is created.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -71,12 +77,22 @@
 ## Created: November 2009
 ## Version: 0.3
 
-function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = [])
+function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = [], varargin)
 
-  ## TODO: type "current" for discrete-time systems
-
-  if (nargin < 3 || nargin > 6 || ! isa (sys, "lti"))
+  if (nargin < 3 || nargin > 7 || ! isa (sys, "lti"))
     print_usage ();
+  endif
+
+  ## optional parameters
+  type = 'delayed';
+  varidx = 0;
+
+  if (nargin > 6)
+    if (isct (sys))
+      warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
+    else
+      type = varargin{++varidx};
+    endif
   endif
 
   [a, b, c, d, e] = dssdata (sys, []);
@@ -107,7 +123,11 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = 
 
   k = k.';
 
-  est = estim (sys, k, sensors, deterministic);
+  if strcmp (type, 'current') && isdt (sys)
+    est = estimd (sys, k, sensors, deterministic);
+  else
+    est = estim (sys, k, sensors, deterministic);
+  endif
 
 endfunction
 
