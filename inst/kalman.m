@@ -16,12 +16,12 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r})
-## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s})
-## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{[]}, @var{sensors}, @var{known})
-## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known})
-## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{[]}, @var{sensors}, @var{known}, @var{type})
-## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{q}, @var{r}, @var{s}, @var{sensors}, @var{known}, @var{type})
+## @deftypefn {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R}, @var{S})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R}, @var{[]}, @var{sensors}, @var{known})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R}, @var{S}, @var{sensors}, @var{known})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R}, @var{[]}, @var{sensors}, @var{known}, @var{type})
+## @deftypefnx {Function File} {[@var{est}, @var{g}, @var{x}] =} kalman (@var{sys}, @var{Q}, @var{R}, @var{S}, @var{sensors}, @var{known}, @var{type})
 ## Design Kalman estimator for @acronym{LTI} systems.
 ##
 ## @strong{Inputs}
@@ -33,12 +33,14 @@
 ## @item r
 ## Covariance of white measurement noise.
 ## @item s
-## Optional cross term covariance.  Default value is 0.
+## Optional cross term covariance. Default value is 0.
 ## @item sensors
-## Indices of measured output signals y from @var{sys}.  If omitted, all outputs are measured.
+## Indices of measured output signals y from @var{sys}. If omitted or empty, all outputs are measured.
 ## @item known
 ## Indices of known input signals u (deterministic) to @var{sys}.  All other inputs to @var{sys}
-## are assumed stochastic.  If argument @var{known} is omitted, no inputs u are known.
+## are assumed stochastic. If argument @var{known} is omitted or empty, the first m-l inputs to @var{sys}
+## are known, where m is the total number of inputs to @var{sys} and l is the size of the quadratic
+## matrix @var{Q}.
 ## @item type
 ## type of the estimator for discrete-time systems. If set to 'delayed' the current
 ## estimation is based on y(k-1), if set to 'current' the current estimation is
@@ -77,56 +79,95 @@
 ## Created: November 2009
 ## Version: 0.3
 
-function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = [], varargin)
+function [est, k, x] = kalman (sys, Q, R, varargin)
 
   if (nargin < 3 || nargin > 7 || ! isa (sys, "lti"))
     print_usage ();
   endif
 
-  ## optional parameters
-  type = 'delayed';
-  varidx = 0;
+  ## system in state space
+  [A, B, C, D, E] = dssdata (sys, []);
 
-  if (nargin > 6)
-    if (isct (sys))
-      warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
-    else
-      type = varargin{++varidx};
+  ## optional parameters
+  S = [];
+  sensors = 1 : rows (C);
+  deterministic = 1 : columns (B) - size (Q,1);   # first inputs deterministic
+  type = 'delayed';
+
+  argidx = 3;   # no. of fixed variables
+
+  if (nargin > argidx++)
+    S = varargin{argidx};
+    if (nargin > argidx++)
+      if (! isempty (varargin{argidx}))
+        sensors = varargin{argidx};
+      endif
+      if (nargin > argidx++)
+        deterministic = varargin{argidx};
+        if (nargin > argidx++)
+          if (isct (sys))
+            warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
+          else
+            type = varargin{argidx};
+          endif
+        endif
+      endif
     endif
   endif
 
-  [a, b, c, d, e] = dssdata (sys, []);
+  m   = columns (B);
+  m_d = length (deterministic);
+  m_s = size (Q,1);
+  p = length (sensors);
+  p_s = size (R,1);
 
-  if (isempty (sensors))
-    sensors = 1 : rows (c);
+  ## plausibility check for parameters
+  if (! issquare (Q))
+    error ("kalman: second argument Q must be square\n");
+  endif
+  if (! issquare (R))
+    error ("kalman: third argument R must be square\n");
+  endif
+  if (m_s != m - m_d)
+    error ("kalman: number of stochastic inputs (%d) does not match size %d of Q\n",...
+           m - m_d, m_s);
+  endif
+  if (p_s != p)
+    error ("kalman: size %d of measurment noise does not match size %d of R\n",...
+           p, p_s);
+  endif
+  if ((! isempty (S)) && (size (S) != [m_s,p_s]))
+    error ("kalman: size [%d,%d] of S does not match size %d of Q and %d of R\n",...
+           size(S,1), size(S,2), m_s, p_s);
   endif
 
-  stochastic = setdiff (1 : columns (b), deterministic);
+  ## matrices for Kalman filter design
+  stochastic = setdiff (1 : columns (B), deterministic);
 
-  c = c(sensors, :);
-  g = b(:, stochastic);
-  h = d(sensors, stochastic);
+  C = C(sensors, :);
+  G = B(:, stochastic);
+  H = D(sensors, stochastic);
 
   if (isempty (s))
-    rbar = r + h*q*h.';
-    sbar = g * q*h.';
+    Rbar = R + H*Q*H.';
+    Sbar = G * Q*H.';
   else
-    rbar = r + h*q*h.'+ h*s + s.'*h.';
-    sbar = g * (q*h.' + s);
+    Rbar = R + H*Q*H.'+ H*S + S.'*H.';
+    Sbar = G * (Q*H.' + S);
   endif
 
   if (isct (sys))
-    [x, l, k] = care (a.', c.', g*q*g.', rbar, sbar, e.');
+    [x, l, K] = care (A.', C.', G*Q*G.', Rbar, Sbar, E.');
   else
-    [x, l, k] = dare (a.', c.', g*q*g.', rbar, sbar, e.');
+    [x, l, K] = dare (A.', C.', G*Q*G.', Rbar, Sbar, E.');
   endif
 
-  k = k.';
+  K = K.';
 
   if strcmp (type, 'current') && isdt (sys)
-    est = estimd (sys, k, sensors, deterministic);
+    est = estimd (sys, K, sensors, deterministic);
   else
-    est = estim (sys, k, sensors, deterministic);
+    est = estim (sys, K, sensors, deterministic);
   endif
 
 endfunction
