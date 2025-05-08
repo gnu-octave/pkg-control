@@ -30,12 +30,12 @@
 ## If @var{P} is constructed with @command{mktito} or @command{augw},
 ## arguments @var{nmeas} and @var{ncon} can be omitted.
 ## @item nmeas
-## Number of measured outputs v.  The last @var{nmeas} outputs of @var{P} are connected to the
+## Number of measured outputs v. The last @var{nmeas} outputs of @var{P} are connected to the
 ## inputs of controller @var{K}.  The remaining outputs z (indices 1 to p-nmeas) are used
 ## to calculate the H-infinity norm.
 ## @item ncon
-## Number of controlled inputs u.  The last @var{ncon} inputs of @var{P} are connected to the
-## outputs of controller @var{K}.  The remaining inputs w (indices 1 to m-ncon) are excited
+## Number of controlled inputs u. The last @var{ncon} inputs of @var{P} are connected to the
+## outputs of controller @var{K}. The remaining inputs w (indices 1 to m-ncon) are excited
 ## by a harmonic test signal.
 ## @item @dots{}
 ## Optional pairs of keys and values.  @code{'key1', value1, 'key2', value2}.
@@ -50,7 +50,8 @@
 ## @item K
 ## State-space model of the H-infinity (sub-)optimal controller.
 ## @item N
-## State-space model of the lower LFT of @var{P} and @var{K}.
+## State-space model of the resulting closed loop system with inputs w and outputs z.
+## It is the lower linear transformation (LFT) of @var{P} and @var{K} (see function @code{lft}).
 ## @item info
 ## Structure containing additional information.
 ## @item info.gamma
@@ -104,7 +105,7 @@
 ## gamma = min||N(K)||             N = lft (P, K)
 ##          K         inf
 ##
-##                +--------+  
+##                +--------+
 ##        w ----->|        |-----> z
 ##                |  P(s)  |
 ##        u +---->|        |-----+ v
@@ -114,9 +115,50 @@
 ##          +-----|  K(s)  |<----+
 ##                +--------+
 ##
-##                +--------+      
+##                +--------+
 ##        w ----->|  N(s)  |-----> z
 ##                +--------+
+## @end group
+## @end example
+##
+## The signals have the following meanings:
+## @table
+## @item w(t): exogenous input (reference, disturbance, ...)
+## @item u(t): control input
+## @item z(t): performance outputs (control error, control input, ...)
+## @item v(t): measured output (input of the controller)
+## @end table
+##
+## The transfer matrix P(s) can be partitioned corresponding to the input
+## and output signals:
+## @example
+## @group
+##
+##   Z(s) = P11(s) W(s) + P12(s) U(s)
+##   V(s) = P21(s) W(s) + P22(s) U(s)
+##
+##          | P11(s) : P12(s) |
+##   P(s) = |------- :--------|
+##          | P21(s) : P22(s) |
+##                                             -1
+##   N(S) = P11(s) + P12(s)K(s)(I - P22(s)K(s))  P21(s)
+##
+## @end group
+## @end example
+##
+## The state-space representation of P is given by
+## @example
+## @group
+##
+##     .
+##     x(t) =  A x(t) +  B1 w(t) +  B2 u(t)
+##     z(t) = C1 x(t) + D11 w(t) + D12 u(t)
+##     v(t) = C2 x(t) + D21 w(t) + D22 u(t)
+##
+##                         | C1 |      | D11 : D12 |
+## A, B = | B1 : B2 |, C = |----|, D = |-----:-----|
+##                         | C2 |      | D21 : D22 |
+##
 ## @end group
 ## @end example
 ##
@@ -125,7 +167,7 @@
 ## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
-## @seealso{augw, mixsyn}
+## @seealso{augw, mixsyn, lft}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -142,7 +184,7 @@ function [K, varargout] = hinfsyn (P, varargin)
   if (! isa (P, "lti"))
     error ("hinfsyn: first argument must be an LTI system");
   endif
-  
+
   if (nargin == 1 || (nargin > 1 && ! is_real_scalar (varargin{1})))    # hinfsyn (P, ...)
     [nmeas, ncon] = __tito_dim__ (P, "hinfsyn");
   elseif (nargin >= 3)                          # hinfsyn (P, nmeas, ncon, ...)
@@ -152,32 +194,32 @@ function [K, varargout] = hinfsyn (P, varargin)
   else
     print_usage ();
   endif
-  
+
   if (! is_real_scalar (nmeas))
     error ("hinfsyn: second argument 'nmeas' invalid");
   endif
-  
+
   if (! is_real_scalar (ncon))
     error ("hinfsyn: third argument 'ncon' invalid");
   endif
-  
+
   if (numel (varargin) > 0 && isstruct (varargin{1}))   # hinfsyn (P, nmeas, ncon, opt, ...), hinfsyn (P, opt, ...)
     varargin = horzcat (__opt2cell__ (varargin{1}), varargin(2:end));
   endif
 
   nkv = numel (varargin);   # number of keys and values
-  
+
   if (rem (nkv, 2))
     error ("hinfsyn: keys and values must come in pairs");
   endif
-  
+
   ## default arguments
   gmax = 1e15;
   gmin = 0;
   tolgam = 0.01;
   actol = eps;              # tolerance for stability margin
   method = "opt";
-  
+
   ## handle keys and values
   for k = 1 : 2 : nkv
     key = lower (varargin{k});
@@ -193,19 +235,19 @@ function [K, varargout] = hinfsyn (P, varargin)
           error ("hinfsyn: 'gmin' must be a real-valued, non-negative scalar");
         endif
         gmin = val;
-      case "tolgam"    
+      case "tolgam"
         if (! is_real_scalar (val) || val < 0)
           error ("hinfsyn: 'tolgam' must be a real-valued, non-negative scalar");
         endif
         tolgam = val;
-      case "actol"  
+      case "actol"
         if (! is_real_scalar (val) || val < 0)
           error ("hinfsyn: 'actol' must be a real-valued, non-negative scalar");
         endif
         actol = val;
       case "method"
         ## NOTE: I called this "method" because of the dark side,
-        ##       maybe something like "type" would make more sense ...               
+        ##       maybe something like "type" would make more sense ...
         if (strncmpi (val, "s", 1))
           method = "sub";   # sub-optimal
         elseif (strncmpi (val, "o", 1) || strncmpi (val, "ric", 1))
@@ -219,18 +261,18 @@ function [K, varargout] = hinfsyn (P, varargin)
   endfor
 
   [a, b, c, d, tsam] = ssdata (P);
-  
+
   ## check assumption A1
   m = columns (b);
   p = rows (c);
-  
+
   m1 = m - ncon;
   p1 = p - nmeas;
-  
+
   if (! isstabilizable (P(:, m1+1:m)))
     error ("hinfsyn: (A, B2) must be stabilizable");
   endif
-  
+
   if (! isdetectable (P(p1+1:p, :)))
     error ("hinfsyn: (C2, A) must be detectable");
   endif
@@ -271,17 +313,17 @@ function [K, varargout] = hinfsyn (P, varargin)
             endif
           catch             # cannot find solution
             gmin = gmid;
-          end_try_catch 
+          end_try_catch
         endwhile
       endif
-    
+
     otherwise
       error ("hinfsyn: this should never happen");
   endswitch
-  
+
   ## controller
   K = ss (ak, bk, ck, dk, tsam);
-  
+
   if (nargout > 1)
     N = lft (P, K);
     varargout{1} = N;
