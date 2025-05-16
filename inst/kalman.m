@@ -85,10 +85,16 @@ function [est, k, x] = kalman (sys, Q, R, varargin)
     print_usage ();
   endif
 
-  ## system in state space
+  ## System in state space
   [A, B, C, D, E] = dssdata (sys, []);
 
-  ## optional parameters
+  ## Optional parameters:
+  ## The new default for known inputs (deterministic) are not
+  ## backward compatible because previously, all inputs are
+  ## assumed to be stochastic if is empty. However, this would
+  ## result in an error if the number if the number of stochastic
+  ## inputs would not match the dimension of Q. For all valid cases
+  ## the new version is compatibel to the old one.
   S = [];
   sensors = 1 : rows (C);
   deterministic = 1 : columns (B) - size (Q,1);   # first inputs deterministic
@@ -103,7 +109,9 @@ function [est, k, x] = kalman (sys, Q, R, varargin)
         sensors = varargin{argidx};
       endif
       if (nargin > argidx++)
-        deterministic = varargin{argidx};
+        if (! isempty (varargin{argidx}))
+          deterministic = varargin{argidx};
+        endif
         if (nargin > argidx++)
           if (isct (sys))
             warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
