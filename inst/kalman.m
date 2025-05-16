@@ -40,7 +40,7 @@
 ## Indices of known input signals u (deterministic) to @var{sys}.  All other inputs to @var{sys}
 ## are assumed stochastic.  If argument @var{known} is omitted, no inputs u are known.
 ## @item type
-## type of the estimator for discrete-time systems. If set to 'delayed' the current
+## Type of the estimator for discrete-time systems. If set to 'delayed' the current
 ## estimation is based on y(k-1), if set to 'current' the current estimation is
 ## based on the lates mesaruement y(k). If omitted, the 'delayed' version is created.
 ## @end table
@@ -70,7 +70,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{care, dare, estim, estimd, lqr}
+## @seealso{care, dare, estim, lqr}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -122,16 +122,11 @@ function [est, k, x] = kalman (sys, q, r, s = [], sensors = [], deterministic = 
   endif
 
   k = k.';
-
-  if strcmp (type, 'current') && isdt (sys)
-    est = estimd (sys, k, sensors, deterministic);
-  else
-    est = estim (sys, k, sensors, deterministic);
-  endif
+  est = estim (sys, k, sensors, deterministic, type);
 
 endfunction
 
-
+%!test
 %!shared m, m_exp, g, g_exp, x, x_exp
 %! sys = ss (-2, 1, 1, 3);
 %! [est, g, x] = kalman (sys, 1, 1, 1);
@@ -143,3 +138,40 @@ endfunction
 %!assert (m, m_exp, 1e-2);
 %!assert (g, g_exp, 1e-2);
 %!assert (x, x_exp, 1e-2);
+
+%!test
+%!shared P, Pc, Pinf, L, Lc, K, A, C, kalmf, kalmfc
+%! n = 3;
+%! nw = 2;
+%!
+%! A = [1.1269   -0.4940    0.1129
+%!      1.0000         0         0
+%!           0    1.0000         0];
+%! B = [-0.3832
+%!       0.5919
+%!       0.5191];
+%! Bw = rand(n,nw);
+%! B = [B Bw];
+%! C = [1 0 0];
+%! D = [0];
+%! Dw = zeros(1,nw);
+%! sys = ss(A,B,C,D,1);
+%! Q = eye(nw,nw);
+%! R = 1;
+%! N = [];
+%! [kalmf,L,P] = kalman(sys,Q,R,N,1,1);
+%! [kalmfc,Lc,Pc] = kalman(sys,Q,R,N,1,1,'current');
+%! PP = eye(3,3);
+%! # asymptotic filter equations
+%! for i = 1:10
+%!   Pinf = A*PP*A' + Bw*Q*Bw';
+%!   K  = Pinf*C'*inv(C*Pinf*C'+R);
+%!   PP =  (eye(3,3)-K*C)*Pinf;
+%! end;
+%!assert (Pinf, P, 1e-4);
+%!assert (Pinf, Pc, 1e-4);
+%!assert (inv(A)*L, K, 1e-4);
+%!assert (inv(A)*Lc, K, 1e-4);
+%!assert (kalmf.a, A-L*C, 1e-4);
+%!assert (kalmfc.a, A-A*K*C, 1e-4);
+

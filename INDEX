@@ -97,7 +97,6 @@ Optimal Control
   dlqe
   dlqr
   estim
-  estimd
   kalman
   lqe
   lqg
