@@ -122,7 +122,8 @@
 ## @end example
 ##
 ## The signals have the following meanings:
-## @table
+##
+## @table @asis
 ## @item w(t): exogenous input (reference, disturbance, ...)
 ## @item u(t): control input
 ## @item z(t): performance outputs (control error, control input, ...)

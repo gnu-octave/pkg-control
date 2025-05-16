@@ -516,14 +516,14 @@
  </p></dd>
 <dt> <var>nmeas</var></dt>
 </dl>
-<p> Number of measured outputs v.  The last <var>nmeas</var> outputs of <var>P</var> are connected to the
+<p> Number of measured outputs v. The last <var>nmeas</var> outputs of <var>P</var> are connected to the
  inputs of controller <var>K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
  to calculate the H-infinity norm.
  </p></dd>
 <dt> <var>ncon</var></dt>
 </dl>
-<p> Number of controlled inputs u.  The last <var>ncon</var> inputs of <var>P</var> are connected to the
- outputs of controller <var>K</var>.  The remaining inputs w (indices 1 to m-ncon) are excited
+<p> Number of controlled inputs u. The last <var>ncon</var> inputs of <var>P</var> are connected to the
+ outputs of controller <var>K</var>. The remaining inputs w (indices 1 to m-ncon) are excited
  by a harmonic test signal.
  </p></dd>
 <dt> <var>&hellip;</var></dt>
@@ -546,7 +546,8 @@
  </p></dd>
 <dt> <var>N</var></dt>
 </dl>
-<p> State-space model of the lower LFT of <var>P</var> and <var>K</var>.
+<p> State-space model of the resulting closed loop system with inputs w and outputs z.
+ It is the lower linear transformation (LFT) of <var>P</var> and <var>K</var> (see function <code>lft</code>).
  </p></dd>
 <dt> <var>info</var></dt>
 </dl>
@@ -619,7 +620,7 @@
  gamma = min||N(K)||             N = lft (P, K)
           K         inf
 
-                +--------+  
+                +--------+
         w -----&gt;|        |-----&gt; z
                 |  P(s)  |
         u +----&gt;|        |-----+ v
@@ -629,9 +630,45 @@
           +-----|  K(s)  |&lt;----+
                 +--------+
 
-                +--------+      
+                +--------+
         w -----&gt;|  N(s)  |-----&gt; z
                 +--------+
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> The signals have the following meanings:
+</p>
+ <dl compact="compact">
+<dt> w(t): exogenous input (reference, disturbance, ...)</dt>
+<dt> u(t): control input</dt>
+<dt> z(t): performance outputs (control error, control input, ...)</dt>
+<dt> v(t): measured output (input of the controller)</dt>
+</dl>
+
+<p> The transfer matrix P(s) can be partitioned corresponding to the input
+ and output signals:
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+   Z(s) = P11(s) W(s) + P12(s) U(s)
+   V(s) = P21(s) W(s) + P22(s) U(s)
+
+          | P11(s) : P12(s) |
+   P(s) = |------- :--------|
+          | P21(s) : P22(s) |
+                                             -1
+   N(S) = P11(s) + P12(s)K(s)(I - P22(s)K(s))  P21(s)
+
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> The state-space representation of P is given by
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+     .
+     x(t) =  A x(t) +  B1 w(t) +  B2 u(t)
+     z(t) = C1 x(t) + D11 w(t) + D12 u(t)
+     v(t) = C2 x(t) + D21 w(t) + D22 u(t)
+
+                         | C1 |      | D11 : D12 |
+ A, B = | B1 : B2 |, C = |----|, D = |-----:-----|
+                         | C2 |      | D21 : D22 |
+
  </pre><pre class="example"> </pre></td></tr></table>
 
 <p> <strong>Algorithm</strong><br>
@@ -641,7 +678,8 @@
 </p>
 <p> <strong>See also: </strong>
   <a href="augw.html">augw</a>, 
-  <a href="mixsyn.html">mixsyn</a>
+  <a href="mixsyn.html">mixsyn</a>, 
+lft
 </p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/hinfsyn.m">hinfsyn</a>
