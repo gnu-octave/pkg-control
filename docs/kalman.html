@@ -297,7 +297,6 @@
 					<li><a href="dlqe.html" class="text-decoration-none font-monospace"><small>dlqe</small></a></li>
 					<li><a href="dlqr.html" class="text-decoration-none font-monospace"><small>dlqr</small></a></li>
 					<li><a href="estim.html" class="text-decoration-none font-monospace"><small>estim</small></a></li>
-					<li><a href="estimd.html" class="text-decoration-none font-monospace"><small>estimd</small></a></li>
 					<li><a href="kalman.html" class="text-decoration-none font-monospace fw-bolder"><small>kalman</small></a></li>
 					<li><a href="lqe.html" class="text-decoration-none font-monospace"><small>lqe</small></a></li>
 					<li><a href="lqg.html" class="text-decoration-none font-monospace"><small>lqg</small></a></li>
@@ -497,12 +496,12 @@
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>)</i></dt>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>)</i></dt>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>)</i></dt>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>, <var>sensors</var>, <var>known</var>)</i></dt>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</i></dt>
-<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>, <var>sensors</var>, <var>known</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</i></dt>
+<dt><u>Function File:</u> [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b><i> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</i></dt>
 </dl>
 <p> Design Kalman estimator for <acronym>LTI</acronym> systems.
 </p>
@@ -523,20 +522,22 @@
  </p></dd>
 <dt> <var>s</var></dt>
 </dl>
-<p> Optional cross term covariance.  Default value is 0.
+<p> Optional cross term covariance. Default value is 0.
  </p></dd>
 <dt> <var>sensors</var></dt>
 </dl>
-<p> Indices of measured output signals y from <var>sys</var>.  If omitted, all outputs are measured.
+<p> Indices of measured output signals y from <var>sys</var>. If omitted or empty, all outputs are measured.
  </p></dd>
 <dt> <var>known</var></dt>
 </dl>
 <p> Indices of known input signals u (deterministic) to <var>sys</var>.  All other inputs to <var>sys</var>
- are assumed stochastic.  If argument <var>known</var> is omitted, no inputs u are known.
+ are assumed stochastic. If argument <var>known</var> is omitted or empty, the first m-l inputs to <var>sys</var>
+ are known, where m is the total number of inputs to <var>sys</var> and l is the size of the quadratic
+ matrix <var>Q</var>.
  </p></dd>
 <dt> <var>type</var></dt>
 </dl>
-<p> type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
+<p> Type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
  estimation is based on y(k-1), if set to &rsquo;current&rsquo; the current estimation is
  based on the lates mesaruement y(k). If omitted, the &rsquo;delayed&rsquo; version is created.
  </p></dd>
@@ -574,7 +575,6 @@
   <a href="care.html">care</a>, 
   <a href="dare.html">dare</a>, 
   <a href="estim.html">estim</a>, 
-  <a href="estimd.html">estimd</a>, 
   <a href="lqr.html">lqr</a>
 </p>
 <p><strong>Source Code: </strong>
