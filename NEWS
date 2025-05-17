@@ -5,8 +5,20 @@ Summary of important user-visible changes for releases of the control package
 control-4.1.1+  Next minor version 4.1.2, not yet released
 ===============================================================================
 
-** estimd: new function for creating a discrete-time estimator that uses
-   measurments up to step k for current state estimate at step k
+** estim: new input argument 'type' for a delayed or current version of
+   a discrete-time estimator using last or current output measurements for
+   current state estimation
+
+** kalman: adding 'type' input argument for discrete-time filters
+  (see estim), consistent default values for input arguments
+
+** added more test, like, e.g. estim, kalman and ssdata
+
+** hinfsyn: more comprehensive help text
+
+** margin: fix of wrong phase margin if outside +/- 180 degree
+
+** rlocusx: improved colors
 
 ===============================================================================
 control-4.1.1  Release date 2025-02-09
