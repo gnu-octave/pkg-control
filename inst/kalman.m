@@ -79,7 +79,7 @@
 ## Created: November 2009
 ## Version: 0.3
 
-function [est, k, x] = kalman (sys, Q, R, varargin)
+function [est, K, X] = kalman (sys, Q, R, varargin)
 
   if (nargin < 3 || nargin > 7 || ! isa (sys, "lti"))
     print_usage ();
@@ -100,23 +100,24 @@ function [est, k, x] = kalman (sys, Q, R, varargin)
   deterministic = 1 : columns (B) - size (Q,1);   # first inputs deterministic
   type = 'delayed';
 
-  argidx = 3;   # no. of fixed variables
+  varidxoff = 3;        # offset no. of variable and fixed input arguments
+  argidx = varidxoff;   # index of last input argument
 
   if (nargin > argidx++)
-    S = varargin{argidx};
+    S = varargin{argidx-varidxoff};
     if (nargin > argidx++)
-      if (! isempty (varargin{argidx}))
-        sensors = varargin{argidx};
+      if (! isempty (varargin{argidx-varidxoff}))
+        sensors = varargin{argidx-varidxoff};
       endif
       if (nargin > argidx++)
-        if (! isempty (varargin{argidx}))
-          deterministic = varargin{argidx};
+        if (! isempty (varargin{argidx-varidxoff}))
+          deterministic = varargin{argidx-varidxoff};
         endif
         if (nargin > argidx++)
           if (isct (sys))
             warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
           else
-            type = varargin{argidx};
+            type = varargin{argidx-varidxoff};
           endif
         endif
       endif
@@ -156,7 +157,7 @@ function [est, k, x] = kalman (sys, Q, R, varargin)
   G = B(:, stochastic);
   H = D(sensors, stochastic);
 
-  if (isempty (s))
+  if (isempty (S))
     Rbar = R + H*Q*H.';
     Sbar = G * Q*H.';
   else
@@ -165,9 +166,9 @@ function [est, k, x] = kalman (sys, Q, R, varargin)
   endif
 
   if (isct (sys))
-    [x, l, K] = care (A.', C.', G*Q*G.', Rbar, Sbar, E.');
+    [X, L, K] = care (A.', C.', G*Q*G.', Rbar, Sbar, E.');
   else
-    [x, l, K] = dare (A.', C.', G*Q*G.', Rbar, Sbar, E.');
+    [X, L, K] = dare (A.', C.', G*Q*G.', Rbar, Sbar, E.');
   endif
 
   K = K.';

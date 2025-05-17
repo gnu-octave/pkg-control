@@ -156,7 +156,7 @@ function est = estim (sys, l, sensors = [], known = [], type = 'delayed')
     endif
   endif
 
-  if type == 'c'
+  if strcmp (type, 'current')
     l = inv(a) * l;
     i_lc = eye(n,n) - l*c;
     f = a * i_lc;
