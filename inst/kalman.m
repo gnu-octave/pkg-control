@@ -177,7 +177,6 @@ function [est, K, X] = kalman (sys, Q, R, varargin)
 endfunction
 
 %!test
-%!shared m, m_exp, g, g_exp, x, x_exp
 %! sys = ss (-2, 1, 1, 3);
 %! [est, g, x] = kalman (sys, 1, 1, 1);
 %! [a, b, c, d] = ssdata (est);
@@ -185,12 +184,11 @@ endfunction
 %! m_exp = [-2.25, 0.25; 1, 0; 1, 0];
 %! g_exp = 0.25;
 %! x_exp = 0;
-%!assert (m, m_exp, 1e-2);
-%!assert (g, g_exp, 1e-2);
-%!assert (x, x_exp, 1e-2);
+%! assert (m, m_exp, 1e-2);
+%! assert (g, g_exp, 1e-2);
+%! assert (x, x_exp, 1e-2);
 
-%!test
-%!shared P, Pc, Pinf, L, Lc, K, A, C, kalmf, kalmfc
+%!shared n, nw, A, B, C, D, Bw, Dw, sys, Q, R, N, Pinf, K
 %! n = 3;
 %! nw = 2;
 %!
@@ -203,25 +201,30 @@ endfunction
 %! Bw = rand(n,nw);
 %! B = [B Bw];
 %! C = [1 0 0];
-%! D = [0];
+%! D = [1];
 %! Dw = zeros(1,nw);
+%! D = [D Dw];
 %! sys = ss(A,B,C,D,1);
 %! Q = eye(nw,nw);
 %! R = 1;
 %! N = [];
-%! [kalmf,L,P] = kalman(sys,Q,R,N,1,1);
-%! [kalmfc,Lc,Pc] = kalman(sys,Q,R,N,1,1,'current');
 %! PP = eye(3,3);
 %! # asymptotic filter equations
 %! for i = 1:10
 %!   Pinf = A*PP*A' + Bw*Q*Bw';
 %!   K  = Pinf*C'*inv(C*Pinf*C'+R);
 %!   PP =  (eye(3,3)-K*C)*Pinf;
-%! end;
-%!assert (Pinf, P, 1e-4);
-%!assert (Pinf, Pc, 1e-4);
-%!assert (inv(A)*L, K, 1e-4);
-%!assert (inv(A)*Lc, K, 1e-4);
-%!assert (kalmf.a, A-L*C, 1e-4);
-%!assert (kalmfc.a, A-A*K*C, 1e-4);
+%! endfor;
+
+%!test
+%! [kalmf,L,P] = kalman(sys,Q,R,N,1,1);
+%! assert (Pinf, P, 1e-4);
+%! assert (inv(A)*L, K, 1e-4);
+%! assert (kalmf.a, A-L*C, 1e-4);
+
+%!test
+%! [kalmfc,Lc,Pc] = kalman(sys,Q,R,N,1,1,'current');
+%! assert (Pinf, Pc, 1e-4);
+%! assert (inv(A)*Lc, K, 1e-4);
+%! assert (kalmfc.a, A-A*K*C, 1e-4);
 

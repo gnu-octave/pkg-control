@@ -180,38 +180,48 @@ function est = estim (sys, l, sensors = [], known = [], type = 'delayed')
 endfunction
 
 %!test
-%!shared m, m_exp
 %! sys = ss (-2, 1, 1, 3);
 %! est = estim (sys, 5);
 %! [a, b, c, d] = ssdata (est);
 %! m = [a, b; c, d];
 %! m_exp = [-7, 5; 1, 0; 1, 0];
-%!assert (m, m_exp, 1e-4);
+%! assert (m, m_exp, 1e-4);
 
 %!test
-%!shared m, m_exp
 %! sys = ss (-1, 2, 3, 4);
 %! est = estim (sys, 5);
 %! [a, b, c, d] = ssdata (est);
 %! m = [a, b; c, d];
 %! m_exp = [-16, 5; 3, 0; 1, 0];
-%!assert (m, m_exp, 1e-4);
+%! assert (m, m_exp, 1e-4);
 
-%!test
+## The following test use the same system
+
+%!shared A, B, C, D, L, sysd, x0, xo0, u, k, y, x
 %! A = [ 0 1 0 ; 0 0 1 ; 0.5120 0.640 -0.800];
 %! B = [ 0; 0; 1 ];
 %! C = [ 0.1 0 0 ];
 %! D = 1;
 %! L = place (A',C',zeros(1,3))';   % Deadbeat
 %! sysd = ss (A,B,C,D,1);
-%! estd = estimd (sysd, L, [], 1);
 %! x0  = [ .1 .1 .1 ];
 %! xo0 = [ 0 0 0 ];
 %! k = 0:1:25;
 %! u = 0.1*sin(0.5*k).*cos(0.4*k).^2;
 %! [y,t,x] = lsim (sysd, u, k, x0);
-%! [yo,t,~] = lsim (estd, [u' y], k, xo0);
-%! xo = yo(:,2:end);
-%! e = xo - x;
-%! assert (e(3,:), zeros(1,3), 1e-4);  % e already zero for k = 2
+
+%!test
+%! estc = estim (sysd, L, [], 1, 'current');
+%! [yoc,t,~] = lsim (estc, [u' y], k, xo0);
+%! xoc = yoc(:,2:end);
+%! ec = xoc - x;
+%! assert (ec(3,:), zeros(1,3), 1e-4);  % ed already zero for k = 2
+
+%!test
+%! estd = estim (sysd, L, [], 1);
+%! [yod,t,~] = lsim (estd, [u' y], k, xo0);
+%! xod = yod(:,2:end);
+%! ed = xod - x;
+%! assert (ed(1,:), xo0 - x0, 1e-4);     % ec not corrected at k = 0
+%! assert (ed(4,:), zeros(1,3), 1e-4);  % ec zero for k = 3
 
