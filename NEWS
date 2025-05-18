@@ -12,7 +12,7 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
    (bug #63393)
 
 ===============================================================================
-control-4.1.1+  Next minor version 4.1.2, not yet released
+control-4.1.2  Release date 2025-05-18
 ===============================================================================
 
 ** estim: new input argument 'type' for a delayed or current version of
