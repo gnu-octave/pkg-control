@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{est} =} estim (@var{sys}, @var{l})
 ## @deftypefnx {Function File} {@var{est} =} estim (@var{sys}, @var{l}, @var{sensors}, @var{known})
+## @deftypefnx {Function File} {@var{est} =} estim (@var{sys}, @var{l}, @var{sensors}, @var{known}, @var{known})
 ## Return state estimator for a given estimator gain.
 ##
 ## @strong{Inputs}
@@ -27,10 +28,16 @@
 ## @item l
 ## State feedback matrix.
 ## @item sensors
-## Indices of measured output signals y from @var{sys}.  If omitted, all outputs are measured.
+## Indices of measured output signals y from @var{sys}. If omitted or empty,
+## all outputs are measured.
 ## @item known
-## Indices of known input signals u (deterministic) to @var{sys}.  All other inputs to @var{sys}
-## are assumed stochastic (w).  If argument @var{known} is omitted, no inputs u are known.
+## Indices of known input signals u (deterministic) to @var{sys}.
+## All other inputs to @var{sys} are assumed stochastic (w).
+## If argument @var{known} is omitted or empty, no inputs u are known.
+## @item type
+## Type of the estimator for discrete-time systems. If set to 'delayed' the current
+## estimation is based on y(k-1), if set to 'current' the current estimation is
+## based on the lates mesaruement y(k). If omitted, the 'delayed' version is created.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -52,6 +59,28 @@
 ## @end group
 ## @end example
 ##
+## @strong{Remarks}
+##
+## The argument @var{type} is for discrete-time systems only. If set to 'current',
+## the follwong prediction-correction scheme is used:
+## @example
+## @group
+## ^           ^
+## x*(k+1) = A x(k) + B u(k)
+##    ^      ^        -1
+##    x(k) = x*(k) + A   L (y(k) - C x*(k) - D u(k))
+## @end group
+## @end example
+## The inverse fo the system matrix in the above equations is required
+## for maintaining the desired observer error dynamics given by (A - LC).
+##
+## The advantage of this structure is that the current measurement y(k)
+## is used for the current estiamted state and not for the next allowing
+## the estimator to react to system disturbances faster. L is the
+## observer feedback matrix for the common observer structure with
+## the matrix (A - LC) being asymptotically stable, i.e. has
+## eigenvalues strictly within the unit circle.
+##
 ## @seealso{kalman, lqe, place}
 ## @end deftypefn
 
@@ -59,9 +88,9 @@
 ## Created: November 2009
 ## Version: 0.3
 
-function est = estim (sys, l, sensors = [], known = [])
+function est = estim (sys, l, sensors = [], known = [], type = 'delayed')
 
-  if (nargin < 2 || nargin > 4)
+  if (nargin < 2 || nargin > 5)
     print_usage ();
   endif
 
@@ -76,7 +105,7 @@ function est = estim (sys, l, sensors = [], known = [])
   if (isempty (sensors))
     sensors = 1 : rows (c);
   endif
-  
+
   if (ischar (sensors))
     sensors = {sensors};
   endif
@@ -115,30 +144,84 @@ function est = estim (sys, l, sensors = [], known = [])
   outname = vertcat (__labels__ (outn(sensors(:)), "yhat"), stname);
   inname = vertcat (__labels__ (inn(known(:)), "u"), __labels__ (outn(sensors(:)), "y"));
 
-  f = a - l*c;
-  g = [b - l*d, l];
-  h = [c; eye(n)];
-  j = [d, zeros(p, p); zeros(n, m), zeros(n, p)];
-  ## k = e;
+  if strcmp (type, 'current')
+    if isct (sys)
+      warning ("kalman: ignoring 'type' parameter for continuous-time estimator\n");
+      type = 'delayed';
+    else
+      if (cond (a) > 1e12)
+        error ("estimd: system '%s' has noninvertibla system matrix", ...
+               inputname (1));
+      endif
+    endif
+  endif
+
+  if strcmp (type, 'current')
+    l = inv(a) * l;
+    i_lc = eye(n,n) - l*c;
+    f = a * i_lc;
+    g = [ b-a*l*d, a*l ];
+    h = [ c*i_lc
+          i_lc ];
+    j = [ -c*l*d, c*l;
+            -l*d,   l ];
+    ## k = e;
+  else
+    f = a - l*c;
+    g = [b - l*d, l];
+    h = [c; eye(n)];
+    j = [d, zeros(p, p); zeros(n, m), zeros(n, p)];
+    ## k = e;
+  endif
 
   est = dss (f, g, h, j, e, tsam);
   est = set (est, "inname", inname, "stname", stname, "outname", outname);
 
 endfunction
 
-
-%!shared m, m_exp
+%!test
 %! sys = ss (-2, 1, 1, 3);
 %! est = estim (sys, 5);
 %! [a, b, c, d] = ssdata (est);
 %! m = [a, b; c, d];
 %! m_exp = [-7, 5; 1, 0; 1, 0];
-%!assert (m, m_exp, 1e-4);
+%! assert (m, m_exp, 1e-4);
 
-%!shared m, m_exp
+%!test
 %! sys = ss (-1, 2, 3, 4);
 %! est = estim (sys, 5);
 %! [a, b, c, d] = ssdata (est);
 %! m = [a, b; c, d];
 %! m_exp = [-16, 5; 3, 0; 1, 0];
-%!assert (m, m_exp, 1e-4);
+%! assert (m, m_exp, 1e-4);
+
+## The following test use the same system
+
+%!shared A, B, C, D, L, sysd, x0, xo0, u, k, y, x
+%! A = [ 0 1 0 ; 0 0 1 ; 0.5120 0.640 -0.800];
+%! B = [ 0; 0; 1 ];
+%! C = [ 0.1 0 0 ];
+%! D = 1;
+%! L = place (A',C',zeros(1,3))';   % Deadbeat
+%! sysd = ss (A,B,C,D,1);
+%! x0  = [ .1 .1 .1 ];
+%! xo0 = [ 0 0 0 ];
+%! k = 0:1:25;
+%! u = 0.1*sin(0.5*k).*cos(0.4*k).^2;
+%! [y,t,x] = lsim (sysd, u, k, x0);
+
+%!test
+%! estc = estim (sysd, L, [], 1, 'current');
+%! [yoc,t,~] = lsim (estc, [u' y], k, xo0);
+%! xoc = yoc(:,2:end);
+%! ec = xoc - x;
+%! assert (ec(3,:), zeros(1,3), 1e-4);  % ed already zero for k = 2
+
+%!test
+%! estd = estim (sysd, L, [], 1);
+%! [yod,t,~] = lsim (estd, [u' y], k, xo0);
+%! xod = yod(:,2:end);
+%! ed = xod - x;
+%! assert (ed(1,:), xo0 - x0, 1e-4);     % ec not corrected at k = 0
+%! assert (ed(4,:), zeros(1,3), 1e-4);  % ec zero for k = 3
+

@@ -68,3 +68,17 @@ function [a, b, c, d, tsam, scaled] = ssdata (sys)
   tsam = sys.tsam;
 
 endfunction
+
+%!test
+%! systf = tf ({[1 2 3],[1 1 1]},{[1 2  1],[1 3 3 1]});
+%! [A,B,C,D,tsam] = ssdata (systf);
+%! s = -6:1.2:6;
+%! Gss = zeros(length(s),2);
+%! Gtf = zeros(length(s),2);
+%! for j = 1:length(s)
+%!   Gss(j,:) = C*inv(eye(3,3)*i*s(j)-A)*B + D;
+%!   Gtf(j,:) = systf (s(j));
+%! endfor
+%! assert (Gss, Gtf, 1e-6);
+%! assert (tsam, 0, 1e-6);
+

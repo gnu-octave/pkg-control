@@ -418,13 +418,26 @@ function [phi, w_phi] = pm_filter (w, num, den, tsam, tol, continuous)
     endif
 
     f_resp = polyval (num, s) ./ polyval (den, s);
-    pm = 180 + arg (f_resp) ./ pi .* 180;
+    pha = arg (f_resp) ./ pi .* 180;
 
-    [phi, idx] = min (pm);
+    [pha, idx] = min (pha);
     w_phi = w_pm(idx);
+
+    [mag_all, pha_all, w_all] = bode (tf(num,den,tsam));   # get complete response
+
+    # get real phase and fix the phase computed above (only between -180 and +180)
+    pha_real = interp1(w_all,pha_all,w_phi);
+    while (pha_real < pha - 179)
+      pha = pha - 360;   # fix the phase
+    endwhile
+
+    phi = pha + 180;
+
   else                                                   # there are no frequencies in R+
+
     phi = 180;
     w_phi = NaN;
+
   endif
 
 endfunction

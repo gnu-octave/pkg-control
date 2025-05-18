@@ -190,13 +190,14 @@ function rlocusx(sys,varargin)
   ymax = ymax+dy;
 
   % Some constants for colors and markers
-  col_z   = [0.00000   0.75000   0.00000];  % color of open loop zeros and poles
-  col_p   = [0.75000   0.00000   0.00000];  % color of open loop zeros and poles
-  col_clp = [0.10000   0.10000   0.10000];  % color of closed loop poles
-  col_rl1 = [0.00000   0.44700   0.74100];  % color of first branch of rlocus
-  col_rl2 = [0.30100   0.74500   0.93300];  % color of last branch of rlocus
-  col_y   = [0.59400   0.18400   0.55600];  % color closed loop output y and simulated poles
-  col_r   = [0.92900   0.69400   0.12500];  % color closed loop reference
+  col_z   = [0.0000  0.7500  0.0000];  % color of open loop zeros and poles
+  col_p   = [0.7500  0.0000  0.0000];  % color of open loop zeros and poles
+  col_clp = [0.1000  0.1000  0.1000];  % color of closed loop poles
+  col_rl1 = [0.0000  0.4470  0.7410];  % color of first branch of rlocus
+  col_rl2 = [0.3010  0.7450  0.9330];  % color of last branch of rlocus
+  col_y   = [0.0000  0.4470  0.7410];  % color closed loop output y
+  col_r   = [0.8500  0.3250  0.0980];  % color closed loop reference
+  col_cp  = [0.4940  0.1840  0.5560];  % color of current cl poles simulated
   lw      = 2;              % general line width
   lw_mark = 2;              % line width of markers
   lw_asym = 1;              % line width of asymptotes
@@ -252,8 +253,12 @@ function rlocusx(sys,varargin)
       form = '-;locus;';
     else
       form = '-';
-    end
-    cj = (j-1)/n; % each branch in a slightly different color
+    endif
+    if ( n > 1 )  % each branch in a slightly different color
+      cj = (j-1)/(n-1);
+    else
+      cj = 0;
+    endif
     col = col_rl2*cj + col_rl1*(1-cj);
     plot(real(rlpol(j,:)),imag(rlpol(j,:)),form,'linewidth',lw,'color',col);
   end
@@ -423,7 +428,7 @@ function rlocusx(sys,varargin)
             % update color of the related poles
             handle_sim_poles = handles(end-2*n+1:end);
             for j = 1:length (handle_sim_poles)
-              set (handle_sim_poles(j), 'color', col_y);
+              set (handle_sim_poles(j), 'color', col_cp);
             endfor
           endif
 
@@ -463,11 +468,11 @@ function rlocusx(sys,varargin)
               closed_loop = feedback (K*sys, 1);
               if (but == b_step)
                 [y,t] = step (closed_loop);
-                plot ([t(1),t(end)],[1 1],'linewidth',lw,'color',col_r);
+                plot ([t(1),t(end)],[1 1],'linewidth',0.75*lw,'color',col_r);
                 if (tsam > 0)
                   [t,y] = stairs (t,y);
                 endif
-                plot (t,y,'linewidth',lw,'color',col_y);
+                plot (t,y,'linewidth',0.75*lw,'color',col_y);
                 ylabel ('closed loop output and reference');
                 title ({['Closed loop step response y for K = ',num2str(K)] });
                 legend ('reference y_r','output y');
@@ -476,7 +481,7 @@ function rlocusx(sys,varargin)
                 if (tsam > 0)
                   [t,y] = stairs (t,y);
                 endif
-                plot (t,y,'linewidth',lw,'color',col_y);
+                plot (t,y,'linewidth',0.75*lw,'color',col_y);
                 ylabel ('impulse responce output and reference');
                 title ({['Closed loop impulse response y for K = ',num2str(K)] });
                 legend ('output y');

@@ -20,6 +20,7 @@
 ## @deftypefnx {Function File} {@var{f} =} place (@var{a}, @var{b}, @var{p})
 ## @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{sys}, @var{p}, @var{alpha})
 ## @deftypefnx {Function File} {[@var{f}, @var{info}] =} place (@var{a}, @var{b}, @var{p}, @var{alpha})
+##
 ## Pole assignment for a given matrix pair (@var{A},@var{B}) such that @code{p = eig (A-B*F)}.
 ## If parameter @var{alpha} is specified, poles with real parts (continuous-time)
 ## or moduli (discrete-time) below @var{alpha} are left untouched.
@@ -112,14 +113,14 @@ function [f, info] = place (a, b, p = [], alpha = [], tol = [])
   if (! isnumeric (p) || ! isvector (p) || isempty (p))  # p could be complex
     error ("place: p must be a vector");
   endif
-  
+
   p = sort (reshape (p, [], 1));   # complex conjugate pairs must appear together
   wr = real (p);
   wi = imag (p);
-  
+
   n = rows (a);                    # number of states
   np = length (p);                 # number of given eigenvalues
-  
+
   if (np > n)
     error ("place: at most %d eigenvalues can be assigned for the given matrix a (%dx%d)",
             n, n, n);
@@ -132,7 +133,7 @@ function [f, info] = place (a, b, p = [], alpha = [], tol = [])
       alpha = - norm (a, inf);
     endif
   endif
-  
+
   if (isempty (tol))
     tol = 0;
   endif
