@@ -28,6 +28,7 @@ Model Conversions
   @lti/prescale
   @lti/xperm
   @ss/ss2ss
+  pade
 Model Interconnections
   append
   @lti/blkdiag
