@@ -57,9 +57,9 @@
 ## @var{den} is a cell array of denominator polynomials.
 ## @end table
 ##
-## If no output argument is requested, the step response of the approximatons
-## with orders ## @var{N1}, @var{M1} to @var{NL}, @var{ML} are plotted togehter
-## with step delayed by the given dead-time @var{T}.
+## If no output argument is requested, the step response and the bode diagram
+## of the approximatons with orders ## @var{N1}, @var{M1} to @var{NL}, @var{ML}
+## are plotted togehter with step delayed by the given dead-time @var{T}.
 ##
 ## When using the same numbers of poles and zeros (@var{m} = @var{n}), the step response of the
 ## resulting approximation shows a step at t = 0 which is untypical for a
@@ -73,6 +73,26 @@
 ## @end deftypefn
 
 function varargout = pade (T, n, varargin)
+
+  ## Parameter check
+  if nargin < 2
+    print_usage ();
+  endif
+
+  if (nargin > 2) && (mod (nargin,2) == 0)
+    msg = ["pade: for more than one approximation, the number of input ",...
+           "arguments must be odd (number of poles and zeros in pairs)\n"];
+    error (msg);
+  endif
+
+  if ! (isreal (T) && T >= 0)
+    error ("pade: dead time T must be real and non-negative\n");
+  endif
+
+  if (! __isinteger__ (n)) || ...
+     (nargin > 2 && ! all (cellfun (@__isinteger__, varargin)))
+    error ("pade: number of poles or zeros must be integer numbers\n");
+  endif
 
   ## Get parameters
   if nargin > 2
@@ -94,10 +114,11 @@ function varargout = pade (T, n, varargin)
     mi = n;
   endif
 
+  ## Check for causality
+  if any (ni < mi)
+    error ("pade: non-causal approximation requested (n < m)\n");
+  endif
 
-
-  ## Parameter tests
-  ## TODO
 
   ## Compute numeratr and denominator polinomials following [1], Section 3
   # T as array of correct length
@@ -146,7 +167,7 @@ function varargout = pade (T, n, varargin)
       if N == 1
         sys = tf (num, den);
       else
-        sys = cell (1,N)
+        sys = cell (1,N);
         for i = 1:N
           sys{i} = tf (num{i}, den{i});
         endfor
@@ -173,26 +194,45 @@ function __pade_plot__ (num, den, T)
 
   N = length(num);
 
-  t_end = 3*T;
+  t_end = 2.5*T;
+  if t_end == 0
+    t_end = 1;
+  endif
+
   delay_text = sprintf ('Delay %10.3e s', T);
 
+  ## Step response
   t_delay = [0, T, T, t_end];
   y_delay = [0, 0, 1, 1];
 
-  clf ();
+  step_response_title = 'Pade approximation: Step response';
+  bode_plot_title = 'Pade approximation: Bode plot';
 
-  plot (t_delay, y_delay, 'linewidth', 1.5)
+  fig_handles = findobj ('Type', 'figure');
+
+  h_step = __handle_from_name__ (fig_handles, step_response_title);
+  h_bode = __handle_from_name__ (fig_handles, bode_plot_title);
+
+  figure (h_step);
+  clf ();
+  set (gcf (), 'numbertitle', 'off');
+  set (gcf (), 'name', step_response_title);
 
   hold on;
 
+  sys = cell(1,N);
   leg = cell (1,N+1);
   leg{1} = delay_text;
 
   for i = 1:N
-    [y,t] = step (tf (num{i}, den{i}), t_end);
+    sys{i} = tf (num{i}, den{i});
+    [y,t] = step (sys{i}, t_end);
     plot (t, y, 'linewidth', 1.5)
-    leg{i+1} = ['Pade n=', num2str(length(den{i})-1), ', m=', num2str(length(num{i})-1)];
+    leg{i} =  ['Pade n=', num2str(length(den{i})-1), ', m=', num2str(length(num{i})-1)];
   endfor
+
+  plot (t_delay, y_delay, '-.k', 'linewidth', 1)
+  leg{end} = delay_text;
 
   box on;
   grid on;
@@ -200,4 +240,89 @@ function __pade_plot__ (num, den, T)
   legend (leg);
   legend ('location', 'southeast')
 
+  ## Bode plot
+  figure (h_bode);
+  clf ();
+  set (gcf (), 'numbertitle', 'off');
+  set (gcf (), 'name', bode_plot_title);
+  bode (sys{:});
+
+  xlim10 = log10 (xlim ());
+
+  w = logspace (xlim10(1),xlim10(2),1000);
+  pha_delay = -w*T/pi*180;
+
+  hc = get (h_bode, 'children');
+  amp = hc(2);
+  pha = hc(4);
+
+  hold (amp, 'on');
+  plot (amp, w, pha_delay, '-.k', 'linewidth', 1);
+  hold (amp, 'off');
+  legend ('location', 'southwest');
+
+  hold (pha, 'on');
+  plot (pha, w, zeros (size(w)), '-.k', 'linewidth', 1);  # zeros, because dB
+  hold (pha, 'off');
+
+  amp_leg = get(amp, "__legend_handle__");
+  set (amp_leg, "string", leg);
+  set (amp_leg, 'location', 'southwest');
+
+  pha_leg = get(pha, "__legend_handle__");
+  set (pha_leg, "string", leg);
+  set (pha_leg, 'location', 'southwest');
+
 endfunction
+
+
+## Get figure handles from name
+function h = __handle_from_name__ (handles, name);
+
+  idx = find (strcmp (get (handles, 'name'), name));
+  if (isempty (idx))
+    h = figure ();  # not found, create new figure
+  else
+    h = handles (idx(1));   # name found, get corresponding handle
+  endif
+
+endfunction
+
+
+## Check for integer
+function intx = __isinteger__ (x)
+
+  intx = round (x) == x;
+
+endfunction
+
+
+%!demo
+%! pade (1,4,4,4,3,4,2)
+
+## Examples from [1, Table 1]
+
+%!test
+%! T = 2*rand ();
+%! [num33,den33] = pade (T,3);
+%! num33e = [ -T^3   12*T^2  -60*T  120 ];
+%! den33e = [  T^3   12*T^2   60*T  120 ];
+%! num33 = num33/num33(end);
+%! den33 = den33/num33(end);
+%! den33e = den33e/num33e(end);
+%! num33e = num33e/num33e(end);
+%! assert (num33, num33e, 10-4);
+%! assert (den33, den33e, 10-4);
+
+%!test
+%! T = 3*rand ();
+%! [num43,den43] = pade (T,4,3);
+%! num43e = [         -T^3   60*T^2 -360*T  840 ];
+%! den43e = [  T^4  16*T^3  120*T^2  480*T  840 ];
+%! den43 = den43/num43(end);
+%! num43 = num43/num43(end);
+%! den43e = den43e/num43e(end);
+%! num43e = num43e/num43e(end);
+%! assert (num43, num43e, 10-4);
+%! assert (den43, den43e, 10-4);
+
