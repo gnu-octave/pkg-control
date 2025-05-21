@@ -86,7 +86,7 @@ function [a,cs,p1,p2] = __fix_sign__ (a,first)
     else
       cs = " - ";
     endif
-    a = -a
+    a = -a;
   else
     if (first)
       cs = "";
