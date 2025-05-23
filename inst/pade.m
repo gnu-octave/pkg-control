@@ -31,15 +31,15 @@
 ## @table @var
 ## @item T
 ## Dead-time to be approximated.
-## @item N
+## @item n
 ## Number of poles of the approximations.
-## @item M
+## @item m
 ## Number of zeros of the approximation, If omitted, the number of zeros is
-## the same as the number @var{N} of poles.
+## the same as the number @var{n} of poles.
 ## @end table
 ##
-## More then one approximation can be requested by providing the additional
-## order pairs @var{n2}, @var{m2}, ..., @var{nk}, @var{mk}.
+## More then one approximation can be requested by providing the pairs
+## pairs @var{n1}, @var{m1}, @var{n2}, @var{m2}, ..., @var{nk}, @var{mk}.
 ##
 ## @strong{Outputs}
 ## @table @var
@@ -58,18 +58,22 @@
 ## @end table
 ##
 ## If no output argument is requested, the step response and the bode diagram
-## of the approximatons with orders ## @var{N1}, @var{M1} to @var{NL}, @var{ML}
+## of the approximatons with orders @var{n1}, @var{m1} to @var{nk}, @var{nk}
 ## are plotted togehter with step delayed by the given dead-time @var{T}.
 ##
 ## When using the same numbers of poles and zeros (@var{m} = @var{n}), the step response of the
 ## resulting approximation shows a step at t = 0 which is untypical for a
-## pure teim delay. Therefore, [1] proposes an approximaton with less zeros
-## than poles (@var{m} < @var{n}).
+## pure time delay. However, it has a magnitude of 1 (0 dB) over all
+## frequencies. In [1], an approximaton having less zeros than poles
+## (@var{m} < @var{n}) is suggested as an alternative approach, resulting
+## in a better step response but decresing magnitude for higher frequencies.
 ##
 ## Algorithm based on:@*
 ## [1] Vajta, M. (2000). Some remarks on Pade-approximations, pp53-58,
 ##     Paper presented at 3rd TEMPUS-INTCOM Symposium on Intelligent Systems
 ##     in Control and Measurements 2000, Veszprém, Hungary.
+##
+## @seealso{tf}
 ## @end deftypefn
 
 function varargout = pade (T, n, varargin)
