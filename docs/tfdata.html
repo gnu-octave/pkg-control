@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: isstabilizable</title>
+    <title>Control Package: tfdata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -62,9 +62,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html#Model Characteristics">
+                  <a class="nav-link" href="index.html#Model Data Access">
                     <i class="fas fa-list-alt"></i>
-                    Model Characteristics
+                    Model Data Access
                   </a>
                 </li>
                 <li class="nav-item">
@@ -126,7 +126,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<input id="togList3" type="checkbox">
+				<input id="togList3" type="checkbox" checked>
 				<label for="togList3">
 					<span><h6>Model Data Access</h6></span>
 					<span><h6>Model Data Access</h6></span>
@@ -141,7 +141,7 @@
 					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace"><small>@lti/ssdata</small></a></li>
 					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace"><small>@lti/tfdata</small></a></li>
 					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
-					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
+					<li><a href="tfdata.html" class="text-decoration-none font-monospace fw-bolder"><small>tfdata</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -184,7 +184,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<input id="togList6" type="checkbox" checked>
+				<input id="togList6" type="checkbox">
 				<label for="togList6">
 					<span><h6>Model Characteristics</h6></span>
 					<span><h6>Model Characteristics</h6></span>
@@ -206,7 +206,7 @@
 					<li><a href="@lti_isminimumphase.html" class="text-decoration-none font-monospace"><small>@lti/isminimumphase</small></a></li>
 					<li><a href="isobsv.html" class="text-decoration-none font-monospace"><small>isobsv</small></a></li>
 					<li><a href="@lti_issiso.html" class="text-decoration-none font-monospace"><small>@lti/issiso</small></a></li>
-					<li><a href="isstabilizable.html" class="text-decoration-none font-monospace fw-bolder"><small>isstabilizable</small></a></li>
+					<li><a href="isstabilizable.html" class="text-decoration-none font-monospace"><small>isstabilizable</small></a></li>
 					<li><a href="@lti_isstable.html" class="text-decoration-none font-monospace"><small>@lti/isstable</small></a></li>
 					<li><a href="@lti_norm.html" class="text-decoration-none font-monospace"><small>@lti/norm</small></a></li>
 					<li><a href="obsv.html" class="text-decoration-none font-monospace"><small>obsv</small></a></li>
@@ -492,93 +492,49 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>isstabilizable</code></b>
+                Function&nbsp;Reference: <b><code>tfdata</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>sys</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>sys</var>, <var>tol</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>e</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>[]</var>, <var>tol</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>e</var>, <var>tol</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>[]</var>, <var>[]</var>, <var>dflg</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>e</var>, <var>[]</var>, <var>dflg</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>[]</var>, <var>tol</var>, <var>dflg</var>)</i></dt>
-<dt><u>Function File:</u> <var>bool</var> = <b>isstabilizable</b><i> (<var>a</var>, <var>b</var>, <var>e</var>, <var>tol</var>, <var>dflg</var>)</i></dt>
+<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>gain</var>, ...)</i></dt>
 </dl>
-<p> Logical check for system stabilizability.
- All unstable modes must be controllable or all uncontrollable states must be stable.
+
+<p> Access transfer function data for a SISO static gain <var>GAIN</var>.<br>
+ <strong>For the full function for accessing transfer function of
+ general LTI systems and with all optioinal inputs, see <a href="@lti_tfdata.html">@lti/tfdata</a>.</strong>
 </p>
 <div class="ms-5">
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<dt> <var>gain</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system.  If <var>sys</var> is not a state-space system, it is converted to
- a minimal state-space realization, so beware of pole-zero cancellations
- which may lead to wrong results!
- </p></dd>
-<dt> <var>a</var></dt>
-</dl>
-<p> State transition matrix.
- </p></dd>
-<dt> <var>b</var></dt>
-</dl>
-<p> Input matrix.
- </p></dd>
-<dt> <var>e</var></dt>
-</dl>
-<p> Descriptor matrix.
- If <var>e</var> is empty <code>[]</code> or not specified, an identity matrix is assumed.
- </p></dd>
-<dt> <var>tol</var></dt>
-</dl>
-<p> Optional tolerance for stability.  Default value is 0.
- </p></dd>
-<dt> <var>dflg = 0</var></dt>
-</dl>
-<p> Matrices (<var>a</var>, <var>b</var>) are part of a continuous-time system.  Default Value.
- </p></dd>
-<dt> <var>dflg = 1</var></dt>
-</dl>
-<p> Matrices (<var>a</var>, <var>b</var>) are part of a discrete-time system.
+<p> Real valued scalar gain.
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>bool = 0</var></dt>
+<dt> <var>num</var></dt>
 </dl>
-<p> System is not stabilizable.
+<p> Numerator, (<var>gain</var> in this case).
  </p></dd>
-<dt> <var>bool = 1</var></dt>
+<dt> <var>den</var></dt>
 </dl>
-<p> System is stabilizable.
+<p> Denominator (1 in this case).
+ </p></dd>
+<dt> <var>tsam</var></dt>
+</dl>
+<p> Sampling time in seconds (0 in this case)
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB01OD and TG01HD</a>,
- Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> * Calculate staircase form (SLICOT AB01OD)
- * Extract unobservable part of state transition matrix
- * Calculate eigenvalues of unobservable part
- * Check whether
-   real (ev) &lt; -tol*(1 + abs (ev))   continuous-time
-   abs (ev) &lt; 1 - tol                discrete-time
- </pre><pre class="example"> </pre></td></tr></table>
 <p> <strong>See also: </strong>
-  <a href="isdetectable.html">isdetectable</a>, 
-isstable, 
-  <a href="isctrb.html">isctrb</a>, 
-  <a href="isobsv.html">isobsv</a>
+  <a href="@lti_tfdata.html">@lti/tfdata</a>
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/isstabilizable.m">isstabilizable</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/tfdata.m">tfdata</a>
 </div>
 
             </div>

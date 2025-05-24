@@ -1,4 +1,5 @@
-## Copyright (C) 2009-2016   Lukas F. Reichlin
+# Copyright (C) 2009-2016   Lukas F. Reichlin
+# Copyright (C) 2025        Torsten Lilge
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -19,9 +20,12 @@
 ## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"vector"})
 ## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} tfdata (@var{sys}, @var{"tfpoly"})
+##
 ## Access transfer function data.
 ## Argument @var{sys} is not limited to transfer function models.
 ## If @var{sys} is not a transfer function, it is converted automatically.
+## @var{sys} can also be a scalar real-valued number which is then
+## interpreted as static gain system, @pxref{tfdata}.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -30,6 +34,8 @@
 ## @item "v", "vector"
 ## For SISO models, return @var{num} and @var{den} directly as column vectors
 ## instead of cells containing a single column vector.
+## @item "t", "tfpoly"
+## Return the polynomials as tfpoly class.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -47,14 +53,14 @@
 ## den@{i,j@} contains the denominator polynomial from input j to output i.
 ## In the SISO case, a single vector is possible as well.
 ## @item tsam
-## Sampling time in seconds.  If @var{sys} is a continuous-time model,
+## Sampling time in seconds. If @var{sys} is a continuous-time model,
 ## a zero is returned.
 ## @end table
+##
+## @seealso{tfdata}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: September 2009
-## Version: 0.5
 
 function [num, den, tsam] = tfdata (sys, rtype = "cell")
 
@@ -62,7 +68,7 @@ function [num, den, tsam] = tfdata (sys, rtype = "cell")
     sys = tf (sys);
   endif
 
-  [num, den] = __sys_data__ (sys); 
+  [num, den] = __sys_data__ (sys);
 
   tsam = sys.tsam;
 

@@ -141,6 +141,7 @@
 					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace"><small>@lti/ssdata</small></a></li>
 					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/tfdata</small></a></li>
 					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
+					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -501,9 +502,12 @@
 <dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>sys</var>, <var>&quot;vector&quot;</var>)</i></dt>
 <dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>sys</var>, <var>&quot;tfpoly&quot;</var>)</i></dt>
 </dl>
+
 <p> Access transfer function data.
  Argument <var>sys</var> is not limited to transfer function models.
  If <var>sys</var> is not a transfer function, it is converted automatically.
+ <var>sys</var> can also be a scalar real-valued number which is then
+ interpreted as static gain system, see <a href="tfdata.html">tfdata</a>.
 </p>
 <div class="ms-5">
 <p> <strong>Inputs</strong>
@@ -516,6 +520,10 @@
 </dl>
 <p> For SISO models, return <var>num</var> and <var>den</var> directly as column vectors
  instead of cells containing a single column vector.
+ </p></dd>
+<dt> <var>&quot;t&quot;, &quot;tfpoly&quot;</var></dt>
+</dl>
+<p> Return the polynomials as tfpoly class.
  </p></dd>
 </dl>
 
@@ -539,15 +547,17 @@
  </p></dd>
 <dt> <var>tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+<p> Sampling time in seconds. If <var>sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
+<p> <strong>See also: </strong>
+  <a href="tfdata.html">tfdata</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/tfdata.m">@lti/tfdata</a>
 </div>
-
 
             </div>
           </div>
