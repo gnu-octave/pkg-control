@@ -24,13 +24,14 @@
 ## Access transfer function data.
 ## Argument @var{sys} is not limited to transfer function models.
 ## If @var{sys} is not a transfer function, it is converted automatically.
-## @var{sys} can also be a scalar real-valued number which is then
-## interpreted as static gain system, @pxref{tfdata}.
+## @var{sys} can also be a real-valued gain matrix which is then
+## interpreted as static gain system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of @acronym{LTI} model.
+## Any type of @acronym{LTI} model or a real-valued matrix which is
+## interpreted as continous-time static gain.
 ## @item "v", "vector"
 ## For SISO models, return @var{num} and @var{den} directly as column vectors
 ## instead of cells containing a single column vector.
@@ -57,12 +58,20 @@
 ## a zero is returned.
 ## @end table
 ##
-## @seealso{tfdata}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 
 function [num, den, tsam] = tfdata (sys, rtype = "cell")
+
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["tfdata: has to be called with an @lti object ",...
+                      "or with a real matrix (static gain)\n"]);
+    else
+      sys = tf (sys);
+    endif
+  endif
 
   if (! isa (sys, "tf"))
     sys = tf (sys);

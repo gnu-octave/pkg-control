@@ -17,14 +17,18 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{tsam}] =} ssdata (@var{sys})
+##
 ## Access state-space model data.
 ## Argument @var{sys} is not limited to state-space models.
 ## If @var{sys} is not a state-space model, it is converted automatically.
+## @var{sys} can also be a real-valued matrix which is then
+## interpreted as continuous-time static gain system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of @acronym{LTI} model.
+## Any type of @acronym{LTI} model  or a real-valued matrix which is
+## interpreted as continous-time static gain.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -47,7 +51,7 @@
 ## If @var{sys} is given by an input-output description, like, e.g.,
 ## a transfer function, the resulting state-space model has a
 ## different form than the one provided by Matlab,
-## see @code{ss} for details.
+## @pxref{ss} for details.
 ##
 ## @end deftypefn
 
@@ -56,6 +60,15 @@
 ## Version: 0.4
 
 function [a, b, c, d, tsam, scaled] = ssdata (sys)
+
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["ssdata: has to be called with an @lti object ",...
+                      "or with a real matrix (static gain)\n"]);
+    else
+      sys = ss (sys);
+    endif
+  endif
 
   if (! isa (sys, "ss"))
     sys = ss (sys);

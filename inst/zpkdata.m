@@ -18,12 +18,16 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{z}, @var{p}, @var{k}, @var{tsam}] =} zpkdata (@var{sys}, @var{"v"})
+##
 ## Access zero-pole-gain data.
+## @var{sys} can also be a real-valued matrix which is then
+## interpreted as continuous-time static gain system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of @acronym{LTI} model.
+## Any type of @acronym{LTI} model or a real-valued matrix which is
+## interpreted as continous-time static gain.
 ## @item "v", "vector"
 ## For SISO models, return @var{z} and @var{p} directly as column vectors
 ## instead of cells containing a single column vector.
@@ -44,6 +48,7 @@
 ## Sampling time in seconds.  If @var{sys} is a continuous-time model,
 ## a zero is returned.
 ## @end table
+##
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -51,6 +56,15 @@
 ## Version: 0.1
 
 function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
+
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["zpkdata: has to be called with an @lti object ",...
+                       "or with a real matrix (static gain)\n"]);
+    else
+      sys = tf (sys);
+    endif
+  endif
 
   [num, den, tsam] = tfdata (sys);
   num = cellfun (@__remove_leading_zeros__, num, 'uniformoutput', false);
