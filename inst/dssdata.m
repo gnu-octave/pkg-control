@@ -19,13 +19,17 @@
 ## @deftypefn {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{a}, @var{b}, @var{c}, @var{d}, @var{e}, @var{tsam}] =} dssdata (@var{sys}, @var{[]})
 ## Access descriptor state-space model data.
+##
 ## Argument @var{sys} is not limited to descriptor state-space models.
 ## If @var{sys} is not a descriptor state-space model, it is converted automatically.
+## @var{sys} can also be a real-valued gain matrix which is then
+## interpreted as static gain system.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of @acronym{LTI} model.
+## Any type of @acronym{LTI} model or a real-valued matrix which is
+## interpreted as continous-time static gain.
 ## @item []
 ## In case @var{sys} is not a dss model (descriptor matrix @var{e} empty),
 ## @code{dssdata (sys, [])} returns the empty element @code{e = []} whereas
@@ -62,6 +66,15 @@ function [a, b, c, d, e, tsam, scaled] = dssdata (sys, flg = 0)
 
   if (nargin > 2)
     print_usage ();
+  endif
+
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["dssdata: has to be called with an @lti object ",...
+                       "or with a real matrix (static gain)\n"]);
+    else
+      sys = ss (sys);
+    endif
   endif
 
   if (! isa (sys, "ss"))
