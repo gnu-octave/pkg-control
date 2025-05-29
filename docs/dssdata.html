@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: @lti/tfdata</title>
+    <title>Control Package: dssdata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -133,14 +133,13 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
-					<li><a href="@lti_dssdata.html" class="text-decoration-none font-monospace"><small>@lti/dssdata</small></a></li>
-					<li><a href="@lti_filtdata.html" class="text-decoration-none font-monospace"><small>@lti/filtdata</small></a></li>
-					<li><a href="@lti_frdata.html" class="text-decoration-none font-monospace"><small>@lti/frdata</small></a></li>
+					<li><a href="dssdata.html" class="text-decoration-none font-monospace fw-bolder"><small>dssdata</small></a></li>
+					<li><a href="filtdata.html" class="text-decoration-none font-monospace"><small>filtdata</small></a></li>
+					<li><a href="frdata.html" class="text-decoration-none font-monospace"><small>frdata</small></a></li>
 					<li><a href="@lti_get.html" class="text-decoration-none font-monospace"><small>@lti/get</small></a></li>
 					<li><a href="@lti_set.html" class="text-decoration-none font-monospace"><small>@lti/set</small></a></li>
-					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace"><small>@lti/ssdata</small></a></li>
-					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/tfdata</small></a></li>
-					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
+					<li><a href="ssdata.html" class="text-decoration-none font-monospace"><small>ssdata</small></a></li>
+					<li><a href="zpkdata.html" class="text-decoration-none font-monospace"><small>zpkdata</small></a></li>
 					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
 				</ul>
 				</div>
@@ -492,72 +491,71 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>@lti/tfdata</code></b>
+                Function&nbsp;Reference: <b><code>dssdata</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>sys</var>)</i></dt>
-<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>sys</var>, <var>&quot;vector&quot;</var>)</i></dt>
-<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>tfdata</b><i> (<var>sys</var>, <var>&quot;tfpoly&quot;</var>)</i></dt>
+<dt><u>Function File:</u> [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b><i> (<var>sys</var>, <var>[]</var>)</i></dt>
 </dl>
-
-<p> Access transfer function data.
- Argument <var>sys</var> is not limited to transfer function models.
- If <var>sys</var> is not a transfer function, it is converted automatically.
- <var>sys</var> can also be a scalar real-valued number which is then
- interpreted as static gain system, see <a href="tfdata.html">tfdata</a>.
+<p> Access descriptor state-space model data.
 </p>
 <div class="ms-5">
+<p> Argument <var>sys</var> is not limited to descriptor state-space models.
+ If <var>sys</var> is not a descriptor state-space model, it is converted automatically.
+ <var>sys</var> can also be a real-valued gain matrix which is then
+ interpreted as static gain system.
+</p>
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model.
+<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+ interpreted as continous-time static gain.
  </p></dd>
-<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dt> <var>[]</var></dt>
 </dl>
-<p> For SISO models, return <var>num</var> and <var>den</var> directly as column vectors
- instead of cells containing a single column vector.
- </p></dd>
-<dt> <var>&quot;t&quot;, &quot;tfpoly&quot;</var></dt>
-</dl>
-<p> Return the polynomials as tfpoly class.
+<p> In case <var>sys</var> is not a dss model (descriptor matrix <var>e</var> empty),
+ <code>dssdata (sys, [])</code> returns the empty element <code>e = []</code> whereas
+ <code>dssdata (sys)</code> returns the identity matrix <code>e = eye (size (a))</code>.
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>num</var></dt>
+<dt> <var>a</var></dt>
 </dl>
-<p> Cell of numerator(s).  Each numerator is a row vector
- containing the coefficients of the polynomial in descending powers of
- the transfer function variable.
- num{i,j} contains the numerator polynomial from input j to output i.
- In the SISO case, a single vector is possible as well.
+<p> State matrix (n-by-n).
  </p></dd>
-<dt> <var>den</var></dt>
+<dt> <var>b</var></dt>
 </dl>
-<p> Cell of denominator(s).  Each denominator is a row vector
- containing the coefficients of the polynomial in descending powers of
- the transfer function variable.
- den{i,j} contains the denominator polynomial from input j to output i.
- In the SISO case, a single vector is possible as well.
+<p> Input matrix (n-by-m).
+ </p></dd>
+<dt> <var>c</var></dt>
+</dl>
+<p> Measurement matrix (p-by-n).
+ </p></dd>
+<dt> <var>d</var></dt>
+</dl>
+<p> Feedthrough matrix (p-by-m).
+ </p></dd>
+<dt> <var>e</var></dt>
+</dl>
+<p> Descriptor matrix (n-by-n).
  </p></dd>
 <dt> <var>tsam</var></dt>
 </dl>
-<p> Sampling time in seconds. If <var>sys</var> is a continuous-time model,
+<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="tfdata.html">tfdata</a>
-</p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/tfdata.m">@lti/tfdata</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/dssdata.m">dssdata</a>
 </div>
+
 
             </div>
           </div>

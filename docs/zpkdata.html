@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: @lti/frdata</title>
+    <title>Control Package: zpkdata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -133,14 +133,13 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
-					<li><a href="@lti_dssdata.html" class="text-decoration-none font-monospace"><small>@lti/dssdata</small></a></li>
-					<li><a href="@lti_filtdata.html" class="text-decoration-none font-monospace"><small>@lti/filtdata</small></a></li>
-					<li><a href="@lti_frdata.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/frdata</small></a></li>
+					<li><a href="dssdata.html" class="text-decoration-none font-monospace"><small>dssdata</small></a></li>
+					<li><a href="filtdata.html" class="text-decoration-none font-monospace"><small>filtdata</small></a></li>
+					<li><a href="frdata.html" class="text-decoration-none font-monospace"><small>frdata</small></a></li>
 					<li><a href="@lti_get.html" class="text-decoration-none font-monospace"><small>@lti/get</small></a></li>
 					<li><a href="@lti_set.html" class="text-decoration-none font-monospace"><small>@lti/set</small></a></li>
-					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace"><small>@lti/ssdata</small></a></li>
-					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace"><small>@lti/tfdata</small></a></li>
-					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
+					<li><a href="ssdata.html" class="text-decoration-none font-monospace"><small>ssdata</small></a></li>
+					<li><a href="zpkdata.html" class="text-decoration-none font-monospace fw-bolder"><small>zpkdata</small></a></li>
 					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
 				</ul>
 				</div>
@@ -492,45 +491,51 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>@lti/frdata</code></b>
+                Function&nbsp;Reference: <b><code>zpkdata</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b><i> (<var>sys</var>)</i></dt>
-<dt><u>Function File:</u> [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b><i> (<var>sys</var>, <var>&quot;vector&quot;</var>)</i></dt>
+<dt><u>Function File:</u> [<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>] = <b>zpkdata</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>] = <b>zpkdata</b><i> (<var>sys</var>, <var>&quot;v&quot;</var>)</i></dt>
 </dl>
-<p> Access frequency response data.
- Argument <var>sys</var> is not limited to frequency response data objects.
- If <var>sys</var> is not a frd object, it is converted automatically.
+
+<p> Access zero-pole-gain data.
+ <var>sys</var> can also be a real-valued matrix which is then
+ interpreted as continuous-time static gain system.
 </p>
 <div class="ms-5">
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model.
+<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+ interpreted as continous-time static gain.
  </p></dd>
 <dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
 </dl>
-<p> In case <var>sys</var> is a SISO model, this option returns the frequency response
- as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
+<p> For SISO models, return <var>z</var> and <var>p</var> directly as column vectors
+ instead of cells containing a single column vector.
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>H</var></dt>
+<dt> <var>z</var></dt>
 </dl>
-<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
- response from input j to output i at frequency k.  In the SISO case,
- a vector (lw-by-1) is possible as well.
+<p> Cell of column vectors containing the zeros for each channel.
+ z{i,j} contains the zeros from input j to output i.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt> <var>p</var></dt>
 </dl>
-<p> Frequency vector (lw-by-1) in radian per second [rad/s].
- Frequencies are in ascending order.
+<p> Cell of column vectors containing the poles for each channel.
+ p{i,j} contains the poles from input j to output i.
+ </p></dd>
+<dt> <var>k</var></dt>
+</dl>
+<p> Matrix containing the gains for each channel.
+ k(i,j) contains the gain from input j to output i.
  </p></dd>
 <dt> <var>tsam</var></dt>
 </dl>
@@ -539,8 +544,9 @@
  </p></dd>
 </dl>
 
+
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/frdata.m">@lti/frdata</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/zpkdata.m">zpkdata</a>
 </div>
 
 

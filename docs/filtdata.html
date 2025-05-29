@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: @lti/ssdata</title>
+    <title>Control Package: filtdata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -133,14 +133,13 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
-					<li><a href="@lti_dssdata.html" class="text-decoration-none font-monospace"><small>@lti/dssdata</small></a></li>
-					<li><a href="@lti_filtdata.html" class="text-decoration-none font-monospace"><small>@lti/filtdata</small></a></li>
-					<li><a href="@lti_frdata.html" class="text-decoration-none font-monospace"><small>@lti/frdata</small></a></li>
+					<li><a href="dssdata.html" class="text-decoration-none font-monospace"><small>dssdata</small></a></li>
+					<li><a href="filtdata.html" class="text-decoration-none font-monospace fw-bolder"><small>filtdata</small></a></li>
+					<li><a href="frdata.html" class="text-decoration-none font-monospace"><small>frdata</small></a></li>
 					<li><a href="@lti_get.html" class="text-decoration-none font-monospace"><small>@lti/get</small></a></li>
 					<li><a href="@lti_set.html" class="text-decoration-none font-monospace"><small>@lti/set</small></a></li>
-					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/ssdata</small></a></li>
-					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace"><small>@lti/tfdata</small></a></li>
-					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
+					<li><a href="ssdata.html" class="text-decoration-none font-monospace"><small>ssdata</small></a></li>
+					<li><a href="zpkdata.html" class="text-decoration-none font-monospace"><small>zpkdata</small></a></li>
 					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
 				</ul>
 				</div>
@@ -492,62 +491,61 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>@lti/ssdata</code></b>
+                Function&nbsp;Reference: <b><code>filtdata</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>tsam</var>] = <b>ssdata</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b><i> (<var>sys</var>, <var>&quot;vector&quot;</var>)</i></dt>
 </dl>
-<p> Access state-space model data.
- Argument <var>sys</var> is not limited to state-space models.
- If <var>sys</var> is not a state-space model, it is converted automatically.
+
+<p> Access discrete-time transfer function data in DSP format.
+ Argument <var>sys</var> is not limited to transfer function models.
+ If <var>sys</var> is not a transfer function, it is converted automatically.
+ <var>sys</var> can also be a real-valued gain matrix which is then
+ interpreted as static gain system with unspecified sampling time (-1).
 </p>
 <div class="ms-5">
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model.
+<p> Any type of discrete-time <acronym>LTI</acronym> model or a real-valued matrix which is
+ interpreted as discrete-time static gain with unspecified sampling time -1.
+ </p></dd>
+<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+</dl>
+<p> For SISO models, return <var>num</var> and <var>den</var> directly as column vectors
+ instead of cells containing a single column vector.
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<dt> <var>num</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p> Cell of numerator(s).  Each numerator is a row vector
+ containing the coefficients of the polynomial in ascending powers of z^-1.
+ num{i,j} contains the numerator polynomial from input j to output i.
+ In the SISO case, a single vector is possible as well.
  </p></dd>
-<dt> <var>b</var></dt>
+<dt> <var>den</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
- </p></dd>
-<dt> <var>c</var></dt>
-</dl>
-<p> Measurement matrix (p-by-n).
- </p></dd>
-<dt> <var>d</var></dt>
-</dl>
-<p> Feedthrough matrix (p-by-m).
+<p> Cell of denominator(s).  Each denominator is a row vector
+ containing the coefficients of the polynomial in ascending powers of z^-1.
+ den{i,j} contains the denominator polynomial from input j to output i.
+ In the SISO case, a single vector is possible as well.
  </p></dd>
 <dt> <var>tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
- a zero is returned.
+<p> Sampling time in seconds.  If <var>tsam</var> is not specified, -1 is returned.
  </p></dd>
 </dl>
 
-<p> <strong>Note on compatibility</strong>
-</p>
-<p> If <var>sys</var> is given by an input-output description, like, e.g.,
- a transfer function, the resulting state-space model has a
- different form than the one provided by Matlab,
- see <code>ss</code> for details.
-</p>
-
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/ssdata.m">@lti/ssdata</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/filtdata.m">filtdata</a>
 </div>
 
 

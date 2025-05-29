@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: @lti/dssdata</title>
+    <title>Control Package: frdata</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -133,14 +133,13 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
-					<li><a href="@lti_dssdata.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/dssdata</small></a></li>
-					<li><a href="@lti_filtdata.html" class="text-decoration-none font-monospace"><small>@lti/filtdata</small></a></li>
-					<li><a href="@lti_frdata.html" class="text-decoration-none font-monospace"><small>@lti/frdata</small></a></li>
+					<li><a href="dssdata.html" class="text-decoration-none font-monospace"><small>dssdata</small></a></li>
+					<li><a href="filtdata.html" class="text-decoration-none font-monospace"><small>filtdata</small></a></li>
+					<li><a href="frdata.html" class="text-decoration-none font-monospace fw-bolder"><small>frdata</small></a></li>
 					<li><a href="@lti_get.html" class="text-decoration-none font-monospace"><small>@lti/get</small></a></li>
 					<li><a href="@lti_set.html" class="text-decoration-none font-monospace"><small>@lti/set</small></a></li>
-					<li><a href="@lti_ssdata.html" class="text-decoration-none font-monospace"><small>@lti/ssdata</small></a></li>
-					<li><a href="@lti_tfdata.html" class="text-decoration-none font-monospace"><small>@lti/tfdata</small></a></li>
-					<li><a href="@lti_zpkdata.html" class="text-decoration-none font-monospace"><small>@lti/zpkdata</small></a></li>
+					<li><a href="ssdata.html" class="text-decoration-none font-monospace"><small>ssdata</small></a></li>
+					<li><a href="zpkdata.html" class="text-decoration-none font-monospace"><small>zpkdata</small></a></li>
 					<li><a href="tfdata.html" class="text-decoration-none font-monospace"><small>tfdata</small></a></li>
 				</ul>
 				</div>
@@ -492,55 +491,47 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>@lti/dssdata</code></b>
+                Function&nbsp;Reference: <b><code>frdata</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b><i> (<var>sys</var>)</i></dt>
-<dt><u>Function File:</u> [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b><i> (<var>sys</var>, <var>[]</var>)</i></dt>
+<dt><u>Function File:</u> [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b><i> (<var>sys</var>)</i></dt>
+<dt><u>Function File:</u> [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b><i> (<var>sys</var>, <var>&quot;vector&quot;</var>)</i></dt>
 </dl>
-<p> Access descriptor state-space model data.
- Argument <var>sys</var> is not limited to descriptor state-space models.
- If <var>sys</var> is not a descriptor state-space model, it is converted automatically.
+<p> Access frequency response data.
 </p>
 <div class="ms-5">
+<p> Argument <var>sys</var> is not limited to frequency response data objects.
+ If <var>sys</var> is not a frd object, it is converted automatically.
+</p>
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model.
+<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+ interpreted as continous-time static gain.
  </p></dd>
-<dt> <var>[]</var></dt>
+<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
 </dl>
-<p> In case <var>sys</var> is not a dss model (descriptor matrix <var>e</var> empty),
- <code>dssdata (sys, [])</code> returns the empty element <code>e = []</code> whereas
- <code>dssdata (sys)</code> returns the identity matrix <code>e = eye (size (a))</code>.
+<p> In case <var>sys</var> is a SISO model, this option returns the frequency response
+ as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
  </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<dt> <var>H</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+ response from input j to output i at frequency k.  In the SISO case,
+ a vector (lw-by-1) is possible as well, see input <var>&quot;vector&quot;</var>.
  </p></dd>
-<dt> <var>b</var></dt>
+<dt> <var>w</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
- </p></dd>
-<dt> <var>c</var></dt>
-</dl>
-<p> Measurement matrix (p-by-n).
- </p></dd>
-<dt> <var>d</var></dt>
-</dl>
-<p> Feedthrough matrix (p-by-m).
- </p></dd>
-<dt> <var>e</var></dt>
-</dl>
-<p> Descriptor matrix (n-by-n).
+<p> Frequency vector (lw-by-1) in radian per second [rad/s].
+ Frequencies are in ascending order.
  </p></dd>
 <dt> <var>tsam</var></dt>
 </dl>
@@ -550,7 +541,7 @@
 </dl>
 
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/dssdata.m">@lti/dssdata</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/frdata.m">frdata</a>
 </div>
 
 
