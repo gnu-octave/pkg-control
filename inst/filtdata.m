@@ -18,14 +18,18 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{num}, @var{den}, @var{tsam}] =} filtdata (@var{sys}, @var{"vector"})
+##
 ## Access discrete-time transfer function data in DSP format.
 ## Argument @var{sys} is not limited to transfer function models.
 ## If @var{sys} is not a transfer function, it is converted automatically.
+## @var{sys} can also be a real-valued gain matrix which is then
+## interpreted as static gain system with unspecified sampling time (-1).
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of discrete-time @acronym{LTI} model.
+## Any type of discrete-time @acronym{LTI} model or a real-valued matrix which is
+## interpreted as discrete-time static gain with unspecified sampling time -1.
 ## @item "v", "vector"
 ## For SISO models, return @var{num} and @var{den} directly as column vectors
 ## instead of cells containing a single column vector.
@@ -58,12 +62,21 @@ function [num, den, tsam] = filtdata (sys, rtype = "cell")
     print_usage ();
   endif
 
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["filtdata: has to be called with an @lti object ",...
+                        "or with a real matrix (static gain)\n"]);
+    else
+      sys = tf (sys, [], -1);
+    endif
+  endif
+
   if (! isdt (sys))
     error ("lti: filtdata: require discrete-time system");
   endif
 
-  [num, den, tsam] = tfdata (sys);
-  
+  [num, den, tsam] = tfdata (sys);  # order of tf is the desired one
+
   ## make numerator and denominator polynomials equally long
   ## by adding leading zeros
   lnum = cellfun (@length, num, "uniformoutput", false);
@@ -73,11 +86,6 @@ function [num, den, tsam] = filtdata (sys, rtype = "cell")
 
   num = cellfun (@prepad, num, lmax, "uniformoutput", false);
   den = cellfun (@prepad, den, lmax, "uniformoutput", false);
-      
-  ## remove trailing zeros
-  ## such that polynomials are as short as possible
-  num = cellfun (@__remove_trailing_zeros__, num, "uniformoutput", false);
-  den = cellfun (@__remove_trailing_zeros__, den, "uniformoutput", false);
 
   if (strncmpi (rtype, "v", 1) && issiso (sys))
     num = num{1};

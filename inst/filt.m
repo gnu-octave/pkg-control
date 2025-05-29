@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @dots{})
 ## @deftypefnx {Function File} {@var{sys} =} filt (@var{num}, @var{den}, @var{tsam}, @dots{})
+##
 ## Create discrete-time transfer function model from data in DSP format.
 ##
 ## @strong{Inputs}
@@ -100,7 +101,7 @@
 ## @ifnottex
 ## @example
 ## @group
-##                 3 z^-1     
+##                 3 z^-1
 ## H(z^-1) = -------------------
 ##           1 + 4 z^-1 + 2 z^-2
 ##
@@ -109,14 +110,14 @@
 ## @end ifnottex
 ## @example
 ## @group
-## octave:1> H = filt ([0, 3], [1, 4, 2])
-## 
+## octave:1> H = filt ([0, 3], [1, 4, 2])   # or filt ([0, 3, 0], [1, 4, 2])
+##
 ## Transfer function 'H' from input 'u1' to output ...
-## 
-##             3 z^-1       
+##
+##             3 z^-1
 ##  y1:  -------------------
 ##       1 + 4 z^-1 + 2 z^-2
-## 
+##
 ## Sampling time: unspecified
 ## Discrete-time model.
 ## @end group
@@ -217,15 +218,28 @@ function sys = filt (varargin)
 endfunction
 
 
-%!shared num, den, n1, d1, n2, d2, n2e, d2e
-%! num = [0, 3];
+%!test
+%! num = [0, 3, 0];
 %! den = [1, 4, 2];
 %! sys = filt (num, den);
 %! [n1, d1] = filtdata (sys, "vector");
 %! [n2, d2] = tfdata (sys, "vector");
 %! n2e = [0, 3, 0];
 %! d2e = [1, 4, 2];
-%!assert (n1, num, 1e-4);
-%!assert (d1, den, 1e-4);
-%!assert (n2, n2e, 1e-4);
-%!assert (d2, d2e, 1e-4);
+%! assert (n1, num, 1e-4);
+%! assert (d1, den, 1e-4);
+%! assert (n2, n2e, 1e-4);
+%! assert (d2, d2e, 1e-4);
+
+%!test
+%! num = [3, 0, 0];
+%! den = [1, 4, 2];
+%! sys = filt (num, den);
+%! [n1, d1] = filtdata (sys, "vector");
+%! [n2, d2] = tfdata (sys, "vector");
+%! n2e = [3, 0, 0];
+%! d2e = [1, 4, 2];
+%! assert (n1, num, 1e-4);
+%! assert (d1, den, 1e-4);
+%! assert (n2, n2e, 1e-4);
+%! assert (d2, d2e, 1e-4);
