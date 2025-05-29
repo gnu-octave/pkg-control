@@ -19,13 +19,15 @@
 ## @deftypefn {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys})
 ## @deftypefnx {Function File} {[@var{H}, @var{w}, @var{tsam}] =} frdata (@var{sys}, @var{"vector"})
 ## Access frequency response data.
+##
 ## Argument @var{sys} is not limited to frequency response data objects.
 ## If @var{sys} is not a frd object, it is converted automatically.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## Any type of @acronym{LTI} model.
+## Any type of @acronym{LTI} model or a real-valued matrix which is
+## interpreted as continous-time static gain.
 ## @item "v", "vector"
 ## In case @var{sys} is a SISO model, this option returns the frequency response
 ## as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
@@ -36,7 +38,7 @@
 ## @item H
 ## Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
 ## response from input j to output i at frequency k.  In the SISO case,
-## a vector (lw-by-1) is possible as well.
+## a vector (lw-by-1) is possible as well, see input @var{"vector"}.
 ## @item w
 ## Frequency vector (lw-by-1) in radian per second [rad/s].
 ## Frequencies are in ascending order.
@@ -52,11 +54,20 @@
 
 function [H, w, tsam] = frdata (sys, rtype = "array")
 
+  if (! isa (sys, 'lti'))
+    if (! is_real_matrix (sys))
+      error (["frddata: has to be called with an @lti object ",...
+                       "or with a real matrix (static gain)\n"]);
+    else
+      sys = tf (sys);
+    endif
+  endif
+
   if (! isa (sys, "frd"))
     sys = frd (sys);
   endif
 
-  [H, w] = __sys_data__ (sys); 
+  [H, w] = __sys_data__ (sys);
 
   tsam = sys.tsam;
 

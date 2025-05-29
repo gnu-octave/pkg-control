@@ -25,8 +25,9 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## @acronym{LTI} model to be converted to frequency response data.
-## If second argument @var{w} is omitted, the interesting
+## @acronym{LTI} model to be converted to frequency response data. @var{sys}
+## can also be a real-valued matrix which is interpreted as continuous-time
+## static gain system. If second argument @var{w} is omitted, the interesting
 ## frequency range is calculated by the zeros and poles of @var{sys}.
 ## @item H
 ## Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
@@ -90,7 +91,7 @@
 ## Any data type.
 ## @end table
 ##
-## @seealso{dss, ss, tf}
+## @seealso{dss, @ss/ss, @tf/tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -99,25 +100,17 @@
 
 function sys = frd (varargin)
 
-  ## NOTE: * There's no such thing as a static gain
-  ##         because FRD objects are measurements,
-  ##         not models.
-  ##       * If something like  sys1 = frd (5)  existed,
-  ##         it would cause troubles in cases like
-  ##         sys2 = ss (...), sys = sys1 * sys2
-  ##         because sys2 needs to be converted to FRD,
-  ##         but sys1 contains no valid frequencies.
-  ##       * However, things like  frd (ss (5))  should
-  ##         be possible.
-
   ## model precedence: frd > ss > zpk > tf > double
   superiorto ("ss", "zpk", "tf", "double");
 
   if (nargin == 1 && isa (varargin{1}, "frd"))
     sys = varargin{1};
     return;
-  elseif (nargin != 0 && nargin <= 2 ...
-          && isa (varargin{1}, "lti"))
+  elseif (nargin == 1 && is_real_matrix (varargin{1}))
+    varargin{1} = tf (varargin{1});
+  endif
+
+  if (nargin != 0 && nargin <= 2 && isa (varargin{1}, "lti"))
     [sys, lti] = __sys2frd__ (varargin{:});
     sys.lti = lti;                      # preserve lti properties
     return;
@@ -125,7 +118,7 @@ function sys = frd (varargin)
 
   H = []; w = [];                       # default frequency response data
   tsam = -1;                            # default sampling time
-  
+
   [mat_idx, opt_idx, obj_flg] = __lti_input_idx__ (varargin);
 
   switch (numel (mat_idx))
