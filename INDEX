@@ -13,14 +13,13 @@ Linear Time Invariant Models
   @tf/tf
   zpk
 Model Data Access
-  @lti/dssdata
-  @lti/filtdata
-  @lti/frdata
+  dssdata
+  filtdata
+  frdata
   @lti/get
   @lti/set
-  @lti/ssdata
-  @lti/tfdata
-  @lti/zpkdata
+  ssdata
+  zpkdata
   tfdata
 Model Conversions
   @lti/c2d
