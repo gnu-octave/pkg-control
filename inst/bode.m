@@ -149,7 +149,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
         ub = w{h}(w0_dec{h}(j)+2) > w0_zeros{h};
         if sum (lb & ub) == 1
           ## phase is decreasing although zeros
-          pha{h}(w0_inc{h}(j)+1:end) += 360;
+          pha{h}(w0_dec{h}(j)+1:end) += 360;
         endif
       endif
     endfor
@@ -206,9 +206,8 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 endfunction
 
 %!demo
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! bode(g);
+%! G = tf ([10 1],[1 0.1 1 0]);
+%! bode(G);
 
 %!test
 %! s = tf('s');

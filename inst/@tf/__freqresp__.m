@@ -55,14 +55,29 @@ endfunction
 ## https://savannah.gnu.org/bugs/index.php?63393
 function H = __fracval__ (num, den, s)
 
-  Hnum0 = polyval (num, s);
-  [num1,~,mu] = polyfit(s, Hnum0, length(num));
-  Hnum1 = polyval (num1, s, [], mu);
-  Hden0 = polyval (den, s);
-  [den1,~,mu] = polyfit(s, Hden0, length(den));
-  Hden1 = polyval (den1, s, [], mu);
+  # if s has less frequencies than order of num or den, use standard way
+  len_s = length (size (s));
+  if (len_s == 3)
+    n_freq = size (s,3);
+  else
+    n_freq = size (s,2);
+  endif
 
-  H = Hnum1 ./ Hden1 ;
+  if (n_freq <= max (length (den), length (num)) - 1)
+
+    H = polyval (num, s) ./ polyval (den, s);
+
+  else
+
+    Hnum0 = polyval (num, s);
+    [num1,~,mu] = polyfit(s, Hnum0, length(num));
+    Hnum1 = polyval (num1, s, [], mu);
+    Hden0 = polyval (den, s);
+    [den1,~,mu] = polyfit(s, Hden0, length(den));
+    Hden1 = polyval (den1, s, [], mu);
+    H = Hnum1 ./ Hden1 ;
+
+  endif
 
 endfunction
 
