@@ -37,12 +37,12 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
   mimoflag = false;
   cellflag = false;
   wbounds = "std";
-  
+
   if (strcmp (caller, {"sigma"}))
     mimoflag = true;
     cellflag = true;
   endif
-  
+
   if (any (strcmp (caller, {"nyquist", "nichols", "sensitivity"})))
     wbounds = "ext";
   endif
@@ -93,8 +93,15 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
       warning ("%s: several frequency vectors specified, taking the last one\n", caller);
     endif
     w = args(w_idx){end};
+    if (size (w,2) > 100000)
+      warning ([caller, ": frequency response requested for a very\n",...
+                "         long frequency vector (",num2str(size(w,2))," elements).\n",...
+                "         The computation may take very long. If the\n",...
+                "         frequency vector is omitted, a suitable vector\n",...
+                "         will be selected automatically.\n"]);
+    endif
     w = repmat ({w}, 1, nnz (sys_idx));
-  else                                              # there are neither frequency ranges nor vectors    
+  else                                              # there are neither frequency ranges nor vectors
     w = w_auto;
   endif
 

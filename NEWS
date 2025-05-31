@@ -8,8 +8,8 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
 ** pade: new function for pade approximation of time delays by poles 
    and zeros
 
-** bode: improved handling of poles and zeros on imaginary axis
-   (bug #63393)
+** bode/margin: improved handling of poles and zeros on imaginary axis,
+   more robust computation of the phase (bug #63393, bug #61355)
 
 ** allow real-valued gain matrix as input for system data access functions
    like tfdata, ssdata etc. which is then interpreted as static-gain system
