@@ -49,12 +49,12 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
   idx = cellfun (@(x) isa (x, "lti"), sys_cell);
   sys_cell = sys_cell(idx);
   len = numel (sys_cell);
-  
-  [dec_min, dec_max, zp] = cellfun (@__frequency_range__, sys_cell, {wbounds}, "uniformoutput", false);
+
+  [dec_min, dec_max, zp, D] = cellfun (@__frequency_range__, sys_cell, {wbounds}, "uniformoutput", false);
 
   if (strcmpi (wbounds, "std"))                 # plots with explicit frequencies
 
-    if (nargin == 4)                        # w = {wmin, wmax}  
+    if (nargin == 4)                        # w = {wmin, wmax}
       dec_min = log10 (wmin);
       dec_max = log10 (wmax);
     else
@@ -63,6 +63,21 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
     endif
 
     zp = horzcat (zp{:});
+
+    ## The following code might be added in case poles and zeros with
+    ## low damping requires more frequenciy points in the directly
+    ## next to the porl/zero natural frequency. Therefor, D is also
+    ## computed in __frequency_range__
+    #    x = 1:5;                 # how mayn additional frequencies?
+    #    D = horzcat (D{:});
+    #    n_zp = length (zp);
+    #    for i = 1:n_zp
+    #      if (D(i) < 0.1)
+    #        Dx = x*D(i);         # for small dampings, add frqs before and after
+    #        zp = [zp, zp(i) + zp(i)./(1+Dx), zp(i) +  zp(i)*(1+Dx)];
+    #      endif
+    #    endfor
+    #    zp = unique (zp);        # remove possible duplicates
 
     ## include zeros and poles for nice peaks in plots
     idx = find (zp > 10^dec_min & zp < 10^dec_max);
@@ -106,14 +121,14 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
     error ("frequency_vector: invalid argument 'wbounds'");
   endif
 
-  if (! isc)                                    # for __sys2frd__ methods 
+  if (! isc)                                    # for __sys2frd__ methods
     w = w{1};
   endif
 
 endfunction
 
 
-function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
+function [dec_min, dec_max, zp, D] = __frequency_range__ (sys, wbounds = "std")
 
   if (isa (sys, "frd"))
     w = get (sys, "w");
@@ -122,12 +137,12 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
     zp = [];
     return;
   endif
-    
+
   zer = zero (sys);
   pol = pole (sys);
   tsam = abs (get (sys, "tsam"));               # tsam could be -1
   discrete = ! isct (sys);
-  
+
   ## make sure zer, pol are row vectors
   pol = reshape (pol, 1, []);
   zer = reshape (zer, 1, []);
@@ -167,7 +182,7 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
       cpol = [];
     endif
   endif
-  
+
   if (isempty (iip) && isempty (iiz))
     ## no poles/zeros away from omega = 0; pick defaults
     dec_min = 0;                                # -1
@@ -191,7 +206,7 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
       if (any (abs (pol) < sqrt (eps)))         # look for integrators
         dec_min -= 0.5;
         dec_max += 2;
-      else 
+      else
         dec_min -= 2;
         dec_max += 2;
       endif
@@ -204,7 +219,17 @@ function [dec_min, dec_max, zp] = __frequency_range__ (sys, wbounds = "std")
     dec_max = log10 (pi/tsam);
   endif
 
-  ## include zeros and poles for nice peaks in plots
-  zp = [abs(zer), abs(pol)];
+  ## include zeros and poles for nice peaks in plots and compute damping
+  zpi = [ zer , pol ];  # possibly complex poles/zeros
+
+  if (discrete)
+    zpic = log (zpi)/tsam;  # in discrete-time case, get corresponding cont. p/z
+  else
+    zpic = zpi;             # nothing to do in continuous-time case
+  endif
+
+  D = abs (real (zpic)) ./ abs (zpic);  # get Damping (D = D*w0/w0)
+  D (imag(zpi) == 0) = 1;   # fix D, because for neg. disc. p/z, we get complex cont. p/z
+  zp = abs (zpic);          # get the w0 values of all cont. poles/zeros
 
 endfunction

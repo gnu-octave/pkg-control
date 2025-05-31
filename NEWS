@@ -13,6 +13,7 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
 
 ** allow real-valued gain matrix as input for system data access functions
    like tfdata, ssdata etc. which is then interpreted as static-gain system
+   (bug #58648)
 
 ===============================================================================
 control-4.1.2  Release date 2025-05-18

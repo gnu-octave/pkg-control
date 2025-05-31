@@ -31,13 +31,13 @@ function H = __freqresp__ (sys, w, cellflag = false)
   else             # discrete system
     s = exp (i * w * abs (tsam));
   endif
-  
+
   s = reshape (s, 1, 1, []);
 
   if (issiso (sys))
-    H = polyval (num, s) ./ polyval (den, s);
+    H = __fracval__ (num, den, s);
   else
-    H = cellfun (@(x, y) polyval (x, s) ./ polyval (y, s), num, den, "uniformoutput", false);
+    H = cellfun (@(x, y) __fracval__ (x, y, s), num, den, "uniformoutput", false);
     H = cell2mat (H);
   endif
 
@@ -48,3 +48,21 @@ function H = __freqresp__ (sys, w, cellflag = false)
   endif
 
 endfunction
+
+
+## Code suggested by 	dasergatskov in bug #63393, comment #17 as numerically
+## more robust variant for polyval, see
+## https://savannah.gnu.org/bugs/index.php?63393
+function H = __fracval__ (num, den, s)
+
+  Hnum0 = polyval (num, s);
+  [num1,~,mu] = polyfit(s, Hnum0, length(num));
+  Hnum1 = polyval (num1, s, [], mu);
+  Hden0 = polyval (den, s);
+  [den1,~,mu] = polyfit(s, Hden0, length(den));
+  Hden1 = polyval (den1, s, [], mu);
+
+  H = Hnum1 ./ Hden1 ;
+
+endfunction
+
