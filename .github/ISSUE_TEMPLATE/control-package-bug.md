@@ -2,7 +2,7 @@
 name: Control Package Bug Report
 about: Report a bug in the Control Package
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---

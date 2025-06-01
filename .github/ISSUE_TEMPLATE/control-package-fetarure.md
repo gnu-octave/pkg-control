@@ -2,14 +2,9 @@
 name: Control Package Feature Request 
 about: Request a new feature for the Control Package
 title: ''
-labels: ''
+labels: 'feature request'
 assignees: ''
 
 ---
 
-Thanks for taking the time to report an issue with the Octave Control Package. Please provide the following information when reporting a possible bug:
-
-1. Version of the Control Package, version of Octave
-2. What happens?
-3. What is the expected result?
-4. Steps to reproduce (minimal example)
+Thanks for helping to improve the Octave Control Package by suggesting a new feature. Before submitting this issue, please search for related or even identical feature requests.
