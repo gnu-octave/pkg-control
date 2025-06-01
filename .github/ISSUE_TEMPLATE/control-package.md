@@ -7,4 +7,10 @@ assignees: ''
 
 ---
 
-Bugs and feature requests for GNU Octave including the packages are tracked on [Savannah](https://savannah.gnu.org/bugs/?group=octave). When browsing bugs, you can select *Octave Forge Package* as category and search for *(control)* in the summary. This should provide a list of reported bugs for the control package.
+
+Thanks for taking the time to report an issue with the Octave Control Package. Please provide the following information when reporting a possible bug:
+
+1. Version of the Control Package, version of Octave
+2. What happens?
+3. What is the expected result?
+4. Steps to reproduce (minimal example)
