@@ -1,12 +1,11 @@
 ---
-name: Report Control Package issues 
-about: Bugs and feature requests for the Control Package
+name: Control Package Feature Request 
+about: Request a new feature for the Control Package
 title: ''
 labels: ''
 assignees: ''
 
 ---
-
 
 Thanks for taking the time to report an issue with the Octave Control Package. Please provide the following information when reporting a possible bug:
 
