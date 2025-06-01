@@ -15,6 +15,9 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
    like tfdata, ssdata etc. which is then interpreted as static-gain system
    (bug #58648)
 
+** sgrid: improve zeta-values for automatic selected lines of constant
+   damping (bug #60972)
+
 ===============================================================================
 control-4.1.2  Release date 2025-05-18
 ===============================================================================

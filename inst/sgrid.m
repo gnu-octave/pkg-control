@@ -1,15 +1,15 @@
 ## Copyright (C) 2019 Stefan Mátéfi-Tempfli
-## 
+##
 ## This program is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
-## 
+##
 ## This program is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see
 ## <https://www.gnu.org/licenses/>.
@@ -29,7 +29,7 @@
 ## @end itemize
 ##
 ## The function state input may be either @qcode{"on"} or @qcode{"off"}
-## for creating or removing the grid. If omitted, a new grid is created 
+## for creating or removing the grid. If omitted, a new grid is created
 ## when it does not exist or the visibility of the current grid is toggled.
 ##
 ## The sgrid will automatically plot the grid lines at nice values or
@@ -52,13 +52,11 @@
 ## sgrid off 	remove the s-plane grid
 ## sgrid		toggle the s-plane grid visibility
 ## sgrid ([0.3, 0.8, @dots{}], [10, 75, @dots{}])   create:
-## @example
-## @itemize
-## @item zeta lines for 0.3, 0.8, @dots{} 
-## @item omega circles for 10, 75, @dots{} [rad/s] 
-## @end itemize
-## @end example
-## sgrid (@var{hax}, @qcode{"on"})   create the s-plane grid for the axis 
+##               zeta lines for 0.3, 0.8, @dots{}
+##               omega circles for 10, 75, @dots{} [rad/s]
+## sgrid off; sgrid  remove current s-grid and
+##                   draw new with default values
+## sgrid (@var{hax}, @qcode{"on"})   create the s-plane grid for the axis
 ##                     handle @var{hax}
 ## @end example
 ##
@@ -172,12 +170,12 @@ function __sgrid_create__(hax, hg, v_z, v_w)
     v_x = ceil(log10 (v_rd) - 1);
     v_p10 = 10^v_x;
     v_d = ceil(v_rd/v_p10) * v_p10;
-    
+
     if (isempty(v_w))
       v_w = v_d:v_d:v_max;
     endif
     v_w_x = v_taxis(2) * ones(size(v_w));
-    if ((0.1 < v_d) & (v_d < 1000))
+    if ((0.1 < v_d) && (v_d < 1000))
       if (v_d >= 1)
         v_w_str = cellstr(int2str(v_w(:)));
       else
@@ -188,11 +186,11 @@ function __sgrid_create__(hax, hg, v_z, v_w)
     endif
     for (i = 1:length(v_w))
       v_sgrid.w(i) = plot(v_w(i)*cos(pi/2:0.01:3*pi/2),
-                          v_w(i)*sin(pi/2:0.01:3*pi/2), 
+                          v_w(i)*sin(pi/2:0.01:3*pi/2),
                           ":k", "linewidth", 0.6,
                           "parent", hg);
     endfor
-  
+
     idx = sum(v_w <= v_taxis(4));
     for (i = 1:idx)
       text(v_w_x(i), v_w(i), v_w_str{i}, "parent", hg);
@@ -204,24 +202,22 @@ function __sgrid_create__(hax, hg, v_z, v_w)
       text(v_w_x(i), -v_w(i), v_w_str{i}, "parent", hg);
     endfor
     if (isempty(v_z))
-      v_z = sin(linspace(pi/18, 8*pi/18, 10));
+      v_z = cos(linspace(0, pi/2, 13));   # every 7.5°
     endif
-    v_z_phi = [(pi/2 + asin(v_z(v_z != 0))), ...
-               (-pi/2 -asin(v_z((v_z != 0)&(v_z != 1))))];
+    v_z_phi = pi - [(acos(v_z(v_z != 0))), ...
+                    (-acos(v_z((v_z != 0)&(v_z != 1))))];
     v_z_px = v_max * cos(v_z_phi);
     v_z_py = v_max * sin(v_z_phi);
     v_z_str = cellstr(num2str(abs(sin(v_z_phi(:) - pi/2)),"%1.2f"));
     for (i = 1:length(v_z_phi))
-      plot([0 v_z_px(i)], [0 v_z_py(i)], 
-           ":k", "linewidth", 0.6, 
+      plot([0 v_z_px(i)], [0 v_z_py(i)],
+           ":k", "linewidth", 0.6,
            "parent", hg);
       pry = v_taxis(1) * tan(v_z_phi(i));
       if (pry > v_taxis(4))
         v_z_lc = v_taxis(4) * [cot(v_z_phi(i)) 1];
-        v_z_lc(1) += -v_1d5axis(1);
       elseif (pry < v_taxis(3))
         v_z_lc = v_taxis(3) * [cot(v_z_phi(i)) 1];
-        v_z_lc(1) += -v_1d5axis(1);
       else
         v_z_lc = v_taxis(1) * [1 tan(v_z_phi(i))];
       endif
