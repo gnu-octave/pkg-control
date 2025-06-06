@@ -2,6 +2,16 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
+control-4.1.2+  Work in progress for version 4.1.3, not yet released
+===============================================================================
+
+** tf: Improve accuracy of transfer function from state space models
+   by reusing an own version of the SLICOT function TB01ZD, which was
+   remove in release 4.0.0
+
+** connect: Added examples in the help text
+
+===============================================================================
 control-4.1.2  Release date 2025-05-18
 ===============================================================================
 
