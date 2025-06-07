@@ -341,6 +341,7 @@ endfunction
 
 
 ## sub-optimal controller, continuous-time case
+%!test
 %!shared M, M_exp
 %! A = [-1.0  0.0  4.0  5.0 -3.0 -2.0
 %!      -2.0  4.0 -7.0 -2.0  0.0  3.0
@@ -394,10 +395,11 @@ endfunction
 %!
 %! M_exp = [KA, KB; KC, KD];
 %!
-%!assert (M, M_exp, 1e-4);
+%! assert (M, M_exp, 1e-4);
 
 
 ## sub-optimal controller, discrete-time case
+%!test
 %!shared M, M_exp
 %! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
 %!      -0.6  0.2 -0.4 -0.3  0.0  0.0
@@ -451,10 +453,11 @@ endfunction
 %!
 %! M_exp = [KA, KB; KC, KD];
 %!
-%!assert (M, M_exp, 1e-4);
+%! assert (M, M_exp, 1e-4);
 
 
 ## optimal controller, discrete-time case??? -- test for bisection method
+%!test
 %!shared M, M_exp, GAM_exp, GAM
 %! A = [-0.7  0.0  0.3  0.0 -0.5 -0.1
 %!      -0.6  0.2 -0.4 -0.3  0.0  0.0
@@ -509,5 +512,5 @@ endfunction
 %! M_exp = [KA, KB; KC, KD];
 %! GAM_exp = 111.294;
 %!
-%!assert (M, M_exp, 1e-1);
-%!assert (GAM, GAM_exp, 1e-3);
+%! assert (M, M_exp, 1e-1);
+%! assert (GAM, GAM_exp, 1e-3);
