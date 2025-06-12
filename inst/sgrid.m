@@ -151,6 +151,21 @@ endfunction
 ##----------------------------------------------------
 function __sgrid_create__(hax, hg, v_z, v_w)
 
+    if nargin < 1 || isempty(hax)
+    hax = gca();
+  end
+
+  hf = ancestor(hax, "figure");
+
+  % Store handles for use in resize callback
+  data.hax = hax;
+  data.grid_state = "on";  % or check with isgrid(hax)
+  guidata(hf, data);
+
+  % Set resize callback
+  set(hf, "resizefcn", @(src, evt) sgrid_resize_callback(src));
+
+
     hold on;
     box on;
     v_user.z = v_z;
@@ -232,6 +247,16 @@ function __sgrid_create__(hax, hg, v_z, v_w)
 
     hold off;
 endfunction
+
+function sgrid_resize_callback(hf)
+  data = guidata(hf);
+  if isfield(data, "hax") && isgraphics(data.hax)
+    % Optionally clear and replot grid
+    % You might want to remove old grid and replot it
+    sgrid(data.hax, data.grid_state);   % Restore the grid state
+  endif
+end
+
 
 ##----------------------------------------------------
 function __sgrid_delete__(hg)
