@@ -163,6 +163,26 @@
 ## @end group
 ## @end example
 ##
+## The used method (see @strong{Algorithm} below) requires the following assumptions:
+## @table @asis
+## @item (A1)  (A,B2) is stabilizable and (C2,A) is detectable
+## @item (A2)  D12 is full column rank and D21 is full row rank,
+## @item (A3)  The matrix below has full column rank for all w
+## @example
+## @group
+##            | A-j*w*I  B2  |
+##            |   C1     D12 |
+## @end group
+## @end example
+## @item (A4)  The matrix below has full row rank for all w.
+## @example
+## @group
+##            | A-j*w*I  B1  |
+##            |   C2     D21 |
+## @end group
+## @end example
+## @end table
+##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD, SB10DD and SB10AD},
 ## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
@@ -273,9 +293,19 @@ function [K, varargout] = hinfsyn (P, varargin)
   if (! isstabilizable (P(:, m1+1:m)))
     error ("hinfsyn: (A, B2) must be stabilizable");
   endif
-
   if (! isdetectable (P(p1+1:p, :)))
     error ("hinfsyn: (C2, A) must be detectable");
+  endif
+
+  ## check assumption A2
+  D12 = d(1:p1,m1+1:m);
+  if (rank (D12) < columns (D12))
+    error ("hinfsyn: D12 must have full column rank");
+  endif
+
+  D21 = d(p1+1:p,1:m1);
+  if (rank (D21) < rows (D21))
+    error ("hinfsyn: D21 must have full row rank");
   endif
 
   ## H-infinity synthesis

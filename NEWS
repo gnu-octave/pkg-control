@@ -11,6 +11,8 @@ control-4.1.2+  Work in progress for version 4.1.3, not yet released
 
 ** connect: Added examples in the help text
 
+** hinfsyn: check for more assumptions before calling SLICOT routine
+
 ===============================================================================
 control-4.1.2  Release date 2025-05-18
 ===============================================================================
