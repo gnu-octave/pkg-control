@@ -8,6 +8,9 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
 ** pade: new function for pade approximation of time delays by poles 
    and zeros
 
+** bdschur: new function for block diagonalization of a matrix using
+   SLICOT routine MB03RD
+
 ** bode/margin: improved handling of poles and zeros on imaginary axis,
    more robust computation of the phase (bug #63393, bug #61355)
 

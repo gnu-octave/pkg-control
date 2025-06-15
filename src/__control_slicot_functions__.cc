@@ -46,6 +46,7 @@
 #include "sl_tg01fd.cc"  // orthogonal reduction of dss to a SVD-like coordinate form
 #include "sl_sb10ad.cc"  // H-infinity optimal controller using modified Glover's and Doyle's formulas (continuous-time)
 #include "sl_mb05nd.cc"  // matrix exponential and integral for a real matrix
+#include "sl_mb03rd.cc"  // block diagonal schur matrix
 
 
 // stub function to avoid gen_doc_cache warning upon package installation
