@@ -159,8 +159,11 @@ function __sgrid_create__(hax, hg, v_z, v_w)
 
   % Store handles for use in resize callback
   data.hax = hax;
-  data.grid_state = "on";  % or check with isgrid(hax)
-  guidata(hf, data);
+  data.grid_state = "on";
+  data.v_z = v_z;
+  data.v_w = v_w;
+  set(hg, "userdata", data);
+
 
   % Set resize callback
   set(hf, "resizefcn", @(src, evt) sgrid_resize_callback(src));
@@ -168,9 +171,6 @@ function __sgrid_create__(hax, hg, v_z, v_w)
 
     hold on;
     box on;
-    v_user.z = v_z;
-    v_user.w = v_w;
-    set(hg, "userdata", v_user);
     v_axis = axis(hax);
     if ((v_axis(2) < 0.15 * (v_axis(2) - v_axis(1))))
       v_axis(2) = 0.15 * (v_axis(2) - v_axis(1));
@@ -249,13 +249,19 @@ function __sgrid_create__(hax, hg, v_z, v_w)
 endfunction
 
 function sgrid_resize_callback(hf)
-  data = guidata(hf);
-  if isfield(data, "hax") && isgraphics(data.hax)
-    % Optionally clear and replot grid
-    % You might want to remove old grid and replot it
-    sgrid(data.hax, data.grid_state);   % Restore the grid state
+  % Get the grid handle (you might be storing it as data.hg or similar)
+  hg = findobj(hf, "tag", "sgrid");  % Use your actual tag or method of storing the grid handle
+
+  if isempty(hg)
+    return;
   endif
-end
+
+  data = get(hg, "userdata");
+
+  if isfield(data, "hax") && isgraphics(data.hax) && ...
+   isfield(data, "v_z") && isfield(data, "v_w")
+  sgrid(data.hax, data.grid_state, data.v_z, data.v_w);
+endif
 
 
 ##----------------------------------------------------
