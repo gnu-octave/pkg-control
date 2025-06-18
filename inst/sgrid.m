@@ -160,8 +160,8 @@ function __sgrid_create__(hax, hg, v_z, v_w)
   % Store handles for use in resize callback
   data.hax = hax;
   data.grid_state = "on";
-  data.v_z = v_z;
-  data.v_w = v_w;
+  data.z = v_z;
+  data.w = v_w;
   set(hg, "userdata", data);
 
 
@@ -260,8 +260,8 @@ function sgrid_resize_callback(hf)
 
   if isfield(data, "hax") && isgraphics(data.hax) && ...
    isfield(data, "v_z") && isfield(data, "v_w")
-  sgrid(data.hax, data.grid_state, data.v_z, data.v_w);
-endif
+  __sgrid_create__(data.hax, hg, data.v_z, data.v_w);
+endfunction
 
 
 ##----------------------------------------------------
