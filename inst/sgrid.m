@@ -261,6 +261,7 @@ function sgrid_resize_callback(hf)
   if isfield(data, "hax") && isgraphics(data.hax) && ...
    isfield(data, "v_z") && isfield(data, "v_w")
   __sgrid_create__(data.hax, hg, data.v_z, data.v_w);
+  endif
 endfunction
 
 
