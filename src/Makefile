@@ -1,5 +1,3 @@
--include ./Makefile.conf
-
 MKOCTFILE ?= mkoctfile
 
 ifndef LAPACK_LIBS
