@@ -29,13 +29,15 @@ The SLICOT files are available under the *BSD 3-Clause License* which can be fou
 
 The easiest way to install the newest control package is to type
 
-  `pkg install -forge control`
+  `pkg install control`
 
-Alternatively, you may download the package archive file `control-x.y.z.tar.gz` of one of the [releases](https://github.com/gnu-octave/pkg-control/releases) and install it by typing
+For installing a certain version x.y.z of the control package, you may
 
-  `pkg install control-x.y.z.tar.gz`
+- download the package archive file `control-x.y.z.tar.gz` of one of the [releases](https://github.com/gnu-octave/pkg-control/releases) and install it by typing
+  `pkg install control-x.y.z.tar.gz` or
+- directly issue the command `pkg install "https://github.com/gnu-octave/pkg-control/releases/download/control-x.y.z/control-x.y.z.tar.gz"`
 
-### Creating and installing package archives 
+### Creating and installing package archives from the sources
 
 You can also clone this repository (using the option `--recurse-submodules` since SLICOT is included as git submodule) and build the package archive file by yourself. For this, you can use the following commands:
 
