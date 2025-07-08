@@ -151,11 +151,26 @@ endfunction
 ##----------------------------------------------------
 function __sgrid_create__(hax, hg, v_z, v_w)
 
+    if nargin < 1 || isempty(hax)
+    hax = gca();
+  end
+
+  hf = ancestor(hax, "figure");
+
+  % Store handles for use in resize callback
+  data.hax = hax;
+  data.grid_state = "on";
+  data.z = v_z;
+  data.w = v_w;
+  set(hg, "userdata", data);
+
+
+  % Set resize callback
+  set(hf, "resizefcn", @(src, evt) sgrid_resize_callback(src));
+
+
     hold on;
     box on;
-    v_user.z = v_z;
-    v_user.w = v_w;
-    set(hg, "userdata", v_user);
     v_axis = axis(hax);
     if ((v_axis(2) < 0.15 * (v_axis(2) - v_axis(1))))
       v_axis(2) = 0.15 * (v_axis(2) - v_axis(1));
@@ -232,6 +247,23 @@ function __sgrid_create__(hax, hg, v_z, v_w)
 
     hold off;
 endfunction
+
+function sgrid_resize_callback(hf)
+  % Get the grid handle (you might be storing it as data.hg or similar)
+  hg = findobj(hf, "tag", "sgrid");  % Use your actual tag or method of storing the grid handle
+
+  if isempty(hg)
+    return;
+  endif
+
+  data = get(hg, "userdata");
+
+  if isfield(data, "hax") && isgraphics(data.hax) && ...
+   isfield(data, "v_z") && isfield(data, "v_w")
+  __sgrid_create__(data.hax, hg, data.v_z, data.v_w);
+  endif
+endfunction
+
 
 ##----------------------------------------------------
 function __sgrid_delete__(hg)
