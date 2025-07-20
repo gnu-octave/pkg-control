@@ -1,4 +1,4 @@
-MKOCTFILE ?= mkoctfile
+include ./Makefile.conf
 
 ifndef LAPACK_LIBS
 LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
@@ -82,4 +82,4 @@ realclean: clean
 ## remove according to GNU guidelines.
 ## https://www.gnu.org/prep/standards/html_node/Standard-Targets.html
 distclean: clean realclean
-	rm -f Makefile.conf config.h config.log config.status oct-alt-includes.h
+	$(RM) -f Makefile.conf config.h config.log config.status oct-alt-includes.h

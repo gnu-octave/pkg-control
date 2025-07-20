@@ -25,4 +25,7 @@ fi
 AC_PROG_CXX
 AC_PROG_F77
 
+# Output results and subst variables in Makefile.conf.in
+AC_CONFIG_FILES([Makefile.conf])
 AC_OUTPUT
+ 
