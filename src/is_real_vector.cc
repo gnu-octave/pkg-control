@@ -50,7 +50,7 @@ DEFUN_DLD (is_real_vector, args, nargout,
         for (octave_idx_type i = 0; i < nargin; i++)
         {
             if (args(i).ndims () != 2 || ! (args(i).rows () == 1 || args(i).columns () == 1)
-                || ! args(i).OV_ISNUMERIC () || ! args(i).OV_ISREAL ())
+                || ! args(i).isnumeric () || ! args(i).isreal ())
             {
                 retval = false;
                 break;

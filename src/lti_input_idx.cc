@@ -61,7 +61,7 @@ DEFUN_DLD (__lti_input_idx__, args, ,
   octave_idx_type nargin = args.length ();
 
   // first, check whether a cell is passed
-  if (nargin == 1 && args(0).is_defined () && args(0).OV_ISCELL ())
+  if (nargin == 1 && args(0).is_defined () && args(0).iscell ())
   {
     octave_idx_type len = args(0).cell_value().numel();
     octave_idx_type idx = len;
@@ -88,7 +88,7 @@ DEFUN_DLD (__lti_input_idx__, args, ,
     //    and after strings) are not recognized as objects.
     //      ss (a, b, ltisys, c, d, 'key', val, 'lti', ltisys)
     if (len > 0 && idx > 0
-        && args(0).cell_value().elem(idx-1).OV_ISOBJECT ())
+        && args(0).cell_value().elem(idx-1).isobject ())
     {
       offset = 1;
     }

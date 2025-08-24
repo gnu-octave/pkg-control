@@ -49,8 +49,8 @@ DEFUN_DLD (is_matrix, args, nargout,
     {
         for (octave_idx_type i = 0; i < nargin; i++)
         {
-            if (args(i).ndims () != 2 || ! args(i).OV_ISNUMERIC ()
-                || ! (args(i).OV_ISCOMPLEX () || args(i).OV_ISREAL ()))
+            if (args(i).ndims () != 2 || ! args(i).isnumeric ()
+                || ! (args(i).iscomplex () || args(i).isreal ()))
             {
                 retval = false;
                 break;
