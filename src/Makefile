@@ -1,5 +1,8 @@
-include ./Makefile.conf
+-include ./Makefile.conf
 
+# the following vars for libs are only defined if mkoctfile is defined
+# and this file might be called without mkoctfile defined (clean, distclean) 
+ifdef MKOCTFILE
 ifndef LAPACK_LIBS
 LAPACK_LIBS := $(shell $(MKOCTFILE) -p LAPACK_LIBS)
 endif
@@ -10,6 +13,7 @@ ifndef FLIBS
 FLIBS := $(shell $(MKOCTFILE) -p FLIBS)
 endif
 LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+endif
 
 # slicot relative to src directory, SC_SRC is the build directory
 SC      := slicot
