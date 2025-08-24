@@ -50,7 +50,7 @@ Avoid nasty stuff like @code{true = isreal (\"a\")}\n\
         for (octave_idx_type i = 0; i < nargin; i++)
         {
             if (args(i).ndims () != 2 || ! (args(i).rows () == 1 || args(i).columns () == 1)
-                || ! args(i).OV_ISNUMERIC ())
+                || ! args(i).isnumeric ())
             {
                 retval = false;
                 break;
