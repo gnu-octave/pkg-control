@@ -307,7 +307,7 @@ function [rldata_r, k_break, rlpol, gvec, real_ax_pts] = rlocus (sys, increment,
     if (! isempty (name))
       name = [name, ' '];
     endif
-    title_string = sprintf ('Root loucs %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
+    title_string = sprintf ('Root locus %s(K = %.3f .. %.3f)', name, gvec(1), gvec(end));
     title (title_string);
 
     xlabel ("Real Axis");
