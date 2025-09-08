@@ -2,7 +2,7 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-4.1.2+  Work in progress for version 4.1.3, not yet released
+control-4.1.3  Release date 2025-09-10
 ===============================================================================
 
 ** tf: Improve accuracy of transfer function from state space models
@@ -15,6 +15,9 @@ control-4.1.2+  Work in progress for version 4.1.3, not yet released
 
 ** sgrid: fixed resizing (issue #15) and improved zeta-values for
    automatic selected lines of constant damping (bug #60972)
+
+++ build system: removed tests for old is_numeric (and similar) symbols
+   (issues #18 and #21).
 
 ===============================================================================
 control-4.1.2  Release date 2025-05-18
