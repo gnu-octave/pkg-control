@@ -671,6 +671,24 @@
 
  </pre><pre class="example"> </pre></td></tr></table>
 
+<p> The used method (see <strong>Algorithm</strong> below) requires the following assumptions:
+ </p><dl compact="compact">
+<dt> (A1)  (A,B2) is stabilizable and (C2,A) is detectable</dt>
+<dt> (A2)  D12 is full column rank and D21 is full row rank,</dt>
+<dt> (A3)  The matrix below has full column rank for all w</dt>
+</dl>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">            | A-j*w*I  B2  |
+            |   C1     D12 |
+ </pre><pre class="example"> </pre></td></tr></table>
+ </dd>
+<dt> (A4)  The matrix below has full row rank for all w.</dt>
+</dl>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">            | A-j*w*I  B1  |
+            |   C2     D21 |
+ </pre><pre class="example"> </pre></td></tr></table>
+</dd>
+</dl>
+
 <p> <strong>Algorithm</strong><br>
  Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SB10DD and SB10AD</a>,
  Copyright (c) 2020, SLICOT, available under the BSD 3-Clause

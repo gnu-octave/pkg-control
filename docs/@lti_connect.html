@@ -497,30 +497,37 @@
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> <var>sys</var> = <b>connect</b><i> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>inputs</var>, <var>outputs</var>)</i></dt>
-<dt><u>Function File:</u> <var>sys</var> = <b>connect</b><i> (<var>sys</var>, <var>cm</var>, <var>inputs</var>, <var>outputs</var>)</i></dt>
+<dt><u>Function File:</u> <var>csys</var> = <b>connect</b><i> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>in</var>, <var>out</var>)</i></dt>
+<dt><u>Function File:</u> <var>csys</var> = <b>connect</b><i> (<var>sys</var>, <var>cm</var>, <var>in</var>, <var>out</var>)</i></dt>
 </dl>
-<p> Name-based or index-based interconnections between the inputs and outputs of <acronym>LTI</acronym> models.
-</p> <div class="ms-5">
 
+<p> Name-based or index-based interconnections between the outputs and inputs of <acronym>LTI</acronym> models.
+</p>
+<div class="ms-5">
 <p> <strong>Inputs</strong>
  </p><dl compact="compact">
 <dt> <var>sys1, &hellip;, sysN</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> models to be connected.  The properties &rsquo;inname&rsquo; and &rsquo;outname&rsquo;
- of each model should be set according to the desired input-output connections.
+<p> <acronym>LTI</acronym> models to be connected by named-based connection.
+ The properties &rsquo;inname&rsquo; and &rsquo;outname&rsquo; of each model should be set according
+ to the desired input-output connections.
  </p></dd>
-<dt> <var>inputs</var></dt>
+<dt> <var>sys</var></dt>
+</dl>
+<p> <acronym>LTI</acronym> model where the outputs are connected to the inputs by
+ index-based connection.
+ </p></dd>
+<dt> <var>in</var></dt>
 </dl>
 <p> For name-based interconnections, string or cell of strings containing the names
  of the inputs to be kept.  The names must be part of the properties &rsquo;ingroup&rsquo; or
  &rsquo;inname&rsquo;.  For index-based interconnections, vector containing the indices of the
  inputs to be kept.
  </p></dd>
-<dt> <var>outputs</var></dt>
+<dt> <var>out</var></dt>
 </dl>
 <p> For name-based interconnections, string or cell of strings containing the names
- of the outputs to be kept.  The names must be part of the properties &rsquo;outgroup&rsquo; 
+ of the outputs to be kept.  The names must be part of the properties &rsquo;outgroup&rsquo;
  or &rsquo;outname&rsquo;.  For index-based interconnections, vector containing the indices of
  the outputs to be kept.
  </p></dd>
@@ -538,20 +545,73 @@
 <p> will sum input u(2) with outputs y(3) and y(4) as
  </p><table><tr><td>&nbsp;</td><td><pre class="example"> u(2) + y(3) - y(4).
  </pre></td></tr></table>
-</dd>
+<p> If several systems are cinnected as in the name-based case, they have
+ to be stacked by <code>append</code> before using <code>connect</code>.
+ </p></dd>
 </dl>
 
 <p> <strong>Outputs</strong>
  </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<dt> <var>csys</var></dt>
 </dl>
-<p> Resulting interconnected system with outputs <var>outputs</var> and
- inputs <var>inputs</var>.
+<p> Resulting interconnected system with outputs <var>out</var> and
+ inputs <var>in</var>.
  </p></dd>
 </dl>
 
+<p> <strong>Example</strong>
+</p>
+<p> Consider the control loop with reference r, disturbances d1, d2
+ and an additional output which represents the output of the controller
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+                       d1 --+              d2 --+
+                            |                   |
+          e  +--------+     v  u  +--------+    v
+ r ---&gt;o----&gt;|  K(s)  |--+-&gt;o----&gt;|  G(s)  |---&gt;o--+----&gt; y
+       ^ -   +--------+  |        +--------+       |
+       |                 |                         |
+       |                 +------------------------------&gt; yc
+       |                                           |
+       +-------------------------------------------+
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> Name-based interconnections:
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> G.inname = 'u';
+ G.outname = 'y1';
+ K.inname = 'e';
+ K.outname = 'yc';
+ s1 = sumblk ('e = r - y');
+ s2 = sumblk ('u = yc + d1');
+ s3 = sumblk ('y = y1 + d2');
+ in = {'r', 'd1', 'd2'};
+ out = {'y', 'yc'};
+ G_cl1 = tf (connect (K, G, s1, s2, s3, in, out))
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> Index-based interconnections (without changing <code>G</code> and <code>K</code>):
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> G1 = tf (1);   # static gains with r, d1, d2, y as outputs
+ G_all = append (G1, G1, G1, K, G, G1);
+ cm = [4, 1, -6; 5, 4, 2; 6, 5, 3];
+ in = [1, 2, 3];
+ out = [6, 4];
+ G_cl2 = connect (G_all, cm, in, out)
+ </pre><pre class="example"> </pre></td></tr></table>
+
+<p> Index-based interconnections (changing <code>G</code> and <code>K</code>):
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> [A,B,C,D] = ssdata(K);
+ K = ss (A, [B -B], C, [D -D]);     # compare s1 above
+ [A,B,C,D] = ssdata(G);
+ G = ss (A, [B B 0*B], C, [D D 1]); # compare s2 and s3 above
+ G_all = append (K, G);
+ cm = [2, 2; 3, 1];
+ in = [1, 3, 5];
+ out = [2, 1];
+ G_cl3 = tf (connect (G_all, cm, in, out))
+ </pre><pre class="example"> </pre></td></tr></table>
+
 <p> <strong>See also: </strong>
-  <a href="sumblk.html">sumblk</a>
+  <a href="sumblk.html">sumblk</a>, 
+  <a href="append.html">append</a>
 </p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/connect.m">@lti/connect</a>

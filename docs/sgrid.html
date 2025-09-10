@@ -513,7 +513,7 @@
  </li></ul>
 
 <p> The function state input may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>
- for creating or removing the grid. If omitted, a new grid is created 
+ for creating or removing the grid. If omitted, a new grid is created
  when it does not exist or the visibility of the current grid is toggled.
 </p>
 <p> The sgrid will automatically plot the grid lines at nice values or
@@ -533,12 +533,11 @@
  sgrid off 	remove the s-plane grid
  sgrid		toggle the s-plane grid visibility
  sgrid ([0.3, 0.8, &hellip;], [10, 75, &hellip;])   create:
- </pre><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><ul>
-<li><pre class="example"> zeta lines for 0.3, 0.8, &hellip; 
- </pre></li><li><pre class="example"> omega circles for 10, 75, &hellip; [rad/s] 
- </pre></li></ul>
-<pre class="example"> </pre></td></tr></table>
-<pre class="example"> sgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the s-plane grid for the axis 
+               zeta lines for 0.3, 0.8, &hellip;
+               omega circles for 10, 75, &hellip; [rad/s]
+ sgrid off; sgrid  remove current s-grid and
+                   draw new with default values
+ sgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the s-plane grid for the axis
                      handle <var>hax</var>
  </pre></td></tr></table>
 
