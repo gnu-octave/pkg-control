@@ -127,7 +127,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
     pha_args = horzcat (cellfun (@horzcat, w, pha, sty, "uniformoutput", false){:});
 
-    subplot (2, 1, 1)
+    hax1 = subplot (2, 1, 1)
     semilogx (mag_args{:})
     axis ("tight")
     ylim (__axis_margin__ (ylim))
@@ -144,6 +144,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
     legend (leg)
+
+    ## Make top axes current for ML compatibility
+    set (gcf, "currentaxes", hax1);
 
   else
 
