@@ -127,15 +127,6 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
     pha_args = horzcat (cellfun (@horzcat, w, pha, sty, "uniformoutput", false){:});
 
-    subplot (2, 1, 1)
-    semilogx (mag_args{:})
-    axis ("tight")
-    ylim (__axis_margin__ (ylim))
-    grid ("on")
-    title ("Bode Diagram")
-    ylabel ("Magnitude [dB]")
-    legend (leg)
-
     subplot (2, 1, 2)
     semilogx (pha_args{:})
     axis ("tight")
@@ -143,6 +134,15 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
+    legend (leg)
+
+    subplot (2, 1, 1)
+    semilogx (mag_args{:})
+    axis ("tight")
+    ylim (__axis_margin__ (ylim))
+    grid ("on")
+    title ("Bode Diagram")
+    ylabel ("Magnitude [dB]")
     legend (leg)
 
   else
