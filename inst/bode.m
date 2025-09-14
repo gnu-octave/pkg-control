@@ -134,6 +134,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     title ("Bode Diagram")
     ylabel ("Magnitude [dB]")
+    legend (leg)
 
     subplot (2, 1, 2)
     semilogx (pha_args{:})
