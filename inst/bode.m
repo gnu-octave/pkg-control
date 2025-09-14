@@ -127,6 +127,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
     pha_args = horzcat (cellfun (@horzcat, w, pha, sty, "uniformoutput", false){:});
 
+    ## 1. Phase plot (bottom)
     subplot (2, 1, 2)
     semilogx (pha_args{:})
     axis ("tight")
@@ -134,8 +135,11 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
-    legend (leg)
 
+    ## 2. Magnitude plot (top). After plotting, this subplot is the
+    ##    default one for subsequent title () or legend () commands.
+    ##    Only this plot gets a title and a legend, which can then be
+    ##    easily changed by the user (see bugs #67490 and #67489).
     subplot (2, 1, 1)
     semilogx (mag_args{:})
     axis ("tight")
