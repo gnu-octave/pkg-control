@@ -64,21 +64,6 @@ function w = __frequency_vector__ (sys_cell, wbounds = "std", wmin, wmax)
 
     zp = horzcat (zp{:});
 
-    ## The following code might be added in case poles and zeros with
-    ## low damping requires more frequenciy points in the directly
-    ## next to the porl/zero natural frequency. Therefor, D is also
-    ## computed in __frequency_range__
-    #    x = 1:5;                 # how mayn additional frequencies?
-    #    D = horzcat (D{:});
-    #    n_zp = length (zp);
-    #    for i = 1:n_zp
-    #      if (D(i) < 0.1)
-    #        Dx = x*D(i);         # for small dampings, add frqs before and after
-    #        zp = [zp, zp(i) + zp(i)./(1+Dx), zp(i) +  zp(i)*(1+Dx)];
-    #      endif
-    #    endfor
-    #    zp = unique (zp);        # remove possible duplicates
-
     ## include zeros and poles for nice peaks in plots
     idx = find (zp > 10^dec_min & zp < 10^dec_max);
     zp = zp(idx);

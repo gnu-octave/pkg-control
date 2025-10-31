@@ -75,7 +75,8 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   ## check for poles and zeroes at the origin for each of the numsys systems
   ## and compare this asymptotic value to initial phase for the full auto
   ## w-range, which is supposed to start at sufficiently small values fo w
-  initial_phase = cellfun(@(x) x(1), pha_auto);
+  initial_phase_auto = cellfun(@(x) x(1), pha_auto);
+  initial_phase = cellfun(@(x) x(1), pha);
   all_poles = cell(1,numsys);
   all_zeros = cell(1,numsys);
   for h = 1:numsys
@@ -86,7 +87,8 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     n_poles_at_origin = sum (all_poles{h} == 0);
     n_zeros_at_origin = sum (all_zeros{h} == 0);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
-    pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/360)*360};
+    pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase_auto(h))/90)*90};
+    pha(h)={cell2mat(pha(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/90)*90};
   endfor
 
   ## check if possibly given w-range is at higher frequencies and provide
@@ -104,7 +106,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
         ## phases
         pha_idx = length (find (w_auto{h} < w{h}(1)));
         pha_cmp = pha_auto{h}(pha_idx);
-        pha(h)={cell2mat(pha(h)) + round((pha_cmp - initial_phase(h))/360)*360};
+        pha(h)={cell2mat(pha(h)) + round((pha_cmp - initial_phase(h))/90)*90};
       endif
     else
       ## w range is identical to auto range, just use the phase for the

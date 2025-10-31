@@ -50,9 +50,6 @@ function H = __freqresp__ (sys, w, cellflag = false)
 endfunction
 
 
-## Code suggested by 	dasergatskov in bug #63393, comment #17 as numerically
-## more robust variant for polyval, see
-## https://savannah.gnu.org/bugs/index.php?63393
 function H = __fracval__ (num, den, s)
 
   # if s has less frequencies than order of num or den, use standard way
@@ -69,15 +66,32 @@ function H = __fracval__ (num, den, s)
 
   else
 
-    Hnum0 = polyval (num, s);
-    [num1,~,mu] = polyfit(s, Hnum0, length(num));
-    Hnum1 = polyval (num1, s, [], mu);
-    Hden0 = polyval (den, s);
-    [den1,~,mu] = polyfit(s, Hden0, length(den));
-    Hden1 = polyval (den1, s, [], mu);
-    H = Hnum1 ./ Hden1 ;
+    H = __polyval__ (num, s) ./ __polyval__ (den, s);
 
   endif
 
 endfunction
 
+
+function p_val = __polyval__ (p, s)
+
+  ## The code below of an alternative method for calculating
+  ## a polynomial value does not seem to work in case of polynomial
+  ## zeros in the origin. Therefore, separate the poylomials s^i
+  ## from the original polynomial.
+  if (p(end) == 0)
+    p_red = flip (polyreduce (flip (p)));
+    e = length (p) - length (p_red);
+  else
+    p_red = p;
+    e = 1;
+  endif
+
+  ## Code suggested by 	dasergatskov in bug #63393, comment #17
+  ## as numerically more robust variant for polyval, see
+  ## https://savannah.gnu.org/bugs/index.php?63393
+  p_val = polyval (p_red, s);
+  [p_new, ~, mu] = polyfit (s, p_val, length (p_red)-1);
+  p_val = polyval (p_new, s, [], mu) .* s.^e;
+
+endfunction
