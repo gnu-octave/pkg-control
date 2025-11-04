@@ -91,7 +91,7 @@
 ## Any data type.
 ## @end table
 ##
-## @seealso{dss, @ss/ss, @tf/tf}
+## @seealso{dss, @@ss/ss, @@tf/tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

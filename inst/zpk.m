@@ -56,7 +56,7 @@
 ## Transfer function model.
 ## @end table
 ##
-## @seealso{@tf/tf, @ss/ss, dss, @frd/frd}
+## @seealso{@@tf/tf, @@ss/ss, dss, @@frd/frd}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

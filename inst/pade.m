@@ -73,7 +73,7 @@
 ##     Paper presented at 3rd TEMPUS-INTCOM Symposium on Intelligent Systems
 ##     in Control and Measurements 2000, Veszprém, Hungary.
 ##
-## @seealso{@tf/tf}
+## @seealso{@@tf/tf}
 ## @end deftypefn
 
 function varargout = pade (T, n, varargin)
