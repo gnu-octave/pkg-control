@@ -44,8 +44,8 @@
 
 function [reg] = lqgreg (kest, k)
 
-  %% TODO: implement variant with additional known inputs:
-  %% reg = lqgreg (kest, k, controls)
+  ## TODO: implement variant with additional known inputs:
+  ## reg = lqgreg (kest, k, controls)
 
     if (isa (kest, "lti"))
       [a, b, c, d, e, Ts] = dssdata (kest, []);

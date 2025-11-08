@@ -6,3 +6,11 @@
 devel             export-ignore
 docs              export-ignore
 slicot-reference  export-ignore
+doc/Makefile      export-ignore
+doc/control.png   export-ignore
+doc/control.css   export-ignore
+doc/control.texi  export-ignore
+doc/copying.texi  export-ignore
+doc/macros.texi   export-ignore
+doc/*.py          export-ignore
+

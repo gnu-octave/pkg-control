@@ -3,7 +3,7 @@ pack_name = "control"
 
 
 % Load Packages
-pkg load "generate_html"
+%pkg load "generate_html"
 pkg ("load", pack_name);
 
 % Get list of functions  

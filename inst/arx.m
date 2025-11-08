@@ -84,13 +84,16 @@
 ## 'Solving for the LS Estimate by QR Factorization'.
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT IB01CD}
 ## for initial conditions,
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
-## [1] Ljung, L. (1999)
+## @enumerate
+## @item
+## Ljung, L. (1999)
 ## @cite{System Identification: Theory for the User: Second Edition}.
 ## Prentice Hall, New Jersey, USA.
+## @end enumerate
 ##
 ## @end deftypefn
 

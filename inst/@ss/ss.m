@@ -148,7 +148,7 @@
 ## @end group
 ## @end example
 ##
-## @strong{Note on compatibility}
+## @strong{Compatibility issue}
 ##
 ## If the state-space model @var{sys} is converted from a transfer
 ## function, the resulting state-space model can be transformed into

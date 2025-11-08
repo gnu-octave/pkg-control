@@ -40,7 +40,7 @@
 ## @strong{Equation}
 ## @iftex
 ## @tex
-## $$ C_o = [ B \\ \\ AB \\ \\ A^2B \\ \\ldots \\ A^{n-1}B ] $$
+## $$ C_o = \begin{bmatrix} B & AB & A^2B & \ldots & A^{n-1}B \end{bmatrix}$$
 ## @end tex
 ## @end iftex
 ## @ifnottex

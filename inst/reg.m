@@ -46,7 +46,7 @@
 
 function regsys = reg (sys, k, l)
 
-  %% TODO: implement variant with additional known inputs:
+  ## TODO: implement variant with additional known inputs:
 
     [m, n] = size(k);
     [~, p] = size(l);

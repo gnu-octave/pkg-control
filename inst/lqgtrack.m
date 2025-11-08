@@ -44,10 +44,10 @@
 
 function [reg] = lqgtrack (kest, k)
 
-  %% TODO: implement variant with additional known inputs:
-  %% reg = lqgtrack (kest, k, controls)
-  %  TODO: implement variant with 1dof
-  %% reg = lqgtrack (kest, k, '1dof')
+  ## TODO: implement variant with additional known inputs:
+  ## reg = lqgtrack (kest, k, controls)
+  ## TODO: implement variant with 1dof
+  ## reg = lqgtrack (kest, k, '1dof')
 
     if (isa (kest, "lti"))
       [a, b, c, d, e, Ts] = dssdata (kest, []);

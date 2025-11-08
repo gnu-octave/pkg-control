@@ -13,8 +13,6 @@
 *.tar.gz
 *.orig
 
-functions.texi
-
 # temp file from configure and make
 
 src/slicot/src 
@@ -29,9 +27,11 @@ config.*
 
 # temp info and doc files
 
-/doc/**/*.info-*
-/doc/**/stamp-vti
-/doc/**/version.texi
+doc/functions.texi
+doc/version.texi
+doc/*.qch
+doc/*.qhc
+doc/*.pdf
 
 # temp directories
 

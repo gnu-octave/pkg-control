@@ -65,18 +65,21 @@
 ## @end example
 ##
 ## @strong{References}@*
-## [1] Byrnes, C.I. and Isidori, A.
+## @enumerate
+## @item 
+## Byrnes, C.I. and Isidori, A.
 ## @cite{A Frequency Domain Philosophy for Nonlinear Systems}.
 ## IEEE Conf. Dec. Contr. 23, pp. 1569–1573, 1984.
-##
-## [2] Zeitz, M.
+## @item 
+## Zeitz, M.
 ## @cite{Minimum phase – no relevant property of automatic control!}.
 ## at – Automatisierungstechnik. Volume 62, Issue 1, pp. 3–10, 2014.
-##
-## [3] Bode, H.W.
+## @item
+## Bode, H.W.
 ## @cite{Network Analysis and Feedback Amplifier Design}.
 ## D. Van Nostrand Company, pp. 312-318, 1945.
 ## pp. 341-351, 1992.
+## @end enumerate
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

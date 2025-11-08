@@ -13,6 +13,7 @@ TARGET_DIR      := target
 RELEASE_DIR     := $(TARGET_DIR)/$(PACKAGE)-$(VERSION)
 RELEASE_TARBALL := $(TARGET_DIR)/$(PACKAGE)-$(VERSION).tar.gz
 DOCS_DIR        := docs
+DOC_DIR         := doc
 
 SC_SMOD := slicot-reference
 SC_SRC  := src/slicot/src
@@ -25,7 +26,7 @@ PKG_ADD     := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M
 
 OCTAVE ?= octave --silent
 
-.PHONY: help dist docs release install all check run clean
+.PHONY: help dist docs-html docs release install all check run clean
 
 test:
 	@echo $(SLICOT_SOURCES)
@@ -35,8 +36,10 @@ help:
 	@echo "Targets:"
 	@echo " "
 	@echo "   dist      - Create $(RELEASE_TARBALL) for release"
-	@echo "   docs      - Create html documentation in $(DOCS_DIR), assumes"
-	@echo "               current version of $(PACKAGE) is installed"
+	@echo "   docs-html - Create html documentation in $(DOCS_DIR), assumes"
+	@echo "               current version of $(PACKAGE) is installed;"
+	@echo "   docs        Create the pdf manual and the Qt help file"
+	@echo "               in $(DOC_DIR)"
 	@echo "   release   - Create dist, install and create docs,"
 	@echo "               shows sha256sum of tarball"
 	@echo
@@ -67,6 +70,9 @@ $(RELEASE_DIR): .git/index
 	@git archive -o $@/tmp.tar HEAD
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
 	@echo "  copy packinfo ..."
+	@echo "  copy pdf and qch file ..."
+	@cp $(DOC_DIR)/$(PACKAGE).pdf $@/$(DOC_DIR)/
+	@cp $(DOC_DIR)/$(PACKAGE).qch $@/$(DOC_DIR)/
 	@echo "  copy files from slicot ..."
 	@mkdir -p $@/$(SC_SRC)
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src/*.f
@@ -79,14 +85,18 @@ $(RELEASE_DIR): .git/index
 	@cd $@/src && ./bootstrap && $(RM) -r "autom4te.cache"
 	@chmod -R a+rX,u+w,go-w "$@"
 
-docs:
+docs-html:
 	@echo "Updating HTML documentation. This may take a while ..."
-	cd "$(DOCS_DIR)" && $(OCTAVE) \
+	@cd "$(DOCS_DIR)" && $(OCTAVE) \
 	                      --eval "pkg load pkg-octave-doc; " \
 	                      --eval "pkg load $(PACKAGE);" \
 	                      --eval 'package_texi2html ("${PACKAGE}");'
 
-dist: $(RELEASE_TARBALL)
+docs:
+	@echo "Creating pdf and qch file in $(DOC_DIR) ..."
+	@cd "$(DOC_DIR)" && make
+
+dist: docs $(RELEASE_TARBALL)
 
 release: dist install docs
 	sha256sum $(RELEASE_TARBALL)
@@ -117,6 +127,8 @@ run: all
 clean:
 	$(RM) -r $(TARGET_DIR)
 	$(MAKE) -C src/ clean
+	@cd "$(DOC_DIR)" && make clean
+
 
 distclean: clean
 	$(MAKE) -C src/ distclean

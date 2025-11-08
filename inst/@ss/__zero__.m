@@ -18,7 +18,7 @@
 ## -*- texinfo -*-
 ## Invariant zeros of SS object.
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB08ND and AG08BD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

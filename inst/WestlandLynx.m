@@ -30,10 +30,13 @@
 ## @end example
 ##
 ## @strong{References}@*
-## [1] Skogestad, S. and Postlethwaite I. (2005)
+## @enumerate
+## @item
+## Skogestad, S. and Postlethwaite I. (2005)
 ## @cite{Multivariable Feedback Control: Analysis and Design:
 ## Second Edition}.  Wiley.
 ## @url{http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html}
+## @end enumerate
 ##
 ## @end deftypefn
 

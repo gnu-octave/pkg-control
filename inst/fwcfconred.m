@@ -107,7 +107,7 @@
 ##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB16CD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 

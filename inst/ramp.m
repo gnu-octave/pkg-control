@@ -30,7 +30,7 @@
 ## If no output arguments are given, the response is printed on the screen.
 ## @iftex
 ## @tex
-## $$ r(t) = t \\, \\cdot \\, h(t) $$
+## $$ r(t) = t \, \cdot \, h(t) $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

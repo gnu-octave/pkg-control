@@ -40,11 +40,11 @@
 ## @strong{Equation}
 ## @iftex
 ## @tex
-## $$ O_b = \\left[ \\matrix{  C       \\cr
-##                             CA    \\cr
-##                             CA^2  \\cr
-##                             \\vdots  \\cr
-##                             CA^{n-1} } \\right ] $$
+## $$ O_b = \begin{bmatrix}  C      \cr
+##                           CA     \cr
+##                           CA^2   \cr
+##                           \vdots \cr
+##                           CA^{n-1} \end{bmatrix} $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

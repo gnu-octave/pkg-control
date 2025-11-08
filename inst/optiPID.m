@@ -42,7 +42,7 @@
 %% The plant P(s) is of higher order but benign.  The initial values for the
 %% controller parameters
 %% @tex
-%% \(K_P,T_I\mbox{ and } T_D\)
+%% $K_P,T_I\mbox{ and } T_D$
 %% @end tex
 %% @ifnottex
 %% Kp, Ti and Td
@@ -88,11 +88,11 @@
 %% @end ifnottex
 %% to a unity reference step
 %% @tex
-%% \(r(t) = \varepsilon (t)\)
+%% $r(t) = \varepsilon (t)$
 %% @end tex
 %% in the time domain. In the frequency domain, the sensitivity
 %% @tex
-%% \(M_s = ||S(jw)||_{\infty}\)
+%% $M_s = ||S(jw)||_{\infty}$
 %% @end tex
 %% @ifnottex
 %% @example
@@ -113,7 +113,7 @@
 %% @end ifnottex
 %% The constants
 %% @tex
-%% \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
+%% $\mu_1,\, \mu_2 \mbox{ and } \mu_3$
 %% @end tex
 %% @ifnottex
 %% mu1, mu2 and mu3
@@ -126,7 +126,7 @@
 %% In a first approach, all three design objectives are weigthed equally.
 %% In subsequent iterations, the parameters
 %% @tex
-%% \(\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20\)
+%% $\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20$
 %% @end tex
 %% @ifnottex
 %% mu1 = 1, mu2 = 10 and mu3 = 20
@@ -135,13 +135,18 @@
 %% in a system with virtually no overshoot and a phase margin of 64 degrees.
 %%
 %% @*@strong{References}@*
-%% [1] Guzzella, L.
+## @enumerate
+## @item
+## Guzzella, L.
 %% @cite{Analysis and Design of SISO Control Systems},
 %% VDF Hochschulverlag, ETH Zurich, 2007@*
-%% [2] Astroem, K. and Haegglund, T.
+## @item
+## Astroem, K. and Haegglund, T.
 %% @cite{PID Controllers: Theory, Design and Tuning},
 %% Second Edition,
 %% Instrument Society of America, 1995
+## @end enumerate
+##
 %% @end deftypefn
 
 % ===============================================================================

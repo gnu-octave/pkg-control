@@ -20,7 +20,7 @@
 ## Creates a linearized state-space model of a Boeing 707-321 aircraft
 ## at 
 ## @tex
-## \(v=80\,\frac{m}{s} (M = 0.26,\, G_{a0} = -3^{\circ},\, {\alpha}_0 = 4^{\circ},\, {\kappa}= 50^{\\circ}\)).
+## $v=80\,\frac{m}{s} (M = 0.26,\, G_{a0} = -3^{\circ},\, {\alpha}_0 = 4^{\circ},\, {\kappa}= 50^{\\circ})$.
 ## @end tex
 ## @ifnottex
 ## @var{v}=80 m/s (@var{M} = 0.26, @var{Ga0} = -3 deg, @var{alpha0} = 4 deg, @var{kappa} = 50 deg).

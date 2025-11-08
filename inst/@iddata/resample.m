@@ -31,13 +31,16 @@
 ## from the signal package.
 ##
 ## @strong{References}@*
-## [1] J. G. Proakis and D. G. Manolakis,
+## @enumerate
+## @item
+## J. G. Proakis and D. G. Manolakis,
 ## Digital Signal Processing: Principles, Algorithms, and Applications,
 ## 4th ed., Prentice Hall, 2007. Chap. 6
-##
-## [2] A. V. Oppenheim, R. W. Schafer and J. R. Buck,
+## @item
+## A. V. Oppenheim, R. W. Schafer and J. R. Buck,
 ## Discrete-time signal processing, Signal processing series,
 ## Prentice-Hall, 1999
+## @end enumerate
 ##
 ## @end deftypefn
 

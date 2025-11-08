@@ -16,19 +16,19 @@
 @c printed manual (that information should be in the supporting text for
 @c each group of functions and variables).
 
-@macro seealso {args}
-@iftex
-@vskip 2pt
-@end iftex
-@ifnottex
+@c @macro seealso {args}
+@c @iftex
+@c @vskip 2pt
+@c @end iftex
+@c @ifnottex
 @c Texinfo @sp should work but in practice produces ugly results for HTML.
 @c A simple blank line produces the correct behavior. 
 @c @sp 1
 
-@end ifnottex
-@noindent
-@strong{See also:} \args\.
-@end macro
+@c @end ifnottex
+@c @noindent
+@c @strong{See also:} \args\.
+@c @end macro
 
 
 @c %*** Start of TITLEPAGE
@@ -71,7 +71,10 @@ Its main features are:
 @itemize
 @item Reliable solvers for Lyapunov, Sylvester and algebraic Riccati equations.
 @item Pole placement techniques as well as @tex $ H_2 $ @end tex
-and @tex $ H_{\infty} $ @end tex
+and
+@tex
+$ H_{\infty} $
+@end tex
 synthesis methods.
 @item Frequency-weighted model and controller reduction.
 @item System identification by subspace methods.

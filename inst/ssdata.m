@@ -46,12 +46,12 @@
 ## a zero is returned.
 ## @end table
 ##
-## @strong{Note on compatibility}
+## @strong{Compatibility issue}
 ##
 ## If @var{sys} is given by an input-output description, like, e.g.,
 ## a transfer function, the resulting state-space model has a
 ## different form than the one provided by Matlab,
-## @pxref{ss} for details.
+## see @code{@@ss/ss} for details.
 ##
 ## @end deftypefn
 

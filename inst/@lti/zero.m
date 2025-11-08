@@ -97,7 +97,7 @@
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{zero}
 ## uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB08ND and AG08BD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## For @acronym{SISO} transfer functions, @command{zero}
 ## uses Octave's @command{roots}.
@@ -106,21 +106,27 @@
 ## computation of the zeros.
 ##
 ## @strong{References}@*
-## [1] MacFarlane, A. and Karcanias, N.
+## @enumerate
+## @item
+## MacFarlane, A. and Karcanias, N.
 ## @cite{Poles and zeros of linear multivariable systems:
 ## a survey of the algebraic, geometric and complex-variable
 ## theory}.  Int. J. Control, vol. 24, pp. 33-74, 1976.@*
-## [2] Rosenbrock, H.H.
+## @item
+## Rosenbrock, H.H.
 ## @cite{Correction to 'The zeros of a system'}.
 ## Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.@*
-## [3] Svaricek, F.
+## @item
+## Svaricek, F.
 ## @cite{Computation of the structural invariants of linear
 ## multivariable systems with an extended version of the
 ## program ZEROS}.
 ## Systems & Control Letters, vol. 6, pp. 261-266, 1985.@*
-## [4] Emami-Naeini, A. and Van Dooren, P.
+## @item
+## Emami-Naeini, A. and Van Dooren, P.
 ## @cite{Computation of zeros of linear multivariable systems}.
 ## Automatica, vol. 26, pp. 415-430, 1982.@*
+## @end enumerate
 ##
 ## @end deftypefn
 

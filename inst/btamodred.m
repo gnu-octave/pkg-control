@@ -210,30 +210,31 @@
 ##
 ##
 ## @strong{References}@*
-## [1] Enns, D.
+## @enumerate
+## @item Enns, D.
 ## @cite{Model reduction with balanced realizations: An error bound
 ## and a frequency weighted generalization}.
 ## Proc. 23-th CDC, Las Vegas, pp. 127-132, 1984.
-##
-## [2] Lin, C.-A. and Chiu, T.-Y.
+## @item
+## Lin, C.-A. and Chiu, T.-Y.
 ## @cite{Model reduction via frequency-weighted balanced realization}.
 ## Control Theory and Advanced Technology, vol. 8,
 ## pp. 341-351, 1992.
-##
-## [3] Sreeram, V., Anderson, B.D.O and Madievski, A.G.
+## @item
+## Sreeram, V., Anderson, B.D.O and Madievski, A.G.
 ## @cite{New results on frequency weighted balanced reduction
 ## technique}.
 ## Proc. ACC, Seattle, Washington, pp. 4004-4009, 1995.
-##
-## [4] Varga, A. and Anderson, B.D.O.
+## @item
+## Varga, A. and Anderson, B.D.O.
 ## @cite{Square-root balancing-free methods for the frequency-weighted
 ## balancing related model reduction}.
 ## (report in preparation)
-##
+## @end enumerate
 ##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB09ID},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 

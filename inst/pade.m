@@ -69,9 +69,12 @@
 ## in a better step response but decresing magnitude for higher frequencies.
 ##
 ## Algorithm based on:@*
-## [1] Vajta, M. (2000). Some remarks on Pade-approximations, pp53-58,
-##     Paper presented at 3rd TEMPUS-INTCOM Symposium on Intelligent Systems
-##     in Control and Measurements 2000, Veszprém, Hungary.
+## @enumerate
+## @item
+## Vajta, M. (2000). Some remarks on Pade-approximations, pp53-58,
+## Paper presented at 3rd TEMPUS-INTCOM Symposium on Intelligent Systems
+## in Control and Measurements 2000, Veszprém, Hungary.
+## @end enumerate
 ##
 ## @seealso{@@tf/tf}
 ## @end deftypefn

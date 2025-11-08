@@ -25,7 +25,7 @@
 ## Reasonable values of @var{Ms} are in the range from 1.3 to 2.
 ## @iftex
 ## @tex
-## $$ M_s = ||S(j\\omega)||_{\\infty} $$
+## $$ M_s = ||S(j\omega)||_{\infty} $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -73,15 +73,18 @@
 ##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB13DD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
-## [1] Astr@"om, K. and H@"agglund, T. (1995)
+## @enumerate
+## @item
+## Astr@"om, K. and H@"agglund, T. (1995)
 ## PID Controllers:
 ## Theory, Design and Tuning,
 ## Second Edition.
 ## Instrument Society of America.
+## @end enumerate
 ##
 ## @end deftypefn
 

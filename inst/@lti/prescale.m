@@ -43,11 +43,11 @@
 ##
 ## @strong{Equations}
 ## @tex
-## $$ E_s = T_l\,E\,T_r \\
-##    A_s = T_l\,A\,T_r \\
-##    B_s = T_l\,B \\
-##    C_s =      C\,T_r \\
-##    D_s =      D $$
+## $$ E_s = T_l\,E\,T_r $$
+## $$ A_s = T_l\,A\,T_r $$
+## $$ B_s = T_l\,B      $$
+## $$ C_s =      C\,T_r $$
+## $$ D_s =      D      $$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -65,7 +65,7 @@
 ##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT TB01ID and TG01AD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 

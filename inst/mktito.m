@@ -66,9 +66,12 @@
 ## @end example
 ##
 ## @strong{Reference}@*
-## [1] Skogestad, S. and Postlethwaite, I. (2005)
+## @enumerate
+## @item
+## Skogestad, S. and Postlethwaite, I. (2005)
 ## @cite{Multivariable Feedback Control: Analysis and Design:
 ## Second Edition}.  Wiley, Chichester, England.
+## @end enumerate
 ##
 ## @end deftypefn
 

@@ -30,7 +30,7 @@
 ## @enumerate
 ## @item For @emph{disturbance rejection} make
 ## @tex
-## \(\underline{\sigma}(W_2 G W_1)\)
+## $\underline{\sigma}(W_2 G W_1)$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -39,7 +39,7 @@
 ## @end ifnottex
 ## large; valid for frequencies at which
 ## @tex
-## \(\underline{\sigma}(G_S) \gg 1\).
+## $\underline{\sigma}(G_S) \gg 1$.
 ## @end tex
 ## @ifnottex
 ## @example
@@ -48,7 +48,7 @@
 ## @end ifnottex
 ## @item For @emph{noise attenuation} make
 ## @tex
-## \(\overline{\sigma}(W_2 G W_1)\)
+## $\overline{\sigma}(W_2 G W_1)$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -57,7 +57,7 @@
 ## @end ifnottex
 ## small; valid for frequencies at which
 ## @tex
-## \(\overline{\sigma}(G_S) \ll 1\).
+## $\overline{\sigma}(G_S) \ll 1$.
 ## @end tex
 ## @ifnottex
 ## @example
@@ -66,7 +66,7 @@
 ## @end ifnottex
 ## @item For @emph{reference tracking} make
 ## @tex
-## \(\underline{\sigma}(W_2 G W_1)\)
+## $\underline{\sigma}(W_2 G W_1)$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -75,7 +75,7 @@
 ## @end ifnottex
 ## large; valid for frequencies at which
 ## @tex
-## \(\underline{\sigma}(G_S) \gg 1\).
+## $\underline{\sigma}(G_S) \gg 1$.
 ## @end tex
 ## @ifnottex
 ## @example
@@ -84,7 +84,7 @@
 ## @end ifnottex
 ## @item For @emph{robust stability} to a multiplicative output perturbation
 ## @tex
-## \(G_p = (I + \Delta) G\)
+## $G_p = (I + \Delta) G$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -93,7 +93,7 @@
 ## @end ifnottex
 ## make
 ## @tex
-## \(\overline{\sigma}(W_2 G W_1)\)
+## $\overline{\sigma}(W_2 G W_1)$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -102,7 +102,7 @@
 ## @end ifnottex
 ## small; valid for frequencies at which
 ## @tex
-## \(\overline{\sigma}(G_S) \ll 1\).
+## $\overline{\sigma}(G_S) \ll 1$.
 ## @end tex
 ## @ifnottex
 ## @example
@@ -114,7 +114,7 @@
 ## The final positive feedback controller @var{K} is then constructed by combining
 ## the
 ## @tex
-## \(H_{\infty}\)
+## $H_{\infty}$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -126,7 +126,7 @@
 ## In [1] is stated further that the given robust stabilization objective can be
 ## interpreted as a
 ## @tex
-## \(H_{\infty}\)
+## $H_{\infty}$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -135,7 +135,7 @@
 ## @end ifnottex
 ## problem formulation of minimizing the
 ## @tex
-## \(H_{\infty}\)
+## $H_{\infty}$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -226,16 +226,20 @@
 ##
 ## @strong{Algorithm}@*
 ## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10ID, SB10KD and SB10ZD},
-## Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
-## [1] D. McFarlane and K. Glover,
+## @enumerate
+## @item
+## D. McFarlane and K. Glover,
 ## @cite{A Loop Shaping Design Procedure Using H-infinity Synthesis},
 ## IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.@*
-## [2] S. Skogestad and I. Postlethwaite,
+## @item
+## S. Skogestad and I. Postlethwaite,
 ## @cite{Multivariable Feedback Control: Analysis and Design:
 ## Second Edition}.  Wiley, Chichester, England, 2005.@*
+## @end enumerate
 ##
 ## @end deftypefn
 
