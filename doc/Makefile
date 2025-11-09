@@ -16,7 +16,8 @@ SED       := sed
 SHA256SUM := sha256sum
 TAR       := tar
 MAKEINFO  ?= makeinfo
-MAKEINFO_HTML_OPTIONS := --no-headers --no-split \
+# use --force in makeinfo since there are @refs to octave core functions
+MAKEINFO_OPTIONS := --no-headers --no-split --no-validate \
 												--set-customization-variable 'COPIABLE_LINKS 0'
 PDFLATEX  ?= pdflatex
 PDFLATEX_OPTIONS := -interaction batchmode
@@ -71,19 +72,13 @@ functions.texi: $(BASEDIR)/../.git/index
 	@# a latex document is required. This requires to change all *tex*
 	@# conditionals into *latex* ones in all texinfo files
 	@echo Collect all texinfo texts from the package...
-	@./mkfuncdocs.py --src-dir=../inst/ --src-dir=../src/ ../INDEX \
-		| $(SED) 's/@iftex/@iflatex/g' \
-		| $(SED) 's/@end iftex/@end iflatex/g' \
-		| $(SED) 's/@ifnottex/@ifnotlatex/g' \
-		| $(SED) 's/@end ifnottex/@end ifnotlatex/g' \
-		| $(SED) 's/@tex/@latex/g' \
-		| $(SED) 's/@end tex/@end latex/g' \
-		| $(SED) 's/@seealso/@xseealso/g' \
-		> functions.texi
+	@./mkfuncdocs.py --src-dir=../inst/ --src-dir=../src/ ../INDEX > functions.texi
+	@echo Do some syntax replacements...
+	@./mkfunctexifix.pl functions.texi
 
 $(PACKAGE).pdf: $(PACKAGE).texi functions.texi version.texi
 	@echo Generating latex file...
-	@$(MAKEINFO) --latex $(MAKEINFO_HTML_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
+	@$(MAKEINFO) --latex $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
 	@echo Compiling latex file...
 	@$(PDFLATEX) $(PDFLATEX_OPTIONS) $(PACKAGE).tex > /dev/null 2>&1
 	@$(PDFLATEX) $(PDFLATEX_OPTIONS) $(PACKAGE).tex > /dev/null 2>&1
@@ -94,15 +89,14 @@ $(PACKAGE).pdf: $(PACKAGE).texi functions.texi version.texi
 $(PACKAGE).qch: $(PACKAGE).texi functions.texi version.texi
 	@# extract html
 	@echo Generate html file...
-	@$(MAKEINFO) --html --css-ref=$(PACKAGE).css $(MAKEINFO_HTML_OPTIONS) $(PACKAGE).texi
-
+	@$(MAKEINFO) --html --css-ref=$(PACKAGE).css $(MAKEINFO_OPTIONS) $(PACKAGE).texi
 ifeq ($(QHELPGENERATOR),true)
 	$(warning No QHELPGENERATOR... skipping QT doc build)
 else
 	@# try also create qch file if can
 	@echo Generate qch file...
 	@./mkqhcp.py $(PACKAGE) && $(QHELPGENERATOR) $(PACKAGE).qhcp -o $(PACKAGE).qhc
-	$(RM) $(PACKAGE).qhcp $(PACKAGE).qhp $(PACKAGE).qhc $(PACKAGE).html
+	@$(RM) $(PACKAGE).qhcp $(PACKAGE).qhp $(PACKAGE).qhc $(PACKAGE).html
 endif
 
 $(PACKAGE).info: $(PACKAGE).texi functions.texi version.texi

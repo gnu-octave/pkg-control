@@ -311,6 +311,7 @@ def display_standalone_footer():
 
 def display_func(name, ref, help):
   print ("@c -----------------------------------------")
+  print ("@node {}".format(name))
   print ("@subsection {}".format(name))
   print ("@cindex {}".format(ref))
   for l in help:
