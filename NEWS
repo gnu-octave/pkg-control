@@ -5,11 +5,17 @@ Summary of important user-visible changes for releases of the control package
 control-4.1.99+  Upcoming version 4.2.0, not yet released
 ===============================================================================
 
+** from Octave 11 on, the control package documentation is included
+   into the documentation browser of the GUI when the package is loaded
+
 ** pade: new function for pade approximation of time delays by poles 
    and zeros
 
 ** bdschur: new function for block diagonalization of a matrix using
    SLICOT routine MB03RD
+
+** bode: legend, title and similar commands after a bode plot are now
+   affecting the first plot (magnitude), not the second (bug #67490)
 
 ** bode/margin: improved handling of poles and zeros on imaginary axis,
    more robust computation of the phase (bug #63393, bug #61355)
