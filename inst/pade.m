@@ -260,25 +260,20 @@ function __pade_plot__ (num, den, T)
   pha_delay = -w*T/pi*180;
 
   hc = get (h_bode, 'children');
-  amp = hc(2);
-  pha = hc(4);
+  h_amp = hc(3);
+  h_pha = hc(1);
+  h_leg = hc(2);
 
-  hold (amp, 'on');
-  plot (amp, w, pha_delay, '-.k', 'linewidth', 1);
-  hold (amp, 'off');
-  legend ('location', 'southwest');
+  hold (h_pha, 'on');
+  plot (h_pha, w, pha_delay, '-.k', 'linewidth', 1);
+  hold (h_pha, 'off');
 
-  hold (pha, 'on');
-  plot (pha, w, zeros (size(w)), '-.k', 'linewidth', 1);  # zeros, because dB
-  hold (pha, 'off');
+  hold (h_amp, 'on');
+  plot (h_amp, w, zeros (size(w)), '-.k', 'linewidth', 1);  # zeros, because dB
+  hold (h_amp, 'off');
 
-  amp_leg = get(amp, "__legend_handle__");
-  set (amp_leg, "string", leg);
-  set (amp_leg, 'location', 'southwest');
-
-  pha_leg = get(pha, "__legend_handle__");
-  set (pha_leg, "string", leg);
-  set (pha_leg, 'location', 'southwest');
+  set (h_leg, "string", leg);
+  set (h_leg, 'location', 'southwest');
 
 endfunction
 

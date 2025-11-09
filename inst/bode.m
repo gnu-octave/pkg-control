@@ -23,7 +23,10 @@
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} bode (@var{sys}, @var{w})
 ## Bode diagram of frequency response.  If no output arguments are given,
-## the response is printed on the screen.
+## the response is printed on the screen. In the latter case, the chidlren
+## of the figure handle are the handles for (1) the phase plot, (2) the
+## legend, and (3) the magnitude plot. The magnitude plot is the active
+## handle after the bode plot is finished.
 ##
 ## @strong{Inputs}
 ## @table @var
