@@ -12,4 +12,5 @@ doc/control.texi  export-ignore
 doc/copying.texi  export-ignore
 doc/macros.texi   export-ignore
 doc/*.py          export-ignore
+doc/*.pl          export-ignore
 
