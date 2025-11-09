@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -604,34 +605,40 @@
 <p> <strong>Algorithm</strong><br>
  For (descriptor) state-space models, <code>zero</code>
  uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB08ND and AG08BD</a>,
- Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+ Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
  (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  For <acronym>SISO</acronym> transfer functions, <code>zero</code>
  uses Octave&rsquo;s <code>roots</code>.
  <acronym>MIMO</acronym> transfer functions are converted to
- a <math>minimal</math> state-space representation for the
+ a <em>minimal</em> state-space representation for the
  computation of the zeros.
 </p>
 <p> <strong>References</strong><br>
- [1] MacFarlane, A. and Karcanias, N.
+ </p><ol>
+<li>
+ MacFarlane, A. and Karcanias, N.
  <cite>Poles and zeros of linear multivariable systems:
  a survey of the algebraic, geometric and complex-variable
  theory</cite>.  Int. J. Control, vol. 24, pp. 33-74, 1976.<br>
- [2] Rosenbrock, H.H.
+ </li><li>
+ Rosenbrock, H.H.
  <cite>Correction to &rsquo;The zeros of a system&rsquo;</cite>.
  Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.<br>
- [3] Svaricek, F.
+ </li><li>
+ Svaricek, F.
  <cite>Computation of the structural invariants of linear
  multivariable systems with an extended version of the
  program ZEROS</cite>.
  Systems &amp; Control Letters, vol. 6, pp. 261-266, 1985.<br>
- [4] Emami-Naeini, A. and Van Dooren, P.
+ </li><li>
+ Emami-Naeini, A. and Van Dooren, P.
  <cite>Computation of zeros of linear multivariable systems</cite>.
  Automatica, vol. 26, pp. 415-430, 1982.<br>
-</p>
+ </li></ol>
+
 
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/zero.m">@lti/zero</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/@lti/zero.m">@lti/zero</a>
 </div>
 
 

@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -511,19 +512,19 @@
 </p>
 <div class="ms-5">
  <ol>
-<li> For <math>disturbance rejection</math> make
+<li> For <em>disturbance rejection</em> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <math>noise attenuation</math> make
+  </li><li> For <em>noise attenuation</em> make
  \(\overline{\sigma}(W_2 G W_1)\)
   small; valid for frequencies at which
  \(\overline{\sigma}(G_S) \ll 1\)
-  </li><li> For <math>reference tracking</math> make
+  </li><li> For <em>reference tracking</em> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <math>robust stability</math> to a multiplicative output perturbation
+  </li><li> For <em>robust stability</em> to a multiplicative output perturbation
  \(G_p = (I + \Delta) G\)
   make
  \(\overline{\sigma}(W_2 G W_1)\)
@@ -547,7 +548,7 @@
 </p> 
 <p> <code>[K, N] = ncfsyn (G, W1, W2, f)</code>
  The function <code>ncfsyn</code> - the somewhat cryptic name stands
- for <math>normalized coprime factorization synthesis</math> - allows the specification of
+ for <em>normalized coprime factorization synthesis</em> - allows the specification of
  an additional argument, factor <var>f</var>.  Default value <code>f = 1</code> implies that an
  optimal controller is required, whereas <code>f &gt; 1</code> implies that a suboptimal
  controller is required, achieving a performance that is <var>f</var> times less than optimal.
@@ -585,7 +586,7 @@
 <dt> <var>K</var></dt>
 </dl>
 <p> State-space model of the H-infinity loop-shaping controller.
- Note that <var>K</var> is a <math>positive</math> feedback controller.
+ Note that <var>K</var> is a <em>positive</em> feedback controller.
  </p></dd>
 <dt> <var>N</var></dt>
 </dl>
@@ -632,20 +633,24 @@
 
 <p> <strong>Algorithm</strong><br>
  Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SB10KD and SB10ZD</a>,
- Copyright (c) 2020, SLICOT, available under the BSD 3-Clause
+ Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
  (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
 <p> <strong>References</strong><br>
- [1] D. McFarlane and K. Glover,
+ </p><ol>
+<li>
+ D. McFarlane and K. Glover,
  <cite>A Loop Shaping Design Procedure Using H-infinity Synthesis</cite>,
  IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.<br>
- [2] S. Skogestad and I. Postlethwaite,
+ </li><li>
+ S. Skogestad and I. Postlethwaite,
  <cite>Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley, Chichester, England, 2005.<br>
-</p>
+ </li></ol>
+
 
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/ncfsyn.m">ncfsyn</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/ncfsyn.m">ncfsyn</a>
 </div>
 
 

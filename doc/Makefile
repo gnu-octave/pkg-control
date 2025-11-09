@@ -116,5 +116,6 @@ clean:
 	$(RM) $(PACKAGE).qch
 	$(RM) $(PACKAGE).pdf
 	$(RM) $(PACKAGE).info
+	$(RM) $(PACKAGE).tex
 	$(RM) functions.texi
 	$(RM) version.texi

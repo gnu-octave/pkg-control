@@ -1,153 +1,153 @@
-%% -*- texinfo -*-
-%% @deftypefn  {Example Script} {} optiPID
-%% Numerical optimization of a PID controller using an objective function.
-%%
-%% The objective function is located in the file @command{optiPIDfun}.
-%% Type @code{which optiPID} to locate, @code{edit optiPID} to open
-%% and simply @code{optiPID} to run the example file.
-%% In this example called @code{optiPID}, loosely based on [1], it is assumed
-%% that the plant
-%% @tex
-%% $$ P(s) = \frac{1}{(s^{2} + s + 1)(s + 1)^{4}} $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%                   1
-%% P(s) = -----------------------
-%%        (s^2 + s + 1) (s + 1)^4
-%% @end example
-%% @end ifnottex
-%% is controlled by a PID controller with second-order roll-off
-%% @tex
-%% $$ C(s) = K_P (1 + \frac{1}{T_Is} + T_D s) \frac{1}{(\tau s + 1)^{2}} $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%                  1                1
-%% C(s) = Kp (1 + ---- + Td s) -------------
-%%                Ti s         (tau s + 1)^2
-%% @end example
-%% @end ifnottex
-%% in the usual negative feedback structure
-%% @tex
-%% $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) C(s)}{1 + P(s)C(s)} $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%          L(s)       P(s) C(s)
-%% T(s) = -------- = -------------
-%%        1 + L(s)   1 + P(s) C(s)
-%% @end example
-%% @end ifnottex
-%% The plant P(s) is of higher order but benign.  The initial values for the
-%% controller parameters
-%% @tex
-%% $K_P,T_I\mbox{ and } T_D$
-%% @end tex
-%% @ifnottex
-%% Kp, Ti and Td
-%% @end ifnottex
-%% are obtained by applying the
-%% Astroem and Haegglund rules [2].  These values are to be improved using a
-%% numerical optimization as shown below.
-%% As with all numerical methods, this approach can never guarantee that a
-%% proposed solution is a global minimum.  Therefore, good initial guesses for
-%% the parameters to be optimized are very important.
-%% The Octave function @code{fminsearch} minimizes the objective function @var{J},
-%% which is chosen to be
-%% @tex
-%% $$ J(K_P, T_I, T_D) = \mu_1  \int_0^{\infty} \! t |e(t)| dt + \mu_2  (|| y(t) ||_{\infty} - 1) + \mu_3 ||S(jw)||_{\infty} $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%                     inf
-%% J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||    - 1)  +  mu3 ||S(jw)||
-%%                      0                               inf                       inf
-%% @end example
-%% @end ifnottex
-%% This particular objective function penalizes the integral of time-weighted absolute error
-%% @tex
-%% $$ ITAE = \int_0^{\infty} \! t |e(t)| dt $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%        inf
-%% ITAE = INT t |e(t)| dt
-%%         0
-%% @end example
-%% @end ifnottex
-%% and the maximum overshoot
-%% @tex
-%% $$ y_{max} - 1 = || y(t) ||_{\infty} - 1 $$
-%% @end tex
-%% @ifnottex
-%% @example
-%% y    - 1 = ||y(t)||    - 1
-%%  max               inf
-%% @end example
-%% @end ifnottex
-%% to a unity reference step
-%% @tex
-%% $r(t) = \varepsilon (t)$
-%% @end tex
-%% in the time domain. In the frequency domain, the sensitivity
-%% @tex
-%% $M_s = ||S(jw)||_{\infty}$
-%% @end tex
-%% @ifnottex
-%% @example
-%% Ms = ||S(jw)||
-%%               inf
-%% @end example
-%% @end ifnottex
-%% is minimized for good robustness, where S(s) denotes the @emph{sensitivity} transfer function
-%% @tex
-%% $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
-%% @end tex
-%% @ifnottex
-%% @example
-%%            1            1
-%% S(s) = -------- = -------------
-%%        1 + L(s)   1 + P(s) C(s)
-%% @end example
-%% @end ifnottex
-%% The constants
-%% @tex
-%% $\mu_1,\, \mu_2 \mbox{ and } \mu_3$
-%% @end tex
-%% @ifnottex
-%% mu1, mu2 and mu3
-%% @end ifnottex
-%% are @emph{relative weighting factors} or @guillemetleft{}tuning knobs@guillemetright{}
-%% which reflect the importance of the different design goals. Varying these factors
-%% corresponds to changing the emphasis from, say, high performance to good robustness.
-%% The main advantage of this approach is the possibility to explore the tradeoffs of
-%% the design problem in a systematic way.
-%% In a first approach, all three design objectives are weigthed equally.
-%% In subsequent iterations, the parameters
-%% @tex
-%% $\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20$
-%% @end tex
-%% @ifnottex
-%% mu1 = 1, mu2 = 10 and mu3 = 20
-%% @end ifnottex
-%% are found to yield satisfactory closed-loop performance.  This controller results
-%% in a system with virtually no overshoot and a phase margin of 64 degrees.
-%%
-%% @*@strong{References}@*
+## -*- texinfo -*-
+## @deftypefn  {Example Script} {} optiPID
+## Numerical optimization of a PID controller using an objective function.
+##
+## The objective function is located in the file @command{optiPIDfun}.
+## Type @code{which optiPID} to locate, @code{edit optiPID} to open
+## and simply @code{optiPID} to run the example file.
+## In this example called @code{optiPID}, loosely based on [1], it is assumed
+## that the plant
+## @tex
+## $$ P(s) = \frac{1}{(s^{2} + s + 1)(s + 1)^{4}} $$
+## @end tex
+## @ifnottex
+## @example
+##                   1
+## P(s) = -----------------------
+##        (s^2 + s + 1) (s + 1)^4
+## @end example
+## @end ifnottex
+## is controlled by a PID controller with second-order roll-off
+## @tex
+## $$ C(s) = K_P (1 + \frac{1}{T_Is} + T_D s) \frac{1}{(\tau s + 1)^{2}} $$
+## @end tex
+## @ifnottex
+## @example
+##                  1                1
+## C(s) = Kp (1 + ---- + Td s) -------------
+##                Ti s         (tau s + 1)^2
+## @end example
+## @end ifnottex
+## in the usual negative feedback structure
+## @tex
+## $$ T(s) = \frac{L(s)}{1 + L(s)} = \frac{P(s) C(s)}{1 + P(s)C(s)} $$
+## @end tex
+## @ifnottex
+## @example
+##          L(s)       P(s) C(s)
+## T(s) = -------- = -------------
+##        1 + L(s)   1 + P(s) C(s)
+## @end example
+## @end ifnottex
+## The plant P(s) is of higher order but benign.  The initial values for the
+## controller parameters
+## @tex
+## \(K_P,T_I\mbox{ and } T_D\)
+## @end tex
+## @ifnottex
+## Kp, Ti and Td
+## @end ifnottex
+## are obtained by applying the
+## Astroem and Haegglund rules [2].  These values are to be improved using a
+## numerical optimization as shown below.
+## As with all numerical methods, this approach can never guarantee that a
+## proposed solution is a global minimum.  Therefore, good initial guesses for
+## the parameters to be optimized are very important.
+## The Octave function @code{fminsearch} minimizes the objective function @var{J},
+## which is chosen to be
+## @tex
+## $$ J(K_P, T_I, T_D) = \mu_1  \int_0^{\infty} \! t |e(t)| dt + \mu_2  (|| y(t) ||_{\infty} - 1) + \mu_3 ||S(jw)||_{\infty} $$
+## @end tex
+## @ifnottex
+## @example
+##                     inf
+## J(Kp, Ti, Td) = mu1 INT t |e(t)| dt  +  mu2 (||y(t)||    - 1)  +  mu3 ||S(jw)||
+##                      0                               inf                       inf
+## @end example
+## @end ifnottex
+## This particular objective function penalizes the integral of time-weighted absolute error
+## @tex
+## $$ ITAE = \int_0^{\infty} \! t |e(t)| dt $$
+## @end tex
+## @ifnottex
+## @example
+##        inf
+## ITAE = INT t |e(t)| dt
+##         0
+## @end example
+## @end ifnottex
+## and the maximum overshoot
+## @tex
+## $$ y_{max} - 1 = || y(t) ||_{\infty} - 1 $$
+## @end tex
+## @ifnottex
+## @example
+## y    - 1 = ||y(t)||    - 1
+##  max               inf
+## @end example
+## @end ifnottex
+## to a unity reference step
+## @tex
+## \(r(t) = \varepsilon (t)\)
+## @end tex
+## in the time domain. In the frequency domain, the sensitivity
+## @tex
+## \(M_s = ||S(jw)||_{\infty}\)
+## @end tex
+## @ifnottex
+## @example
+## Ms = ||S(jw)||
+##               inf
+## @end example
+## @end ifnottex
+## is minimized for good robustness, where S(s) denotes the @emph{sensitivity} transfer function
+## @tex
+## $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
+## @end tex
+## @ifnottex
+## @example
+##            1            1
+## S(s) = -------- = -------------
+##        1 + L(s)   1 + P(s) C(s)
+## @end example
+## @end ifnottex
+## The constants
+## @tex
+## \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
+## @end tex
+## @ifnottex
+## mu1, mu2 and mu3
+## @end ifnottex
+## are @emph{relative weighting factors} or @guillemetleft{}tuning knobs@guillemetright{}
+## which reflect the importance of the different design goals. Varying these factors
+## corresponds to changing the emphasis from, say, high performance to good robustness.
+## The main advantage of this approach is the possibility to explore the tradeoffs of
+## the design problem in a systematic way.
+## In a first approach, all three design objectives are weigthed equally.
+## In subsequent iterations, the parameters
+## @tex
+## \(\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20\)
+## @end tex
+## @ifnottex
+## mu1 = 1, mu2 = 10 and mu3 = 20
+## @end ifnottex
+## are found to yield satisfactory closed-loop performance.  This controller results
+## in a system with virtually no overshoot and a phase margin of 64 degrees.
+##
+## @*@strong{References}@*
 ## @enumerate
 ## @item
 ## Guzzella, L.
-%% @cite{Analysis and Design of SISO Control Systems},
-%% VDF Hochschulverlag, ETH Zurich, 2007@*
+## @cite{Analysis and Design of SISO Control Systems},
+## VDF Hochschulverlag, ETH Zurich, 2007@*
 ## @item
 ## Astroem, K. and Haegglund, T.
-%% @cite{PID Controllers: Theory, Design and Tuning},
-%% Second Edition,
-%% Instrument Society of America, 1995
+## @cite{PID Controllers: Theory, Design and Tuning},
+## Second Edition,
+## Instrument Society of America, 1995
 ## @end enumerate
 ##
-%% @end deftypefn
+## @end deftypefn
 
 % ===============================================================================
 % optiPID                          Lukas Reichlin                       July 2009

@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -541,16 +542,18 @@
  </p></dd>
 </dl>
 
-<p> <strong>Note on compatibility</strong>
+<p> <strong>Compatibility issue</strong>
 </p>
 <p> If <var>sys</var> is given by an input-output description, like, e.g.,
  a transfer function, the resulting state-space model has a
  different form than the one provided by Matlab,
- see ss for details.
+ see
+ @inlinefmtifelse{latex, @link{@ss/ss,@ss/ss}, <a href="@ss_ss.html">@ss/ss</a>}
+ for details.
 </p>
 
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/ssdata.m">ssdata</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/ssdata.m">ssdata</a>
 </div>
 
 

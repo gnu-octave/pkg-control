@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -497,15 +498,15 @@
             </div>
             <div class="card-body">
 <dl>
-<dt><u>Function File:</u> damp <b>(</b><i><var>sys</var>)</i></dt>
+<dt><u>Function File:</u> <b>damp</b><i>(<var>sys</var>)</i></dt>
 <dt><u>Function File:</u> [<var>Wn</var>, <var>zeta</var>] = <b>damp</b><i>(<var>sys</var>)</i></dt>
 <dt><u>Function File:</u> [<var>Wn</var>, <var>zeta</var>, <var>P</var>] = <b>damp</b><i>(<var>sys</var>)</i></dt>
 </dl>
 <p> Calculate natural frequencies, damping ratios and poles.
 </p>
 <div class="ms-5">
-<p> If no output is specified, display overview table containing poles, 
- magnitude (if <var>sys</var> is a discrete-time model), damping ratios, natural 
+<p> If no output is specified, display overview table containing poles,
+ magnitude (if <var>sys</var> is a discrete-time model), damping ratios, natural
  frequencies and time constants.
 </p>
 <p> <strong>Inputs</strong>
@@ -522,16 +523,16 @@
 </dl>
 <p> Natural frequencies of each pole of <var>sys</var> (in increasing order).
  The frequency unit is rad/s (radians per second).
- If <var>sys</var> is a discrete-time model with specified sample time, <var>Wn</var> 
- contains the natural frequencies of the equivalent continuous-time poles 
- (see Algorithms).  If <var>sys</var> has an unspecified sample time 
+ If <var>sys</var> is a discrete-time model with specified sample time, <var>Wn</var>
+ contains the natural frequencies of the equivalent continuous-time poles
+ (see Algorithms).  If <var>sys</var> has an unspecified sample time
  (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>Wn</var>.
  </p></dd>
 <dt> <var>zeta</var></dt>
 </dl>
 <p> Damping ratios of each pole of <var>sys</var> (in the same order as <var>Wn</var>).
- If <var>sys</var> is a discrete-time model with specified sample time, 
- <var>zeta</var> contains the damping ratios of the equivalent continuous-time 
+ If <var>sys</var> is a discrete-time model with specified sample time,
+ <var>zeta</var> contains the damping ratios of the equivalent continuous-time
  poles (see Algorithms).  If <var>sys</var> has an unspecified sample time
  (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>zeta</var>.
  </p></dd>
@@ -545,7 +546,7 @@
  </p><dl compact="compact">
 <dt> <var>Pole</var></dt>
 </dl>
-<p> Poles s (or z for discrete-time models) are calculated via <code>pole</code> 
+<p> Poles s (or z for discrete-time models) are calculated via <code>pole</code>
  and resorted in order of increasing natural frequency.
  </p></dd>
 <dt> <var>Equivalent continuous-time pole</var></dt>
@@ -572,14 +573,13 @@
 
 <p> <strong>See also: </strong>
   <a href="dsort.html">dsort</a>, 
-eig, 
   <a href="esort.html">esort</a>, 
-pole, 
+  <a href="@lti_pole.html">@lti/pole</a>, 
   <a href="pzmap.html">pzmap</a>, 
-zero
+  <a href="@lti_zero.html">@lti/zero</a>
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/damp.m">damp</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/damp.m">damp</a>
 </div>
 
             </div>

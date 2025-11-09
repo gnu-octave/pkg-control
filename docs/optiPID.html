@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -532,11 +533,11 @@
  \(r(t) = \varepsilon (t)\)
  in the time domain. In the frequency domain, the sensitivity
  \(M_s = ||S(jw)||_{\infty}\)
-  is minimized for good robustness, where S(s) denotes the <math>sensitivity</math> transfer function
+  is minimized for good robustness, where S(s) denotes the <em>sensitivity</em> transfer function
  $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
   The constants
  \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
-  are <math>relative weighting factors</math> or &laquo;tuning knobs&raquo;
+  are <em>relative weighting factors</em> or &laquo;tuning knobs&raquo;
  which reflect the importance of the different design goals. Varying these factors
  corresponds to changing the emphasis from, say, high performance to good robustness.
  The main advantage of this approach is the possibility to explore the tradeoffs of
@@ -548,16 +549,21 @@
  in a system with virtually no overshoot and a phase margin of 64 degrees.
 </p>
  <br><p><strong>References</strong><br>
- [1] Guzzella, L.
+ </p><ol>
+<li>
+ Guzzella, L.
  <cite>Analysis and Design of SISO Control Systems</cite>,
  VDF Hochschulverlag, ETH Zurich, 2007<br>
- [2] Astroem, K. and Haegglund, T.
+ </li><li>
+ Astroem, K. and Haegglund, T.
  <cite>PID Controllers: Theory, Design and Tuning</cite>,
  Second Edition,
  Instrument Society of America, 1995
- </p>
+ </li></ol>
+
+
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/optiPID.m">optiPID</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/optiPID.m">optiPID</a>
 </div>
 
 

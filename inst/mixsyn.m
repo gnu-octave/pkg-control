@@ -45,7 +45,7 @@
 ## transfer functions is based on the idea that a satisfactory definition of gain
 ## (range of gain) for a matrix transfer function is given by the singular values
 ## @tex
-## $\sigma$
+## \(\sigma\)
 ## @end tex
 ## @ifnottex
 ## sigma
@@ -57,7 +57,7 @@
 ## @enumerate
 ## @item For @emph{disturbance rejection} make
 ## @tex
-## $\overline{\sigma}(S)$
+## \(\overline{\sigma}(S)\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -67,7 +67,7 @@
 ## small.
 ## @item For @emph{noise attenuation} make
 ## @tex
-## $\overline{\sigma}(T)$
+## \(\overline{\sigma}(T)\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -77,7 +77,7 @@
 ## small.
 ## @item For @emph{reference tracking} make
 ## @tex
-## $\overline{\sigma}(T) \approx \underline{\sigma}(T) \approx 1$.
+## \(\overline{\sigma}(T) \approx \underline{\sigma}(T) \approx 1\).
 ## @end tex
 ## @ifnottex
 ## @example
@@ -86,7 +86,7 @@
 ## @end ifnottex
 ## @item For @emph{input usage (control energy) reduction} make
 ## @tex
-## $\overline{\sigma}(K S)$
+## \(\overline{\sigma}(K S)\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -96,7 +96,7 @@
 ## small.
 ## @item For @emph{robust stability} in the presence of an additive perturbation
 ## @tex
-## $G_p = G + \Delta$
+## \(G_p = G + \Delta\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -105,7 +105,7 @@
 ## @end ifnottex
 ## make
 ## @tex
-## $\overline{\sigma}(K S)$
+## \(\overline{\sigma}(K S)\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -115,14 +115,14 @@
 ## small.
 ## @item For @emph{robust stability} in the presence of a multiplicative output perturbation
 ## @tex
-## $G_p = (I + \Delta) G$,
+## \(G_p = (I + \Delta) G\),
 ## @end tex
 ## @ifnottex
 ## Gp = (I+ Delta) G
 ## @end ifnottex
 ## make
 ## @tex
-## $\overline{\sigma}(T)$
+## \(\overline{\sigma}(T)\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -133,7 +133,7 @@
 ## @end enumerate
 ## In order to find a robust controller for the so-called stacked
 ## @tex
-## $S/KS/T\, H_{\infty}$
+## \(S/KS/T\, H_{\infty}\)
 ## @end tex
 ## @ifnottex
 ## S/KS/T H-infinity
@@ -159,7 +159,7 @@
 ## for example, to minimize @var{S} at low frequencies by a weighting @var{W1} including
 ## integral action,
 ## @tex
-## $\frac{1}{s}$
+## \(\frac{1}{s}\)
 ## @end tex
 ## @ifnottex
 ## @example
@@ -170,7 +170,7 @@
 ## @end ifnottex
 ## needs to be approximated by
 ## @tex
-## $\frac{1}{s + \epsilon}, \mbox{ where } \epsilon \ll 1$.
+## \(\frac{1}{s + \epsilon}, \mbox{ where } \epsilon \ll 1\).
 ## @end tex
 ## @ifnottex
 ## @example

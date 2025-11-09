@@ -152,13 +152,14 @@
 				</label>
 				<div class="list">
 				<ul style="list-style-type: none; padding-left: 20px;">
+					<li><a href="bdschur.html" class="text-decoration-none font-monospace"><small>bdschur</small></a></li>
 					<li><a href="@lti_c2d.html" class="text-decoration-none font-monospace"><small>@lti/c2d</small></a></li>
 					<li><a href="@lti_d2c.html" class="text-decoration-none font-monospace"><small>@lti/d2c</small></a></li>
 					<li><a href="@lti_d2d.html" class="text-decoration-none font-monospace"><small>@lti/d2d</small></a></li>
+					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 					<li><a href="@lti_prescale.html" class="text-decoration-none font-monospace"><small>@lti/prescale</small></a></li>
 					<li><a href="@lti_xperm.html" class="text-decoration-none font-monospace"><small>@lti/xperm</small></a></li>
 					<li><a href="@ss_ss2ss.html" class="text-decoration-none font-monospace"><small>@ss/ss2ss</small></a></li>
-					<li><a href="pade.html" class="text-decoration-none font-monospace"><small>pade</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -540,7 +541,7 @@
 </dl>
 
 <p> <strong>Equations</strong>
- $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$$$ J(x_0) = \int_0^\infty  z^T Q\, z + u^T R\, u + 2\, z^T S\, u \,\, dt $$$$ z = \left[ \matrix{ x \cr x_i} \right],\qquad x_i = \int_0^t r - y \,\, dt $$$$ L = \sigma (A - B\, G) $$
+ $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$$$ J(x_0) = \int_0^\infty  z^T Q\, z + u^T R\, u + 2\, z^T S\, u \,\, dt $$$$ z = \begin{bmatrix} x \cr x_i \end{bmatrix},\qquad x_i = \int_0^t r - y \,\, dt $$$$ L = \sigma (A - B\, G) $$
 </p> 
 <p> <strong>See also: </strong>
   <a href="care.html">care</a>, 
@@ -548,7 +549,7 @@
   <a href="dlqr.html">dlqr</a>
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lqi.m">lqi</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/oct-hlZzMU/control-4.1.99+/inst/lqi.m">lqi</a>
 </div>
 
             </div>
