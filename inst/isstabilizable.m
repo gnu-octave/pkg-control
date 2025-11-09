@@ -72,7 +72,7 @@
 ##   abs (ev) < 1 - tol                discrete-time
 ## @end group
 ## @end example
-## @seealso{isdetectable, isstable, isctrb, isobsv}
+## @seealso{isdetectable, @@lti/isstable, isctrb, isobsv}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

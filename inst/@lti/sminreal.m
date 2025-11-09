@@ -38,7 +38,7 @@
 ## Reduced state-space model.
 ## @end table
 ##
-## @seealso{minreal}
+## @seealso{@@lti/minreal}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

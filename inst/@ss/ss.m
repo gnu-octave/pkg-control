@@ -166,7 +166,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{tf, dss}
+## @seealso{@@tf/tf, dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

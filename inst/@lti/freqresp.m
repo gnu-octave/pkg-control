@@ -35,7 +35,7 @@
 ## The frequency response at the frequency w(k) is given by H(:,:,k).
 ## @end table
 ##
-## @seealso{dcgain}
+## @seealso{@@lti/dcgain}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

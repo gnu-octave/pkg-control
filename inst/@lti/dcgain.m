@@ -58,7 +58,7 @@
 ## K =  0.25000
 ## @end example
 ##
-## @seealso{freqresp,tf,ss,dss}
+## @seealso{@@lti/freqresp,@@tf/tf,@@ss/ss,dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

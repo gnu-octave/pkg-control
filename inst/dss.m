@@ -110,7 +110,7 @@
 ## @end example
 ## @end ifnottex
 ##
-## @seealso{ss, tf}
+## @seealso{@@ss/ss, @@tf/tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

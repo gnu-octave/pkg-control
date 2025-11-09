@@ -72,7 +72,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{absorbdelay, pade}
+## @seealso{pade}
 ## @end deftypefn
 
 ## Author: Thomas Vasileiou <thomas-v@wildmail.com>

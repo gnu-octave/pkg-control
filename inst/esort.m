@@ -32,7 +32,7 @@
 ## Vector containing the indices used in the sort.
 ## @end table
 ##
-## @seealso{dsort, eig, pole, pzmap, sort, zero}
+## @seealso{dsort, eig, @@lti/pole, pzmap, sort, @@lti/zero}
 ## @end deftypefn
 
 ## Author: Mark Bronsfeld <m.brnsfld@googlemail.com>

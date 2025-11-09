@@ -65,7 +65,7 @@
 ## tau = 1 / (Wn * zeta)
 ## @end table
 ##
-## @seealso{dsort, eig, esort, pole, pzmap, zero}
+## @seealso{dsort, esort, @@lti/pole, pzmap, @@lti/zero}
 ## @end deftypefn
 
 ## Author: Mark Bronsfeld <m.brnsfld@googlemail.com>

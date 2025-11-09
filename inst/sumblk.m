@@ -56,7 +56,7 @@
 ## Static gain.
 ## @end group
 ## @end example
-## @seealso{connect}
+## @seealso{@@lti/connect}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

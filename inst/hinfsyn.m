@@ -188,7 +188,7 @@
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
-## @seealso{augw, mixsyn, lft}
+## @seealso{augw, mixsyn, @@lti/lft}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

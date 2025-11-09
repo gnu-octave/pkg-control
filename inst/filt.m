@@ -123,7 +123,7 @@
 ## @end group
 ## @end example
 ##
-## @seealso{tf}
+## @seealso{@@tf/tf}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

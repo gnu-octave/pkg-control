@@ -63,7 +63,7 @@
 ## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## See @command{isstabilizable} for description of computational method.
-## @seealso{isstabilizable, isstable, isctrb, isobsv}
+## @seealso{isstabilizable, @@lti/isstable, isctrb, isobsv}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

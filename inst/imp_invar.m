@@ -72,7 +72,7 @@
 ## For this reason, the factor T is required for the impulse invaraint
 ## discretizaiton (see Algorithm).
 ##
-## @seealso{c2d}
+## @seealso{@@lti/c2d}
 ## @end deftypefn
 
 
