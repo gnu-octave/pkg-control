@@ -183,9 +183,9 @@
 ## @end itemize
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB09HD},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB09HD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

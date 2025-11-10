@@ -79,9 +79,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10HD and SB10ED},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10HD and SB10ED},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{augw, lqr, dlqr, kalman}
 ## @end deftypefn

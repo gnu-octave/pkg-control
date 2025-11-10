@@ -74,9 +74,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB01BD},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB01BD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @end deftypefn
 
 ## Special thanks to Peter Benner from TU Chemnitz for his advice.

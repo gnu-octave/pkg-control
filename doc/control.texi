@@ -19,8 +19,12 @@
 \input texinfo
 @c Octave Control - Control Package for GNU octave.
 
-@c For manually generating the documentation use
-@c   LANGUAGE=en makeinfo --html --no-split control.texi
+@c Important note: When inserting tex-code while doing changes please
+@c only use the latex macros
+@c @latex, @iflatex, @ifnotlatex
+@c together with the corresponding @end ... commands instead of the 
+@c tex macros. This is due to some advanced latex code in the control
+@c texinfo help texts.
 
 @c %*** Start of HEADER
 @documentencoding UTF-8
@@ -33,6 +37,11 @@
 @headings off
 @c @afourwide
 @c %*** End of the HEADER
+
+@latex
+\usepackage{xcolor}
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=blue!75!olive}
+@end latex
 
 @dircategory Math
 @direntry
@@ -61,7 +70,7 @@ Copyright @copyright{} 2009-2025, Octave Developers
 
 @c -------------------------------------------------------------------------
 
-@ifnottex
+@ifnotlatex
 @node Top
 @top Octave Control Package
 Copyright © The Octave Project Developers 
@@ -81,7 +90,7 @@ notice identical to this one.
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
 
-@end ifnottex
+@end ifnotlatex
 
 @c -------------------------------------------------------------------------
 
@@ -162,18 +171,10 @@ Octave control package and that also appears in @ref{Copying}.
 Links to online documentation and license information:
 
 @itemize
-@item
-@url{https://gnu-octave.github.io/pkg-control, 
-     Online documentation of the control package for GNU Octave}
-@item
-@url{https://github.com/gnu-octave/pkg-control,
-    Git repository of the control packag}
-@item
-@url{https://github.com/SLICOT/SLICOT-Reference,
-    Git repository of the used SLICOT-Reference library}  
-@item
-@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,
-License and copyright information of the used SLICOT-Reference library}
+@item @href{https://gnu-octave.github.io/pkg-control, Online documentation of the control package for GNU Octave}
+@item @href{https://github.com/gnu-octave/pkg-control, Git repository of the control packag}
+@item @href{https://github.com/SLICOT/SLICOT-Reference, Git repository of the used SLICOT-Reference library}  
+@item @href{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE, License and copyright information of the used SLICOT-Reference library}
 @end itemize
 
 @c -------------------------------------------------------------------------

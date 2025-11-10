@@ -17,13 +17,13 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} pade (@var{T}, @var{n})
-## @deftypefnx {Function File} pade (@var{T}, @var{n}, @var{m})
-## @deftypefnx {Function File} pade (@var{T}, @var{n1}, @var{m1}, @var{n2}, @var{m2}, ..., @var{nk}, @var{mk})
-## @deftypefnx {Function File} @var{sys} = pade (...)
-## @deftypefnx {Function File} @var{sys} = pade (...)
-## @deftypefnx {Function File} [@var{num}, @var{den}] = pade (...)
-## @deftypefnx {Function File} [@var{num}, @var{den}] = pade (...)
+## @deftypefn {Function File} {} pade (@var{T}, @var{n})
+## @deftypefnx {Function File} {} pade (@var{T}, @var{n}, @var{m})
+## @deftypefnx {Function File} {} pade (@var{T}, @var{n1}, @var{m1}, @var{n2}, @var{m2}, ..., @var{nk}, @var{mk})
+## @deftypefnx {Function File} {@var{sys} =} pade (...)
+## @deftypefnx {Function File} {@var{sys} =} pade (...)
+## @deftypefnx {Function File} {[@var{num}, @var{den}] =} pade (...)
+## @deftypefnx {Function File} {[@var{num}, @var{den}] =} pade (...)
 ##
 ## Calculate Padé approximation of a dead-time by zeros and poles
 ##

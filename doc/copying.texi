@@ -106,7 +106,7 @@ assures that patents cannot be used to render the program non-free.
 The precise terms and conditions for copying, distribution and
 modification follow.
 
-@subsection TERMS AND CONDITIONS
+@subsection Terms and Condition
 
 @enumerate 0
 @item Definitions.
@@ -685,7 +685,7 @@ copy of the Program in return for a fee.
 
 @end enumerate
 
-@subsection END OF TERMS AND CONDITIONS
+@subsection End of Terms and Conditions
 
 @subsubsection How to Apply These Terms to Your New Programs
 

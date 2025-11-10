@@ -55,9 +55,9 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB01OD and TG01HD},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB01OD and TG01HD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{isobsv}
 ## @end deftypefn

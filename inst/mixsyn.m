@@ -284,10 +284,10 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Relies on functions @command{augw} and @command{hinfsyn},
-## which use @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD, SB10DD and SB10AD},
+## Relies on functions @link{augw,augw} and @link{hinfsyn,hinfsyn},
+## which use @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD@comma{} SB10DD and SB10AD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*
 ## @enumerate

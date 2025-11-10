@@ -33,9 +33,9 @@
 ## @end example
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB03MD SB04MD and SG03AD},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB03MD SB04MD and SG03AD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{lyapchol, dlyap, dlyapchol}
 ## @end deftypefn

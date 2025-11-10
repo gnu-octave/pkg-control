@@ -96,9 +96,9 @@
 ##
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{zero}
-## uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB08ND and AG08BD},
+## uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB08ND and AG08BD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## For @acronym{SISO} transfer functions, @command{zero}
 ## uses Octave's @command{roots}.
 ## @acronym{MIMO} transfer functions are converted to

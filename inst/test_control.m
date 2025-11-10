@@ -20,14 +20,14 @@
 ## Execute all available tests at once.
 ##
 ## The Octave control package uses the 
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT library},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT library},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisites
 ## for Octave itself.
 ## In case of failing tests, it is highly recommended to use
-## @uref{http://www.netlib.org/blas/, Netlib's reference @acronym{BLAS}} and
-## @uref{http://www.netlib.org/lapack/, @acronym{LAPACK}}
+## @url{http://www.netlib.org/blas/, Netlib's reference @acronym{BLAS}} and
+## @url{http://www.netlib.org/lapack/, @acronym{LAPACK}}
 ## for building Octave.  Using @acronym{ATLAS} may lead to sign changes
 ## in some entries of the state-space matrices.
 ## In general, these sign changes are not 'wrong' and can be regarded as

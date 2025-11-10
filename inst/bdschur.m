@@ -17,8 +17,8 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} [@var{T}, @var{S}, @var{BLKSZ}] = bdschur (@var{A})
-## @deftypefnx {Function File} [@var{T}, @var{S}, @var{BLKSZ}] = bdschur (@var{A}, @var{condmax})
+## @deftypefn {Function File} {[@var{T}, @var{S}, @var{BLKSZ}] =} bdschur (@var{A})
+## @deftypefnx {Function File} {[@var{T}, @var{S}, @var{BLKSZ}] =} bdschur (@var{A}, @var{condmax})
 ##
 ## Compute a block-diagonal Schur decomposition.
 ##

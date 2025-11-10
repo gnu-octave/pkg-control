@@ -72,13 +72,16 @@ functions.texi: $(BASEDIR)/../.git/index
 	@# a latex document is required. This requires to change all *tex*
 	@# conditionals into *latex* ones in all texinfo files
 	@echo Collect all texinfo texts from the package...
-	@./mkfuncdocs.py --src-dir=../inst/ --src-dir=../src/ ../INDEX > functions.texi
+	./mkfuncdocs.py --src-dir=../inst/ --src-dir=../src/ ../INDEX > functions.texi
 	@echo Do some syntax replacements...
 	@./mkfunctexifix.pl functions.texi
 
+# use makeinfo --latex for generating a tex file which is then compiled
+# by pdflatex. We can't use makeinfo --pdf as this does not compile
+# @latex which is required for some latex syntax in the texinfo texts.
 $(PACKAGE).pdf: $(PACKAGE).texi functions.texi version.texi
 	@echo Generating latex file...
-	@$(MAKEINFO) --latex $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
+	@$(MAKEINFO) --latex $(MAKEINFO_OPTIONS) $(PACKAGE).texi #> /dev/null 2>&1
 	@echo Compiling latex file...
 	@$(PDFLATEX) $(PDFLATEX_OPTIONS) $(PACKAGE).tex > /dev/null 2>&1
 	@$(PDFLATEX) $(PDFLATEX_OPTIONS) $(PACKAGE).tex > /dev/null 2>&1

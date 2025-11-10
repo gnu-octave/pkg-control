@@ -1,5 +1,6 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Example Script} {} optiPID
+##
 ## Numerical optimization of a PID controller using an objective function.
 ##
 ## The objective function is located in the file @command{optiPIDfun}.

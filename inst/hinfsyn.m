@@ -184,9 +184,9 @@
 ## @end table
 ##
 ## @strong{Algorithm}@*
-## Uses @uref{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD, SB10DD and SB10AD},
+## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD, SB10DD and SB10AD},
 ## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
-## (@uref{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
+## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @seealso{augw, mixsyn, @@lti/lft}
 ## @end deftypefn
