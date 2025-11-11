@@ -14,7 +14,7 @@
 ## transfer function.  This means that the error in approximation of the
 ## controller @var{K} by the reduced-order controller @var{Kr} is minimized by
 ## @tex
-## $$ \underset{K_r}{\\min} \ || W \ (K - K_r) \ V ||_{\infty} $$
+## $$ \min_{K_r} \ || W \ (K - K_r) \ V ||_{\infty} $$
 ## @end tex
 ## @ifnottex
 ## @example

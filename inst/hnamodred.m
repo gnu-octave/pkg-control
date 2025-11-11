@@ -29,8 +29,8 @@
 ## HNA is an absolute error method which tries to minimize
 ## @iftex
 ## @tex
-## $$ || G - G_r ||_H = \\min $$
-## $$ || V \\ (G - G_r) \\ W ||_H = \\min $$
+## $$ || G - G_r ||_H = \min $$
+## $$ || V \ (G - G_r) \ W ||_H = \min $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -110,26 +110,26 @@
 ## @item 'left', 'v'
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be antistable.
-## @iftex
-## @math{|| V \\ (G-G_r) \\dots ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| V \ (G-G_r) \dots ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || V (G-Gr) . ||  = min
-##                 H
+## || V (G-Gr) ... ||  = min
+##                   H
 ## @end example
 ## @end ifnottex
 ##
 ## @item 'right', 'w'
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be antistable.
-## @iftex
-## @math{|| \\dots (G-G_r) \\ W ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| \dots (G-G_r) \ W ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || . (G-Gr) W ||  = min
-##                 H
+## || ... (G-Gr) W ||  = min
+##                   H
 ## @end example
 ## @end ifnottex
 ##
@@ -137,26 +137,26 @@
 ## @item 'left-inv', 'inv-v'
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must have only antistable zeros.
-## @iftex
-## @math{|| inv(V) \\ (G-G_r) \\dots ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| V^{-1}(G-G_r) \dots ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || inv(V) (G-Gr) . ||  = min
-##                      H
+## || inv(V) (G-Gr) ... ||  = min
+##                        H
 ## @end example
 ## @end ifnottex
 ##
 ## @item 'right-inv', 'inv-w'
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must have only antistable zeros.
-## @iftex
-## @math{|| \\dots (G-G_r) \\ inv(W) ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| \dots (G-G_r)\,W^{-1} ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || . (G-Gr) inv(W) ||  = min
-##                      H
+## || ... (G-Gr) inv(W) ||  = min
+##                        H
 ## @end example
 ## @end ifnottex
 ##
@@ -164,26 +164,26 @@
 ## @item 'left-conj', 'conj-v'
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be stable.
-## @iftex
-## @math{|| conj(V) \\ (G-G_r) \\dots ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| conj(V)\,(G-G_r) \dots ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || V (G-Gr) . ||  = min
-##                 H
+## || V (G-Gr) ... ||  = min
+##                   H
 ## @end example
 ## @end ifnottex
 ##
 ## @item 'right-conj', 'conj-w'
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be stable.
-## @iftex
-## @math{|| \\dots (G-G_r) \\ conj(W) ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| \dots (G-G_r) \ conj(W) ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || . (G-Gr) W ||  = min
-##                 H
+## || ... (G-Gr) W ||  = min
+##                   H
 ## @end example
 ## @end ifnottex
 ##
@@ -191,26 +191,26 @@
 ## @item 'left-conj-inv', 'conj-inv-v'
 ## @acronym{LTI} model of the left/output frequency weighting.
 ## The weighting must be minimum-phase.
-## @iftex
-## @math{|| conj(inv(V)) \\ (G-G_r) \\dots ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| conj(V^{-1}) \, (G-G_r) \dots ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || V (G-Gr) . ||  = min
-##                 H
+## || conj(inv(V)) (G-Gr) ... ||  = min
+##                              H
 ## @end example
 ## @end ifnottex
 ##
 ## @item 'right-conj-inv', 'conj-inv-w'
 ## @acronym{LTI} model of the right/input frequency weighting.
 ## The weighting must be minimum-phase.
-## @iftex
-## @math{|| \\dots (G-G_r) \\ conj(inv(W)) ||_H = \\min}
-## @end iftex
+## @tex
+## \(|| \dots (G-G_r) \ conj(W^{-1}) ||_H = \min\)
+## @end tex
 ## @ifnottex
 ## @example
-## || . (G-Gr) W ||  = min
-##                 H
+## || ... (G-Gr) conj(inv(W)) ||  = min
+##                              H
 ## @end example
 ## @end ifnottex
 ##
@@ -265,7 +265,7 @@
 ## Guaranteed a priori error bound
 ## @iftex
 ## @tex
-## $$ \\sigma_{r+1} \\leq || (G-G_r) ||_{\\infty} \\leq 2 \\sum_{j=r+1}^{n} \\sigma_j $$
+## $$ \sigma_{r+1} \leq || (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} \sigma_j $$
 ## @end tex
 ## @end iftex
 ## @end itemize

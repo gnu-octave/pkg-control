@@ -29,8 +29,8 @@
 ## SPA is an absolute error method which tries to minimize
 ## @iftex
 ## @tex
-## $$ || G - G_r ||_{\\infty} = \\min $$
-## $$ || V \\ (G - G_r) \\ W ||_{\\infty} = \\min $$
+## $$ || G - G_r ||_{\infty} = \min $$
+## $$ || V \ (G - G_r) \ W ||_{\infty} = \min $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

@@ -24,8 +24,22 @@
 ## @code{gram (@var{sys}, "o")} returns the observability gramian of the
 ## (continuous- or discrete-time) system @var{sys}.
 ## @code{gram (@var{a}, @var{b})} returns the controllability gramian
-## @var{Wc} of the continuous-time system @math{dx/dt = a x + b u};
-## i.e., @var{Wc} satisfies @math{a Wc + m Wc' + b b' = 0}.
+## @var{Wc} of the continuous-time system
+## @iftex
+## @tex
+## $\dot{x} = a x + b u$;
+## @end tex
+## @end iftex
+## @ifnottex
+## @math{dx/dt = a x + b u};
+## @end ifnottex
+## i.e., @var{Wc} satisfies
+## @tex
+## $a Wc + m Wc^T + bb^T = 0$.
+## @end tex
+## @ifnottex
+## @math{a Wc + m Wc' + b b' = 0}.
+## @end ifnottex
 ##
 ## @end deftypefn
 

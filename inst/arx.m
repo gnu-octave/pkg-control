@@ -23,7 +23,7 @@
 ## Estimate ARX model using QR factorization.
 ## @iftex
 ## @tex
-## $$ A(q) \\, y(t) = B(q) \\, u(t) \\, + \\, e(t) $$
+## $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

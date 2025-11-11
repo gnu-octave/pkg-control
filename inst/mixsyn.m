@@ -140,7 +140,7 @@
 ## @end ifnottex
 ## problem, the user function @command{mixsyn} minimizes the following criterion
 ## @tex
-## $$ \underset{K}{\min} || N(K) ||_{\infty}, \quad N = | W_1 S; \,W_2 K S; \, W_3 T |$$
+## $$ \min_K || N(K) ||_{\infty}, \quad N = | W_1 S; \,W_2 K S; \, W_3 T |$$
 ## @end tex
 ## @ifnottex
 ## @example
@@ -170,7 +170,7 @@
 ## @end ifnottex
 ## needs to be approximated by
 ## @tex
-## \(\frac{1}{s + \epsilon}, \mbox{ where } \epsilon \ll 1\).
+## \(\frac{1}{s + \epsilon}\), where \(\epsilon \ll 1\).
 ## @end tex
 ## @ifnottex
 ## @example
@@ -183,7 +183,7 @@
 ## @var{W2} to ensure that @var{K} is small outside the system bandwidth.
 ## The trick here is to replace a non-proper term such as
 ## @tex
-## $$ 1 + \tau_1 s \mbox{ by } \frac{1 + \tau_1 s}{1 + \tau_2 s}, \,\, \tau_2 \ll \tau_1$$
+## \center \(1 + \tau_1 s\) by \(\frac{1 + \tau_1 s}{1 + \tau_2 s}, \,\, \tau_2 \ll \tau_1\)
 ## @end tex
 ## @ifnottex
 ## @example

@@ -93,18 +93,17 @@ See also: \args\.
 
 @c These may be useful for all, not just for octave.texi.
 @tex
-  \ifx\rgbDarkRed\thisisundefined
-    \def\rgbDarkRed{0.50 0.09 0.12}
-  \fi
   \ifx\linkcolor\thisisundefined
     \relax
   \else
-    \global\def\linkcolor{\rgbDarkRed}
+    % link color from octave.css
+    \global\def\linkcolor{0.13 0.44 0.70}
   \fi
   \ifx\urlcolor\thisisundefined
     \relax
   \else
-    \global\def\urlcolor{\rgbDarkRed}
+    % link color from octave.css, darker and with more green
+    \global\def\urlcolor{0.0 0.40 0.50}
   \fi
   \ifx\urefurlonlylinktrue\thisisundefined
     \relax

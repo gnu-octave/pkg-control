@@ -171,7 +171,7 @@
 ## @tex
 ## $$ x_{k+1} = A x_k + B u_k + K L v_k $$
 ## $$ y_k = C x_k + D u_k + L v_k $$
-## $$ e = L v, \\ L L^T = R_y $$
+## $$ e = L v, \ L L^T = R_y $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -186,8 +186,8 @@
 ## Return @var{sys} as a Kalman predictor for simulation.
 ## @iftex
 ## @tex
-## $$ \\widehat{x}_{k+1} = A \\widehat{x}_k + B u_k + K (y_k - \\widehat{y}_k) $$
-## $$ \\widehat{y}_k = C \\widehat{x}_k + D u_k $$
+## $$ \widehat{x}_{k+1} = A \widehat{x}_k + B u_k + K (y_k - \widehat{y}_k) $$
+## $$ \widehat{y}_k = C \widehat{x}_k + D u_k $$
 ## @end tex
 ## @end iftex
 ## @ifnottex
@@ -201,8 +201,8 @@
 ##
 ## @iftex
 ## @tex
-## $$ \\widehat{x}_{k+1} = (A-KC) \\widehat{x}_k + (B-KD) u_k + K y_k $$
-## $$ \\widehat{y}_k = C \\widehat{x}_k + D u_k + 0 y_k $$
+## $$ \widehat{x}_{k+1} = (A-KC) \widehat{x}_k + (B-KD) u_k + K y_k $$
+## $$ \widehat{y}_k = C \widehat{x}_k + D u_k + 0 y_k $$
 ## @end tex
 ## @end iftex
 ## @ifnottex

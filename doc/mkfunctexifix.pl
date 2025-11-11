@@ -17,12 +17,11 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## File    : mkfunctexifix.pl
-## Purpose : Replace @sealso command and conditionals in the functions.texi
-##           file created by myfuncdocs.py from all texifo texts for
-##             1. being able to use full latex commands (@tex -> @latex)
+## Purpose : Replace @sealso command and \( ... \) in the file created
+##           by myfuncdocs.py from all texifo texts for
+##             1. prevent errors in makeinfo due to \(...\)
 ##             2. having correct refs from the @seealso command
 ## Usage   : myfunctexifix.pl functions.texi 
-
 
 use warnings;              # report warnings for questionable run-time code
 use strict qw(refs subs);  # check at compile-time for bad programming style
@@ -40,13 +39,13 @@ open TEXI, "<".$fname    or die "Unable to open $fname";
 my $texi = do {local $/; <TEXI> };
 close TEXI;
 
-$texi =~ s/\@tex/\@latex/g;
-$texi =~ s/\@end tex/\@end latex/g;
-$texi =~ s/\@iftex/\@iflatex/g;
-$texi =~ s/\@end iftex/\@end iflatex/g;
-$texi =~ s/\@ifnottex/\@ifnotlatex/g;
-$texi =~ s/\@end ifnottex/\@end ifnotlatex/g;
+# makeinfo does not support \(...\), only $...$, which in turn
+# is not supported by pkg-octave-doc. Solution: use \(...\)
+# in help texts and replace them here.
+$texi =~ s/\\\)/\$/g;
+$texi =~ s/\\\(/\$/g;
 
+# Now replace all @seealso by individual @link or @ref commands
 while ($texi =~ m/\@seealso/) {
 
 $texi =~ s/\@seealso[\s]*\{([^\}]*)\}//;
@@ -62,8 +61,8 @@ $texi =~ s/\@seealso[\s]*\{([^\}]*)\}//;
   $rtext = substr $rtext, 0, -1;
   $ltext = substr $ltext, 0, -1;
   my $text = "";
-  $text = $text."\@iflatex\n$ltext.\n\@end iflatex\n";
-  $text = $text."\@ifnotlatex\n$rtext.\n\@end ifnotlatex\n";
+  $text = $text."\@iftex\n$ltext.\n\@end iftex\n";
+  $text = $text."\@ifnottex\n$rtext.\n\@end ifnottex\n";
   $texi = $`.$text.$';
 
 } 

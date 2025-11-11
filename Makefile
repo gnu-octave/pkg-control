@@ -26,7 +26,7 @@ PKG_ADD     := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M
 
 OCTAVE ?= octave --silent
 
-.PHONY: help dist docs-html docs release install all check run clean
+.PHONY: help dist docs-html doc release install all check run clean
 
 test:
 	@echo $(SLICOT_SOURCES)
@@ -38,7 +38,7 @@ help:
 	@echo "   dist      - Create $(RELEASE_TARBALL) for release"
 	@echo "   docs-html - Create html documentation in $(DOCS_DIR), assumes"
 	@echo "               current version of $(PACKAGE) is installed;"
-	@echo "   docs        Create the pdf manual and the Qt help file"
+	@echo "   doc         Create the pdf manual and the Qt help file"
 	@echo "               in $(DOC_DIR)"
 	@echo "   release   - Create dist, install and create docs,"
 	@echo "               shows sha256sum of tarball"
@@ -92,11 +92,11 @@ docs-html:
 	                      --eval "pkg load $(PACKAGE);" \
 	                      --eval 'package_texi2html ("${PACKAGE}");'
 
-docs:
+doc:
 	@echo "Creating pdf and qch file in $(DOC_DIR) ..."
 	@cd "$(DOC_DIR)" && make
 
-dist: docs $(RELEASE_TARBALL)
+dist: doc $(RELEASE_TARBALL)
 
 release: dist install
 	sha256sum $(RELEASE_TARBALL)

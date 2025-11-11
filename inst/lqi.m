@@ -47,7 +47,7 @@
 ## @tex
 ## $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$
 ## $$ J(x_0) = \int_0^\infty  z^T Q\, z + u^T R\, u + 2\, z^T S\, u \,\, dt $$
-## $$ z = \begin{bmatrix} x \cr x_i \end{bmatrix},\qquad x_i = \int_0^t r - y \,\, dt $$
+## $$ z = \left[\matrix{ x \cr x_i }\right],\qquad x_i = \int_0^t r - y \,\, dt $$
 ## $$ L = \sigma (A - B\, G) $$
 ## @end tex
 ## @ifnottex

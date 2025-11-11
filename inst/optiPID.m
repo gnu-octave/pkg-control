@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Example Script} {} optiPID
+## @deftypefn  {Example Script} {} optiPID ()
 ##
 ## Numerical optimization of a PID controller using an objective function.
 ##
@@ -42,9 +42,11 @@
 ## @end ifnottex
 ## The plant P(s) is of higher order but benign.  The initial values for the
 ## controller parameters
+## @iftex
 ## @tex
-## \(K_P,T_I\mbox{ and } T_D\)
+## \(K_P,T_I\) and \(T_D\)
 ## @end tex
+## @end iftex
 ## @ifnottex
 ## Kp, Ti and Td
 ## @end ifnottex
@@ -114,7 +116,7 @@
 ## @end ifnottex
 ## The constants
 ## @tex
-## \(\mu_1,\, \mu_2 \mbox{ and } \mu_3\)
+## \(\mu_1,\, \mu_2\) and \(\mu_3\)
 ## @end tex
 ## @ifnottex
 ## mu1, mu2 and mu3
@@ -127,7 +129,7 @@
 ## In a first approach, all three design objectives are weigthed equally.
 ## In subsequent iterations, the parameters
 ## @tex
-## \(\mu_1 = 1,\, \mu_2 = 10 \mbox{ and } \mu_3 = 20\)
+## \(\mu_1 = 1,\, \mu_2 = 10\) and \(\mu_3 = 20\)
 ## @end tex
 ## @ifnottex
 ## mu1 = 1, mu2 = 10 and mu3 = 20

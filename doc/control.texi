@@ -21,7 +21,7 @@
 
 @c Important note: When inserting tex-code while doing changes please
 @c only use the latex macros
-@c @latex, @iflatex, @ifnotlatex
+@c @tex, @iftex, @ifnottex
 @c together with the corresponding @end ... commands instead of the 
 @c tex macros. This is due to some advanced latex code in the control
 @c texinfo help texts.
@@ -38,11 +38,6 @@
 @c @afourwide
 @c %*** End of the HEADER
 
-@latex
-\usepackage{xcolor}
-\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=blue!75!olive}
-@end latex
-
 @dircategory Math
 @direntry
 * Octave Control: (control).          Control Package for Octave
@@ -53,7 +48,7 @@
 
 @c -------------------------------------------------------------------------
 
-@iflatex
+@iftex
 
 @c %*** Start of TITLEPAGE
 @titlepage
@@ -66,11 +61,11 @@ Copyright @copyright{} 2009-2025, Octave Developers
 
 @contents
 
-@end iflatex
+@end iftex
 
 @c -------------------------------------------------------------------------
 
-@ifnotlatex
+@ifnottex
 @node Top
 @top Octave Control Package
 Copyright © The Octave Project Developers 
@@ -90,7 +85,7 @@ notice identical to this one.
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
 
-@end ifnotlatex
+@end ifnottex
 
 @c -------------------------------------------------------------------------
 
@@ -113,23 +108,23 @@ Its main features are:
 @itemize
 @item Reliable solvers for Lyapunov, Sylvester and algebraic Riccati equations.
 @item Pole placement techniques as well as
-@iflatex
-@latex
+@iftex
+@tex
 $ H_2 $
-@end latex
-@end iflatex
-@ifnotlatex
+@end tex
+@end iftex
+@ifnottex
 H2
-@end ifnotlatex
+@end ifnottex
 and
-@iflatex
-@latex
+@iftex
+@tex
 $ H_{\infty} $
-@end latex
-@end iflatex
-@ifnotlatex
+@end tex
+@end iftex
+@ifnottex
 H-Infinity
-@end ifnotlatex
+@end ifnottex
 synthesis methods.
 @item Frequency-weighted model and controller reduction.
 @item System identification by subspace methods.
@@ -171,10 +166,10 @@ Octave control package and that also appears in @ref{Copying}.
 Links to online documentation and license information:
 
 @itemize
-@item @href{https://gnu-octave.github.io/pkg-control, Online documentation of the control package for GNU Octave}
-@item @href{https://github.com/gnu-octave/pkg-control, Git repository of the control packag}
-@item @href{https://github.com/SLICOT/SLICOT-Reference, Git repository of the used SLICOT-Reference library}  
-@item @href{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE, License and copyright information of the used SLICOT-Reference library}
+@item @url{https://gnu-octave.github.io/pkg-control, Online documentation of the control package for GNU Octave}
+@item @url{https://github.com/gnu-octave/pkg-control, Git repository of the control packag}
+@item @url{https://github.com/SLICOT/SLICOT-Reference, Git repository of the used SLICOT-Reference library}  
+@item @url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE, License and copyright information of the used SLICOT-Reference library}
 @end itemize
 
 @c -------------------------------------------------------------------------

@@ -145,7 +145,7 @@
 ## norm of the frequency weighted gain from disturbances on the plant input and output
 ## to the controller input and output as follows:
 ## @tex
-## $$ \underset{K}{\min} \, || N(K) ||_{\infty}, $$
+## $$ \min_K \, || N(K) ||_{\infty}, $$
 ## $$ N = | W_{1}^{-1}; W_2 G | \ (I - K G)^{-1} \ | W_1, \ G W_{2}^{-1} | $$
 ## @end tex
 ## @ifnottex
