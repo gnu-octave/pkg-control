@@ -17,6 +17,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{sys} =} Boeing707 ()
+##
 ## Creates a linearized state-space model of a Boeing 707-321 aircraft
 ## at 
 ## @tex

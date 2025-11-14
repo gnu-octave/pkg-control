@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Example Script} {} Madievski
+## @deftypefn  {Function File} {} Madievski ()
 ## Demonstration of frequency-weighted controller reduction.
 ##
 ## The system considered in this example has been studied by Madievski and
@@ -66,6 +66,8 @@
 % ===============================================================================
 % Frequency Weighted Controller Reduction       Lukas Reichlin      December 2011
 % ===============================================================================
+
+function Madievski ()
 
 % Tabula Rasa
 clear all, close all, clc
@@ -151,3 +153,5 @@ legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'Location', 'SouthWest
 figure (2)
 step (T, Tr4, Tr2, 100)
 legend ('K (8 states)', 'Kr (4 states)', 'Kr (2 states)', 'Location', 'SouthEast')
+
+endfunction

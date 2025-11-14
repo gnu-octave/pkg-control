@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Example Script} {} optiPID ()
+## @deftypefn  {Function File} {} optiPID ()
 ##
 ## Numerical optimization of a PID controller using an objective function.
 ##
@@ -160,6 +160,8 @@
 % Required MATLAB Toolboxes: Control, Optimization
 % ===============================================================================
 
+function optiPID ()
+
 % Tabula Rasa
 clear all, close all, clc;
 
@@ -233,4 +235,5 @@ figure (1)
 step (T_AH, 'b', T_opt, 'r', t)
 legend ('Astroem/Haegglund PID', 'Optimized PID', 'Location', 'SouthEast')
 
+endfunction
 % ===============================================================================

@@ -15,6 +15,8 @@
 %            Robust Control Design with Matlab, Springer 2005
 % ===============================================================================
 
+function MDSSystem ()
+
 % Tabula Rasa
 clear all, close all, clc
 
@@ -158,3 +160,5 @@ figure (3)
 step (T_mix, T_ncf, 10)                % step response for 10 seconds
 
 % ===============================================================================
+
+endfunction

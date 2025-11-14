@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Example Script} {} Anderson
+## @deftypefn  {Function File} {} Anderson ()
 ##
 ## Frequency-weighted coprime factorization controller reduction [1].
 ##
@@ -21,6 +21,8 @@
 % ===============================================================================
 
 % Tabula Rasa
+function Anderson ()
+
 clear all, close all, clc
 
 % Plant
@@ -81,3 +83,5 @@ T = cellfun (@(Kr) feedback (G*Kr), Kr, 'uniformoutput', false);
 
 figure (3)
 step (T{:}, 300)
+
+endfunction

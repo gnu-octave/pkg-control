@@ -18,6 +18,7 @@
 ## -*- texinfo -*-
 ## @deftypefn{Function File} {} VLFamp
 ## @deftypefnx{Function File} {@var{result} =} VLFamp (@var{verbose})
+##
 ## Calculations on a two stage preamp for a multi-turn,
 ## air-core solenoid loop antenna for the reception of
 ## signals below 30kHz.
