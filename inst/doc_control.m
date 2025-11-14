@@ -22,6 +22,14 @@
 ## Open online documentation of the Control package in the system's
 ## standard browser.
 ##
+## @strong{Note:} Since Octave 11 and Control Package 4.2.0 the
+## package documentation is automatically shown in the documentation
+## browser of the Octave GUI as soon as the Control Package is loaded.
+## Help to all package functions can then also be accessed by the
+## comamnd @code{doc ...}.
+## However, this function is still useful when using Octave in the
+## command line.
+##
 ## @strong{Inputs}
 ## @table @var
 ## @item fcn1, fcn2, ...
