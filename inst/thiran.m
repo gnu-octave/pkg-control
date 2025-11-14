@@ -16,7 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} thiran (@var{tau}, @var{tsam})
+## @deftypefn {Function File} {@var{sys} =} thiran (@var{T}, @var{Ts})
+##
 ## Approximation of continuous-time delay using a discrete-time
 ## allpass Thiran filter. 
 ##
@@ -29,9 +30,9 @@
 ##
 ## @strong{Inputs}
 ## @table @var
-## @item tau
+## @item T
 ## A continuous-time delay, given in time units (seconds).
-## @item tsam
+## @item Ts
 ## The sampling time of the resulting Thiran filter.
 ## @end table
 ##
@@ -62,7 +63,6 @@
 ## octave:2> sys = thiran (1, 0.5)
 ##
 ## Transfer function 'sys' from input 'u1' to output ...
-## 
 ##        1
 ##  y1:  ---
 ##       z^2 

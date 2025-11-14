@@ -76,7 +76,7 @@
 ## in Control and Measurements 2000, Veszprém, Hungary.
 ## @end enumerate
 ##
-## @seealso{@@tf/tf}
+## @seealso{@@tf/tf, thiran}
 ## @end deftypefn
 
 function varargout = pade (T, n, varargin)
