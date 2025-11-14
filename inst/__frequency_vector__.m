@@ -21,11 +21,9 @@
 ## Get default range of frequencies based on cutoff frequencies of system
 ## poles and zeros.
 ## Frequency range is the interval
-## @iftex
 ## @tex
 ## $ [ 10^{w_{min}}, 10^{w_{max}} ] $
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## [10^@var{wmin}, 10^@var{wmax}]
 ## @end ifnottex

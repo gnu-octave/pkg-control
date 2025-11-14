@@ -27,11 +27,9 @@
 ## approximates the one from original system @var{G}.
 ##
 ## BST is a relative error method which tries to minimize
-## @iftex
 ## @tex
 ## $$ || G^{-1} (G-G_r) ||_{\infty} = \min $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##    -1
@@ -175,11 +173,9 @@
 ## Preserves non-minimum phase zeros
 ## @item
 ## Guaranteed a priori error bound
-## @iftex
 ## @tex
 ## $$ || G^{-1} (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} {1+\sigma_j \over 1-\sigma_j} - 1 $$
 ## @end tex
-## @end iftex
 ## @end itemize
 ##
 ## @strong{Algorithm}@*

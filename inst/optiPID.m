@@ -42,11 +42,9 @@
 ## @end ifnottex
 ## The plant P(s) is of higher order but benign.  The initial values for the
 ## controller parameters
-## @iftex
 ## @tex
 ## \(K_P,T_I\) and \(T_D\)
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## Kp, Ti and Td
 ## @end ifnottex

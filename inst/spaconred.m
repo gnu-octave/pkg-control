@@ -27,11 +27,9 @@
 ## performance is retained.
 ##
 ## The algorithm tries to minimize the frequency-weighted error
-## @iftex
 ## @tex
 ## $$ || V \ (K - K_r) \ W ||_{\infty} = \min $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## ||V (K-Kr) W||    = min
@@ -102,11 +100,9 @@
 ##
 ## @item 'left', 'output'
 ## Use stability enforcing left (output) weighting
-## @iftex
 ## @tex
 ## $$ V = (I - G K)^{-1} G,  \qquad W = I $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##           -1
@@ -116,11 +112,9 @@
 ##
 ## @item 'right', 'input'
 ## Use stability enforcing right (input) weighting
-## @iftex
 ## @tex
 ## $$ V = I,  \qquad W = (I - G K)^{-1} G  $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##                    -1
@@ -130,11 +124,9 @@
 ##
 ## @item 'both', 'performance'
 ## Use stability and performance enforcing weightings
-## @iftex
 ## @tex
 ## $$ V = (I - G K)^{-1} G,  \qquad W = (I - G K)^{-1}  $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##           -1                -1

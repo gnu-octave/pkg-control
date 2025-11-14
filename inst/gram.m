@@ -19,26 +19,25 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{W} =} gram (@var{sys}, @var{mode})
 ## @deftypefnx {Function File} {@var{Wc} =} gram (@var{a}, @var{b})
+##
 ## @code{gram (@var{sys}, "c")} returns the controllability gramian of
 ## the (continuous- or discrete-time) system @var{sys}.
 ## @code{gram (@var{sys}, "o")} returns the observability gramian of the
 ## (continuous- or discrete-time) system @var{sys}.
 ## @code{gram (@var{a}, @var{b})} returns the controllability gramian
 ## @var{Wc} of the continuous-time system
-## @iftex
 ## @tex
-## $\dot{x} = a x + b u$;
+## \(\dot{x} = A x + B u\)
 ## @end tex
-## @end iftex
 ## @ifnottex
-## @math{dx/dt = a x + b u};
+## @math{dx/dt = A x + B u};
 ## @end ifnottex
 ## i.e., @var{Wc} satisfies
 ## @tex
-## $a Wc + m Wc^T + bb^T = 0$.
+## \(A\, Wc + m Wc^T + B\,B^T = 0\).
 ## @end tex
 ## @ifnottex
-## @math{a Wc + m Wc' + b b' = 0}.
+## @math{A Wc + m Wc' + B B' = 0}.
 ## @end ifnottex
 ##
 ## @end deftypefn

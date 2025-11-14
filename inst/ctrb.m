@@ -38,11 +38,9 @@
 ## @end table
 ##
 ## @strong{Equation}
-## @iftex
 ## @tex
 ## $$ C_o = \left[\matrix{ B & AB & A^2B & \ldots & A^{n-1}B }\right]$$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ##              2       n-1

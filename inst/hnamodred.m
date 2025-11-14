@@ -27,12 +27,10 @@
 ## approximates the one from original system @var{G}.
 ##
 ## HNA is an absolute error method which tries to minimize
-## @iftex
 ## @tex
 ## $$ || G - G_r ||_H = \min $$
 ## $$ || V \ (G - G_r) \ W ||_H = \min $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## ||G-Gr||  = min
@@ -263,11 +261,9 @@
 ## Lower guaranteed error bound
 ## @item
 ## Guaranteed a priori error bound
-## @iftex
 ## @tex
 ## $$ \sigma_{r+1} \leq || (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} \sigma_j $$
 ## @end tex
-## @end iftex
 ## @end itemize
 ##
 ## @strong{Algorithm}@*

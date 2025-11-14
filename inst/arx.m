@@ -20,18 +20,15 @@
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @var{opt}, @dots{})
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{opt}, @dots{})
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{'na'}, @var{na}, @var{'nb'}, @var{nb})
+## 
 ## Estimate ARX model using QR factorization.
-## @iftex
 ## @tex
 ## $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
 ## @end tex
-## @end iftex
 ## @ifnottex
-##
 ## @example
 ## A(q) y(t) = B(q) u(t) + e(t)
 ## @end example
-##
 ## @end ifnottex
 ##
 ## @strong{Inputs}

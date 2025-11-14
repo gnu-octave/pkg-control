@@ -38,7 +38,6 @@
 ## @end table
 ##
 ## @strong{Equation}
-## @iftex
 ## @tex
 ## $$ O_b = \left[\matrix{  C      \cr
 ##                           CA     \cr
@@ -46,7 +45,6 @@
 ##                           \vdots \cr
 ##                           CA^{n-1} } \right]$$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## @group

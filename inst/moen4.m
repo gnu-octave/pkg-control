@@ -134,12 +134,10 @@
 ## @table @var
 ## @item 'n'
 ## No error inputs.  Default value.
-## @iftex
 ## @tex
 ## $$ x_{k+1} = A x_k + B u_k $$
 ## $$ y_k = C x_k + D u_k $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## x[k+1] = A x[k] + B u[k]
@@ -151,12 +149,10 @@
 ## Return @var{sys} as a (p-by-m+p) state-space model with
 ## both measured input channels u and noise channels e
 ## with covariance matrix @var{Ry}.
-## @iftex
 ## @tex
 ## $$ x_{k+1} = A x_k + B u_k + K e_k $$
 ## $$ y_k = C x_k + D u_k + e_k $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## x[k+1] = A x[k] + B u[k] + K e[k]
@@ -168,13 +164,11 @@
 ## Return @var{sys} as a (p-by-m+p) state-space model with
 ## both measured input channels u and white noise channels v
 ## with identity covariance matrix.
-## @iftex
 ## @tex
 ## $$ x_{k+1} = A x_k + B u_k + K L v_k $$
 ## $$ y_k = C x_k + D u_k + L v_k $$
 ## $$ e = L v, \ L L^T = R_y $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## x[k+1] = A x[k] + B u[k] + K L v[k]
@@ -185,12 +179,10 @@
 ##
 ## @item 'k'
 ## Return @var{sys} as a Kalman predictor for simulation.
-## @iftex
 ## @tex
 ## $$ \widehat{x}_{k+1} = A \widehat{x}_k + B u_k + K (y_k - \widehat{y}_k) $$
 ## $$ \widehat{y}_k = C \widehat{x}_k + D u_k $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## ^          ^                        ^
@@ -200,12 +192,10 @@
 ## @end example
 ## @end ifnottex
 ##
-## @iftex
 ## @tex
 ## $$ \widehat{x}_{k+1} = (A-KC) \widehat{x}_k + (B-KD) u_k + K y_k $$
 ## $$ \widehat{y}_k = C \widehat{x}_k + D u_k + 0 y_k $$
 ## @end tex
-## @end iftex
 ## @ifnottex
 ## @example
 ## ^               ^
