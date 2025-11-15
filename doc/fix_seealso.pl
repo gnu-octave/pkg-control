@@ -16,12 +16,11 @@
 ## along with this program.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-## File    : mkfunctexifix.pl
-## Purpose : Replace @sealso command and \( ... \) in the file created
+## File    : fix_seealso.pl
+## Purpose : Replace @sealso command in file created by
 ##           by myfuncdocs.py from all texifo texts for
-##             1. prevent errors in makeinfo due to \(...\)
-##             2. having correct refs from the @seealso command
-## Usage   : myfunctexifix.pl functions.texi 
+##           having correct refs from the @seealso command
+## Usage   : fix_seealso.pl functions.texi 
 
 use warnings;              # report warnings for questionable run-time code
 use strict qw(refs subs);  # check at compile-time for bad programming style
@@ -33,7 +32,7 @@ sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 # Extract command line arguments
 if ($#ARGV != 0) { die "USAGE: $0 functions.texi;" }
 
-my $fname = basename ($ARGV[0]);
+my $fname = $ARGV[0];
 
 open TEXI, "<".$fname    or die "Unable to open $fname";
 my $texi = do {local $/; <TEXI> };

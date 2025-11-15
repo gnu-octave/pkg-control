@@ -1,35 +1,59 @@
 ## Copyright 2015-2016 Carnë Draug
 ## Copyright 2015-2016 Oliver Heimlich
+## Copyright 2015-2019 Mike Miller
+## Copyright 2024 John Donoghue
+## Copyright 2025 Torsten Lilge
 ##
 ## Copying and distribution of this file, with or without modification,
 ## are permitted in any medium without royalty provided the copyright
 ## notice and this notice are preserved.  This file is offered as-is,
 ## without any warranty.
 
-PACKAGE := $(shell grep "^Name: " DESCRIPTION | cut -f2 -d" ")
-VERSION := $(shell grep "^Version: " DESCRIPTION | cut -f2 -d" ")
+OCTAVE    ?= octave --silent
+SED       := sed
+MAKEINFO  ?= makeinfo
+# use --force in makeinfo since there are @refs to octave core functions
+MAKEINFO_OPTIONS := --no-headers --no-split --no-validate \
+												--set-customization-variable 'COPIABLE_LINKS 0'
+# work out a possible help generator
+ifeq ($(strip $(QHELPGENERATOR)),)
+  ifneq ($(shell qhelpgenerator -v 2>/dev/null),)
+    QHELPGENERATOR = qhelpgenerator
+  else ifneq ($(shell qcollectiongenerator -v 2>/dev/null),)
+    QHELPGENERATOR = qcollectiongenerator-qt5
+  else ifneq ($(shell qcollectiongenerator -qt5 -v 2>/dev/null),)
+    QHELPGENERATOR = qcollectiongenerator -qt5
+  else
+    QHELPGENERATOR = true
+  endif
+endif
+
+DESCRIPTION := DESCRIPTION
+PACKAGE := $(shell $(SED) -n -e 's/^[Nn]ame: *\(\w\+\)/\1/p' $(DESCRIPTION))
+VERSION := $(shell $(SED) -n -e 's/^[Vv]ersion: *\(\w\+\)/\1/p' $(DESCRIPTION))
+DATE    := $(shell $(SED) -n -e 's/^[Dd]ate: *\(\w\+\)/\1/p' $(DESCRIPTION))
+DEPENDS := $(shell $(SED) -n -e 's/^[Dd]epends[^,]*, *\(.*\)/\1/p' $(DESCRIPTION) | $(SED) 's/ *([^()]*)//g; s/ *, */ /g')
 
 TARGET_DIR      := target
 RELEASE_DIR     := $(TARGET_DIR)/$(PACKAGE)-$(VERSION)
 RELEASE_TARBALL := $(TARGET_DIR)/$(PACKAGE)-$(VERSION).tar.gz
-DOCS_DIR        := docs
-DOC_DIR         := doc
+DOCS_HTML_DIR   := docs
+DOCS_DIR        := doc
 
-SC_SMOD := slicot-reference
-SC_SRC  := src/slicot/src
-SC_DOC  := doc/SLICOT
+SC_SMOD         := slicot-reference
+SC_SRC          := src/slicot/src
+SC_DOC          := doc/SLICOT
 
-M_SOURCES   := $(wildcard inst/*.m)
-CC_SOURCES  := $(wildcard src/*.cc)
+M_SOURCES       := $(wildcard inst/*.m)
+CC_SOURCES      := $(wildcard src/*.cc)
+TEXI_TMP        := $(DOCS_DIR)/functions.texi $(DOCS_DIR)/version.texi
+DOCS_SOURCES    := $(DOCS_DIR)/$(PACKAGE).texi $(TEXI_TMP)
+PKG_ADD         := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
 
-PKG_ADD     := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
+DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
+DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
 
-OCTAVE ?= octave --silent
-
-.PHONY: help dist docs-html doc release install all check run clean
-
-test:
-	@echo $(SLICOT_SOURCES)
+.PHONY: help dist docs-html docs release install all check run clean
 
 help:
 	@echo " "
@@ -38,17 +62,18 @@ help:
 	@echo "   dist      - Create $(RELEASE_TARBALL) for release"
 	@echo "   docs-html - Create html documentation in $(DOCS_DIR), assumes"
 	@echo "               current version of $(PACKAGE) is installed;"
-	@echo "   doc         Create the pdf manual and the Qt help file"
+	@echo "   docs        Create the pdf manual and the Qt help file"
 	@echo "               in $(DOC_DIR)"
+	@echo "   qch       - Build Qt help file"
+	@echo "   pdf       - Build pdf manual"
 	@echo "   release   - Create dist, install and create docs,"
 	@echo "               shows sha256sum of tarball"
 	@echo
 	@echo "   install   - Install the package in GNU Octave"
 	@echo "   all       - Build all oct files"
-	@echo "   check     - Execute package tests (w/o install)"
-	@echo "   run       - Run Octave with development in PATH (no install)"
+	@echo "   check     - Execute package tests (with install)"
 	@echo
-	@echo "   clean     - Remove releases and oct files"
+	@echo "   clean     - Remove releases, doc and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
 	@echo " "
 
@@ -69,10 +94,9 @@ $(RELEASE_DIR): .git/index
 	@echo "  git archive ..."
 	@git archive -o $@/tmp.tar HEAD
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
-	@echo "  copy packinfo ..."
 	@echo "  copy pdf and qch file ..."
-	@cp $(DOC_DIR)/$(PACKAGE).pdf $@/$(DOC_DIR)/
-	@cp $(DOC_DIR)/$(PACKAGE).qch $@/$(DOC_DIR)/
+	@cp $(DOCS_PDF) $@/$(DOCS_DIR)/
+	@cp $(DOCS_QCH) $@/$(DOCS_DIR)/
 	@echo "  copy files from slicot ..."
 	@mkdir -p $@/$(SC_SRC)
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src/*.f
@@ -87,16 +111,49 @@ $(RELEASE_DIR): .git/index
 
 docs-html:
 	@echo "Updating HTML documentation. This may take a while ..."
-	@cd "$(DOCS_DIR)" && $(OCTAVE) \
+	@cd "$(DOCS_HTML_DIR)" && $(OCTAVE) \
 	                      --eval "pkg load pkg-octave-doc; " \
 	                      --eval "pkg load $(PACKAGE);" \
 	                      --eval 'package_texi2html ("${PACKAGE}");'
 
-doc:
-	@echo "Creating pdf and qch file in $(DOC_DIR) ..."
-	@cd "$(DOC_DIR)" && make
+$(DOCS_DIR)/version.texi: $(DESCRIPTION)
+	@echo Generating $@ ...
+	@echo "@c autogenerated from Makefile" > $@
+	@echo "@set VERSION $(VERSION)" >> $@
+	@echo "@set PACKAGE $(PACKAGE)" >> $@
+	@echo "@set DATE $(DATE)" >> $@
 
-dist: doc $(RELEASE_TARBALL)
+# Collect all texinfo tests in one file. For being able to use
+# makeinfo --pdf, --html and pdf-octave-doc and always have nice
+# refs and links from @seealso commands in all output formats.
+$(DOCS_DIR)/functions.texi: .git/index
+	@echo Generating $@ \(collect all texinfo texts\) ...
+	@$(DOCS_DIR)/mkfuncdocs.py --src-dir=inst/ --src-dir=src/ INDEX > $@
+	@$(DOCS_DIR)/fix_seealso.pl $@
+
+$(DOCS_PDF): $(DOCS_SOURCES)
+	@echo Generating $@ ...
+	@cd $(DOCS_DIR) && $(MAKEINFO) --pdf $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
+	@cd $(DOCS_DIR) && $(RM) *.out *.log *.idx *.ilg *.ind *.toc *.cp *.cps *.aux *.fn *.fns *.out
+
+$(DOCS_QCH): $(DOCS_SOURCES)
+	@echo Generating $@ ...
+	@cd $(DOCS_DIR) && $(MAKEINFO) --html --css-ref=$(PACKAGE).css $(MAKEINFO_OPTIONS) $(PACKAGE).texi
+ifeq ($(QHELPGENERATOR),true)
+	$(warning No QHELPGENERATOR... skipping QT doc build)
+else
+	@cd $(DOCS_DIR) && ./mkqhcp.py $(PACKAGE)\
+									&& $(QHELPGENERATOR) -s $(PACKAGE).qhcp -o $(PACKAGE).qhc > /dev/null 2>&1
+	@cd $(DOCS_DIR) && $(RM) $(PACKAGE).qhcp $(PACKAGE).qhp $(PACKAGE).qhc $(PACKAGE).html
+endif
+
+qch: $(DOCS_QCH)
+
+pdf: $(DOCS_PDF)
+
+docs: qch pdf
+
+dist: docs $(RELEASE_TARBALL)
 
 release: dist install
 	sha256sum $(RELEASE_TARBALL)
@@ -115,20 +172,15 @@ install: dist $(RELEASE_TARBALL)
 all: $(CC_SOURCES)
 	$(MAKE) -C src/ all
 
-check: all
+check: install
 	$(OCTAVE) --path "inst/" --path "src/" \
-	  --eval '${PKG_ADD}' \
-	  --eval 'runtests ("inst"); runtests ("src");'
-
-run: all
-	$(OCTAVE) --persist --path "inst/" --path "src/" \
-	  --eval '${PKG_ADD}'
+	  --eval 'pkg test control'
 
 clean:
 	$(RM) -r $(TARGET_DIR)
 	$(MAKE) -C src/ clean
-	@cd "$(DOC_DIR)" && make clean
-
+	$(RM) $(DOCS_PDF) $(DOCS_QCH)
+	$(RM) $(TEXI_TMP)
 
 distclean: clean
 	$(MAKE) -C src/ distclean
