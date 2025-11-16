@@ -83,6 +83,9 @@ Frequency Domain Analysis
   sgrid
   sigma
   zgrid
+PID Control
+  pid
+  pidstd
 Pole Placement
   acker
   place
@@ -102,9 +105,6 @@ Optimal Control
   lqi
   lqr
   lqry
-PID Control
-  pid
-  pidstd
 Robust Control
   augw
   fitfrd
