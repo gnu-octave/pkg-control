@@ -52,6 +52,10 @@
 
 @c %*** Start of TITLEPAGE
 @titlepage
+@flushright
+@image{control-logo}
+@end flushright
+@vskip -1.5cm
 @title control @value{VERSION}
 @subtitle Control System Design Tools for GNU Octave
 @subtitle @value{DATE}

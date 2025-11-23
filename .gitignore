@@ -1,11 +1,12 @@
 # temp files from tex or compilation
 
 *.dvi
-*.pdf
 *.aux
 *.log
 *.cp
+*.cps
 *.fn
+*.fns
 *.toc
 *.a
 *.o
@@ -15,7 +16,7 @@
 
 # temp file from configure and make
 
-src/slicot/src 
+src/slicot/src
 *~
 aclocal.m4
 configure
@@ -27,11 +28,13 @@ config.*
 
 # temp info and doc files
 
-doc/functions.texi
-doc/version.texi
-doc/*.qch
-doc/*.qhc
-doc/*.pdf
+devel/doc/functions.texi
+devel/doc/version.texi
+devel/doc/control.qch
+devel/doc/control.qhc
+devel/doc/control.pdf
+doc/control.qch
+doc/control.pdf
 
 # temp directories
 

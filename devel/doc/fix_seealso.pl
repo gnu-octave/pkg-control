@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-## Copyright 2018-2024 John Donoghue
+## Copyright 2025 Torsten Lilge <ttl-octave@mailbox.org>
 ##
 ## This program is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
