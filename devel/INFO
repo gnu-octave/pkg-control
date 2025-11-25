@@ -1,3 +1,0 @@
-With the current Makefile, the folder "devel" and its content
-is ignored by "pkg install".  The folder is intended for draft
-code and other stuff which is not suitable for "normal" users.

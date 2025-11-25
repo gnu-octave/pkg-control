@@ -1,4 +1,4 @@
-function [h,p,ks,c] = step_function (G)
+function [h,g,p,ks,ch,cg] = step_function (G)
 
   [z,p,k] = zpkdata (G);
   z = z{1};
@@ -47,8 +47,10 @@ function [h,p,ks,c] = step_function (G)
     X(i,:) = X(i-1,:) .* p';
   end
 
-  c = inv(X)*y;
+  ch = inv(X)*y;
+  cg = ch .* p;
 
-  h = @(t) real (ks + c'*exp(p*t));
+  h = @(t) real (ks + ch'*exp(p*t));
+  g = @(t) real (cg'*exp(p*t));
 
 end
