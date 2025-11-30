@@ -49,12 +49,13 @@ SC_DOC          := doc/SLICOT
 M_SOURCES       := $(wildcard inst/*.m)
 CC_SOURCES      := $(wildcard src/*.cc)
 TEXI_TMP        := $(DOCS_DEV_DIR)/functions.texi $(DOCS_DEV_DIR)/version.texi
-DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(TEXI_TMP)
+LOGO_DEV        := $(DOCS_DEV_DIR)/$(PACKAGE)-logo.svg
+DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(LOGO_DEV) $(TEXI_TMP)
 PKG_ADD         := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
 
 DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
 DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
-
+DOCS_LOGO       := $(DOCS_DIR)/$(PACKAGE).svg
 
 .PHONY: help dist docs-html docs release install all check run clean
 
@@ -97,10 +98,11 @@ $(RELEASE_DIR): .git/index
 	@echo "  git archive ..."
 	@git archive -o $@/tmp.tar HEAD
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
-	@echo "  copy pdf and qch file ..."
+	@echo "  copy doc files ..."
 	@cp $(DOCS_PDF) $@/$(DOCS_DIR)/
 	@cp $(DOCS_QCH) $@/$(DOCS_DIR)/
-	@echo "  copy files from slicot ..."
+	@cp $(DOCS_LOGO) $@/$(DOCS_DIR)/
+	@echo "  copy slicot files ..."
 	@mkdir -p $@/$(SC_SRC)
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src/*.f
 	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src_aux/*.f
@@ -114,7 +116,10 @@ $(RELEASE_DIR): .git/index
 
 docs-html:
 	@echo "Updating HTML documentation ... "
-	@cd $(DOCS_DEV_DIR) && $(OCTAVE) --eval "docs_html (\"$(PACKAGE)\");"
+	@cd $(DOCS_HTML_DIR) && $(OCTAVE) \
+													--eval "pkg load pkg-octave-doc; " \
+													--eval "pkg load $(PACKAGE);" \
+													--eval 'package_texi2html ("${PACKAGE}");'
 
 $(DOCS_DEV_DIR)/version.texi: $(DESCRIPTION)
 	@echo Generating $@ ...
@@ -130,6 +135,10 @@ $(DOCS_DEV_DIR)/functions.texi: .git/index
 	@echo Generating $@ \(collect all texinfo texts\) ...
 	@$(DOCS_DEV_DIR)/mkfuncdocs.py --src-dir=inst/ --src-dir=src/ INDEX > $@
 	@$(DOCS_DEV_DIR)/fix_seealso.pl $@
+
+$(DOCS_LOGO): $(LOGO_DEV)
+	@echo Copying $@ ...
+	cp $(LOGO_DEV) $@
 
 $(DOCS_PDF): $(DOCS_SOURCES)
 	@echo Generating $@ ...
@@ -153,7 +162,7 @@ qch: $(DOCS_QCH)
 
 pdf: $(DOCS_PDF)
 
-docs: qch pdf
+docs: qch pdf $(DOCS_LOGO)
 
 dist: docs $(RELEASE_TARBALL)
 
