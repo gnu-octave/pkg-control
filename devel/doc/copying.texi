@@ -4,28 +4,32 @@
 @cindex copyright
 @cindex license
 
-@section License for parts fo the Control Package
+@section License and Copyright for parts fo the Control Package
 
-In the package's Git Repository:
-
-@itemize
-@item
-slicot-reference: submodule, Copyright (c) 1996-2025 SLICOT, BSD 3-Clause (see @ref{sec:bsd})
-@item
-src/src_aux: See src/src_aux/README.md
-@item
-other files: Copyright see individual files,  GPLv3+ (see @ref{sec:gpl})
-@end itemize
-
-In the distributed package archive control-x.y.z.tar.gz
+The following list provides license and copyright information for file
+locations in the package's @url{https://github.com/gnu-octave/pkg-control, Git repository}
+(@emph{Git}) and in the distributed package archive
+@code{control-x.y.z.tar.gz} (@emph{Dist}).
 
 @itemize
-@item
-src/slicot: Copyright (c) 1996-2025 SLICOT, BSD 3-Clause (see @ref{sec:bsd})
-@item
-src/src_aux: See src/src_aux/README.md
-@item
-other files: Copyright see individual files, GPLv3+ (see @ref{sec:gpl})
+
+@item All files except those specified below:@*
+      Copyright see individual files@*
+      License GPLv3+ (see Sec. 2)
+
+@item @code{slicot-reference} (@emph{Git}, git submodule),
+    @code{src/slicot} (@emph{Dist}):@*
+      Copyright (c) 1996-2025, The SLICOT Team@* 
+      License BSD 3-Clause (see Sec. 3)
+
+@item @code{slicot-reference/src/lapack_aux} (@emph{Git}, git submodule),
+    src/slicot/lapack_aux (@emph{Dist}):@*
+      Copyright (c) 1992-2025 The University of Tennessee, The University
+                              of Tennessee Research Foundation@*
+      Copyright (c) 2000-2025 The University of California Berkeley@*
+      Copyright (c) 2006-2025 The University of Colorado Denver@*
+      License BSD 3-Clause (see Sec. 3)
+
 @end itemize
 
 

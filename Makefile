@@ -42,15 +42,19 @@ DOCS_HTML_DIR   := docs
 DOCS_DIR        := doc
 DOCS_DEV_DIR    := devel/doc
 
-SC_SMOD         := slicot-reference
-SC_SRC          := src/slicot/src
+SC_SUBMOD       := slicot-reference
+SRC             := src
+SC              := $(SRC)/slicot
+SC_SRC          := src
+SC_LAPACK       := $(SC_SRC)/lapack_aux
 SC_DOC          := doc/SLICOT
 
 M_SOURCES       := $(wildcard inst/*.m)
 CC_SOURCES      := $(wildcard src/*.cc)
 TEXI_TMP        := $(DOCS_DEV_DIR)/functions.texi $(DOCS_DEV_DIR)/version.texi
 LOGO_DEV        := $(DOCS_DEV_DIR)/$(PACKAGE)-logo.svg
-DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(LOGO_DEV) $(TEXI_TMP)
+DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(DOCS_DEV_DIR)/copying.texi \
+                   $(LOGO_DEV) $(TEXI_TMP)
 PKG_ADD         := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
 
 DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
@@ -103,15 +107,15 @@ $(RELEASE_DIR): .git/index
 	@cp $(DOCS_QCH) $@/$(DOCS_DIR)/
 	@cp $(DOCS_LOGO) $@/$(DOCS_DIR)/
 	@echo "  copy slicot files ..."
-	@mkdir -p $@/$(SC_SRC)
-	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src/*.f
-	@cp -t $@/$(SC_SRC) $(SC_SMOD)/src_aux/*.f
-	@cp $(SC_SMOD)/LICENSE   $@/$(SC_SRC)/../
-	@cp $(SC_SMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
-	@cp $(SC_SMOD)/LICENSE   $@/$(SC_DOC)/
-	@cp $(SC_SMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
+	@mkdir -p $@/$(SC)/$(SC_LAPACK)
+	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
+	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
 	@echo "  bootstrap ..."
-	@cd $@/src && ./bootstrap && $(RM) -r "autom4te.cache"
+	@cd $@/$(SRC) && ./bootstrap && $(RM) -r "autom4te.cache"
 	@chmod -R a+rX,u+w,go-w "$@"
 
 docs-html:
@@ -144,7 +148,7 @@ $(DOCS_PDF): $(DOCS_SOURCES)
 	@echo Generating $@ ...
 	@cd $(DOCS_DEV_DIR) && $(MAKEINFO) --pdf $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
 	@cd $(DOCS_DEV_DIR) && $(RM) *.out *.log *.idx *.ilg *.ind *.toc *.cp *.cps *.aux *.fn *.fns *.out
-	$(MV) $(DOCS_DEV_DIR)/$(PACKAGE).pdf $(DOCS_PDF)
+	@$(MV) $(DOCS_DEV_DIR)/$(PACKAGE).pdf $(DOCS_PDF)
 
 $(DOCS_QCH): $(DOCS_SOURCES)
 	@echo Generating $@ ...
@@ -181,7 +185,7 @@ install: dist $(RELEASE_TARBALL)
 	@$(OCTAVE) --eval 'pkg ("install", "${RELEASE_TARBALL}")'
 
 all: $(CC_SOURCES)
-	$(MAKE) -C src/ all
+	$(MAKE) -C $(SRC) all
 
 check: install
 	$(OCTAVE) --path "inst/" --path "src/" \
@@ -189,9 +193,9 @@ check: install
 
 clean:
 	$(RM) -r $(TARGET_DIR)
-	$(MAKE) -C src/ clean
+	$(MAKE) -C $(SRC) clean
 	$(RM) $(DOCS_PDF) $(DOCS_QCH)
 	$(RM) $(TEXI_TMP)
 
 distclean: clean
-	$(MAKE) -C src/ distclean
+	$(MAKE) -C $(SRC) distclean
