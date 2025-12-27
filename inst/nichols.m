@@ -82,8 +82,11 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
 
     ## get system names and create the legend
     leg = cell (1, numsys);
-    for k = 1 : numsys
-      leg{k} = inputname ( sys_idx(k) );
+    for k = 1:numsys
+      leg{k} = inputname (sys_idx(k));
+      if (isempty (leg{k}))
+        leg{k} = sprintf("Sys %d", k);
+      endif
     endfor
 
     ## plot
@@ -93,53 +96,73 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
     ## Select a figure number, clear the figure, place plot hold on so multiple
     ## circles
     ## can be drawn
-    figure()
+    # figure()
     clf
     hold on
     box on
-    axis([-210 0 -24 36]);##Do not change otherwise all labels will be messed up.
-    set (gca, 'xtick', -360 : 30 : 0 );
-    set (gca, 'ytick', -60 : 6 : 42 );
+    grid off
 
-    text(-17, -18, "-18 dB");
-    text(-17, -11, "-12 dB");
-    text(-17, -2, "-6 dB");
-    text(-15, 3, "-4 dB");
-    text(-15, 6, "-3 dB");
-    text(-15, 10, "-2 dB");
-    text(-15, 16, "-1 dB");
-    text(-15, 22, "-.5 dB");
-    text(-17, 29, "-.25 dB");
-    text(-60, 32, "-.1 dB");
-    text(-110, 32, "+ .1 dB");
-    text(-150, 31, "+.25 dB");
-    text(-138, 22.25, "+.5 dB");
-    text(-140, 16.5, "+1 dB");
-    text(-150, 12, "+2 dB");
-    text(-172, 10.3, "+3 dB");
-    text(-163, 7.7, "+4 dB");
-    text(-175, 6, "+6 dB");
-    text(-170, 3, "+9 dB");
-    text(-175, 0,"+12 dB");
-    grid
+    mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
-    ##Nichols chart example I have uses these gains
-    dbgain = [ -18, -12, -6, -4, -3, -2, -1, -.5, -.25, -.1, 0.1, .25, .5, ...
-    1, 2, 3, 4, 6, 9, 12 ];
+    plot_args = horzcat (cellfun (@horzcat, pha, mag_db, sty, "uniformoutput", false){:});
 
-    ##Convert to true Gains
+    for k = 1:numsys
+      numpoints = idivide (linspace (length ( mag_db{k} ) / 4, 3 * ...
+      length ( mag_db{k} ) / 4, 10), int32 ( 1 ), "fix");
+      for j = numpoints
+        wstring = ["\\omega=", num2str(w{k}(j),"%.2f")];
+        text (pha{k}(j), mag_db{k}(j), wstring, "rotation", 0);
+      endfor
+    endfor
+
+    h11 = plot (plot_args{:});
+
+    ## Nicer range and ticks for the phase
+    x_lim = xlim ();
+    y_lim = ylim ();
+    if (rem (x_lim(1),30) != 0)
+      x_lim(1) = x_lim(1) - (30 + rem (x_lim(1),30));
+    endif
+    if (x_lim(2) - x_lim(1) < 420)
+      dx = 30;
+    else
+      dx = 60;
+    endif
+    xticks (x_lim(1):dx:x_lim(2));
+
+    ## Now construct the grid with isobars for gain and phase
+    ## of the closed loop
+
+    col_pha = [0.6,0.6,0.6];
+    col_mag = [0.6,0.6,0.6];
+    pat_pha = ":";
+    pat_mag = "-.";
+    htxt = text (0,0,"-180°");
+    ext = get (htxt, "extent");
+    width_pha_label = ext(3);
+    delete (htxt);
+
+    ## Gain grid in dB
+
+    ## Get min and max dB values for the grid
+    db_min = y_lim(1) + sign (y_lim(1)) * rem (y_lim(1),20);
+    dbgain = db_min:20:y_lim(2);
+    db_default = [-10, -6, -3, -2, -1];
+    dbgain = sort ([dbgain, db_default, -db_default, 0.5, 0.25, 0.1, 0.05]);
+
+    ## Convert to true Gains
     M = 10 .^ ( dbgain ./ 20 );
-    ##create an angle vector to draw the circles
+    ## create an angle vector to draw the circles
     numsegments = 1024;
     omega = linspace ( -pi, pi ,numsegments ); ## numsegments segment circle
-    ##important to go from -pi to pi to prevent wrap around lines on chart.
+    ## important to go from -pi to pi to prevent wrap around lines on chart.
     for i = 1 : length ( dbgain );
-      ##radius of the M-circles
+      ## radius of the M-circles
       radius = M(i) / ( M(i) ^2 - 1 );
-      ##Generate Plot Data for M-Circle with Real Portion on Y-axis
+      ## Generate Plot Data for M-Circle with Real Portion on Y-axis
       Xm = -M(i) ^ 2 / ( M(i) ^ 2 - 1 ) + radius * cos ( omega );
       Ym = radius * sin( omega );
-      ##Create polar plot (Phase Angle vs dB Gain)
+      ## Create polar plot (Phase Angle vs dB Gain)
       db_plot_gain = 20 .* log10 ( sqrt (Xm .^ 2 + Ym .^ 2));
       if dbgain (i) > 0
         phase = -180 + atand ( Ym ./ Xm );
@@ -152,33 +175,37 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
           phase(j) = phase(j) - 360;
         endif
       endfor
-      plot ( phase, db_plot_gain, "r" );
+
+      if dbgain(i) < 0
+        tp1 = x_lim(2) - (x_lim(2)-x_lim(1))/100;
+        pm = "-";
+        ha = "right";
+        v_off = 2;
+      else
+        pm = "+";
+        tp1 = -180;
+        ha = "center";
+        v_off = 1;
+      endif
+
+      tp2 = db_plot_gain(1) + v_off;
+      text (tp1, tp2, [pm,num2str(dbgain(i)),"dB"],...
+            "color", col_mag, "clipping", "on",
+            "horizontalalignment", ha);
+
+      ## Plot the dB grid over the complete phase range
+      x_min = x_lim(1);
+      while (x_min < 0)
+        plot ( phase, db_plot_gain, pat_mag, "color", col_mag, "linewidth", 0.4);
+        x_min = x_min + 360;
+        phase = phase - 360;
+      endwhile
+
     endfor
-    ##Everything above was only to create the M Circle grid lines for the
-    ##Nichols chart.
 
-    text(-204, 21, "+2 deg", "rotation", 0);
-    text(-204, 14.7, "+5 deg", "rotation", 0);
-    text(-204, 9.7, "+10 deg", "rotation", 0);
-    text(-204, 6, "+20 deg", "rotation", 0);
-    text(-2.5, -15.842, "-2 deg", "rotation", 90);
-    text(-6, -15.842, "-5 deg", "rotation", 90);
-    text(-12, -15.842, "-10 deg", "rotation", 90);
-    text(-23.6, -15.842, "-20 deg", "rotation", 90);
-    text(-35., -15.842, "-30 deg", "rotation", 90);
-    text(-68., -15.842, "-60 deg", "rotation", 90);
-    text(-100., -15.842, "-90 deg", "rotation", 90);
-    text(-128., -15.842, "-120 deg", "rotation", 90);
-    text(-155., -15.842, "-150 deg", "rotation", 90);
-    text(-182., -15.842, "-182 deg", "rotation", 90);
-    text(-184., -15.842, "-185 deg", "rotation", 90);
-    text(-188., -15.842, "-190 deg", "rotation", 90);
-    text(-197., -15.842, "-200 deg", "rotation", 90);
-    text(-205., -15.842, "-210 deg", "rotation", 90);
+    ## Phase grid in deg
 
-    ##Nichols chart example I have uses these gains
-    clphase = [ -210, -178, -175, -170, -160, -150, -120, -90, -60, -20, ...
-    -10, -5, -2 ];
+    clphase = [ -178, -175, -170, -160, -150, -120, -90, -60, -30, -15, -10, -5, -2 ];
     ##Convert to true Gains
     nphi = tand ( clphase );
     ##create an angle vector to draw the circles
@@ -214,22 +241,41 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
         endif
       endfor
 
-      plot(phase, db_plot_gain, "g");
+      ## Prepare labels for the phase
+      if clphase(i) < 0
+        pm = "-";
+      else
+        pm = "+";
+      endif
+      clphase_labels = clphase;
+
+      ## Extend to lower nound of gein range
+      [~,idx] = min (phase);
+      phase = [phase(1:idx-2), clphase(i), clphase(i)-180, phase(idx+1:end)];
+      db_plot_gain = [db_plot_gain(1:idx-2), y_lim(1)-1.5, y_lim(1)-1, db_plot_gain(idx+1:end)];
+
+      ## Plot the phase grid over the complete phase range
+      x_min = x_lim(1);
+      while (x_min < 0)
+        plot(phase, db_plot_gain, pat_pha, "color", col_pha, "linewidth", 0.4);
+        x_min = x_min + 360;
+        phase = phase - 360;
+        for v = 1:2
+          # Lables for all possible (periodic) occurrences
+          text (clphase_labels(i)-1, y_lim(1) + 2*width_pha_label,...
+                [pm,num2str(clphase_labels(i)),"°"],...
+                "color", col_pha, "rotation", 90, "clipping", "on",...
+                "horizontalalignment", "right");
+          clphase_labels = clphase_labels - 180;
+        endfor
+      endwhile
 
     endfor
-    ##Everything above was only to create the N Circles grid lines for the Nichols chart.
 
-    mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
+    ## Set correct ranges, title, labels and legend
+    xlim (x_lim);
+    ylim (y_lim);
 
-    plot_args = horzcat (cellfun (@horzcat, pha, mag_db, sty, "uniformoutput", false){:});
-    numpoints = idivide (linspace (length ( mag_db{1} ) / 4, 3 * ...
-    length ( mag_db{1} ) / 4, 10), int32 ( 1 ), "fix");
-    for j = numpoints
-      wstring = [num2str(w{1}(j)), " R/S"];
-      text (pha{1}(j), mag_db{1}(j), wstring, "rotation", 0);
-    endfor
-
-    h11 = plot (plot_args{:});
     title ("Nichols Chart");
     xlabel ("Phase [deg]");
     ylabel ("Magnitude [dB]");
