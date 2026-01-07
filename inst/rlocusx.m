@@ -335,7 +335,7 @@ function rlocusx(sys,varargin)
 
     % left mouse key: markers and info for related root locus
     case ( m_left )
-      s = x+y*i;                    % actual position in s-plane
+      s = x+y*I;                    % actual position in s-plane
 
       % rule 12 -> K_WOK, then divide by V (gain in zpk-form) gives real K
       K_tmp = prod(abs(s-p))/prod(abs(s-z))/V;
@@ -371,19 +371,19 @@ function rlocusx(sys,varargin)
           h1 = plot (x,y,form, "markersize",ms*2/3,'linewidth',lw_mark,'color',col_clp);
 
           % Put the text with related parameters
-          if ( y == 0*i )                 % if on real axis rotate text with gain
+          if ( y == 0*I )                 % if on real axis rotate text with gain
             str = sprintf("  K=%.2f",K);  % make a string from our gain
             h2 = text (x,y,str,'color',col_clp,'fontsize',10,'rotation',90);
           else                            % if not on real axis, text normal
             if ( tsam > 0 )               % calc related cont. pole if we
-              s = log(x+y*i)/sys.tsam;    %   are in discrete time
+              s = log(x+y*I)/sys.tsam;    %   are in discrete time
               xs= real(s);
               ys= imag(s);
             else
              xs= x;
              ys= y;
             endif
-            w0 = abs(xs+ys*i);            % get omega_0
+            w0 = abs(xs+ys*I);            % get omega_0
             D  = -xs/w0;                  % and damping
             str = sprintf("  K=%.2f, D=%.2f, w_0=%.2f",K,D,w0);
             h2 = text(x,y,str,'color',col_clp,'fontsize',10); % put the text
@@ -443,9 +443,9 @@ function rlocusx(sys,varargin)
                       'visible', 'off');
 
           child_pos = get (fig_h(K_idx, b_idx), 'position');
-          for i = 1:2
-            if (child_pos(i) == main_pos(i))
-              child_pos(i) = child_pos(i) + (-1)^i*child_pos(i+2)/4;
+          for j = 1:2
+            if (child_pos(j) == main_pos(j))
+              child_pos(j) = child_pos(j) + (-1)^j*child_pos(j+2)/4;
             endif
           endfor
           set (fig_h(K_idx, b_idx), 'position', child_pos, 'visible', 'on');
