@@ -301,8 +301,8 @@ function [gamma_r, phi_r, w_gamma_r, w_phi_r] = margin (sys, tol = sqrt (eps))
     wpm = [w_phi, w_phi];
     mpm = [0, magv(1)];
 
-    title_str = sprintf ("GM = %g dB (at %g rad/s),   PM = %g deg (at %g rad/s)",
-                         gamma_db, w_gamma, phi, w_phi);
+    title_str = sprintf ("GM = %.4g, %.4g dB (at %.4g rad/s),   PM = %.4g deg (at %.4g rad/s)",
+                         gamma, gamma_db, w_gamma, phi, w_phi);
 
     legend (sys_name);
     legend ('autoupdate', 'off');
