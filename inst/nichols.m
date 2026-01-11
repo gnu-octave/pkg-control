@@ -22,8 +22,10 @@
 ## @deftypefnx {Function File} {} nichols (@var{sys1}, @var{'style1'}, @dots{}, @var{sysN}, @var{'styleN'})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys})
 ## @deftypefnx {Function File} {[@var{mag}, @var{pha}, @var{w}] =} nichols (@var{sys}, @var{w})
-## Nichols chart of frequency response.  If no output arguments are given,
-## the response is printed on the screen.
+## Nichols chart of frequency response, plots gain over phase.
+## If no output arguments are given, the response is printed on
+## the screen together with a grid of contours of constant close-loop
+## magnitude and phase.
 ##
 ## @strong{Inputs}
 ## @table @var

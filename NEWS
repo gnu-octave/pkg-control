@@ -14,6 +14,8 @@ control-4.1.99+  Upcoming version 4.2.0, not yet released
 ** bdschur: new function for block diagonalization of a matrix using
    SLICOT routine MB03RD
 
+** nichols: grid with contours of constant close-loop magnitude and phase
+
 ** bode: legend, title and similar commands after a bode plot are now
    affecting the first plot (magnitude), not the second (bug #67490)
 
