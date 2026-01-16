@@ -23,12 +23,32 @@
       });
     </script>
     <style>
+    h5.fs {
+    margin-top: -0.15em;
+    margin-bottom: -0.15em;
+    }
     h6:hover {
       color: gray;
     }
+    code {
+    font-family: Consolas, "Courier New", monospace;
+    border-radius: 0.3em;
+    white-space: nowrap;
+    color: gray;
+    }
+    code.description {
+    font-family: Consolas, "Courier New", monospace;
+    border-radius: 0.3em;
+    white-space: normal;
+    font-size:1.2em;
+    color: gray;
+    }
     var {
-      font-style: italics;
-      font-weight: bold;
+    font-family: Consolas, "Courier New", monospace;
+    border-radius: 0.3em;
+    font-style: normal;
+    font-weight: bold;
+    color: gray;
     }
     td {
       vertical-align: top;
@@ -53,7 +73,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container-fluid">
             <a class="navbar-brand" href=https://gnu-octave.github.io/packages/control>
-              <img src="assets/control.png" alt="control" class="d-inline-block align-top" width="25" height="25">
+              <img src="assets/control.svg" alt="control" class="d-inline-block align-top" width="25" height="25">
               Control Package
             </a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,11 +104,11 @@
         <div class="card-header card-header-mod">
           <div class="row d-flex flex-wrap align-items-center">
             <div class="col-sm-3 col-md-2 mb-2 mb-sm-0">
-              <img src="assets/control.png" class="d-block m-auto" alt="control">
+              <img src="assets/control.svg" class="img-fluid" alt="control" style="max-height: 180px;">
             </div>
             <div class="col-sm-9 col-md-10">
               <h3 class="d-inline-block mr-2">control</h3>
-              <b>4.1.99+&nbsp;XXXX-XX-XX</b>
+              <b>4.2.0&nbsp;2026-01-16</b>
               <p class="indent">
                 Control package for GNU Octave including system analysis and  control synthesis. The package uses routines of the SLICOT-Reference library.
               </p>
@@ -98,7 +118,6 @@
         <div class="card-body">
            <p>Select Category:
              <select name="cat" onchange="location = this.options[this.selectedIndex].value;">
-             <option value="#Examples">Examples</option>
              <option value="#Linear Time Invariant Models">Linear Time Invariant Models</option>
              <option value="#Model Data Access">Model Data Access</option>
              <option value="#Model Conversions">Model Conversions</option>
@@ -107,6 +126,7 @@
              <option value="#Model Simplification">Model Simplification</option>
              <option value="#Time Domain Analysis">Time Domain Analysis</option>
              <option value="#Frequency Domain Analysis">Frequency Domain Analysis</option>
+             <option value="#PID Control">PID Control</option>
              <option value="#Pole Placement">Pole Placement</option>
              <option value="#Optimal Control">Optimal Control</option>
              <option value="#Robust Control">Robust Control</option>
@@ -117,58 +137,11 @@
              <option value="#System Identification">System Identification</option>
              <option value="#Overloaded LTI Operators">Overloaded LTI Operators</option>
              <option value="#Overloaded IDDATA Operators">Overloaded IDDATA Operators</option>
+             <option value="#Examples">Examples</option>
              <option value="#Miscellaneous">Miscellaneous</option>
              </select>
            <p>
 
-           <h3 class="category">
-             <a name="Examples">Examples</a>
-           </h3>
-           <table class="table table-striped">
-             <tbody>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="MDSSystem.html">MDSSystem</a>
-                   </code></b>
-                 </td>
-                 <td>Run the example for robust control of a mass-damper-spring system.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="optiPID.html">optiPID</a>
-                   </code></b>
-                 </td>
-                 <td>Numerical optimization of a PID controller using an objective function.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="Anderson.html">Anderson</a>
-                   </code></b>
-                 </td>
-                 <td>Frequency-weighted coprime factorization controller reduction [1].</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="Madievski.html">Madievski</a>
-                   </code></b>
-                 </td>
-                 <td>Demonstration of frequency-weighted controller reduction.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="VLFamp.html">VLFamp</a>
-                   </code></b>
-                 </td>
-                 <td>Calculations on a two stage preamp for a multi-turn, air-core solenoid
-loop antenna for the reception of signals below 30kHz.</td>
-               </tr>
-             </tbody>
-           </table>
            <h3 class="category">
              <a name="Linear Time Invariant Models">Linear Time Invariant Models</a>
            </h3>
@@ -338,7 +311,8 @@ loop antenna for the reception of signals below 30kHz.</td>
                    <a href="pade.html">pade</a>
                    </code></b>
                  </td>
-                 <td>Calculate Padé approximation of a dead-time by zeros and poles</td>
+                 <td>Calculate Padé approximation of a dead-time by zeros and poles
+</td>
                </tr>
                <tr>
                  <td>
@@ -363,6 +337,15 @@ loop antenna for the reception of signals below 30kHz.</td>
                    </code></b>
                  </td>
                  <td>Applies the similarity transformation T to a state-space model</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="thiran.html">thiran</a>
+                   </code></b>
+                 </td>
+                 <td>Approximation of continuous-time delay using a discrete-time allpass
+Thiran filter.</td>
                </tr>
              </tbody>
            </table>
@@ -512,7 +495,7 @@ subspace and t2 is orthogonal to t1</td>
                  <td>‘gram (SYS, "c")’ returns the controllability gramian of the
 (continuous- or discrete-time) system SYS.  ‘gram (SYS, "o")’ returns
 the observability gramian of the (continuous- or discrete-time) system
-SYS.  ‘gram (A, B)’ ret...</td>
+SYS.  ‘gram (A, B)’ returns the con...</td>
                </tr>
                <tr>
                  <td>
@@ -792,7 +775,7 @@ digital, conserving impulse response.</td>
                    <a href="nichols.html">nichols</a>
                    </code></b>
                  </td>
-                 <td>Nichols chart of frequency response.</td>
+                 <td>Nichols chart of frequency response, plots gain over phase.</td>
                </tr>
                <tr>
                  <td>
@@ -837,6 +820,31 @@ digital, conserving impulse response.</td>
              </tbody>
            </table>
            <h3 class="category">
+             <a name="PID Control">PID Control</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="pid.html">pid</a>
+                   </code></b>
+                 </td>
+                 <td>Return the transfer function C of the PID controller in parallel form
+with first-order roll-off.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="pidstd.html">pidstd</a>
+                   </code></b>
+                 </td>
+                 <td>Return the transfer function C of the PID controller in standard form
+with first-order roll-off.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
              <a name="Pole Placement">Pole Placement</a>
            </h3>
            <table class="table table-striped">
@@ -857,7 +865,7 @@ system using Ackermann's formula</td>
                    </code></b>
                  </td>
                  <td>Pole assignment for a given matrix pair (A,B) such that ‘p = eig
-(A-B*F)’.</td>
+(A-B*F)’.  If</td>
                </tr>
                <tr>
                  <td>
@@ -1293,7 +1301,7 @@ Fourier Transform (FFT) algorithm.</td>
                    </code></b>
                  </td>
                  <td>Change the sample rate of the output and input signals in dataset DAT by
-a factor of ‘p/q’.</td>
+a factor of ‘p/q’.  Th</td>
                </tr>
                <tr>
                  <td>
@@ -1554,6 +1562,79 @@ copies horizontally.</td>
              </tbody>
            </table>
            <h3 class="category">
+             <a name="Examples">Examples</a>
+           </h3>
+           <table class="table table-striped">
+             <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="MDSSystem.html">MDSSystem</a>
+                   </code></b>
+                 </td>
+                 <td>Run the example for robust control of a mass-damper-spring system.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="optiPID.html">optiPID</a>
+                   </code></b>
+                 </td>
+                 <td>Numerical optimization of a PID controller using an objective function.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Anderson.html">Anderson</a>
+                   </code></b>
+                 </td>
+                 <td>Frequency-weighted coprime factorization controller reduction [1].</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Madievski.html">Madievski</a>
+                   </code></b>
+                 </td>
+                 <td>Demonstration of frequency-weighted controller reduction.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="VLFamp.html">VLFamp</a>
+                   </code></b>
+                 </td>
+                 <td>Calculations on a two stage preamp for a multi-turn, air-core solenoid
+loop antenna for the reception of signals below 30kHz.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="BMWengine.html">BMWengine</a>
+                   </code></b>
+                 </td>
+                 <td>Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="Boeing707.html">Boeing707</a>
+                   </code></b>
+                 </td>
+                 <td>Creates a linearized state-space model of a Boeing 707-321 aircraft at
+V=80 m/s (M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
+               </tr>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="WestlandLynx.html">WestlandLynx</a>
+                   </code></b>
+                 </td>
+                 <td>Model of the Westland Lynx Helicopter about hover.</td>
+               </tr>
+             </tbody>
+           </table>
+           <h3 class="category">
              <a name="Miscellaneous">Miscellaneous</a>
            </h3>
            <table class="table table-striped">
@@ -1602,24 +1683,6 @@ standard browser.</td>
                <tr>
                  <td>
                    <b><code>
-                   <a href="pid.html">pid</a>
-                   </code></b>
-                 </td>
-                 <td>Return the transfer function C of the PID controller in parallel form
-with first-order roll-off.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="pidstd.html">pidstd</a>
-                   </code></b>
-                 </td>
-                 <td>Return the transfer function C of the PID controller in standard form
-with first-order roll-off.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
                    <a href="repsys.html">repsys</a>
                    </code></b>
                  </td>
@@ -1642,40 +1705,6 @@ the string STR.</td>
                    </code></b>
                  </td>
                  <td>Execute all available tests at once.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="thiran.html">thiran</a>
-                   </code></b>
-                 </td>
-                 <td>Approximation of continuous-time delay using a discrete-time allpass
-Thiran filter.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="BMWengine.html">BMWengine</a>
-                   </code></b>
-                 </td>
-                 <td>Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="Boeing707.html">Boeing707</a>
-                   </code></b>
-                 </td>
-                 <td>Creates a linearized state-space model of a Boeing 707-321 aircraft at
-V=80 m/s (M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
-               </tr>
-               <tr>
-                 <td>
-                   <b><code>
-                   <a href="WestlandLynx.html">WestlandLynx</a>
-                   </code></b>
-                 </td>
-                 <td>Model of the Westland Lynx Helicopter about hover.</td>
                </tr>
              </tbody>
            </table>
