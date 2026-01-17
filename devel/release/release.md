@@ -38,7 +38,7 @@ Releasing the package should be done in the *release* branch as github will depl
    *Alternatively*, this can be done by the following separate commands
     1. [ ] `make dist`
     1. [ ] `make install`
-    2. [ ] `make docs` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
+    2. [ ] `make docs-html` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
     4. [ ] `sha256sum target/control-X.Y.Z.tar.gz`
 3. [ ] `git commit` (at least the new docs)
 4. [ ] `git tag control-X.Y.Z`
