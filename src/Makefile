@@ -67,7 +67,7 @@ slicotlibrary.a: slicot $(SC)/$(SC_SRC)/MA02ID.f
 
 # slicot functions
 __control_slicot_functions__.oct: __control_slicot_functions__.cc common.cc slicotlibrary.a
-	LDFLAGS="$(LDFLAGS)" \
+	LDFLAGS='$(LDFLAGS)' \
     $(MKOCTFILE) $(PKG_CXXFLAGS) __control_slicot_functions__.cc common.cc slicotlibrary.a
 
 # helper functions
