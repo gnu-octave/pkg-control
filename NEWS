@@ -2,10 +2,12 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-4.2.0+  upcoming 4.2.1, not yet released
+control-4.2.1  Release date 2026-01-20
 ===============================================================================
 
-** fix installing when mkcotfile has spaces in its path
+** fix installing when mkoctfile has spaces in its path
+
+** fix error in computing the frequncey response for 
 
 ===============================================================================
 control-4.2.0  Release date 2026-01-16
