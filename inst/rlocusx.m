@@ -17,6 +17,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File}  {} rlocusx (@var{sys})
 ## @deftypefnx {Function File} {} rlocusx (@var{sys}, @var{increment}, @var{min_k}, @var{max_k})
+## @deftypefnx {Function File} {} rlocusx (@var{sys}, @var{k_vec})
+##
 ## Interactive root locus plot of the specified SISO system @var{SYS}.
 ##
 ## This functions
@@ -68,6 +70,8 @@
 ## Minimum value of @var{k}.
 ## @item max_k
 ## Maximum value of @var{k}.
+## @item k_vec
+## Vector of values for gain values @var{k}.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -497,7 +501,8 @@ function rlocusx(sys,varargin)
 
           endswitch
 
-          figure (rlocus_fig)   % reset focus to root locus for ginput ()
+          figure (rlocus_fig)   % reset focus to root locus of ginput ()
+                                % otherwise new figure has focus of ginput ()
 
         endif
 
