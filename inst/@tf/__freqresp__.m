@@ -84,7 +84,7 @@ function p_val = __polyval__ (p, s)
     e = length (p) - length (p_red);
   else
     p_red = p;
-    e = 1;
+    e = 0;
   endif
 
   ## Code suggested by 	dasergatskov in bug #63393, comment #17
