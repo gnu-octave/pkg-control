@@ -7,7 +7,8 @@ control-4.2.1  Release date 2026-01-20
 
 ** fix installing when mkoctfile has spaces in its path
 
-** fix error in computing the frequncey response for 
+** fix error introduced in release 4.2.0 in computing the frequncey
+   response for tf systems
 
 ===============================================================================
 control-4.2.0  Release date 2026-01-16
