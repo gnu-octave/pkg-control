@@ -67,6 +67,8 @@ class Index:
   name = ""
   groups = []
 
+pkg_name = " ";
+
 def texify_line(line):
   # convert any special chars in a line to texinfo format
   # currently just used for group formatting ?
@@ -119,7 +121,7 @@ def find_function_line_in_file(filename, fnname):
   return -1
 
 
-def read_m_file(filename, skip=0):
+def read_m_file(filename, index, skip=0):
   help = []
   inhelp = False
   havehelp = False;
@@ -142,10 +144,21 @@ def read_m_file(filename, skip=0):
             else:
               line = line[2:]
             help.append (line.rstrip());
+      else:
+        if line.startswith("%!demo"):
+          func_name = filename[6:-2];
+          # create texi code with examples and resulting figures
+          cmd = "octave --eval \'build_demos (\"%s\",\"%s\")\'" % (index.name, func_name)
+          print(cmd, file=sys.stderr);
+          # subprocess.run(cmd);
+          # get file written by octave
+          # include texi code into help
+
+          break   # assume demo is at the end of m-files
 
   return help
 
-def read_cc_file(filename, skip=0):
+def read_cc_file(filename, index, skip=0):
   help = []
   inhelp = False
   havehelp = False;
@@ -168,7 +181,7 @@ def read_cc_file(filename, skip=0):
           line = line.replace("\\\"", "\"") 
 
           if len(line) > 0 and line[-1] == '\n':
-            line = line[:-1]
+            line0 = line[:-1]
           # endif a texinfo line
           elif line.endswith('")'):
             line = line[:-2]
@@ -181,18 +194,18 @@ def read_cc_file(filename, skip=0):
 
   return help
 
-def read_help (filename, skip=0):
+def read_help (filename, index, skip=0):
   help = []
 
   if filename[-2:] == ".m":
-    help = read_m_file(filename, skip)
+    help = read_m_file(filename, index, skip)
   else:
-    help = read_cc_file(filename, skip)
+    help = read_cc_file(filename, index, skip)
 
   return help
 
 def read_index (filename, ignore):
-  index = Index ()
+  index = Index();
 
   with open(filename, 'rt') as f:
     lines = f.read().splitlines()
@@ -223,7 +236,7 @@ def read_index (filename, ignore):
   if len(category.functions) > 0:
     index.groups.append(category)
 
-  return index;
+  return index
 
 def find_class_file(fname, paths):
   
@@ -367,8 +380,10 @@ def process (args):
   if options['standalone']:
       display_standalone_header()
 
-  idx = read_index(indexfile,  options["ignore"])
-  for g in idx.groups:
+  index = read_index(indexfile,  options["ignore"])
+  index.name = index.name.split(" ")[0];
+
+  for g in index.groups:
     #print ("************ {}".format(g.name))
     g_name = texify_line(g.name)
     print ("@c ---------------------------------------------------")
@@ -422,13 +437,13 @@ def process (args):
       if not filename:
         sys.stderr.write("Warning: Cant find source file for {}\n".format(f))
       else:
-        h = read_help (filename, lineno)
+        h = read_help (filename, index, lineno)
 
       if h:
         display_func (name, ref, h)
 
   if options['standalone']:
-      display_standalone_footer()
+    display_standalone_footer()
 
 
 def show_usage():
