@@ -528,54 +528,58 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>T</var>, <var>S</var>, <var>BLKSZ</var>] = <b>bdschur</b> (<var>A</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>T</var>, <var>S</var>, <var>BLKSZ</var>] = <b>bdschur</b> (<var>A</var>, <var>condmax</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-bdschur"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">T</var>, <var class="var">S</var>, <var class="var">BLKSZ</var>] =</code> <strong class="def-name">bdschur</strong> <code class="def-code-arguments">(<var class="var">A</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-bdschur-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">T</var>, <var class="var">S</var>, <var class="var">BLKSZ</var>] =</code> <strong class="def-name">bdschur</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">condmax</var>)</code></span></dt>
 </dl>
 
-<p> Compute a block-diagonal Schur decomposition.
+<p>Compute a block-diagonal Schur decomposition.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>A</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">A</var></dt>
 </dl>
-<p> Matrix to be decomposed.
+<p>Matrix to be decomposed.
  </p></dd>
-<dt> <var>condmax</var></dt>
+<dt><var class="var">condmax</var></dt>
 </dl>
-<p> Maximum condition number (real scalar value greater or equal 1) of the
- resulting transformation matrix <var>T</var>. This parameter is optional.
+<p>Maximum condition number (real scalar value greater or equal 1) of the
+ resulting transformation matrix <var class="var">T</var>. This parameter is optional.
  If not provided, a value of 1e4 is used.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>T</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">T</var></dt>
 </dl>
-<p> Transformation matrix.
+<p>Transformation matrix.
  </p></dd>
-<dt> <var>S</var></dt>
+<dt><var class="var">S</var></dt>
 </dl>
-<p> Block diagonalized matrix.
+<p>Block diagonalized matrix.
  </p></dd>
-<dt> <var>BLKSZ</var></dt>
+<dt><var class="var">BLKSZ</var></dt>
 </dl>
-<p> Array with sizes of the blocks in <var>S</var>.
+<p>Array with sizes of the blocks in <var class="var">S</var>.
  </p></dd>
 </dl>
 
-<p> The resulting matrix <var>S</var> in block diagonal form is given by
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">          -1
+<p>The resulting matrix <var class="var">S</var> in block diagonal form is given by
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">          -1
      S = T  A T
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/bdschur.m">bdschur</a>
 </div>
-
 
             </div>
           </div>

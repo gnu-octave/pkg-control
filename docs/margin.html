@@ -528,58 +528,59 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>gamma</var>, <var>phi</var>, <var>w_gamma</var>, <var>w_phi</var>] = <b>margin</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>gamma</var>, <var>phi</var>, <var>w_gamma</var>, <var>w_phi</var>] = <b>margin</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-margin"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">gamma</var>, <var class="var">phi</var>, <var class="var">w_gamma</var>, <var class="var">w_phi</var>] =</code> <strong class="def-name">margin</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-margin-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">gamma</var>, <var class="var">phi</var>, <var class="var">w_gamma</var>, <var class="var">w_phi</var>] =</code> <strong class="def-name">margin</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
 </dl>
-<p> Gain and phase margin of a system.
+<p>Gain and phase margin of a system.
  If no output arguments are given, both gain and phase margin are plotted on a bode diagram.
  Otherwise, the margins and their corresponding frequencies are computed and returned.
  A more robust criterion to assess the stability of a feedback system is the sensitivity Ms
- computed by function <code>sensitivity</code>.
+ computed by function <code class="command">sensitivity</code>.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.  Must be a single-input and single-output (SISO) system.
+<p><abbr class="acronym">LTI</abbr> model.  Must be a single-input and single-output (SISO) system.
  </p></dd>
-<dt> <var>tol</var></dt>
+<dt><var class="var">tol</var></dt>
 </dl>
-<p> Imaginary parts below <var>tol</var> are assumed to be zero.
- If not specified, default value <code>sqrt (eps)</code> is taken.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>gamma</var></dt>
-</dl>
-<p> Gain margin (as gain, not dBs).
- </p></dd>
-<dt> <var>phi</var></dt>
-</dl>
-<p> Phase margin (in degrees).
- </p></dd>
-<dt> <var>w_gamma</var></dt>
-</dl>
-<p> Frequency for the gain margin (in rad/s).
- </p></dd>
-<dt> <var>w_phi</var></dt>
-</dl>
-<p> Frequency for the phase margin (in rad/s).
+<p>Imaginary parts below <var class="var">tol</var> are assumed to be zero.
+ If not specified, default value <code class="code">sqrt (eps)</code> is taken.
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses function <code>roots</code> to calculate the frequencies
- <var>w_gamma</var>, <var>w_phi</var> from special polynomials created
- from the transfer function of <var>sys</var> as listed below
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">gamma</var></dt>
+</dl>
+<p>Gain margin (as gain, not dBs).
+ </p></dd>
+<dt><var class="var">phi</var></dt>
+</dl>
+<p>Phase margin (in degrees).
+ </p></dd>
+<dt><var class="var">w_gamma</var></dt>
+</dl>
+<p>Frequency for the gain margin (in rad/s).
+ </p></dd>
+<dt><var class="var">w_phi</var></dt>
+</dl>
+<p>Frequency for the phase margin (in rad/s).
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Algorithm</strong><br>
+ Uses function <code class="command">roots</code> to calculate the frequencies
+ <var class="var">w_gamma</var>, <var class="var">w_phi</var> from special polynomials created
+ from the transfer function of <var class="var">sys</var> as listed below
  in section &laquo;Equations&raquo;.
 </p>
-<p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> CONTINUOUS-TIME SYSTEMS
+<p><strong class="strong">Equations</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> CONTINUOUS-TIME SYSTEMS
  Gain Margin
          _               _
  L(jw) = L(jw)      BTW: L(jw) = L(-jw) = conj (L(jw))
@@ -592,8 +593,9 @@
 
  imag (num(jw) den(-jw)) = 0
  imag (num(-jw) den(jw)) = 0
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Phase Margin
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> Phase Margin
            |num(jw)|
  |L(jw)| = |-------| = 1
            |den(jw)|
@@ -607,8 +609,9 @@
  num(jw) num(-jw) - den(jw) den(-jw) = 0
 
  real (num(jw) num(-jw) - den(jw) den(-jw)) = 0
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> DISCRETE-TIME SYSTEMS
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> DISCRETE-TIME SYSTEMS
  Gain Margin
                               jwT         log z
  L(z) = L(1/z)      BTW: z = e    --&gt; w = -----
@@ -618,21 +621,24 @@
  den(z)   den(1/z)
 
  num(z) den(1/z) - num(1/z) den(z) = 0
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Phase Margin
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> Phase Margin
           |num(z)|
  |L(z)| = |------| = 1
           |den(z)|
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> L(z) L(1/z) = 1
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> L(z) L(1/z) = 1
 
  num(z)   num(1/z)
  ------ * -------- = 1
  den(z)   den(1/z)
 
  num(z) num(1/z) - den(z) den(1/z) = 0
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> PS: How to get L(1/z)
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> PS: How to get L(1/z)
            4       3       2
  p(z) = a z  +  b z  +  c z  +  d z  +  e
 
@@ -644,12 +650,13 @@
 
                4       3       2                     4
         = ( e z  +  d z  +  c z  +  b z  +  a ) / ( z  )
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>See also: </strong>
-  <a href="sensitivity.html">sensitivity</a>, 
-roots
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/margin.m">margin</a>
 </div>

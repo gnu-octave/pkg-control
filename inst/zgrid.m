@@ -1,21 +1,21 @@
 ## Copyright (C) 2022 Torsten Lilge
-## 
+##
 ## This program is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
-## 
+##
 ## This program is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} zgrid
+## @deftypefn  {Function File} {} zgrid {@ }
 ## @deftypefnx {Function File} {} zgrid on
 ## @deftypefnx {Function File} {} zgrid off
 ## @deftypefnx {Function File} {} zgrid (@var{z}, @var{w})
@@ -29,7 +29,7 @@
 ## @end itemize
 ##
 ## The function state input may be either @qcode{"on"} or @qcode{"off"}
-## for creating or removing the grid. If omitted, a new grid is created 
+## for creating or removing the grid. If omitted, a new grid is created
 ## when it does not exist or the visibility of the current grid is toggled.
 ##
 ## The zgrid will automatically plot the grid lines at nice values or
@@ -54,11 +54,11 @@
 ## zgrid ([0.3, 0.8, @dots{}], [0.25*pid, 0.5*pi, @dots{}])   create:
 ## @example
 ## @itemize
-## @item zeta lines for 0.3, 0.8, @dots{} 
-## @item omega lines for 0.25*pi/T, 0.5*pi/T, @dots{} [rad/s] 
+## @item zeta lines for 0.3, 0.8, @dots{}
+## @item omega lines for 0.25*pi/T, 0.5*pi/T, @dots{} [rad/s]
 ## @end itemize
 ## @end example
-## zgrid (@var{hax}, @qcode{"on"})   create the z-plane grid for the axis 
+## zgrid (@var{hax}, @qcode{"on"})   create the z-plane grid for the axis
 ##                     handle @var{hax}
 ## @end example
 ##
@@ -175,9 +175,9 @@ function __zgrid_create__(hax, hg, v_z, v_w)
     D_max = 1;
     D = 0:d_D:D_max;
     clear ('i');
-    
+
     for iw = 1:length(v_w)
-      
+
       z = exp (T*(-D.*v_w(iw))) .* exp (T*i*v_w(iw).*sqrt (1-D.^2));
       z = [ conj(z) flip(z) ];
       plot (z, ":k", "linewidth", 0.6, "parent", hg);
@@ -190,16 +190,16 @@ function __zgrid_create__(hax, hg, v_z, v_w)
       endif
 
     endfor
-  
+
     d_D = 0.1;
     d_w = pi/T/50;
     if (isempty(v_z))
       v_z = 0:d_D:D_max-eps;
-    endif 
+    endif
 
     clear ('i');
     wt = 0.25*pi/T;
-    
+
     for (iz = 1:length(v_z))
 
       % Compute w for reaching the negative real axis (pi/T for D = 1):

@@ -528,55 +528,59 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>sgrid</b></dt>
-<dt><code><h5 class="fs">Function File: <b>sgrid</b> on</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>sgrid</b> off</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>sgrid</b> (<var>z</var>, <var>w</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>sgrid</b> (<var>hax</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-sgrid"><span class="category-def">Function File: </span><span><strong class="def-name">sgrid</strong></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sgrid-1"><span class="category-def">Function File: </span><span><strong class="def-name">sgrid</strong> <code class="def-code-arguments">on</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sgrid-2"><span class="category-def">Function File: </span><span><strong class="def-name">sgrid</strong> <code class="def-code-arguments">off</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sgrid-3"><span class="category-def">Function File: </span><span><strong class="def-name">sgrid</strong> <code class="def-code-arguments">(<var class="var">z</var>, <var class="var">w</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sgrid-4"><span class="category-def">Function File: </span><span><strong class="def-name">sgrid</strong> <code class="def-code-arguments">(<var class="var">hax</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Display an grid in the complex s-plane.
+<p>Display an grid in the complex s-plane.
 </p>
 <div class="ms-5">
-<p> Control the display of s-plane grid with :
- </p><ul>
-<li> zeta lines corresponding to damping ratios and
- </li><li> omega circles corresponding to undamped natural frequencies
+<p>Control the display of s-plane grid with :
+ </p><ul class="itemize mark-bullet">
+<li>zeta lines corresponding to damping ratios and
+ </li><li>omega circles corresponding to undamped natural frequencies
  </li></ul>
 
-<p> The function state input may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>
+<p>The function state input may be either <code class="code">&quot;on&quot;</code> or <code class="code">&quot;off&quot;</code>
  for creating or removing the grid. If omitted, a new grid is created
  when it does not exist or the visibility of the current grid is toggled.
 </p>
-<p> The sgrid will automatically plot the grid lines at nice values or
+<p>The sgrid will automatically plot the grid lines at nice values or
  at constant values specified by two arguments :
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> sgrid (<var>Z</var>, <var>W</var>)
- </pre></td></tr></table>
+<div class="example">
+<pre class="example-preformatted"> sgrid (<var class="var">Z</var>, <var class="var">W</var>)
+ </pre></div>
 
- <p> where <var>Z</var> and <var>W</var> are :
- </p><ul>
-<li> <var>Z</var> vector of constant zeta values to plot as lines
- </li><li> <var>W</var> vector of constant omega values to plot as circles
+<p>where <var class="var">Z</var> and <var class="var">W</var> are :
+ </p><ul class="itemize mark-bullet">
+<li><var class="var">Z</var> vector of constant zeta values to plot as lines
+ </li><li><var class="var">W</var> vector of constant omega values to plot as circles
  </li></ul>
 
-<p> Example of usage:
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> sgrid on	create the s-plane grid
+<p>Example of usage:
+ </p><div class="example">
+<pre class="example-preformatted"> sgrid on	create the s-plane grid
  sgrid off 	remove the s-plane grid
  sgrid		toggle the s-plane grid visibility
- sgrid ([0.3, 0.8, &hellip;], [10, 75, &hellip;])   create:
-               zeta lines for 0.3, 0.8, &hellip;
-               omega circles for 10, 75, &hellip; [rad/s]
+ sgrid ([0.3, 0.8, ...], [10, 75, ...])   create:
+               zeta lines for 0.3, 0.8, ...
+               omega circles for 10, 75, ... [rad/s]
  sgrid off; sgrid  remove current s-grid and
                    draw new with default values
- sgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the s-plane grid for the axis
-                     handle <var>hax</var>
- </pre></td></tr></table>
+ sgrid (<var class="var">hax</var>, <code class="code">&quot;on&quot;</code>)   create the s-plane grid for the axis
+                     handle <var class="var">hax</var>
+ </pre></div>
 
-<p> <strong>See also: </strong>
-grid, 
-  <a href="zgrid.html">zgrid</a>
-</p>
+
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/sgrid.m">sgrid</a>
 </div>
@@ -607,7 +611,7 @@ grid,
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/sgrid_101.png" class="rounded img-thumbnail" alt="plotted figure">
+                    <img src="assets/sgrid_101.svg" width="80%" alt="plotted figure">
                   </div><p></p>
 
                 </div>
@@ -645,7 +649,7 @@ grid,
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/sgrid_201.png" class="rounded img-thumbnail" alt="plotted figure">
+                    <img src="assets/sgrid_201.svg" width="80%" alt="plotted figure">
                   </div><p></p>
 
                 </div>
@@ -681,7 +685,7 @@ grid,
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/sgrid_301.png" class="rounded img-thumbnail" alt="plotted figure">
+                    <img src="assets/sgrid_301.svg" width="80%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

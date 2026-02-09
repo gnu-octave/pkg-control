@@ -528,58 +528,61 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>scaledsys</var>, <var>info</var>] = <b>prescale</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-prescale"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">scaledsys</var>, <var class="var">info</var>] =</code> <strong class="def-name">prescale</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> Scale state-space model.  The scaled model <var>scaledsys</var> is equivalent to
- <var>sys</var>, but the state vector is scaled by diagonal transformation matrices
+<p>Scale state-space model.  The scaled model <var class="var">scaledsys</var> is equivalent to
+ <var class="var">sys</var>, but the state vector is scaled by diagonal transformation matrices
  in order to increase the accuracy of subsequent numerical computations.
  Frequency response commands perform automatic scaling unless model property
- <var>scaled</var> is set to <var>true</var>.
+ <var class="var">scaled</var> is set to <var class="var">true</var>.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>scaledsys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">scaledsys</var></dt>
 </dl>
-<p> Scaled state-space model.
+<p>Scaled state-space model.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Structure containing additional information.
+<p>Structure containing additional information.
  </p></dd>
-<dt> <var>info.SL</var></dt>
+<dt><var class="var">info.SL</var></dt>
 </dl>
-<p> Left scaling factors.  <code>Tl = diag (info.SL)</code>.
+<p>Left scaling factors.  <code class="code">Tl = diag (info.SL)</code>.
  </p></dd>
-<dt> <var>info.SR</var></dt>
+<dt><var class="var">info.SR</var></dt>
 </dl>
-<p> Right scaling factors.  <code>Tr = diag (info.SR)</code>.
+<p>Right scaling factors.  <code class="code">Tr = diag (info.SR)</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Equations</strong>
  $$ E_s = T_l\,E\,T_r $$$$ A_s = T_l\,A\,T_r $$$$ B_s = T_l\,B      $$$$ C_s =      C\,T_r $$$$ D_s =      D      $$
 </p> 
-<p> For proper state-space models, <var>Tl</var> and <var>Tr</var> are inverse of each other.
+<p>For proper state-space models, <var class="var">Tl</var> and <var class="var">Tr</var> are inverse of each other.
 </p>
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT TB01ID and TG01AD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT TB01ID and TG01AD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/prescale.m">@lti/prescale</a>
 </div>
-
 
             </div>
           </div>

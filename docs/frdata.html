@@ -528,54 +528,57 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b> (<var>sys</var>, <var>&quot;vector&quot;</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-frdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">H</var>, <var class="var">w</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">frdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-frdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">H</var>, <var class="var">w</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">frdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">&quot;vector&quot;</var>)</code></span></dt>
 </dl>
-<p> Access frequency response data.
+<p>Access frequency response data.
 </p>
 <div class="ms-5">
-<p> Argument <var>sys</var> is not limited to frequency response data objects.
- If <var>sys</var> is not a frd object, it is converted automatically.
+<p>Argument <var class="var">sys</var> is not limited to frequency response data objects.
+ If <var class="var">sys</var> is not a frd object, it is converted automatically.
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+<p>Any type of <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
  interpreted as continous-time static gain.
  </p></dd>
-<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dt><var class="var">&quot;v&quot;, &quot;vector&quot;</var></dt>
 </dl>
-<p> In case <var>sys</var> is a SISO model, this option returns the frequency response
+<p>In case <var class="var">sys</var> is a SISO model, this option returns the frequency response
  as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>H</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">H</var></dt>
 </dl>
-<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+<p>Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
  response from input j to output i at frequency k.  In the SISO case,
- a vector (lw-by-1) is possible as well, see input <var>&quot;vector&quot;</var>.
+ a vector (lw-by-1) is possible as well, see input <var class="var">&quot;vector&quot;</var>.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt><var class="var">w</var></dt>
 </dl>
-<p> Frequency vector (lw-by-1) in radian per second [rad/s].
+<p>Frequency vector (lw-by-1) in radian per second [rad/s].
  Frequencies are in ascending order.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+<p>Sampling time in seconds.  If <var class="var">sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/frdata.m">frdata</a>
 </div>
-
 
             </div>
           </div>

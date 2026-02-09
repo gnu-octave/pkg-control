@@ -14,7 +14,7 @@ As of 24.03.2023, the developemnt of the **control** package was moved from [Sou
 
 ## Used Library SLICOT
 
-Control uses some routines of the [SLICOT-Reference library](https://github.com/SLICOT/SLICOT-Reference) (Copyright (c) 2020, SLICOT). The sources of the used routines are included in the released control package archive `control-x.y.z.tar.gz` in the directory `src/slicot-src` and are compiled for the target system while installing the control package for Octave.
+Control uses some routines of the [SLICOT-Reference library](https://github.com/SLICOT/SLICOT-Reference) (Copyright (c)  1996-2025, The SLICOT Team). The sources of the used routines are included in the released control package archive `control-x.y.z.tar.gz` in the directory `src/slicot-src` and are compiled for the target system while installing the control package for Octave.
 
 The SLICOT files are available under the *BSD 3-Clause License* which can be found
 
@@ -22,6 +22,9 @@ The SLICOT files are available under the *BSD 3-Clause License* which can be fou
 - in the file `doc/SLICOT/LICENSE` (together with README files) in the package installation directory, or
 - in the [SLICOT-Reference repository](https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE).
 
+Reference:
+
+- Köhler, M., Saak, J., Sima, V., & Varga, A. (2025). SLICOT - Subroutine Library In COntrol Theory (Version 5.9.1) [Computer software]. DOI: [10.5281/zenodo.17523371](https://doi.org/10.5281/zenodo.17523371)
 
 ## Installing the control package
 

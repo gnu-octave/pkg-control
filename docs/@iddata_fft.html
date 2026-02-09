@@ -528,36 +528,36 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>fft</b> (<var>dat</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>fft</b> (<var>dat</var>, <var>n</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-fft"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">fft</strong> <code class="def-code-arguments">(<var class="var">dat</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-fft-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">fft</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">n</var>)</code></span></dt>
 </dl>
-<p> Transform iddata objects from time to frequency domain
+<p>Transform iddata objects from time to frequency domain
  using a Fast Fourier Transform (FFT) algorithm.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> iddata set containing signals in time-domain.
+<p>iddata set containing signals in time-domain.
  </p></dd>
-<dt> <var>n</var></dt>
+<dt><var class="var">n</var></dt>
 </dl>
-<p> Length of the FFT transformations.  If <var>n</var> does not match
- the signal length, the signals in <var>dat</var> are shortened or
- padded with zeros.  <var>n</var> is a vector with as many elements
- as there are experiments in <var>dat</var> or a scalar with a common
+<p>Length of the FFT transformations.  If <var class="var">n</var> does not match
+ the signal length, the signals in <var class="var">dat</var> are shortened or
+ padded with zeros.  <var class="var">n</var> is a vector with as many elements
+ as there are experiments in <var class="var">dat</var> or a scalar with a common
  length for all experiments.
  If not specified, the signal lengths are taken as default values.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> iddata identification dataset in frequency-domain.
+<p>iddata identification dataset in frequency-domain.
  In order to preserve signal power and noise level,
  the FFTs are normalized by dividing each transform
  by the square root of the signal length.
@@ -568,10 +568,13 @@
 </dl>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@iddata/fft.m">@iddata/fft</a>
 </div>
-
 
             </div>
           </div>

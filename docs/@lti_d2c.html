@@ -528,57 +528,60 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>d2c</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>d2c</b> (<var>sys</var>, <var>method</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>d2c</b> (<var>sys</var>, <var>'prewarp'</var>, <var>w0</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-d2c"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">d2c</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-d2c-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">d2c</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">method</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-d2c-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">d2c</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">'prewarp'</var>, <var class="var">w0</var>)</code></span></dt>
 </dl>
-<p> Convert the discrete <acronym>LTI</acronym> model into its continuous-time equivalent.
+<p>Convert the discrete <abbr class="acronym">LTI</abbr> model into its continuous-time equivalent.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Discrete-time <acronym>LTI</acronym> model.
+<p>Discrete-time <abbr class="acronym">LTI</abbr> model.
  </p></dd>
-<dt> <var>method</var></dt>
+<dt><var class="var">method</var></dt>
 </dl>
-<p> Optional conversion method.  If not specified, default method <var>&quot;zoh&quot;</var>
+<p>Optional conversion method.  If not specified, default method <var class="var">&quot;zoh&quot;</var>
  is taken.
- </p><dl compact="compact">
-<dt> <var>&rsquo;zoh&rsquo;</var></dt>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;zoh&rsquo;</var></dt>
 </dl>
-<p> Zero-order hold or matrix logarithm.
+<p>Zero-order hold or matrix logarithm.
  </p></dd>
-<dt> <var>&rsquo;tustin&rsquo;, &rsquo;bilin&rsquo;</var></dt>
+<dt><var class="var">&rsquo;tustin&rsquo;, &rsquo;bilin&rsquo;</var></dt>
 </dl>
-<p> Bilinear transformation or Tustin approximation.
+<p>Bilinear transformation or Tustin approximation.
  </p></dd>
-<dt> <var>&rsquo;prewarp&rsquo;</var></dt>
+<dt><var class="var">&rsquo;prewarp&rsquo;</var></dt>
 </dl>
-<p> Bilinear transformation with pre-warping at frequency <var>w0</var>.
+<p>Bilinear transformation with pre-warping at frequency <var class="var">w0</var>.
  </p></dd>
-<dt> <var>&rsquo;matched&rsquo;</var></dt>
+<dt><var class="var">&rsquo;matched&rsquo;</var></dt>
 </dl>
-<p> Matched pole/zero method.
+<p>Matched pole/zero method.
  </p></dd>
 </dl>
 </dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous-time <acronym>LTI</acronym> model.
+<p>Continuous-time <abbr class="acronym">LTI</abbr> model.
  </p></dd>
 </dl>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/d2c.m">@lti/d2c</a>
 </div>
-
 
             </div>
           </div>

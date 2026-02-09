@@ -528,37 +528,38 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>opt</var> = <b>options</b> (<var>'key1'</var>, <var>value1</var>, <var>'key2'</var>, <var>value2</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-options"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">opt</var> =</code> <strong class="def-name">options</strong> <code class="def-code-arguments">(<var class="var">'key1'</var>, <var class="var">value1</var>, <var class="var">'key2'</var>, <var class="var">value2</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create options struct <var>opt</var> from a number of key and value pairs.
+<p>Create options struct <var class="var">opt</var> from a number of key and value pairs.
  For use with order reduction and system identification functions.
  Option structs are a way to avoid typing the same key and value pairs
  over and over again.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>key, property</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">key, property</var></dt>
 </dl>
-<p> The name of the property.
+<p>The name of the property.
  </p></dd>
-<dt> <var>value</var></dt>
+<dt><var class="var">value</var></dt>
 </dl>
-<p> The value of the property.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>opt</var></dt>
-</dl>
-<p> Struct with fields for each key.
+<p>The value of the property.
  </p></dd>
 </dl>
 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:1&gt; opt = options (&quot;method&quot;, &quot;spa&quot;, &quot;tol&quot;, 1e-6)
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">opt</var></dt>
+</dl>
+<p>Struct with fields for each key.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> octave:1&gt; opt = options (&quot;method&quot;, &quot;spa&quot;, &quot;tol&quot;, 1e-6)
  opt =
  
    scalar structure containing the fields:
@@ -566,18 +567,22 @@
      method = spa
      tol =  1.0000e-06
  
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:2&gt; save filename opt
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> octave:2&gt; save filename opt
  octave:3&gt; # save the struct 'opt' to file 'filename' for later use
  octave:4&gt; load filename
  octave:5&gt; # load struct 'opt' from file 'filename'
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/options.m">options</a>
 </div>
-
 
             </div>
           </div>

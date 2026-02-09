@@ -16,10 +16,10 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{sys} =} Boeing707 ()
+## @deftypefn {Function File} {@var{sys} =} Boeing707 {@ }
 ##
 ## Creates a linearized state-space model of a Boeing 707-321 aircraft
-## at 
+## at
 ## @tex
 ## \(v=80\,\frac{m}{s} (M = 0.26,\, G_{a0} = -3^{\circ},\, {\alpha}_0 = 4^{\circ},\, {\kappa}= 50^{\circ})\).
 ## @end tex

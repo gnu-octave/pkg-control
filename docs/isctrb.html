@@ -528,71 +528,73 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>a</var>, <var>b</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>a</var>, <var>b</var>, <var>e</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>a</var>, <var>b</var>, <var>[]</var>, <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>ncon</var>] = <b>isctrb</b> (<var>a</var>, <var>b</var>, <var>e</var>, <var>tol</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-isctrb"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-isctrb-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-isctrb-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-isctrb-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">e</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-isctrb-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">[]</var>, <var class="var">tol</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-isctrb-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">ncon</var>] =</code> <strong class="def-name">isctrb</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">e</var>, <var class="var">tol</var>)</code></span></dt>
 </dl>
-<p> Logical check for system controllability.
- For numerical reasons, <code>isctrb (sys)</code>
- should be used instead of <code>rank (ctrb (sys))</code>.
+<p>Logical check for system controllability.
+ For numerical reasons, <code class="code">isctrb (sys)</code>
+ should be used instead of <code class="code">rank (ctrb (sys))</code>.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.  Descriptor state-space models are possible.
- If <var>sys</var> is not a state-space model, it is converted to
+<p><abbr class="acronym">LTI</abbr> model.  Descriptor state-space models are possible.
+ If <var class="var">sys</var> is not a state-space model, it is converted to
  a minimal state-space realization, so beware of pole-zero
  cancellations which may lead to wrong results!
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
+<p>Input matrix (n-by-m).
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Descriptor matrix (n-by-n).
- If <var>e</var> is empty <code>[]</code> or not specified, an identity matrix is assumed.
+<p>Descriptor matrix (n-by-n).
+ If <var class="var">e</var> is empty <code class="code">[]</code> or not specified, an identity matrix is assumed.
  </p></dd>
-<dt> <var>tol</var></dt>
+<dt><var class="var">tol</var></dt>
 </dl>
-<p> Optional roundoff parameter.  Default value is 0.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>bool = 0</var></dt>
-</dl>
-<p> System is not controllable.
- </p></dd>
-<dt> <var>bool = 1</var></dt>
-</dl>
-<p> System is controllable.
- </p></dd>
-<dt> <var>ncon</var></dt>
-</dl>
-<p> Number of controllable states.
+<p>Optional roundoff parameter.  Default value is 0.
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB01OD and TG01HD</a>,
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">bool = 0</var></dt>
+</dl>
+<p>System is not controllable.
+ </p></dd>
+<dt><var class="var">bool = 1</var></dt>
+</dl>
+<p>System is controllable.
+ </p></dd>
+<dt><var class="var">ncon</var></dt>
+</dl>
+<p>Number of controllable states.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB01OD and TG01HD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>See also: </strong>
-  <a href="isobsv.html">isobsv</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/isctrb.m">isctrb</a>
 </div>

@@ -528,80 +528,78 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>sys</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>a</var>, <var>g</var>, <var>c</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>a</var>, <var>g</var>, <var>c</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>a</var>, <var>[]</var>, <var>c</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>l</var>, <var>p</var>, <var>e</var>] = <b>lqe</b> (<var>a</var>, <var>[]</var>, <var>c</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-lqe"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqe-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqe-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">g</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqe-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">g</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqe-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">[]</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqe-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">l</var>, <var class="var">p</var>, <var class="var">e</var>] =</code> <strong class="def-name">lqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">[]</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
 </dl>
-<p> Kalman filter for continuous-time systems.
+<p>Kalman filter for continuous-time systems.
 </p>
 <div class="ms-5">
-<p> $$ \dot{x} = A\,x + B\,u + G\,w $$$$      y  = C\,x + D\,u + v $$$$ E(w) = 0,\,\, E(v) = 0,\,\, cov(w) = Q,\,\, cov(v) = R,\,\, cov(w,v) = S $$
+<p>$$ \dot{x} = A\,x + B\,u + G\,w $$$$      y  = C\,x + D\,u + v $$$$ E(w) = 0,\,\, E(v) = 0,\,\, cov(w) = Q,\,\, cov(v) = R,\,\, cov(w,v) = S $$
 </p> 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous or discrete-time <acronym>LTI</acronym> model (p-by-m, n states).
+<p>Continuous or discrete-time <abbr class="acronym">LTI</abbr> model (p-by-m, n states).
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix of continuous-time system (n-by-n).
+<p>State matrix of continuous-time system (n-by-n).
  </p></dd>
-<dt> <var>g</var></dt>
+<dt><var class="var">g</var></dt>
 </dl>
-<p> Process noise matrix of continuous-time system (n-by-g).
- If <var>g</var> is empty <code>[]</code>, an identity matrix is assumed.
+<p>Process noise matrix of continuous-time system (n-by-g).
+ If <var class="var">g</var> is empty <code class="code">[]</code>, an identity matrix is assumed.
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Measurement matrix of continuous-time system (p-by-n).
+<p>Measurement matrix of continuous-time system (p-by-n).
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> Process noise covariance matrix (g-by-g).
+<p>Process noise covariance matrix (g-by-g).
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Measurement noise covariance matrix (p-by-p).
+<p>Measurement noise covariance matrix (p-by-p).
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional cross term covariance matrix (g-by-p), s = cov(w,v).
- If <var>s</var> is empty <code>[]</code> or not specified, a zero matrix is assumed.
+<p>Optional cross term covariance matrix (g-by-p), s = cov(w,v).
+ If <var class="var">s</var> is empty <code class="code">[]</code> or not specified, a zero matrix is assumed.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>l</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">l</var></dt>
 </dl>
-<p> Kalman filter gain matrix (n-by-p).
+<p>Kalman filter gain matrix (n-by-p).
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
- Symmetric matrix.  If <var>sys</var> is a discrete-time model, the solution of the
+<p>Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
+ Symmetric matrix.  If <var class="var">sys</var> is a discrete-time model, the solution of the
  corresponding discrete-time Riccati equation is returned.
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Closed-loop poles (n-by-1).
+<p>Closed-loop poles (n-by-1).
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Equations</strong>
  $$ \dot{x} = A\,x + B\,u + L\,(y - C\, - D\,u) $$$$ E = \sigma (A - L\, C) $$
-  <strong>See also: </strong>
-  <a href="dare.html">dare</a>, 
-  <a href="care.html">care</a>, 
-  <a href="dlqr.html">dlqr</a>, 
-  <a href="lqr.html">lqr</a>, 
-  <a href="dlqe.html">dlqe</a>
-</p>
+   </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lqe.m">lqe</a>
 </div>

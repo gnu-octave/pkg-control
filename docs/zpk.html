@@ -528,69 +528,68 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>s</var> = <b>zpk</b> (<var>'s'</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>z</var> = <b>zpk</b> (<var>'z'</var>, <var>tsam</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>zpk</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>zpk</b> (<var>k</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>zpk</b> (<var>z</var>, <var>p</var>, <var>k</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>zpk</b> (<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>zpk</b> (<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-zpk"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">s</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">'s'</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">z</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">'z'</var>, <var class="var">tsam</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">k</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">z</var>, <var class="var">p</var>, <var class="var">k</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-5"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">z</var>, <var class="var">p</var>, <var class="var">k</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpk-6"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">zpk</strong> <code class="def-code-arguments">(<var class="var">z</var>, <var class="var">p</var>, <var class="var">k</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create transfer function model from zero-pole-gain data.
+<p>Create transfer function model from zero-pole-gain data.
  This is just a stop-gap compatibility wrapper since zpk
  models are not yet implemented.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to be converted to transfer function.
+<p><abbr class="acronym">LTI</abbr> model to be converted to transfer function.
  </p></dd>
-<dt> <var>z</var></dt>
+<dt><var class="var">z</var></dt>
 </dl>
-<p> Cell of vectors containing the zeros for each channel.
+<p>Cell of vectors containing the zeros for each channel.
  z{i,j} contains the zeros from input j to output i.
  In the SISO case, a single vector is accepted as well.
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Cell of vectors containing the poles for each channel.
+<p>Cell of vectors containing the poles for each channel.
  p{i,j} contains the poles from input j to output i.
  In the SISO case, a single vector is accepted as well.
  </p></dd>
-<dt> <var>k</var></dt>
+<dt><var class="var">k</var></dt>
 </dl>
-<p> Matrix containing the gains for each channel.
+<p>Matrix containing the gains for each channel.
  k(i,j) contains the gain from input j to output i.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified,
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified,
  a continuous-time model is assumed.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of properties and values.
- Type <code>set (tf)</code> for more information.
+<p>Optional pairs of properties and values.
+ Type <code class="command">set (tf)</code> for more information.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Transfer function model.
+<p>Transfer function model.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="@tf_tf.html">@tf/tf</a>, 
-  <a href="@ss_ss.html">@ss/ss</a>, 
-  <a href="dss.html">dss</a>, 
-  <a href="@frd_frd.html">@frd/frd</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/zpk.m">zpk</a>
 </div>

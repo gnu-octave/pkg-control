@@ -6,7 +6,7 @@ Maintainer: Doug Stewart <doug.dastew@gmail.com>, Torsten Lilge <ttl-octave@mail
 Title: Control Package
 Description: Control package for GNU Octave including system analysis and
  control synthesis. The package uses routines of the SLICOT-Reference library.
-Depends: octave (>= 5.2.0)
+Depends: octave (>= 6.1.0)
 Autoload: no
 License: GPLv3-or-later, BSD 3-Clause License (SLICOT files)
 Url: https://github.com/gnu-octave/pkg-control

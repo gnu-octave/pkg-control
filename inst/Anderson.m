@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} Anderson ()
+## @deftypefn  {Function File} {} Anderson {@ }
 ##
 ## Frequency-weighted coprime factorization controller reduction [1].
 ##

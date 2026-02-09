@@ -528,45 +528,47 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>P</var> = <b>mktito</b> (<var>P</var>, <var>nmeas</var>, <var>ncon</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-mktito"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">P</var> =</code> <strong class="def-name">mktito</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">nmeas</var>, <var class="var">ncon</var>)</code></span></dt>
 </dl>
-<p> Partition <acronym>LTI</acronym> plant <var>P</var> for robust controller synthesis.
- If a plant is partitioned this way, one can omit the inputs <var>nmeas</var>
- and <var>ncon</var> when calling the functions <code>hinfsyn</code> and <code>h2syn</code>.
+<p>Partition <abbr class="acronym">LTI</abbr> plant <var class="var">P</var> for robust controller synthesis.
+ If a plant is partitioned this way, one can omit the inputs <var class="var">nmeas</var>
+ and <var class="var">ncon</var> when calling the functions <code class="command">hinfsyn</code> and <code class="command">h2syn</code>.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">P</var></dt>
 </dl>
-<p> Generalized plant.
+<p>Generalized plant.
  </p></dd>
-<dt> <var>nmeas</var></dt>
+<dt><var class="var">nmeas</var></dt>
 </dl>
-<p> Number of measured outputs v.  The last <var>nmeas</var> outputs of <var>P</var> are connected to the
- inputs of controller <var>K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
+<p>Number of measured outputs v.  The last <var class="var">nmeas</var> outputs of <var class="var">P</var> are connected to the
+ inputs of controller <var class="var">K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
  to calculate the H-2/H-infinity norm.
  </p></dd>
-<dt> <var>ncon</var></dt>
+<dt><var class="var">ncon</var></dt>
 </dl>
-<p> Number of controlled inputs u.  The last <var>ncon</var> inputs of <var>P</var> are connected to the
- outputs of controller <var>K</var>.  The remaining inputs w (indices 1 to m-ncon) are excited
+<p>Number of controlled inputs u.  The last <var class="var">ncon</var> inputs of <var class="var">P</var> are connected to the
+ outputs of controller <var class="var">K</var>.  The remaining inputs w (indices 1 to m-ncon) are excited
  by a harmonic test signal.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">P</var></dt>
 </dl>
-<p> Partitioned plant.  The input/output groups and names are overwritten with designations
+<p>Partitioned plant.  The input/output groups and names are overwritten with designations
  according to [1].
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
  min||N(K)||             N = lft (P, K)
   K         norm
 
@@ -583,21 +585,23 @@
                 +--------+      
    w = u1 -----&gt;|  N(s)  |-----&gt; z = y1
                 +--------+
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Reference</strong><br>
- </p><ol>
-<li>
- Skogestad, S. and Postlethwaite, I. (2005)
- <cite>Multivariable Feedback Control: Analysis and Design:
+<p><strong class="strong">Reference</strong><br>
+ </p><ol class="enumerate">
+<li> Skogestad, S. and Postlethwaite, I. (2005)
+ <cite class="cite">Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley, Chichester, England.
  </li></ol>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/mktito.m">mktito</a>
 </div>
-
 
             </div>
           </div>

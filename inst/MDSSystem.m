@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} MDSSystem ()
+## @deftypefn  {Function File} {} MDSSystem {@ }
 ##
 ## Run the example for robust control of a
 ## mass-damper-spring system.

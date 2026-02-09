@@ -528,23 +528,25 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>series</b> (<var>sys1</var>, <var>sys2</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>series</b> (<var>sys1</var>, <var>sys2</var>, <var>outputs1</var>, <var>inputs2</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-series"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">series</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-series-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">series</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">outputs1</var>, <var class="var">inputs2</var>)</code></span></dt>
 </dl>
-<p> Series connection of two <acronym>LTI</acronym> models.
+<p>Series connection of two <abbr class="acronym">LTI</abbr> models.
 </p>
 <div class="ms-5">
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">     .....................................
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">     .....................................
   u  :  +--------+ y1    u2  +--------+  :  y
  ------&gt;|  sys1  |----------&gt;|  sys2  |-------&gt;
      :  +--------+           +--------+  :
      :................sys.................
 
  sys = series (sys1, sys2)
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">     .....................................
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">     .....................................
      :                   v2  +--------+  :
      :            ----------&gt;|        |  :  y
      :  +--------+ y1    u2  |  sys2  |-------&gt;
@@ -557,12 +559,15 @@
  outputs1 = [1]
  inputs2 = [2]
  sys = series (sys1, sys2, outputs1, inputs2)
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/series.m">@lti/series</a>
 </div>
-
 
             </div>
           </div>

@@ -528,65 +528,68 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>tsam</var>] = <b>ssdata</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ssdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">ssdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
 
-<p> Access state-space model data.
- Argument <var>sys</var> is not limited to state-space models.
- If <var>sys</var> is not a state-space model, it is converted automatically.
- <var>sys</var> can also be a real-valued matrix which is then
+<p>Access state-space model data.
+ Argument <var class="var">sys</var> is not limited to state-space models.
+ If <var class="var">sys</var> is not a state-space model, it is converted automatically.
+ <var class="var">sys</var> can also be a real-valued matrix which is then
  interpreted as continuous-time static gain system.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model  or a real-valued matrix which is
+<p>Any type of <abbr class="acronym">LTI</abbr> model  or a real-valued matrix which is
  interpreted as continous-time static gain.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
+<p>Input matrix (n-by-m).
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Measurement matrix (p-by-n).
+<p>Measurement matrix (p-by-n).
  </p></dd>
-<dt> <var>d</var></dt>
+<dt><var class="var">d</var></dt>
 </dl>
-<p> Feedthrough matrix (p-by-m).
+<p>Feedthrough matrix (p-by-m).
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+<p>Sampling time in seconds.  If <var class="var">sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
-<p> <strong>Compatibility issue</strong>
+<p><strong class="strong">Compatibility issue</strong>
 </p>
-<p> If <var>sys</var> is given by an input-output description, like, e.g.,
+<p>If <var class="var">sys</var> is given by an input-output description, like, e.g.,
  a transfer function, the resulting state-space model has a
  different form than the one provided by Matlab,
  see
- @inlinefmtifelse{latex, @link{@ss/ss,@ss/ss}, <a href="@ss_ss.html">@ss/ss</a>}
+ <a href="@ss_ss.html">@ss/ss</a>
  for details.
 </p>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/ssdata.m">ssdata</a>
 </div>
-
 
             </div>
           </div>

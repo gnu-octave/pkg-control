@@ -528,72 +528,72 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys</var>, <var>u</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>u</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>, <var>u</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, &hellip;, <var>u</var>, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, &hellip;, <var>u</var>, <var>t</var>, <var>x0</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>, <var>t</var>, <var>x0</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-lsim"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-1"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-2"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-3"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-4"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
 </dl>
-<p> Simulate <acronym>LTI</acronym> model response to arbitrary inputs.  If no output arguments are given,
+<p>Simulate <abbr class="acronym">LTI</abbr> model response to arbitrary inputs.  If no output arguments are given,
  the system response is plotted on the screen.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.  System must be proper, i.e. it must not have more zeros than poles.
+<p><abbr class="acronym">LTI</abbr> model.  System must be proper, i.e. it must not have more zeros than poles.
  </p></dd>
-<dt> <var>u</var></dt>
+<dt><var class="var">u</var></dt>
 </dl>
-<p> Vector or array of input signal.  Needs <code>length(t)</code> rows and as many columns
- as there are inputs.  If <var>sys</var> is a single-input system, row vectors <var>u</var>
- of length <code>length(t)</code> are accepted as well.
+<p>Vector or array of input signal.  Needs <code class="code">length(t)</code> rows and as many columns
+ as there are inputs.  If <var class="var">sys</var> is a single-input system, row vectors <var class="var">u</var>
+ of length <code class="code">length(t)</code> are accepted as well.
  </p></dd>
-<dt> <var>t</var></dt>
+<dt><var class="var">t</var></dt>
 </dl>
-<p> Time vector.  Should be evenly spaced.  If <var>sys</var> is a continuous-time system
- and <var>t</var> is a real scalar, <var>sys</var> is discretized with sampling time
- <code>tsam = t/(rows(u)-1)</code>.  If <var>sys</var> is a discrete-time system and <var>t</var>
- is not specified, vector <var>t</var> is assumed to be <code>0 : tsam : tsam*(rows(u)-1)</code>.
+<p>Time vector.  Should be evenly spaced.  If <var class="var">sys</var> is a continuous-time system
+ and <var class="var">t</var> is a real scalar, <var class="var">sys</var> is discretized with sampling time
+ <code class="code">tsam = t/(rows(u)-1)</code>.  If <var class="var">sys</var> is a discrete-time system and <var class="var">t</var>
+ is not specified, vector <var class="var">t</var> is assumed to be <code class="code">0 : tsam : tsam*(rows(u)-1)</code>.
  </p></dd>
-<dt> <var>x0</var></dt>
+<dt><var class="var">x0</var></dt>
 </dl>
-<p> Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
+<p>Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
  </p></dd>
-<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dt><var class="var">&rsquo;style&rsquo;</var></dt>
 </dl>
-<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code>help plot</code> for details.
+<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code class="command">help plot</code> for details.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>y</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">y</var></dt>
 </dl>
-<p> Output response array.  Has as many rows as time samples (length of t)
+<p>Output response array.  Has as many rows as time samples (length of t)
  and as many columns as outputs.
  </p></dd>
-<dt> <var>t</var></dt>
+<dt><var class="var">t</var></dt>
 </dl>
-<p> Time row vector.  It is always evenly spaced.
+<p>Time row vector.  It is always evenly spaced.
  </p></dd>
-<dt> <var>x</var></dt>
+<dt><var class="var">x</var></dt>
 </dl>
-<p> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.
+<p>State trajectories array.  Has <code class="code">length (t)</code> rows and as many columns as states.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="impulse.html">impulse</a>, 
-  <a href="initial.html">initial</a>, 
-  <a href="step.html">step</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lsim.m">lsim</a>
 </div>
@@ -633,7 +633,7 @@
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/lsim_101.png" class="rounded img-thumbnail" alt="plotted figure">
+                    <img src="assets/lsim_101.svg" width="80%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

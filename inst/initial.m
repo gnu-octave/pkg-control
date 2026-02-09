@@ -26,13 +26,14 @@
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{t})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal})
 ## @deftypefnx{Function File} {[@var{y}, @var{t}, @var{x}] =} initial (@var{sys}, @var{x0}, @var{tfinal}, @var{dt})
-## Initial condition response of state-space model.
+##
+## Initial condition response of a state-space model.
 ## If no output arguments are given, the response is printed on the screen.
 ##
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## State-space model.
+## LTI system in state-space representation.
 ## @item x0
 ## Vector of initial conditions for each state.
 ## @item t
@@ -61,14 +62,59 @@
 ## @end table
 ##
 ## @strong{Example}
+##
+## Consider a continuous- or a discrete-time system of the form
+##
+## Continuous Time:
+## @tex
+## $$\dot{x}(t) = A\,x(t) + B\,u(t),\quad x(0)=x_0,\quad y(t) = C\,x(t) + D\,u(t)$$
+## @end tex
+## @ifnottex
 ## @example
 ## @group
-##                    .
-## Continuous Time:   x = A x ,   y = C x ,   x(0) = x0
-##
-## Discrete Time:   x[k+1] = A x[k] ,   y[k] = C x[k] ,   x[0] = x0
+## .
+## x(t) = A x(t) + B u(t) ,   y(t) = C x(t) + D u(t) ,   x(0) = x0
 ## @end group
 ## @end example
+## @end ifnottex
+##
+## Discrete Time:
+## @tex
+## $$x(k+1) = A\,x(k) + B\,u(k),\quad x(0)=x_0,\quad y(k) = C\,x(k) + D\,u(K)$$
+## @end tex
+## @ifnottex
+## @example
+## x(k+1) = A x(k) + B u(k) ,   y(k) = C x(k) + D u(k) ,   x(0) = x0
+## @end example
+## @end ifnottex
+##
+## The dynamic behavior of the system for @math{u=0} and only driven by the
+## initial system state @math{x(0)} is given by
+## @example
+## @group
+## sys = ss (A, B, C, D);
+## initial (sys, x0);
+## @end group
+## @end example
+##
+## @strong{Remark}
+##
+## For a SISO input-output model @math{G} and initial values for the output @math{y}
+## and its derivatives up to order @math{n-1} the corresponding state space
+## represetaiton is computed by:
+##
+## @example
+## @group
+## [A,b,c,d] = ssdata (G);
+## T = obsv (A, c);
+## G_ss = ss2ss (ss (G), T);
+## initial (G_ss, x0);
+## @end group
+## @end example
+##
+## Note that, in general, the states of @math{G_ss} are only equal to the output
+## @math{y} and its first @math{n-1} time derivaties if @math{u=0}, which is the
+## case for the initial condition response.
 ##
 ## @seealso{impulse, lsim, step}
 ## @end deftypefn

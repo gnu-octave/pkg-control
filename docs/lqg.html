@@ -528,49 +528,49 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>reg</var> = <b>lqg</b> (<var>sys</var>, <var>QXU</var>, <var>QWV</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>reg</var> = <b>lqg</b> (<var>sys</var>, <var>QXU</var>, <var>QWV</var>, <var>QI</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-lqg"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">reg</var> =</code> <strong class="def-name">lqg</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">QXU</var>, <var class="var">QWV</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqg-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">reg</var> =</code> <strong class="def-name">lqg</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">QXU</var>, <var class="var">QWV</var>, <var class="var">QI</var>)</code></span></dt>
 </dl>
-<p> Linear-quadratic gaussian (LQG) design
+<p>Linear-quadratic gaussian (LQG) design
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous or discrete-time <acronym>LTI</acronym> model (m inputs, n states, p outputs).
+<p>Continuous or discrete-time <abbr class="acronym">LTI</abbr> model (m inputs, n states, p outputs).
  </p></dd>
-<dt> <var>QXU</var></dt>
+<dt><var class="var">QXU</var></dt>
 </dl>
-<p> State and input weighting matrix (n+m-by-n+m).
+<p>State and input weighting matrix (n+m-by-n+m).
  </p></dd>
-<dt> <var>QWV</var></dt>
+<dt><var class="var">QWV</var></dt>
 </dl>
-<p> Process and measurement noise covariance matrix (n+p-by-n+p).
+<p>Process and measurement noise covariance matrix (n+p-by-n+p).
  </p></dd>
-<dt> <var>QI</var></dt>
+<dt><var class="var">QI</var></dt>
 </dl>
-<p> Optional output weighting matrix for LQG servo control with integral action (p-by-p).  If <var>QI</var> is not specified, the LQG regulator is computed
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>reg</var></dt>
-</dl>
-<p> LQG regulator or controller as dynamic compensator. Connect with positive feedback.
+<p>Optional output weighting matrix for LQG servo control with integral action (p-by-p).  If <var class="var">QI</var> is not specified, the LQG regulator is computed
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">reg</var></dt>
+</dl>
+<p>LQG regulator or controller as dynamic compensator. Connect with positive feedback.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Equations</strong>
  $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$$$ J(x_0) = E \left[ \lim_{T\to\infty} \, \frac{1}{T}\,\int_0^T  [x^T \, u^T ] Q_{xu}\, [x^T \, u^T ]^T + x_i^TQ_i\,x_i \,\, dt \right] $$
 </p> 
-<p> <strong>See also: </strong>
-  <a href="lqr.html">lqr</a>, 
-  <a href="kalman.html">kalman</a>, 
-  <a href="lqi.html">lqi</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lqg.m">lqg</a>
 </div>

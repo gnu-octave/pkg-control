@@ -528,24 +528,27 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>nkshift</b> (<var>dat</var>, <var>nk</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>nkshift</b> (<var>dat</var>, <var>nk</var>, <var>'append'</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-nkshift"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">nkshift</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">nk</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nkshift-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">nkshift</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">nk</var>, <var class="var">'append'</var>)</code></span></dt>
 </dl>
-<p> Shift input channels of dataset <var>dat</var> according to integer <var>nk</var>.
- A positive value of <var>nk</var> means that the input channels are delayed
- <var>nk</var> samples.  By default, both input and output signals are shortened
- by <var>nk</var> samples.
- If a third argument <var>&rsquo;append&rsquo;</var> is passed, the output signals are left
- untouched while <var>nk</var> zeros are appended to the (shortened) input signals
- such that the number of samples in <var>dat</var> remains constant.
+<p>Shift input channels of dataset <var class="var">dat</var> according to integer <var class="var">nk</var>.
+ A positive value of <var class="var">nk</var> means that the input channels are delayed
+ <var class="var">nk</var> samples.  By default, both input and output signals are shortened
+ by <var class="var">nk</var> samples.
+ If a third argument <var class="var">&rsquo;append&rsquo;</var> is passed, the output signals are left
+ untouched while <var class="var">nk</var> zeros are appended to the (shortened) input signals
+ such that the number of samples in <var class="var">dat</var> remains constant.
 </p>
 <div class="ms-5">
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@iddata/nkshift.m">@iddata/nkshift</a>
 </div>
-
 
             </div>
           </div>

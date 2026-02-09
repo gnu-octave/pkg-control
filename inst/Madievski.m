@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} Madievski ()
+## @deftypefn  {Function File} {} Madievski {@ }
 ## Demonstration of frequency-weighted controller reduction.
 ##
 ## The system considered in this example has been studied by Madievski and

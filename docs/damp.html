@@ -528,87 +528,85 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>damp</b>(<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Wn</var>, <var>zeta</var>] = <b>damp</b>(<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Wn</var>, <var>zeta</var>, <var>P</var>] = <b>damp</b>(<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-damp_0028sys_0029"><span class="category-def">Function File: </span><span><strong class="def-name">damp(<var class="var">sys</var>)</strong><a class="copiable-link" href="#index-damp_0028sys_0029"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-damp_0028sys_0029-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Wn</var>, <var class="var">zeta</var>] =</code> <strong class="def-name">damp(<var class="var">sys</var>)</strong><a class="copiable-link" href="#index-damp_0028sys_0029-1"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-damp_0028sys_0029-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Wn</var>, <var class="var">zeta</var>, <var class="var">P</var>] =</code> <strong class="def-name">damp(<var class="var">sys</var>)</strong><a class="copiable-link" href="#index-damp_0028sys_0029-2"> &para;</a></span></dt>
 </dl>
-<p> Calculate natural frequencies, damping ratios and poles.
+<p>Calculate natural frequencies, damping ratios and poles.
 </p>
 <div class="ms-5">
-<p> If no output is specified, display overview table containing poles,
- magnitude (if <var>sys</var> is a discrete-time model), damping ratios, natural
+<p>If no output is specified, display overview table containing poles,
+ magnitude (if <var class="var">sys</var> is a discrete-time model), damping ratios, natural
  frequencies and time constants.
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>Wn</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">Wn</var></dt>
 </dl>
-<p> Natural frequencies of each pole of <var>sys</var> (in increasing order).
+<p>Natural frequencies of each pole of <var class="var">sys</var> (in increasing order).
  The frequency unit is rad/s (radians per second).
- If <var>sys</var> is a discrete-time model with specified sample time, <var>Wn</var>
+ If <var class="var">sys</var> is a discrete-time model with specified sample time, <var class="var">Wn</var>
  contains the natural frequencies of the equivalent continuous-time poles
- (see Algorithms).  If <var>sys</var> has an unspecified sample time
- (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>Wn</var>.
+ (see Algorithms).  If <var class="var">sys</var> has an unspecified sample time
+ (<var class="var">tsam =</var> -1), <var class="var">tsam =</var> 1 is used to calculate <var class="var">Wn</var>.
  </p></dd>
-<dt> <var>zeta</var></dt>
+<dt><var class="var">zeta</var></dt>
 </dl>
-<p> Damping ratios of each pole of <var>sys</var> (in the same order as <var>Wn</var>).
- If <var>sys</var> is a discrete-time model with specified sample time,
- <var>zeta</var> contains the damping ratios of the equivalent continuous-time
- poles (see Algorithms).  If <var>sys</var> has an unspecified sample time
- (<var>tsam =</var> -1), <var>tsam =</var> 1 is used to calculate <var>zeta</var>.
+<p>Damping ratios of each pole of <var class="var">sys</var> (in the same order as <var class="var">Wn</var>).
+ If <var class="var">sys</var> is a discrete-time model with specified sample time,
+ <var class="var">zeta</var> contains the damping ratios of the equivalent continuous-time
+ poles (see Algorithms).  If <var class="var">sys</var> has an unspecified sample time
+ (<var class="var">tsam =</var> -1), <var class="var">tsam =</var> 1 is used to calculate <var class="var">zeta</var>.
  </p></dd>
-<dt> <var>P</var></dt>
+<dt><var class="var">P</var></dt>
 </dl>
-<p> Poles of <var>sys</var> (in the same order as <var>Wn</var>).
+<p>Poles of <var class="var">sys</var> (in the same order as <var class="var">Wn</var>).
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- </p><dl compact="compact">
-<dt> <var>Pole</var></dt>
+<p><strong class="strong">Algorithm</strong><br>
+ </p><dl class="table">
+<dt><var class="var">Pole</var></dt>
 </dl>
-<p> Poles s (or z for discrete-time models) are calculated via <code>pole</code>
+<p>Poles s (or z for discrete-time models) are calculated via <code class="command">pole</code>
  and resorted in order of increasing natural frequency.
  </p></dd>
-<dt> <var>Equivalent continuous-time pole</var></dt>
+<dt><var class="var">Equivalent continuous-time pole</var></dt>
 </dl>
-<p> s = log (z) / sys.tsam (discrete-time models only)
+<p>s = log (z) / sys.tsam (discrete-time models only)
  </p></dd>
-<dt> <var>Magnitude</var></dt>
+<dt><var class="var">Magnitude</var></dt>
 </dl>
-<p> mag = abs (z) (discrete-time models only)
+<p>mag = abs (z) (discrete-time models only)
  </p></dd>
-<dt> <var>Natural Frequency</var></dt>
+<dt><var class="var">Natural Frequency</var></dt>
 </dl>
-<p> Wn = abs (s)
+<p>Wn = abs (s)
  </p></dd>
-<dt> <var>Damping ratio</var></dt>
+<dt><var class="var">Damping ratio</var></dt>
 </dl>
-<p> zeta = -cos (arg (s))
+<p>zeta = -cos (arg (s))
  </p></dd>
-<dt> <var>Time constant</var></dt>
+<dt><var class="var">Time constant</var></dt>
 </dl>
-<p> tau = 1 / (Wn * zeta)
+<p>tau = 1 / (Wn * zeta)
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="dsort.html">dsort</a>, 
-  <a href="esort.html">esort</a>, 
-  <a href="@lti_pole.html">@lti/pole</a>, 
-  <a href="pzmap.html">pzmap</a>, 
-  <a href="@lti_zero.html">@lti/zero</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/damp.m">damp</a>
 </div>

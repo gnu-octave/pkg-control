@@ -528,28 +528,28 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>ifft</b> (<var>dat</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ifft"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">ifft</strong> <code class="def-code-arguments">(<var class="var">dat</var>)</code></span></dt>
 </dl>
-<p> Transform iddata objects from frequency to time domain.
+<p>Transform iddata objects from frequency to time domain.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> iddata set containing signals in frequency domain.
+<p>iddata set containing signals in frequency domain.
  The frequency values must be distributed equally from 0
  to the Nyquist frequency.  The Nyquist frequency is
  only included for even signal lengths.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> iddata identification dataset in time domain.
+<p>iddata identification dataset in time domain.
  In order to preserve signal power and noise level,
  the FFTs are normalized by multiplying each transform
  by the square root of the signal length.
@@ -557,10 +557,13 @@
 </dl>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@iddata/ifft.m">@iddata/ifft</a>
 </div>
-
 
             </div>
           </div>

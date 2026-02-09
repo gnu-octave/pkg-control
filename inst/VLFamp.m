@@ -16,7 +16,7 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn{Function File} {} VLFamp
+## @deftypefn{Function File} {} VLFamp {@ }
 ## @deftypefnx{Function File} {@var{result} =} VLFamp (@var{verbose})
 ##
 ## Calculations on a two stage preamp for a multi-turn,
@@ -282,7 +282,7 @@ function retval = VLFamp (verbose = false)
   disp ("or S(s) = 1 / (1 + L(s)), which has the same form as feedback");
   disp ("So, use the feedback function to develop the sensitivity.");
   disp ("");
-  
+
   show ("L = TFopen * b")
   disp ("");
   show ("Sens = feedback (1, L)")
@@ -432,7 +432,7 @@ function retval = VLFamp (verbose = false)
   disp ("The low pass filter is composed of three equal sections.");
   disp ("Develop one section and put three in series.");
   disp ("");
-  
+
   show ("C = 20e-9");
   show ("R = 1000");
   show ("TFsection = tf ([1], [C*R, 1])");
@@ -475,7 +475,7 @@ function retval = VLFamp (verbose = false)
   disp ("");
   show ("TFpreamp")
   ##
-  
+
   if (nargout > 0)
     retval = TFpreamp;
   endif

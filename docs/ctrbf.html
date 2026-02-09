@@ -528,36 +528,41 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>sysbar</var>, <var>T</var>, <var>K</var>] = <b>ctrbf</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sysbar</var>, <var>T</var>, <var>K</var>] = <b>ctrbf</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Abar</var>, <var>Bbar</var>, <var>Cbar</var>, <var>T</var>, <var>K</var>] = <b>ctrbf</b> (<var>A</var>, <var>B</var>, <var>C</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Abar</var>, <var>Bbar</var>, <var>Cbar</var>, <var>T</var>, <var>K</var>] = <b>ctrbf</b> (<var>A</var>, <var>B</var>, <var>C</var>, <var>TOL</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ctrbf"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sysbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">ctrbf</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ctrbf-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sysbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">ctrbf</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ctrbf-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Abar</var>, <var class="var">Bbar</var>, <var class="var">Cbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">ctrbf</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">B</var>, <var class="var">C</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ctrbf-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Abar</var>, <var class="var">Bbar</var>, <var class="var">Cbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">ctrbf</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">B</var>, <var class="var">C</var>, <var class="var">TOL</var>)</code></span></dt>
 </dl>
-<p> If Co=ctrb(A,B) has rank r &lt;= n = SIZE(A,1), then there is a 
+<p>If Co=ctrb(A,B) has rank r &lt;= n = SIZE(A,1), then there is a 
  similarity transformation Tc such that Tc = [t1 t2] where t1
  is the controllable subspace and t2 is orthogonal to t1
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Abar = Tc \ A * Tc ,  Bbar = Tc \ B ,  Cbar = C * Tc
- </pre><pre class="example"> </pre></td></tr></table>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> Abar = Tc \ A * Tc ,  Bbar = Tc \ B ,  Cbar = C * Tc
+ </pre></div></div>
 
-<p> and the transformed system has the form
+<p>and the transformed system has the form
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">        | Ac    A12|           | Bc |
+<div class="example">
+<div class="group"><pre class="example-preformatted">        | Ac    A12|           | Bc |
  Abar = |----------|,   Bbar = | ---|,  Cbar = [Cc | Cnc].
         | 0     Anc|           |  0 |
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
                                      
-<p> where (Ac,Bc) is controllable, and Cc(sI-Ac)^(-1)Bc = C(sI-A)^(-1)B.
+<p>where (Ac,Bc) is controllable, and Cc(sI-Ac)^(-1)Bc = C(sI-A)^(-1)B.
  and the system is stabilizable if Anc has no eigenvalues in
  the right half plane. The last output K is a vector of length n
  containing the number of controllable states.
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/ctrbf.m">ctrbf</a>
 </div>
-
 
             </div>
           </div>

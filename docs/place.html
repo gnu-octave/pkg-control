@@ -528,94 +528,98 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>f</var> = <b>place</b> (<var>sys</var>, <var>p</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>f</var> = <b>place</b> (<var>a</var>, <var>b</var>, <var>p</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>f</var>, <var>info</var>] = <b>place</b> (<var>sys</var>, <var>p</var>, <var>alpha</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>f</var>, <var>info</var>] = <b>place</b> (<var>a</var>, <var>b</var>, <var>p</var>, <var>alpha</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-place"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">f</var> =</code> <strong class="def-name">place</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">p</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-place-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">f</var> =</code> <strong class="def-name">place</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">p</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-place-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">f</var>, <var class="var">info</var>] =</code> <strong class="def-name">place</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">p</var>, <var class="var">alpha</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-place-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">f</var>, <var class="var">info</var>] =</code> <strong class="def-name">place</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">p</var>, <var class="var">alpha</var>)</code></span></dt>
 </dl>
 
-<p> Pole assignment for a given matrix pair (<var>A</var>,<var>B</var>) such that <code>p = eig (A-B*F)</code>.
- If parameter <var>alpha</var> is specified, poles with real parts (continuous-time)
- or moduli (discrete-time) below <var>alpha</var> are left untouched.
+<p>Pole assignment for a given matrix pair (<var class="var">A</var>,<var class="var">B</var>) such that <code class="code">p = eig (A-B*F)</code>.
+ If parameter <var class="var">alpha</var> is specified, poles with real parts (continuous-time)
+ or moduli (discrete-time) below <var class="var">alpha</var> are left untouched.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous- or discrete-time <acronym>LTI</acronym> system.
+<p>Continuous- or discrete-time <abbr class="acronym">LTI</abbr> system.
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n) of a continuous-time system.
+<p>State matrix (n-by-n) of a continuous-time system.
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m) of a continuous-time system.
+<p>Input matrix (n-by-m) of a continuous-time system.
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Desired eigenvalues of the closed-loop system state-matrix <var>A-B*F</var>.
- <code>length (p) &lt;= rows (A)</code>.
+<p>Desired eigenvalues of the closed-loop system state-matrix <var class="var">A-B*F</var>.
+ <code class="code">length (p) &lt;= rows (A)</code>.
  </p></dd>
-<dt> <var>alpha</var></dt>
+<dt><var class="var">alpha</var></dt>
 </dl>
-<p> Specifies the maximum admissible value, either for real
- parts or for moduli, of the eigenvalues of <var>A</var> which will
+<p>Specifies the maximum admissible value, either for real
+ parts or for moduli, of the eigenvalues of <var class="var">A</var> which will
  not be modified by the eigenvalue assignment algorithm.
- <code>alpha &gt;= 0</code> for discrete-time systems.
+ <code class="code">alpha &gt;= 0</code> for discrete-time systems.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>f</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">f</var></dt>
 </dl>
-<p> State feedback gain matrix.
+<p>State feedback gain matrix.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Structure containing additional information.
+<p>Structure containing additional information.
  </p></dd>
-<dt> <var>info.nfp</var></dt>
+<dt><var class="var">info.nfp</var></dt>
 </dl>
-<p> The number of fixed poles, i.e. eigenvalues of <var>A</var> having
- real parts less than <var>alpha</var>, or moduli less than <var>alpha</var>.
- These eigenvalues are not modified by <code>place</code>.
+<p>The number of fixed poles, i.e. eigenvalues of <var class="var">A</var> having
+ real parts less than <var class="var">alpha</var>, or moduli less than <var class="var">alpha</var>.
+ These eigenvalues are not modified by <code class="command">place</code>.
  </p></dd>
-<dt> <var>info.nap</var></dt>
+<dt><var class="var">info.nap</var></dt>
 </dl>
-<p> The number of assigned eigenvalues.  <code>nap = n-nfp-nup</code>.
+<p>The number of assigned eigenvalues.  <code class="code">nap = n-nfp-nup</code>.
  </p></dd>
-<dt> <var>info.nup</var></dt>
+<dt><var class="var">info.nup</var></dt>
 </dl>
-<p> The number of uncontrollable eigenvalues detected by the
+<p>The number of uncontrollable eigenvalues detected by the
  eigenvalue assignment algorithm.
  </p></dd>
-<dt> <var>info.z</var></dt>
+<dt><var class="var">info.z</var></dt>
 </dl>
-<p> The orthogonal matrix <var>z</var> reduces the closed-loop
- system state matrix <code>A + B*F</code> to upper real Schur form.
- Note the positive sign in <code>A + B*F</code>.
+<p>The orthogonal matrix <var class="var">z</var> reduces the closed-loop
+ system state matrix <code class="code">A + B*F</code> to upper real Schur form.
+ Note the positive sign in <code class="code">A + B*F</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Note</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> Place is also suitable to design estimator gains:
- </pre><pre class="example"> L = place (A.', C.', p).'
+<p><strong class="strong">Note</strong>
+ </p><div class="example">
+<pre class="example-preformatted"> Place is also suitable to design estimator gains:
+ </pre><div class="group"><pre class="example-preformatted"> L = place (A.', C.', p).'
  L = place (sys.', p).'   # useful for discrete-time systems
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB01BD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB01BD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/place.m">place</a>
 </div>
-
 
             </div>
           </div>

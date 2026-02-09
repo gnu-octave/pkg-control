@@ -528,29 +528,30 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>u</var> = <b>dlyapchol</b> (<var>a</var>, <var>b</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>u</var> = <b>dlyapchol</b> (<var>a</var>, <var>b</var>, <var>e</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dlyapchol"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">u</var> =</code> <strong class="def-name">dlyapchol</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlyapchol-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">u</var> =</code> <strong class="def-name">dlyapchol</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">e</var>)</code></span></dt>
 </dl>
-<p> Compute Cholesky factor of discrete-time Lyapunov equations.
+<p>Compute Cholesky factor of discrete-time Lyapunov equations.
 </p>
 <div class="ms-5">
-<p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> A U' U A'  -  U' U  +  B B'  =  0           (Lyapunov Equation)
+<p><strong class="strong">Equations</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> A U' U A'  -  U' U  +  B B'  =  0           (Lyapunov Equation)
 
  A U' U A'  -  E U' U E'  +  B B'  =  0      (Generalized Lyapunov Equation)
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB03OD and SG03BD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB03OD and SG03BD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>See also: </strong>
-  <a href="dlyap.html">dlyap</a>, 
-  <a href="lyap.html">lyap</a>, 
-  <a href="lyapchol.html">lyapchol</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dlyapchol.m">dlyapchol</a>
 </div>

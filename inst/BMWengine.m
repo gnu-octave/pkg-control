@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn{Function File} {@var{sys} =} BMWengine ()
+## @deftypefn{Function File} {@var{sys} =} BMWengine {@ }
 ## @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"scaled"})
 ## @deftypefnx{Function File} {@var{sys} =} BMWengine (@var{"unscaled"})
 ## Model of the BMW 4-cylinder engine at ETH Zurich's control laboratory.
@@ -27,7 +27,7 @@
 ## X_5 Relativer Wandfilminhalt   [-]
 ##
 ## OUTPUTS
-## Y_1 Motordrehzahl              [U/min]    
+## Y_1 Motordrehzahl              [U/min]
 ## Y_2 Messwert Lambda-Sonde      [-]
 ##
 ## SCALING
@@ -45,7 +45,7 @@
 ## Created: January 2010
 ## Version: 0.1.1
 
-## TODO: translate German terminology 
+## TODO: translate German terminology
 
 function sys = BMWengine (flg = "scaled")
 

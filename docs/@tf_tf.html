@@ -528,136 +528,137 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>s</var> = <b>tf</b> (<var>'s'</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>z</var> = <b>tf</b> (<var>'z'</var>, <var>tsam</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>tf</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>tf</b> (<var>mat</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>tf</b> (<var>num</var>, <var>den</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>tf</b> (<var>num</var>, <var>den</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-tf"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">s</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">'s'</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-tf-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">z</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">'z'</var>, <var class="var">tsam</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-tf-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-tf-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">mat</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-tf-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">num</var>, <var class="var">den</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-tf-5"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">tf</strong> <code class="def-code-arguments">(<var class="var">num</var>, <var class="var">den</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create or convert to transfer function model.
+<p>Create or convert to transfer function model.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to be converted to transfer function.
+<p><abbr class="acronym">LTI</abbr> model to be converted to transfer function.
  </p></dd>
-<dt> <var>mat</var></dt>
+<dt><var class="var">mat</var></dt>
 </dl>
-<p> Gain matrix to be converted to static transfer function.
+<p>Gain matrix to be converted to static transfer function.
  </p></dd>
-<dt> <var>num</var></dt>
+<dt><var class="var">num</var></dt>
 </dl>
-<p> Numerator or cell of numerators.  Each numerator must be a row vector
+<p>Numerator or cell of numerators.  Each numerator must be a row vector
  containing the coefficients of the polynomial in descending powers of
  the transfer function variable.
  num{i,j} contains the numerator polynomial from input j to output i.
  In the SISO case, a single vector is accepted as well.
  </p></dd>
-<dt> <var>den</var></dt>
+<dt><var class="var">den</var></dt>
 </dl>
-<p> Denominator or cell of denominators.  Each denominator must be a row vector
+<p>Denominator or cell of denominators.  Each denominator must be a row vector
  containing the coefficients of the polynomial in descending powers of
  the transfer function variable.
  den{i,j} contains the denominator polynomial from input j to output i.
  In the SISO case, a single vector is accepted as well.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified, a continuous-time
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified, a continuous-time
  model is assumed.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of properties and values.
- Type <code>set (tf)</code> for more information.
+<p>Optional pairs of properties and values.
+ Type <code class="command">set (tf)</code> for more information.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Transfer function model.
+<p>Transfer function model.
  </p></dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;num&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;num&rsquo;</var></dt>
 </dl>
-<p> Numerator.  See &rsquo;Inputs&rsquo; for details.
+<p>Numerator.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;den&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;den&rsquo;</var></dt>
 </dl>
-<p> Denominator.  See &rsquo;Inputs&rsquo; for details.
+<p>Denominator.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;tfvar&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tfvar&rsquo;</var></dt>
 </dl>
-<p> String containing the transfer function variable.
+<p>String containing the transfer function variable.
 </p>
- </dd>
-<dt> <var>&rsquo;inv&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;inv&rsquo;</var></dt>
 </dl>
-<p> Logical.  True for negative powers of the transfer function variable.
+<p>Logical.  True for negative powers of the transfer function variable.
 </p>
- </dd>
-<dt> <var>&rsquo;tsam&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tsam&rsquo;</var></dt>
 </dl>
-<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
+<p>Sampling time.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;inname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;inname&rsquo;</var></dt>
 </dl>
-<p> The name of the input channels in <var>sys</var>.
+<p>The name of the input channels in <var class="var">sys</var>.
  Cell vector of length m containing strings.
- Default names are <code>{'u1', 'u2', ...}</code>
+ Default names are <code class="code">{'u1', 'u2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;outname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outname&rsquo;</var></dt>
 </dl>
-<p> The name of the output channels in <var>sys</var>.
+<p>The name of the output channels in <var class="var">sys</var>.
  Cell vector of length p containing strings.
- Default names are <code>{'y1', 'y2', ...}</code>
+ Default names are <code class="code">{'y1', 'y2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;ingroup&rsquo;</var></dt>
 </dl>
-<p> Struct with input group names as field names and
+<p>Struct with input group names as field names and
  vectors of input indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outgroup&rsquo;</var></dt>
 </dl>
-<p> Struct with output group names as field names and
+<p>Struct with output group names as field names and
  vectors of output indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;name&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;name&rsquo;</var></dt>
 </dl>
-<p> String containing the name of the model.
+<p>String containing the name of the model.
 </p>
- </dd>
-<dt> <var>&rsquo;notes&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;notes&rsquo;</var></dt>
 </dl>
-<p> String or cell of string containing comments.
+<p>String or cell of string containing comments.
 </p>
- </dd>
-<dt> <var>&rsquo;userdata&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;userdata&rsquo;</var></dt>
 </dl>
-<p> Any data type.
+<p>Any data type.
  </p></dd>
 </dl>
 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:1&gt; s = tf ('s');
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> octave:1&gt; s = tf ('s');
  octave:2&gt; G = 1/(s+1)
 
  Transfer function 'G' from input 'u1' to output ...
@@ -706,13 +707,13 @@
  
  Continuous-time model.
  octave:8&gt; 
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>See also: </strong>
-  <a href="filt.html">filt</a>, 
-  <a href="@ss_ss.html">@ss/ss</a>, 
-  <a href="dss.html">dss</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@tf/tf.m">@tf/tf</a>
 </div>

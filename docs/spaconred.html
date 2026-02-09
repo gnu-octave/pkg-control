@@ -528,154 +528,154 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>spaconred</b> (<var>G</var>, <var>K</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>spaconred</b> (<var>G</var>, <var>K</var>, <var>ncr</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>spaconred</b> (<var>G</var>, <var>K</var>, <var>opt</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>spaconred</b> (<var>G</var>, <var>K</var>, <var>ncr</var>, <var>opt</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-spaconred"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spaconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">K</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-spaconred-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spaconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">K</var>, <var class="var">ncr</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-spaconred-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spaconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">K</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-spaconred-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spaconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">K</var>, <var class="var">ncr</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
 </dl>
 
-<p> Controller reduction by frequency-weighted Singular Perturbation Approximation (SPA).
- Given a plant <var>G</var> and a stabilizing controller <var>K</var>, determine a reduced
- order controller <var>Kr</var> such that the closed-loop system is stable and closed-loop
+<p>Controller reduction by frequency-weighted Singular Perturbation Approximation (SPA).
+ Given a plant <var class="var">G</var> and a stabilizing controller <var class="var">K</var>, determine a reduced
+ order controller <var class="var">Kr</var> such that the closed-loop system is stable and closed-loop
  performance is retained.
 </p>
 <div class="ms-5">
-<p> The algorithm tries to minimize the frequency-weighted error
+<p>The algorithm tries to minimize the frequency-weighted error
  $$ || V \ (K - K_r) \ W ||_{\infty} = \min $$
-  where <var>V</var> and <var>W</var> denote output and input weightings.
+  where <var class="var">V</var> and <var class="var">W</var> denote output and input weightings.
 </p>
 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>G</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">G</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of the plant.
+<p><abbr class="acronym">LTI</abbr> model of the plant.
  It has m inputs, p outputs and n states.
  </p></dd>
-<dt> <var>K</var></dt>
+<dt><var class="var">K</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of the controller.
+<p><abbr class="acronym">LTI</abbr> model of the controller.
  It has p inputs, m outputs and nc states.
  </p></dd>
-<dt> <var>ncr</var></dt>
+<dt><var class="var">ncr</var></dt>
 </dl>
-<p> The desired order of the resulting reduced order controller <var>Kr</var>.
- If not specified, <var>ncr</var> is chosen automatically according
- to the description of key <var>&rsquo;order&rsquo;</var>.
+<p>The desired order of the resulting reduced order controller <var class="var">Kr</var>.
+ If not specified, <var class="var">ncr</var> is chosen automatically according
+ to the description of key <var class="var">&rsquo;order&rsquo;</var>.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of keys and values.  <code>&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
+<p>Optional pairs of keys and values.  <code class="code">&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
  </p></dd>
-<dt> <var>opt</var></dt>
+<dt><var class="var">opt</var></dt>
 </dl>
-<p> Optional struct with keys as field names.
- Struct <var>opt</var> can be created directly or
- by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+<p>Optional struct with keys as field names.
+ Struct <var class="var">opt</var> can be created directly or
+ by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>Kr</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">Kr</var></dt>
 </dl>
-<p> State-space model of reduced order controller.
+<p>State-space model of reduced order controller.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Struct containing additional information.
- </p><dl compact="compact">
-<dt> <var>info.ncr</var></dt>
+<p>Struct containing additional information.
+ </p><dl class="table">
+<dt><var class="var">info.ncr</var></dt>
 </dl>
-<p> The order of the obtained reduced order controller <var>Kr</var>.
+<p>The order of the obtained reduced order controller <var class="var">Kr</var>.
  </p></dd>
-<dt> <var>info.ncs</var></dt>
+<dt><var class="var">info.ncs</var></dt>
 </dl>
-<p> The order of the alpha-stable part of original controller <var>K</var>.
+<p>The order of the alpha-stable part of original controller <var class="var">K</var>.
  </p></dd>
-<dt> <var>info.hsvc</var></dt>
+<dt><var class="var">info.hsvc</var></dt>
 </dl>
-<p> The Hankel singular values of the alpha-stable part of <var>K</var>.
- The <var>ncs</var> Hankel singular values are ordered decreasingly.
+<p>The Hankel singular values of the alpha-stable part of <var class="var">K</var>.
+ The <var class="var">ncs</var> Hankel singular values are ordered decreasingly.
  </p></dd>
 </dl>
 </dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;order&rsquo;, &rsquo;ncr&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;order&rsquo;, &rsquo;ncr&rsquo;</var></dt>
 </dl>
-<p> The desired order of the resulting reduced order controller <var>Kr</var>.
- If not specified, <var>ncr</var> is chosen automatically such that states with
- Hankel singular values <var>info.hsvc</var> &gt; <var>tol1</var> are retained.
+<p>The desired order of the resulting reduced order controller <var class="var">Kr</var>.
+ If not specified, <var class="var">ncr</var> is chosen automatically such that states with
+ Hankel singular values <var class="var">info.hsvc</var> &gt; <var class="var">tol1</var> are retained.
 </p>
- </dd>
-<dt> <var>&rsquo;method&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;method&rsquo;</var></dt>
 </dl>
-<p> Order reduction approach to be used as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;sr&rsquo;, &rsquo;s&rsquo;</var></dt>
+<p>Order reduction approach to be used as follows:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;sr&rsquo;, &rsquo;s&rsquo;</var></dt>
 </dl>
-<p> Use the square-root Singular Perturbation Approximation method.
+<p>Use the square-root Singular Perturbation Approximation method.
  </p></dd>
-<dt> <var>&rsquo;bfsr&rsquo;, &rsquo;p&rsquo;</var></dt>
+<dt><var class="var">&rsquo;bfsr&rsquo;, &rsquo;p&rsquo;</var></dt>
 </dl>
-<p> Use the balancing-free square-root Singular Perturbation Approximation method.  Default method.
+<p>Use the balancing-free square-root Singular Perturbation Approximation method.  Default method.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;weight&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;weight&rsquo;</var></dt>
 </dl>
-<p> Specifies the type of frequency-weighting as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;none&rsquo;</var></dt>
+<p>Specifies the type of frequency-weighting as follows:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;none&rsquo;</var></dt>
 </dl>
-<p> No weightings are used (V = I, W = I).
+<p>No weightings are used (V = I, W = I).
 </p>
- </dd>
-<dt> <var>&rsquo;left&rsquo;, &rsquo;output&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;left&rsquo;, &rsquo;output&rsquo;</var></dt>
 </dl>
-<p> Use stability enforcing left (output) weighting
+<p>Use stability enforcing left (output) weighting
  $$ V = (I - G K)^{-1} G,  \qquad W = I $$
 </p> 
- </dd>
-<dt> <var>&rsquo;right&rsquo;, &rsquo;input&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;right&rsquo;, &rsquo;input&rsquo;</var></dt>
 </dl>
-<p> Use stability enforcing right (input) weighting
+<p>Use stability enforcing right (input) weighting
  $$ V = I,  \qquad W = (I - G K)^{-1} G  $$
 </p> 
- </dd>
-<dt> <var>&rsquo;both&rsquo;, &rsquo;performance&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;both&rsquo;, &rsquo;performance&rsquo;</var></dt>
 </dl>
-<p> Use stability and performance enforcing weightings
+<p>Use stability and performance enforcing weightings
  $$ V = (I - G K)^{-1} G,  \qquad W = (I - G K)^{-1}  $$
   Default value.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;feedback&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;feedback&rsquo;</var></dt>
 </dl>
-<p> Specifies whether <var>K</var> is a positive or negative feedback controller:
- </p><dl compact="compact">
-<dt> <var>&rsquo;+&rsquo;</var></dt>
+<p>Specifies whether <var class="var">K</var> is a positive or negative feedback controller:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;+&rsquo;</var></dt>
 </dl>
-<p> Use positive feedback controller.  Default value.
+<p>Use positive feedback controller.  Default value.
  </p></dd>
-<dt> <var>&rsquo;-&rsquo;</var></dt>
+<dt><var class="var">&rsquo;-&rsquo;</var></dt>
 </dl>
-<p> Use negative feedback controller.
+<p>Use negative feedback controller.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;alpha&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;alpha&rsquo;</var></dt>
 </dl>
-<p> Specifies the ALPHA-stability boundary for the eigenvalues
- of the state dynamics matrix <var>K.A</var>.  For a continuous-time
+<p>Specifies the ALPHA-stability boundary for the eigenvalues
+ of the state dynamics matrix <var class="var">K.A</var>.  For a continuous-time
  controller, ALPHA &lt;= 0 is the boundary value for
  the real parts of eigenvalues, while for a discrete-time
  controller, 0 &lt;= ALPHA &lt;= 1 represents the
@@ -684,68 +684,68 @@
  Default value is 0 for continuous-time controllers and
  1 for discrete-time controllers.
 </p>
- </dd>
-<dt> <var>&rsquo;tol1&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tol1&rsquo;</var></dt>
 </dl>
-<p> If <var>&rsquo;order&rsquo;</var> is not specified, <var>tol1</var> contains the tolerance for
+<p>If <var class="var">&rsquo;order&rsquo;</var> is not specified, <var class="var">tol1</var> contains the tolerance for
  determining the order of the reduced controller.
- For model reduction, the recommended value of <var>tol1</var> is
+ For model reduction, the recommended value of <var class="var">tol1</var> is
  c*info.hsvc(1), where c lies in the interval [0.00001, 0.001].
  Default value is info.ncs*eps*info.hsvc(1).
- If <var>&rsquo;order&rsquo;</var> is specified, the value of <var>tol1</var> is ignored.
+ If <var class="var">&rsquo;order&rsquo;</var> is specified, the value of <var class="var">tol1</var> is ignored.
 </p>
- </dd>
-<dt> <var>&rsquo;tol2&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tol2&rsquo;</var></dt>
 </dl>
-<p> The tolerance for determining the order of a minimal
+<p>The tolerance for determining the order of a minimal
  realization of the ALPHA-stable part of the given
  controller.  TOL2 &lt;= TOL1.
  If not specified, ncs*eps*info.hsvc(1) is chosen.
 </p>
- </dd>
-<dt> <var>&rsquo;gram-ctrb&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;gram-ctrb&rsquo;</var></dt>
 </dl>
-<p> Specifies the choice of frequency-weighted controllability
+<p>Specifies the choice of frequency-weighted controllability
  Grammian as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;standard&rsquo;</var></dt>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;standard&rsquo;</var></dt>
 </dl>
-<p> Choice corresponding to standard Enns&rsquo; method [1].  Default method.
+<p>Choice corresponding to standard Enns&rsquo; method [1].  Default method.
  </p></dd>
-<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+<dt><var class="var">&rsquo;enhanced&rsquo;</var></dt>
 </dl>
-<p> Choice corresponding to the stability enhanced
+<p>Choice corresponding to the stability enhanced
  modified Enns&rsquo; method of [2].
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;gram-obsv&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;gram-obsv&rsquo;</var></dt>
 </dl>
-<p> Specifies the choice of frequency-weighted observability
+<p>Specifies the choice of frequency-weighted observability
  Grammian as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;standard&rsquo;</var></dt>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;standard&rsquo;</var></dt>
 </dl>
-<p> Choice corresponding to standard Enns&rsquo; method [1].  Default method.
+<p>Choice corresponding to standard Enns&rsquo; method [1].  Default method.
  </p></dd>
-<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+<dt><var class="var">&rsquo;enhanced&rsquo;</var></dt>
 </dl>
-<p> Choice corresponding to the stability enhanced
+<p>Choice corresponding to the stability enhanced
  modified Enns&rsquo; method of [2].
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
 </dl>
-<p> Boolean indicating whether equilibration (scaling) should be
- performed on <var>G</var> and <var>K</var> prior to order reduction.
- Default value is false if both <code>G.scaled == true, K.scaled == true</code>
+<p>Boolean indicating whether equilibration (scaling) should be
+ performed on <var class="var">G</var> and <var class="var">K</var> prior to order reduction.
+ Default value is false if both <code class="code">G.scaled == true, K.scaled == true</code>
  and true otherwise.
- Note that for <acronym>MIMO</acronym> models, proper scaling of both inputs and outputs
- is of utmost importance.  The input and output scaling can <strong>not</strong>
- be done by the equilibration option or the <code>prescale</code> function
+ Note that for <abbr class="acronym">MIMO</abbr> models, proper scaling of both inputs and outputs
+ is of utmost importance.  The input and output scaling can <strong class="strong">not</strong>
+ be done by the equilibration option or the <code class="command">prescale</code> function
  because these functions perform state transformations only.
  Furthermore, signals should not be scaled simply to a certain range.
  For all inputs (or outputs), a certain change should be of the same
@@ -753,15 +753,18 @@
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB16AD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB16AD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/spaconred.m">spaconred</a>
 </div>
-
 
             </div>
           </div>

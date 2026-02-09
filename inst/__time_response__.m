@@ -27,11 +27,17 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
   tmp = cellfun (@double, args(idx), "uniformoutput", false);
   args(idx) = tmp;
 
-  sys_idx = cellfun (@isa, args, {"lti"});                          # LTI models
-  mat_idx = cellfun (@is_real_matrix, args);                        # matrices
-  sty_idx = cellfun (@ischar, args);                                # strings (style arguments)
+  sys_idx = cellfun (@isa, args, {"lti"});        # LTI models
+  mat_idx = cellfun (@is_real_matrix, args);      # matrices
+  sty_idx = cellfun (@ischar, args);              # strings (style arguments)
 
-  inv_idx = ! (sys_idx | mat_idx | sty_idx);                        # invalid arguments
+  inv_idx = ! (sys_idx | mat_idx | sty_idx);      # invalid arguments
+
+  idx_no_name = cellfun (@isempty, names);        # no system name
+  sys_numbers = find (idx_no_name);
+  names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys',num2str(x)], ...
+                                sys_numbers(:), "uniformoutput", false));
+
 
   if (any (inv_idx))
     warning ("%s: arguments number %s are invalid and are being ignored\n", ...
@@ -73,6 +79,13 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       endswitch
       if (! is_real_vector (x0))
         error ("initial: initial state vector 'x0' must be a real-valued vector\n");
+      endif
+      is_ss = cellfun (@isa, args(sys_idx), {"ss"});
+      if (! all (is_ss))
+        no_ss = find (is_ss==0);
+        no_ss_names = sprintf ("%s, ", names{no_ss});
+        no_ss_names = no_ss_names(1:end-2);
+        error ("initial: system %s not in state space, x0 is ambiguous\n", no_ss_names);
       endif
 
     case {"step", "impulse", "ramp"}
@@ -119,12 +132,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
   [tfinal, dt] = cellfun (@__sim_horizon__, args(sys_idx), {tfinal}, {dt}, "uniformoutput", false);
   tfinal = max ([tfinal{:}]);
-
-  ## handle names and set reasonable names if empty
-  idx_no_name = cellfun (@isempty, names);
-  sys_numbers = find (idx_no_name);
-  names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys',num2str(x)], ...
-                                sys_numbers(:), "uniformoutput", false));
 
   ## discretizaiton of continuous time systems
   ## do this in state space for more accurate results
@@ -266,7 +273,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
         error ("time_response: invalid response type '%s'\n", response);
     endswitch
 
-    str = [str, sprintf(" %s,", names{:})];
     str = substr (str, 1, length (str) - 1);
 
     ## get last system present in the subplots

@@ -528,56 +528,59 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>P</var> = <b>augw</b> (<var>G</var>, <var>W1</var>, <var>W2</var>, <var>W3</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-augw"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">P</var> =</code> <strong class="def-name">augw</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">W1</var>, <var class="var">W2</var>, <var class="var">W3</var>)</code></span></dt>
 </dl>
-<p> Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
+<p>Extend plant for stacked S/KS/T problem.  Subsequently, the robust control problem
  can be solved by h2syn or hinfsyn.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>G</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">G</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of plant.
+<p><abbr class="acronym">LTI</abbr> model of plant.
  </p></dd>
-<dt> <var>W1</var></dt>
+<dt><var class="var">W1</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of performance weight.  Bounds the largest singular values of sensitivity <var>S</var>.
- Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model of performance weight.  Bounds the largest singular values of sensitivity <var class="var">S</var>.
+ Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
-<dt> <var>W2</var></dt>
+<dt><var class="var">W2</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to penalize large control inputs.  Bounds the largest singular values of <var>KS</var>.
- Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model to penalize large control inputs.  Bounds the largest singular values of <var class="var">KS</var>.
+ Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
-<dt> <var>W3</var></dt>
+<dt><var class="var">W3</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
- complementary sensitivity <var>T</var>.  Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model of robustness and noise sensitivity weight.  Bounds the largest singular values of 
+ complementary sensitivity <var class="var">T</var>.  Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
 </dl>
 
-<p> All inputs must be proper/realizable.
- Scalars, vectors and matrices are possible instead of <acronym>LTI</acronym> models.
+<p>All inputs must be proper/realizable.
+ Scalars, vectors and matrices are possible instead of <abbr class="acronym">LTI</abbr> models.
 </p>
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">P</var></dt>
 </dl>
-<p> State-space model of augmented plant.
+<p>State-space model of augmented plant.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
      | W1 | -W1*G |     z1 = W1 r  -  W1 G u
      | 0  |  W2   |     z2 =          W2   u
  P = | 0  |  W3*G |     z3 =          W3 G u
      |----+-------|
      | I  |    -G |     e  =    r  -     G u
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                                                       +------+  z1
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">                                                       +------+  z1
              +----------------------------------------&gt;|  W1  |-----&gt;
              |                                         +------+
              |                                         +------+  z2
@@ -588,15 +591,17 @@
         ^ -      +--------+        +--------+    |     +------+
         |                                        |
         +----------------------------------------+
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                +--------+
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">                +--------+
                 |        |-----&gt; z1 (p1x1)          z1 = W1 e
   r (px1) -----&gt;|  P(s)  |-----&gt; z2 (p2x1)          z2 = W2 u
                 |        |-----&gt; z3 (p3x1)          z3 = W3 y
   u (mx1) -----&gt;|        |-----&gt; e (px1)            e = r - y
                 +--------+
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                +--------+  
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">                +--------+  
         r -----&gt;|        |-----&gt; z
                 |  P(s)  |
         u +----&gt;|        |-----+ e
@@ -605,21 +610,20 @@
           |     +--------+     |
           +-----|  K(s)  |&lt;----+
                 +--------+
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- Skogestad, S. and Postlethwaite I. (2005)
- <cite>Multivariable Feedback Control: Analysis and Design:
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> Skogestad, S. and Postlethwaite I. (2005)
+ <cite class="cite">Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley.
  </li></ol>
 
-<p> <strong>See also: </strong>
-  <a href="h2syn.html">h2syn</a>, 
-  <a href="hinfsyn.html">hinfsyn</a>, 
-  <a href="mixsyn.html">mixsyn</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/augw.m">augw</a>
 </div>

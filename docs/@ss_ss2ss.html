@@ -528,46 +528,48 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>SYS_T</var> = <b>ss2ss</b> (<var>SYS</var>, <var>T</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>A_T</var> <var>B_T</var> <var>C_T</var> <var>D_T</var>] = <b>ss2ss</b> (<var>A</var>,  <var>B</var>, <var>C</var>, <var>D</var>, <var>T</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ss2ss"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">SYS_T</var> =</code> <strong class="def-name">ss2ss</strong> <code class="def-code-arguments">(<var class="var">SYS</var>, <var class="var">T</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss2ss-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">A_T</var> <var class="var">B_T</var> <var class="var">C_T</var> <var class="var">D_T</var>] =</code> <strong class="def-name">ss2ss</strong> <code class="def-code-arguments">(<var class="var">A</var>,  <var class="var">B</var>, <var class="var">C</var>, <var class="var">D</var>, <var class="var">T</var>)</code></span></dt>
 </dl>
-<p> Applies the similarity transformation T to a state-space model
+<p>Applies the similarity transformation T to a state-space model
 </p><div class="ms-5">
 
-<p> Given the state space model
+<p>Given the state space model
  $$ \dot x = Ax + Bu $$$$ y = Cx + Du $$
 </p> 
 
-<p> and the transformation matrix T, which maps the state vector x to another
+<p>and the transformation matrix T, which maps the state vector x to another
  coordinate system
  $$ \bar{x} = Tx $$
 </p> 
 
-<p> the state-space model is transformed in a way that results in an equivalent
+<p>the state-space model is transformed in a way that results in an equivalent
  state-space model which is based on the new state vector
 </p>
-<p> $$ \dot{\bar{x}} = TAT^{-1}\bar{x} + TBu $$$$ y = CT^{-1}\bar{x} + Du $$
+<p>$$ \dot{\bar{x}} = TAT^{-1}\bar{x} + TBu $$$$ y = CT^{-1}\bar{x} + Du $$
 </p> 
  
-<p> Please note: In the literature, T may be defined inversely:
+<p>Please note: In the literature, T may be defined inversely:
 </p>
-<p> $$ \bar{x} = T^{-1}x $$
+<p>$$ \bar{x} = T^{-1}x $$
 </p> 
-<p> References:
+<p>References:
 </p>
-<p> Control System Design, page 484 by Goodwin, Graebe, Salgado, 2000
+<p>Control System Design, page 484 by Goodwin, Graebe, Salgado, 2000
 </p>
-<p> https://de.mathworks.com/help/control/ref/ss2ss.html
+<p>https://de.mathworks.com/help/control/ref/ss2ss.html
 </p>
-<p> Attention: T as defined by Matlab is the inverse of T as defined by 
+<p>Attention: T as defined by Matlab is the inverse of T as defined by 
  Goodwin, Graebe, Salgado
  </p>
-<p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@ss/ss2ss.m">@ss/ss2ss</a>
 </div>
 
 
+
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@ss/ss2ss.m">@ss/ss2ss</a>
+</div>
 
             </div>
           </div>

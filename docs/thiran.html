@@ -528,44 +528,45 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>thiran</b> (<var>T</var>, <var>Ts</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-thiran"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">thiran</strong> <code class="def-code-arguments">(<var class="var">T</var>, <var class="var">Ts</var>)</code></span></dt>
 </dl>
 
-<p> Approximation of continuous-time delay using a discrete-time
+<p>Approximation of continuous-time delay using a discrete-time
  allpass Thiran filter. 
 </p>
 <div class="ms-5">
-<p> Thiran filters can approximate continuous-time delays that are
+<p>Thiran filters can approximate continuous-time delays that are
  non-integer multiples of the sampling time (fractional delays).
  This approximation gives a better matching of the phase shift
  between the continuous- and the discrete-time system.
  If there is no fractional part in the delay, then the standard
  discrete-time delay representation is used. 
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>T</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">T</var></dt>
 </dl>
-<p> A continuous-time delay, given in time units (seconds).
+<p>A continuous-time delay, given in time units (seconds).
  </p></dd>
-<dt> <var>Ts</var></dt>
+<dt><var class="var">Ts</var></dt>
 </dl>
-<p> The sampling time of the resulting Thiran filter.
+<p>The sampling time of the resulting Thiran filter.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Transfer function model of the resulting filter.
+<p>Transfer function model of the resulting filter.
  The order of the filter is determined automatically.
  </p></dd>
 </dl>
 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:1&gt; sys = thiran (1.33, 0.5)
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> octave:1&gt; sys = thiran (1.33, 0.5)
 
  Transfer function 'sys' from input 'u1' to output ...
  
@@ -575,8 +576,9 @@
  
  Sampling time: 0.5 s
  Discrete-time model.
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:2&gt; sys = thiran (1, 0.5)
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> octave:2&gt; sys = thiran (1, 0.5)
 
  Transfer function 'sys' from input 'u1' to output ...
         1
@@ -585,11 +587,13 @@
  
  Sampling time: 0.5 s
  Discrete-time model.
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>See also: </strong>
-  <a href="pade.html">pade</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/thiran.m">thiran</a>
 </div>

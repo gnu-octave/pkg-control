@@ -528,52 +528,55 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>nvec</var> = <b>size</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>n</var> = <b>size</b> (<var>sys</var>, <var>dim</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>p</var>, <var>m</var>] = <b>size</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-size"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">nvec</var> =</code> <strong class="def-name">size</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-size-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">n</var> =</code> <strong class="def-name">size</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">dim</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-size-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">p</var>, <var class="var">m</var>] =</code> <strong class="def-name">size</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> <acronym>LTI</acronym> model size, i.e. number of outputs and inputs.
+<p><abbr class="acronym">LTI</abbr> model size, i.e. number of outputs and inputs.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system.
+<p><abbr class="acronym">LTI</abbr> system.
  </p></dd>
-<dt> <var>dim</var></dt>
+<dt><var class="var">dim</var></dt>
 </dl>
-<p> If given a second argument, <code>size</code> will return the size of the
+<p>If given a second argument, <code class="command">size</code> will return the size of the
  corresponding dimension.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>nvec</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">nvec</var></dt>
 </dl>
-<p> Row vector.  The first element is the number of outputs (rows) and the second
+<p>Row vector.  The first element is the number of outputs (rows) and the second
  element the number of inputs (columns).
  </p></dd>
-<dt> <var>n</var></dt>
+<dt><var class="var">n</var></dt>
 </dl>
-<p> Scalar value.  The size of the dimension <var>dim</var>.
+<p>Scalar value.  The size of the dimension <var class="var">dim</var>.
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Number of outputs.
+<p>Number of outputs.
  </p></dd>
-<dt> <var>m</var></dt>
+<dt><var class="var">m</var></dt>
 </dl>
-<p> Number of inputs.
+<p>Number of inputs.
  </p></dd>
 </dl>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/size.m">@lti/size</a>
 </div>
-
 
             </div>
           </div>

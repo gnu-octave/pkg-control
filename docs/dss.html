@@ -528,137 +528,138 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>dss</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>dss</b> (<var>d</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>dss</b> (<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>dss</b> (<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dss"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">dss</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dss-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">dss</strong> <code class="def-code-arguments">(<var class="var">d</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dss-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">dss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">e</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dss-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">dss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">e</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create or convert to descriptor state-space model.
+<p>Create or convert to descriptor state-space model.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to be converted to state-space.
+<p><abbr class="acronym">LTI</abbr> model to be converted to state-space.
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
+<p>Input matrix (n-by-m).
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Output matrix (p-by-n).
+<p>Output matrix (p-by-n).
  </p></dd>
-<dt> <var>d</var></dt>
+<dt><var class="var">d</var></dt>
 </dl>
-<p> Feedthrough matrix (p-by-m).
+<p>Feedthrough matrix (p-by-m).
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Descriptor matrix (n-by-n).
+<p>Descriptor matrix (n-by-n).
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified, 
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified, 
  a continuous-time model is assumed.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of properties and values.
- Type <code>set (dss)</code> for more information.
+<p>Optional pairs of properties and values.
+ Type <code class="command">set (dss)</code> for more information.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Descriptor state-space model.
+<p>Descriptor state-space model.
  </p></dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;a&rsquo;, &rsquo;b&rsquo;, &rsquo;c&rsquo;, &rsquo;d&rsquo;, &rsquo;e&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;a&rsquo;, &rsquo;b&rsquo;, &rsquo;c&rsquo;, &rsquo;d&rsquo;, &rsquo;e&rsquo;</var></dt>
 </dl>
-<p> State-space matrices.  See &rsquo;Inputs&rsquo; for details.
+<p>State-space matrices.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;stname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;stname&rsquo;</var></dt>
 </dl>
-<p> The name of the states in <var>sys</var>.
+<p>The name of the states in <var class="var">sys</var>.
  Cell vector containing strings for each state.
- Default names are <code>{'x1', 'x2', ...}</code>
+ Default names are <code class="code">{'x1', 'x2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;scaled&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;scaled&rsquo;</var></dt>
 </dl>
-<p> Logical.  If set to true, no automatic scaling is used,
+<p>Logical.  If set to true, no automatic scaling is used,
  e.g. for frequency response plots.
 </p>
- </dd>
-<dt> <var>&rsquo;tsam&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tsam&rsquo;</var></dt>
 </dl>
-<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
+<p>Sampling time.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;inname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;inname&rsquo;</var></dt>
 </dl>
-<p> The name of the input channels in <var>sys</var>.
+<p>The name of the input channels in <var class="var">sys</var>.
  Cell vector of length m containing strings.
- Default names are <code>{'u1', 'u2', ...}</code>
+ Default names are <code class="code">{'u1', 'u2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;outname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outname&rsquo;</var></dt>
 </dl>
-<p> The name of the output channels in <var>sys</var>.
+<p>The name of the output channels in <var class="var">sys</var>.
  Cell vector of length p containing strings.
- Default names are <code>{'y1', 'y2', ...}</code>
+ Default names are <code class="code">{'y1', 'y2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;ingroup&rsquo;</var></dt>
 </dl>
-<p> Struct with input group names as field names and
+<p>Struct with input group names as field names and
  vectors of input indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outgroup&rsquo;</var></dt>
 </dl>
-<p> Struct with output group names as field names and
+<p>Struct with output group names as field names and
  vectors of output indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;name&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;name&rsquo;</var></dt>
 </dl>
-<p> String containing the name of the model.
+<p>String containing the name of the model.
 </p>
- </dd>
-<dt> <var>&rsquo;notes&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;notes&rsquo;</var></dt>
 </dl>
-<p> String or cell of string containing comments.
+<p>String or cell of string containing comments.
 </p>
- </dd>
-<dt> <var>&rsquo;userdata&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;userdata&rsquo;</var></dt>
 </dl>
-<p> Any data type.
+<p>Any data type.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Equations</strong>
  $$E\, \dot{x} = A\,x + B\,u$$$$y = C\,x + D\,u$$
 </p> 
-<p> <strong>See also: </strong>
-  <a href="@ss_ss.html">@ss/ss</a>, 
-  <a href="@tf_tf.html">@tf/tf</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dss.m">dss</a>
 </div>

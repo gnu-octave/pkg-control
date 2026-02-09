@@ -528,61 +528,62 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>x</var>, <var>l</var>, <var>g</var>] = <b>care</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>x</var>, <var>l</var>, <var>g</var>] = <b>care</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>x</var>, <var>l</var>, <var>g</var>] = <b>care</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>[]</var>, <var>e</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>x</var>, <var>l</var>, <var>g</var>] = <b>care</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>s</var>, <var>e</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-care"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">x</var>, <var class="var">l</var>, <var class="var">g</var>] =</code> <strong class="def-name">care</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-care-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">x</var>, <var class="var">l</var>, <var class="var">g</var>] =</code> <strong class="def-name">care</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-care-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">x</var>, <var class="var">l</var>, <var class="var">g</var>] =</code> <strong class="def-name">care</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">[]</var>, <var class="var">e</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-care-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">x</var>, <var class="var">l</var>, <var class="var">g</var>] =</code> <strong class="def-name">care</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>, <var class="var">e</var>)</code></span></dt>
 </dl>
-<p> Solve continuous-time algebraic Riccati equation (ARE).
+<p>Solve continuous-time algebraic Riccati equation (ARE).
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">a</var></dt>
 </dl>
-<p> Real matrix (n-by-n).
+<p>Real matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Real matrix (n-by-m).
+<p>Real matrix (n-by-m).
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> Real matrix (n-by-n).
+<p>Real matrix (n-by-n).
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Real matrix (m-by-m).
+<p>Real matrix (m-by-m).
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional real matrix (n-by-m).  If <var>s</var> is not specified, a zero matrix is assumed.
+<p>Optional real matrix (n-by-m).  If <var class="var">s</var> is not specified, a zero matrix is assumed.
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Optional descriptor matrix (n-by-n).  If <var>e</var> is not specified, an identity matrix is assumed.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>x</var></dt>
-</dl>
-<p> Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
- </p></dd>
-<dt> <var>l</var></dt>
-</dl>
-<p> Closed-loop poles (n-by-1).
- </p></dd>
-<dt> <var>g</var></dt>
-</dl>
-<p> Corresponding gain matrix (m-by-n).
+<p>Optional descriptor matrix (n-by-n).  If <var class="var">e</var> is not specified, an identity matrix is assumed.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                -1
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">x</var></dt>
+</dl>
+<p>Unique stabilizing solution of the continuous-time Riccati equation (n-by-n).
+ </p></dd>
+<dt><var class="var">l</var></dt>
+</dl>
+<p>Closed-loop poles (n-by-1).
+ </p></dd>
+<dt><var class="var">g</var></dt>
+</dl>
+<p>Corresponding gain matrix (m-by-n).
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Equations</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">                -1
  A'X + XA - XB R  B'X + Q = 0
  
                       -1
@@ -595,8 +596,9 @@
  G = R  (B'X + S')
 
  L = eig (A - B*G)
- </pre><pre class="example"> </pre></td></tr></table>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                     -1
+ </pre></div></div>
+<div class="example">
+<div class="group"><pre class="example-preformatted">                     -1
  A'XE + E'XA - E'XB R   B'XE + Q = 0
 
                            -1
@@ -609,19 +611,18 @@
  G = R  (B'XE + S)
 
  L = eig (A - B*G, E)
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB02OD and SG02AD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB02OD and SG02AD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>See also: </strong>
-  <a href="dare.html">dare</a>, 
-  <a href="lqr.html">lqr</a>, 
-  <a href="dlqr.html">dlqr</a>, 
-  <a href="kalman.html">kalman</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/care.m">care</a>
 </div>

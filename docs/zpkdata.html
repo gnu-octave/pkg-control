@@ -528,59 +528,62 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>] = <b>zpkdata</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>z</var>, <var>p</var>, <var>k</var>, <var>tsam</var>] = <b>zpkdata</b> (<var>sys</var>, <var>&quot;v&quot;</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-zpkdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">z</var>, <var class="var">p</var>, <var class="var">k</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">zpkdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zpkdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">z</var>, <var class="var">p</var>, <var class="var">k</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">zpkdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">&quot;v&quot;</var>)</code></span></dt>
 </dl>
 
-<p> Access zero-pole-gain data.
- <var>sys</var> can also be a real-valued matrix which is then
+<p>Access zero-pole-gain data.
+ <var class="var">sys</var> can also be a real-valued matrix which is then
  interpreted as continuous-time static gain system.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+<p>Any type of <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
  interpreted as continous-time static gain.
  </p></dd>
-<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dt><var class="var">&quot;v&quot;, &quot;vector&quot;</var></dt>
 </dl>
-<p> For SISO models, return <var>z</var> and <var>p</var> directly as column vectors
+<p>For SISO models, return <var class="var">z</var> and <var class="var">p</var> directly as column vectors
  instead of cells containing a single column vector.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>z</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">z</var></dt>
 </dl>
-<p> Cell of column vectors containing the zeros for each channel.
+<p>Cell of column vectors containing the zeros for each channel.
  z{i,j} contains the zeros from input j to output i.
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Cell of column vectors containing the poles for each channel.
+<p>Cell of column vectors containing the poles for each channel.
  p{i,j} contains the poles from input j to output i.
  </p></dd>
-<dt> <var>k</var></dt>
+<dt><var class="var">k</var></dt>
 </dl>
-<p> Matrix containing the gains for each channel.
+<p>Matrix containing the gains for each channel.
  k(i,j) contains the gain from input j to output i.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+<p>Sampling time in seconds.  If <var class="var">sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/zpkdata.m">zpkdata</a>
 </div>
-
 
             </div>
           </div>

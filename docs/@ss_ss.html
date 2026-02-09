@@ -528,134 +528,135 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>d</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>a</var>, <var>b</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>a</var>, <var>b</var>, <var>c</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>ss</b> (<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ss"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">d</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-ss-5"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">ss</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create or convert to state-space model.
+<p>Create or convert to state-space model.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to be converted to state-space.
+<p><abbr class="acronym">LTI</abbr> model to be converted to state-space.
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
+<p>Input matrix (n-by-m).
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Output matrix (p-by-n).
- If <var>c</var> is empty <code>[]</code> or not specified, an identity matrix is assumed.
+<p>Output matrix (p-by-n).
+ If <var class="var">c</var> is empty <code class="code">[]</code> or not specified, an identity matrix is assumed.
  </p></dd>
-<dt> <var>d</var></dt>
+<dt><var class="var">d</var></dt>
 </dl>
-<p> Feedthrough matrix (p-by-m).
- If <var>d</var> is empty <code>[]</code> or not specified, a zero matrix is assumed.
+<p>Feedthrough matrix (p-by-m).
+ If <var class="var">d</var> is empty <code class="code">[]</code> or not specified, a zero matrix is assumed.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified, a continuous-time model is assumed.
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified, a continuous-time model is assumed.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of properties and values.
- Type <code>set (ss)</code> for more information.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
-</dl>
-<p> State-space model.
+<p>Optional pairs of properties and values.
+ Type <code class="command">set (ss)</code> for more information.
  </p></dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;a&rsquo;, &rsquo;b&rsquo;, &rsquo;c&rsquo;, &rsquo;d&rsquo;, &rsquo;e&rsquo;</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> State-space matrices.  See &rsquo;Inputs&rsquo; for details.
+<p>State-space model.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;a&rsquo;, &rsquo;b&rsquo;, &rsquo;c&rsquo;, &rsquo;d&rsquo;, &rsquo;e&rsquo;</var></dt>
+</dl>
+<p>State-space matrices.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;stname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;stname&rsquo;</var></dt>
 </dl>
-<p> The name of the states in <var>sys</var>.
+<p>The name of the states in <var class="var">sys</var>.
  Cell vector containing strings for each state.
- Default names are <code>{'x1', 'x2', ...}</code>
+ Default names are <code class="code">{'x1', 'x2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;scaled&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;scaled&rsquo;</var></dt>
 </dl>
-<p> Logical.  If set to true, no automatic scaling is used,
+<p>Logical.  If set to true, no automatic scaling is used,
  e.g. for frequency response plots.
 </p>
- </dd>
-<dt> <var>&rsquo;tsam&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tsam&rsquo;</var></dt>
 </dl>
-<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
+<p>Sampling time.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;inname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;inname&rsquo;</var></dt>
 </dl>
-<p> The name of the input channels in <var>sys</var>.
+<p>The name of the input channels in <var class="var">sys</var>.
  Cell vector of length m containing strings.
- Default names are <code>{'u1', 'u2', ...}</code>
+ Default names are <code class="code">{'u1', 'u2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;outname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outname&rsquo;</var></dt>
 </dl>
-<p> The name of the output channels in <var>sys</var>.
+<p>The name of the output channels in <var class="var">sys</var>.
  Cell vector of length p containing strings.
- Default names are <code>{'y1', 'y2', ...}</code>
+ Default names are <code class="code">{'y1', 'y2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;ingroup&rsquo;</var></dt>
 </dl>
-<p> Struct with input group names as field names and
+<p>Struct with input group names as field names and
  vectors of input indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outgroup&rsquo;</var></dt>
 </dl>
-<p> Struct with output group names as field names and
+<p>Struct with output group names as field names and
  vectors of output indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;name&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;name&rsquo;</var></dt>
 </dl>
-<p> String containing the name of the model.
+<p>String containing the name of the model.
 </p>
- </dd>
-<dt> <var>&rsquo;notes&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;notes&rsquo;</var></dt>
 </dl>
-<p> String or cell of string containing comments.
+<p>String or cell of string containing comments.
 </p>
- </dd>
-<dt> <var>&rsquo;userdata&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;userdata&rsquo;</var></dt>
 </dl>
-<p> Any data type.
+<p>Any data type.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Equations</strong>
  $$\dot{x} = A\,x + B\,u$$$$y = C\,x + D\,u$$
 </p> 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:1&gt; a = [1 2 3; 4 5 6; 7 8 9];
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> octave:1&gt; a = [1 2 3; 4 5 6; 7 8 9];
  octave:2&gt; b = [10; 11; 12];
  octave:3&gt; stname = {'V', 'A', 'kJ'};
  octave:4&gt; sys = ss (a, b, 'stname', stname)
@@ -686,27 +687,29 @@
 
  Continuous-time model.
  octave:5&gt;
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Compatibility issue</strong>
+<p><strong class="strong">Compatibility issue</strong>
 </p>
-<p> If the state-space model <var>sys</var> is converted from a transfer
+<p>If the state-space model <var class="var">sys</var> is converted from a transfer
  function, the resulting state-space model can be transformed into
  the form computed by Matlab (a controllable canonical form with
  flipped state variables order) by using the following
  similarity transformation:
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> n = size (sys.a, 1)
+<div class="example">
+<div class="group"><pre class="example-preformatted"> n = size (sys.a, 1)
  QSi = inv (ctrb (sys))
  T(n,:) = QSi(n,:)
  for i=n-1:-1:1, T(i,:) = T(i+1,:)*sys.a, endfor
  sys_ml = ss2ss (sys, T)
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>See also: </strong>
-  <a href="@tf_tf.html">@tf/tf</a>, 
-  <a href="dss.html">dss</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@ss/ss.m">@ss/ss</a>
 </div>

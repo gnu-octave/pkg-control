@@ -15,11 +15,12 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} sgrid
+## @deftypefn  {Function File} {} sgrid {@ }
 ## @deftypefnx {Function File} {} sgrid on
 ## @deftypefnx {Function File} {} sgrid off
 ## @deftypefnx {Function File} {} sgrid (@var{z}, @var{w})
 ## @deftypefnx {Function File} {} sgrid (@var{hax}, @dots{})
+##
 ## Display an grid in the complex s-plane.
 ##
 ## Control the display of s-plane grid with :

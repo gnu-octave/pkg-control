@@ -528,40 +528,42 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>sminreal</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>sminreal</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-sminreal"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">sminreal</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sminreal-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">sminreal</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
 </dl>
-<p> Perform state-space model reduction based on structure.
+<p>Perform state-space model reduction based on structure.
  Remove states which have no influence on the input-output behaviour.
  The physical meaning of the states is retained.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> State-space model.
+<p>State-space model.
  </p></dd>
-<dt> <var>tol</var></dt>
+<dt><var class="var">tol</var></dt>
 </dl>
-<p> Optional tolerance for controllability and observability. 
- Entries of the state-space matrices whose moduli are less or equal to <var>tol</var>
+<p>Optional tolerance for controllability and observability. 
+ Entries of the state-space matrices whose moduli are less or equal to <var class="var">tol</var>
  are assumed to be zero.  Default value is 0.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Reduced state-space model.
+<p>Reduced state-space model.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="@lti_minreal.html">@lti/minreal</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/sminreal.m">@lti/sminreal</a>
 </div>

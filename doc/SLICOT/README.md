@@ -8,4 +8,8 @@ problem of the control package, not the proven SLICOT library.
 Therefore, please send any reports to the [Octave bug tracker](https://savannah.gnu.org/projects/octave/) or the 
 [Octave discourse platform](https://octave.discourse.group/).
 
+Reference:
+
+- Köhler, M., Saak, J., Sima, V., & Varga, A. (2025). SLICOT - Subroutine Library In COntrol Theory (Version 5.9.1) [Computer software]. DOI: [10.5281/zenodo.17523371](https://doi.org/10.5281/zenodo.17523371)
+
 **Note**: The file `TG04BX.f` does not belong to SLICOT. It is a slightly extended version of the original SLICOT file `TB04BX.f`. The extension allows to handle descriptor system with `E` not being the identity matrix. The original SLICOT file is included as `TB04BX.f.orig`

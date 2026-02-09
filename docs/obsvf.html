@@ -528,36 +528,41 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>sysbar</var>, <var>T</var>, <var>K</var>] = <b>obsvf</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sysbar</var>, <var>T</var>, <var>K</var>] = <b>obsvf</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Abar</var>, <var>Bbar</var>, <var>Cbar</var>, <var>T</var>, <var>K</var>] = <b>obsvf</b> (<var>A</var>, <var>B</var>, <var>C</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Abar</var>, <var>Bbar</var>, <var>Cbar</var>, <var>T</var>, <var>K</var>] = <b>obsvf</b> (<var>A</var>, <var>B</var>, <var>C</var>, <var>TOL</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-obsvf"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sysbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">obsvf</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-obsvf-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sysbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">obsvf</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-obsvf-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Abar</var>, <var class="var">Bbar</var>, <var class="var">Cbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">obsvf</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">B</var>, <var class="var">C</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-obsvf-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Abar</var>, <var class="var">Bbar</var>, <var class="var">Cbar</var>, <var class="var">T</var>, <var class="var">K</var>] =</code> <strong class="def-name">obsvf</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">B</var>, <var class="var">C</var>, <var class="var">TOL</var>)</code></span></dt>
 </dl>
-<p> If Ob=obsv(A,C) has rank r &lt;= n = SIZE(A,1), then there is a 
+<p>If Ob=obsv(A,C) has rank r &lt;= n = SIZE(A,1), then there is a 
  similarity transformation Tc such that To = [t1;t2] where t1 is c
  and t2 is orthogonal to t1
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Abar = To \ A * To ,  Bbar = To \ B ,  Cbar = C * To
- </pre><pre class="example"> </pre></td></tr></table>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> Abar = To \ A * To ,  Bbar = To \ B ,  Cbar = C * To
+ </pre></div></div>
  
-<p> and the transformed system has the form
+<p>and the transformed system has the form
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">        | Ao     0 |           | Bo  |
+<div class="example">
+<div class="group"><pre class="example-preformatted">        | Ao     0 |           | Bo  |
  Abar = |----------|,   Bbar = | --- |,  Cbar = [Co | 0 ].
         | A21   Ano|           | Bno |
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
                                                       
-<p> where (Ao,Bo) is observable, and Co(sI-Ao)^(-1)Bo = C(sI-A)^(-1)B. And 
+<p>where (Ao,Bo) is observable, and Co(sI-Ao)^(-1)Bo = C(sI-A)^(-1)B. And 
  system is detectable if Ano has no eigenvalues in the right 
  half plane. The last output K is a vector of length n containing the 
  number of observable states.
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/obsvf.m">obsvf</a>
 </div>
-
 
             </div>
           </div>

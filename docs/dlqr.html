@@ -528,79 +528,80 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>sys</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>[]</var>, <var>e</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>dlqr</b> (<var>a</var>, <var>b</var>, <var>q</var>, <var>r</var>, <var>s</var>, <var>e</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dlqr"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqr-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqr-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqr-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqr-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">[]</var>, <var class="var">e</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqr-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">dlqr</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>, <var class="var">e</var>)</code></span></dt>
 </dl>
-<p> Linear-quadratic regulator for discrete-time systems.
+<p>Linear-quadratic regulator for discrete-time systems.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous or discrete-time <acronym>LTI</acronym> model (p-by-m, n states).
+<p>Continuous or discrete-time <abbr class="acronym">LTI</abbr> model (p-by-m, n states).
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State transition matrix of discrete-time system (n-by-n).
+<p>State transition matrix of discrete-time system (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix of discrete-time system (n-by-m).
+<p>Input matrix of discrete-time system (n-by-m).
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> State weighting matrix (n-by-n).
+<p>State weighting matrix (n-by-n).
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Input weighting matrix (m-by-m).
+<p>Input weighting matrix (m-by-m).
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional cross term matrix (n-by-m).  If <var>s</var> is not specified, a zero matrix is assumed.
+<p>Optional cross term matrix (n-by-m).  If <var class="var">s</var> is not specified, a zero matrix is assumed.
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Optional descriptor matrix (n-by-n).  If <var>e</var> is not specified, an identity matrix is assumed.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>g</var></dt>
-</dl>
-<p> State feedback matrix (m-by-n).
- </p></dd>
-<dt> <var>x</var></dt>
-</dl>
-<p> Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
- </p></dd>
-<dt> <var>l</var></dt>
-</dl>
-<p> Closed-loop poles (n-by-1).
+<p>Optional descriptor matrix (n-by-n).  If <var class="var">e</var> is not specified, an identity matrix is assumed.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> x[k+1] = A x[k] + B u[k],   x[0] = x0
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">g</var></dt>
+</dl>
+<p>State feedback matrix (m-by-n).
+ </p></dd>
+<dt><var class="var">x</var></dt>
+</dl>
+<p>Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
+ </p></dd>
+<dt><var class="var">l</var></dt>
+</dl>
+<p>Closed-loop poles (n-by-1).
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Equations</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> x[k+1] = A x[k] + B u[k],   x[0] = x0
 
          inf
  J(x0) = SUM (x' Q x  +  u' R u  +  2 x' S u)
          k=0
 
  L = eig (A - B*G)
- </pre><pre class="example"> </pre></td></tr></table>
-<p> <strong>See also: </strong>
-  <a href="dare.html">dare</a>, 
-  <a href="care.html">care</a>, 
-  <a href="lqr.html">lqr</a>
-</p>
+ </pre></div></div>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dlqr.m">dlqr</a>
 </div>

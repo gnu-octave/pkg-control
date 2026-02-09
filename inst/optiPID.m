@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {} optiPID ()
+## @deftypefn  {Function File} {} optiPID {@ }
 ##
 ## Numerical optimization of a PID controller using an objective function.
 ##

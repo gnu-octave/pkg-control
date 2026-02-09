@@ -528,17 +528,17 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>optiPID</b> ()</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-optiPID"><span class="category-def">Function File: </span><span><strong class="def-name">optiPID</strong> <code class="def-code-arguments">()</code></span></dt>
 </dl>
 
-<p> Numerical optimization of a PID controller using an objective function.
+<p>Numerical optimization of a PID controller using an objective function.
 </p>
 <div class="ms-5">
-<p> The objective function is located in the file <code>optiPIDfun</code>.
- Type <code>which optiPID</code> to locate, <code>edit optiPID</code> to open
- and simply <code>optiPID</code> to run the example file.
- In this example called <code>optiPID</code>, loosely based on [1], it is assumed
+<p>The objective function is located in the file <code class="command">optiPIDfun</code>.
+ Type <code class="code">which optiPID</code> to locate, <code class="code">edit optiPID</code> to open
+ and simply <code class="code">optiPID</code> to run the example file.
+ In this example called <code class="code">optiPID</code>, loosely based on [1], it is assumed
  that the plant
  $$ P(s) = \frac{1}{(s^{2} + s + 1)(s + 1)^{4}} $$
   is controlled by a PID controller with second-order roll-off
@@ -554,7 +554,7 @@
  As with all numerical methods, this approach can never guarantee that a
  proposed solution is a global minimum.  Therefore, good initial guesses for
  the parameters to be optimized are very important.
- The Octave function <code>fminsearch</code> minimizes the objective function <var>J</var>,
+ The Octave function <code class="code">fminsearch</code> minimizes the objective function <var class="var">J</var>,
  which is chosen to be
  $$ J(K_P, T_I, T_D) = \mu_1  \int_0^{\infty} \! t |e(t)| dt + \mu_2  (|| y(t) ||_{\infty} - 1) + \mu_3 ||S(jw)||_{\infty} $$
   This particular objective function penalizes the integral of time-weighted absolute error
@@ -565,11 +565,11 @@
  \(r(t) = \varepsilon (t)\)
  in the time domain. In the frequency domain, the sensitivity
  \(M_s = ||S(jw)||_{\infty}\)
-  is minimized for good robustness, where S(s) denotes the <em>sensitivity</em> transfer function
+  is minimized for good robustness, where S(s) denotes the <em class="emph">sensitivity</em> transfer function
  $$ S(s) = \frac{1}{1 + L(s)} = \frac{1}{1 + P(s)\,C(s)} $$
   The constants
  \(\mu_1,\, \mu_2\)\(\mu_3\)
-  are <em>relative weighting factors</em> or &laquo;tuning knobs&raquo;
+  are <em class="emph">relative weighting factors</em> or &laquo;tuning knobs&raquo;
  which reflect the importance of the different design goals. Varying these factors
  corresponds to changing the emphasis from, say, high performance to good robustness.
  The main advantage of this approach is the possibility to explore the tradeoffs of
@@ -580,24 +580,25 @@
   are found to yield satisfactory closed-loop performance.  This controller results
  in a system with virtually no overshoot and a phase margin of 64 degrees.
 </p>
- <br><p><strong>References</strong><br>
- </p><ol>
-<li>
- Guzzella, L.
- <cite>Analysis and Design of SISO Control Systems</cite>,
+<br><p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> Guzzella, L.
+ <cite class="cite">Analysis and Design of SISO Control Systems</cite>,
  VDF Hochschulverlag, ETH Zurich, 2007<br>
- </li><li>
- Astroem, K. and Haegglund, T.
- <cite>PID Controllers: Theory, Design and Tuning</cite>,
+ </li><li> Astroem, K. and Haegglund, T.
+ <cite class="cite">PID Controllers: Theory, Design and Tuning</cite>,
  Second Edition,
  Instrument Society of America, 1995
  </li></ol>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/optiPID.m">optiPID</a>
 </div>
-
 
             </div>
           </div>

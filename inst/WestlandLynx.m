@@ -1,15 +1,22 @@
 ## -*- texinfo -*-
-## @deftypefn{Function File} {@var{sys} =} WestlandLynx ()
+## @deftypefn{Function File} {@var{sys} =} WestlandLynx {@ }
+##
 ## Model of the Westland Lynx Helicopter about hover.
+##
+## @strong{System variables}
+##
+## System inputs
 ## @example
 ## @group
-## INPUTS
 ## main rotor collective
 ## longitudinal cyclic
 ## lateral cyclic
 ## tail rotor collective
-##
-## STATES
+## @end group
+## @end example
+## System states
+## @example
+## @group
 ## pitch attitude           theta       [rad]
 ## roll attitude            phi         [rad]
 ## roll rate (body-axis)    p           [rad/s]
@@ -18,8 +25,11 @@
 ## forward velocity         v_x         [ft/s]
 ## lateral velocity         v_y         [ft/s]
 ## vertical velocity        v_z         [ft/s]
-##
-## OUTPUTS
+## @end group
+## @end example
+## System outputs
+## @example
+## @group
 ## heave velocity           H_dot       [ft/s]
 ## pitch attitude           theta       [rad]
 ## roll attitude            phi         [rad]
@@ -29,7 +39,7 @@
 ## @end group
 ## @end example
 ##
-## @strong{References}@*
+## @strong{References}
 ## @enumerate
 ## @item
 ## Skogestad, S. and Postlethwaite I. (2005)

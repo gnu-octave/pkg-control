@@ -528,42 +528,45 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>p</var> = <b>pole</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-pole"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">p</var> =</code> <strong class="def-name">pole</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> Compute poles of <acronym>LTI</acronym> system.
+<p>Compute poles of <abbr class="acronym">LTI</abbr> system.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>p</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Poles of <var>sys</var>.
+<p>Poles of <var class="var">sys</var>.
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- For (descriptor) state-space models and system/state matrices, <code>pole</code>
- relies on Octave&rsquo;s <code>eig</code>.
- For <acronym>SISO</acronym> transfer functions, <code>pole</code>
- uses Octave&rsquo;s <code>roots</code>.
- <acronym>MIMO</acronym> transfer functions are converted to
- a <em>minimal</em> state-space representation for the
+<p><strong class="strong">Algorithm</strong><br>
+ For (descriptor) state-space models and system/state matrices, <code class="command">pole</code>
+ relies on Octave&rsquo;s <code class="command">eig</code>.
+ For <abbr class="acronym">SISO</abbr> transfer functions, <code class="command">pole</code>
+ uses Octave&rsquo;s <code class="command">roots</code>.
+ <abbr class="acronym">MIMO</abbr> transfer functions are converted to
+ a <em class="emph">minimal</em> state-space representation for the
  computation of the poles.
 </p>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/pole.m">@lti/pole</a>
 </div>
-
 
             </div>
           </div>

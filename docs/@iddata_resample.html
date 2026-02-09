@@ -528,40 +528,41 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>resample</b> (<var>dat</var>, <var>p</var>, <var>q</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>resample</b> (<var>dat</var>, <var>p</var>, <var>q</var>, <var>n</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>resample</b> (<var>dat</var>, <var>p</var>, <var>q</var>, <var>h</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-resample"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">resample</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">p</var>, <var class="var">q</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-resample-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">resample</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">p</var>, <var class="var">q</var>, <var class="var">n</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-resample-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">resample</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">p</var>, <var class="var">q</var>, <var class="var">h</var>)</code></span></dt>
 </dl>
-<p> Change the sample rate of the output and input signals in dataset <var>dat</var>
- by a factor of <code>p/q</code>.  This is performed using a polyphase algorithm.
- The anti-aliasing <acronym>FIR</acronym> filter can be specified as follows:
- Either by order <var>n</var> (scalar) with default value 0.  The band edges
- are then chosen automatically.  Or by impulse response <var>h</var> (vector).
+<p>Change the sample rate of the output and input signals in dataset <var class="var">dat</var>
+ by a factor of <code class="code">p/q</code>.  This is performed using a polyphase algorithm.
+ The anti-aliasing <abbr class="acronym">FIR</abbr> filter can be specified as follows:
+ Either by order <var class="var">n</var> (scalar) with default value 0.  The band edges
+ are then chosen automatically.  Or by impulse response <var class="var">h</var> (vector).
  Requires the signal package to be installed.
 </p>
 <div class="ms-5">
-<p> <strong>Algorithm</strong><br>
- Uses functions <code>fir1</code> and <code>resample</code>
+<p><strong class="strong">Algorithm</strong><br>
+ Uses functions <code class="command">fir1</code> and <code class="command">resample</code>
  from the signal package.
 </p>
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- J. G. Proakis and D. G. Manolakis,
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> J. G. Proakis and D. G. Manolakis,
  Digital Signal Processing: Principles, Algorithms, and Applications,
  4th ed., Prentice Hall, 2007. Chap. 6
- </li><li>
- A. V. Oppenheim, R. W. Schafer and J. R. Buck,
+ </li><li> A. V. Oppenheim, R. W. Schafer and J. R. Buck,
  Discrete-time signal processing, Signal processing series,
  Prentice-Hall, 1999
  </li></ol>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@iddata/resample.m">@iddata/resample</a>
 </div>
-
 
             </div>
           </div>
