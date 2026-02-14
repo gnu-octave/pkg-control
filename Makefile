@@ -157,7 +157,7 @@ ifeq ($(QHELPGENERATOR),true)
 	$(warning No QHELPGENERATOR... skipping QT doc build)
 else
 	@cd $(DOCS_DEV_DIR) && ./mkqhcp.py $(PACKAGE)\
-									&& $(QHELPGENERATOR) -s $(PACKAGE).qhcp -o $(PACKAGE).qhc > /dev/null 2>&1
+		&& $(QHELPGENERATOR) -s $(PACKAGE).qhcp -o $(PACKAGE).qhc > /dev/null 2>&1
 	@cd $(DOCS_DEV_DIR) && $(RM) $(PACKAGE).qhcp $(PACKAGE).qhp $(PACKAGE).qhc $(PACKAGE).html
 endif
 	@$(MV) $(DOCS_DEV_DIR)/$(PACKAGE).qch $(DOCS_QCH)

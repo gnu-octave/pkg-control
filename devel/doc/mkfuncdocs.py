@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 ## Copyright 2018-2024 John Donoghue
+## Copyright 2026      Torsten Lilge
 ##
 ## This program is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
@@ -28,6 +29,10 @@
 ## folders that match in order: [ functionname.m functionname.cc functionname.cpp
 ## functionname_withoutprefix.cc functionname_withoutprefix.cpp ]
 ##
+## This version also finds %!demos in all m-files and - depending on the command
+## line parameters - adds a link to the resulting examples in the online documentation
+## or directly adds the demos as examples with figures into the texinfo sources.
+## 
 ## Usage:
 ##   mkfundocs.py options INDEXfile
 ## Options can be 0 or more of:
@@ -39,9 +44,10 @@
 ##   --funcprefix=xxxxx : remove xxxxx from the function name when searching for matching
 ##                     source file.
 ##   --allowscan     : if can not find function, attemp to scan .cc,cpp,cxx files for match
-##
 ##   --standalone    : generate a texinfo file expected to be used with being included in
 ##                     another document file.
+##   --fullexamples  : add full example code together with figures and not only
+##                     a link to the examples in the online documentation
 
 import sys
 import os
@@ -121,7 +127,7 @@ def find_function_line_in_file(filename, fnname):
   return -1
 
 
-def read_m_file(filename, index, skip=0):
+def read_m_file(filename, index, skip=0, fullexamples=False):
   help = []
   inhelp = False
   havehelp = False;
@@ -146,14 +152,28 @@ def read_m_file(filename, index, skip=0):
             help.append (line.rstrip());
       else:
         if line.startswith("%!demo"):
-          func_name = filename[6:-2];
-          # create texi code with examples and resulting figures
-          cmd = "octave --eval \'build_demos (\"%s\",\"%s\")\'" % (index.name, func_name)
-          print(cmd, file=sys.stderr);
-          # subprocess.run(cmd);
-          # get file written by octave
-          # include texi code into help
-
+          func_name = filename[6:-2]
+          if fullexamples:
+            ## FIXME: This option runs all demos in order to get the code,
+            ##        its output and the plotted figures. It requires that
+            ##        the control package is already installed ideally in
+            ##        the version for which the documentation is only just
+            ##        build here.
+            ##        Possible solution: Make and install version without
+            ##        demos, then make version with demos and the final
+            ##        package archive.
+            doc_devel_dir = os.path.dirname(__file__)
+            tmp_file = "__texi_demo_tmp__"
+            # create texi code with examples and resulting figures
+            cmd = "cd \"%s\" && octave --norc --eval \'build_demos (\"%s\",\"%s\",\"%s\");\'" % (doc_devel_dir, index.name, func_name, tmp_file)
+            os.system(cmd);
+            tmp_file = doc_devel_dir + "/" + tmp_file
+            with open(tmp_file, 'r') as ftxi:
+              help.append (ftxi.read());
+            os.remove(tmp_file)
+          else:
+            link_examples = "https://gnu-octave.github.io/pkg-control/%s.html#example1" % (func_name)
+            help.append ("\n@strong{Examples} for the @code{%s} function are available in the @url{%s,online documentation} or by the command @code{ demo %s } in Octave's command window.\n" % (func_name,link_examples,func_name))
           break   # assume demo is at the end of m-files
 
   return help
@@ -194,11 +214,11 @@ def read_cc_file(filename, index, skip=0):
 
   return help
 
-def read_help (filename, index, skip=0):
+def read_help (filename, index, skip=0, fullexamples=False):
   help = []
 
   if filename[-2:] == ".m":
-    help = read_m_file(filename, index, skip)
+    help = read_m_file(filename, index, skip, fullexamples)
   else:
     help = read_cc_file(filename, index, skip)
 
@@ -337,7 +357,8 @@ def process (args):
     "funcprefix": "",
     "ignore": [],
     "standalone": False,
-    "allowscan": False
+    "allowscan": False,
+    "fullexamples": False
   }
   indexfile = ""
 
@@ -366,6 +387,8 @@ def process (args):
     elif key == "--func-prefix":
       if val:
         options["funcprefix"] = val;
+    elif key == "--func-prefix":
+      options["fullexamples"] = True;
     elif val == "":
       if indexfile == "":
         indexfile = key
@@ -437,7 +460,7 @@ def process (args):
       if not filename:
         sys.stderr.write("Warning: Cant find source file for {}\n".format(f))
       else:
-        h = read_help (filename, index, lineno)
+        h = read_help (filename, index, lineno, options["fullexamples"])
 
       if h:
         display_func (name, ref, h)
