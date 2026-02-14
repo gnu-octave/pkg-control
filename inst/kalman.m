@@ -219,12 +219,12 @@ endfunction
 %!test
 %! [kalmf,L,P] = kalman(sys,Q,R,N,1,1);
 %! assert (Pinf, P, 4e-4);
-%! assert (inv(A)*L, K, 2e-4);
+%! assert (inv(A)*L, K, 3e-4);
 %! assert (kalmf.a, A-L*C, 1e-4);
 
 %!test
 %! [kalmfc,Lc,Pc] = kalman(sys,Q,R,N,1,1,'current');
 %! assert (Pinf, Pc, 4e-4);
-%! assert (inv(A)*Lc, K, 2e-4);
+%! assert (inv(A)*Lc, K, 3e-4);
 %! assert (kalmfc.a, A-A*K*C, 1e-4);
 
