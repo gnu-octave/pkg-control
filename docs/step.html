@@ -528,72 +528,72 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-step"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-1"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-2"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-3"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-4"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">tfinal</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-5"><span class="category-def">Function File: </span><span><strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-8"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tfinal</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-step-9"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">step</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys1</var>, &hellip;, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys1</var>, &hellip;, <var>tfinal</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>step</b> (<var>sys1</var>, &hellip;, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>step</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>step</b> (<var>sys</var>, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>step</b> (<var>sys</var>, <var>tfinal</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>step</b> (<var>sys</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
 </dl>
-<p>Step response of <abbr class="acronym">LTI</abbr> system.
+<p> Step response of <acronym>LTI</acronym> system.
  If no output arguments are given, the response is printed on the screen.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
 </dl>
-<p><abbr class="acronym">LTI</abbr> model.
+<p> <acronym>LTI</acronym> model.
  </p></dd>
-<dt><var class="var">t</var></dt>
+<dt> <var>t</var></dt>
 </dl>
-<p>Time vector.  Should be evenly spaced.  If not specified, it is calculated by
+<p> Time vector.  Should be evenly spaced.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
  </p></dd>
-<dt><var class="var">tfinal</var></dt>
+<dt> <var>tfinal</var></dt>
 </dl>
-<p>Optional simulation horizon.  If not specified, it is calculated by
+<p> Optional simulation horizon.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
  </p></dd>
-<dt><var class="var">dt</var></dt>
+<dt> <var>dt</var></dt>
 </dl>
-<p>Optional sampling time.  Be sure to choose it small enough to capture transient
+<p> Optional sampling time.  Be sure to choose it small enough to capture transient
  phenomena.  If not specified, it is calculated by the poles of the system.
  </p></dd>
-<dt><var class="var">&rsquo;style&rsquo;</var></dt>
+<dt> <var>&rsquo;style&rsquo;</var></dt>
 </dl>
-<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code class="command">help plot</code> for details.
+<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code>help plot</code> for details.
  </p></dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">y</var></dt>
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>y</var></dt>
 </dl>
-<p>Output response array.  Has as many rows as time samples (length of t)
+<p> Output response array.  Has as many rows as time samples (length of t)
  and as many columns as outputs.
  </p></dd>
-<dt><var class="var">t</var></dt>
+<dt> <var>t</var></dt>
 </dl>
-<p>Time row vector.
+<p> Time row vector.
  </p></dd>
-<dt><var class="var">x</var></dt>
+<dt> <var>x</var></dt>
 </dl>
-<p>State trajectories array.  Has <code class="code">length (t)</code> rows and as many columns as states.
+<p> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.
  </p></dd>
 </dl>
 
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="impulse.html">impulse</a>, 
+  <a href="initial.html">initial</a>, 
+  <a href="lsim.html">lsim</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/step.m">step</a>
 </div>
@@ -602,9 +602,9 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 1
-                  </h3>
+                  <h4 class="d-inline-block mr-2">
+                  <a name="example1">Example: 1</a>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -624,7 +624,7 @@
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/step_101.svg" width="80%" alt="plotted figure">
+                    <img src="assets/step_101.svg" width="70%" alt="plotted figure">
                   </div><p></p>
 
                 </div>
@@ -638,9 +638,9 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 2
-                  </h3>
+                  <h4 class="d-inline-block mr-2">
+                  <a name="example2">Example: 2</a>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -661,7 +661,7 @@
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/step_201.svg" width="80%" alt="plotted figure">
+                    <img src="assets/step_201.svg" width="70%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

@@ -528,58 +528,55 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-rlocus"><span class="category-def">Function File: </span><span><strong class="def-name">rlocus</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-rlocus-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">rldata</var>, <var class="var">k</var>] =</code> <strong class="def-name">rlocus</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">increment</var>, <var class="var">min_k</var>, <var class="var">max_k</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>rlocus</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>rldata</var>, <var>k</var>] = <b>rlocus</b> (<var>sys</var>, <var>increment</var>, <var>min_k</var>, <var>max_k</var>)</code></h5></dt>
 </dl>
-<p>Display root locus plot of the specified <abbr class="acronym">SISO</abbr> system.
+<p> Display root locus plot of the specified <acronym>SISO</acronym> system.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
 </dl>
-<p><abbr class="acronym">LTI</abbr> model.  Must be a single-input and single-output (SISO) system.
+<p> <acronym>LTI</acronym> model.  Must be a single-input and single-output (SISO) system.
  </p></dd>
-<dt><var class="var">increment</var></dt>
+<dt> <var>increment</var></dt>
 </dl>
-<p>The increment used in computing gain values.
+<p> The increment used in computing gain values.
  </p></dd>
-<dt><var class="var">min_k</var></dt>
+<dt> <var>min_k</var></dt>
 </dl>
-<p>Minimum value of <var class="var">k</var>.
+<p> Minimum value of <var>k</var>.
  </p></dd>
-<dt><var class="var">max_k</var></dt>
+<dt> <var>max_k</var></dt>
 </dl>
-<p>Maximum value of <var class="var">k</var>.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">rldata</var></dt>
-</dl>
-<p>Data points plotted: in column 1 real values, in column 2 the imaginary values.
- </p></dd>
-<dt><var class="var">k</var></dt>
-</dl>
-<p>Gains for real axis break points.
+<p> Maximum value of <var>k</var>.
  </p></dd>
 </dl>
 
-<p><strong class="strong">Block Diagram</strong>
- </p><div class="example">
-<div class="group"><pre class="example-preformatted">  u    +         +---+      +------+             y
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>rldata</var></dt>
+</dl>
+<p> Data points plotted: in column 1 real values, in column 2 the imaginary values.
+ </p></dd>
+<dt> <var>k</var></dt>
+</dl>
+<p> Gains for real axis break points.
+ </p></dd>
+</dl>
+
+<p> <strong>Block Diagram</strong>
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">  u    +         +---+      +------+             y
  ------&gt;(+)-----&gt;| k |-----&gt;| SISO |-------+-------&gt;
          ^ -     +---+      +------+       |
          |                                 |
          +---------------------------------+
- </pre></div></div>
-
-</div>
-
-
-
+ </pre><pre class="example"> </pre></td></tr></table>
+<p> <strong>See also: </strong>
+  <a href="rlocusx.html">rlocusx</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/rlocus.m">rlocus</a>
 </div>
@@ -588,9 +585,9 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 1
-                  </h3>
+                  <h4 class="d-inline-block mr-2">
+                  <a name="example1">Example: 1</a>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -608,7 +605,7 @@
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/rlocus_101.svg" width="80%" alt="plotted figure">
+                    <img src="assets/rlocus_101.svg" width="70%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

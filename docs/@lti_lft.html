@@ -528,46 +528,45 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-lft"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">lft</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lft-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">lft</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">nu</var>, <var class="var">ny</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>lft</b> (<var>sys1</var>, <var>sys2</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>lft</b> (<var>sys1</var>, <var>sys2</var>, <var>nu</var>, <var>ny</var>)</code></h5></dt>
 </dl>
-<p>Linear fractional tranformation, also known as Redheffer star product.
+<p> Linear fractional tranformation, also known as Redheffer star product.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys1</var></dt>
+<p> <strong>Inputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys1</var></dt>
 </dl>
-<p>Upper <abbr class="acronym">LTI</abbr> model.
+<p> Upper <acronym>LTI</acronym> model.
  </p></dd>
-<dt><var class="var">sys2</var></dt>
+<dt> <var>sys2</var></dt>
 </dl>
-<p>Lower <abbr class="acronym">LTI</abbr> model.
+<p> Lower <acronym>LTI</acronym> model.
  </p></dd>
-<dt><var class="var">nu</var></dt>
+<dt> <var>nu</var></dt>
 </dl>
-<p>The last nu inputs of <var class="var">sys1</var> are connected with the first nu outputs of <var class="var">sys2</var>.
- If not specified, <code class="code">min (m1, p2)</code> is taken.
+<p> The last nu inputs of <var>sys1</var> are connected with the first nu outputs of <var>sys2</var>.
+ If not specified, <code>min (m1, p2)</code> is taken.
  </p></dd>
-<dt><var class="var">ny</var></dt>
+<dt> <var>ny</var></dt>
 </dl>
-<p>The last ny outputs of <var class="var">sys1</var> are connected with the first ny inputs of <var class="var">sys2</var>.
- If not specified, <code class="code">min (p1, m2)</code> is taken.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>Resulting <abbr class="acronym">LTI</abbr> model.
+<p> The last ny outputs of <var>sys1</var> are connected with the first ny inputs of <var>sys2</var>.
+ If not specified, <code>min (p1, m2)</code> is taken.
  </p></dd>
 </dl>
 
-<p><strong class="strong">Block Diagram</strong>
- </p><div class="example">
-<div class="group"><pre class="example-preformatted">       .............sys..............
+<p> <strong>Outputs</strong>
+ </p><dl compact="compact">
+<dt> <var>sys</var></dt>
+</dl>
+<p> Resulting <acronym>LTI</acronym> model.
+ </p></dd>
+</dl>
+
+<p> <strong>Block Diagram</strong>
+ </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">       .............sys..............
        :         +--------+         :
  w1 ------------&gt;|        |------------&gt; z1
        :         |  sys1  |         :
@@ -578,9 +577,8 @@
        :   +-----|  sys2  |&lt;----+   :
        :         +--------+         :
        :............................:
- </pre></div></div>
-<div class="example">
-<div class="group"><pre class="example-preformatted">       .............sys..............
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">       .............sys..............
        :         +--------+         :
        : u +----&gt;|  sys1  |-----+ y :
        :   |     +--------+     |   :          Upper LFT
@@ -591,9 +589,8 @@
  z2 &lt;------------|        |&lt;------------ w2
        :         +--------+         :
        :............................:
- </pre></div></div>
-<div class="example">
-<div class="group"><pre class="example-preformatted">       .............sys..............
+ </pre><pre class="example"> </pre></td></tr></table>
+ <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">       .............sys..............
        :         +--------+         :
  w1 ------------&gt;|        |------------&gt; z1
        :         |  sys1  |         :
@@ -606,15 +603,12 @@
  z2 &lt;------------|        |&lt;------------ w2
        :         +--------+         :
        :............................: 
- </pre></div></div>
-
-</div>
-
-
+ </pre><pre class="example"> </pre></td></tr></table>
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/lft.m">@lti/lft</a>
 </div>
+
 
             </div>
           </div>
