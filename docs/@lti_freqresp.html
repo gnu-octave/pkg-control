@@ -528,37 +528,39 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>H</var> = <b>freqresp</b> (<var>sys</var>, <var>w</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-freqresp"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">H</var> =</code> <strong class="def-name">freqresp</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">w</var>)</code></span></dt>
 </dl>
-<p> Evaluate frequency response at given frequencies.
+<p>Evaluate frequency response at given frequencies.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system.
+<p><abbr class="acronym">LTI</abbr> system.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt><var class="var">w</var></dt>
 </dl>
-<p> Vector of frequency values.
+<p>Vector of frequency values.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>H</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">H</var></dt>
 </dl>
-<p> Array of frequency response.  For a system with m inputs and p outputs, the array <var>H</var>
+<p>Array of frequency response.  For a system with m inputs and p outputs, the array <var class="var">H</var>
  has dimensions [p, m, length (w)].
  The frequency response at the frequency w(k) is given by H(:,:,k).
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="@lti_dcgain.html">@lti/dcgain</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/freqresp.m">@lti/freqresp</a>
 </div>

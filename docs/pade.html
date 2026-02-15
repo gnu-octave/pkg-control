@@ -528,84 +528,84 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>pade</b> (<var>T</var>, <var>n</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>pade</b> (<var>T</var>, <var>n</var>, <var>m</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>pade</b> (<var>T</var>, <var>n1</var>, <var>m1</var>, <var>n2</var>, <var>m2</var>, ..., <var>nk</var>, <var>mk</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>pade</b> (...)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>pade</b> (...)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>] = <b>pade</b> (...)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>] = <b>pade</b> (...)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-pade"><span class="category-def">Function File: </span><span><strong class="def-name">pade</strong> <code class="def-code-arguments">(<var class="var">T</var>, <var class="var">n</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-1"><span class="category-def">Function File: </span><span><strong class="def-name">pade</strong> <code class="def-code-arguments">(<var class="var">T</var>, <var class="var">n</var>, <var class="var">m</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-2"><span class="category-def">Function File: </span><span><strong class="def-name">pade</strong> <code class="def-code-arguments">(<var class="var">T</var>, <var class="var">n1</var>, <var class="var">m1</var>, <var class="var">n2</var>, <var class="var">m2</var>, ..., <var class="var">nk</var>, <var class="var">mk</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">pade</strong> <code class="def-code-arguments">(...)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">pade</strong> <code class="def-code-arguments">(...)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>] =</code> <strong class="def-name">pade</strong> <code class="def-code-arguments">(...)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pade-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>] =</code> <strong class="def-name">pade</strong> <code class="def-code-arguments">(...)</code></span></dt>
 </dl>
 
-<p> Calculate Padé approximation of a dead-time by zeros and poles
+<p>Calculate Padé approximation of a dead-time by zeros and poles
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>T</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">T</var></dt>
 </dl>
-<p> Dead-time to be approximated.
+<p>Dead-time to be approximated.
  </p></dd>
-<dt> <var>n</var></dt>
+<dt><var class="var">n</var></dt>
 </dl>
-<p> Number of poles of the approximations.
+<p>Number of poles of the approximations.
  </p></dd>
-<dt> <var>m</var></dt>
+<dt><var class="var">m</var></dt>
 </dl>
-<p> Number of zeros of the approximation, If omitted, the number of zeros is
- the same as the number <var>n</var> of poles.
+<p>Number of zeros of the approximation, If omitted, the number of zeros is
+ the same as the number <var class="var">n</var> of poles.
  </p></dd>
 </dl>
 
-<p> More then one approximation can be requested by providing the pairs
- pairs <var>n1</var>, <var>m1</var>, <var>n2</var>, <var>m2</var>, ..., <var>nk</var>, <var>mk</var>.
+<p>More then one approximation can be requested by providing the pairs
+ pairs <var class="var">n1</var>, <var class="var">m1</var>, <var class="var">n2</var>, <var class="var">m2</var>, ..., <var class="var">nk</var>, <var class="var">mk</var>.
 </p>
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> LTI system with the poles and zeros of the Padé approximation. <var>sys</var>
+<p>LTI system with the poles and zeros of the Padé approximation. <var class="var">sys</var>
  is given as transfer function. If more than one approximation is requested,
- <var>sys</var> is a cell array of LTI systems.
+ <var class="var">sys</var> is a cell array of LTI systems.
  </p></dd>
-<dt> <var>num</var></dt>
+<dt><var class="var">num</var></dt>
 </dl>
-<p> Numerator polynomial of the resulting transfer function.
+<p>Numerator polynomial of the resulting transfer function.
  If more than one approximation is requested,
- <var>num</var> is a cell array of numerator polynomials.
+ <var class="var">num</var> is a cell array of numerator polynomials.
  </p></dd>
-<dt> <var>den</var></dt>
+<dt><var class="var">den</var></dt>
 </dl>
-<p> Denominator polynomial of the resulting transfer function.
+<p>Denominator polynomial of the resulting transfer function.
  If more than one approximation is requested,
- <var>den</var> is a cell array of denominator polynomials.
+ <var class="var">den</var> is a cell array of denominator polynomials.
  </p></dd>
 </dl>
 
-<p> If no output argument is requested, the step response and the bode diagram
- of the approximatons with orders <var>n1</var>, <var>m1</var> to <var>nk</var>, <var>nk</var>
- are plotted togehter with step delayed by the given dead-time <var>T</var>.
+<p>If no output argument is requested, the step response and the bode diagram
+ of the approximatons with orders <var class="var">n1</var>, <var class="var">m1</var> to <var class="var">nk</var>, <var class="var">nk</var>
+ are plotted togehter with step delayed by the given dead-time <var class="var">T</var>.
 </p>
-<p> When using the same numbers of poles and zeros (<var>m</var> = <var>n</var>), the step response of the
+<p>When using the same numbers of poles and zeros (<var class="var">m</var> = <var class="var">n</var>), the step response of the
  resulting approximation shows a step at t = 0 which is untypical for a
  pure time delay. However, it has a magnitude of 1 (0 dB) over all
  frequencies. In [1], an approximaton having less zeros than poles
- (<var>m</var> &lt; <var>n</var>) is suggested as an alternative approach, resulting
+ (<var class="var">m</var> &lt; <var class="var">n</var>) is suggested as an alternative approach, resulting
  in a better step response but decresing magnitude for higher frequencies.
 </p>
-<p> Algorithm based on:<br>
- </p><ol>
-<li>
- Vajta, M. (2000). Some remarks on Pade-approximations, pp53-58,
+<p>Algorithm based on:<br>
+ </p><ol class="enumerate">
+<li> Vajta, M. (2000). Some remarks on Pade-approximations, pp53-58,
  Paper presented at 3rd TEMPUS-INTCOM Symposium on Intelligent Systems
  in Control and Measurements 2000, Veszprém, Hungary.
  </li></ol>
 
-<p> <strong>See also: </strong>
-  <a href="@tf_tf.html">@tf/tf</a>, 
-  <a href="thiran.html">thiran</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/pade.m">pade</a>
 </div>

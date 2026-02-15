@@ -528,48 +528,51 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>pzmap</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>pzmap</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>pzmap</b> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>p</var>, <var>z</var>] = <b>pzmap</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-pzmap"><span class="category-def">Function File: </span><span><strong class="def-name">pzmap</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pzmap-1"><span class="category-def">Function File: </span><span><strong class="def-name">pzmap</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pzmap-2"><span class="category-def">Function File: </span><span><strong class="def-name">pzmap</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pzmap-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">p</var>, <var class="var">z</var>] =</code> <strong class="def-name">pzmap</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> Plot the poles and zeros of an LTI system in the complex plane.
+<p>Plot the poles and zeros of an LTI system in the complex plane.
  If no output arguments are given, the result is plotted on the screen.
  Otherwise, the poles and zeros are computed and returned. Note that
  only one system is processed when output arguments are given.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys, sys1, ...</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys, sys1, ...</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model(s).
+<p><abbr class="acronym">LTI</abbr> model(s).
  </p></dd>
-<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dt><var class="var">&rsquo;style&rsquo;</var></dt>
 </dl>
-<p> Color, e.g. &rsquo;r&rsquo; for a red. See <code>help plot</code> for details.
+<p>Color, e.g. &rsquo;r&rsquo; for a red. See <code class="command">help plot</code> for details.
  Marker or line styles are ignored as poles and zeros have the
  fixed marker types &rsquo;x&rsquo; and &rsquo;o&rsquo; repectively.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>p</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Poles of <var>sys</var>.
+<p>Poles of <var class="var">sys</var>.
  </p></dd>
-<dt> <var>z</var></dt>
+<dt><var class="var">z</var></dt>
 </dl>
-<p> Invariant zeros of <var>sys</var>.
+<p>Invariant zeros of <var class="var">sys</var>.
  </p></dd>
 </dl>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/pzmap.m">pzmap</a>
 </div>
-
         <div class="container-xl my-4">
           <div class="card rounded">
             <div class="card-header card-header-mod">

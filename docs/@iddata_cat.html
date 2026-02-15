@@ -528,71 +528,71 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>dat</var> = <b>cat</b> (<var>dim</var>, <var>dat1</var>, <var>dat2</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-cat"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">dat</var> =</code> <strong class="def-name">cat</strong> <code class="def-code-arguments">(<var class="var">dim</var>, <var class="var">dat1</var>, <var class="var">dat2</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Concatenate iddata sets along dimension <var>dim</var>.
+<p>Concatenate iddata sets along dimension <var class="var">dim</var>.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>dim</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dim</var></dt>
 </dl>
-<p> Dimension along which the concatenation takes place.
- </p><dl compact="compact">
-<dt> <var>1</var></dt>
+<p>Dimension along which the concatenation takes place.
+ </p><dl class="table">
+<dt><var class="var">1</var></dt>
 </dl>
-<p> Concatenate samples.
+<p>Concatenate samples.
  The samples are concatenated in the following way:
- <code>dat.y{e} = [dat1.y{e}; dat2.y{e}; &hellip;]</code>
- <code>dat.u{e} = [dat1.u{e}; dat2.u{e}; &hellip;]</code>
- where <var>e</var> denotes the experiment.
+ <code class="code">dat.y{e} = [dat1.y{e}; dat2.y{e}; &hellip;]</code>
+ <code class="code">dat.u{e} = [dat1.u{e}; dat2.u{e}; &hellip;]</code>
+ where <var class="var">e</var> denotes the experiment.
  The number of experiments, outputs and inputs must be equal for all datasets.
- Equivalent to <code>vertcat</code>.
+ Equivalent to <code class="command">vertcat</code>.
 </p>
- </dd>
-<dt> <var>2</var></dt>
+</dd>
+<dt><var class="var">2</var></dt>
 </dl>
-<p> Concatenate inputs and outputs.
+<p>Concatenate inputs and outputs.
  The outputs and inputs are concatenated in the following way:
- <code>dat.y{e} = [dat1.y{e}, dat2.y{e}, &hellip;]</code>
- <code>dat.u{e} = [dat1.u{e}, dat2.u{e}, &hellip;]</code>
- where <var>e</var> denotes the experiment.
+ <code class="code">dat.y{e} = [dat1.y{e}, dat2.y{e}, &hellip;]</code>
+ <code class="code">dat.u{e} = [dat1.u{e}, dat2.u{e}, &hellip;]</code>
+ where <var class="var">e</var> denotes the experiment.
  The number of experiments and samples must be equal for all datasets.
- Equivalent to <code>horzcat</code>.
+ Equivalent to <code class="command">horzcat</code>.
 </p>
- </dd>
-<dt> <var>3</var></dt>
+</dd>
+<dt><var class="var">3</var></dt>
 </dl>
-<p> Concatenate experiments.
+<p>Concatenate experiments.
  The experiments are concatenated in the following way:
- <code>dat.y = [dat1.y; dat2.y; &hellip;]</code>
- <code>dat.u = [dat1.u; dat2.u; &hellip;]</code>
+ <code class="code">dat.y = [dat1.y; dat2.y; &hellip;]</code>
+ <code class="code">dat.u = [dat1.u; dat2.u; &hellip;]</code>
  The number of outputs and inputs must be equal for all datasets.
- Equivalent to <code>merge</code>.
+ Equivalent to <code class="command">merge</code>.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>dat1, dat2, &hellip;</var></dt>
+</dd>
+<dt><var class="var">dat1, dat2, &hellip;</var></dt>
 </dl>
-<p> iddata sets to be concatenated.
+<p>iddata sets to be concatenated.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> Concatenated iddata set.
+<p>Concatenated iddata set.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-horzcat, 
-merge, 
-vertcat
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@iddata/cat.m">@iddata/cat</a>
 </div>

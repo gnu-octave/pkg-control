@@ -528,77 +528,77 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys1</var>, &hellip;, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys1</var>, &hellip;, <var>tfinal</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>impulse</b> (<var>sys1</var>, &hellip;, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>impulse</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>impulse</b> (<var>sys</var>, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>impulse</b> (<var>sys</var>, <var>tfinal</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>impulse</b> (<var>sys</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-impulse"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-1"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-2"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-3"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">t</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-4"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">tfinal</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-5"><span class="category-def">Function File: </span><span><strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">t</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-8"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tfinal</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-impulse-9"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">impulse</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
 </dl>
-<p> Impulse response of <acronym>LTI</acronym> system.
+<p>Impulse response of <abbr class="acronym">LTI</abbr> system.
  If no output arguments are given, the response is printed on the screen.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
-<dt> <var>t</var></dt>
+<dt><var class="var">t</var></dt>
 </dl>
-<p> Time vector.  Should be evenly spaced.  If not specified, it is calculated by
+<p>Time vector.  Should be evenly spaced.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
  </p></dd>
-<dt> <var>tfinal</var></dt>
+<dt><var class="var">tfinal</var></dt>
 </dl>
-<p> Optional simulation horizon.  If not specified, it is calculated by
+<p>Optional simulation horizon.  If not specified, it is calculated by
  the poles of the system to reflect adequately the response transients.
  </p></dd>
-<dt> <var>dt</var></dt>
+<dt><var class="var">dt</var></dt>
 </dl>
-<p> Optional sampling time.  Be sure to choose it small enough to capture transient
+<p>Optional sampling time.  Be sure to choose it small enough to capture transient
  phenomena.  If not specified, it is calculated by the poles of the system.
  </p></dd>
-<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dt><var class="var">&rsquo;style&rsquo;</var></dt>
 </dl>
-<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code>help plot</code> for details.
+<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code class="command">help plot</code> for details.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>y</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">y</var></dt>
 </dl>
-<p> Output response array.  Has as many rows as time samples (length of t)
+<p>Output response array.  Has as many rows as time samples (length of t)
  and as many columns as outputs.
  </p></dd>
-<dt> <var>t</var></dt>
+<dt><var class="var">t</var></dt>
 </dl>
-<p> Time row vector.
+<p>Time row vector.
  </p></dd>
-<dt> <var>x</var></dt>
+<dt><var class="var">x</var></dt>
 </dl>
-<p> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.
+<p>State trajectories array.  Has <code class="code">length (t)</code> rows and as many columns as states.
  </p></dd>
 </dl>
 
-<p> <strong>Remark</strong>
+<p><strong class="strong">Remark</strong>
 </p>
-<p> For the impulse response of a discrete-time system, the input
+<p>For the impulse response of a discrete-time system, the input
  sequence {1/T,0,0,0,...} and not the unit impulse is considered.
 </p>
-<p> <strong>See also: </strong>
-  <a href="initial.html">initial</a>, 
-  <a href="lsim.html">lsim</a>, 
-  <a href="step.html">step</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/impulse.m">impulse</a>
 </div>

@@ -528,19 +528,25 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>WestlandLynx</b> ()</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-WestlandLynx"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">WestlandLynx</strong> <code class="def-code-arguments">&nbsp;</code></span></dt>
 </dl>
-<p> Model of the Westland Lynx Helicopter about hover.
- </p><<div class="ms-5">
-table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> INPUTS
- main rotor collective
+
+<p>Model of the Westland Lynx Helicopter about hover.
+</p><div class="ms-5">
+
+<p><strong class="strong">System variables</strong>
+</p>
+<p>System inputs
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> main rotor collective
  longitudinal cyclic
  lateral cyclic
  tail rotor collective
-
- STATES
- pitch attitude           theta       [rad]
+ </pre></div></div>
+<p>System states
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> pitch attitude           theta       [rad]
  roll attitude            phi         [rad]
  roll rate (body-axis)    p           [rad/s]
  pitch rate (body-axis)   q           [rad/s]
@@ -548,34 +554,33 @@ table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> I
  forward velocity         v_x         [ft/s]
  lateral velocity         v_y         [ft/s]
  vertical velocity        v_z         [ft/s]
-
- OUTPUTS
- heave velocity           H_dot       [ft/s]
+ </pre></div></div>
+<p>System outputs
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> heave velocity           H_dot       [ft/s]
  pitch attitude           theta       [rad]
  roll attitude            phi         [rad]
  heading rate             psi_dot     [rad/s]
  roll rate                p           [rad/s]
  pitch rate               q           [rad/s]
- </pre><pre class="example">
- </pre></td></tr></table>
+ </pre></div></div>
 
-
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- Skogestad, S. and Postlethwaite I. (2005)
- <cite>Multivariable Feedback Control: Analysis and Design:
+<p><strong class="strong">References</strong>
+ </p><ol class="enumerate">
+<li> Skogestad, S. and Postlethwaite I. (2005)
+ <cite class="cite">Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley.
- <a href="http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html">http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html</a>
+ <a class="url" href="http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html">http://www.nt.ntnu.no/users/skoge/book/2nd_edition/matlab_m/matfiles.html</a>
  </li></ol>
+
+
+</div>
 
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/WestlandLynx.m">WestlandLynx</a>
 </div>
-
-
 
             </div>
           </div>

@@ -528,101 +528,103 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>sys</var>, <var>x0</var>] = <b>arx</b> (<var>dat</var>, <var>n</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sys</var>, <var>x0</var>] = <b>arx</b> (<var>dat</var>, <var>n</var>, <var>opt</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sys</var>, <var>x0</var>] = <b>arx</b> (<var>dat</var>, <var>opt</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sys</var>, <var>x0</var>] = <b>arx</b> (<var>dat</var>, <var>'na'</var>, <var>na</var>, <var>'nb'</var>, <var>nb</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-arx"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">n</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-arx-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">n</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-arx-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-arx-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">'na'</var>, <var class="var">na</var>, <var class="var">'nb'</var>, <var class="var">nb</var>)</code></span></dt>
 </dl>
  
-<p> Estimate ARX model using QR factorization.
+<p>Estimate ARX model using QR factorization.
  $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
 </p> <div class="ms-5">
 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>dat</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">dat</var></dt>
 </dl>
-<p> iddata identification dataset containing the measurements, i.e. time-domain signals.
+<p>iddata identification dataset containing the measurements, i.e. time-domain signals.
  </p></dd>
-<dt> <var>n</var></dt>
+<dt><var class="var">n</var></dt>
 </dl>
-<p> The desired order of the resulting model <var>sys</var>.
+<p>The desired order of the resulting model <var class="var">sys</var>.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of keys and values.  <code>'key1', value1, 'key2', value2</code>.
+<p>Optional pairs of keys and values.  <code class="code">'key1', value1, 'key2', value2</code>.
  </p></dd>
-<dt> <var>opt</var></dt>
+<dt><var class="var">opt</var></dt>
 </dl>
-<p> Optional struct with keys as field names.
- Struct <var>opt</var> can be created directly or
- by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+<p>Optional struct with keys as field names.
+ Struct <var class="var">opt</var> can be created directly or
+ by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
  </p></dd>
 </dl>
 
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Discrete-time transfer function model.
- If the second output argument <var>x0</var> is returned,
- <var>sys</var> becomes a state-space model.
+<p>Discrete-time transfer function model.
+ If the second output argument <var class="var">x0</var> is returned,
+ <var class="var">sys</var> becomes a state-space model.
  </p></dd>
-<dt> <var>x0</var></dt>
+<dt><var class="var">x0</var></dt>
 </dl>
-<p> Initial state vector.  If <var>dat</var> is a multi-experiment dataset,
- <var>x0</var> becomes a cell vector containing an initial state vector
+<p>Initial state vector.  If <var class="var">dat</var> is a multi-experiment dataset,
+ <var class="var">x0</var> becomes a cell vector containing an initial state vector
  for each experiment.
  </p></dd>
 </dl>
 
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;na&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;na&rsquo;</var></dt>
 </dl>
-<p> Order of the polynomial A(q) and number of poles.
+<p>Order of the polynomial A(q) and number of poles.
 </p>
- </dd>
-<dt> <var>&rsquo;nb&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;nb&rsquo;</var></dt>
 </dl>
-<p> Order of the polynomial B(q)+1 and number of zeros+1.
- <var>nb</var> &lt;= <var>na</var>.
+<p>Order of the polynomial B(q)+1 and number of zeros+1.
+ <var class="var">nb</var> &lt;= <var class="var">na</var>.
 </p>
- </dd>
-<dt> <var>&rsquo;nk&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;nk&rsquo;</var></dt>
 </dl>
-<p> Input-output delay specified as number of sampling instants.
+<p>Input-output delay specified as number of sampling instants.
  Scalar positive integer.  This corresponds to a call to function
- <code>nkshift</code>, followed by padding the B polynomial with
- <var>nk</var> leading zeros.
+ <code class="command">nkshift</code>, followed by padding the B polynomial with
+ <var class="var">nk</var> leading zeros.
  </p></dd>
 </dl>
 
 
-<p> <strong>Algorithm</strong><br>
+<p><strong class="strong">Algorithm</strong><br>
  Uses the formulae given in [1] on pages 318-319,
  &rsquo;Solving for the LS Estimate by QR Factorization&rsquo;.
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT IB01CD</a>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT IB01CD</a>
  for initial conditions,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- Ljung, L. (1999)
- <cite>System Identification: Theory for the User: Second Edition</cite>.
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> Ljung, L. (1999)
+ <cite class="cite">System Identification: Theory for the User: Second Edition</cite>.
  Prentice Hall, New Jersey, USA.
  </li></ol>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/arx.m">arx</a>
 </div>
-
 
             </div>
           </div>

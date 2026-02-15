@@ -528,73 +528,75 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>m</var>, <var>p</var>, <var>z</var>, <var>e</var>] = <b>dlqe</b> (<var>a</var>, <var>g</var>, <var>c</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>m</var>, <var>p</var>, <var>z</var>, <var>e</var>] = <b>dlqe</b> (<var>a</var>, <var>g</var>, <var>c</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>m</var>, <var>p</var>, <var>z</var>, <var>e</var>] = <b>dlqe</b> (<var>a</var>, <var>[]</var>, <var>c</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>m</var>, <var>p</var>, <var>z</var>, <var>e</var>] = <b>dlqe</b> (<var>a</var>, <var>[]</var>, <var>c</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dlqe"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">m</var>, <var class="var">p</var>, <var class="var">z</var>, <var class="var">e</var>] =</code> <strong class="def-name">dlqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">g</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqe-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">m</var>, <var class="var">p</var>, <var class="var">z</var>, <var class="var">e</var>] =</code> <strong class="def-name">dlqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">g</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqe-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">m</var>, <var class="var">p</var>, <var class="var">z</var>, <var class="var">e</var>] =</code> <strong class="def-name">dlqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">[]</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dlqe-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">m</var>, <var class="var">p</var>, <var class="var">z</var>, <var class="var">e</var>] =</code> <strong class="def-name">dlqe</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">[]</var>, <var class="var">c</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code></span></dt>
 </dl>
-<p> Kalman filter for discrete-time systems.
+<p>Kalman filter for discrete-time systems.
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> x[k] = Ax[k] + Bu[k] + Gw[k]   (State equation)
+<div class="example">
+<div class="group"><pre class="example-preformatted"> x[k] = Ax[k] + Bu[k] + Gw[k]   (State equation)
  y[k] = Cx[k] + Du[k] + v[k]    (Measurement Equation)
  E(w) = 0, E(v) = 0, cov(w) = Q, cov(v) = R, cov(w,v) = S
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State transition matrix of discrete-time system (n-by-n).
+<p>State transition matrix of discrete-time system (n-by-n).
  </p></dd>
-<dt> <var>g</var></dt>
+<dt><var class="var">g</var></dt>
 </dl>
-<p> Process noise matrix of discrete-time system (n-by-g).
- If <var>g</var> is empty <code>[]</code>, an identity matrix is assumed.
+<p>Process noise matrix of discrete-time system (n-by-g).
+ If <var class="var">g</var> is empty <code class="code">[]</code>, an identity matrix is assumed.
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Measurement matrix of discrete-time system (p-by-n).
+<p>Measurement matrix of discrete-time system (p-by-n).
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> Process noise covariance matrix (g-by-g).
+<p>Process noise covariance matrix (g-by-g).
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Measurement noise covariance matrix (p-by-p).
+<p>Measurement noise covariance matrix (p-by-p).
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional cross term covariance matrix (g-by-p), s = cov(w,v).
- If <var>s</var> is empty <code>[]</code> or not specified, a zero matrix is assumed.
+<p>Optional cross term covariance matrix (g-by-p), s = cov(w,v).
+ If <var class="var">s</var> is empty <code class="code">[]</code> or not specified, a zero matrix is assumed.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>m</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">m</var></dt>
 </dl>
-<p> Kalman filter gain matrix (n-by-p).
+<p>Kalman filter gain matrix (n-by-p).
  </p></dd>
-<dt> <var>p</var></dt>
+<dt><var class="var">p</var></dt>
 </dl>
-<p> Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
+<p>Unique stabilizing solution of the discrete-time Riccati equation (n-by-n).
  Symmetric matrix.
  </p></dd>
-<dt> <var>z</var></dt>
+<dt><var class="var">z</var></dt>
 </dl>
-<p> Error covariance (n-by-n), cov(x(k|k)-x)
+<p>Error covariance (n-by-n), cov(x(k|k)-x)
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Closed-loop poles (n-by-1).
+<p>Closed-loop poles (n-by-1).
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> x[k|k] = x[k|k-1] + M(y[k] - Cx[k|k-1] - Du[k])
+<p><strong class="strong">Equations</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> x[k|k] = x[k|k-1] + M(y[k] - Cx[k|k-1] - Du[k])
 
  x[k+1|k] = Ax[k|k] + Bu[k] for S=0
 
@@ -605,14 +607,12 @@
  
  E = eig(A - A*M*C - G*S*(C*P*C' + Rv)^-1*C) for non-zero S
   
- </pre><pre class="example"> </pre></td></tr></table>
-<p> <strong>See also: </strong>
-  <a href="dare.html">dare</a>, 
-  <a href="care.html">care</a>, 
-  <a href="dlqr.html">dlqr</a>, 
-  <a href="lqr.html">lqr</a>, 
-  <a href="lqe.html">lqe</a>
-</p>
+ </pre></div></div>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dlqe.m">dlqe</a>
 </div>

@@ -528,10 +528,10 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>SYST</var> = <b>ctranspose</b> (<var>SYS</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ctranspose"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">SYST</var> =</code> <strong class="def-name">ctranspose</strong> <code class="def-code-arguments">(<var class="var">SYS</var>)</code></span></dt>
 </dl>
-<p> Conjugate transpose or pertransposition of <acronym>LTI</acronym> objects.
+<p>Conjugate transpose or pertransposition of <abbr class="acronym">LTI</abbr> objects.
  Used by Octave for &quot;sys&rsquo;&quot;.
  For a transfer-function matrix G, G&rsquo; denotes the conjugate
  of G given by G.&rsquo;(-s) for a continuous-time system or G.&rsquo;(1/z)
@@ -539,30 +539,33 @@
  The frequency response of the pertransposition of G is the
  Hermitian (conjugate) transpose of G(jw), i.e.
  freqresp (G&rsquo;, w) = freqresp (G, w)&rsquo;.
- <strong>WARNING:</strong> Do <strong>NOT</strong> use this for dual problems,
+ <strong class="strong">WARNING:</strong> Do <strong class="strong">NOT</strong> use this for dual problems,
  use the transpose &quot;sys.&rsquo;&quot; (note the dot) instead.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>SYS</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">SYS</var></dt>
 </dl>
-<p> System to be transposed.
+<p>System to be transposed.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>SYST</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">SYST</var></dt>
 </dl>
-<p> Conjugate transposed of <var>SYS</var>.
+<p>Conjugate transposed of <var class="var">SYS</var>.
  </p></dd>
 </dl>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/ctranspose.m">@lti/ctranspose</a>
 </div>
-
 
             </div>
           </div>

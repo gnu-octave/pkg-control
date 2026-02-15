@@ -528,27 +528,30 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>W</var> = <b>gram</b> (<var>sys</var>, <var>mode</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>Wc</var> = <b>gram</b> (<var>a</var>, <var>b</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-gram"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">W</var> =</code> <strong class="def-name">gram</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">mode</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-gram-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">Wc</var> =</code> <strong class="def-name">gram</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">b</var>)</code></span></dt>
 </dl>
 
-<p> <code>gram (<var>sys</var>, &quot;c&quot;)</code> returns the controllability gramian of
- the (continuous- or discrete-time) system <var>sys</var>.
- <code>gram (<var>sys</var>, &quot;o&quot;)</code> returns the observability gramian of the
- (continuous- or discrete-time) system <var>sys</var>.
- <code>gram (<var>a</var>, <var>b</var>)</code> returns the controllability gramian
- <var>Wc</var> of the continuous-time system
+<p><code class="code">gram (<var class="var">sys</var>, &quot;c&quot;)</code> returns the controllability gramian of
+ the (continuous- or discrete-time) system <var class="var">sys</var>.
+ <code class="code">gram (<var class="var">sys</var>, &quot;o&quot;)</code> returns the observability gramian of the
+ (continuous- or discrete-time) system <var class="var">sys</var>.
+ <code class="code">gram (<var class="var">a</var>, <var class="var">b</var>)</code> returns the controllability gramian
+ <var class="var">Wc</var> of the continuous-time system
  \(\dot{x} = A x + B u\)
-  i.e., <var>Wc</var> satisfies
+  i.e., <var class="var">Wc</var> satisfies
  \(A\, Wc + m Wc^T + B\,B^T = 0\)
 </p> <div class="ms-5">
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/gram.m">gram</a>
 </div>
-
 
             </div>
           </div>

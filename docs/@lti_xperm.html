@@ -528,45 +528,48 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>retsys</var> = <b>xperm</b> (<var>sys</var>, <var>idx</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-xperm"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">retsys</var> =</code> <strong class="def-name">xperm</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">idx</var>)</code></span></dt>
 </dl>
-<p> Reorder states in state-space models.
+<p>Reorder states in state-space models.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> State-space model.
+<p>State-space model.
  </p></dd>
-<dt> <var>idx</var></dt>
+<dt><var class="var">idx</var></dt>
 </dl>
-<p> Vector containing the state indices in the desired order.
+<p>Vector containing the state indices in the desired order.
  Alternatively, a cell vector containing the state names
- is possible as well.  See <code>sys.stname</code>.  State names
+ is possible as well.  See <code class="code">sys.stname</code>.  State names
  only work if they were assigned explicitly before, i.e.
- <code>sys.stname</code> contains no empty strings.
- Note that if certain state indices of <var>sys</var> are
- missing or appear multiple times in <var>idx</var>, these
+ <code class="code">sys.stname</code> contains no empty strings.
+ Note that if certain state indices of <var class="var">sys</var> are
+ missing or appear multiple times in <var class="var">idx</var>, these
  states will be pruned or duplicated accordingly in the
- resulting state-space model <var>retsys</var>.
+ resulting state-space model <var class="var">retsys</var>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>retsys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">retsys</var></dt>
 </dl>
-<p> Resulting state-space model with states reordered according to <var>idx</var>.
+<p>Resulting state-space model with states reordered according to <var class="var">idx</var>.
  </p></dd>
 </dl>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/xperm.m">@lti/xperm</a>
 </div>
-
 
             </div>
           </div>

@@ -528,58 +528,61 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b> (<var>sys</var>, <var>&quot;vector&quot;</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-filtdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">filtdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-filtdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">filtdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">&quot;vector&quot;</var>)</code></span></dt>
 </dl>
 
-<p> Access discrete-time transfer function data in DSP format.
- Argument <var>sys</var> is not limited to transfer function models.
- If <var>sys</var> is not a transfer function, it is converted automatically.
- <var>sys</var> can also be a real-valued gain matrix which is then
+<p>Access discrete-time transfer function data in DSP format.
+ Argument <var class="var">sys</var> is not limited to transfer function models.
+ If <var class="var">sys</var> is not a transfer function, it is converted automatically.
+ <var class="var">sys</var> can also be a real-valued gain matrix which is then
  interpreted as static gain system with unspecified sampling time (-1).
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Any type of discrete-time <acronym>LTI</acronym> model or a real-valued matrix which is
+<p>Any type of discrete-time <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
  interpreted as discrete-time static gain with unspecified sampling time -1.
  </p></dd>
-<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dt><var class="var">&quot;v&quot;, &quot;vector&quot;</var></dt>
 </dl>
-<p> For SISO models, return <var>num</var> and <var>den</var> directly as column vectors
+<p>For SISO models, return <var class="var">num</var> and <var class="var">den</var> directly as column vectors
  instead of cells containing a single column vector.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>num</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">num</var></dt>
 </dl>
-<p> Cell of numerator(s).  Each numerator is a row vector
+<p>Cell of numerator(s).  Each numerator is a row vector
  containing the coefficients of the polynomial in ascending powers of z^-1.
  num{i,j} contains the numerator polynomial from input j to output i.
  In the SISO case, a single vector is possible as well.
  </p></dd>
-<dt> <var>den</var></dt>
+<dt><var class="var">den</var></dt>
 </dl>
-<p> Cell of denominator(s).  Each denominator is a row vector
+<p>Cell of denominator(s).  Each denominator is a row vector
  containing the coefficients of the polynomial in ascending powers of z^-1.
  den{i,j} contains the denominator polynomial from input j to output i.
  In the SISO case, a single vector is possible as well.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified, -1 is returned.
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified, -1 is returned.
  </p></dd>
 </dl>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/filtdata.m">filtdata</a>
 </div>
-
 
             </div>
           </div>

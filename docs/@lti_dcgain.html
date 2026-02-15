@@ -528,43 +528,44 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>k</var> = <b>dcgain</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dcgain"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">k</var> =</code> <strong class="def-name">dcgain</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> Compute the DC gain of <acronym>LTI</acronym> system.
+<p>Compute the DC gain of <abbr class="acronym">LTI</abbr> system.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system created by tf(), ss(), dss(), etc.
+<p><abbr class="acronym">LTI</abbr> system created by tf(), ss(), dss(), etc.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>k</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">k</var></dt>
 </dl>
-<p> DC gain matrix. For a system with m inputs and p outputs, the array <var>k</var>
+<p>DC gain matrix. For a system with m inputs and p outputs, the array <var class="var">k</var>
  has dimensions [p, m].
  </p></dd>
 </dl>
 
-<p> Transfer function for a continuous state space system (A,B,C,D)
+<p>Transfer function for a continuous state space system (A,B,C,D)
  G(s) = C * inv(s*I - A) * B + D
 </p>
-<p> DC Gain: evaluate G(s) as s -&gt; 0:
+<p>DC Gain: evaluate G(s) as s -&gt; 0:
  k = C * inv(-A) * B + D
 </p>
-<p> Transfer function for a discrete state space system (A,B,C,D,T)
+<p>Transfer function for a discrete state space system (A,B,C,D,T)
  G(z) = C * inv(z*I - A) * B + D
 </p>
-<p> DC Gain: evaluate G(z) as z -&gt; 1:
+<p>DC Gain: evaluate G(z) as z -&gt; 1:
  k = C * inv(I-A) * B + D
 </p>
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> G = Transfer function 'G' from input 'u1' to output ...
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<pre class="example-preformatted"> G = Transfer function 'G' from input 'u1' to output ...
 
                 1          
  y1:  ---------------------
@@ -574,14 +575,13 @@
  octave:1&gt; K = dcgain(G)
 
  K =  0.25000
- </pre></td></tr></table>
+ </pre></div>
 
-<p> <strong>See also: </strong>
-  <a href="@lti_freqresp.html">@lti/freqresp</a>, 
-  <a href="@tf_tf.html">@tf/tf</a>, 
-  <a href="@ss_ss.html">@ss/ss</a>, 
-  <a href="dss.html">dss</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/dcgain.m">@lti/dcgain</a>
 </div>

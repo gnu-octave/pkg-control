@@ -528,80 +528,82 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>b_out</var>, <var>a_out</var>] = <b>imp_invar</b> (<var>b</var>, <var>a</var>, <var>fs</var>, <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>b_out</var>, <var>a_out</var>] = <b>imp_invar</b> (<var>b</var>, <var>a</var>, <var>fs</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>b_out</var>, <var>a_out</var>] = <b>imp_invar</b> (<var>b</var>, <var>a</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sys_out</var>] = <b>imp_invar</b> (<var>b</var>, <var>a</var>, <var>fs</var>. <var>tol</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>sys_out</var>] = <b>imp_invar</b> (<var>sys_in</var>, <var>fs</var>, <var>tol</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-imp_005finvar"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">b_out</var>, <var class="var">a_out</var>] =</code> <strong class="def-name">imp_invar</strong> <code class="def-code-arguments">(<var class="var">b</var>, <var class="var">a</var>, <var class="var">fs</var>, <var class="var">tol</var>)</code><a class="copiable-link" href="#index-imp_005finvar"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-imp_005finvar-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">b_out</var>, <var class="var">a_out</var>] =</code> <strong class="def-name">imp_invar</strong> <code class="def-code-arguments">(<var class="var">b</var>, <var class="var">a</var>, <var class="var">fs</var>)</code><a class="copiable-link" href="#index-imp_005finvar-1"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-imp_005finvar-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">b_out</var>, <var class="var">a_out</var>] =</code> <strong class="def-name">imp_invar</strong> <code class="def-code-arguments">(<var class="var">b</var>, <var class="var">a</var>)</code><a class="copiable-link" href="#index-imp_005finvar-2"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-imp_005finvar-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys_out</var>] =</code> <strong class="def-name">imp_invar</strong> <code class="def-code-arguments">(<var class="var">b</var>, <var class="var">a</var>, <var class="var">fs</var>. <var class="var">tol</var>)</code><a class="copiable-link" href="#index-imp_005finvar-3"> &para;</a></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-imp_005finvar-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys_out</var>] =</code> <strong class="def-name">imp_invar</strong> <code class="def-code-arguments">(<var class="var">sys_in</var>, <var class="var">fs</var>, <var class="var">tol</var>)</code><a class="copiable-link" href="#index-imp_005finvar-4"> &para;</a></span></dt>
 </dl>
-<p> Converts analog filter with coefficients <var>b</var> and <var>a</var> and/or <var>sys_in</var> to digital,
+<p>Converts analog filter with coefficients <var class="var">b</var> and <var class="var">a</var> and/or <var class="var">sys_in</var> to digital,
  conserving impulse response.
 </p>
 <div class="ms-5">
-<p> MIMO systems are only supported with <var>sys_in</var> as input argument.
+<p>MIMO systems are only supported with <var class="var">sys_in</var> as input argument.
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>b</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Numerator coefficients of continuous-time LTI system. 
+<p>Numerator coefficients of continuous-time LTI system. 
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> Denominator coefficients of continuous-time LTI system.
+<p>Denominator coefficients of continuous-time LTI system.
  </p></dd>
-<dt> <var>fs</var> </dt>
+<dt><var class="var">fs</var></dt>
 </dl>
-<p> Sampling frequency. If <var>fs</var> is not specified, or is an empty vector,
+<p>Sampling frequency. If <var class="var">fs</var> is not specified, or is an empty vector,
  it defaults to 1Hz.
  tol
  Tolerance of the internally used function minreal for canceling identical
- poles and zeros. If <var>tol</var> is not specified, it defaults to 0.0001 (0.1%).
+ poles and zeros. If <var class="var">tol</var> is not specified, it defaults to 0.0001 (0.1%).
  </p></dd>
-<dt> <var>sys_in</var></dt>
+<dt><var class="var">sys_in</var></dt>
 </dl>
-<p> System definition of the continuous-time LTI system. This can also be
+<p>System definition of the continuous-time LTI system. This can also be
  a MIMO system.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>b_out</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">b_out</var></dt>
 </dl>
-<p> Numerator coefficients of the discrete-time impulse invariant LTI system. 
+<p>Numerator coefficients of the discrete-time impulse invariant LTI system. 
  </p></dd>
-<dt> <var>a_out</var></dt>
+<dt><var class="var">a_out</var></dt>
 </dl>
-<p> Denominator coefficients of the discrete-time impulse invariant LTI system. 
+<p>Denominator coefficients of the discrete-time impulse invariant LTI system. 
  </p></dd>
-<dt> <var>sys_out</var></dt>
+<dt><var class="var">sys_out</var></dt>
 </dl>
-<p> Discrete-time impulse invaraiant LTI system. If <var>sys_in</var> is given as
- state space representation, <var>sys_out</var> is also returned in state space,
+<p>Discrete-time impulse invaraiant LTI system. If <var class="var">sys_in</var> is given as
+ state space representation, <var class="var">sys_out</var> is also returned in state space,
  otherwise as transfer function.
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong>
+<p><strong class="strong">Algorithm</strong>
 </p>
-<p> The step equivalent discretization of G(s) (zoh) results in
+<p>The step equivalent discretization of G(s) (zoh) results in
  G_zoh(z) = (z-1)/z * Z{G(s)/s} where Z{} is the z-transformation.
  The transfer function of the impulse equivalent discretization
  is given by T*Z{G(s)}. Therefore, the zoh discretizaiton method for
  s*G(s) multipled by T*z/(z-1) leads to the desired result.
 </p>
-<p> <strong>Remark</strong>
+<p><strong class="strong">Remark</strong>
 </p>
-<p> For the impulse response of a discrete-time system, the input
+<p>For the impulse response of a discrete-time system, the input
  sequence {1/T,0,0,0,...} and not the unit impulse is considered.
  For this reason, the factor T is required for the impulse invaraint
  discretizaiton (see Algorithm).
 </p>
-<p> <strong>See also: </strong>
-  <a href="@lti_c2d.html">@lti/c2d</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/imp_invar.m">imp_invar</a>
 </div>

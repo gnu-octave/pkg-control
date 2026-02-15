@@ -528,127 +528,129 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>hinfsyn</b> (<var>P</var>, <var>nmeas</var>, <var>ncon</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>hinfsyn</b> (<var>P</var>, <var>nmeas</var>, <var>ncon</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>hinfsyn</b> (<var>P</var>, <var>nmeas</var>, <var>ncon</var>, <var>opt</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>hinfsyn</b> (<var>P</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>hinfsyn</b> (<var>P</var>, <var>opt</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-hinfsyn"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">hinfsyn</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">nmeas</var>, <var class="var">ncon</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-hinfsyn-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">hinfsyn</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">nmeas</var>, <var class="var">ncon</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-hinfsyn-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">hinfsyn</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">nmeas</var>, <var class="var">ncon</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-hinfsyn-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">hinfsyn</strong> <code class="def-code-arguments">(<var class="var">P</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-hinfsyn-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">hinfsyn</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
 </dl>
-<p> H-infinity control synthesis for <acronym>LTI</acronym> plant.
+<p>H-infinity control synthesis for <abbr class="acronym">LTI</abbr> plant.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>P</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">P</var></dt>
 </dl>
-<p> Generalized plant.  Must be a proper/realizable <acronym>LTI</acronym> model.
- If <var>P</var> is constructed with <code>mktito</code> or <code>augw</code>,
- arguments <var>nmeas</var> and <var>ncon</var> can be omitted.
+<p>Generalized plant.  Must be a proper/realizable <abbr class="acronym">LTI</abbr> model.
+ If <var class="var">P</var> is constructed with <code class="command">mktito</code> or <code class="command">augw</code>,
+ arguments <var class="var">nmeas</var> and <var class="var">ncon</var> can be omitted.
  </p></dd>
-<dt> <var>nmeas</var></dt>
+<dt><var class="var">nmeas</var></dt>
 </dl>
-<p> Number of measured outputs v. The last <var>nmeas</var> outputs of <var>P</var> are connected to the
- inputs of controller <var>K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
+<p>Number of measured outputs v. The last <var class="var">nmeas</var> outputs of <var class="var">P</var> are connected to the
+ inputs of controller <var class="var">K</var>.  The remaining outputs z (indices 1 to p-nmeas) are used
  to calculate the H-infinity norm.
  </p></dd>
-<dt> <var>ncon</var></dt>
+<dt><var class="var">ncon</var></dt>
 </dl>
-<p> Number of controlled inputs u. The last <var>ncon</var> inputs of <var>P</var> are connected to the
- outputs of controller <var>K</var>. The remaining inputs w (indices 1 to m-ncon) are excited
+<p>Number of controlled inputs u. The last <var class="var">ncon</var> inputs of <var class="var">P</var> are connected to the
+ outputs of controller <var class="var">K</var>. The remaining inputs w (indices 1 to m-ncon) are excited
  by a harmonic test signal.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of keys and values.  <code>'key1', value1, 'key2', value2</code>.
+<p>Optional pairs of keys and values.  <code class="code">'key1', value1, 'key2', value2</code>.
  </p></dd>
-<dt> <var>opt</var></dt>
+<dt><var class="var">opt</var></dt>
 </dl>
-<p> Optional struct with keys as field names.
- Struct <var>opt</var> can be created directly or
- by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+<p>Optional struct with keys as field names.
+ Struct <var class="var">opt</var> can be created directly or
+ by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>K</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">K</var></dt>
 </dl>
-<p> State-space model of the H-infinity (sub-)optimal controller.
+<p>State-space model of the H-infinity (sub-)optimal controller.
  </p></dd>
-<dt> <var>N</var></dt>
+<dt><var class="var">N</var></dt>
 </dl>
-<p> State-space model of the resulting closed loop system with inputs w and outputs z.
- It is the lower linear transformation (LFT) of <var>P</var> and <var>K</var> (see function <code>lft</code>).
+<p>State-space model of the resulting closed loop system with inputs w and outputs z.
+ It is the lower linear transformation (LFT) of <var class="var">P</var> and <var class="var">K</var> (see function <code class="code">lft</code>).
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Structure containing additional information.
+<p>Structure containing additional information.
  </p></dd>
-<dt> <var>info.gamma</var></dt>
+<dt><var class="var">info.gamma</var></dt>
 </dl>
-<p> L-infinity norm of <var>N</var>.
+<p>L-infinity norm of <var class="var">N</var>.
  </p></dd>
-<dt> <var>info.rcond</var></dt>
+<dt><var class="var">info.rcond</var></dt>
 </dl>
-<p> Vector <var>rcond</var> contains estimates of the reciprocal condition
+<p>Vector <var class="var">rcond</var> contains estimates of the reciprocal condition
  numbers of the matrices which are to be inverted and
  estimates of the reciprocal condition numbers of the
  Riccati equations which have to be solved during the
- computation of the controller <var>K</var>.  For details,
+ computation of the controller <var class="var">K</var>.  For details,
  see the description of the corresponding SLICOT routine.
  </p></dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;method&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;method&rsquo;</var></dt>
 </dl>
-<p> String specifying the desired kind of controller:
- </p><dl compact="compact">
-<dt> <var>&rsquo;optimal&rsquo;, &rsquo;opt&rsquo;, &rsquo;o&rsquo;</var></dt>
+<p>String specifying the desired kind of controller:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;optimal&rsquo;, &rsquo;opt&rsquo;, &rsquo;o&rsquo;</var></dt>
 </dl>
-<p> Compute optimal controller using gamma iteration.
+<p>Compute optimal controller using gamma iteration.
  Default selection for compatibility reasons.
  </p></dd>
-<dt> <var>&rsquo;suboptimal&rsquo;, &rsquo;sub&rsquo;, &rsquo;s&rsquo;</var></dt>
+<dt><var class="var">&rsquo;suboptimal&rsquo;, &rsquo;sub&rsquo;, &rsquo;s&rsquo;</var></dt>
 </dl>
-<p> Compute (sub-)optimal controller.  For stability reasons,
+<p>Compute (sub-)optimal controller.  For stability reasons,
  suboptimal controllers are to be preferred over optimal ones.
  </p></dd>
 </dl>
- </dd>
-<dt> <var>&rsquo;gmax&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;gmax&rsquo;</var></dt>
 </dl>
-<p> The maximum value of the H-infinity norm of <var>N</var>.
- It is assumed that <var>gmax</var> is sufficiently large
+<p>The maximum value of the H-infinity norm of <var class="var">N</var>.
+ It is assumed that <var class="var">gmax</var> is sufficiently large
  so that the controller is admissible.  Default value is 1e15.
  </p></dd>
-<dt> <var>&rsquo;gmin&rsquo;</var></dt>
+<dt><var class="var">&rsquo;gmin&rsquo;</var></dt>
 </dl>
-<p> Initial lower bound for gamma iteration.  Default value is 0.
- <var>gmin</var> is only meaningful for optimal discrete-time controllers.
+<p>Initial lower bound for gamma iteration.  Default value is 0.
+ <var class="var">gmin</var> is only meaningful for optimal discrete-time controllers.
  </p></dd>
-<dt> <var>&rsquo;tolgam&rsquo;</var></dt>
+<dt><var class="var">&rsquo;tolgam&rsquo;</var></dt>
 </dl>
-<p> Tolerance used for controlling the accuracy of <var>gamma</var>
+<p>Tolerance used for controlling the accuracy of <var class="var">gamma</var>
  and its distance to the estimated minimal possible
- value of <var>gamma</var>.  Default value is 0.01.
- If <var>tolgam</var> = 0, then a default value equal to <code>sqrt(eps)</code>
- is used, where <var>eps</var> is the relative machine precision.
- For suboptimal controllers, <var>tolgam</var> is ignored.
+ value of <var class="var">gamma</var>.  Default value is 0.01.
+ If <var class="var">tolgam</var> = 0, then a default value equal to <code class="code">sqrt(eps)</code>
+ is used, where <var class="var">eps</var> is the relative machine precision.
+ For suboptimal controllers, <var class="var">tolgam</var> is ignored.
  </p></dd>
-<dt> <var>&rsquo;actol&rsquo;</var></dt>
+<dt><var class="var">&rsquo;actol&rsquo;</var></dt>
 </dl>
-<p> Upper bound for the poles of the closed-loop system <var>N</var>
+<p>Upper bound for the poles of the closed-loop system <var class="var">N</var>
  used for determining if it is stable.
- <var>actol</var> &gt;= 0 for stable systems.
- For suboptimal controllers, <var>actol</var> is ignored.
+ <var class="var">actol</var> &gt;= 0 for stable systems.
+ For suboptimal controllers, <var class="var">actol</var> is ignored.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
  gamma = min||N(K)||             N = lft (P, K)
           K         inf
 
@@ -665,20 +667,22 @@
                 +--------+
         w -----&gt;|  N(s)  |-----&gt; z
                 +--------+
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> The signals have the following meanings:
+<p>The signals have the following meanings:
 </p>
- <dl compact="compact">
-<dt> w(t): exogenous input (reference, disturbance, ...)</dt>
-<dt> u(t): control input</dt>
-<dt> z(t): performance outputs (control error, control input, ...)</dt>
-<dt> v(t): measured output (input of the controller)</dt>
+<dl class="table">
+<dt>w(t): exogenous input (reference, disturbance, ...)</dt>
+<dt>u(t): control input</dt>
+<dt>z(t): performance outputs (control error, control input, ...)</dt>
+<dt>v(t): measured output (input of the controller)</dt>
 </dl>
 
-<p> The transfer matrix P(s) can be partitioned corresponding to the input
+<p>The transfer matrix P(s) can be partitioned corresponding to the input
  and output signals:
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
    Z(s) = P11(s) W(s) + P12(s) U(s)
    V(s) = P21(s) W(s) + P22(s) U(s)
 
@@ -688,10 +692,12 @@
                                              -1
    N(S) = P11(s) + P12(s)K(s)(I - P22(s)K(s))  P21(s)
 
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> The state-space representation of P is given by
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+<p>The state-space representation of P is given by
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
      .
      x(t) =  A x(t) +  B1 w(t) +  B2 u(t)
      z(t) = C1 x(t) + D11 w(t) + D12 u(t)
@@ -701,36 +707,38 @@
  A, B = | B1 : B2 |, C = |----|, D = |-----:-----|
                          | C2 |      | D21 : D22 |
 
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> The used method (see <strong>Algorithm</strong> below) requires the following assumptions:
- </p><dl compact="compact">
-<dt> (A1)  (A,B2) is stabilizable and (C2,A) is detectable</dt>
-<dt> (A2)  D12 is full column rank and D21 is full row rank,</dt>
-<dt> (A3)  The matrix below has full column rank for all w</dt>
+<p>The used method (see <strong class="strong">Algorithm</strong> below) requires the following assumptions:
+ </p><dl class="table">
+<dt>(A1)  (A,B2) is stabilizable and (C2,A) is detectable</dt>
+<dt>(A2)  D12 is full column rank and D21 is full row rank,</dt>
+<dt>(A3)  The matrix below has full column rank for all w</dt>
 </dl>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">            | A-j*w*I  B2  |
+<div class="example">
+<div class="group"><pre class="example-preformatted">            | A-j*w*I  B2  |
             |   C1     D12 |
- </pre><pre class="example"> </pre></td></tr></table>
- </dd>
-<dt> (A4)  The matrix below has full row rank for all w.</dt>
+ </pre></div></div>
+</dd>
+<dt>(A4)  The matrix below has full row rank for all w.</dt>
 </dl>
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">            | A-j*w*I  B1  |
+<div class="example">
+<div class="group"><pre class="example-preformatted">            | A-j*w*I  B1  |
             |   C2     D21 |
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 </dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SB10DD and SB10AD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SB10DD and SB10AD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>See also: </strong>
-  <a href="augw.html">augw</a>, 
-  <a href="mixsyn.html">mixsyn</a>, 
-  <a href="@lti_lft.html">@lti/lft</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/hinfsyn.m">hinfsyn</a>
 </div>

@@ -528,62 +528,62 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>nichols</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>nichols</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>nichols</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>w</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>nichols</b> (<var>sys1</var>, <var>'style1'</var>, &hellip;, <var>sysN</var>, <var>'styleN'</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>mag</var>, <var>pha</var>, <var>w</var>] = <b>nichols</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>mag</var>, <var>pha</var>, <var>w</var>] = <b>nichols</b> (<var>sys</var>, <var>w</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-nichols"><span class="category-def">Function File: </span><span><strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nichols-1"><span class="category-def">Function File: </span><span><strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nichols-2"><span class="category-def">Function File: </span><span><strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">w</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nichols-3"><span class="category-def">Function File: </span><span><strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nichols-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">mag</var>, <var class="var">pha</var>, <var class="var">w</var>] =</code> <strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-nichols-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">mag</var>, <var class="var">pha</var>, <var class="var">w</var>] =</code> <strong class="def-name">nichols</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">w</var>)</code></span></dt>
 </dl>
-<p> Nichols chart of frequency response, plots gain over phase.
+<p>Nichols chart of frequency response, plots gain over phase.
  If no output arguments are given, the response is printed on
  the screen together with a grid of contours of constant close-loop
  magnitude and phase.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system.  Must be a single-input and single-output (SISO) system.
+<p><abbr class="acronym">LTI</abbr> system.  Must be a single-input and single-output (SISO) system.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt><var class="var">w</var></dt>
 </dl>
-<p> Optional vector of frequency values.  If <var>w</var> is not specified,
+<p>Optional vector of frequency values.  If <var class="var">w</var> is not specified,
  it is calculated by the zeros and poles of the system.
- Alternatively, the cell <code>{wmin, wmax}</code> specifies a frequency range,
- where <var>wmin</var> and <var>wmax</var> denote minimum and maximum frequencies
+ Alternatively, the cell <code class="code">{wmin, wmax}</code> specifies a frequency range,
+ where <var class="var">wmin</var> and <var class="var">wmax</var> denote minimum and maximum frequencies
  in rad/s.
  </p></dd>
-<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dt><var class="var">&rsquo;style&rsquo;</var></dt>
 </dl>
-<p> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code>help plot</code> for details.
+<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code class="command">help plot</code> for details.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>mag</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">mag</var></dt>
 </dl>
-<p> Vector of magnitude.  Has length of frequency vector <var>w</var>.
+<p>Vector of magnitude.  Has length of frequency vector <var class="var">w</var>.
  </p></dd>
-<dt> <var>pha</var></dt>
+<dt><var class="var">pha</var></dt>
 </dl>
-<p> Vector of phase.  Has length of frequency vector <var>w</var>.
+<p>Vector of phase.  Has length of frequency vector <var class="var">w</var>.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt><var class="var">w</var></dt>
 </dl>
-<p> Vector of frequency values used.
+<p>Vector of frequency values used.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="bode.html">bode</a>, 
-  <a href="nyquist.html">nyquist</a>, 
-  <a href="sigma.html">sigma</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/nichols.m">nichols</a>
 </div>

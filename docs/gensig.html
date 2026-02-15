@@ -528,61 +528,63 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>, <var>tfinal</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>, <var>tfinal</var>, <var>tsam</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-gensig"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-gensig-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>, <var class="var">tfinal</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-gensig-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>, <var class="var">tfinal</var>, <var class="var">tsam</var>)</code></span></dt>
 </dl>
-<p> Generate periodic signal.  Useful in combination with lsim.
+<p>Generate periodic signal.  Useful in combination with lsim.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sigtype = &quot;sin&quot;</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sigtype = &quot;sin&quot;</var></dt>
 </dl>
-<p> Sine wave.
+<p>Sine wave.
  </p></dd>
-<dt> <var>sigtype = &quot;cos&quot;</var></dt>
+<dt><var class="var">sigtype = &quot;cos&quot;</var></dt>
 </dl>
-<p> Cosine wave.
+<p>Cosine wave.
  </p></dd>
-<dt> <var>sigtype = &quot;square&quot;</var></dt>
+<dt><var class="var">sigtype = &quot;square&quot;</var></dt>
 </dl>
-<p> Square wave.
+<p>Square wave.
  </p></dd>
-<dt> <var>sigtype = &quot;pulse&quot;</var></dt>
+<dt><var class="var">sigtype = &quot;pulse&quot;</var></dt>
 </dl>
-<p> Periodic pulse.
+<p>Periodic pulse.
  </p></dd>
-<dt> <var>tau</var></dt>
+<dt><var class="var">tau</var></dt>
 </dl>
-<p> Duration of one period in seconds.
+<p>Duration of one period in seconds.
  </p></dd>
-<dt> <var>tfinal</var></dt>
+<dt><var class="var">tfinal</var></dt>
 </dl>
-<p> Optional duration of the signal in seconds.  Default duration is 5 periods.
+<p>Optional duration of the signal in seconds.  Default duration is 5 periods.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Optional sampling time in seconds.  Default spacing is tau/64.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>u</var></dt>
-</dl>
-<p> Vector of signal values.
- </p></dd>
-<dt> <var>t</var></dt>
-</dl>
-<p> Time vector of the signal.
+<p>Optional sampling time in seconds.  Default spacing is tau/64.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="lsim.html">lsim</a>
-</p>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">u</var></dt>
+</dl>
+<p>Vector of signal values.
+ </p></dd>
+<dt><var class="var">t</var></dt>
+</dl>
+<p>Time vector of the signal.
+ </p></dd>
+</dl>
+
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/gensig.m">gensig</a>
 </div>

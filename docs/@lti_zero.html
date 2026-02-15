@@ -528,150 +528,150 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>z</var> = <b>zero</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>z</var> = <b>zero</b> (<var>sys</var>, <var>type</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>z</var>, <var>k</var>, <var>info</var>] = <b>zero</b> (<var>sys</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-zero"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">z</var> =</code> <strong class="def-name">zero</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zero-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">z</var> =</code> <strong class="def-name">zero</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">type</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zero-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">z</var>, <var class="var">k</var>, <var class="var">info</var>] =</code> <strong class="def-name">zero</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p> Compute zeros and gain of <acronym>LTI</acronym> model.
- By default, <code>zero</code> computes the invariant zeros,
+<p>Compute zeros and gain of <abbr class="acronym">LTI</abbr> model.
+ By default, <code class="command">zero</code> computes the invariant zeros,
  also known as Smith zeros.  Alternatively, when called with
- a second input argument, <code>zero</code> can also compute
+ a second input argument, <code class="command">zero</code> can also compute
  the system zeros, transmission zeros, input decoupling zeros
  and output decoupling zeros.  See paper [1] for an explanation
  of the various zero flavors as well as for further details.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
-<dt> <var>type</var></dt>
+<dt><var class="var">type</var></dt>
 </dl>
-<p> String specifying the type of zeros:
- </p><dl compact="compact">
-<dt> <var>&rsquo;system&rsquo;, &rsquo;s&rsquo;</var></dt>
+<p>String specifying the type of zeros:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;system&rsquo;, &rsquo;s&rsquo;</var></dt>
 </dl>
-<p> Compute the system zeros.
+<p>Compute the system zeros.
  The system zeros include in all cases
  (square, non-square, degenerate or non-degenerate system) 
  all transmission and decoupling zeros.
  </p></dd>
-<dt> <var>&rsquo;invariant&rsquo;, &rsquo;inv&rsquo;</var></dt>
+<dt><var class="var">&rsquo;invariant&rsquo;, &rsquo;inv&rsquo;</var></dt>
 </dl>
-<p> Compute invariant zeros.  Default selection.
+<p>Compute invariant zeros.  Default selection.
  </p></dd>
-<dt> <var>&rsquo;transmission&rsquo;, &rsquo;t&rsquo;</var></dt>
+<dt><var class="var">&rsquo;transmission&rsquo;, &rsquo;t&rsquo;</var></dt>
 </dl>
-<p> Compute transmission zeros.  Transmission zeros
+<p>Compute transmission zeros.  Transmission zeros
  are a subset of the invariant zeros.  
  The transmission zeros are the zeros of the
  Smith-McMillan form of the transfer function matrix.
  </p></dd>
-<dt> <var>&rsquo;input&rsquo;, &rsquo;inp&rsquo;, &rsquo;id&rsquo;</var></dt>
+<dt><var class="var">&rsquo;input&rsquo;, &rsquo;inp&rsquo;, &rsquo;id&rsquo;</var></dt>
 </dl>
-<p> Compute input decoupling zeros.  The input decoupling zeros are
+<p>Compute input decoupling zeros.  The input decoupling zeros are
  also known as the uncontrollable eigenvalues of the pair (A,B).
  </p></dd>
-<dt> <var>&rsquo;output&rsquo;, &rsquo;o&rsquo;, &rsquo;od&rsquo;</var></dt>
+<dt><var class="var">&rsquo;output&rsquo;, &rsquo;o&rsquo;, &rsquo;od&rsquo;</var></dt>
 </dl>
-<p> Compute output decoupling zeros.  The output decoupling zeros are
+<p>Compute output decoupling zeros.  The output decoupling zeros are
  also known as the unobservable eigenvalues of the pair (A,C).
  </p></dd>
 </dl>
 </dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>z</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">z</var></dt>
 </dl>
-<p> Depending on argument <var>type</var>, <var>z</var> contains the
+<p>Depending on argument <var class="var">type</var>, <var class="var">z</var> contains the
  invariant (default), system, transmission, input decoupling
- or output decoupling zeros of <var>sys</var> as defined in [1].
+ or output decoupling zeros of <var class="var">sys</var> as defined in [1].
  </p></dd>
-<dt> <var>k</var></dt>
+<dt><var class="var">k</var></dt>
 </dl>
-<p> Gain of <acronym>SISO</acronym> system <var>sys</var>.  For <acronym>MIMO</acronym>
- systems, an empty matrix <code>[]</code> is returned.
+<p>Gain of <abbr class="acronym">SISO</abbr> system <var class="var">sys</var>.  For <abbr class="acronym">MIMO</abbr>
+ systems, an empty matrix <code class="code">[]</code> is returned.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Struct containing additional information.  For details,
- see the documentation of <acronym>SLICOT</acronym> routines
- <acronym>AB08ND</acronym> and <acronym>AG08BD</acronym>.
+<p>Struct containing additional information.  For details,
+ see the documentation of <abbr class="acronym">SLICOT</abbr> routines
+ <abbr class="acronym">AB08ND</abbr> and <abbr class="acronym">AG08BD</abbr>.
  </p></dd>
-<dt> <var>info.rank</var></dt>
+<dt><var class="var">info.rank</var></dt>
 </dl>
-<p> The normal rank of the transfer function matrix (regular state-space models)
+<p>The normal rank of the transfer function matrix (regular state-space models)
  or of the system pencil (descriptor state-space models).
  </p></dd>
-<dt> <var>info.infz</var></dt>
+<dt><var class="var">info.infz</var></dt>
 </dl>
-<p> Contains information on the infinite elementary divisors as follows:
+<p>Contains information on the infinite elementary divisors as follows:
  the system has info.infz(i) infinite elementary divisors of degree i,
  where i=1,2,...,length(info.infz).
  </p></dd>
-<dt> <var>info.kronr</var></dt>
+<dt><var class="var">info.kronr</var></dt>
 </dl>
-<p> Right Kronecker (column) indices.
+<p>Right Kronecker (column) indices.
  </p></dd>
-<dt> <var>info.kronl</var></dt>
+<dt><var class="var">info.kronl</var></dt>
 </dl>
-<p> Left Kronecker (row) indices.
+<p>Left Kronecker (row) indices.
  </p></dd>
 </dl>
 
-<p> <strong>Examples</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> [z, k, info] = zero (sys)        # invariant zeros
+<p><strong class="strong">Examples</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> [z, k, info] = zero (sys)        # invariant zeros
  z = zero (sys, 'system')         # system zeros
  z = zero (sys, 'invariant')      # invariant zeros
  z = zero (sys, 'transmission')   # transmission zeros
  z = zero (sys, 'output')         # output decoupling zeros
  z = zero (sys, 'input')          # input decoupling zeros
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- For (descriptor) state-space models, <code>zero</code>
- uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB08ND and AG08BD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ For (descriptor) state-space models, <code class="command">zero</code>
+ uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB08ND and AG08BD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
- For <acronym>SISO</acronym> transfer functions, <code>zero</code>
- uses Octave&rsquo;s <code>roots</code>.
- <acronym>MIMO</acronym> transfer functions are converted to
- a <em>minimal</em> state-space representation for the
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ For <abbr class="acronym">SISO</abbr> transfer functions, <code class="command">zero</code>
+ uses Octave&rsquo;s <code class="command">roots</code>.
+ <abbr class="acronym">MIMO</abbr> transfer functions are converted to
+ a <em class="emph">minimal</em> state-space representation for the
  computation of the zeros.
 </p>
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- MacFarlane, A. and Karcanias, N.
- <cite>Poles and zeros of linear multivariable systems:
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> MacFarlane, A. and Karcanias, N.
+ <cite class="cite">Poles and zeros of linear multivariable systems:
  a survey of the algebraic, geometric and complex-variable
  theory</cite>.  Int. J. Control, vol. 24, pp. 33-74, 1976.<br>
- </li><li>
- Rosenbrock, H.H.
- <cite>Correction to &rsquo;The zeros of a system&rsquo;</cite>.
+ </li><li> Rosenbrock, H.H.
+ <cite class="cite">Correction to &rsquo;The zeros of a system&rsquo;</cite>.
  Int. J. Control, vol. 20, no. 3, pp. 525-527, 1974.<br>
- </li><li>
- Svaricek, F.
- <cite>Computation of the structural invariants of linear
+ </li><li> Svaricek, F.
+ <cite class="cite">Computation of the structural invariants of linear
  multivariable systems with an extended version of the
  program ZEROS</cite>.
  Systems &amp; Control Letters, vol. 6, pp. 261-266, 1985.<br>
- </li><li>
- Emami-Naeini, A. and Van Dooren, P.
- <cite>Computation of zeros of linear multivariable systems</cite>.
+ </li><li> Emami-Naeini, A. and Van Dooren, P.
+ <cite class="cite">Computation of zeros of linear multivariable systems</cite>.
  Automatica, vol. 26, pp. 415-430, 1982.<br>
  </li></ol>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/zero.m">@lti/zero</a>
 </div>
-
 
             </div>
           </div>

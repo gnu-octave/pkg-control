@@ -528,13 +528,13 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>Madievski</b> ()</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-Madievski"><span class="category-def">Function File: </span><span><strong class="def-name">Madievski</strong> <code class="def-code-arguments">&nbsp;</code></span></dt>
 </dl>
-<p> Demonstration of frequency-weighted controller reduction.
+<p>Demonstration of frequency-weighted controller reduction.
 </p>
 <div class="ms-5">
-<p> The system considered in this example has been studied by Madievski and
+<p>The system considered in this example has been studied by Madievski and
  Anderson [1] and comprises four spinning disks.  The disks are connected by a
  flexible rod, a motor applies torque to the third disk, and the angular
  displacement of the first disk is the variable of interest. The state-space
@@ -544,19 +544,19 @@
  frequency-weighted singular perturbation approximation (SPA).
  The major aim of this reduction is the preservation of the closed-loop
  transfer function.  This means that the error in approximation of the
- controller <var>K</var> by the reduced-order controller <var>Kr</var> is minimized by
+ controller <var class="var">K</var> by the reduced-order controller <var class="var">Kr</var> is minimized by
  $$ \min_{K_r} \ || W \ (K - K_r) \ V ||_{\infty} $$
-  where weights <var>W</var> and <var>V</var> are dictated by the requirement to preserve
+  where weights <var class="var">W</var> and <var class="var">V</var> are dictated by the requirement to preserve
  (as far as possible) the closed-loop transfer function.  In minimizing the
- error, they cause the approximation process for <var>K</var> to be more accurate at
+ error, they cause the approximation process for <var class="var">K</var> to be more accurate at
  certain frequencies.  Suggested by [1] is the use of the following stability
  and performance enforcing weights:
  $$ W = (I - G K)^{-1} G,  \qquad V = (I - G K)^{-1} $$
   This example script reduces the eighth-order controller to orders four and two
  by the function call
- <code>Kr = spaconred (G, K, nr, 'feedback', '-')</code>
- where argument <var>nr</var> denotes the desired order (4 or 2).  The key-value
- pair <code>'feedback', '-'</code> allows the reduction of negative feedback
+ <code class="code">Kr = spaconred (G, K, nr, 'feedback', '-')</code>
+ where argument <var class="var">nr</var> denotes the desired order (4 or 2).  The key-value
+ pair <code class="code">'feedback', '-'</code> allows the reduction of negative feedback
  controllers while the default setting expects positive feedback controllers.
  The frequency responses of the original and reduced-order controllers are
  depicted in figure 1, the step responses of the closed loop in figure 2.
@@ -564,24 +564,26 @@
  systems with original (blue) and fourth order (green) controllers.
  The second order controller (red) causes ripples in the step response, but
  otherwise the behavior of the system is unaltered.  This leads to the
- conclusion that function <code>spaconred</code> is well suited to reduce the
+ conclusion that function <code class="command">spaconred</code> is well suited to reduce the
  order of controllers considerably, while stability and performance are
  retained.
 </p>
- <br><p><strong>Reference</strong><br>
- </p><ol>
-<li>
- Madievski, A.G. and Anderson, B.D.O.
- <cite>Sampled-Data Controller Reduction Procedure</cite>,
+<br><p><strong class="strong">Reference</strong><br>
+ </p><ol class="enumerate">
+<li> Madievski, A.G. and Anderson, B.D.O.
+ <cite class="cite">Sampled-Data Controller Reduction Procedure</cite>,
  IEEE Transactions of Automatic Control,
  Vol. 40, No. 11, November 1995
  </li></ol>
 
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/Madievski.m">Madievski</a>
 </div>
-
 
             </div>
           </div>

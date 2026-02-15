@@ -528,37 +528,38 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>S</var> = <b>sumblk</b> (<var>formula</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>S</var> = <b>sumblk</b> (<var>formula</var>, <var>n</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-sumblk"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">S</var> =</code> <strong class="def-name">sumblk</strong> <code class="def-code-arguments">(<var class="var">formula</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-sumblk-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">S</var> =</code> <strong class="def-name">sumblk</strong> <code class="def-code-arguments">(<var class="var">formula</var>, <var class="var">n</var>)</code></span></dt>
 </dl>
-<p> Create summing junction <var>S</var> from string <var>formula</var>
+<p>Create summing junction <var class="var">S</var> from string <var class="var">formula</var>
  for name-based interconnections.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>formula</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">formula</var></dt>
 </dl>
-<p> String containing the formula of the summing junction,
- e.g. <code>e = r - y + d</code> 
+<p>String containing the formula of the summing junction,
+ e.g. <code class="code">e = r - y + d</code> 
  </p></dd>
-<dt> <var>n</var></dt>
+<dt><var class="var">n</var></dt>
 </dl>
-<p> Signal size.  Default value is 1.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>S</var></dt>
-</dl>
-<p> State-space model of the summing junction.
+<p>Signal size.  Default value is 1.
  </p></dd>
 </dl>
 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> octave:1&gt; S = sumblk ('e = r - y + d')
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">S</var></dt>
+</dl>
+<p>State-space model of the summing junction.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> octave:1&gt; S = sumblk ('e = r - y + d')
  
  S.d =
         r   y   d
@@ -573,10 +574,12 @@
     e2   0   1   0  -1   0   1
  
  Static gain.
- </pre><pre class="example"> </pre></td></tr></table>
-<p> <strong>See also: </strong>
-  <a href="@lti_connect.html">@lti/connect</a>
-</p>
+ </pre></div></div>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/sumblk.m">sumblk</a>
 </div>

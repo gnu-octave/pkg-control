@@ -528,70 +528,74 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>feedin</var>, <var>feedout</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>feedin</var>, <var>feedout</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-feedback"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">feedin</var>, <var class="var">feedout</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-5"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">feedin</var>, <var class="var">feedout</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
 </dl>
-<p> Feedback connection of two <acronym>LTI</acronym> models.
+<p>Feedback connection of two <abbr class="acronym">LTI</abbr> models.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys1</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys1</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of forward transmission.  <code>[p1, m1] = size (sys1)</code>.
+<p><abbr class="acronym">LTI</abbr> model of forward transmission.  <code class="code">[p1, m1] = size (sys1)</code>.
  </p></dd>
-<dt> <var>sys2</var></dt>
+<dt><var class="var">sys2</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of backward transmission.
+<p><abbr class="acronym">LTI</abbr> model of backward transmission.
  If not specified, an identity matrix of appropriate size is taken.
  </p></dd>
-<dt> <var>feedin</var></dt>
+<dt><var class="var">feedin</var></dt>
 </dl>
-<p> Vector containing indices of inputs to <var>sys1</var> which are involved in the feedback loop.
- The number of <var>feedin</var> indices and outputs of <var>sys2</var> must be equal.
- If not specified, <code>1:m1</code> is taken.
+<p>Vector containing indices of inputs to <var class="var">sys1</var> which are involved in the feedback loop.
+ The number of <var class="var">feedin</var> indices and outputs of <var class="var">sys2</var> must be equal.
+ If not specified, <code class="code">1:m1</code> is taken.
  </p></dd>
-<dt> <var>feedout</var></dt>
+<dt><var class="var">feedout</var></dt>
 </dl>
-<p> Vector containing indices of outputs from <var>sys1</var> which are to be connected to <var>sys2</var>.
- The number of <var>feedout</var> indices and inputs of <var>sys2</var> must be equal.
- If not specified, <code>1:p1</code> is taken.
+<p>Vector containing indices of outputs from <var class="var">sys1</var> which are to be connected to <var class="var">sys2</var>.
+ The number of <var class="var">feedout</var> indices and inputs of <var class="var">sys2</var> must be equal.
+ If not specified, <code class="code">1:p1</code> is taken.
  </p></dd>
-<dt> <var>&quot;+&quot;</var></dt>
+<dt><var class="var">&quot;+&quot;</var></dt>
 </dl>
-<p> Positive feedback sign.  If not specified, <var>&quot;-&quot;</var> for a negative feedback interconnection
- is assumed.  <var>+1</var> and <var>-1</var> are possible as well, but only from the third argument
+<p>Positive feedback sign.  If not specified, <var class="var">&quot;-&quot;</var> for a negative feedback interconnection
+ is assumed.  <var class="var">+1</var> and <var class="var">-1</var> are possible as well, but only from the third argument
  onward due to ambiguity.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Resulting <acronym>LTI</acronym> model.
+<p>Resulting <abbr class="acronym">LTI</abbr> model.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">  u    +         +--------+             y
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">  u    +         +--------+             y
  ------&gt;(+)-----&gt;|  sys1  |-------+-------&gt;
          ^ -     +--------+       |
          |                        |
          |       +--------+       |
          +-------|  sys2  |&lt;------+
                  +--------+
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/feedback.m">@lti/feedback</a>
 </div>
-
 
             </div>
           </div>

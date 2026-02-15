@@ -528,16 +528,16 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>, <var>increment</var>, <var>min_k</var>, <var>max_k</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>, <var>k_vec</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-rlocusx"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-rlocusx-1"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">increment</var>, <var class="var">min_k</var>, <var class="var">max_k</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-rlocusx-2"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">k_vec</var>)</code></span></dt>
 </dl>
 
-<p> Interactive root locus plot of the specified SISO system <var>SYS</var>.
+<p>Interactive root locus plot of the specified SISO system <var class="var">SYS</var>.
 </p>
 <div class="ms-5">
-<p> This functions
+<p>This functions
  directly calls rlocus() from the control package
  which must be installed and loaded.
  In contrast to rlocus(), mouse clicks on the root locus display
@@ -545,88 +545,91 @@
  together with damping and frequency of conjugate complex pole pairs.<br>
  All possible interaction by mouse clicks or keys are:
 </p>
- <dl compact="compact">
-<dt> Left click: Gain, damping and Frequency</dt>
+<dl class="table">
+<dt>Left click: Gain, damping and Frequency</dt>
 </dl>
-<p>                Displays related gain and all resulting
+<p>Displays related gain and all resulting
                 closed loop poles together with damping
                 and frequency
  </p></dd>
-<dt> <kbd>s</kbd>: Step response</dt>
+<dt><kbd class="kbd">s</kbd>: Step response</dt>
 </dl>
-<p>                Simulates the step response for the gain of
+<p>Simulates the step response for the gain of
                 of the most recently selected pole locations
  </p></dd>
-<dt> <kbd>i</kbd>: Impulse response</dt>
+<dt><kbd class="kbd">i</kbd>: Impulse response</dt>
 </dl>
-<p>                Simulates the impulse response for the most
+<p>Simulates the impulse response for the most
                 recently selected gain
  </p></dd>
-<dt> <kbd>b</kbd>: Bode plot</dt>
+<dt><kbd class="kbd">b</kbd>: Bode plot</dt>
 </dl>
-<p>                Provides the open loop bode plot for the most
+<p>Provides the open loop bode plot for the most
                 recently selected gain
  </p></dd>
-<dt> <kbd>m</kbd>: Stability margins</dt>
+<dt><kbd class="kbd">m</kbd>: Stability margins</dt>
 </dl>
-<p>                Provides the open loop bode plot with stability
+<p>Provides the open loop bode plot with stability
                 margins for the most recently selected gain
  </p></dd>
-<dt> <kbd>a</kbd>: All plots</dt>
+<dt><kbd class="kbd">a</kbd>: All plots</dt>
 </dl>
-<p>                Provide sall four aforementioned plots
+<p>Provide sall four aforementioned plots
  </p></dd>
-<dt> <kbd>c</kbd>: Clear</dt>
+<dt><kbd class="kbd">c</kbd>: Clear</dt>
 </dl>
-<p>                Removes all closed loop pole markers and annotations
+<p>Removes all closed loop pole markers and annotations
  </p></dd>
-<dt> <kbd>d</kbd>: Delete</dt>
+<dt><kbd class="kbd">d</kbd>: Delete</dt>
 </dl>
-<p>                Removes all open figures with simulation and
+<p>Removes all open figures with simulation and
                 bode plots
  </p></dd>
-<dt> <kbd>x</kbd>: Exit</dt>
+<dt><kbd class="kbd">x</kbd>: Exit</dt>
 </dl>
-<p>                Exits the interactive mode and re-activates
+<p>Exits the interactive mode and re-activates
                 the octave prompt
  </p></dd>
 </dl>
 
-<p> There are no output parameters.
+<p>There are no output parameters.
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.  Must be a single-input and single-output (SISO) system.
+<p><abbr class="acronym">LTI</abbr> model.  Must be a single-input and single-output (SISO) system.
  </p></dd>
-<dt> <var>increment</var></dt>
+<dt><var class="var">increment</var></dt>
 </dl>
-<p> The increment used in computing gain values.
+<p>The increment used in computing gain values.
  </p></dd>
-<dt> <var>min_k</var></dt>
+<dt><var class="var">min_k</var></dt>
 </dl>
-<p> Minimum value of <var>k</var>.
+<p>Minimum value of <var class="var">k</var>.
  </p></dd>
-<dt> <var>max_k</var></dt>
+<dt><var class="var">max_k</var></dt>
 </dl>
-<p> Maximum value of <var>k</var>.
+<p>Maximum value of <var class="var">k</var>.
  </p></dd>
-<dt> <var>k_vec</var></dt>
+<dt><var class="var">k_vec</var></dt>
 </dl>
-<p> Vector of values for gain values <var>k</var>.
+<p>Vector of values for gain values <var class="var">k</var>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
+<p><strong class="strong">Outputs</strong>
 </p>
-<p> Plots the interactive root locus to the screen. <br>
+<p>Plots the interactive root locus to the screen. <br>
  Unlike rlocus(), this function does not have any output parameters.
  For output parameters please directly use rlocus().
 </p>
-<p> <strong>See also: </strong>
-  <a href="rlocus.html">rlocus</a>
-</p>
+
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/rlocusx.m">rlocusx</a>
 </div>

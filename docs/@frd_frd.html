@@ -528,121 +528,121 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>frd</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>frd</b> (<var>sys</var>, <var>w</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>frd</b> (<var>H</var>, <var>w</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>frd</b> (<var>H</var>, <var>w</var>, <var>tsam</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-frd"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">frd</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-frd-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">frd</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">w</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-frd-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">frd</strong> <code class="def-code-arguments">(<var class="var">H</var>, <var class="var">w</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-frd-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">frd</strong> <code class="def-code-arguments">(<var class="var">H</var>, <var class="var">w</var>, <var class="var">tsam</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Create or convert to frequency response data.
+<p>Create or convert to frequency response data.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to be converted to frequency response data. <var>sys</var>
+<p><abbr class="acronym">LTI</abbr> model to be converted to frequency response data. <var class="var">sys</var>
  can also be a real-valued matrix which is interpreted as continuous-time
- static gain system. If second argument <var>w</var> is omitted, the interesting
- frequency range is calculated by the zeros and poles of <var>sys</var>.
+ static gain system. If second argument <var class="var">w</var> is omitted, the interesting
+ frequency range is calculated by the zeros and poles of <var class="var">sys</var>.
  </p></dd>
-<dt> <var>H</var></dt>
+<dt><var class="var">H</var></dt>
 </dl>
-<p> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+<p>Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
  response from input j to output i at frequency k.  In the SISO case,
  a vector (lw-by-1) or (1-by-lw) is accepted as well.
  </p></dd>
-<dt> <var>w</var></dt>
+<dt><var class="var">w</var></dt>
 </dl>
-<p> Frequency vector (lw-by-1) in radian per second [rad/s].
+<p>Frequency vector (lw-by-1) in radian per second [rad/s].
  Frequencies must be in ascending order.
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>tsam</var> is not specified,
+<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified,
  a continuous-time model is assumed.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of properties and values.
- Type <code>set (frd)</code> for more information.
+<p>Optional pairs of properties and values.
+ Type <code class="command">set (frd)</code> for more information.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Frequency response data object.
+<p>Frequency response data object.
  </p></dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;H&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;H&rsquo;</var></dt>
 </dl>
-<p> Frequency response array.  See &rsquo;Inputs&rsquo; for details.
+<p>Frequency response array.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;w&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;w&rsquo;</var></dt>
 </dl>
-<p> Frequency vector.  See &rsquo;Inputs&rsquo; for details.
+<p>Frequency vector.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;tsam&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;tsam&rsquo;</var></dt>
 </dl>
-<p> Sampling time.  See &rsquo;Inputs&rsquo; for details.
+<p>Sampling time.  See &rsquo;Inputs&rsquo; for details.
 </p>
- </dd>
-<dt> <var>&rsquo;inname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;inname&rsquo;</var></dt>
 </dl>
-<p> The name of the input channels in <var>sys</var>.
+<p>The name of the input channels in <var class="var">sys</var>.
  Cell vector of length m containing strings.
- Default names are <code>{'u1', 'u2', ...}</code>
+ Default names are <code class="code">{'u1', 'u2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;outname&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outname&rsquo;</var></dt>
 </dl>
-<p> The name of the output channels in <var>sys</var>.
+<p>The name of the output channels in <var class="var">sys</var>.
  Cell vector of length p containing strings.
- Default names are <code>{'y1', 'y2', ...}</code>
+ Default names are <code class="code">{'y1', 'y2', ...}</code>
 </p>
- </dd>
-<dt> <var>&rsquo;ingroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;ingroup&rsquo;</var></dt>
 </dl>
-<p> Struct with input group names as field names and
+<p>Struct with input group names as field names and
  vectors of input indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;outgroup&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;outgroup&rsquo;</var></dt>
 </dl>
-<p> Struct with output group names as field names and
+<p>Struct with output group names as field names and
  vectors of output indices as field values.
  Default is an empty struct.
 </p>
- </dd>
-<dt> <var>&rsquo;name&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;name&rsquo;</var></dt>
 </dl>
-<p> String containing the name of the model.
+<p>String containing the name of the model.
 </p>
- </dd>
-<dt> <var>&rsquo;notes&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;notes&rsquo;</var></dt>
 </dl>
-<p> String or cell of string containing comments.
+<p>String or cell of string containing comments.
 </p>
- </dd>
-<dt> <var>&rsquo;userdata&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;userdata&rsquo;</var></dt>
 </dl>
-<p> Any data type.
+<p>Any data type.
  </p></dd>
 </dl>
 
-<p> <strong>See also: </strong>
-  <a href="dss.html">dss</a>, 
-  <a href="@ss_ss.html">@ss/ss</a>, 
-  <a href="@tf_tf.html">@tf/tf</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@frd/frd.m">@frd/frd</a>
 </div>

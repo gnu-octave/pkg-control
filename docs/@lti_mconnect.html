@@ -528,43 +528,44 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>mconnect</b> (<var>sys</var>, <var>m</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>mconnect</b> (<var>sys</var>, <var>m</var>, <var>inputs</var>, <var>outputs</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-mconnect"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">mconnect</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">m</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-mconnect-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">mconnect</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">m</var>, <var class="var">inputs</var>, <var class="var">outputs</var>)</code></span></dt>
 </dl>
-<p> Arbitrary interconnections between the inputs and outputs of an <acronym>LTI</acronym> model.
+<p>Arbitrary interconnections between the inputs and outputs of an <abbr class="acronym">LTI</abbr> model.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> system.
+<p><abbr class="acronym">LTI</abbr> system.
  </p></dd>
-<dt> <var>m</var></dt>
+<dt><var class="var">m</var></dt>
 </dl>
-<p> Connection matrix.  Each row belongs to an input and each column represents an output.
+<p>Connection matrix.  Each row belongs to an input and each column represents an output.
  </p></dd>
-<dt> <var>inputs</var></dt>
+<dt><var class="var">inputs</var></dt>
 </dl>
-<p> Vector of indices of those inputs which are retained.  If not specified, all inputs are kept.
+<p>Vector of indices of those inputs which are retained.  If not specified, all inputs are kept.
  </p></dd>
-<dt> <var>outputs</var></dt>
+<dt><var class="var">outputs</var></dt>
 </dl>
-<p> Vector of indices of those outputs which are retained.  If not specified, all outputs are kept.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
-</dl>
-<p> Interconnected system.
+<p>Vector of indices of those outputs which are retained.  If not specified, all outputs are kept.
  </p></dd>
 </dl>
 
-<p> <strong>Example</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> Solve the system equations of
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
+</dl>
+<p>Interconnected system.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> Solve the system equations of
  y(t) = G e(t)
  e(t) = u(t) + M y(t)
  in order to build
@@ -578,12 +579,15 @@
 
      | -1      5      0 |
  M = | pi      0      7 |
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/mconnect.m">@lti/mconnect</a>
 </div>
-
 
             </div>
           </div>

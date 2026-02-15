@@ -528,66 +528,69 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>tsam</var>] = <b>dssdata</b> (<var>sys</var>, <var>[]</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-dssdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">e</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">dssdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-dssdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">a</var>, <var class="var">b</var>, <var class="var">c</var>, <var class="var">d</var>, <var class="var">e</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">dssdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">[]</var>)</code></span></dt>
 </dl>
-<p> Access descriptor state-space model data.
+<p>Access descriptor state-space model data.
 </p>
 <div class="ms-5">
-<p> Argument <var>sys</var> is not limited to descriptor state-space models.
- If <var>sys</var> is not a descriptor state-space model, it is converted automatically.
- <var>sys</var> can also be a real-valued gain matrix which is then
+<p>Argument <var class="var">sys</var> is not limited to descriptor state-space models.
+ If <var class="var">sys</var> is not a descriptor state-space model, it is converted automatically.
+ <var class="var">sys</var> can also be a real-valued gain matrix which is then
  interpreted as static gain system.
 </p>
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Any type of <acronym>LTI</acronym> model or a real-valued matrix which is
+<p>Any type of <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
  interpreted as continous-time static gain.
  </p></dd>
-<dt> <var>[]</var></dt>
+<dt><var class="var">[]</var></dt>
 </dl>
-<p> In case <var>sys</var> is not a dss model (descriptor matrix <var>e</var> empty),
- <code>dssdata (sys, [])</code> returns the empty element <code>e = []</code> whereas
- <code>dssdata (sys)</code> returns the identity matrix <code>e = eye (size (a))</code>.
+<p>In case <var class="var">sys</var> is not a dss model (descriptor matrix <var class="var">e</var> empty),
+ <code class="code">dssdata (sys, [])</code> returns the empty element <code class="code">e = []</code> whereas
+ <code class="code">dssdata (sys)</code> returns the identity matrix <code class="code">e = eye (size (a))</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>a</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>b</var></dt>
+<dt><var class="var">b</var></dt>
 </dl>
-<p> Input matrix (n-by-m).
+<p>Input matrix (n-by-m).
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Measurement matrix (p-by-n).
+<p>Measurement matrix (p-by-n).
  </p></dd>
-<dt> <var>d</var></dt>
+<dt><var class="var">d</var></dt>
 </dl>
-<p> Feedthrough matrix (p-by-m).
+<p>Feedthrough matrix (p-by-m).
  </p></dd>
-<dt> <var>e</var></dt>
+<dt><var class="var">e</var></dt>
 </dl>
-<p> Descriptor matrix (n-by-n).
+<p>Descriptor matrix (n-by-n).
  </p></dd>
-<dt> <var>tsam</var></dt>
+<dt><var class="var">tsam</var></dt>
 </dl>
-<p> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+<p>Sampling time in seconds.  If <var class="var">sys</var> is a continuous-time model,
  a zero is returned.
  </p></dd>
 </dl>
 
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dssdata.m">dssdata</a>
 </div>
-
 
             </div>
           </div>

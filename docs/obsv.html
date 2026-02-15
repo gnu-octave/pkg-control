@@ -528,48 +528,51 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>ob</var> = <b>obsv</b> (<var>sys</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>ob</var> = <b>obsv</b> (<var>a</var>, <var>c</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-obsv"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">ob</var> =</code> <strong class="def-name">obsv</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-obsv-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">ob</var> =</code> <strong class="def-name">obsv</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">c</var>)</code></span></dt>
 </dl>
-<p> Return observability matrix.
+<p>Return observability matrix.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
-<dt> <var>a</var></dt>
+<dt><var class="var">a</var></dt>
 </dl>
-<p> State matrix (n-by-n).
+<p>State matrix (n-by-n).
  </p></dd>
-<dt> <var>c</var></dt>
+<dt><var class="var">c</var></dt>
 </dl>
-<p> Measurement matrix (p-by-n).
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>ob</var></dt>
-</dl>
-<p> Observability matrix.
+<p>Measurement matrix (p-by-n).
  </p></dd>
 </dl>
 
-<p> <strong>Equation</strong>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">ob</var></dt>
+</dl>
+<p>Observability matrix.
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Equation</strong>
  $$ O_b = \left[\matrix{  C      \cr
                            CA     \cr
                            CA^2   \cr
                            \vdots \cr
                            CA^{n-1} } \right]$$
   </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/obsv.m">obsv</a>
 </div>
-
 
             </div>
           </div>

@@ -528,133 +528,135 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>mixsyn</b> (<var>G</var>, <var>W1</var>, <var>W2</var>, <var>W3</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-mixsyn"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">mixsyn</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">W1</var>, <var class="var">W2</var>, <var class="var">W3</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Solve stacked S/KS/T H-infinity problem.
+<p>Solve stacked S/KS/T H-infinity problem.
  Mixed-sensitivity is the name given to transfer function shaping problems in which
  the sensitivity function
  $$ S = (I + G K)^{-1} $$
-  is shaped along with one or more other closed-loop transfer functions such as <var>K S</var>
+  is shaped along with one or more other closed-loop transfer functions such as <var class="var">K S</var>
  or the complementary sensitivity function
  $$ T = I - S = (I + G K)^{-1} G K $$
-  in a typical one degree-of-freedom configuration, where <var>G</var> denotes the plant and
- <var>K</var> the (sub-)optimal controller to be found.  The shaping of multivariable
+  in a typical one degree-of-freedom configuration, where <var class="var">G</var> denotes the plant and
+ <var class="var">K</var> the (sub-)optimal controller to be found.  The shaping of multivariable
  transfer functions is based on the idea that a satisfactory definition of gain
  (range of gain) for a matrix transfer function is given by the singular values
  \(\sigma\)
   of the transfer function. Hence the classical loop-shaping ideas of feedback design
  can be generalized to multivariable systems.  In addition to the requirement that
- <var>K</var> stabilizes <var>G</var>, the closed-loop objectives are as follows [1]:
+ <var class="var">K</var> stabilizes <var class="var">G</var>, the closed-loop objectives are as follows [1]:
 </p>
 <div class="ms-5">
- <ol>
-<li> For <em>disturbance rejection</em> make
+<ol class="enumerate">
+<li> For <em class="emph">disturbance rejection</em> make
  \(\overline{\sigma}(S)\)
   small.
- </li><li> For <em>noise attenuation</em> make
+ </li><li> For <em class="emph">noise attenuation</em> make
  \(\overline{\sigma}(T)\)
   small.
- </li><li> For <em>reference tracking</em> make
+ </li><li> For <em class="emph">reference tracking</em> make
  \(\overline{\sigma}(T) \approx \underline{\sigma}(T) \approx 1\)
-  </li><li> For <em>input usage (control energy) reduction</em> make
+  </li><li> For <em class="emph">input usage (control energy) reduction</em> make
  \(\overline{\sigma}(K S)\)
   small.
- </li><li> For <em>robust stability</em> in the presence of an additive perturbation
+ </li><li> For <em class="emph">robust stability</em> in the presence of an additive perturbation
  \(G_p = G + \Delta\)
   make
  \(\overline{\sigma}(K S)\)
   small.
- </li><li> For <em>robust stability</em> in the presence of a multiplicative output perturbation
+ </li><li> For <em class="emph">robust stability</em> in the presence of a multiplicative output perturbation
  \(G_p = (I + \Delta) G\)
   make
  \(\overline{\sigma}(T)\)
   small.
  </li></ol>
-<p> In order to find a robust controller for the so-called stacked
+<p>In order to find a robust controller for the so-called stacked
  \(S/KS/T\, H_{\infty}\)
-  problem, the user function <code>mixsyn</code> minimizes the following criterion
+  problem, the user function <code class="command">mixsyn</code> minimizes the following criterion
  $$ \min_K || N(K) ||_{\infty}, \quad N = | W_1 S; \,W_2 K S; \, W_3 T |$$
-  <code>[K, N] = mixsyn (G, W1, W2, W3)</code>.
- The user-defined weighting functions <var>W1</var>, <var>W2</var> and <var>W3</var> bound the largest
- singular values of the closed-loop transfer functions <var>S</var> (for performance),
- <var>K S</var> (to penalize large inputs) and <var>T</var> (for robustness and to avoid
+  <code class="code">[K, N] = mixsyn (G, W1, W2, W3)</code>.
+ The user-defined weighting functions <var class="var">W1</var>, <var class="var">W2</var> and <var class="var">W3</var> bound the largest
+ singular values of the closed-loop transfer functions <var class="var">S</var> (for performance),
+ <var class="var">K S</var> (to penalize large inputs) and <var class="var">T</var> (for robustness and to avoid
  sensitivity to noise), respectively [1].
  A few points are to be considered when choosing the weights.
- The weigths <var>Wi</var> must all be proper and stable.  Therefore if one wishes,
- for example, to minimize <var>S</var> at low frequencies by a weighting <var>W1</var> including
+ The weigths <var class="var">Wi</var> must all be proper and stable.  Therefore if one wishes,
+ for example, to minimize <var class="var">S</var> at low frequencies by a weighting <var class="var">W1</var> including
  integral action,
  \(\frac{1}{s}\)
   needs to be approximated by
  \(\frac{1}{s + \epsilon}\)\(\epsilon \ll 1\)
-  Similarly one might be interested in weighting <var>K S</var> with a non-proper weight
- <var>W2</var> to ensure that <var>K</var> is small outside the system bandwidth.
+  Similarly one might be interested in weighting <var class="var">K S</var> with a non-proper weight
+ <var class="var">W2</var> to ensure that <var class="var">K</var> is small outside the system bandwidth.
  The trick here is to replace a non-proper term such as
  \(1 + \tau_1 s\)\(\frac{1 + \tau_1 s}{1 + \tau_2 s}, \,\, \tau_2 \ll \tau_1\)
   For more details, see [1], [2].
 </p>
 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>G</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">G</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of plant.
+<p><abbr class="acronym">LTI</abbr> model of plant.
  </p></dd>
-<dt> <var>W1</var></dt>
+<dt><var class="var">W1</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of performance weight.  Bounds the largest singular values of sensitivity <var>S</var>.
- Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model of performance weight.  Bounds the largest singular values of sensitivity <var class="var">S</var>.
+ Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
-<dt> <var>W2</var></dt>
+<dt><var class="var">W2</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model to penalize large control inputs.  Bounds the largest singular values of <var>KS</var>.
- Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model to penalize large control inputs.  Bounds the largest singular values of <var class="var">KS</var>.
+ Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
-<dt> <var>W3</var></dt>
+<dt><var class="var">W3</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of robustness and noise sensitivity weight.  Bounds the largest singular values of
- complementary sensitivity <var>T</var>.  Model must be empty <code>[]</code>, SISO or of appropriate size.
+<p><abbr class="acronym">LTI</abbr> model of robustness and noise sensitivity weight.  Bounds the largest singular values of
+ complementary sensitivity <var class="var">T</var>.  Model must be empty <code class="code">[]</code>, SISO or of appropriate size.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional arguments of <code>hinfsyn</code>.  Type <code>help hinfsyn</code> for more information.
+<p>Optional arguments of <code class="command">hinfsyn</code>.  Type <code class="command">help hinfsyn</code> for more information.
  </p></dd>
 </dl>
 
-<p> All inputs must be proper/realizable.
- Scalars, vectors and matrices are possible instead of <acronym>LTI</acronym> models.
+<p>All inputs must be proper/realizable.
+ Scalars, vectors and matrices are possible instead of <abbr class="acronym">LTI</abbr> models.
 </p>
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>K</var> </dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">K</var></dt>
 </dl>
-<p> State-space model of the H-infinity (sub-)optimal controller.
+<p>State-space model of the H-infinity (sub-)optimal controller.
  </p></dd>
-<dt> <var>N</var></dt>
+<dt><var class="var">N</var></dt>
 </dl>
-<p> State-space model of the lower LFT of <var>P</var> and <var>K</var>.
+<p>State-space model of the lower LFT of <var class="var">P</var> and <var class="var">K</var>.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Structure containing additional information.
+<p>Structure containing additional information.
  </p></dd>
-<dt> <var>info.gamma</var></dt>
+<dt><var class="var">info.gamma</var></dt>
 </dl>
-<p> L-infinity norm of <var>N</var>.
+<p>L-infinity norm of <var class="var">N</var>.
  </p></dd>
-<dt> <var>info.rcond</var></dt>
+<dt><var class="var">info.rcond</var></dt>
 </dl>
-<p> Vector <var>rcond</var> contains estimates of the reciprocal condition
+<p>Vector <var class="var">rcond</var> contains estimates of the reciprocal condition
  numbers of the matrices which are to be inverted and
  estimates of the reciprocal condition numbers of the
  Riccati equations which have to be solved during the
- computation of the controller <var>K</var>.  For details,
+ computation of the controller <var class="var">K</var>.  For details,
  see the description of the corresponding SLICOT routine.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">
+
                                      | W1 S   |
  gamma = min||N(K)||             N = | W2 K S | = lft (P, K)
           K         inf              | W3 T   |
@@ -697,30 +699,29 @@
  Entire System:   N = lft (P, K)
  Open Loop:       L = G * K
  Closed Loop:     T = feedback (L)
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- Relies on functions @link{augw,augw} and @link{hinfsyn,hinfsyn},
- which use <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB10FD, SB10DD and SB10AD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Relies on functions &lsquo;augw&rsquo; and &lsquo;hinfsyn&rsquo;,
+ which use <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB10FD, SB10DD and SB10AD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- Skogestad, S. and Postlethwaite I. (2005)
- <cite>Multivariable Feedback Control: Analysis and Design:
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> Skogestad, S. and Postlethwaite I. (2005)
+ <cite class="cite">Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley, Chichester, England.<br>
- </li><li>
- Meinsma, G. (1995)
- <cite>Unstable and nonproper weights in H-infinity control</cite>
+ </li><li> Meinsma, G. (1995)
+ <cite class="cite">Unstable and nonproper weights in H-infinity control</cite>
  Automatica, Vol. 31, No. 11, pp. 1655-1658
  </li></ol>
 
-<p> <strong>See also: </strong>
-  <a href="hinfsyn.html">hinfsyn</a>, 
-  <a href="augw.html">augw</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/mixsyn.m">mixsyn</a>
 </div>

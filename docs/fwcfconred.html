@@ -528,149 +528,152 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>fwcfconred</b> (<var>G</var>, <var>F</var>, <var>L</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>fwcfconred</b> (<var>G</var>, <var>F</var>, <var>L</var>, <var>ncr</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>fwcfconred</b> (<var>G</var>, <var>F</var>, <var>L</var>, <var>opt</var>, &hellip;)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>Kr</var>, <var>info</var>] = <b>fwcfconred</b> (<var>G</var>, <var>F</var>, <var>L</var>, <var>ncr</var>, <var>opt</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-fwcfconred"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">fwcfconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">F</var>, <var class="var">L</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-fwcfconred-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">fwcfconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">F</var>, <var class="var">L</var>, <var class="var">ncr</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-fwcfconred-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">fwcfconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">F</var>, <var class="var">L</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-fwcfconred-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Kr</var>, <var class="var">info</var>] =</code> <strong class="def-name">fwcfconred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">F</var>, <var class="var">L</var>, <var class="var">ncr</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
 </dl>
 
-<p> Reduction of state-feedback-observer based controller by frequency-weighted coprime factorization (FW CF). 
- Given a plant <var>G</var>, state feedback gain <var>F</var> and full observer gain <var>L</var>,
- determine a reduced order controller <var>Kr</var> by using stability enforcing frequency weights.
+<p>Reduction of state-feedback-observer based controller by frequency-weighted coprime factorization (FW CF). 
+ Given a plant <var class="var">G</var>, state feedback gain <var class="var">F</var> and full observer gain <var class="var">L</var>,
+ determine a reduced order controller <var class="var">Kr</var> by using stability enforcing frequency weights.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>G</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">G</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of the open-loop plant (A,B,C,D).
+<p><abbr class="acronym">LTI</abbr> model of the open-loop plant (A,B,C,D).
  It has m inputs, p outputs and n states.
  </p></dd>
-<dt> <var>F</var></dt>
+<dt><var class="var">F</var></dt>
 </dl>
-<p> Stabilizing state feedback matrix (m-by-n).
+<p>Stabilizing state feedback matrix (m-by-n).
  </p></dd>
-<dt> <var>L</var></dt>
+<dt><var class="var">L</var></dt>
 </dl>
-<p> Stabilizing observer gain matrix (n-by-p).
+<p>Stabilizing observer gain matrix (n-by-p).
  </p></dd>
-<dt> <var>ncr</var></dt>
+<dt><var class="var">ncr</var></dt>
 </dl>
-<p> The desired order of the resulting reduced order controller <var>Kr</var>.
- If not specified, <var>ncr</var> is chosen automatically according
- to the description of key <var>&rsquo;order&rsquo;</var>.
+<p>The desired order of the resulting reduced order controller <var class="var">Kr</var>.
+ If not specified, <var class="var">ncr</var> is chosen automatically according
+ to the description of key <var class="var">&rsquo;order&rsquo;</var>.
  </p></dd>
-<dt> <var>&hellip;</var></dt>
+<dt><var class="var">&hellip;</var></dt>
 </dl>
-<p> Optional pairs of keys and values.  <code>&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
+<p>Optional pairs of keys and values.  <code class="code">&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
  </p></dd>
-<dt> <var>opt</var></dt>
+<dt><var class="var">opt</var></dt>
 </dl>
-<p> Optional struct with keys as field names.
- Struct <var>opt</var> can be created directly or
- by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.
+<p>Optional struct with keys as field names.
+ Struct <var class="var">opt</var> can be created directly or
+ by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>Kr</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">Kr</var></dt>
 </dl>
-<p> State-space model of reduced order controller.
+<p>State-space model of reduced order controller.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Struct containing additional information.
- </p><dl compact="compact">
-<dt> <var>info.hsv</var></dt>
+<p>Struct containing additional information.
+ </p><dl class="table">
+<dt><var class="var">info.hsv</var></dt>
 </dl>
-<p> The Hankel singular values of the extended system?!?.
- The <var>n</var> Hankel singular values are ordered decreasingly.
+<p>The Hankel singular values of the extended system?!?.
+ The <var class="var">n</var> Hankel singular values are ordered decreasingly.
  </p></dd>
-<dt> <var>info.ncr</var></dt>
+<dt><var class="var">info.ncr</var></dt>
 </dl>
-<p> The order of the obtained reduced order controller <var>Kr</var>.
+<p>The order of the obtained reduced order controller <var class="var">Kr</var>.
  </p></dd>
 </dl>
 </dd>
 </dl>
 
-<p> <strong>Option Keys and Values</strong>
- </p><dl compact="compact">
-<dt> <var>&rsquo;order&rsquo;, &rsquo;ncr&rsquo;</var></dt>
+<p><strong class="strong">Option Keys and Values</strong>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;order&rsquo;, &rsquo;ncr&rsquo;</var></dt>
 </dl>
-<p> The desired order of the resulting reduced order controller <var>Kr</var>.
- If not specified, <var>ncr</var> is chosen automatically such that states with
- Hankel singular values <var>info.hsv</var> &gt; <var>tol1</var> are retained.
+<p>The desired order of the resulting reduced order controller <var class="var">Kr</var>.
+ If not specified, <var class="var">ncr</var> is chosen automatically such that states with
+ Hankel singular values <var class="var">info.hsv</var> &gt; <var class="var">tol1</var> are retained.
 </p>
- </dd>
-<dt> <var>&rsquo;method&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;method&rsquo;</var></dt>
 </dl>
-<p> Order reduction approach to be used as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;sr&rsquo;, &rsquo;b&rsquo;</var></dt>
+<p>Order reduction approach to be used as follows:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;sr&rsquo;, &rsquo;b&rsquo;</var></dt>
 </dl>
-<p> Use the square-root Balance &amp; Truncate method.
+<p>Use the square-root Balance &amp; Truncate method.
  </p></dd>
-<dt> <var>&rsquo;bfsr&rsquo;, &rsquo;f&rsquo;</var></dt>
+<dt><var class="var">&rsquo;bfsr&rsquo;, &rsquo;f&rsquo;</var></dt>
 </dl>
-<p> Use the balancing-free square-root Balance &amp; Truncate method.  Default method.
+<p>Use the balancing-free square-root Balance &amp; Truncate method.  Default method.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;cf&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;cf&rsquo;</var></dt>
 </dl>
-<p> Specifies whether left or right coprime factorization is
+<p>Specifies whether left or right coprime factorization is
  to be used as follows:
- </p><dl compact="compact">
-<dt> <var>&rsquo;left&rsquo;, &rsquo;l&rsquo;</var></dt>
+ </p><dl class="table">
+<dt><var class="var">&rsquo;left&rsquo;, &rsquo;l&rsquo;</var></dt>
 </dl>
-<p> Use left coprime factorization.
+<p>Use left coprime factorization.
  </p></dd>
-<dt> <var>&rsquo;right&rsquo;, &rsquo;r&rsquo;</var></dt>
+<dt><var class="var">&rsquo;right&rsquo;, &rsquo;r&rsquo;</var></dt>
 </dl>
-<p> Use right coprime factorization.  Default method.
- </p></dd>
-</dl>
-
- </dd>
-<dt> <var>&rsquo;feedback&rsquo;</var></dt>
-</dl>
-<p> Specifies whether <var>F</var> and <var>L</var> are fed back positively or negatively:
- </p><dl compact="compact">
-<dt> <var>&rsquo;+&rsquo;</var></dt>
-</dl>
-<p> A+BK and A+LC are both Hurwitz matrices.
- </p></dd>
-<dt> <var>&rsquo;-&rsquo;</var></dt>
-</dl>
-<p> A-BK and A-LC are both Hurwitz matrices.  Default value.
+<p>Use right coprime factorization.  Default method.
  </p></dd>
 </dl>
 
- </dd>
-<dt> <var>&rsquo;tol1&rsquo;</var></dt>
+</dd>
+<dt><var class="var">&rsquo;feedback&rsquo;</var></dt>
 </dl>
-<p> If <var>&rsquo;order&rsquo;</var> is not specified, <var>tol1</var> contains the tolerance for
+<p>Specifies whether <var class="var">F</var> and <var class="var">L</var> are fed back positively or negatively:
+ </p><dl class="table">
+<dt><var class="var">&rsquo;+&rsquo;</var></dt>
+</dl>
+<p>A+BK and A+LC are both Hurwitz matrices.
+ </p></dd>
+<dt><var class="var">&rsquo;-&rsquo;</var></dt>
+</dl>
+<p>A-BK and A-LC are both Hurwitz matrices.  Default value.
+ </p></dd>
+</dl>
+
+</dd>
+<dt><var class="var">&rsquo;tol1&rsquo;</var></dt>
+</dl>
+<p>If <var class="var">&rsquo;order&rsquo;</var> is not specified, <var class="var">tol1</var> contains the tolerance for
  determining the order of the reduced system.
- For model reduction, the recommended value of <var>tol1</var> is
+ For model reduction, the recommended value of <var class="var">tol1</var> is
  c*info.hsv(1), where c lies in the interval [0.00001, 0.001].
  Default value is n*eps*info.hsv(1).
- If <var>&rsquo;order&rsquo;</var> is specified, the value of <var>tol1</var> is ignored.
+ If <var class="var">&rsquo;order&rsquo;</var> is specified, the value of <var class="var">tol1</var> is ignored.
  </p></dd>
 </dl>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB16CD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT SB16CD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
  </p>
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/fwcfconred.m">fwcfconred</a>
 </div>
-
 
             </div>
           </div>

@@ -528,46 +528,46 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>K</var>, <var>N</var>, <var>gamma</var>, <var>info</var>] = <b>ncfsyn</b> (<var>G</var>, <var>W1</var>, <var>W2</var>, <var>factor</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-ncfsyn"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">K</var>, <var class="var">N</var>, <var class="var">gamma</var>, <var class="var">info</var>] =</code> <strong class="def-name">ncfsyn</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">W1</var>, <var class="var">W2</var>, <var class="var">factor</var>)</code></span></dt>
 </dl>
-<p> Loop shaping H-infinity synthesis.  Compute positive feedback controller using
+<p>Loop shaping H-infinity synthesis.  Compute positive feedback controller using
  the McFarlane/Glover loop shaping design procedure [1].
- Using a precompensator <var>W1</var> and/or a postcompensator <var>W2</var>, the singular values
- of the nominal plant <var>G</var> are shaped to give a desired open-loop shape.
- The nominal plant <var>G</var> and shaping functions <var>W1</var>, <var>W2</var> are combined to
- form the shaped plant, <var>Gs</var> where <code>Gs = W2 G W1</code>.
- We assume that <var>W1</var> and <var>W2</var> are such that <var>Gs</var> contains no hidden modes.
+ Using a precompensator <var class="var">W1</var> and/or a postcompensator <var class="var">W2</var>, the singular values
+ of the nominal plant <var class="var">G</var> are shaped to give a desired open-loop shape.
+ The nominal plant <var class="var">G</var> and shaping functions <var class="var">W1</var>, <var class="var">W2</var> are combined to
+ form the shaped plant, <var class="var">Gs</var> where <code class="code">Gs = W2 G W1</code>.
+ We assume that <var class="var">W1</var> and <var class="var">W2</var> are such that <var class="var">Gs</var> contains no hidden modes.
  It is relatively easy to approximate the closed-loop requirements by the following
  open-loop objectives [2]:
 </p>
 <div class="ms-5">
- <ol>
-<li> For <em>disturbance rejection</em> make
+<ol class="enumerate">
+<li> For <em class="emph">disturbance rejection</em> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <em>noise attenuation</em> make
+  </li><li> For <em class="emph">noise attenuation</em> make
  \(\overline{\sigma}(W_2 G W_1)\)
   small; valid for frequencies at which
  \(\overline{\sigma}(G_S) \ll 1\)
-  </li><li> For <em>reference tracking</em> make
+  </li><li> For <em class="emph">reference tracking</em> make
  \(\underline{\sigma}(W_2 G W_1)\)
   large; valid for frequencies at which
  \(\underline{\sigma}(G_S) \gg 1\)
-  </li><li> For <em>robust stability</em> to a multiplicative output perturbation
+  </li><li> For <em class="emph">robust stability</em> to a multiplicative output perturbation
  \(G_p = (I + \Delta) G\)
   make
  \(\overline{\sigma}(W_2 G W_1)\)
   small; valid for frequencies at which
  \(\overline{\sigma}(G_S) \ll 1\)
   </li></ol>
-<p> Then a stabilizing controller <var>Ks</var> is synthesized for shaped plant <var>Gs</var>.
- The final positive feedback controller <var>K</var> is then constructed by combining
+<p>Then a stabilizing controller <var class="var">Ks</var> is synthesized for shaped plant <var class="var">Gs</var>.
+ The final positive feedback controller <var class="var">K</var> is then constructed by combining
  the
  \(H_{\infty}\)
-  controller <var>Ks</var> with the shaping functions <var>W1</var> and <var>W2</var>
- such that <code>K = W1 Ks W2</code>.
+  controller <var class="var">Ks</var> with the shaping functions <var class="var">W1</var> and <var class="var">W2</var>
+ such that <code class="code">K = W1 Ks W2</code>.
  In [1] is stated further that the given robust stabilization objective can be
  interpreted as a
  \(H_{\infty}\)
@@ -577,82 +577,83 @@
  to the controller input and output as follows:
  $$ \min_K \, || N(K) ||_{\infty}, $$$$ N = | W_{1}^{-1}; W_2 G | \ (I - K G)^{-1} \ | W_1, \ G W_{2}^{-1} | $$
 </p> 
-<p> <code>[K, N] = ncfsyn (G, W1, W2, f)</code>
- The function <code>ncfsyn</code> - the somewhat cryptic name stands
- for <em>normalized coprime factorization synthesis</em> - allows the specification of
- an additional argument, factor <var>f</var>.  Default value <code>f = 1</code> implies that an
- optimal controller is required, whereas <code>f &gt; 1</code> implies that a suboptimal
- controller is required, achieving a performance that is <var>f</var> times less than optimal.
+<p><code class="code">[K, N] = ncfsyn (G, W1, W2, f)</code>
+ The function <code class="command">ncfsyn</code> - the somewhat cryptic name stands
+ for <em class="emph">normalized coprime factorization synthesis</em> - allows the specification of
+ an additional argument, factor <var class="var">f</var>.  Default value <code class="code">f = 1</code> implies that an
+ optimal controller is required, whereas <code class="code">f &gt; 1</code> implies that a suboptimal
+ controller is required, achieving a performance that is <var class="var">f</var> times less than optimal.
 </p>
 
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>G</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">G</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of plant.
+<p><abbr class="acronym">LTI</abbr> model of plant.
  </p></dd>
-<dt> <var>W1</var></dt>
+<dt><var class="var">W1</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of precompensator.  Model must be SISO or of appropriate size.
- An identity matrix is taken if <var>W1</var> is not specified or if an empty model
- <code>[]</code> is passed.
+<p><abbr class="acronym">LTI</abbr> model of precompensator.  Model must be SISO or of appropriate size.
+ An identity matrix is taken if <var class="var">W1</var> is not specified or if an empty model
+ <code class="code">[]</code> is passed.
  </p></dd>
-<dt> <var>W2</var></dt>
+<dt><var class="var">W2</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model of postcompensator.  Model must be SISO or of appropriate size.
- An identity matrix is taken if <var>W2</var> is not specified or if an empty model
- <code>[]</code> is passed.
+<p><abbr class="acronym">LTI</abbr> model of postcompensator.  Model must be SISO or of appropriate size.
+ An identity matrix is taken if <var class="var">W2</var> is not specified or if an empty model
+ <code class="code">[]</code> is passed.
  </p></dd>
-<dt> <var>factor</var></dt>
+<dt><var class="var">factor</var></dt>
 </dl>
-<p> <code>factor = 1</code> implies that an optimal controller is required.
- <code>factor &gt; 1</code> implies that a suboptimal controller is required,
- achieving a performance that is <var>factor</var> times less than optimal.
+<p><code class="code">factor = 1</code> implies that an optimal controller is required.
+ <code class="code">factor &gt; 1</code> implies that a suboptimal controller is required,
+ achieving a performance that is <var class="var">factor</var> times less than optimal.
  Default value is 1.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>K</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">K</var></dt>
 </dl>
-<p> State-space model of the H-infinity loop-shaping controller.
- Note that <var>K</var> is a <em>positive</em> feedback controller.
+<p>State-space model of the H-infinity loop-shaping controller.
+ Note that <var class="var">K</var> is a <em class="emph">positive</em> feedback controller.
  </p></dd>
-<dt> <var>N</var></dt>
+<dt><var class="var">N</var></dt>
 </dl>
-<p> State-space model of the closed loop depicted below.
+<p>State-space model of the closed loop depicted below.
  </p></dd>
-<dt> <var>info</var></dt>
+<dt><var class="var">info</var></dt>
 </dl>
-<p> Structure containing additional information.
+<p>Structure containing additional information.
  </p></dd>
-<dt> <var>info.gamma</var></dt>
+<dt><var class="var">info.gamma</var></dt>
 </dl>
-<p> L-infinity norm of <var>N</var>.  <code>gamma = norm (N, inf)</code>.
+<p>L-infinity norm of <var class="var">N</var>.  <code class="code">gamma = norm (N, inf)</code>.
  </p></dd>
-<dt> <var>info.emax</var></dt>
+<dt><var class="var">info.emax</var></dt>
 </dl>
-<p> Nugap robustness.  <code>emax = inv (gamma)</code>.
+<p>Nugap robustness.  <code class="code">emax = inv (gamma)</code>.
  </p></dd>
-<dt> <var>info.Gs</var></dt>
+<dt><var class="var">info.Gs</var></dt>
 </dl>
-<p> Shaped plant.  <code>Gs = W2 * G * W1</code>.
+<p>Shaped plant.  <code class="code">Gs = W2 * G * W1</code>.
  </p></dd>
-<dt> <var>info.Ks</var></dt>
+<dt><var class="var">info.Ks</var></dt>
 </dl>
-<p> Controller for shaped plant.  <code>Ks = ncfsyn (Gs)</code>.
+<p>Controller for shaped plant.  <code class="code">Ks = ncfsyn (Gs)</code>.
  </p></dd>
-<dt> <var>info.rcond</var></dt>
+<dt><var class="var">info.rcond</var></dt>
 </dl>
-<p> Estimates of the reciprocal condition numbers of the Riccati equations
+<p>Estimates of the reciprocal condition numbers of the Riccati equations
  and a few other things.  For details, see the description of the
  corresponding SLICOT routine.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram of N</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> </pre><pre class="verbatim">             ^ z1              ^ z2
+<p><strong class="strong">Block Diagram of N</strong>
+ </p><div class="example">
+<div class="group"><pre class="verbatim">             ^ z1              ^ z2
              |                 |
   w1  +      |   +--------+    |            +--------+
  -----&gt;(+)---+--&gt;|   Ks   |----+---&gt;(+)----&gt;|   Gs   |----+
@@ -660,30 +661,31 @@
         |                        w2  |                    |
         |                                                 |
         +-------------------------------------------------+
- </pre><pre class="example"> </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Algorithm</strong><br>
- Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SB10KD and SB10ZD</a>,
+<p><strong class="strong">Algorithm</strong><br>
+ Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SB10KD and SB10ZD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
 </p>
-<p> <strong>References</strong><br>
- </p><ol>
-<li>
- D. McFarlane and K. Glover,
- <cite>A Loop Shaping Design Procedure Using H-infinity Synthesis</cite>,
+<p><strong class="strong">References</strong><br>
+ </p><ol class="enumerate">
+<li> D. McFarlane and K. Glover,
+ <cite class="cite">A Loop Shaping Design Procedure Using H-infinity Synthesis</cite>,
  IEEE Transactions on Automatic Control, Vol. 37, No. 6, June 1992.<br>
- </li><li>
- S. Skogestad and I. Postlethwaite,
- <cite>Multivariable Feedback Control: Analysis and Design:
+ </li><li> S. Skogestad and I. Postlethwaite,
+ <cite class="cite">Multivariable Feedback Control: Analysis and Design:
  Second Edition</cite>.  Wiley, Chichester, England, 2005.<br>
  </li></ol>
+
+
+</div>
+
 
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/ncfsyn.m">ncfsyn</a>
 </div>
-
 
             </div>
           </div>

@@ -528,27 +528,31 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pid</b> (<var>Kp</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pid</b> (<var>Kp</var>, <var>Ki</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pid</b> (<var>Kp</var>, <var>Ki</var>, <var>Kd</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pid</b> (<var>Kp</var>, <var>Ki</var>, <var>Kd</var>, <var>Tf</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pid</b> (<var>Kp</var>, <var>Ki</var>, <var>Kd</var>, <var>Tf</var>, <var>Ts</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-pid"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pid</strong> <code class="def-code-arguments">(<var class="var">Kp</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pid-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pid</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ki</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pid-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pid</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ki</var>, <var class="var">Kd</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pid-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pid</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ki</var>, <var class="var">Kd</var>, <var class="var">Tf</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pid-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pid</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ki</var>, <var class="var">Kd</var>, <var class="var">Tf</var>, <var class="var">Ts</var>)</code></span></dt>
 </dl>
-<p> Return the transfer function <var>C</var> of the <acronym>PID</acronym> controller
+<p>Return the transfer function <var class="var">C</var> of the <abbr class="acronym">PID</abbr> controller
  in parallel form with first-order roll-off.
- With a valid <var>Ts</var> a discrete-time system is created.
+ With a valid <var class="var">Ts</var> a discrete-time system is created.
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">              Ki      Kd s
+<div class="example">
+<div class="group"><pre class="example-preformatted">              Ki      Kd s
  C(s) = Kp + ---- + --------
               s     Tf s + 1
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/pid.m">pid</a>
 </div>
-
 
             </div>
           </div>

@@ -528,85 +528,87 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>est</var> = <b>estim</b> (<var>sys</var>, <var>l</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>est</var> = <b>estim</b> (<var>sys</var>, <var>l</var>, <var>sensors</var>, <var>known</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>est</var> = <b>estim</b> (<var>sys</var>, <var>l</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-estim"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">est</var> =</code> <strong class="def-name">estim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">l</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-estim-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">est</var> =</code> <strong class="def-name">estim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">l</var>, <var class="var">sensors</var>, <var class="var">known</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-estim-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">est</var> =</code> <strong class="def-name">estim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">l</var>, <var class="var">sensors</var>, <var class="var">known</var>, <var class="var">type</var>)</code></span></dt>
 </dl>
-<p> Return state estimator for a given estimator gain.
+<p>Return state estimator for a given estimator gain.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> <acronym>LTI</acronym> model.
+<p><abbr class="acronym">LTI</abbr> model.
  </p></dd>
-<dt> <var>l</var></dt>
+<dt><var class="var">l</var></dt>
 </dl>
-<p> State feedback matrix.
+<p>State feedback matrix.
  </p></dd>
-<dt> <var>sensors</var></dt>
+<dt><var class="var">sensors</var></dt>
 </dl>
-<p> Indices of measured output signals y from <var>sys</var>. If omitted or empty,
+<p>Indices of measured output signals y from <var class="var">sys</var>. If omitted or empty,
  all outputs are measured.
  </p></dd>
-<dt> <var>known</var></dt>
+<dt><var class="var">known</var></dt>
 </dl>
-<p> Indices of known input signals u (deterministic) to <var>sys</var>.
- All other inputs to <var>sys</var> are assumed stochastic (w).
- If argument <var>known</var> is omitted or empty, no inputs u are known.
+<p>Indices of known input signals u (deterministic) to <var class="var">sys</var>.
+ All other inputs to <var class="var">sys</var> are assumed stochastic (w).
+ If argument <var class="var">known</var> is omitted or empty, no inputs u are known.
  </p></dd>
-<dt> <var>type</var></dt>
+<dt><var class="var">type</var></dt>
 </dl>
-<p> Type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
+<p>Type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
  estimation is based on y(k-1), if set to &rsquo;current&rsquo; the current estimation is
  based on the lates mesaruement y(k). If omitted, the &rsquo;delayed&rsquo; version is created.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>est</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">est</var></dt>
 </dl>
-<p> State-space model of estimator.
+<p>State-space model of estimator.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                                  u  +-------+         ^
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">                                  u  +-------+         ^
        +----------------------------&gt;|       |-------&gt; y
        |    +-------+     +       y  |  est  |         ^
  u ----+---&gt;|       |-----&gt;(+)------&gt;|       |-------&gt; x
             |  sys  |       ^ +      +-------+
  w --------&gt;|       |       |
             +-------+       | v
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>Remarks</strong>
+<p><strong class="strong">Remarks</strong>
 </p>
-<p> The argument <var>type</var> is for discrete-time systems only. If set to &rsquo;current&rsquo;,
+<p>The argument <var class="var">type</var> is for discrete-time systems only. If set to &rsquo;current&rsquo;,
  the follwong prediction-correction scheme is used:
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example"> ^           ^
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> ^           ^
  x*(k+1) = A x(k) + B u(k)
     ^      ^        -1
     x(k) = x*(k) + A   L (y(k) - C x*(k) - D u(k))
- </pre><pre class="example"> </pre></td></tr></table>
-<p> The inverse fo the system matrix in the above equations is required
+ </pre></div></div>
+<p>The inverse fo the system matrix in the above equations is required
  for maintaining the desired observer error dynamics given by (A - LC).
 </p>
-<p> The advantage of this structure is that the current measurement y(k)
+<p>The advantage of this structure is that the current measurement y(k)
  is used for the current estiamted state and not for the next allowing
  the estimator to react to system disturbances faster. L is the
  observer feedback matrix for the common observer structure with
  the matrix (A - LC) being asymptotically stable, i.e. has
  eigenvalues strictly within the unit circle.
 </p>
-<p> <strong>See also: </strong>
-  <a href="kalman.html">kalman</a>, 
-  <a href="lqe.html">lqe</a>, 
-  <a href="place.html">place</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/estim.m">estim</a>
 </div>

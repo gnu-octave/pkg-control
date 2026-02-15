@@ -528,72 +528,73 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>, <var>sensors</var>, <var>known</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>[]</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>est</var>, <var>g</var>, <var>x</var>] = <b>kalman</b> (<var>sys</var>, <var>Q</var>, <var>R</var>, <var>S</var>, <var>sensors</var>, <var>known</var>, <var>type</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-kalman"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-kalman-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>, <var class="var">S</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-kalman-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>, <var class="var">[]</var>, <var class="var">sensors</var>, <var class="var">known</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-kalman-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>, <var class="var">S</var>, <var class="var">sensors</var>, <var class="var">known</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-kalman-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>, <var class="var">[]</var>, <var class="var">sensors</var>, <var class="var">known</var>, <var class="var">type</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-kalman-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">est</var>, <var class="var">g</var>, <var class="var">x</var>] =</code> <strong class="def-name">kalman</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">Q</var>, <var class="var">R</var>, <var class="var">S</var>, <var class="var">sensors</var>, <var class="var">known</var>, <var class="var">type</var>)</code></span></dt>
 </dl>
-<p> Design Kalman estimator for <acronym>LTI</acronym> systems.
+<p>Design Kalman estimator for <abbr class="acronym">LTI</abbr> systems.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Nominal plant model.
+<p>Nominal plant model.
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> Covariance of white process noise.
+<p>Covariance of white process noise.
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Covariance of white measurement noise.
+<p>Covariance of white measurement noise.
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional cross term covariance. Default value is 0.
+<p>Optional cross term covariance. Default value is 0.
  </p></dd>
-<dt> <var>sensors</var></dt>
+<dt><var class="var">sensors</var></dt>
 </dl>
-<p> Indices of measured output signals y from <var>sys</var>. If omitted or empty, all outputs are measured.
+<p>Indices of measured output signals y from <var class="var">sys</var>. If omitted or empty, all outputs are measured.
  </p></dd>
-<dt> <var>known</var></dt>
+<dt><var class="var">known</var></dt>
 </dl>
-<p> Indices of known input signals u (deterministic) to <var>sys</var>.  All other inputs to <var>sys</var>
- are assumed stochastic. If argument <var>known</var> is omitted or empty, the first m-l inputs to <var>sys</var>
- are known, where m is the total number of inputs to <var>sys</var> and l is the size of the quadratic
- matrix <var>Q</var>.
+<p>Indices of known input signals u (deterministic) to <var class="var">sys</var>.  All other inputs to <var class="var">sys</var>
+ are assumed stochastic. If argument <var class="var">known</var> is omitted or empty, the first m-l inputs to <var class="var">sys</var>
+ are known, where m is the total number of inputs to <var class="var">sys</var> and l is the size of the quadratic
+ matrix <var class="var">Q</var>.
  </p></dd>
-<dt> <var>type</var></dt>
+<dt><var class="var">type</var></dt>
 </dl>
-<p> Type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
+<p>Type of the estimator for discrete-time systems. If set to &rsquo;delayed&rsquo; the current
  estimation is based on y(k-1), if set to &rsquo;current&rsquo; the current estimation is
  based on the lates mesaruement y(k). If omitted, the &rsquo;delayed&rsquo; version is created.
  </p></dd>
 </dl>
 
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>est</var></dt>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">est</var></dt>
 </dl>
-<p> State-space model of the Kalman estimator.
+<p>State-space model of the Kalman estimator.
  </p></dd>
-<dt> <var>g</var></dt>
+<dt><var class="var">g</var></dt>
 </dl>
-<p> Estimator gain.
+<p>Estimator gain.
  </p></dd>
-<dt> <var>x</var></dt>
+<dt><var class="var">x</var></dt>
 </dl>
-<p> Solution of the Riccati equation.
+<p>Solution of the Riccati equation.
  </p></dd>
 </dl>
 
-<p> <strong>Block Diagram</strong>
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                                  u  +-------+         ^
+<p><strong class="strong">Block Diagram</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted">                                  u  +-------+         ^
        +----------------------------&gt;|       |-------&gt; y
        |    +-------+     +       y  |  est  |         ^
  u ----+---&gt;|       |-----&gt;(+)------&gt;|       |-------&gt; x
@@ -602,14 +603,13 @@
             +-------+       | v
 
  Q = cov (w, w')     R = cov (v, v')     S = cov (w, v')
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
 
-<p> <strong>See also: </strong>
-  <a href="care.html">care</a>, 
-  <a href="dare.html">dare</a>, 
-  <a href="estim.html">estim</a>, 
-  <a href="lqr.html">lqr</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/kalman.m">kalman</a>
 </div>

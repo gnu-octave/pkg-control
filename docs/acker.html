@@ -528,30 +528,32 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>k</var> = <b>acker</b> (<var>A</var>, <var>b</var>, <var>p</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-acker"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">k</var> =</code> <strong class="def-name">acker</strong> <code class="def-code-arguments">(<var class="var">A</var>, <var class="var">b</var>, <var class="var">p</var>)</code></span></dt>
 </dl>
-<p> Calculates the state feedback matrix of a completely controllable SISO system
+<p>Calculates the state feedback matrix of a completely controllable SISO system
  using Ackermann&rsquo;s formula
 </p>
 <div class="ms-5">
-<p> Given the state-space system
+<p>Given the state-space system
  $$ \dot x = Ax + bu $$
 </p> 
-<p> and the desired eigenvalues of the closed loop in the vector <var>p</var>,
+<p>and the desired eigenvalues of the closed loop in the vector <var class="var">p</var>,
  the state feedback vector k is calculated in the form
 </p>
-<p> $$ k = (k_1 k_2 ... k_n) $$
+<p>$$ k = (k_1 k_2 ... k_n) $$
 </p> 
-<p> such that the closed loop system matrix
+<p>such that the closed loop system matrix
 </p>
-<p> $$ A - b\,k $$
+<p>$$ A - b\,k $$
 </p> 
-<p> has the eigenvalues given in <var>p</var>.
+<p>has the eigenvalues given in <var class="var">p</var>.
 </p>
-<p> <strong>See also: </strong>
-  <a href="place.html">place</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/acker.m">acker</a>
 </div>

@@ -528,25 +528,29 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pidstd</b> (<var>Kp</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pidstd</b> (<var>Kp</var>, <var>Ti</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pidstd</b> (<var>Kp</var>, <var>Ti</var>, <var>Td</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <var>C</var> = <b>pidstd</b> (<var>Kp</var>, <var>Ti</var>, <var>Td</var>, <var>N</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-pidstd"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pidstd</strong> <code class="def-code-arguments">(<var class="var">Kp</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pidstd-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pidstd</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ti</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pidstd-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pidstd</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ti</var>, <var class="var">Td</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-pidstd-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">C</var> =</code> <strong class="def-name">pidstd</strong> <code class="def-code-arguments">(<var class="var">Kp</var>, <var class="var">Ti</var>, <var class="var">Td</var>, <var class="var">N</var>)</code></span></dt>
 </dl>
-<p> Return the transfer function <var>C</var> of the <acronym>PID</acronym> controller
+<p>Return the transfer function <var class="var">C</var> of the <abbr class="acronym">PID</abbr> controller
  in standard form with first-order roll-off.
 </p>
 <div class="ms-5">
- <table><tr><td>&nbsp;</td><td><pre class="example"> </pre><pre class="example">                 1        Td s
+<div class="example">
+<div class="group"><pre class="example-preformatted">                 1        Td s
  C(s) = Kp (1 + ---- + ----------)
                 Ti s   Td/N s + 1
- </pre><pre class="example"> </pre></td></tr></table>
+ </pre></div></div>
+
+</div>
+
+
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/pidstd.m">pidstd</a>
 </div>
-
 
             </div>
           </div>

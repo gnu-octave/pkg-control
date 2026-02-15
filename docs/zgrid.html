@@ -528,56 +528,61 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>zgrid</b></dt>
-<dt><code><h5 class="fs">Function File: <b>zgrid</b> on</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>zgrid</b> off</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>zgrid</b> (<var>z</var>, <var>w</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>zgrid</b> (<var>hax</var>, &hellip;)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-zgrid"><span class="category-def">Function File: </span><span><strong class="def-name">zgrid</strong> <code class="def-code-arguments">&nbsp;</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zgrid-1"><span class="category-def">Function File: </span><span><strong class="def-name">zgrid</strong> <code class="def-code-arguments">on</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zgrid-2"><span class="category-def">Function File: </span><span><strong class="def-name">zgrid</strong> <code class="def-code-arguments">off</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zgrid-3"><span class="category-def">Function File: </span><span><strong class="def-name">zgrid</strong> <code class="def-code-arguments">(<var class="var">z</var>, <var class="var">w</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-zgrid-4"><span class="category-def">Function File: </span><span><strong class="def-name">zgrid</strong> <code class="def-code-arguments">(<var class="var">hax</var>, &hellip;)</code></span></dt>
 </dl>
-<p> Display an grid in the complex z-plane.
+<p>Display an grid in the complex z-plane.
 </p>
 <div class="ms-5">
-<p> Control the display of z-plane grid with :
- </p><ul>
-<li> zeta lines corresponding to damping ratios and
- </li><li> omega lines corresponding to undamped natural frequencies
+<p>Control the display of z-plane grid with :
+ </p><ul class="itemize mark-bullet">
+<li>zeta lines corresponding to damping ratios and
+ </li><li>omega lines corresponding to undamped natural frequencies
  </li></ul>
 
-<p> The function state input may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>
- for creating or removing the grid. If omitted, a new grid is created 
+<p>The function state input may be either <code class="code">&quot;on&quot;</code> or <code class="code">&quot;off&quot;</code>
+ for creating or removing the grid. If omitted, a new grid is created
  when it does not exist or the visibility of the current grid is toggled.
 </p>
-<p> The zgrid will automatically plot the grid lines at nice values or
+<p>The zgrid will automatically plot the grid lines at nice values or
  at constant values specified by two arguments :
 </p>
- <table><tr><td>&nbsp;</td><td><pre class="example"> zgrid (<var>Z</var>, <var>W</var>)
- </pre></td></tr></table>
+<div class="example">
+<pre class="example-preformatted"> zgrid (<var class="var">Z</var>, <var class="var">W</var>)
+ </pre></div>
 
- <p> where <var>Z</var> and <var>W</var> are :
- </p><ul>
-<li> <var>Z</var> vector of constant zeta values to plot as lines
- </li><li> <var>W</var> vector of constant omega values to plot as circles
+<p>where <var class="var">Z</var> and <var class="var">W</var> are :
+ </p><ul class="itemize mark-bullet">
+<li><var class="var">Z</var> vector of constant zeta values to plot as lines
+ </li><li><var class="var">W</var> vector of constant omega values to plot as circles
  </li></ul>
 
-<p> Example of usage:
- </p><table><tr><td>&nbsp;</td><td><pre class="example"> zgrid on	  create the z-plane grid
+<p>Example of usage:
+ </p><div class="example">
+<pre class="example-preformatted"> zgrid on	  create the z-plane grid
  zgrid off 	remove the z-plane grid
  zgrid		  toggle the z-plane grid visibility
- zgrid ([0.3, 0.8, &hellip;], [0.25*pid, 0.5*pi, &hellip;])   create:
- </pre><table><tr><td>&nbsp;</td><td><pre class="example"> </pre><ul>
-<li><pre class="example"> zeta lines for 0.3, 0.8, &hellip; 
- </pre></li><li><pre class="example"> omega lines for 0.25*pi/T, 0.5*pi/T, &hellip; [rad/s] 
+ zgrid ([0.3, 0.8, ...], [0.25*pid, 0.5*pi, ...])   create:
+ </pre><div class="example">
+<ul class="itemize mark-bullet">
+<li></li><li><pre class="example-preformatted">zeta lines for 0.3, 0.8, ...
+ </pre></li><li><pre class="example-preformatted">omega lines for 0.25*pi/T, 0.5*pi/T, ... [rad/s]
  </pre></li></ul>
-<pre class="example"> </pre></td></tr></table>
-<pre class="example"> zgrid (<var>hax</var>, <code>&quot;on&quot;</code>)   create the z-plane grid for the axis 
-                     handle <var>hax</var>
- </pre></td></tr></table>
+</div>
+<pre class="example-preformatted"> zgrid (<var class="var">hax</var>, <code class="code">&quot;on&quot;</code>)   create the z-plane grid for the axis
+                     handle <var class="var">hax</var>
+ </pre></div>
 
-<p> <strong>See also: </strong>
-grid, 
-  <a href="sgrid.html">sgrid</a>
-</p>
+
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/zgrid.m">zgrid</a>
 </div>

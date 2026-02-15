@@ -528,57 +528,57 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>lqi</b> (<var>sys</var>, <var>q</var>, <var>r</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>g</var>, <var>x</var>, <var>l</var>] = <b>lqr</b> (<var>sys</var>, <var>q</var>, <var>r</var>, <var>s</var>)</code></h5></dt>
+<dl class="first-deftypefn">
+<dt class="deftypefn" id="index-lqi"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">lqi</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lqr"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">g</var>, <var class="var">x</var>, <var class="var">l</var>] =</code> <strong class="def-name">lqr</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">q</var>, <var class="var">r</var>, <var class="var">s</var>)</code><a class="copiable-link" href="#index-lqr"> &para;</a></span></dt>
 </dl>
-<p> Linear-quadratic integral control.
+<p>Linear-quadratic integral control.
 </p>
 <div class="ms-5">
-<p> <strong>Inputs</strong>
- </p><dl compact="compact">
-<dt> <var>sys</var></dt>
+<p><strong class="strong">Inputs</strong>
+ </p><dl class="table">
+<dt><var class="var">sys</var></dt>
 </dl>
-<p> Continuous or discrete-time <acronym>LTI</acronym> model (m inputs, n states, p outputs).
+<p>Continuous or discrete-time <abbr class="acronym">LTI</abbr> model (m inputs, n states, p outputs).
  </p></dd>
-<dt> <var>q</var></dt>
+<dt><var class="var">q</var></dt>
 </dl>
-<p> State weighting matrix (n+p-by-n+p).
+<p>State weighting matrix (n+p-by-n+p).
  </p></dd>
-<dt> <var>r</var></dt>
+<dt><var class="var">r</var></dt>
 </dl>
-<p> Input weighting matrix (m-by-m).
+<p>Input weighting matrix (m-by-m).
  </p></dd>
-<dt> <var>s</var></dt>
+<dt><var class="var">s</var></dt>
 </dl>
-<p> Optional cross term matrix (n+p-by-m).  If <var>s</var> is not specified, a zero matrix is assumed.
- </p></dd>
-</dl>
-
-<p> <strong>Outputs</strong>
- </p><dl compact="compact">
-<dt> <var>g</var></dt>
-</dl>
-<p> State feedback matrix (m-by-n).
- </p></dd>
-<dt> <var>x</var></dt>
-</dl>
-<p> Unique stabilizing solution of the continuous-time Riccati equation (n+p-by-n+p).
- </p></dd>
-<dt> <var>l</var></dt>
-</dl>
-<p> Closed-loop poles (n-by-1).
+<p>Optional cross term matrix (n+p-by-m).  If <var class="var">s</var> is not specified, a zero matrix is assumed.
  </p></dd>
 </dl>
 
-<p> <strong>Equations</strong>
+<p><strong class="strong">Outputs</strong>
+ </p><dl class="table">
+<dt><var class="var">g</var></dt>
+</dl>
+<p>State feedback matrix (m-by-n).
+ </p></dd>
+<dt><var class="var">x</var></dt>
+</dl>
+<p>Unique stabilizing solution of the continuous-time Riccati equation (n+p-by-n+p).
+ </p></dd>
+<dt><var class="var">l</var></dt>
+</dl>
+<p>Closed-loop poles (n-by-1).
+ </p></dd>
+</dl>
+
+<p><strong class="strong">Equations</strong>
  $$ \dot{x} = A\,x + B\,u,\quad x(0) = x_0 $$$$ J(x_0) = \int_0^\infty  z^T Q\, z + u^T R\, u + 2\, z^T S\, u \,\, dt $$$$ z = \left[\matrix{ x \cr x_i }\right],\qquad x_i = \int_0^t r - y \,\, dt $$$$ L = \sigma (A - B\, G) $$
 </p> 
-<p> <strong>See also: </strong>
-  <a href="care.html">care</a>, 
-  <a href="dare.html">dare</a>, 
-  <a href="dlqr.html">dlqr</a>
-</p>
+
+</div>
+
+
+
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lqi.m">lqi</a>
 </div>
