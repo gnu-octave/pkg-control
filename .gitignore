@@ -33,6 +33,8 @@ devel/doc/version.texi
 devel/doc/control.qch
 devel/doc/control.qhc
 devel/doc/control.pdf
+devel/doc/figures/*.pdf
+devel/doc/figures/*.png
 doc/control.qch
 doc/control.pdf
 doc/control.svg

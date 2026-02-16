@@ -20,6 +20,7 @@
 ## <https://www.gnu.org/licenses/>.
 
 import sys
+import glob
 import os
 import re
 
@@ -146,10 +147,15 @@ def process(name):
           if e:
               f.write('      <keyword name="{}" ref="{}.html#{}"></keyword>\n'.format(e.group("name"), name, tag))
 
+      png_files = glob.glob(r'figures/*.png')
+
       f.write('    </keywords>\n')
       f.write('    <files>\n')
       f.write('      <file>{}.html</file>\n'.format(name))
       f.write('      <file>{}.css</file>\n'.format(name))
+      for png in png_files:
+          f.write('<file>{}</file>\n'.format(png))
+      f.write('      <file>{}</file>\n'.format(png_files))
       f.write('    </files>\n')
       f.write('  </filterSection>\n')
       f.write('</QtHelpProject>\n')
