@@ -45,7 +45,11 @@ For installing a certain version x.y.z of the control package, you may
 You can also clone this repository (using the option `--recurse-submodules` since SLICOT is included as git submodule) and build the package archive file by yourself. For this, you can use the following commands:
 
 - `make dist`<br>
-  Create the package archive file in the directory `target` which can be installed in Octave afterwards
+  Create the package archive file in the directory `target` which can be installed
+  in Octave afterwards. If `make DOCS_EXAMPLES=true dist` is used, the documentation   
+  files (pdf and qch for Octave's documentation browser) will contain the demos of
+  the package as examples togehter with the resulting plots. However, for this the
+  control package has to be installed.
 - `make install`<br>
   Install the package
 - `make help`<br>

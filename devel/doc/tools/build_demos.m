@@ -112,20 +112,27 @@ function build_demos (pkgname, fcnname, texi_file)
 
           ## Format texi string with demo output
           if (! strcmp (demo_texi, "\n"))
+            demo_texi = strrep (demo_texi, "{","@{");
+            demo_texi = strrep (demo_texi, "}","@}");
             demo_texi = [demo_texi demo_text];
           endif
 
-          ## Save figures
+          ## Save figures.
           images = {};
           figure_num = demo_num * 100;
           while (! isempty (get (0, "currentfigure")))
             figure_num = figure_num + 1;
             fig = gcf ();
+            ## We are in the "tools" directory, the figures have to be
+            ## saved in the "figures" directory relative to the texinfo
+            ## sources. Therefore the image file name relative to the texinfo
+            ## source is in "fullpath" but for saving from this script we
+            ## need to go up on level from "tools"
             name = sprintf ("%s_%d", fcnfile, figure_num);
             fullpath = fullfile ("figures", name);
             ## use pdf for the pdf and png for the qch (html) documentation
-            print (fig, [fullpath, ".pdf"], "-dpdfcrop", "-F:16", "-S560,420");
-            print (fig, [fullpath, ".png"], "-dpng", "-F:16", "-S360,270");
+            print (fig, ["../", fullpath, ".pdf"], "-dpdfcrop", "-F:16", "-S560,420");
+            print (fig, ["../", fullpath, ".png"], "-dpng", "-F:16", "-S360,270");
             images{end+1} = fullpath;
             close (fig);
           endwhile

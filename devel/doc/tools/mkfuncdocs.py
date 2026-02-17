@@ -84,6 +84,42 @@ def texify_line(line):
   line = line.replace(",", "@comma{}")
   return line
 
+
+def fix_texi(texi):
+
+  # makeinfo does not support \(...\), only $...$, which in turn
+  # is not supported by pkg-octave-doc. Solution: use \(...\)
+  # in help texts and replace them here.
+  texi = texi.replace ("\\)", "$");
+  texi = texi.replace ("\\(", "$");
+
+  # Replace @sealso command in texinfo  strings
+  # having correct refs from the @seealso command
+
+  pat = re.compile(r'@seealso\s*{([^}]*)}')
+
+  def repl(m: re.Match) -> str:
+    inside = m.group(1)
+    items = [s.strip() for s in inside.split(',') if s.strip()]
+
+    ltext = "@strong{See also:}"
+    rtext = "@strong{See also:}"
+    for ref in items:
+        ltext += f" @link{{{ref},{ref}}},"
+        rtext += f" @ref{{{ref}}},"
+
+    if items:
+        ltext = ltext[:-1]  # drop trailing comma
+        rtext = rtext[:-1]
+
+    text = ""
+    text += f"@iftex\n{ltext}.\n@end iftex\n"
+    text += f"@ifnottex\n{rtext}.\n@end ifnottex\n"
+    return text
+
+  return pat.sub(repl, texi)
+
+
 def find_defun_line_in_file(filename, fnname):
   linecnt = 0
 
@@ -162,12 +198,15 @@ def read_m_file(filename, index, skip=0, fullexamples=False):
             ##        Possible solution: Make and install version without
             ##        demos, then make version with demos and the final
             ##        package archive.
-            doc_devel_dir = os.path.dirname(__file__)
+            doc_devel_dir_tools = os.path.dirname(__file__)  # tools directory
             tmp_file = "__texi_demo_tmp__"
-            # create texi code with examples and resulting figures
-            cmd = "cd \"%s\" && octave --norc --eval \'build_demos (\"%s\",\"%s\",\"%s\");\'" % (doc_devel_dir, index.name, func_name, tmp_file)
+            ## Create texi code with examples and resulting figures
+            ## For this call build_demos in the "tools" directory wich runs
+            ## the demos of the current functions and the captured output
+            ## is written to a temp. also in the tools directory.
+            cmd = "cd \"%s\" && octave --norc --eval \'build_demos (\"%s\",\"%s\",\"%s\");\'" % (doc_devel_dir_tools, index.name, func_name, tmp_file)
             os.system(cmd);
-            tmp_file = doc_devel_dir + "/" + tmp_file
+            tmp_file = doc_devel_dir_tools + "/" + tmp_file
             with open(tmp_file, 'r') as ftxi:
               help.append (ftxi.read());
             os.remove(tmp_file)
@@ -348,6 +387,7 @@ def display_func(name, ref, help):
   print ("@subsection {}".format(name))
   print ("@cindex {}".format(ref))
   for l in help:
+    l = fix_texi (l)
     print ("{}".format(l))
 
 def process (args):
@@ -374,7 +414,9 @@ def process (args):
 
     if key == "--verbose":
       options["verbose"] = True;
-    if key == "--standalone":
+    elif key == "--fullexamples":
+      options["fullexamples"] = True;
+    elif key == "--standalone":
       options["standalone"] = True;
     elif key == "--allowscan":
       options["allowscan"] = True;
@@ -387,8 +429,6 @@ def process (args):
     elif key == "--func-prefix":
       if val:
         options["funcprefix"] = val;
-    elif key == "--func-prefix":
-      options["fullexamples"] = True;
     elif val == "":
       if indexfile == "":
         indexfile = key

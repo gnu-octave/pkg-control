@@ -2,7 +2,7 @@
 ## Copyright 2015-2016 Oliver Heimlich
 ## Copyright 2015-2019 Mike Miller
 ## Copyright 2024 John Donoghue
-## Copyright 2025 Torsten Lilge
+## Copyright 2025-2026 Torsten Lilge
 ##
 ## Copying and distribution of this file, with or without modification,
 ## are permitted in any medium without royalty provided the copyright
@@ -13,6 +13,14 @@ OCTAVE    ?= octave --silent
 SED       := sed
 MV        ?= mv -f
 MAKEINFO  ?= makeinfo
+
+# docs with demos as examples?
+DOCS_EXAMPLES ?= false
+MKFUNCDOCS_OPTIONS = --src-dir=inst/ --src-dir=src/ INDEX
+ifeq ($(DOCS_EXAMPLES),true)
+  MKFUNCDOCS_OPTIONS := --fullexamples $(MKFUNCDOCS_OPTIONS)
+endif
+
 # use --force in makeinfo since there are @refs to octave core functions
 MAKEINFO_OPTIONS := --no-headers --no-split --no-validate \
 												--set-customization-variable 'COPIABLE_LINKS 0'
@@ -84,6 +92,15 @@ help:
 	@echo "   clean     - Remove releases, doc and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
 	@echo " "
+	@echo "Options: "
+	@echo " "
+	@echo "   DOCS_EXAMPLES=true"
+	@echo "             - The pdf and qch docs include any existing demos"
+	@echo "               as examples togehter with the resulting figures."
+	@echo "               The default is, that only links to the examples"
+	@echo "               in the online documentation are included."
+	@echo " "
+	
 
 %.tar.gz: %
 	@echo "Create $@ ..."
@@ -137,8 +154,8 @@ $(DOCS_DEV_DIR)/version.texi: $(DESCRIPTION)
 # refs and links from @seealso commands in all output formats.
 $(DOCS_DEV_DIR)/functions.texi: .git/index
 	@echo Generating $@ \(collect all texinfo texts\) ...
-	@$(DOCS_DEV_DIR)/mkfuncdocs.py --src-dir=inst/ --src-dir=src/ INDEX > $@
-	@$(DOCS_DEV_DIR)/fix_seealso.pl $@
+	@$(DOCS_DEV_DIR)/tools/mkfuncdocs.py $(MKFUNCDOCS_OPTIONS) > $@
+#	@$(DOCS_DEV_DIR)/tools/fix_seealso.pl $@
 
 $(DOCS_LOGO): $(LOGO_DEV)
 	@echo Copying $@ ...
@@ -156,7 +173,7 @@ $(DOCS_QCH): $(DOCS_SOURCES)
 ifeq ($(QHELPGENERATOR),true)
 	$(warning No QHELPGENERATOR... skipping QT doc build)
 else
-	@cd $(DOCS_DEV_DIR) && ./mkqhcp.py $(PACKAGE)\
+	@cd $(DOCS_DEV_DIR) && ./tools/mkqhcp.py $(PACKAGE)\
 		&& $(QHELPGENERATOR) -s $(PACKAGE).qhcp -o $(PACKAGE).qhc > /dev/null 2>&1
 	@cd $(DOCS_DEV_DIR) && $(RM) $(PACKAGE).qhcp $(PACKAGE).qhp $(PACKAGE).qhc $(PACKAGE).html
 endif
