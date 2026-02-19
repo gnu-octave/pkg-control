@@ -530,14 +530,16 @@
             <div class="card-body">
 <dl class="first-deftypefn">
 <dt class="deftypefn" id="index-lsim"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-1"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-2"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-3"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-4"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-1"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, ..., <var class="var">sysN</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-2"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">style1</var>, ..., <var class="var">sysN</var>, <var class="var">styleN</var>, <var class="var">u</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-3"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, ..., <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-4"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, ..., <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
 <dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
 <dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
 <dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
+<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-8"><span class="category-def">Function File: </span><span><code class="def-type">[...] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(..., <var class="var">method</var>)</code></span></dt>
 </dl>
+
 <p>Simulate <abbr class="acronym">LTI</abbr> model response to arbitrary inputs.  If no output arguments are given,
  the system response is plotted on the screen.
 </p>
@@ -563,12 +565,26 @@
  </p></dd>
 <dt><var class="var">x0</var></dt>
 </dl>
-<p>Vector of initial conditions for each state.  If not specified, a zero vector is assumed.
+<p>Vector of initial conditions for each state of a system in state space.
+ If not specified, a zero vector is assumed.
+ Note: A vector <var class="var">x0</var> provided for an input-output system representation
+ is ignored and a zero vector of initial conditions is used instead because
+ the internally used state space representaton does generally not match
+ the one assumed for <var class="var">x0</var>. For a simulation of an input-output model
+ with initial conditions for the output <em class="math">y</em> and its time-derivatives,
+ see remarks below.
  </p></dd>
-<dt><var class="var">&rsquo;style&rsquo;</var></dt>
+<dt><var class="var">style</var></dt>
 </dl>
 <p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code class="command">help plot</code> for details.
+ black line. See <code class="command">help plot</code> for details.
+ </p></dd>
+<dt><var class="var">method</var></dt>
+</dl>
+<p>Method that is used to discretize a continuous-time system for the simulation.
+ See
+ <a href="@lti_c2d.html">@lti/c2d</a>
+ for possible methods. If <var class="var">method</var> is not provided, the default is &rsquo;foh&rsquo;.
  </p></dd>
 </dl>
 
@@ -589,6 +605,31 @@
  </p></dd>
 </dl>
 
+<p><strong class="strong">Remarks</strong>
+</p>
+<ul class="itemize mark-bullet">
+<li>For the simulation, continuous-time systems are discretized using the
+ selected method <var class="var">method</var> or the default first-order-hold method (foh), see
+ <a href="@lti_c2d.html">@lti/c2d</a>
+ for details.
+
+</li><li>For a SISO input-output model <em class="math">G</em> and initial values for the output
+ <em class="math">y</em> and its derivatives up to order <em class="math">n-1</em> the corresponding state space
+ represetaiton is computed by:
+
+<div class="example">
+<div class="group"><pre class="example-preformatted"> [A,b,c,d] = ssdata (G);
+ T = obsv (A, c);
+ G_ss = ss2ss (ss (G), T);
+ initial (G_ss, x0);
+ </pre></div></div>
+
+<p>Note that, in general, the states of <em class="math">G_ss</em> are only equal to the output
+ <em class="math">y</em> and its first <em class="math">n-1</em> time derivaties if <em class="math">u=0</em>, which is the
+ case for the initial conditions immediately before <em class="math">t=0</em>.
+</p>
+</li></ul>
+
 
 </div>
 
@@ -602,9 +643,9 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h3 class="d-inline-block mr-2">
-                  Example: 1
-                  </h3>
+                  <h4 class="d-inline-block mr-2">
+                  <a name="example1">Example: 1</a>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -633,7 +674,7 @@
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
-                    <img src="assets/lsim_101.svg" width="80%" alt="plotted figure">
+                    <img src="assets/lsim_101.svg" width="70%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

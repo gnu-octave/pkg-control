@@ -540,7 +540,8 @@
 <dt class="deftypefnx def-cmd-deftypefn" id="index-initial-8"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>, <var class="var">tfinal</var>)</code></span></dt>
 <dt class="deftypefnx def-cmd-deftypefn" id="index-initial-9"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
 </dl>
-<p>Initial condition response of state-space model.
+
+<p>Initial condition response of a state-space model.
  If no output arguments are given, the response is printed on the screen.
 </p>
 <div class="ms-5">
@@ -548,7 +549,7 @@
  </p><dl class="table">
 <dt><var class="var">sys</var></dt>
 </dl>
-<p>State-space model.
+<p>LTI system in state-space representation.
  </p></dd>
 <dt><var class="var">x0</var></dt>
 </dl>
@@ -594,13 +595,39 @@
 </dl>
 
 <p><strong class="strong">Example</strong>
+</p>
+<p>Consider a continuous- or a discrete-time system of the form
+</p>
+<p>Continuous Time:
+ $$\dot{x}(t) = A\,x(t) + B\,u(t),\quad x(0)=x_0,\quad y(t) = C\,x(t) + D\,u(t)$$
+</p> 
+<p>Discrete Time:
+ $$x(k+1) = A\,x(k) + B\,u(k),\quad x(0)=x_0,\quad y(k) = C\,x(k) + D\,u(K)$$
+</p> 
+<p>The dynamic behavior of the system for <em class="math">u=0</em> and only driven by the
+ initial system state <em class="math">x(0)</em> is given by
  </p><div class="example">
-<div class="group"><pre class="example-preformatted">                    .
- Continuous Time:   x = A x ,   y = C x ,   x(0) = x0
-
- Discrete Time:   x[k+1] = A x[k] ,   y[k] = C x[k] ,   x[0] = x0
+<div class="group"><pre class="example-preformatted"> sys = ss (A, B, C, D);
+ initial (sys, x0);
  </pre></div></div>
 
+<p><strong class="strong">Remark</strong>
+</p>
+<p>For a SISO input-output model <em class="math">G</em> and initial values for the output <em class="math">y</em>
+ and its derivatives up to order <em class="math">n-1</em> the corresponding state space
+ represetaiton is computed by:
+</p>
+<div class="example">
+<div class="group"><pre class="example-preformatted"> [A,b,c,d] = ssdata (G);
+ T = obsv (A, c);
+ G_ss = ss2ss (ss (G), T);
+ initial (G_ss, x0);
+ </pre></div></div>
+
+<p>Note that, in general, the states of <em class="math">G_ss</em> are only equal to the output
+ <em class="math">y</em> and its first <em class="math">n-1</em> time derivaties if <em class="math">u=0</em>, which is the
+ case for the initial condition response.
+</p>
 
 </div>
 
