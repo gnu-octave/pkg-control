@@ -103,3 +103,24 @@ function [g, x, l] = lqr (a, b, q, r = [], s = [], e = [])
   endif
 
 endfunction
+
+%!test
+%!shared A,B,Q,R,L,P,K
+%! A = [ 0 1 0 0 0 ;
+%!       0 0 1 0 0 ;
+%!       0 0 0 0 0 ;
+%!       0 0 0 0 1 ;
+%!       0 0 0 0 0 ];
+%! B = [ 0 0 ;
+%!       0 0 ;
+%!       1 0 ;
+%!       0 0 ;
+%!       0 1 ];
+%! n = size (A,1);
+%! m = size (B,2);
+%! Q = eye (n,n);
+%! R = eye (m,m);
+%! [ K, P, L ] = lqr (A, B, Q, R);
+%! assert (K, inv(R)*B'*P, 1e-4);
+%! assert (eig (A-B*K), L, 1e-4);
+
