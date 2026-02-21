@@ -167,7 +167,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
             out = ['y', num2str(nz_y(jy))];  # default name
           endif
           # print the warning
-          warning (msg, names{sys_idx_ct(i)}, sys_ctss{i}.d(jy,ju), in, out);
+          warning (msg, names{sys_idx_ct(i)}, sys_ctss{i}.d(nz_y(jy),nz_u(ju)), in, out);
         endfor
       endfor
       ## compute impulse response for remaining system without feedthrough
@@ -272,8 +272,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       otherwise
         error ("time_response: invalid response type '%s'\n", response);
     endswitch
-
-    str = substr (str, 1, length (str) - 1);
 
     ## get last system present in the subplots
     last_system = zeros (rows, cols);
