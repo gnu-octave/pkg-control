@@ -31,7 +31,8 @@ function [zer, gain, info] = __zero__ (sys, ~)
     gain = num(1) / den(1);
     info = [];
   else
-    warning ("tf: zero: converting to minimal state-space for zero computation of mimo tf\n");
+    warning ("Control:convert-to-state-space",...
+             "tf: zero: converting to minimal state-space for zero computation of mimo tf\n");
     [zer, gain, info] = zero (ss (sys));
   endif
 

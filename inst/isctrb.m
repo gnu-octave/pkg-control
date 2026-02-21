@@ -75,7 +75,8 @@ function [bool, ncont] = isctrb (a, b = [], e = [], tol = [])
       print_usage ();
     endif
     if (! isa (a, "ss"))
-      warning ("isctrb: converting to minimal state-space realization\n");
+      warning ("Control:convert-to-state-space",...
+               "isctrb: converting to minimal state-space realization\n");
     endif
     tol = b;
     [a, b, c, d, e] = dssdata (a, []);

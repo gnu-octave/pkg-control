@@ -94,15 +94,16 @@ function sys = __sys_connect__ (sys, M)
     ## vertcat [sys1; sys2]
     sys.num(1,3) = num{1,1};
     sys.num(2,3) = num{2,2};
-    
+
     sys.den(1,3) = den{1,1};
     sys.den(2,3) = den{2,2};
 
   else
     ## MIMO case, convert to state-space and back.
-    warning ("tf: converting to minimal state-space for MIMO TF interconnections\n");
+    warning ("Control:convert-to-state-space",...
+             "tf: converting to minimal state-space for MIMO TF interconnections\n");
     sys = tf (__sys_connect__ (ss (sys), M));
-    
+
   endif
 
 endfunction

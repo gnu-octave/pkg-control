@@ -88,7 +88,8 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
       print_usage ();
     endif
     if (! isa (a, "ss"))
-      warning ("isstabilizable: converting to minimal state-space realization\n");
+      warning ("Control:convert-to-state-space",...
+               "isstabilizable: converting to minimal state-space realization\n");
     endif
     tol = b;
     dflg = ! isct (a);
@@ -128,7 +129,7 @@ function bool = isstabilizable (a, b = [], e = [], tol = [], dflg = 0)
 
     ## calculate poles of uncontrollable part
     pol = eig (auncont, euncont);
-    
+
     ## remove infinite poles
     tolinf = norm ([auncont, euncont], 2);
     idx = find (abs (pol) < tolinf/eps);

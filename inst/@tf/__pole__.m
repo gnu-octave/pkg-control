@@ -27,7 +27,8 @@ function pol = __pole__ (sys)
   if (issiso (sys))
     pol = roots (sys.den{1});
   else
-    warning ("tf: pole: converting to minimal state-space for pole computation of mimo tf\n");
+    warning ("Control:convert-to-state-space",...
+             "tf: pole: converting to minimal state-space for pole computation of mimo tf\n");
     pol = pole (ss (sys));
   endif
 
