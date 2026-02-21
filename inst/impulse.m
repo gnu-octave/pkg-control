@@ -128,17 +128,25 @@ endfunction
 %! y= impulse(R);
 %! assert (y(1), 1, eps);
 
-%!demo
-%! clf;
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! impulse(g);
-%! title ("Impulse response of a PT2 transfer function");
+## Demos
 
 %!demo
 %! clf;
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! h = c2d(g,0.1);
-%! impulse(h);
-%! title ("Impulse response of a discretized PT2 transfer function");
+%! subplot (2,1,1)
+%! G = tf (1,[2 1 4]);
+%! impulse (G,16);
+%! title ("Impulse response PT_2");
+%! subplot (2,1,2)
+%! G = tf (1,[2 1 4 0 ]);
+%! Gd = c2d(G,0.6667,'impulse');
+%! impulse(G,Gd,16);
+%! title ("Impulse response IT_2 with imp. inv. discretization");
+
+%!demo
+%! clf;
+%! warning ("off", "Control:convert-to-state-space");
+%! G1 = tf({[1],[1 0]},{[1 1],[1 1 1]});
+%! G2 = tf  ({[1 0],[0.25];[-2 1],[1]},{[1 1 0.25],[1 1];[1.4 1],[1 1 1]});
+%! impulse (G1,G2,1.5*G2,12);
+%! warning ("on", "Control:convert-to-state-space");
+

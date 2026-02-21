@@ -88,20 +88,23 @@ endfunction
 
 %!demo
 %! clf;
-%! subplot (1,2,1)
+%! subplot (2,1,1)
 %! s = tf('s');
-%! G = (1-1.5*s+s^2)/(1+1.5*s+s^2);
-%! step(G,10);
-%! title ("Step response all-pass");
-%! subplot (1,2,2)
-%! G = 1/(2*s^2+3*s+4);
+%! G1 = (1 - 1.25*s)/(1 + 1.25*s);
+%! G2 = (1 - .5*s + 0.1*s^2)/(1 + .5*s + 0.1*s^2);
+%! step(G1,G2,8);
+%! title ("Step response all-passes of 1st and 2nd order");
+%! subplot (2,1,2)
+%! G = 1/(0.3*s^2 + 0.3*s + 1);
 %! Gd = c2d(G,0.6667);
-%! step(G,Gd,10);
-%! title ("Step response PT2 with discretization");
+%! step(G,Gd,8);
+%! title ("Step response PT_2 with zoh-discretization");
 
 %!demo
 %! clf;
+%! warning ("off", "Control:convert-to-state-space");
 %! G1 = tf({[1],[1 0]},{[1 1],[1 1 1]});
 %! G2 = tf  ({[1 0],[0.25];[-2 1],[1]},{[1 1 0.25],[1 1];[1.4 1],[1 1 1]});
 %! step (G1,G2,1.5*G2);
+%! warning ("on", "Control:convert-to-state-space");
 
