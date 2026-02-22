@@ -20,7 +20,7 @@
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{n}, @var{opt}, @dots{})
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{opt}, @dots{})
 ## @deftypefnx {Function File} {[@var{sys}, @var{x0}] =} arx (@var{dat}, @var{'na'}, @var{na}, @var{'nb'}, @var{nb})
-## 
+##
 ## Estimate ARX model using QR factorization.
 ## @tex
 ## $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
@@ -105,7 +105,7 @@ function [sys, varargout] = arx (dat, varargin)
   if (nargin < 2)
     print_usage ();
   endif
-  
+
   if (! isa (dat, "iddata") || ! dat.timedomain)
     error ("arx: first argument must be a time-domain iddata dataset");
   endif
@@ -122,7 +122,7 @@ function [sys, varargout] = arx (dat, varargin)
   endif
 
   nkv = numel (varargin);               # number of keys and values
-  
+
   if (rem (nkv, 2))
     error ("arx: keys and values must come in pairs");
   endif
@@ -155,12 +155,12 @@ function [sys, varargout] = arx (dat, varargin)
     dat = nkshift (dat, nk);
   endif
 
-  ## extract data  
+  ## extract data
   Y = dat.y;
   U = dat.u;
   tsam = dat.tsam;
 
-  ## multi-experiment data requires equal sampling times  
+  ## multi-experiment data requires equal sampling times
   if (ex > 1 && ! isequal (tsam{:}))
     error ("arx: require equally sampled experiments");
   else
@@ -187,7 +187,7 @@ function [sys, varargout] = arx (dat, varargin)
   ## For multi-experiment data, minimize the trace of the error
   for i = 1 : p                                     # for every output
     Phi = cell (ex, 1);                             # one regression matrix per experiment
-    for e = 1 : ex                                  # for every experiment  
+    for e = 1 : ex                                  # for every experiment
       ## avoid warning: toeplitz: column wins anti-diagonal conflict
       ## therefore set first row element equal to y(1)
       PhiY = toeplitz (Y{e}(1:end-1, i), [Y{e}(1, i); zeros(na(i)-1, 1)]);
@@ -224,24 +224,43 @@ function [sys, varargout] = arx (dat, varargin)
 
   sys = filt (num, den, tsam);                              # filt creates a transfer function in z^-1
 
+  # Set input names
+  for j = 1:m
+    if (isempty (sys.inname{j}))
+      sys.inname{j} = sprintf ("u%d", j);
+    endif
+  endfor
+  for j = m+1:m+p
+    if (isempty (sys.inname{j}))
+      sys.inname{j} = sprintf ("e%d", j-m);
+    endif
+  endfor
+  # Set output names
+  for j = 1:m
+    if (isempty (sys.outname{j}))
+      sys.outname{j} = sprintf ("y%d", j);
+    endif
+  endfor
+
   ## compute initial state vector x0 if requested
   ## this makes only sense for state-space models, therefore convert TF to SS
   if (nargout > 1)
-    sys = prescale (ss (sys(:,1:m)));
-    x0 = __sl_ib01cd__ (Y, U, sys.a, sys.b, sys.c, sys.d, 0.0);
+    [A,B,C,D] =  ssdata (prescale (ss (sys(:,1:m))));
+    x0 = __sl_ib01cd__ (Y, U, A, B, C, D, 0.0);
     ## return x0 as vector for single-experiment data
     ## instead of a cell containing one vector
     if (numel (x0) == 1)
       x0 = x0{1};
     endif
     varargout{1} = x0;
+    sys = prescale (ss (sys));
   endif
 
 endfunction
 
 
 function Theta = __theta__ (Phi, Y, i, n)
-    
+
   if (numel (Phi) == 1)                             # single-experiment dataset
     ## use "square-root algorithm"
     A = horzcat (Phi{1}, Y{1}(n(i)+1:end, i));      # [Phi, Y]
@@ -249,13 +268,13 @@ function Theta = __theta__ (Phi, Y, i, n)
     R1 = R0(1:end-1, 1:end-1);                      # R1 is triangular - can we exploit this in R1\R2?
     R2 = R0(1:end-1, end);
     Theta = __ls_svd__ (R1, R2);                    # R1 \ R2
-    
+
     ## Theta = Phi \ Y(n+1:end, :);                 # naive formula
     ## Theta = __ls_svd__ (Phi{1}, Y{1}(n(i)+1:end, i));
   else                                              # multi-experiment dataset
     ## TODO: find more sophisticated formula than
     ## Theta = (Phi1' Phi1 + Phi2' Phi2 + ...) \ (Phi1' Y1 + Phi2' Y2 + ...)
-    
+
     ## covariance matrix C = (Phi1' Phi + Phi2' Phi2 + ...)
     tmp = cellfun (@(Phi) Phi.' * Phi, Phi, "uniformoutput", false);
     ## rc = cellfun (@rcond, tmp);                     # also test C? QR or SVD?
@@ -264,11 +283,11 @@ function Theta = __theta__ (Phi, Y, i, n)
     ## PhiTY = (Phi1' Y1 + Phi2' Y2 + ...)
     tmp = cellfun (@(Phi, Y) Phi.' * Y(n(i)+1:end, i), Phi, Y, "uniformoutput", false);
     PhiTY = plus (tmp{:});
-    
+
     ## pseudoinverse  Theta = C \ Phi'Y
     Theta = __ls_svd__ (C, PhiTY);
   endif
-  
+
 endfunction
 
 
@@ -301,9 +320,44 @@ endfunction
 
 
 function val = __check_n__ (val, str = "n")
-  
+
   if (! is_real_matrix (val) || fix (val) != val)
     error ("arx: argument '%s' must be a positive integer", str);
   endif
 
 endfunction
+
+%!test
+%!shared
+%! T = 1;
+%! N = 50;
+%! sd = 0.001;
+%! num = [0  0 1  2  ];
+%! den = [1 -1 1 -0.5];
+%! G = tf (num, den, T);
+%! n = length (den) - 1;
+%! u = rand(N,1);
+%! e = sd*randn (N,1);
+%! y = lsim (G, u) + e;
+%! dat = iddata (y, u, T);
+%! G_id = arx (dat, n);
+%! [num_id, den_id] = tfdata (G_id(1,1), "vector");
+%! assert (num, num_id, 10*sd);
+%! assert (den, den_id, 10*sd);
+%! y_id = lsim (G_id(1,1), u);
+%! assert (y, y_id, 10*sd)
+
+%!demo
+%! T = 1;
+%! N = 30;
+%! G = tf ([1  2 ], [1 -1 1 -0.5], T)
+%! u = 2*rand(N,1) - 1;
+%! e = 0.01*randn (N,1);
+%! y = lsim (G, u) + e;
+%! dat = iddata (y, u, T);
+%! G_I = arx (dat, 3)  # filter form (poly in z^(-1), inputs u and e)
+%! G_I = G_I(1,1);
+%! close (clf());
+%! lsim (G, G_I, u)
+%! title ("Simulation of original G and indentified system G_I")
+
