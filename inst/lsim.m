@@ -213,7 +213,7 @@ function [y_r, t_r, x_r] = lsim (varargin)
       no_ss = find (is_ss==0);
       no_ss_names = sprintf ("%s, ", names{no_ss});
       no_ss_names = no_ss_names(1:end-2);
-      warning ("lsim: system %s not in state space, x0 is ambiguous and system is ignored\n", no_ss_names);
+      warning ("lsim: system %s not in state space, x0 is ambiguous and is ignored assuming zero initial conditions\n", no_ss_names);
       for j = 1:length (no_ss)
         names{j} = [names{j}, " (x0=0)"];
       endfor
@@ -239,8 +239,16 @@ function [y_r, t_r, x_r] = lsim (varargin)
     [p, m] = size (varargin(sys_idx){1});
     ct_idx = cellfun (@isct, varargin(sys_idx));
     str = "Linear Simulation Results";
+
     outname = get (varargin(sys_idx){end}, "outname");
     outname = __labels__ (outname, "y");
+
+    inname = get (varargin(sys_idx){end}, "inname");
+    inname = __labels__ (inname, "u");
+    incolororder = 0.6 * ones (m,3);
+    for j = 2:m
+      incolororder(j,:) = incolororder(j-1,:) + (j-1)*0.2/(m-1);
+    endfor
 
     for k = 1 : n_sys                                   # for every system
       if (ct_idx(k))                                    # continuous-time system
@@ -250,17 +258,17 @@ function [y_r, t_r, x_r] = lsim (varargin)
           endif
           plot (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
-          # input should be plotted in the background using uistack, which isn't
-          # implemented yet
-          plot (t{k}, u, 'Color', [0.5 0.5 0.5]);       # plot input
           grid on;
           if (k == n_sys)
-            axis tight
-            ylim (__axis_margin__ (ylim))
             ylabel (outname{i});
             if (i == 1)
               title (str);
             endif
+            set (gca (), "colororder", incolororder);
+            plot (t{k}, u, '-.');  # plot input
+            axis tight
+            ylim (__axis_margin__ (ylim))
+            legend ([names,inname']);
           endif
         endfor
       else                                              # discrete-time system
@@ -270,25 +278,27 @@ function [y_r, t_r, x_r] = lsim (varargin)
           endif
           stairs (t{k}, y{k}(:, i), sty{k}{:});
           hold on;
-          # input should be plotted in the background using uistack, which isn't
-          # implemented yet
-          plot (t{k}, u, 'Color', [0.5 0.5 0.5]);       # plot input
           grid on;
           if (k == n_sys)
-            axis tight;
-            ylim (__axis_margin__ (ylim))
             ylabel (outname{i});
             if (i == 1)
               title (str);
             endif
+            set (gca (), "colororder", incolororder);
+            plot (t{k}, u, '-.');  # plot input
+            axis tight
+            ylim (__axis_margin__ (ylim))
+            legend ([names,inname']);
           endif
         endfor
       endif
     endfor
     xlabel ("Time [s]");
-    if (p == 1 && m == 1)
-      legend (names)
-    endif
+%    if (p == 1 && m == 1)
+%      u1_name = __labels__ (get (varargin(sys_idx){1}, "inname"), "u");
+%      names{end+1} = u1_name{1};
+%      legend (names)
+%    endif
     hold off;
   else                                                  # return values
     y_r = y{1};
@@ -431,13 +441,15 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 %! A = [-3   0   0;
 %!       0  -2   1;
 %!      10 -17   0];
-%! B = [4;
-%!      0;
-%!      0];
-%! C = [0 0 1];
-%! D = 0;
-%! sys = ss(A,B,C,D);
-%! t = 0:0.01:10;
-%! u = zeros (length(t) ,1);
+%! B = [4  0;
+%!      0 -1;
+%!      0 -1];
+%! C = [0 0 1;
+%!      1 2 0];
+%! D = [ 0 0;
+%!       0 0 ];
+%! S = ss(A,B,C,D);
+%! t = 0:0.01:6;
+%! u = [ 0.2+0.3*sin(1.3*t') , cos(2*t') ];
 %! x0 = [0 0.1 0];
-%! lsim(sys, u, t, x0);
+%! lsim(S, u, t, x0);
