@@ -117,6 +117,23 @@ function [re_r, im_r, w_r] = nyquist (varargin)
 
 endfunction
 
+%!test
+%! s = tf ('s');
+%! G = s/(1+s)^4;
+%! # every whole decade has an w in the list
+%! w = logspace (-4,2,61);
+%! [re, im, w] = nyquist (G, w);
+%! wE = 1;
+%! re_w0 = 4e-8;
+%! im_w0 = 1e-4;
+%! re_wE = 0;
+%! im_wE = -(1*1/sqrt(2)^4);
+%! assert (re(1),  re_w0, 1e-8);
+%! assert (im(1),  im_w0, 1e-8);
+%! assert (re(41), re_wE, 1e-8);
+%! assert (im(41), im_wE, 1e-8);
+
+
 %!demo
 %! s = tf('s');
 %! g = 1/(2*s^2+3*s+4);

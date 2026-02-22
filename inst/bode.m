@@ -233,3 +233,19 @@ endfunction
 %! pha_final = pha(end);
 %! assert (-180, pha_final, 1e-4);
 
+%!test
+%! s = tf ('s');
+%! G = s/(1+s)^4;
+%! # every whole decade has an w in the list
+%! w = logspace (-4,2,61);
+%! [mag, pha, w] = bode (G, w);
+%! wE = 1;
+%! pha_w0 = atan2 (1e-4,4e-8) / pi * 180;
+%! abs_w0 = 1e-4 / sqrt (1^2 + 1e-4^2)^4;
+%! pha_wE = -90;
+%! abs_wE = 1/4;
+%! assert (pha(1),  pha_w0, 1e-8);
+%! assert (mag(1),  abs_w0, 1e-8);
+%! assert (pha(41), pha_wE, 1e-8);
+%! assert (mag(41), abs_wE, 1e-8);
+
