@@ -63,7 +63,9 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx] = __frequency_response__ ("nyquist", varargin, nargout);
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("nyquist", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -72,12 +74,6 @@ function [re_r, im_r, w_r] = nyquist (varargin)
   im = cellfun (@imag, H, "uniformoutput", false);
 
   if (! nargout)
-
-    ## get system names and create the legend
-    leg = cell (1, numsys);
-    for k = 1:numsys
-      leg{k} = inputname (sys_idx(k));
-    endfor
 
     ## plot
     len = numel (H);
@@ -136,5 +132,7 @@ endfunction
 
 %!demo
 %! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! nyquist(g);
+%! G_1 = 1.2/(s^2/9+0.42*s+1)^2;
+%! G_2 = 1.2/(s^2/9+0.33*s+1)^2;
+%! nyquist(G_1,G_2);
+

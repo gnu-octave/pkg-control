@@ -66,7 +66,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx, H_auto, w_auto] = __frequency_response__ ("bode", varargin, nargout);
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [H, w, sty, sys_idx, H_auto, w_auto, leg] = __frequency_response__ ("bode", varargin, nargout, names);
 
   H = cellfun (@reshape, H, {[]}, {1}, "uniformoutput", false);
   H_auto = cellfun (@reshape, H_auto, {[]}, {1}, "uniformoutput", false);
@@ -166,15 +168,6 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 
   if (! nargout)
 
-    ## get system names and create the legend
-    leg = cell (1, numsys);
-    for k = 1:numsys
-      leg{k} = inputname (sys_idx(k));
-      if (isempty (leg{k}))
-        leg{k} = sprintf("Sys %d", k);
-      endif
-    endfor
-
     ## plot
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
 
@@ -213,8 +206,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 endfunction
 
 %!demo
-%! G = tf ([10 1],[1 0.1 1 0]);
-%! bode(G);
+%! G_1 = tf ([10 1],[1 0.1 1 0]);
+%! G_2 = tf ([1 0.1 1],[100 1 1]);
+%! bode(G_1,G_2);
 
 %!test
 %! s = tf('s');

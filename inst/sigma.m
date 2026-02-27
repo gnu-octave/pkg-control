@@ -63,7 +63,9 @@ function [sv_r, w_r] = sigma (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx] = __frequency_response__ ("sigma", varargin, nargout);
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("sigma", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -71,12 +73,6 @@ function [sv_r, w_r] = sigma (varargin)
   sv = cellfun (@(sv) horzcat (sv{:}), sv, "uniformoutput", false);
 
   if (! nargout)  # plot the information
-
-    ## get system names and create the legend
-    leg = cell (1, numsys);
-    for k = 1:numsys
-      leg{k} = inputname (sys_idx(k));
-    endfor
 
     ## convert to dB for plotting
     sv_db = cellfun (@mag2db, sv, "uniformoutput", false);
@@ -90,7 +86,7 @@ function [sv_r, w_r] = sigma (varargin)
 
     plot_args = horzcat (cellfun (@horzcat, w, sv_db, sty, "uniformoutput", false){:});
 
-    ## adjust line colors in legend  
+    ## adjust line colors in legend
     idx = horzcat (1, cellfun (@rows, sv_db)(1:end-1));
     idx = cumsum (idx);
 

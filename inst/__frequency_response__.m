@@ -23,7 +23,8 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args, nout = 0)
+function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (caller, args, varargin)
+  ## varargin: nout = 0, names
 
   ## CALLER         | MIMO  | RANGE | CELL  |
   ## ---------------+-------+-------+-------+
@@ -47,11 +48,20 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
     wbounds = "ext";
   endif
 
-  sys_idx = cellfun (@isa, args, {"lti"});          # look for LTI models
-  frd_idx = cellfun (@isa, args, {"frd"});          # look for FRD models
-  w_idx = cellfun (@is_real_vector, args);          # look for frequency vectors
-  r_idx = cellfun (@iscell, args);                  # look for frequency ranges {wmin, wmax}
-  s_idx = cellfun (@ischar, args);                  # look for strings (style arguments)
+  n_extra_arg = length (varargin);
+  nout = 0;
+  if n_extra_arg > 0
+    nout = varargin{1};
+  endif
+  if n_extra_arg > 1
+    [sys_idx, frd_idx, w_idx, r_idx, s_idx, sys_names, sty] = ...
+      __control_args__ (args, {"@lti", "@frd", @is_real_vector, @iscell, @ischar}, varargin{2});
+  else
+    [sys_idx, frd_idx, w_idx, r_idx, s_idx] = ...
+      __control_args__ (args, {"@lti", "@frd", @is_real_vector, @iscell, @ischar});
+      sty = cell ();
+      sys_names = cell ();
+  endif
 
   inv_idx = ! (sys_idx | w_idx | r_idx | s_idx);    # look for invalid arguments
 
@@ -116,13 +126,7 @@ function [H, w, sty, idx, H_auto, w_auto] = __frequency_response__ (caller, args
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;
 
-  ## extract plotting styles
-  tmp = cumsum (sys_idx);
-  tmp(sys_idx | ! s_idx) = 0;
-  n = nnz (sys_idx);
-  sty = arrayfun (@(x) args(tmp == x), 1:n, "uniformoutput", false);
-
-  ## get the systems among the input args for later building the legend
+  ## system indices
   idx = find (sys_idx);
 
 endfunction

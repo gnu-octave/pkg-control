@@ -61,7 +61,9 @@ function [mag_r, w_r] = bodemag (varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx] = __frequency_response__ ("bodemag", varargin, nargout);
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("bodemag", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -70,15 +72,9 @@ function [mag_r, w_r] = bodemag (varargin)
 
   if (! nargout)
 
-    ## get system names and create the legend
-    leg = cell (1, numsys);
-    for k = 1:numsys
-      leg{k} = inputname (sys_idx(k));
-    endfor
-
     ## plot
     mag_db = cellfun (@mag2db, mag, "uniformoutput", false);
-    
+
     mag_args = horzcat (cellfun (@horzcat, w, mag_db, sty, "uniformoutput", false){:});
 
     semilogx (mag_args{:})
@@ -101,5 +97,5 @@ endfunction
 
 %!demo
 %! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! bodemag(g);
+%! G = s*(1 + 0.5*s)/(s^2 + 0.2*s + 1)/(1+10*s);
+%! bodemag(G);

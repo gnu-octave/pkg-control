@@ -123,7 +123,7 @@ function [ret, ws] = sensitivity (G, varargin)
     Hs = freqresp (L{1}, ws);
     res = real (Hs);
     ims = imag (Hs);
-    
+
     plot (re, im, "b", [-1, res], [0, ims], "r")
     axis ("equal")
     xlim (__axis_margin__ (xlim))
@@ -132,6 +132,7 @@ function [ret, ws] = sensitivity (G, varargin)
     title (sprintf ("Sensitivity Ms = %g (at %g rad/s)", Ms, ws))
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
+    legend ("Open Loop");
   else
     ret = Ms;
   endif

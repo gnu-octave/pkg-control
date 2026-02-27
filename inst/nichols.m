@@ -72,7 +72,9 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
     print_usage ();
   endif
 
-  [H, w, sty, sys_idx] = __frequency_response__ ("nichols", varargin, nargout);
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("nichols", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -81,15 +83,6 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
   pha = cellfun (@(H) unwrap (arg (H)) * 180 / pi, H, "uniformoutput", false);
 
   if (! nargout)
-
-    ## get system names and create the legend
-    leg = cell (1, numsys);
-    for k = 1:numsys
-      leg{k} = inputname (sys_idx(k));
-      if (isempty (leg{k}))
-        leg{k} = sprintf("Sys %d", k);
-      endif
-    endfor
 
     ## plot
     ## create the Nichols Grid
@@ -296,5 +289,5 @@ endfunction
 
 %!demo
 %! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! nichols(g);
+%! G = 1/(2*s^2+3*s+4);
+%! nichols(G);
