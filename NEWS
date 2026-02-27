@@ -10,7 +10,12 @@ control-4.2.1+  Upcoming version 4.2.2, not yet released
 
 ** lsim: for input-output models, the initial condition is set to zero
    because initial condition is unclear, new parameter metrhod for the
-   used discretization method
+   used discretization method; improved graphical output
+
+** added demos and tests to more functions (like e.g. arx)
+
+** pdf and qch documentation includes demo code, results and resulting
+   figures if package is installed by "pkg install control"
 
 ===============================================================================
 control-4.2.1  Release date 2026-01-20
