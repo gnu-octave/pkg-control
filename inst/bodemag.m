@@ -63,7 +63,7 @@ function [mag_r, w_r] = bodemag (varargin)
 
   names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("bodemag", varargin, nargout, names);
+  [H, w, sty, sys_idx] = __frequency_response__ ("bodemag", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -84,7 +84,7 @@ function [mag_r, w_r] = bodemag (varargin)
     title ("Bode Magnitude Diagram")
     xlabel ("Frequency [rad/s]")
     ylabel ("Magnitude [dB]")
-    legend (leg)
+
   else
 
     ## no plotting, assign values to the output parameters

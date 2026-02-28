@@ -74,7 +74,7 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
 
   names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("nichols", varargin, nargout, names);
+  [H, w, sty, sys_idx] = __frequency_response__ ("nichols", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -111,6 +111,8 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
     endfor
 
     h11 = plot (plot_args{:});
+
+    legend ("autoupdate", "off");
 
     ## Nicer range and ticks for the phase
     x_lim = xlim ();
@@ -274,7 +276,6 @@ function [mag_r, pha_r, w_r] = nichols(varargin)
     title ("Nichols Chart");
     xlabel ("Phase [deg]");
     ylabel ("Magnitude [dB]");
-    legend (h11, leg);
 
   else
 

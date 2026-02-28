@@ -81,12 +81,9 @@ function [y_r, t_r, x_r] = ramp (varargin)
     print_usage ();
   endif
 
-  names = cell (1,nargin);
-  for i = 1:nargin
-    names{i} = inputname (i);
-  end
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [y, t, x] = __time_response__ ("ramp", varargin, names, nargout);
+  [y, t, x] = __time_response__ ("ramp", varargin, nargout, names);
 
   if (nargout)
     y_r = y{1};
@@ -98,15 +95,10 @@ endfunction
 
 %!demo
 %! clf;
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! ramp(g);
-%! title ("Ramp response of a PT2 transfer function");
-
-%!demo
-%! clf;
-%! s = tf('s');
-%! g = 1/(2*s^2+3*s+4);
-%! h = c2d(g,0.1);
-%! ramp(h);
-%! title ("Ramp response of a discretized PT2 transfer function");
+%! s = tf ('s');
+%! G = 1/(2*s^2+3*s+4);
+%! T = 2/3;
+%! Gdzoh = c2d (G, T);
+%! Gdfoh = c2d (G, T, 'foh');
+%! ramp (G, Gdzoh, ';G_{d,zoh};', Gdfoh, ';G_{d,foh};');
+%! title ("Ramp response PT_2 together with zoh- and foh discretization");

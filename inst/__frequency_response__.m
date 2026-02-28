@@ -23,7 +23,7 @@
 ## Created: November 2009
 ## Version: 0.7
 
-function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (caller, args, varargin)
+function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (caller, args, nout=0, names={})
   ## varargin: nout = 0, names
 
   ## CALLER         | MIMO  | RANGE | CELL  |
@@ -48,20 +48,8 @@ function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (c
     wbounds = "ext";
   endif
 
-  n_extra_arg = length (varargin);
-  nout = 0;
-  if n_extra_arg > 0
-    nout = varargin{1};
-  endif
-  if n_extra_arg > 1
-    [sys_idx, frd_idx, w_idx, r_idx, s_idx, sys_names, sty] = ...
-      __control_args__ (args, {"@lti", "@frd", @is_real_vector, @iscell, @ischar}, varargin{2});
-  else
-    [sys_idx, frd_idx, w_idx, r_idx, s_idx] = ...
-      __control_args__ (args, {"@lti", "@frd", @is_real_vector, @iscell, @ischar});
-      sty = cell ();
-      sys_names = cell ();
-  endif
+  [sys_idx, frd_idx, w_idx, r_idx, s_idx, sys_names, sty] = ...
+    __control_args__ (args, {"@lti", "@frd", @is_real_vector, @iscell, @ischar}, names);
 
   inv_idx = ! (sys_idx | w_idx | r_idx | s_idx);    # look for invalid arguments
 

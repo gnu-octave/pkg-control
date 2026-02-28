@@ -65,7 +65,7 @@ function [re_r, im_r, w_r] = nyquist (varargin)
 
   names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [H, w, sty, sys_idx, ~, ~, leg] = __frequency_response__ ("nyquist", varargin, nargout, names);
+  [H, w, sty, sys_idx] = __frequency_response__ ("nyquist", varargin, nargout, names);
 
   numsys = length (sys_idx);
 
@@ -76,23 +76,31 @@ function [re_r, im_r, w_r] = nyquist (varargin)
   if (! nargout)
 
     ## plot
-    len = numel (H);
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-    def_pos = arrayfun (@(k) {"-", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
-    def_neg = arrayfun (@(k) {"-.", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
-    idx = cellfun (@isempty, sty);
-    sty_pos = sty_neg = sty;
-    sty_pos(idx) = def_pos(idx);
-    sty_neg(idx) = def_neg(idx);
 
+    ## change styles for negative frequncies: remove tests (no legend),
+    ##                                        line style -.
+    sty_pos = sty_neg = sty;
+    for k = 1:length (sty_neg);
+      idx_char = find (cellfun (@(s) ischar(s) && ! strcmp(s,"color"), sty_neg{k}));
+      for l = 1:length (idx_char);   # loop over all elements with chars
+        ll = idx_char(l);            # only take the chars
+        ## now re
+        sty_neg{k}{ll} = regexprep(sty_neg{k}{ll},';[^;]*;','');    # remove text: no legend shown
+        sty_neg{k}{ll} = ['-.', regexprep(sty_neg{k}{ll},'[o\*\.x/_sd\^v><ph\-:\.]*','')];  # set style to -.
+      endfor
+    endfor
+
+
+    ## neg. imaginary part
     imn = cellfun (@uminus, im, "uniformoutput", false);
 
-    pos_args = horzcat (cellfun (@horzcat, re, im, sty_pos, "uniformoutput", false){:});
+    ## compose all elemts for plotting
+    pos_args = horzcat (cellfun (@horzcat, re, im,  sty_pos, "uniformoutput", false){:});
     neg_args = horzcat (cellfun (@horzcat, re, imn, sty_neg, "uniformoutput", false){:});
 
+    ## and finally do the plotting
+    h = plot (pos_args{:}, neg_args{:}, -1,0,'r+');
 
-    h = plot (pos_args{:}, neg_args{:},-1,0,'r+');
     axis ("tight")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))
@@ -100,7 +108,6 @@ function [re_r, im_r, w_r] = nyquist (varargin)
     title ("Nyquist Diagram")
     xlabel ("Real Axis")
     ylabel ("Imaginary Axis")
-    legend (h(1:len), leg)
 
   else
 

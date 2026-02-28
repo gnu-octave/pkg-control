@@ -77,13 +77,6 @@ function [sv_r, w_r] = sigma (varargin)
     ## convert to dB for plotting
     sv_db = cellfun (@mag2db, sv, "uniformoutput", false);
 
-    len = numel (H);
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-    def = arrayfun (@(k) {"-", "color", colororder(1+rem (k-1, rc), :)}, 1:len, "uniformoutput", false);
-    idx = cellfun (@isempty, sty);
-    sty(idx) = def(idx);
-
     plot_args = horzcat (cellfun (@horzcat, w, sv_db, sty, "uniformoutput", false){:});
 
     ## adjust line colors in legend
@@ -98,7 +91,6 @@ function [sv_r, w_r] = sigma (varargin)
     title ("Singular Values")
     xlabel ("Frequency [rad/s]")
     ylabel ("Singular Values [dB]")
-    legend (h(idx), leg)
 
   else            # return values
 

@@ -71,12 +71,9 @@ function [y_r, t_r, x_r] = step (varargin)
     print_usage ();
   endif
 
-  names = cell (1,nargin);
-  for i = 1:nargin
-    names{i} = inputname (i);
-  end
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [y, t, x] = __time_response__ ("step", varargin, names, nargout);
+  [y, t, x] = __time_response__ ("step", varargin, nargout, names);
 
   if (nargout)
     y_r = y{1};

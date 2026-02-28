@@ -181,7 +181,6 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     title ("Bode Diagram")
     ylabel ("Magnitude [dB]")
-    legend (leg)
 
     subplot (2, 1, 2)
     semilogx (pha_args{:})
@@ -190,6 +189,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     grid ("on")
     xlabel ("Frequency [rad/s]")
     ylabel ("Phase [deg]")
+    legend ("off")
 
     ## Make top axes current for ML compatibility
     set (gcf, "currentaxes", hax1);

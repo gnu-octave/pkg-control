@@ -127,13 +127,16 @@ function [y_r, t_r, x_r] = lsim (varargin)
   endif
 
   ## get remaining parameters
-  idx = cellfun (@islogical, varargin);
-  tmp = cellfun (@double, varargin(idx), "uniformoutput", false);
-  varargin(idx) = tmp;
 
-  sys_idx = cellfun (@isa, varargin, {"lti"});          # LTI models
-  mat_idx = cellfun (@is_real_matrix, varargin);        # matrices
-  sty_idx = cellfun (@ischar, varargin);                # string (style arguments)
+  ## FIXME: what is the prupose of the following code, which converts
+  ##        logical args into double. Where an logical args come from?
+  ## idx = cellfun (@islogical, varargin);
+  ## tmp = cellfun (@double, varargin(idx), "uniformoutput", false);
+  ## varargin(idx) = tmp;
+
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [sys_idx, sty_idx, mat_idx, names, sty] = __control_args__ (varargin, {"@lti", @ischar, @is_real_matrix}, names);
 
   inv_idx = ! (sys_idx | mat_idx | sty_idx);            # invalid arguments
 
@@ -193,18 +196,6 @@ function [y_r, t_r, x_r] = lsim (varargin)
 
   n_sys = nnz (sys_idx);
 
-  ## get system names
-  leg = cell (1, n_sys);
-  idx = find (sys_idx);
-  names = cell (1, n_sys);
-  for k = 1 : n_sys
-    try
-      names{k} = inputname (idx(k));
-    catch
-      names{k} = ['Sys',num2str(k)];    # catch case  lsim (lticell{:}, ...)
-    end_try_catch
-  endfor
-
   ## function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0)
 
   if (! isempty (x0))
@@ -224,17 +215,6 @@ function [y_r, t_r, x_r] = lsim (varargin)
 
 
   if (nargout == 0)                                     # plot information
-    ## extract plotting styles
-    tmp = cumsum (sys_idx);
-    tmp(sys_idx | ! sty_idx) = 0;
-    sty = arrayfun (@(x) varargin(tmp == x), 1:n_sys, "uniformoutput", false);
-
-    ## default plotting styles if empty
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
-    idx = cellfun (@isempty, sty);
-    sty(idx) = def(idx);
 
     [p, m] = size (varargin(sys_idx){1});
     ct_idx = cellfun (@isct, varargin(sys_idx));

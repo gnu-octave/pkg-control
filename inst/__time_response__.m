@@ -21,30 +21,25 @@
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
 ## Created: October 2009
 
-function [y, t, x] = __time_response__ (response, args, names, nout)
+function [y, t, x] = __time_response__ (response, args, nout=0, names={})
+  ## varargin: nout = 0, names
 
   idx = cellfun (@islogical, args);
   tmp = cellfun (@double, args(idx), "uniformoutput", false);
   args(idx) = tmp;
 
-  sys_idx = cellfun (@isa, args, {"lti"});        # LTI models
-  mat_idx = cellfun (@is_real_matrix, args);      # matrices
-  sty_idx = cellfun (@ischar, args);              # strings (style arguments)
+  [sys_idx, sty_idx, mat_idx, names, sty] = ...
+      __control_args__ (args, {"@lti", @ischar, @is_real_matrix}, names);
 
   inv_idx = ! (sys_idx | mat_idx | sty_idx);      # invalid arguments
-
-  idx_no_name = cellfun (@isempty, names);        # no system name
-  sys_numbers = find (idx_no_name);
-  names(sys_numbers) = cellstr (arrayfun (@(x) ['Sys',num2str(x)], ...
-                                sys_numbers(:), "uniformoutput", false));
-
 
   if (any (inv_idx))
     warning ("%s: arguments number %s are invalid and are being ignored\n", ...
              response, mat2str (find (inv_idx)(:).'));
   endif
 
-  if (nnz (sys_idx) == 0)
+  n_sys = nnz (sys_idx);
+  if (n_sys == 0)
     error ("%s: require at least one LTI model\n", response);
   endif
 
@@ -61,7 +56,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
     warning ("%s: strings in front of first LTI model are being ignored\n", response);
   endif
 
-  tfinal = [];  dt = [];  x0 = [];                                  # default arguments
+    tfinal = [];  dt = [];  x0 = [];                                  # default arguments
 
   switch (response)
     case "initial"
@@ -221,23 +216,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
 
   if (nout == 0)                                        # display plot
 
-    ## extract plotting styles
-    tmp = cumsum (sys_idx);
-    tmp(sys_idx | ! sty_idx) = 0;
-    n_sys = nnz (sys_idx);
-    sty = arrayfun (@(x) args(tmp == x), 1:n_sys, "uniformoutput", false);
-
-    ## default plotting styles if empty
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-    def = arrayfun (@(k) {"color", colororder(1+rem (k-1, rc), :)}, 1:n_sys, "uniformoutput", false);
-    idx_no_sty = cellfun (@isempty, sty);
-    sty(idx_no_sty) = def(idx_no_sty);
-    idx_sty = ! idx_no_sty;
-
-    ## get index for system names (legend)
-    leg_idx = find (sys_idx);
-
     ## get max sizes
     [p, m] = cellfun (@size, args(sys_idx), 'uniformoutput', false);
     p = cell2mat (p);
@@ -290,7 +268,7 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
       for j = 1 : cols            # for every input (except for initial where cols=1)
         if last_system(i,j) > 0   # only if there is a system with this in-/output combination
 
-          if (rows != 1) && (cols != 1)
+          if (rows != 1) || (cols != 1)
             ## if we only have one plot, don't use subplot
             ## allowing a step response in an existing subplot
             subplot (rows, cols, (i-1)*cols+j);
@@ -303,23 +281,6 @@ function [y, t, x] = __time_response__ (response, args, names, nout)
             p_sys = size (args(sys_idx){k}, 1);
             m_sys = size (args(sys_idx){k}, 2);
             if (p_sys >= i) && (m_sys >= j)           # only if system has this in-/output
-
-                ## determine the text for the legend if we have more than
-                ## one system but only for the forst subplot were all systems
-                ## are included
-                if (n_sys > 1) && (i == 1) && (j == 1)
-                  ## we need a legend
-                  if (idx_no_sty(k))
-                    ## no style given
-                    sty{k}{end+1} = [';',names{leg_idx(k)},';'];
-                  else
-                    ## already a style given
-                    if (length (strfind (sty{k}{1}, ";")) < 2)
-                      ## no description included
-                      sty{k}{1,1} = [sty{k}{1,1},';',names{leg_idx(k)},';'];
-                    endif
-                  endif
-                endif
 
                 if (ct_idx(k))    # continuous-time system
                   plot (t{k}, y{k}(:, i, j), sty{k}{:});

@@ -124,7 +124,7 @@ function [ret, ws] = sensitivity (G, varargin)
     res = real (Hs);
     ims = imag (Hs);
 
-    plot (re, im, "b", [-1, res], [0, ims], "r")
+    plot (re, im, sty, [-1, res], [0, ims], "r")
     axis ("equal")
     xlim (__axis_margin__ (xlim))
     ylim (__axis_margin__ (ylim))

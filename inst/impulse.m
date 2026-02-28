@@ -76,12 +76,9 @@ function [y_r, t_r, x_r] = impulse (varargin)
     print_usage ();
   endif
 
-  names = cell (1,nargin);
-  for i = 1:nargin
-    names{i} = inputname (i);
-  end
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
 
-  [y, t, x] = __time_response__ ("impulse", varargin, names, nargout);
+  [y, t, x] = __time_response__ ("impulse", varargin, nargout, names);
 
   if (nargout)
     y_r = y{1};
@@ -138,9 +135,11 @@ endfunction
 %! title ("Impulse response PT_2");
 %! subplot (2,1,2)
 %! G = tf (1,[2 1 4 0 ]);
-%! Gd = c2d(G,0.6667,'impulse');
-%! impulse(G,Gd,16);
-%! title ("Impulse response IT_2 with imp. inv. discretization");
+%! T = 2/3;
+%! Gdzoh = c2d(G, T);
+%! Gdimp = c2d(G, T, 'impulse');
+%! impulse(G, Gdzoh, ';G_{d,zoh};', Gdimp, ';G_{d,imp};', 16);
+%! title ("Impulse response IT_2 zoh- and imp-discretization");
 
 %!demo
 %! clf;
