@@ -54,8 +54,9 @@ function [pol_r, zer_r] = pzmap (varargin)
     print_usage ();
   endif
 
-  sys_idx = cellfun (@isa, varargin, {"lti"});      # look for LTI models
-  sty_idx = cellfun (@ischar, varargin);            # look for strings (plot styles)
+  names = arrayfun (@inputname, 1:nargin, 'uniformoutput', false);
+
+  [sys_idx, sty_idx, names, sty] = __control_args__ (varargin, {"@lti", @ischar}, names);
 
   inv_idx = ! (sys_idx | sty_idx);                  # invalid arguments
 
@@ -92,38 +93,22 @@ function [pol_r, zer_r] = pzmap (varargin)
     zer_im = cellfun (@imag, zer, "uniformoutput", false);
 
     ## extract plotting styles
-    tmp = cumsum (sys_idx);
-    tmp(sys_idx | ! sty_idx) = 0;
-    n = nnz (sys_idx);
-    sty = arrayfun (@(x) varargin(tmp == x), 1:n, "uniformoutput", false);
-
-    colororder = get (gca, "colororder");
-    rc = rows (colororder);
-    def_pol = arrayfun (@(k) {"x", "linewidth", 2, "markersize", ms, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
-    def_zer = arrayfun (@(k) {"o", "linewidth", 2, "markersize", ms, "color", colororder(1+rem (k-1, rc), :)}, 1:n, "uniformoutput", false);
-    idx_no_sty = cellfun (@isempty, sty);
     sty_pol = sty_zer = sty;
-    sty_pol(idx_no_sty) = def_pol(idx_no_sty);
-    sty_zer(idx_no_sty) = def_zer(idx_no_sty);
-
-    leg_args = cell (1, n);
     idx = find (sys_idx);
     dt = false;
-    for k = 1 : n
-      if (! idx_no_sty(k))
-        ## style given, only allow custom colors, no custom markers
-        [opt,vopt] = __pltopt__ ('pzmap', sty{k}, false);
-        if (! @isempty (opt.color))
-          sty_pol{1,k} = {"x", "linewidth", 2, "color", opt.color};
-          sty_zer{1,k} = {"o", "linewidth", 2, "color", opt.color};
-        else
-          if (! vopt)
-            warning ("pzmap: ignoring undefined color value in style \"%s\"\n", sty{k}{1,1});
-          endif
-          sty_pol(k) = def_pol(k);
-          sty_zer(k) = def_zer(k);
-        endif
+    for k = 1 : length(sty)
+      style = find (cellfun (@(s) ischar(s) && (! strcmp (s, "color")), sty{k}));
+      col = find (cellfun (@is_matrix, sty{k}));
+      [opt,vopt] = __pltopt__ ('pzmap', sty{k}{style}, false);
+      if (isempty (opt.color))
+        c = sty{k}{col};
+      else
+        c = opt.color;
       endif
+      sty_pol{1,k}{style} = ["x;poles ",opt.key,";"];
+      sty_zer{1,k}{style} = ["o;zeros ",opt.key,";"];
+      sty_pol{1,k} = {sty_pol{1,k}{:}, "linewidth", 2, "markersize", ms, "color", c};
+      sty_zer{1,k} = {sty_zer{1,k}{:}, "linewidth", 2, "markersize", ms, "color", c};
       dt = dt || (varargin{idx(k)}.tsam != 0);
     endfor
 
@@ -135,24 +120,19 @@ function [pol_r, zer_r] = pzmap (varargin)
     ## If no zeroes then just plot the poles and vice versa
     h = [];
     leg_args = cell ();
-    for k = 1:n
-      name = inputname (idx(k));
-      if (isempty (name))
-        name = ["Sys ", num2str(k)];       # needed for  pzmap (lticell{:})
-      endif
+    for k = 1:length (sty)
       if (isempty (zer_re{1,k}))
         hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:});
-        leg_args = { leg_args{:}, ["poles ", name] };
       elseif  (isempty (pol_re{1,k}))
         hx = plot (zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
-        leg_args = { leg_args{:}, ["zeros ", name] };
       else
         hx = plot (pol_re{1,k}, pol_im{1,k}, sty_pol{1,k}{:}, ...
                    zer_re{1,k}, zer_im{1,k}, sty_zer{1,k}{:});
-        leg_args = { leg_args{:}, ["poles ", name], ["zeros ", name] };
       endif
       h = [ h; hx ];
     endfor
+
+    legend ("autoupdate", "off");
 
     grid on
     box on
@@ -170,8 +150,8 @@ function [pol_r, zer_r] = pzmap (varargin)
     yl(1) = yl(1) - dy;
     yl(2) = yl(2) + dy;
 
+    ## avoid flickering while drawing axis / stablity region
     a = gca ();
-    % avoid flickering while drawing axis / stablity region
     set (a, 'xlimmode', 'manual');
     set (a, 'ylimmode', 'manual');
     plot ([0,0], [yl(1)-dy*100, yl(2)+dy*100], '-', 'color', [0.7 0.7 0.7]);
@@ -187,8 +167,6 @@ function [pol_r, zer_r] = pzmap (varargin)
     ylim(yl);
 
     hold off;
-
-    legend (h, leg_args)
 
   else
 
