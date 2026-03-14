@@ -621,10 +621,17 @@
                     <td><pre class="example">
 
  clf;
- s = tf('s');
- g = 1/(2*s^2+3*s+4);
- impulse(g);
- title ("Impulse response of a PT2 transfer function");
+ subplot (2,1,1)
+ G = tf (1,[2 1 4]);
+ impulse (G,16);
+ title ("Impulse response PT_2");
+ subplot (2,1,2)
+ G = tf (1,[2 1 4 0 ]);
+ T = 2/3;
+ Gdzoh = c2d(G, T);
+ Gdimp = c2d(G, T, 'impulse');
+ impulse(G, Gdzoh, ';G_{d,zoh};', Gdimp, ';G_{d,imp};', 16);
+ title ("Impulse response IT_2 zoh- and imp-discretization");
 
                     </pre></td></tr></tbody>
                   </table>
@@ -657,11 +664,11 @@
                     <td><pre class="example">
 
  clf;
- s = tf('s');
- g = 1/(2*s^2+3*s+4);
- h = c2d(g,0.1);
- impulse(h);
- title ("Impulse response of a discretized PT2 transfer function");
+ warning ("off", "Control:convert-to-state-space");
+ G1 = tf({[1],[1 0]},{[1 1],[1 1 1]});
+ G2 = tf  ({[1 0],[0.25];[-2 1],[1]},{[1 1 0.25],[1 1];[1.4 1],[1 1 1]});
+ impulse (G1,G2,1.5*G2,12);
+ warning ("on", "Control:convert-to-state-space");
 
                     </pre></td></tr></tbody>
                   </table>

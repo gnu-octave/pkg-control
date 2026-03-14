@@ -604,8 +604,9 @@
                     <td><pre class="example">
 
  s = tf('s');
- g = 1/(2*s^2+3*s+4);
- nyquist(g);
+ G_1 = 1.2/(s^2/9+0.42*s+1)^2;
+ G_2 = 1.2/(s^2/9+0.33*s+1)^2;
+ nyquist(G_1,G_2);
 
                     </pre></td></tr></tbody>
                   </table>

@@ -4,7 +4,7 @@
  <desc>
 Creator: GL2PS 1.4.2, (C) 1999-2020 C. Geuzaine
 For: Octave
-CreationDate: Sun Feb 15 22:27:06 2026
+CreationDate: Wed Mar 11 06:48:01 2026
 </desc>
  <defs/>
  <polygon fill="#ffffff" points="0,0 480,0 480,360 0,360"/>
@@ -79,8 +79,10 @@ CreationDate: Sun Feb 15 22:27:06 2026
    <polyline fill="none" points="62.4,27 434.4,27" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
    <polyline fill="none" points="62.4,320.4 62.4,27" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
    <polyline fill="none" points="434.4,320.4 434.4,27" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
-   <g font-family="FreeSans" font-size="12.8165" font-style="normal" font-weight="bold" transform="translate(119.9,17) rotate(-0,128.5,0)" xml:space="preserve">
-    <text fill="rgb(0,0,0)" x="0 9 16 27 35 39 44 51 58 66 74 82 89 96 100 108 112 116 123 127 136 144 151 155 159 164 171 179 186 190 197 202 206 210 218 226 233 237 241 249 " y="-3">Ramp response of a PT2 transfer function</text>
+   <g font-family="FreeSans" font-size="12.8165" font-style="normal" font-weight="bold" transform="translate(59.9,17) rotate(-0,188.5,0)" xml:space="preserve">
+    <text fill="rgb(0,0,0)" x="0 9 16 27 35 39 44 51 58 66 74 82 89 96 100 109 " y="-3">Ramp response PT</text>
+    <text fill="rgb(0,0,0)" font-size="8.97153" x="117 " y="-1">2</text>
+    <text fill="rgb(0,0,0)" x="122 126 130 138 146 153 157 165 172 177 181 191 195 199 207 211 218 226 234 238 242 249 257 265 269 273 281 289 293 301 305 312 319 324 331 335 339 346 353 357 361 369 " y="-3"> together with zoh- and foh discretization</text>
    </g>
    <g font-family="FreeSans" font-size="12.8165" font-style="normal" font-weight="normal" transform="translate(30.0743,173.7) rotate(-90,6.5,0)" xml:space="preserve">
     <text fill="rgb(38,38,38)" x="0 6 " y="-3">y1</text>
@@ -89,6 +91,32 @@ CreationDate: Sun Feb 15 22:27:06 2026
     <text fill="rgb(38,38,38)" x="0 8 11 21 28 31 35 41 " y="-3">Time [s]</text>
    </g>
    <polyline fill="none" points="62.4,307.064 66.12,307.064 69.84,307.041 73.56,306.955 77.28,306.77 81,306.457 84.72,305.993 88.44,305.36 92.16,304.545 95.88,303.538 99.6,302.335 103.32,300.934 107.04,299.337 110.76,297.549 114.48,295.577 118.2,293.43 121.92,291.118 125.64,288.652 129.36,286.045 133.08,283.31 136.8,280.461 140.52,277.51 144.24,274.471 147.96,271.356 151.68,268.179 155.4,264.95 159.12,261.681 162.84,258.382 166.56,255.063 170.28,251.731 174,248.396 177.72,245.063 181.44,241.738 185.16,238.426 188.88,235.132 192.6,231.859 196.32,228.609 200.04,225.385 203.76,222.188 207.48,219.017 211.2,215.875 214.92,212.76 218.64,209.672 222.36,206.61 226.08,203.572 229.8,200.558 233.52,197.566 237.24,194.593 240.96,191.639 244.68,188.701 248.4,185.777 252.12,182.866 255.84,179.966 259.56,177.075 263.28,174.191 267,171.313 270.72,168.439 274.44,165.568 278.16,162.699 281.88,159.831 285.6,156.962 289.32,154.093 293.04,151.222 296.76,148.348 300.48,145.471 304.2,142.591 307.92,139.708 311.64,136.821 315.36,133.93 319.08,131.035 322.8,128.137 326.52,125.234 330.24,122.328 333.96,119.418 337.68,116.506 341.4,113.59 345.12,110.671 348.84,107.749 352.56,104.826 356.28,101.9 360,98.9726 363.72,96.0436 367.44,93.1132 371.16,90.1818 374.88,87.2496 378.6,84.3168 382.32,81.3835 386.04,78.4499 389.76,75.5162 393.48,72.5826 397.2,69.649 400.92,66.7158 404.64,63.7828 408.36,60.8503 412.08,57.9181 415.8,54.9865 419.52,52.0554 423.24,49.1248 426.96,46.1948 430.68,43.2653 434.4,40.3364" stroke="#0071bc" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+   <polyline fill="none" points="62.4,307.064 89.9556,307.064 89.9556,307.064 117.511,307.064 117.511,300.451 145.067,300.451 145.067,283.543 172.622,283.543 172.622,260.361 200.178,260.361 200.178,235.659 227.733,235.659 227.733,211.98 255.289,211.98 255.289,189.726 282.844,189.726 282.844,168.3 310.4,168.3 310.4,147.051 337.956,147.051 337.956,125.646 365.511,125.646 365.511,104.045 393.067,104.045 393.067,82.3349 420.622,82.3349 420.622,60.6049" stroke="#d85218" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+   <polyline fill="none" points="62.4,307.064 89.9556,307.064 89.9556,304.62 117.511,304.62 117.511,292.713 145.067,292.713 145.067,272.225 172.622,272.225 172.622,247.964 200.178,247.964 200.178,223.666 227.733,223.666 227.733,200.726 255.289,200.726 255.289,178.948 282.844,178.948 282.844,157.653 310.4,157.653 310.4,136.339 337.956,136.339 337.956,114.832 365.511,114.832 365.511,93.1674 393.067,93.1674 393.067,71.4417 420.622,71.4417 420.622,49.7218" stroke="#ecb01f" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+  </g>
+  <clipPath id="cp00480360">
+   <polygon points="0,360 480,360 480,0 0,0"/>
+  </clipPath>
+  <g clip-path="url(#cp00480360)">
+   <polygon fill="#ffffff" points="368.347,85.0316 426.389,85.0316 426.389,35.0105 368.347,35.0105" shape-rendering="crispEdges"/>
+   <polyline fill="none" points="368.347,85.0316 426.389,85.0316" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
+   <polyline fill="none" points="368.347,35.0105 426.389,35.0105" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
+   <polyline fill="none" points="368.347,85.0316 368.347,35.0105" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
+   <polyline fill="none" points="426.389,85.0316 426.389,35.0105" stroke="#262626" stroke-dasharray="16,0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="0.5"/>
+   <polyline fill="none" points="372.353,44.0158 392.379,44.0158" stroke="#0071bc" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+   <g font-family="FreeSans" font-size="10.4862" font-style="normal" font-weight="normal" transform="translate(396.384,49.0158) rotate(-0,-0,-5)" xml:space="preserve">
+    <text fill="rgb(0,0,0)" x="0 " y="-1">G</text>
+   </g>
+   <polyline fill="none" points="372.353,59.0211 392.379,59.0211" stroke="#d85218" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+   <g font-family="FreeSans" font-size="10.4862" font-style="normal" font-weight="normal" transform="translate(396.384,65.0211) rotate(-0,-0,-6)" xml:space="preserve">
+    <text fill="rgb(0,0,0)" x="0 " y="-3">G</text>
+    <text fill="rgb(0,0,0)" font-size="7.34034" x="8 12 14 18 22 " y="-1">d,zoh</text>
+   </g>
+   <polyline fill="none" points="372.353,75.0263 392.379,75.0263" stroke="#ecb01f" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.5"/>
+   <g font-family="FreeSans" font-size="10.4862" font-style="normal" font-weight="normal" transform="translate(396.384,81.0263) rotate(-0,-0,-6)" xml:space="preserve">
+    <text fill="rgb(0,0,0)" x="0 " y="-3">G</text>
+    <text fill="rgb(0,0,0)" font-size="7.34034" x="8 12 14 16 20 " y="-1">d,foh</text>
+   </g>
   </g>
  </g>
 </svg>

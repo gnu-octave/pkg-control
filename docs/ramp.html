@@ -617,52 +617,18 @@
                     <td><pre class="example">
 
  clf;
- s = tf('s');
- g = 1/(2*s^2+3*s+4);
- ramp(g);
- title ("Ramp response of a PT2 transfer function");
+ s = tf ('s');
+ G = 1/(2*s^2+3*s+4);
+ T = 2/3;
+ Gdzoh = c2d (G, T);
+ Gdfoh = c2d (G, T, 'foh');
+ ramp (G, Gdzoh, ';G_{d,zoh};', Gdfoh, ';G_{d,foh};');
+ title ("Ramp response PT_2 together with zoh- and foh discretization");
 
                     </pre></td></tr></tbody>
                   </table>
                   <div class="text-center">
                     <img src="assets/ramp_101.svg" width="70%" alt="plotted figure">
-                  </div><p></p>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="container-xl my-4">
-          <div class="card rounded">
-            <div class="card-header card-header-mod">
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h4 class="d-inline-block mr-2">
-                  <a name="example2">Example: 2</a>
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="container bg-light">
-                <div class="row">
-                  <table><tbody><tr>
-                    <td>&nbsp;</td>
-                    <td><pre class="example">
-
- clf;
- s = tf('s');
- g = 1/(2*s^2+3*s+4);
- h = c2d(g,0.1);
- ramp(h);
- title ("Ramp response of a discretized PT2 transfer function");
-
-                    </pre></td></tr></tbody>
-                  </table>
-                  <div class="text-center">
-                    <img src="assets/ramp_201.svg" width="70%" alt="plotted figure">
                   </div><p></p>
 
                 </div>

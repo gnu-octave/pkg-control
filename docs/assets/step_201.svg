@@ -4,7 +4,7 @@
  <desc>
 Creator: GL2PS 1.4.2, (C) 1999-2020 C. Geuzaine
 For: Octave
-CreationDate: Sun Feb 15 22:27:12 2026
+CreationDate: Wed Mar 11 06:48:27 2026
 </desc>
  <defs/>
  <polygon fill="#ffffff" points="0,0 480,0 480,360 0,360"/>
@@ -426,8 +426,8 @@ CreationDate: Sun Feb 15 22:27:12 2026
    <polygon points="0,360 480,360 480,0 0,0"/>
   </clipPath>
   <g clip-path="url(#cp00480360)">
-   <g font-family="FreeSans" font-size="11.6513" font-style="normal" font-weight="bold" transform="translate(201.5,16.7857) rotate(-0,38.5,-6.5)" xml:space="preserve">
-    <text fill="rgb(0,0,0)" x="0 8 12 19 26 29 37 44 50 57 64 71 " y="-3">Step Respons</text>
+   <g font-family="FreeSans" font-size="11.6513" font-style="normal" font-weight="bold" transform="translate(198,16.7857) rotate(-0,42,-6.5)" xml:space="preserve">
+    <text fill="rgb(0,0,0)" x="0 8 12 19 26 29 37 44 50 57 64 71 77 " y="-3">Step Response</text>
    </g>
   </g>
  </g>

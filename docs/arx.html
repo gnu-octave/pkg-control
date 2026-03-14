@@ -534,7 +534,7 @@
 <dt class="deftypefnx def-cmd-deftypefn" id="index-arx-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
 <dt class="deftypefnx def-cmd-deftypefn" id="index-arx-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sys</var>, <var class="var">x0</var>] =</code> <strong class="def-name">arx</strong> <code class="def-code-arguments">(<var class="var">dat</var>, <var class="var">'na'</var>, <var class="var">na</var>, <var class="var">'nb'</var>, <var class="var">nb</var>)</code></span></dt>
 </dl>
- 
+
 <p>Estimate ARX model using QR factorization.
  $$ A(q) \, y(t) = B(q) \, u(t) \, + \, e(t) $$
 </p> <div class="ms-5">
@@ -625,6 +625,49 @@
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/arx.m">arx</a>
 </div>
+        <div class="container-xl my-4">
+          <div class="card rounded">
+            <div class="card-header card-header-mod">
+              <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+                  <h4 class="d-inline-block mr-2">
+                  <a name="example1">Example: 1</a>
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="container bg-light">
+                <div class="row">
+                  <table><tbody><tr>
+                    <td>&nbsp;</td>
+                    <td><pre class="example">
+
+ T = 1;
+ N = 30;
+ G = tf ([1  2 ], [1 -1 1 -0.5], T);
+ u = 2*rand(N,1) - 1;
+ e = 0.01*randn (N,1);
+ y = lsim (G, u) + e;
+ dat = iddata (y, u, T);
+ G_I = arx (dat, 3);  # filter form (poly in z^(-1), inputs u and e)
+ G_I = G_I(1,1);
+ close (clf());
+ lsim (G, G_I, u);
+ title ("Simulation of original G and indentified system G_I")
+
+                    </pre></td></tr></tbody>
+                  </table>
+                  <div class="text-center">
+                    <img src="assets/arx_101.svg" width="70%" alt="plotted figure">
+                  </div><p></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
             </div>
           </div>

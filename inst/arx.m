@@ -350,14 +350,14 @@ endfunction
 %!demo
 %! T = 1;
 %! N = 30;
-%! G = tf ([1  2 ], [1 -1 1 -0.5], T)
+%! G = tf ([1  2 ], [1 -1 1 -0.5], T);
 %! u = 2*rand(N,1) - 1;
 %! e = 0.01*randn (N,1);
 %! y = lsim (G, u) + e;
 %! dat = iddata (y, u, T);
-%! G_I = arx (dat, 3)  # filter form (poly in z^(-1), inputs u and e)
+%! G_I = arx (dat, 3);  # filter form (poly in z^(-1), inputs u and e)
 %! G_I = G_I(1,1);
 %! close (clf());
-%! lsim (G, G_I, u)
+%! lsim (G, G_I, u);
 %! title ("Simulation of original G and indentified system G_I")
 

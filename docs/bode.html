@@ -606,8 +606,9 @@
                     <td>&nbsp;</td>
                     <td><pre class="example">
 
- G = tf ([10 1],[1 0.1 1 0]);
- bode(G);
+ G_1 = tf ([10 1],[1 0.1 1 0]);
+ G_2 = tf ([1 0.1 1],[100 1 1]);
+ bode(G_1,G_2);
 
                     </pre></td></tr></tbody>
                   </table>
