@@ -89,8 +89,12 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     [num,den] = tfdata (sys1,'v');
     all_poles{h} = roots (den);
     all_zeros{h} = roots (num);
-    n_poles_at_origin = sum (all_poles{h} == 0);
-    n_zeros_at_origin = sum (all_zeros{h} == 0);
+    pole_zero = 0;
+    if (isdt (sys1))
+      pole_zero = 1;
+    endif
+    n_poles_at_origin = sum (abs (all_poles{h} - pole_zero) < eps);
+    n_zeros_at_origin = sum (abs (all_zeros{h} - pole_zero) < eps);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
     pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase_auto(h))/90)*90};
     pha(h)={cell2mat(pha(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/90)*90};

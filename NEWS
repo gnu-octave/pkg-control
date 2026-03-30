@@ -5,6 +5,9 @@ Summary of important user-visible changes for releases of the control package
 control-4.2.1+  Upcoming version 4.2.2, not yet released
 ===============================================================================
 
+** bode: fix handling of poles and zeros at z=1 for discrete-time
+   systems (bug #68196)
+
 ** initial: error for systems not as state space model since initial
    condition is unclear
 
