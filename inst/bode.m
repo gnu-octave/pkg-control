@@ -77,31 +77,40 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   pha_auto = cellfun (@(H_auto) unwrap (arg (H_auto)) * 180 / pi, H_auto, "uniformoutput", false);
   numsys = length (sys_idx);
 
-  ## check for poles and zeroes at the origin for each of the numsys systems
-  ## and compare this asymptotic value to initial phase for the full auto
-  ## w-range, which is supposed to start at sufficiently small values fo w
+  ## check for poles and zeroes at the origin (or at one for discrete-time
+  ## system) for each of the numsys systems and compare this asymptotic
+  ## value (omega -> 0) to initial phase for the full auto w-range, which
+  ## is supposed to start at sufficiently small values fo w
   initial_phase_auto = cellfun(@(x) x(1), pha_auto);
   initial_phase = cellfun(@(x) x(1), pha);
+
   all_poles = cell(1,numsys);
   all_zeros = cell(1,numsys);
+
   for h = 1:numsys
+
     sys1 = varargin{sys_idx(h)};
     [num,den] = tfdata (sys1,'v');
     all_poles{h} = roots (den);
     all_zeros{h} = roots (num);
-    pole_zero = 0;
+
+    pole_integrator = 0;
     if (isdt (sys1))
-      pole_zero = 1;
+      pole_integrator = 1;
     endif
-    n_poles_at_origin = sum (abs (all_poles{h} - pole_zero) < eps);
-    n_zeros_at_origin = sum (abs (all_zeros{h} - pole_zero) < eps);
+    tol = sqrt (eps);
+
+    n_poles_at_origin = sum (abs (all_poles{h} - pole_integrator) < tol);
+    n_zeros_at_origin = sum (abs (all_zeros{h} - pole_integrator) < tol);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
+
     pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase_auto(h))/90)*90};
     pha(h)={cell2mat(pha(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/90)*90};
+
   endfor
 
-  ## check if possibly given w-range is at higher frequencies and provide
-  ## missing "history" for the the phase
+  ## check if custom w-range is at higher frequencies and provide and if yes,
+  ## add missing "history" for the phase
   initial_phase = cellfun(@(x) x(1), pha);
   for h = 1:numsys
     if (length (w{h}) != length (w_auto{h})) || any (w{h} - w_auto{h})
