@@ -91,8 +91,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 
     sys1 = varargin{sys_idx(h)};
     [num,den] = tfdata (sys1,'v');
-    all_poles{h} = roots (den);
-    all_zeros{h} = roots (num);
+    [all_zeros(h), all_poles(h), k] = zpkdata (sys1);
 
     pole_integrator = 0;
     if (isdt (sys1))
@@ -103,6 +102,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     n_poles_at_origin = sum (abs (all_poles{h} - pole_integrator) < tol);
     n_zeros_at_origin = sum (abs (all_zeros{h} - pole_integrator) < tol);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
+    if (k < 0)
+      asymptotic_low_freq_phase = asymptotic_low_freq_phase - 180;
+    endif
 
     pha_auto(h)={cell2mat(pha_auto(h)) + round((asymptotic_low_freq_phase - initial_phase_auto(h))/90)*90};
     pha(h)={cell2mat(pha(h)) + round((asymptotic_low_freq_phase - initial_phase(h))/90)*90};

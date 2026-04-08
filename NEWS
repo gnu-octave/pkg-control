@@ -5,6 +5,8 @@ Summary of important user-visible changes for releases of the control package
 control-4.2.1+  Upcoming version 4.2.2, not yet released
 ===============================================================================
 
+** bode: fix wrong  phase for systems with negative gain (issue #25)
+
 ** bode: fix handling of poles and zeros at z=1 for discrete-time
    systems (bug #68196)
 
