@@ -26,6 +26,22 @@ function H = __freqresp__ (sys, w, cellflag = false)
 
   [num, den, tsam] = tfdata (sys, "vector");
 
+  ## Only use tf representation for very simple cases, otherwise
+  ## convert into state space.
+
+  if (! issiso (sys)) || (length (num) > 3)
+
+    sys_ss = ss (sys);
+    H = __freqresp__ (sys_ss, w, cellflag);
+
+    return;
+
+  endif
+
+  ## Use tf represantation
+
+  [num, den, tsam] = tfdata (sys, "vector");
+
   if (isct (sys))  # continuous system
     s = i * w;
   else             # discrete system
