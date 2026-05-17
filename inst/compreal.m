@@ -1,6 +1,6 @@
 ## Copyright (C) 2026 J. Román <jdaniel.roman2004@gmail.com>
 ##
-## This file is part of the statistics package for GNU Octave.
+## This file is part of the control package for GNU Octave.
 ##
 ## Octave is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
@@ -94,23 +94,59 @@
 ## Created: May 2026
 
 function [csys, T] = compreal (sys, realization)
+  
+  ## Validation
 
-  sys = ss (sys);
+  if (nargin < 1 || nargin > 2)
+    print_usage ();
+  endif
 
-  ## Matrix T
+  if (issiso (sys) == 0)
+    error ("compreal: system must be SISO");
+  endif
 
-  if strcmp(realization, "c")
-  T = ctrb (sys.A, sys.B);
-  elseif strcmp(realization, "o")
-  T = inv (obsv (sys.A, sys.C));
+  if (nargin == 1 || strcmp (realization, "c"))
+    realization = "controllable";
+  elseif (strcmp (realization, "o"))
+    realization = "observable";
   else
     error ("compreal: realization must be 'c' or 'o'");
   endif
-    
-  if rank (T) < size (T, 1)
-    error ("compreal: system is not controllable/observable, T is singular");
-  endif
-    
+
+
+
+  ## Matrix T
+
+  sys = ss (sys);
+
+  switch (realization)
+
+    case "controllable"
+
+      ctrmatrix = ctrb (sys.A, sys.B);
+
+      if (rank (ctrmatrix) < rows (ctrmatrix))
+
+        error ("compreal: system is not controllable");
+
+      endif
+
+      T = ctrmatrix;
+
+    case "observable"
+
+      obsmatrix = obsv (sys.A, sys.C);
+
+      if (rank (obsmatrix) < rows (obsmatrix))
+
+        error ("compreal: system is not observable");
+
+      endif
+
+      T = inv (obsmatrix);
+
+  endswitch
+
   ## Transformation
 
   A = T \ sys.A * T;
@@ -130,23 +166,27 @@ endfunction
 %! B = [0; 1];
 %! C = [1 0];
 %! D = 0;
-%! sys = ss(A, B, C, D);
+%! sys = ss (A, B, C, D);
 
 %!test
-%! [csys, T] = compreal(sys, 'c');
-%! assert(tfdata(tf(csys)), tfdata(tf(sys)), 1e-6);
+%! [csys, T] = compreal (sys, 'c');
+%! assert (tfdata(tf(csys)), tfdata(tf(sys)), 1e-6);
 
 %!test 
-%! [csys, T] = compreal(sys, 'c');
-%! assert(T, ctrb(A, B), 1e-10);
+%! [csys, T] = compreal (sys, 'c');
+%! assert (T, ctrb (A, B), 1e-10);
 
 %!test
-%! [csys, T] = compreal(sys, 'c');
-%! assert(csys.A, inv(T)*A*T, 1e-10);
+%! [csys, T] = compreal (sys, 'c');
+%! assert (csys.A, inv (T) * A * T, 1e-10);
 
 %!test
-%! [csys, T] = compreal(sys, 'o');
-%! assert(tfdata(tf(csys)), tfdata(tf(sys)), 1e-6);
+%! [csys, T] = compreal (sys, 'o');
+%! assert (tfdata (tf (csys)), tfdata (tf (sys)), 1e-6);
 
 %!error <realization must be>
 %! compreal (sys, 'x');
+
+%!error <system must be SISO>
+%! sysmimo = ss (A, B, eye(2), zeros(2,1));
+%! compreal (sysmimo);
