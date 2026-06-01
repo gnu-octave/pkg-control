@@ -91,7 +91,8 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 
     sys1 = varargin{sys_idx(h)};
     [num,den] = tfdata (sys1,'v');
-    [all_zeros(h), all_poles(h), k] = zpkdata (sys1);
+    [all_zeros(h), all_poles(h), ~] = zpkdata (sys1);
+    k = dcgain (sys1);
 
     pole_integrator = 0;
     if (isdt (sys1))
