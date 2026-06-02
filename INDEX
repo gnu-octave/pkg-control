@@ -36,6 +36,7 @@ Model Interconnections
   @lti/series
   sumblk
 Model Characteristics
+  compreal
   ctrb
   ctrbf
   damp

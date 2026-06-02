@@ -17,10 +17,34 @@
 ## see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{csys}, @var{T}] =} compreal (@var{sys}, @var{realization})
-## Returns the state-space companion controllable and observable form of the input
-## system as well as the transformation matrix. 
-## 
+## @deftypefn {Function File} {[@var{csys}, @var{T}] =} compreal (@var{sys})
+## @deftypefnx {Function File} {[@var{csys}, @var{T}] =} compreal (@var{sys}, @var{realization})
+##
+## Returns the state-space companion controllable ors observable form of the input
+## system as well as the transformation matrix.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## @acronym{LTI} model.
+## @item realization
+## The @var{realization} argument selects the companion form:
+## @table @code
+## @item 'c'
+## Controllable companion form, the default if @var{realization} is omitted.
+## @item 'o'
+## Observable companion form.
+## @end table
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item csys
+## State-space model in companian form.
+## item T
+## Transformation matix.
+## @end table
+##
 ## Given the state vector
 ## @tex
 ## $$x(t)$$
@@ -51,10 +75,10 @@
 ## @end tex
 ## @ifnottex
 ## @group
-## Where T is our transformation matrix and $z(t)$ is our new state vector.
+## Where T is our transformation matrix and z(t) is our new state vector.
 ## @end group
 ## @end ifnottex
-## 
+##
 ## Our new state-space is given by the following relationships:
 ##
 ## @tex
@@ -66,35 +90,28 @@
 ## @ifnottex
 ## @example
 ## @group
-## A_z = inv(T)AT
-## B_z = inv(T)B
-## C_z = CT
+## A_z = inv(T) A T
+## B_z = inv(T) B
+## C_z = C T
 ## D_z = D
 ## @end group
 ## @end example
 ## @end ifnottex
 ##
-## The @var{realization} argument selects the companion form:
-##
-## @table @code
-## @item 'c'
-## Controllable companion form.
-## 
-## @item 'o'
-## Observable companion form.
-## @end table
+## Alorithm nased on@*
+## @enumerate
+## @item
+## T. Kailath, Linear systems. Prentice-Hall Englewood Cliffs, NJ, 1980.
+## ISBM 0-13-536961-4. Eequation (15a) and (15b)
+## @end enumerate
 ##
 ## @end deftypefn
-
-## Based on equation (15a) and (15b) of: 
-## T. Kailath, Linear systems. Prentice-Hall Englewood Cliffs, NJ, 1980.
-## ISBM 0-13-536961-4
 
 ## Author: J. Román <jdaniel.roman2004@gmail.com>
 ## Created: May 2026
 
 function [csys, T] = compreal (sys, realization)
-  
+
   ## Validation
 
   if (nargin < 1 || nargin > 2)
@@ -126,38 +143,24 @@ function [csys, T] = compreal (sys, realization)
       ctrmatrix = ctrb (sys.A, sys.B);
 
       if (rank (ctrmatrix) < rows (ctrmatrix))
-
         error ("compreal: system is not controllable");
-
       endif
 
       T = ctrmatrix;
+      csys = ss2ss (sys, inv(T));
 
     case "observable"
 
       obsmatrix = obsv (sys.A, sys.C);
 
       if (rank (obsmatrix) < rows (obsmatrix))
-
         error ("compreal: system is not observable");
-
       endif
 
-      T = inv (obsmatrix);
+      T = obsmatrix;
+      csys = ss2ss (sys, T);
 
   endswitch
-
-  ## Transformation
-
-  A = T \ sys.A * T;
-
-  B = T \ sys.B;
-
-  C = sys.C * T;
-
-  D = sys.D;
-  
-  csys = ss (A, B, C, D);
 
 endfunction
 
@@ -172,7 +175,7 @@ endfunction
 %! [csys, T] = compreal (sys, 'c');
 %! assert (tfdata(tf(csys)), tfdata(tf(sys)), 1e-6);
 
-%!test 
+%!test
 %! [csys, T] = compreal (sys, 'c');
 %! assert (T, ctrb (A, B), 1e-10);
 
