@@ -82,11 +82,6 @@
 ## References:
 ##
 ## Control System Design, page 484 by Goodwin, Graebe, Salgado, 2000
-##
-## https://de.mathworks.com/help/control/ref/ss2ss.html
-##
-## Attention: T as defined by Matlab is the inverse of T as defined by 
-## Goodwin, Graebe, Salgado
 ## @end deftypefn
 
 
