@@ -36,7 +36,15 @@ function H = __freqresp__ (sys, w, cellflag = false)
     s = exp (i * w * abs (tsam));
   endif
 
+  ## compute H and prevent warnings when det(e*jw-A) gets close
+  ## to a singular matrix near to resonance frequencies
+  warning_id_near_sing = "Octave:nearly-singular-matrix";
+  warning_near_sing = warning ("query", warning_id_near_sing);
+  warning ("off", warning_id_near_sing);
+
   H = arrayfun (@(x) c/(x*e - a)*b + d, s, "uniformoutput", false);
+
+  warning (warning_near_sing.state, warning_id_near_sing);
 
   if (! cellflag)
     H = cat (3, H{:});
