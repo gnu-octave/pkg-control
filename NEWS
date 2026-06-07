@@ -2,17 +2,21 @@
 Summary of important user-visible changes for releases of the control package
 
 ===============================================================================
-control-4.2.1+  Upcoming version 4.2.2, not yet released
+control-4.2.2  Release date 2026-06-07
 ===============================================================================
 
 ** compreal: new function for controllable or observable companion form
 
-** bode: fix wrong  phase for systems with negative gain (issue #25, #27),
-   fix handling of poles and zeros at z=1 for discrete-time systems
-   (bug #68196)
+** bode: several bug fixes and improvements
+     - fix wrong phase for systems with negative gain (issue #25, #27),
+     - fix poles and zeros at z=1 for discr.-time systems (bug #68196),
+     - convert tf-systems into state space for mimo and higher order
+       systems as well as for tf with spreaded coefficients (bug #68195), 
+     - improved handling of conjugate complex poles and zeros on the imag.
+       axis (cont.-time) or on the unit circle (discr.-time)
 
-** initial: error for systems not as state space model since initial
-   condition is unclear
+** initial: error for systems not given as state space model since
+   initial condition is unclear
 
 ** lsim: for input-output models, the initial condition is set to zero
    because initial condition is unclear, new parameter metrhod for the

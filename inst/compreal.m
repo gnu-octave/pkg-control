@@ -41,7 +41,7 @@
 ## @table @var
 ## @item csys
 ## State-space model in companian form.
-## item T
+## @item T
 ## Transformation matix.
 ## @end table
 ##
@@ -70,15 +70,7 @@
 ## @end example
 ## @end ifnottex
 ##
-## @tex
-## Where $T$ is our transformation matrix and $z(t)$ is our new state vector.
-## @end tex
-## @ifnottex
-## @group
-## Where T is our transformation matrix and z(t) is our new state vector.
-## @end group
-## @end ifnottex
-##
+## Where @math{T} is our transformation matrix and $z(t)$ is our new state vector.
 ## Our new state-space is given by the following relationships:
 ##
 ## @tex
@@ -98,7 +90,7 @@
 ## @end example
 ## @end ifnottex
 ##
-## Alorithm nased on@*
+## Alorithm based on
 ## @enumerate
 ## @item
 ## T. Kailath, Linear systems. Prentice-Hall Englewood Cliffs, NJ, 1980.

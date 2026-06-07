@@ -108,7 +108,7 @@
             </div>
             <div class="col-sm-9 col-md-10">
               <h3 class="d-inline-block mr-2">control</h3>
-              <b>4.2.1+&nbsp;2026-xx-xx</b>
+              <b>4.2.2&nbsp;2026-06-07</b>
               <p class="indent">
                 Control package for GNU Octave including system analysis and  control synthesis. The package uses routines of the SLICOT-Reference library.
               </p>
@@ -344,8 +344,8 @@
                    <a href="thiran.html">thiran</a>
                    </code></b>
                  </td>
-                 <td>Approximation of continuous-time delay using a discrete-time allpass
-Thiran filter.</td>
+                 <td>Approximation of continuous-time delay using a discrete-time allpass Thiran
+filter.</td>
                </tr>
              </tbody>
            </table>
@@ -376,8 +376,8 @@ Thiran filter.</td>
                    <a href="@lti_connect.html">@lti/connect</a>
                    </code></b>
                  </td>
-                 <td>Name-based or index-based interconnections between the outputs and
-inputs of LTI models.</td>
+                 <td>Name-based or index-based interconnections between the outputs and inputs of LTI
+models.</td>
                </tr>
                <tr>
                  <td>
@@ -401,8 +401,7 @@ inputs of LTI models.</td>
                    <a href="@lti_mconnect.html">@lti/mconnect</a>
                    </code></b>
                  </td>
-                 <td>Arbitrary interconnections between the inputs and outputs of an LTI
-model.</td>
+                 <td>Arbitrary interconnections between the inputs and outputs of an LTI model.</td>
                </tr>
                <tr>
                  <td>
@@ -426,8 +425,7 @@ model.</td>
                    <a href="sumblk.html">sumblk</a>
                    </code></b>
                  </td>
-                 <td>Create summing junction S from string FORMULA for name-based
-interconnections.</td>
+                 <td>Create summing junction S from string FORMULA for name-based interconnections.</td>
                </tr>
              </tbody>
            </table>
@@ -436,6 +434,15 @@ interconnections.</td>
            </h3>
            <table class="table table-striped">
              <tbody>
+               <tr>
+                 <td>
+                   <b><code>
+                   <a href="compreal.html">compreal</a>
+                   </code></b>
+                 </td>
+                 <td>Returns the state-space companion controllable ors observable form of the input
+system as well as the transformation matrix.</td>
+               </tr>
                <tr>
                  <td>
                    <b><code>
@@ -451,8 +458,8 @@ interconnections.</td>
                    </code></b>
                  </td>
                  <td>If Co=ctrb(A,B) has rank r <= n = SIZE(A,1), then there is a similarity
-transformation Tc such that Tc = [t1 t2] where t1 is the controllable
-subspace and t2 is orthogonal to t1</td>
+transformation Tc such that Tc = [t1 t2] where t1 is the controllable subspace
+and t2 is orthogonal to t1</td>
                </tr>
                <tr>
                  <td>
@@ -492,10 +499,10 @@ subspace and t2 is orthogonal to t1</td>
                    <a href="gram.html">gram</a>
                    </code></b>
                  </td>
-                 <td>‘gram (SYS, "c")’ returns the controllability gramian of the
-(continuous- or discrete-time) system SYS.  ‘gram (SYS, "o")’ returns
-the observability gramian of the (continuous- or discrete-time) system
-SYS.  ‘gram (A, B)’ returns the con...</td>
+                 <td>‘gram (SYS, "c")’ returns the controllability gramian of the (continuous- or
+discrete-time) system SYS.  ‘gram (SYS, "o")’ returns the observability gramian
+of the (continuous- or discrete-time) system SYS.  ‘gram (A, B)’ returns the
+con...</td>
                </tr>
                <tr>
                  <td>
@@ -600,8 +607,8 @@ SYS.  ‘gram (A, B)’ returns the con...</td>
                    </code></b>
                  </td>
                  <td>If Ob=obsv(A,C) has rank r <= n = SIZE(A,1), then there is a similarity
-transformation Tc such that To = [t1;t2] where t1 is c and t2 is
-orthogonal to t1</td>
+transformation Tc such that To = [t1;t2] where t1 is c and t2 is orthogonal to
+t1</td>
                </tr>
                <tr>
                  <td>
@@ -695,8 +702,8 @@ orthogonal to t1</td>
                    <a href="imp_invar.html">imp_invar</a>
                    </code></b>
                  </td>
-                 <td>Converts analog filter with coefficients B and A and/or SYS_IN to
-digital, conserving impulse response.</td>
+                 <td>Converts analog filter with coefficients B and A and/or SYS_IN to digital,
+conserving impulse response.</td>
                </tr>
                <tr>
                  <td>
@@ -830,8 +837,8 @@ digital, conserving impulse response.</td>
                    <a href="pid.html">pid</a>
                    </code></b>
                  </td>
-                 <td>Return the transfer function C of the PID controller in parallel form
-with first-order roll-off.</td>
+                 <td>Return the transfer function C of the PID controller in parallel form with
+first-order roll-off.</td>
                </tr>
                <tr>
                  <td>
@@ -839,8 +846,8 @@ with first-order roll-off.</td>
                    <a href="pidstd.html">pidstd</a>
                    </code></b>
                  </td>
-                 <td>Return the transfer function C of the PID controller in standard form
-with first-order roll-off.</td>
+                 <td>Return the transfer function C of the PID controller in standard form with
+first-order roll-off.</td>
                </tr>
              </tbody>
            </table>
@@ -855,8 +862,8 @@ with first-order roll-off.</td>
                    <a href="acker.html">acker</a>
                    </code></b>
                  </td>
-                 <td>Calculates the state feedback matrix of a completely controllable SISO
-system using Ackermann's formula</td>
+                 <td>Calculates the state feedback matrix of a completely controllable SISO system
+using Ackermann's formula</td>
                </tr>
                <tr>
                  <td>
@@ -864,8 +871,7 @@ system using Ackermann's formula</td>
                    <a href="place.html">place</a>
                    </code></b>
                  </td>
-                 <td>Pole assignment for a given matrix pair (A,B) such that ‘p = eig
-(A-B*F)’.  If</td>
+                 <td>Pole assignment for a given matrix pair (A,B) such that ‘p = eig (A-B*F)’.  If</td>
                </tr>
                <tr>
                  <td>
@@ -1133,8 +1139,8 @@ system using Ackermann's formula</td>
                    <a href="btamodred.html">btamodred</a>
                    </code></b>
                  </td>
-                 <td>Model order reduction by frequency weighted Balanced Truncation
-Approximation (BTA) method.</td>
+                 <td>Model order reduction by frequency weighted Balanced Truncation Approximation
+(BTA) method.</td>
                </tr>
                <tr>
                  <td>
@@ -1142,8 +1148,7 @@ Approximation (BTA) method.</td>
                    <a href="hnamodred.html">hnamodred</a>
                    </code></b>
                  </td>
-                 <td>Model order reduction by frequency weighted optimal Hankel-norm (HNA)
-method.</td>
+                 <td>Model order reduction by frequency weighted optimal Hankel-norm (HNA) method.</td>
                </tr>
                <tr>
                  <td>
@@ -1151,8 +1156,8 @@ method.</td>
                    <a href="spamodred.html">spamodred</a>
                    </code></b>
                  </td>
-                 <td>Model order reduction by frequency weighted Singular Perturbation
-Approximation (SPA).</td>
+                 <td>Model order reduction by frequency weighted Singular Perturbation Approximation
+(SPA).</td>
                </tr>
              </tbody>
            </table>
@@ -1167,8 +1172,8 @@ Approximation (SPA).</td>
                    <a href="btaconred.html">btaconred</a>
                    </code></b>
                  </td>
-                 <td>Controller reduction by frequency-weighted Balanced Truncation
-Approximation (BTA).</td>
+                 <td>Controller reduction by frequency-weighted Balanced Truncation Approximation
+(BTA).</td>
                </tr>
                <tr>
                  <td>
@@ -1176,8 +1181,8 @@ Approximation (BTA).</td>
                    <a href="cfconred.html">cfconred</a>
                    </code></b>
                  </td>
-                 <td>Reduction of state-feedback-observer based controller by coprime
-factorization (CF).</td>
+                 <td>Reduction of state-feedback-observer based controller by coprime factorization
+(CF).</td>
                </tr>
                <tr>
                  <td>
@@ -1185,8 +1190,8 @@ factorization (CF).</td>
                    <a href="fwcfconred.html">fwcfconred</a>
                    </code></b>
                  </td>
-                 <td>Reduction of state-feedback-observer based controller by
-frequency-weighted coprime factorization (FW CF).</td>
+                 <td>Reduction of state-feedback-observer based controller by frequency-weighted
+coprime factorization (FW CF).</td>
                </tr>
                <tr>
                  <td>
@@ -1194,8 +1199,8 @@ frequency-weighted coprime factorization (FW CF).</td>
                    <a href="spaconred.html">spaconred</a>
                    </code></b>
                  </td>
-                 <td>Controller reduction by frequency-weighted Singular Perturbation
-Approximation (SPA).</td>
+                 <td>Controller reduction by frequency-weighted Singular Perturbation Approximation
+(SPA).</td>
                </tr>
              </tbody>
            </table>
@@ -1243,8 +1248,8 @@ polynomial of order ORD.</td>
                    <a href="@iddata_fft.html">@iddata/fft</a>
                    </code></b>
                  </td>
-                 <td>Transform iddata objects from time to frequency domain using a Fast
-Fourier Transform (FFT) algorithm.</td>
+                 <td>Transform iddata objects from time to frequency domain using a Fast Fourier
+Transform (FFT) algorithm.</td>
                </tr>
                <tr>
                  <td>
@@ -1300,8 +1305,8 @@ Fourier Transform (FFT) algorithm.</td>
                    <a href="@iddata_resample.html">@iddata/resample</a>
                    </code></b>
                  </td>
-                 <td>Change the sample rate of the output and input signals in dataset DAT by
-a factor of ‘p/q’.  Th</td>
+                 <td>Change the sample rate of the output and input signals in dataset DAT by a
+factor of ‘p/q’.  Th</td>
                </tr>
                <tr>
                  <td>
@@ -1340,9 +1345,9 @@ a factor of ‘p/q’.  Th</td>
                    <a href="moen4.html">moen4</a>
                    </code></b>
                  </td>
-                 <td>Estimate state-space model using combined subspace method: MOESP
-algorithm for finding the matrices A and C, and N4SID algorithm for
-finding the matrices B and D.</td>
+                 <td>Estimate state-space model using combined subspace method: MOESP algorithm for
+finding the matrices A and C, and N4SID algorithm for finding the matrices B and
+D.</td>
                </tr>
                <tr>
                  <td>
@@ -1453,8 +1458,8 @@ finding the matrices B and D.</td>
                    <a href="@lti_repmat.html">@lti/repmat</a>
                    </code></b>
                  </td>
-                 <td>Form a block transfer matrix of SYS with M copies vertically and N
-copies horizontally.</td>
+                 <td>Form a block transfer matrix of SYS with M copies vertically and N copies
+horizontally.</td>
                </tr>
                <tr>
                  <td>
@@ -1604,8 +1609,8 @@ copies horizontally.</td>
                    <a href="VLFamp.html">VLFamp</a>
                    </code></b>
                  </td>
-                 <td>Calculations on a two stage preamp for a multi-turn, air-core solenoid
-loop antenna for the reception of signals below 30kHz.</td>
+                 <td>Calculations on a two stage preamp for a multi-turn, air-core solenoid loop
+antenna for the reception of signals below 30kHz.</td>
                </tr>
                <tr>
                  <td>
@@ -1621,8 +1626,8 @@ loop antenna for the reception of signals below 30kHz.</td>
                    <a href="Boeing707.html">Boeing707</a>
                    </code></b>
                  </td>
-                 <td>Creates a linearized state-space model of a Boeing 707-321 aircraft at
-V=80 m/s (M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
+                 <td>Creates a linearized state-space model of a Boeing 707-321 aircraft at V=80 m/s
+(M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
                </tr>
                <tr>
                  <td>
@@ -1661,8 +1666,8 @@ V=80 m/s (M = 0.26, GA0 = -3 deg, ALPHA0 = 4 deg, KAPPA = 50 deg).</td>
                    <a href="doc_control.html">doc_control</a>
                    </code></b>
                  </td>
-                 <td>Open online documentation of the Control package in the system's
-standard browser.</td>
+                 <td>Open online documentation of the Control package in the system's standard
+browser.</td>
                </tr>
                <tr>
                  <td>
@@ -1686,8 +1691,8 @@ standard browser.</td>
                    <a href="repsys.html">repsys</a>
                    </code></b>
                  </td>
-                 <td>Form a block transfer matrix of SYS with M copies vertically and N
-copies horizontally.</td>
+                 <td>Form a block transfer matrix of SYS with M copies vertically and N copies
+horizontally.</td>
                </tr>
                <tr>
                  <td>
@@ -1695,8 +1700,8 @@ copies horizontally.</td>
                    <a href="strseq.html">strseq</a>
                    </code></b>
                  </td>
-                 <td>Return a cell vector of indexed strings by appending the indices IDX to
-the string STR.</td>
+                 <td>Return a cell vector of indexed strings by appending the indices IDX to the
+string STR.</td>
                </tr>
                <tr>
                  <td>

@@ -29,18 +29,27 @@ After finishing the last changes for the planned release, the following tests sh
         - correct version number?
     6. [ ] `pkg test control` in Octave
 
+6. [ ] `make distclean` for removing all old distribution files
+4. [ ] Tests of documentation
+    1. [ ] `make DOCS_EXAMPLES=true dist`
+    2. [ ] Check pdf documentation (new functions included)
+    3. [ ] `pkg install target/control-X.Y.Z.tar.gz` in Octave
+    4. [ ] `doc ...` in Octave for checking internal documentation
+    2. [ ] `make docs-html` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
+    6. [ ] Check html documentation
+5. `git commit` for the documentation
+
 ### Release the package
 
 Releasing the package should be done in the *release* branch as github will deploy the html-documentation in the directory `docs` from the *release* branch.
 
 1. [ ] Merge branch `main` (or the branch in which development and testing were carried out) into branch `release`
-5. [ ] `make release`<br>
+5. [ ] `make DOCS_EXAMPLES=true release`<br>
    *Alternatively*, this can be done by the following separate commands
-    1. [ ] `make dist`
+    1. [ ] `make DOCS_EXAMPLES=true dist`
     1. [ ] `make install`
-    2. [ ] `make docs-html` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)
     4. [ ] `sha256sum target/control-X.Y.Z.tar.gz`
-3. [ ] `git commit` (at least the new docs)
+3. [ ] `git commit` (if any changes after merge)
 4. [ ] `git tag control-X.Y.Z`
 5. [ ] `git push origin release:release` (docs should be automatically be published by github)
 6. [ ] `git push origin control-X.Y.Z` (push the tag) 
