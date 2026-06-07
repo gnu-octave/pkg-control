@@ -137,21 +137,32 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   endfor
 
   ## now fix the phase in case of a conjugate complex pair of poles on the
-  ## imag. axis
-
+  ## imag. axis (cont.-time) or on the unit circle (discr.-time).
+  ## FIXME: This might not work for multiple identical conj. complex pol pairs.
+  w0poles = cell (1,numsys);
+  w0zeros = cell (1,numsys);
   tol = sqrt (eps);
+
+  for h = 1:numsys
+
+    p = all_poles{h};
+    z = all_zeros{h};
+    sys = varargin{sys_idx(h)};
+    if (isdt (sys))
+      w0_poles{h} = imag (log (p((abs(p)-1)<tol & imag(p)>tol))./sys.ts);
+      w0_zeros{h} = imag (log (z((abs(z)-1)<tol & imag(z)>tol))./sys.ts);
+    else
+      w0_poles{h} = imag (p(abs(real(p))<tol & imag(p)>tol));
+      w0_zeros{h} = imag (z(abs(real(z))<tol & imag(z)>tol));
+    endif
+
+  endfor
+
   max_idx = length (pha{1});
-
-  w0_poles = cellfun (@(p) imag (p(abs(real(p))<tol & imag(p)>0)), all_poles,...
-                      'uniformoutput', false);
-  w0_zeros = cellfun (@(p) imag (p(abs(real(p))<tol & imag(p)>0)), all_zeros,...
-                      'uniformoutput', false);
-
   dpha = cellfun (@diff, pha, 'uniformoutput', false);
 
-  w0_inc = cellfun (@(dp) find (dp > 90), dpha, 'uniformoutput', false);
-  w0_dec = cellfun (@(dp) find (dp < -90), dpha, 'uniformoutput', false);
-
+  w0_inc = cellfun (@(dp) find (dp > 75), dpha, 'uniformoutput', false);
+  w0_dec = cellfun (@(dp) find (dp < -75), dpha, 'uniformoutput', false);
 
   for h = 1:numsys
 
