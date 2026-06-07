@@ -26,10 +26,25 @@ function H = __freqresp__ (sys, w, cellflag = false)
 
   [num, den, tsam] = tfdata (sys, "vector");
 
-  ## Only use tf representation for very simple cases, otherwise
-  ## convert into state space.
+  ## Only use tf representation for low order systems without
+  ## extremely spreaded coefficients
 
-  if (! issiso (sys)) || (length (num) > 3)
+  use_ss = true;
+
+  if (issiso (sys)) && (length (den) < 6)
+
+    spread_num = max (log10 (abs (num(abs(num)>0)))) ...
+                 - min (log10 (abs (num(abs(num)>0))));
+    spread_den = max (log10 (abs (den(abs(den)>0)))) ...
+                 - min (log10 (abs (den(abs(den)>0))));
+
+    if (spread_num < 8) && (spread_den < 8)
+      use_ss = false;
+    endif
+
+  endif
+
+  if (use_ss)
 
     sys_ss = ss (sys);
     H = __freqresp__ (sys_ss, w, cellflag);
@@ -37,6 +52,7 @@ function H = __freqresp__ (sys, w, cellflag = false)
     return;
 
   endif
+
 
   ## Use tf represantation
 

@@ -75,6 +75,7 @@ function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (c
   endif
 
   ## determine frequency vectors
+  auto = false;
   w_auto = __frequency_vector__ (args(sys_idx), wbounds);
   if (any (r_idx))                                  # if there are frequency ranges
     if (nnz (r_idx) > 1)
@@ -101,6 +102,7 @@ function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (c
     w = repmat ({w}, 1, nnz (sys_idx));
   else                                              # there are neither frequency ranges nor vectors
     w = w_auto;
+    auto = true;
   endif
 
   ## temporarily save frequency vectors of FRD models
@@ -108,8 +110,12 @@ function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (c
   w(frd_idx) = {[]};                                # freqresp returns all frequencies of FRD models for w=[]
 
   ## compute frequency response H for all LTI models
-  H = cellfun (@__freqresp__, args(sys_idx), w, {cellflag}, "uniformoutput", false);
   H_auto = cellfun (@__freqresp__, args(sys_idx), w_auto, {cellflag}, "uniformoutput", false);
+  if (auto)
+    H = H_auto;
+  else
+    H = cellfun (@__freqresp__, args(sys_idx), w, {cellflag}, "uniformoutput", false);
+  endif
 
   ## restore frequency vectors of FRD models in w
   w(frd_idx) = w_frd;
