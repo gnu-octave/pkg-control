@@ -43,6 +43,7 @@ Model Characteristics
   dsort
   esort
   @lti/dcgain
+  @tf/dcgain
   gram
   hsvd
   @lti/isct

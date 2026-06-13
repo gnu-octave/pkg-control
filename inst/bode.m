@@ -90,9 +90,7 @@ function [mag_r, pha_r, w_r] = bode (varargin)
   for h = 1:numsys
 
     sys1 = varargin{sys_idx(h)};
-    [num,den] = tfdata (sys1,'v');
-    [all_zeros(h), all_poles(h), ~] = zpkdata (sys1);
-    k = dcgain (sys1);
+    [all_zeros(h), all_poles(h), gain] = zpkdata (sys1);
 
     pole_integrator = 0;
     if (isdt (sys1))
@@ -103,7 +101,9 @@ function [mag_r, pha_r, w_r] = bode (varargin)
     n_poles_at_origin = sum (abs (all_poles{h} - pole_integrator) < tol);
     n_zeros_at_origin = sum (abs (all_zeros{h} - pole_integrator) < tol);
     asymptotic_low_freq_phase = (n_zeros_at_origin - n_poles_at_origin)*90;
-    if (k < 0)
+    low_freq_gain = __low_frequency_gain__ (all_zeros{h}, all_poles{h},
+                                            gain, pole_integrator, tol);
+    if (low_freq_gain < 0)
       asymptotic_low_freq_phase = asymptotic_low_freq_phase - 180;
     endif
 
@@ -232,6 +232,17 @@ function [mag_r, pha_r, w_r] = bode (varargin)
 
 endfunction
 
+
+function gain = __low_frequency_gain__ (zer, pol, k, pole_integrator, tol)
+
+  zer = zer(abs (zer - pole_integrator) >= tol);
+  pol = pol(abs (pol - pole_integrator) >= tol);
+
+  gain = real (k * prod (pole_integrator - zer)
+                 / prod (pole_integrator - pol));
+
+endfunction
+
 %!demo
 %! G_1 = tf ([10 1],[1 0.1 1 0]);
 %! G_2 = tf ([1 0.1 1],[100 1 1]);
@@ -270,3 +281,9 @@ endfunction
 %! assert (pha(41), pha_wE, 1e-8);
 %! assert (mag(41), abs_wE, 1e-8);
 
+%!test
+%! num = [0, 0, 2.052877715426585e9, 4.416784109977014e13, 1.719831064785571e17];
+%! den = [1, 8.380906856780281e4, 2.269817212624148e8, 4.344755797517798e12, 0];
+%! G = tf (num, den);
+%! [~, pha] = bode (G);
+%! assert (pha(1), -88.828076660194938, 1e-9);
