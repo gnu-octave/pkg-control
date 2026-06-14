@@ -17,7 +17,91 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## DC gain of TF models.
+## @deftypefn {Function File} {@var{K} =} dcgain (@var{sys})
+##
+## Compute the DC gain of @acronym{LTI} systems given as transfer function.
+##
+## @strong{Inputs}
+## @table @var
+## @item sys
+## @acronym{LTI} system created by tf(), ss(), dss(), etc.
+## @end table
+##
+## @strong{Outputs}
+## @table @var
+## @item K
+## DC gain matrix. For a system with m inputs and p outputs, the array @var{k}
+## has dimensions [p, m].
+## @end table
+##
+## @xref{@@lti/dcgain} for the method used for systems not represented by a transfer function.
+##
+## For a continuous-time system G(s) of the form
+## @tex
+## $$ G(s) = \frac{b_ns^n + \cdots + b_1s+ b_0}{a_ns^n + \cdots + a_1s+ a_0} $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##           bn*s^n + ... + b1*s + b0
+##   G(s) = --------------------------
+##           an*s^n + ... + a1*s + a0
+## @end group
+## @end example
+## @end ifnottex
+## the gain is given by
+## @tex
+## $$ K = G(s=0) = \frac{b_0}{a_0} $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##                 b0
+##   K = G(s=0) = ----
+##                 a0
+## @end group
+## @end example
+## @end ifnottex
+##
+## In the discrete-time case the gain of
+## @tex
+## $$ G(z) = \frac{b_nz^n + \cdots + b_1z+ b_0}{a_nz^n + \cdots + a_1z+ a_0} $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##           bn*z^n + ... + b1*z + b0
+##   G(z) = --------------------------
+##           an*z^n + ... + a1*z + a0
+## @end group
+## @end example
+## @end ifnottex
+## is given by
+## @tex
+## $$ K = G(z=1) = \frac{\sum_{i=0}^n b_i}{\sum_{i=0}^n a_i} $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##                 bn + ... + b1 + b0
+##   K = G(z=1) = --------------------
+##                 an + ... + a1 + a0
+## @end group
+## @end example
+## @end ifnottex
+##
+## @strong{Example}
+## @example
+## @group
+## G = tf (@{[1 0],[1 1]@},@{[1 1],[1,0]@});
+## K = dcgain (G)
+## K =
+##   0  Inf
+## @end group
+## @end example
+##
+## @seealso{@@lti/dcgain,@@lti/freqresp,@@tf/tf,@@ss/ss,dss}
+## @end deftypefn
 
 function gain = dcgain (sys)
 
