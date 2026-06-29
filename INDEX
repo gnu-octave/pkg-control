@@ -74,6 +74,7 @@ Time Domain Analysis
   lsim
   ramp
   step
+  stepinfo
 Frequency Domain Analysis
   bode
   bodemag
