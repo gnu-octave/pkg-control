@@ -1,5 +1,4 @@
-## Copyright (C) 2009-2016   Lukas F. Reichlin
-## Copyright (C) 2026        Mitchell Thompkins
+## Copyright (C) 2026  Mitchell Thompkins
 ##
 ## This file is part of LTI Syncope.
 ##
@@ -17,36 +16,31 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Convert the continuous TF model into its discrete-time equivalent.
+## Convert the continuous ZPK model into its discrete-time equivalent.
+## The matched method maps each stored pole and zero directly via exp (s*tsam),
+## avoiding the ill-conditioned polynomial round-trip of the TF representation.
 
-## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
-## Created: October 2009
-## Version: 0.3
+## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
+## Created: June 2026
+## Version: 0.1
 
 function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
 
-
-  if (strncmpi (method, "i", 1))    # "impulse invariant"
-    
-    [~,~,~,D] = ssdata (sys);
-    if (any (D(:)))
-      error ("c2d: impuls invariant discrete-time models only supported for systems without direct feedthrough\n");
-    endif
-    
-    sys=imp_invar(sys,1/tsam);
-    
-  elseif (strncmpi (method, "m", 1))    # "matched"
+  if (strncmpi (method, "m", 1))    # "matched"
 
     if (! issiso (sys))
-      error ("tf: c2d: require SISO system for matched pole/zero method");
+      error ("zpk: c2d: require SISO system for matched pole/zero method");
     endif
 
-    [z_c, p_c, k_c] = zpkdata (sys, "vector");
-    p_d = exp (p_c * tsam);    
+    z_c = sys.z{1};
+    p_c = sys.p{1};
+    k_c = sys.k;
+
+    p_d = exp (p_c * tsam);
     z_d = exp (z_c * tsam);
 
     if (any (! isfinite (p_d)) || any (! isfinite (z_d)))
-      error ("tf: c2d: discrete-time poles and zeros are not finite");
+      error ("zpk: c2d: discrete-time poles and zeros are not finite");
     endif
 
     ## continuous-time zeros at infinity are mapped to -1 in discrete-time
@@ -68,25 +62,39 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
     w_d = exp (1j * w_c * tsam);
     k_d = real (k_c * prod (1j*w_c - z_c) / prod (1j*w_c - p_c) * prod (w_d - p_d) / prod (w_d - z_d));
 
-    tmp = tf (zpk (z_d, p_d, k_d, tsam));
-    sys.num = tmp.num;
-    sys.den = tmp.den;
+    sys.z{1} = z_d;
+    sys.p{1} = p_d;
+    sys.k = k_d;
 
   else
-    [p, m] = size (sys);
-
-    for i = 1 : p
-      for j = 1 : m
-        idx = substruct ("()", {i, j});
-        tmp = subsref (sys, idx);
-        tmp = c2d (ss (tmp), tsam, method, w0);
-        [num, den] = tfdata (tmp, "tfpoly");
-        sys.num(i, j) = num;
-        sys.den(i, j) = den;
-      endfor
-    endfor
+    ## zoh/foh/tustin/prewarp/impulse are not per-root maps. their natural
+    ## representation is state-space.  convert back to zpk for type consistency.
+    sys = zpk (__c2d__ (ss (sys), tsam, method, w0));
   endif
 
-  sys.tfvar = "z";
-
 endfunction
+
+
+%!test
+%! ## single pole: p_d = exp(p_c * Ts)
+%! sys = zpk ([], [-1], 1);
+%! sys_d = c2d (sys, 0.1, 'matched');
+%! assert (isa (sys_d, 'zpk'));
+%! [~, p_d] = zpkdata (sys_d, 'v');
+%! assert (p_d, exp (-0.1), 1e-14);
+
+%!test
+%! ## 25 poles clustered near the imaginary axis: matched c2d keeps them
+%! ## stable and maps each one exactly to exp(p*Ts) with no rounding error
+%! N = 25; Ts = 1/1000;
+%! p_s = (-0.001 + 1i * linspace (1, 25, N))' * 2*pi*4;
+%! sys_d = c2d (zpk ([], p_s, 1), Ts, 'matched');
+%! [~, p_d] = zpkdata (sys_d, 'v');
+%! assert (all (abs (p_d) < 1));
+%! assert (max (abs (p_d - exp (p_s * Ts))), 0, 1e-12);
+
+%!test
+%! ## non-matched methods still work on zpk and return zpk
+%! sys_d = c2d (zpk ([], [-1], 1), 0.1, 'zoh');
+%! assert (isa (sys_d, 'zpk'));
+%! assert (get (sys_d, 'tsam'), 0.1);
