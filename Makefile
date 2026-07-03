@@ -69,7 +69,7 @@ DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
 DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
 DOCS_LOGO       := $(DOCS_DIR)/$(PACKAGE).svg
 
-.PHONY: help dist docs-html docs release install all check run clean
+.PHONY: help dist docs-html docs release install all check check-ci check-local run clean
 
 help:
 	@echo " "
@@ -207,6 +207,15 @@ all: $(CC_SOURCES)
 check: install
 	$(OCTAVE) --path "inst/" --path "src/" \
 	  --eval 'pkg test control'
+
+check-ci:
+	test -f $(SRC)/Makefile.conf || (cd $(SRC) && ./bootstrap && ./configure)
+	$(MAKE) -C $(SRC) all
+	$(OCTAVE) --no-gui --version
+	$(OCTAVE) --no-gui --path "inst/" --path "src/" devel/run_tests.m
+
+check-local:
+	docker compose run --rm octave
 
 clean:
 	$(RM) -r $(TARGET_DIR)

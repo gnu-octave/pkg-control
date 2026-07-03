@@ -112,6 +112,19 @@ Your contribution must be an independent work or derived from code that may be r
 
 [Fork](https://github.com/gnu-octave/pkg-control/fork) the pkg-control repository to your own account and clone the resulting repository. Refer to the [README](README.md) file for information about how to build the package archive which can be installed in GNU Octave.
 
+### Running tests locally
+
+The easiest way to run the test suite locally is with Docker. Make sure the
+submodules are initialized first, then run:
+
+```bash
+git submodule update --init
+make check-local
+```
+
+This pulls the latest `gnuoctave/octave` image and runs the full test suite
+inside it, matching the CI environment. Docker must be installed and running.
+
 ### Pull request
 
 When your changes are finished, commit and push the change to your forked repository on Github (make sure your fork is up to date) and create a pull request.
