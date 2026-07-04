@@ -48,9 +48,9 @@ function sys = __d2c__ (sys, tsam, method = "zoh", w0 = 0)
     tol = sqrt (eps);
     while (any (abs ([p_d; z_d_orig] - w_d) < tol))
       w_c += 0.1 / tsam;
+      w_d = exp (1j * w_c * tsam);
     endwhile
-    w_d = exp (w_c * tsam);
-    k_c = real (k_d * prod (w_d - z_d_orig) / prod (w_d - p_d) * prod (w_c - p_c) / prod (w_c - z_c));
+    k_c = real (k_d * prod (w_d - z_d_orig) / prod (w_d - p_d) * prod (1j*w_c - p_c) / prod (1j*w_c - z_c));
 
     tmp = tf (zpk (z_c, p_c, k_c));
     sys.num = tmp.num;
