@@ -43,6 +43,7 @@ Model Characteristics
   dsort
   esort
   @lti/dcgain
+  @tf/dcgain
   gram
   hsvd
   @lti/isct
@@ -73,6 +74,7 @@ Time Domain Analysis
   lsim
   ramp
   step
+  stepinfo
 Frequency Domain Analysis
   bode
   bodemag

@@ -11,7 +11,7 @@ control-4.2.99+  Upcoming 4.3.0, not yet released
 control-4.2.2+  Upcoming 4.2.3, not yet released 
 ===============================================================================
 
-**
+** bode: more robust gain of tf systems for (again bug #68196)
 
 ===============================================================================
 control-4.2.2  Release date 2026-06-07

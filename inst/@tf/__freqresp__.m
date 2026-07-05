@@ -46,6 +46,36 @@ function H = __freqresp__ (sys, w, cellflag = false)
 
   if (use_ss)
 
+    if (any (w == 0))
+      dc_idx = find (w(:) == 0);
+      H_dc = __freqresp_tf__ (sys, num, den, tsam, 0, false);
+
+      if (numel (dc_idx) == numel (w))
+        if (cellflag)
+          H = repmat ({H_dc}, numel (w), 1);
+        else
+          H = repmat (H_dc, [1, 1, numel(w)]);
+        endif
+      else
+        nz_idx = find (w(:) != 0);
+        sys_ss = ss (sys);
+        H_nz = __freqresp__ (sys_ss, w(nz_idx), cellflag);
+
+        if (cellflag)
+          H = cell (size (w));
+          H(dc_idx) = repmat ({H_dc}, numel (dc_idx), 1);
+          H(nz_idx) = H_nz(:);
+        else
+          [p, m] = size (sys);
+          H = zeros (p, m, numel (w));
+          H(:, :, dc_idx) = repmat (H_dc, [1, 1, numel(dc_idx)]);
+          H(:, :, nz_idx) = H_nz;
+        endif
+      endif
+
+      return;
+    endif
+
     sys_ss = ss (sys);
     H = __freqresp__ (sys_ss, w, cellflag);
 
@@ -54,9 +84,14 @@ function H = __freqresp__ (sys, w, cellflag = false)
   endif
 
 
-  ## Use tf represantation
+  H = __freqresp_tf__ (sys, num, den, tsam, w, cellflag);
 
-  [num, den, tsam] = tfdata (sys, "vector");
+endfunction
+
+
+function H = __freqresp_tf__ (sys, num, den, tsam, w, cellflag)
+
+  ## Use tf represantation
 
   if (isct (sys))  # continuous system
     s = i * w;
@@ -127,3 +162,10 @@ function p_val = __polyval__ (p, s)
   p_val = polyval (p_new, s, [], mu) .* s.^e;
 
 endfunction
+
+%!test
+%! num = [0, 0, 2.052877715426585e9, 4.416784109977014e13, 1.719831064785571e17];
+%! den = [1, 8.380906856780281e4, 2.269817212624148e8, 4.344755797517798e12, 0];
+%! H = freqresp (tf (num, den), [0, 100]);
+%! assert (isinf (H(1, 1, 1)));
+%! assert (imag (H(1, 1, 2)) < 0);

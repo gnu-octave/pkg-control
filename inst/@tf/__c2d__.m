@@ -55,16 +55,18 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
     nz = length (z_c);              # number of finite zeros, np-nz number of infinite zeros
     z_d = vertcat (z_d, repmat (-1, np-nz-1, 1));
 
-    ## the discrete-time gain k_d is matched at a certain frequency (w_c, w_d)
-    ## to continuous-time gain k_c.  the dc gain is taken (w_c=0, w_d=1) unless
-    ## there are continuous-time poles/zeros near 0.  then w_c=1/tsam is taken.
-    w_c = 0;                        # dc gain
-    tol = sqrt (eps);               # poles/zeros below tol are assumed to be zero
-    while (any (abs ([p_c; z_c] - w_c) < tol))
+    ## the discrete-time gain k_d is matched at frequency w_c to continuous-time
+    ## gain k_c.  dc gain is taken (w_c=0) unless there are continuous-time
+    ## poles/zeros near the imaginary axis at j*w_c.  gain is evaluated on the
+    ## imaginary axis (s=j*w_c) and unit circle (z=exp(j*w_c*tsam)) so that
+    ## |H_d(exp(j*w_c*tsam))| = |H_c(j*w_c)| holds in the frequency domain.
+    w_c = 0;                        # start at dc
+    tol = sqrt (eps);               # poles/zeros within tol of j*w_c are avoided
+    while (any (abs ([p_c; z_c] - 1j*w_c) < tol))
       w_c += 0.1 / tsam;
     endwhile
-    w_d = exp (w_c * tsam);
-    k_d = real (k_c * prod (w_c - z_c) / prod (w_c - p_c) * prod (w_d - p_d) / prod (w_d - z_d));
+    w_d = exp (1j * w_c * tsam);
+    k_d = real (k_c * prod (1j*w_c - z_c) / prod (1j*w_c - p_c) * prod (w_d - p_d) / prod (w_d - z_d));
 
     tmp = zpk (z_d, p_d, k_d, tsam);
     sys.num = tmp.num;

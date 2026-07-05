@@ -16,8 +16,8 @@
 ## along with LTI Syncope.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{k} =} dcgain (@var{sys})
-## Compute the DC gain of @acronym{LTI} system.
+## @deftypefn {Function File} {@var{K} =} dcgain (@var{sys})
+## Compute the DC gain of @acronym{LTI} systems given as transfer function.
 ##
 ## @strong{Inputs}
 ## @table @var
@@ -27,38 +27,56 @@
 ##
 ## @strong{Outputs}
 ## @table @var
-## @item k
+## @item K
 ## DC gain matrix. For a system with m inputs and p outputs, the array @var{k}
 ## has dimensions [p, m].
 ## @end table
 ##
-## Transfer function for a continuous state space system (A,B,C,D)
-## G(s) = C * inv(s*I - A) * B + D
+## @xref{@@tf/dcgain} for the method used for systems represented by a transfer function.
 ##
-## DC Gain: evaluate G(s) as s -> 0:
-## k = C * inv(-A) * B + D
+## For a continuous-time state space system @math{(A,B,C,D)}, the gain is given by
+## @tex
+## $$ K = G(s=0) = \left. C \, (s\,I - A)^{-1} B + D\,\right|_{s=0}
+##      = C \, A^{-1} B + D $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##   K = G(s=0) = C * inv(A) * B + D
+## @end group
+## @end example
+## @end ifnottex
 ##
-## Transfer function for a discrete state space system (A,B,C,D,T)
-## G(z) = C * inv(z*I - A) * B + D
-##
-## DC Gain: evaluate G(z) as z -> 1:
-## k = C * inv(I-A) * B + D
+## In the discrete-time case the gain of a state space system @math{(A,B,C,D,T)}
+## is given by
+## @tex
+## $$ K = G(z=1) = \left. C \, (z\,I - A)^{-1} B + D\,\right|_{z=1}
+##      = C \, (I-A)^{-1} B + D $$
+## @end tex
+## @ifnottex
+## @example
+## @group
+##   K = G(z=1) = C * inv(I - A) * B + D
+## @end group
+## @end example
+## @end ifnottex
 ##
 ## @strong{Example}
 ## @example
-## G = Transfer function 'G' from input 'u1' to output ...
+## @group
+## A = [0,1,0;0,0,1;-1,-3,-3];
+## B = [0 0;0,1;1,1];
+## C = [1,0 0;0,1,1];
+## D = [2,0;0,0];
+## K = dcgain (ss (A,B,C,D))
 ##
-##                1          
-## y1:  ---------------------
-##      s^3 + 2 s^2 + 3 s + 4
-##
-##
-## octave:1> K = dcgain(G)
-##
-## K =  0.25000
+## K =
+##   3   4
+##   0  -1
+## @end group
 ## @end example
 ##
-## @seealso{@@lti/freqresp,@@tf/tf,@@ss/ss,dss}
+## @seealso{@@tf/dcgain,@@lti/freqresp,@@tf/tf,@@ss/ss,dss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -76,6 +94,5 @@ function gain = dcgain (sys)
 
 endfunction
 
-%!assert( dcgain( tf(1,[1,1]) )                   , 1   )
-%!assert( dcgain( tf(2,[1,1]) )                   , 2   )
 %!assert( dcgain( ss([0,1;-2,-3],[0;1],[1,0],0) ) , 0.5 )
+%!assert( dcgain( ss([0,1,0;0,0,1;-1,-3,-3],[0 0;0,1;1,1],[1,0 0;0,1,1],[2,0;0,0]) ) , [3,4;0,-1])

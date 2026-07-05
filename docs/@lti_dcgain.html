@@ -203,6 +203,7 @@
 					<li><a href="dsort.html" class="text-decoration-none font-monospace"><small>dsort</small></a></li>
 					<li><a href="esort.html" class="text-decoration-none font-monospace"><small>esort</small></a></li>
 					<li><a href="@lti_dcgain.html" class="text-decoration-none font-monospace fw-bolder"><small>@lti/dcgain</small></a></li>
+					<li><a href="@tf_dcgain.html" class="text-decoration-none font-monospace"><small>@tf/dcgain</small></a></li>
 					<li><a href="gram.html" class="text-decoration-none font-monospace"><small>gram</small></a></li>
 					<li><a href="hsvd.html" class="text-decoration-none font-monospace"><small>hsvd</small></a></li>
 					<li><a href="@lti_isct.html" class="text-decoration-none font-monospace"><small>@lti/isct</small></a></li>
@@ -253,6 +254,7 @@
 					<li><a href="lsim.html" class="text-decoration-none font-monospace"><small>lsim</small></a></li>
 					<li><a href="ramp.html" class="text-decoration-none font-monospace"><small>ramp</small></a></li>
 					<li><a href="step.html" class="text-decoration-none font-monospace"><small>step</small></a></li>
+					<li><a href="stepinfo.html" class="text-decoration-none font-monospace"><small>stepinfo</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -530,9 +532,9 @@
             </div>
             <div class="card-body">
 <dl class="first-deftypefn">
-<dt class="deftypefn" id="index-dcgain"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">k</var> =</code> <strong class="def-name">dcgain</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dt class="deftypefn" id="index-dcgain"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">K</var> =</code> <strong class="def-name">dcgain</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p>Compute the DC gain of <abbr class="acronym">LTI</abbr> system.
+<p>Compute the DC gain of <abbr class="acronym">LTI</abbr> systems given as transfer function.
 </p>
 <div class="ms-5">
 <p><strong class="strong">Inputs</strong>
@@ -545,38 +547,36 @@
 
 <p><strong class="strong">Outputs</strong>
  </p><dl class="table">
-<dt><var class="var">k</var></dt>
+<dt><var class="var">K</var></dt>
 </dl>
 <p>DC gain matrix. For a system with m inputs and p outputs, the array <var class="var">k</var>
  has dimensions [p, m].
  </p></dd>
 </dl>
 
-<p>Transfer function for a continuous state space system (A,B,C,D)
- G(s) = C * inv(s*I - A) * B + D
+<p>See <a href="@tf_dcgain.html">@tf/dcgain</a> for the method used for systems represented by a transfer function.
 </p>
-<p>DC Gain: evaluate G(s) as s -&gt; 0:
- k = C * inv(-A) * B + D
-</p>
-<p>Transfer function for a discrete state space system (A,B,C,D,T)
- G(z) = C * inv(z*I - A) * B + D
-</p>
-<p>DC Gain: evaluate G(z) as z -&gt; 1:
- k = C * inv(I-A) * B + D
-</p>
+<p>For a continuous-time state space system <em class="math">(A,B,C,D)</em>, the gain is given by
+ $$ K = G(s=0) = \left. C \, (s\,I - A)^{-1} B + D\,\right|_{s=0}
+      = C \, A^{-1} B + D $$
+</p> 
+<p>In the discrete-time case the gain of a state space system <em class="math">(A,B,C,D,T)</em>
+ is given by
+ $$ K = G(z=1) = \left. C \, (z\,I - A)^{-1} B + D\,\right|_{z=1}
+      = C \, (I-A)^{-1} B + D $$
+</p> 
 <p><strong class="strong">Example</strong>
  </p><div class="example">
-<pre class="example-preformatted"> G = Transfer function 'G' from input 'u1' to output ...
+<div class="group"><pre class="example-preformatted"> A = [0,1,0;0,0,1;-1,-3,-3];
+ B = [0 0;0,1;1,1];
+ C = [1,0 0;0,1,1];
+ D = [2,0;0,0];
+ K = dcgain (ss (A,B,C,D))
 
-                1          
- y1:  ---------------------
-      s^3 + 2 s^2 + 3 s + 4
-
-
- octave:1&gt; K = dcgain(G)
-
- K =  0.25000
- </pre></div>
+ K =
+   3   4
+   0  -1
+ </pre></div></div>
 
 
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Control Package: dsort</title>
+    <title>Control Package: @tf/dcgain</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -200,10 +200,10 @@
 					<li><a href="ctrb.html" class="text-decoration-none font-monospace"><small>ctrb</small></a></li>
 					<li><a href="ctrbf.html" class="text-decoration-none font-monospace"><small>ctrbf</small></a></li>
 					<li><a href="damp.html" class="text-decoration-none font-monospace"><small>damp</small></a></li>
-					<li><a href="dsort.html" class="text-decoration-none font-monospace fw-bolder"><small>dsort</small></a></li>
+					<li><a href="dsort.html" class="text-decoration-none font-monospace"><small>dsort</small></a></li>
 					<li><a href="esort.html" class="text-decoration-none font-monospace"><small>esort</small></a></li>
 					<li><a href="@lti_dcgain.html" class="text-decoration-none font-monospace"><small>@lti/dcgain</small></a></li>
-					<li><a href="@tf_dcgain.html" class="text-decoration-none font-monospace"><small>@tf/dcgain</small></a></li>
+					<li><a href="@tf_dcgain.html" class="text-decoration-none font-monospace fw-bolder"><small>@tf/dcgain</small></a></li>
 					<li><a href="gram.html" class="text-decoration-none font-monospace"><small>gram</small></a></li>
 					<li><a href="hsvd.html" class="text-decoration-none font-monospace"><small>hsvd</small></a></li>
 					<li><a href="@lti_isct.html" class="text-decoration-none font-monospace"><small>@lti/isct</small></a></li>
@@ -526,37 +526,54 @@
             <div class="card-header card-header-mod">
               <div class="row d-flex flex-wrap align-items-center">
                 <h3 class="d-inline-block mr-2">
-                Function&nbsp;Reference: <b><code>dsort</code></b>
+                Function&nbsp;Reference: <b><code>@tf/dcgain</code></b>
                 </h3>
               </div>
             </div>
             <div class="card-body">
 <dl class="first-deftypefn">
-<dt class="deftypefn" id="index-dsort_0028p_0029"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">s</var> =</code> <strong class="def-name">dsort(<var class="var">p</var>)</strong></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-dsort_0028p_0029-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">s</var>, <var class="var">ndx</var>] =</code> <strong class="def-name">dsort(<var class="var">p</var>)</strong></span></dt>
+<dt class="deftypefn" id="index-dcgain"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">K</var> =</code> <strong class="def-name">dcgain</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
 </dl>
-<p>Sort discrete-time poles by magnitude (in decreasing order).
+
+<p>Compute the DC gain of <abbr class="acronym">LTI</abbr> systems given as transfer function.
 </p>
 <div class="ms-5">
 <p><strong class="strong">Inputs</strong>
  </p><dl class="table">
-<dt><var class="var">p</var></dt>
+<dt><var class="var">sys</var></dt>
 </dl>
-<p>Input vector containing discrete-time poles.
+<p><abbr class="acronym">LTI</abbr> system created by tf(), ss(), dss(), etc.
  </p></dd>
 </dl>
 
 <p><strong class="strong">Outputs</strong>
  </p><dl class="table">
-<dt><var class="var">s</var></dt>
+<dt><var class="var">K</var></dt>
 </dl>
-<p>Vector with sorted poles.
- </p></dd>
-<dt><var class="var">ndx</var></dt>
-</dl>
-<p>Vector containing the indices used in the sort.
+<p>DC gain matrix. For a system with m inputs and p outputs, the array <var class="var">k</var>
+ has dimensions [p, m].
  </p></dd>
 </dl>
+
+<p>See <a href="@lti_dcgain.html">@lti/dcgain</a> for the method used for systems not represented by a transfer function.
+</p>
+<p>For a continuous-time system G(s) of the form
+ $$ G(s) = \frac{b_ns^n + \cdots + b_1s+ b_0}{a_ns^n + \cdots + a_1s+ a_0} $$
+  the gain is given by
+ $$ K = G(s=0) = \frac{b_0}{a_0} $$
+</p> 
+<p>In the discrete-time case the gain of
+ $$ G(z) = \frac{b_nz^n + \cdots + b_1z+ b_0}{a_nz^n + \cdots + a_1z+ a_0} $$
+  is given by
+ $$ K = G(z=1) = \frac{\sum_{i=0}^n b_i}{\sum_{i=0}^n a_i} $$
+</p> 
+<p><strong class="strong">Example</strong>
+ </p><div class="example">
+<div class="group"><pre class="example-preformatted"> G = tf ({[1 0],[1 1]},{[1 1],[1,0]});
+ K = dcgain (G)
+ K =
+   0  Inf
+ </pre></div></div>
 
 
 </div>
@@ -564,7 +581,7 @@
 
 
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/dsort.m">dsort</a>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@tf/dcgain.m">@tf/dcgain</a>
 </div>
 
             </div>
