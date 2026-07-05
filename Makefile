@@ -215,7 +215,7 @@ check-ci:
 	$(OCTAVE) --no-gui --path "inst/" --path "src/" devel/run_tests.m
 
 check-local:
-	docker compose run --rm octave
+	docker compose --file devel/compose.yaml --project-directory . run --rm octave
 
 clean:
 	$(RM) -r $(TARGET_DIR)
