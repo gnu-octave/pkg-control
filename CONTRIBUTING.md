@@ -24,7 +24,7 @@ The **control** package is distributed under [GNU General Public License (GPL)](
 ```bash
 ## Copyright (C) YEAR NAME <E-MAIL>
 ##
-## This file is part of the statistics package for GNU Octave.
+## This file is part of the control package for GNU Octave.
 ##
 ## Octave is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
