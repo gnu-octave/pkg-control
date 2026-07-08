@@ -54,4 +54,4 @@ TAGS$
 semantic.cache
 # Other text editors often create these
 ~.*
-
+*.swp

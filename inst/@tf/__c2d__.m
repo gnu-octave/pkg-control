@@ -35,8 +35,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
     sys=imp_invar(sys,1/tsam);
     
   elseif (strncmpi (method, "m", 1))    # "matched"
-    ## TODO: move this code to  @zpk/__c2d__.m  once ZPK models are implemented
-    
+
     if (! issiso (sys))
       error ("tf: c2d: require SISO system for matched pole/zero method");
     endif
@@ -68,7 +67,7 @@ function sys = __c2d__ (sys, tsam, method = "zoh", w0 = 0)
     w_d = exp (1j * w_c * tsam);
     k_d = real (k_c * prod (1j*w_c - z_c) / prod (1j*w_c - p_c) * prod (w_d - p_d) / prod (w_d - z_d));
 
-    tmp = zpk (z_d, p_d, k_d, tsam);
+    tmp = tf (zpk (z_d, p_d, k_d, tsam));
     sys.num = tmp.num;
     sys.den = tmp.den;
 
