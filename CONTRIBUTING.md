@@ -125,6 +125,12 @@ make check-local
 This pulls the latest `gnuoctave/octave` image and runs the full test suite
 inside it, matching the CI environment. Docker must be installed and running.
 
+`check-ci` (and therefore `check-local`) packages your working tree with `git
+stash create`, so uncommitted edits to already tracked files are picked up and
+tested automatically. New files must be staged with `git add` before running the
+tests, or they will be left out of the package. Neither case requires an actual
+commit.
+
 ### Pull request
 
 When your changes are finished, commit and push the change to your forked repository on Github (make sure your fork is up to date) and create a pull request.

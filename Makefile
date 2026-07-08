@@ -46,6 +46,8 @@ DEPENDS := $(shell $(SED) -n -e 's/^[Dd]epends[^,]*, *\(.*\)/\1/p' $(DESCRIPTION
 TARGET_DIR      := target
 RELEASE_DIR     := $(TARGET_DIR)/$(PACKAGE)-$(VERSION)
 RELEASE_TARBALL := $(TARGET_DIR)/$(PACKAGE)-$(VERSION).tar.gz
+RELEASE_DIR_CI     := $(TARGET_DIR)/$(PACKAGE)-$(VERSION)-ci
+RELEASE_TARBALL_CI := $(RELEASE_DIR_CI).tar.gz
 DOCS_HTML_DIR   := docs
 DOCS_DIR        := doc
 DOCS_DEV_DIR    := devel/doc
@@ -69,7 +71,7 @@ DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
 DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
 DOCS_LOGO       := $(DOCS_DIR)/$(PACKAGE).svg
 
-.PHONY: help dist docs-html docs release install all check check-ci check-local run clean
+.PHONY: help dist docs-html docs release install all check check-ci check-local tarball-nodocs run clean
 
 help:
 	@echo " "
@@ -88,6 +90,9 @@ help:
 	@echo "   install   - Install the package in GNU Octave"
 	@echo "   all       - Build all oct files"
 	@echo "   check     - Execute package tests (with install)"
+	@echo "   check-ci  - Build a doc-free tarball, install it, and run tests"
+	@echo "   check-local - Run check-ci inside Docker via compose"
+	@echo "   tarball-nodocs - Build a doc-free tarball without running tests"
 	@echo
 	@echo "   clean     - Remove releases, doc and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
@@ -123,6 +128,28 @@ $(RELEASE_DIR): .git/index
 	@cp $(DOCS_PDF) $@/$(DOCS_DIR)/
 	@cp $(DOCS_QCH) $@/$(DOCS_DIR)/
 	@cp $(DOCS_LOGO) $@/$(DOCS_DIR)/
+	@echo "  copy slicot files ..."
+	@mkdir -p $@/$(SC)/$(SC_LAPACK)
+	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
+	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
+	@echo "  bootstrap ..."
+	@cd $@/$(SRC) && ./bootstrap && $(RM) -r "autom4te.cache"
+	@chmod -R a+rX,u+w,go-w "$@"
+
+$(RELEASE_DIR_CI): .git/index
+	@echo "Creating CI package dist directory $@ ..."
+	@-$(RM) -r $@
+	@mkdir -p $@
+	@echo "  git archive ..."
+	@REV=$$(GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
+	  git stash create); \
+	GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
+	  git archive -o $@/tmp.tar $${REV:-HEAD}
+	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
 	@echo "  copy slicot files ..."
 	@mkdir -p $@/$(SC)/$(SC_LAPACK)
 	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
@@ -208,14 +235,15 @@ check: install
 	$(OCTAVE) --path "inst/" --path "src/" \
 	  --eval 'pkg test control'
 
-check-ci:
-	test -f $(SRC)/Makefile.conf || (cd $(SRC) && ./bootstrap && ./configure)
-	$(MAKE) -C $(SRC) all
+check-ci: tarball-nodocs
 	$(OCTAVE) --no-gui --version
-	$(OCTAVE) --no-gui --path "inst/" --path "src/" devel/run_tests.m
+	$(OCTAVE) --no-gui --eval 'pkg install "$(RELEASE_TARBALL_CI)"'
+	$(OCTAVE) --no-gui devel/run_tests.m
 
 check-local:
 	docker compose --file devel/compose.yaml --project-directory . run --rm octave
+
+tarball-nodocs: $(RELEASE_TARBALL_CI)
 
 clean:
 	$(RM) -r $(TARGET_DIR)
