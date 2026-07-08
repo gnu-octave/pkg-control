@@ -55,6 +55,8 @@
 ## String or cell array of strings specifying the names of the outputs.
 ## @end table
 ## Type @code{set (zpk)} for further options.
+##
+## @seealso{@@tf/tf, @@ss/ss}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>
@@ -78,11 +80,20 @@ function sys = zpk (varargin)
   endif
 
   if (nargin == 1 && isa (varargin{1}, "lti"))     # zpk (ltisys)
-    ## conversion from tf/ss/frd; root-finding happens in zpkdata,
-    ## which is legitimate here because the user asked for the conversion
-    [z, p, k, tsam] = zpkdata (varargin{1});
-    varargin = {};
+
+   ## conversion from tf/ss/frd
+   [num, den, tsam] = tfdata (varargin{1});
+   num = cellfun (@__remove_leading_zeros__, num, 'uniformoutput', false);
+   den = cellfun (@__remove_leading_zeros__, den, 'uniformoutput', false);
+
+   z = cellfun (@roots, num, "uniformoutput", false);
+   p = cellfun (@roots, den, "uniformoutput", false);
+   k = cellfun (@(n,d)  n(1)/d(1), num, den);
+
+  varargin = {};
+
   else
+
     z = {};  p = {};  k = [];                # default values
     tsam = 0;                                # default sampling time
 
@@ -138,6 +149,7 @@ function sys = zpk (varargin)
     if (! is_real_matrix (k))
       error ("zpk: third argument 'k' must be a real-valued gain matrix");
     endif
+
   endif
 
   ## ensure column vectors; store data verbatim, no polynomial conversion

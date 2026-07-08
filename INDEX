@@ -5,7 +5,7 @@ Linear Time Invariant Models
   @frd/frd
   @ss/ss
   @tf/tf
-  zpk
+  @zpk/zpk
 Model Data Access
   dssdata
   filtdata

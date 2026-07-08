@@ -62,17 +62,17 @@ function [z, p, k, tsam] = zpkdata (sys, rtype = "cell")
       error (["zpkdata: has to be called with an @lti object ",...
                        "or with a real matrix (static gain)\n"]);
     else
-      sys = tf (sys);
+      sys = zpk (sys);
     endif
   endif
 
-  [num, den, tsam] = tfdata (sys);
-  num = cellfun (@__remove_leading_zeros__, num, 'uniformoutput', false);
-  den = cellfun (@__remove_leading_zeros__, den, 'uniformoutput', false);
+  if (! isa (sys, "zpk"))
+    sys = zpk (sys);
+  endif
 
-  z = cellfun (@roots, num, "uniformoutput", false);
-  p = cellfun (@roots, den, "uniformoutput", false);
-  k = cellfun (@(n,d)  n(1)/d(1), num, den);
+  [z,p,k] = __sys_data__ (sys);
+
+  tsam = sys.tsam;
 
   if (strncmpi (rtype, "v", 1) && issiso (sys))
     z = z{1};
