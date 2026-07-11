@@ -20,9 +20,9 @@
 ## Connect ZPK model in a block diagram by delegating to TF.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
-function sys = __sys_connect__ (sys, m)
-  sys = __sys_connect__ (tf (sys), m);
+function sys = __sys_connect__ (sys, M)
+  sys = zpk (__sys_connect__ (tf (sys), M));
 endfunction

@@ -17,18 +17,30 @@
 ## see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Group (stack) two ZPK models by delegating to TF.
+## Block diagonal concatenation of two ZPK models.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function retsys = __sys_group__ (sys1, sys2)
-  if (isa (sys1, "zpk"))
-    sys1 = tf (sys1);
+  [sys1, sys2] = __numeric_to_lti__ (sys1, sys2);
+
+  if (! isa (sys1, "zpk"))
+    sys1 = zpk (sys1);
   endif
-  if (isa (sys2, "zpk"))
-    sys2 = tf (sys2);
+  if (! isa (sys2, "zpk"))
+    sys2 = zpk (sys2);
   endif
-  retsys = __sys_group__ (sys1, sys2);
+
+  [p1, m1] = size (sys1);
+  [p2, m2] = size (sys2);
+
+  z = [sys1.z, cell(p1, m2); cell(p2, m1), sys2.z];
+  p = [sys1.p, cell(p1, m2); cell(p2, m1), sys2.p];
+  k = [sys1.k, zeros(p1, m2); zeros(p2, m1), sys2.k];
+
+  ltisys = __lti_group__ (sys1.lti, sys2.lti);
+
+  retsys = class (struct ("z", {z}, "p", {p}, "k", k), "zpk", ltisys);
 endfunction

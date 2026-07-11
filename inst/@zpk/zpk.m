@@ -199,3 +199,87 @@ endfunction
 %! assert (isa (sys, 'zpk'));
 %! [~, p] = zpkdata (sys, 'v');
 %! assert (sort (real (p)), [-2; -1], 1e-10);
+
+%!test
+%! ## series of two zpk systems stays zpk with correct z, p, k
+%! sys1 = zpk ([-1], [-2, -3], 5);
+%! sys2 = zpk ([-4], [-5], 2);
+%! sys = series (sys1, sys2);
+%! assert (isa (sys, 'zpk'));
+%! [z, p, k] = zpkdata (sys, 'v');
+%! assert (sort (real (z)), [-4; -1], 1e-10);
+%! assert (sort (real (p)), [-5; -3; -2], 1e-10);
+%! assert (k, 10, 1e-10);
+
+%!test
+%! ## feedback of two zpk systems stays zpk
+%! sys1 = zpk ([-1], [-2, -3], 5);
+%! sys2 = zpk ([-4], [-5], 2);
+%! sys = feedback (sys1, sys2);
+%! assert (isa (sys, 'zpk'));
+%! [z, p, k] = zpkdata (sys, 'v');
+%! sys_tf = feedback (tf (sys1), tf (sys2));
+%! [z_ref, p_ref, k_ref] = zpkdata (zpk (sys_tf), 'v');
+%! assert (sort (real (z)), sort (real (z_ref)), 1e-6);
+%! assert (sort (real (p)), sort (real (p_ref)), 1e-6);
+%! assert (k, k_ref, 1e-6);
+
+%!test
+%! ## parallel of two zpk systems stays zpk with correct z, p, k
+%! sys1 = zpk ([-1], [-2, -3], 5);
+%! sys2 = zpk ([-4], [-5], 2);
+%! sys = sys1 + sys2;
+%! assert (isa (sys, 'zpk'));
+%! [z, p, k] = zpkdata (sys, 'v');
+%! z_ref = [-1.32743980871762; ...
+%!          -5.08628009564119 - 1.27526210411816i; ...
+%!          -5.08628009564119 + 1.27526210411816i];
+%! assert (sort (real (z)), sort (real (z_ref)), 1e-6);
+%! assert (sort (imag (z)), sort (imag (z_ref)), 1e-6);
+%! assert (sort (real (p)), [-5; -3; -2], 1e-10);
+%! assert (k, 2, 1e-10);
+
+%!test
+%! ## element-wise product of two zpk systems stays zpk with correct z, p, k
+%! sys1 = zpk ([-1], [-2, -3], 5);
+%! sys2 = zpk ([-4], [-5], 2);
+%! sys = sys1 .* sys2;
+%! assert (isa (sys, 'zpk'));
+%! [z, p, k] = zpkdata (sys, 'v');
+%! assert (sort (real (z)), [-4; -1], 1e-10);
+%! assert (sort (real (p)), [-5; -3; -2], 1e-10);
+%! assert (k, 10, 1e-10);
+
+%!test
+%! ## transpose of a zpk system stays zpk
+%! sys = zpk ({[-1]; [-2]}, {[-3]; [-4]}, [5; 6]);
+%! sys_t = sys.';
+%! assert (isa (sys_t, 'zpk'));
+%! assert (size (sys_t), [1, 2]);
+
+%!test
+%! ## ctranspose of a zpk system stays zpk
+%! sys = zpk ({[-1]; [-2]}, {[-3]; [-4]}, [5; 6]);
+%! sys_ct = sys';
+%! assert (isa (sys_ct, 'zpk'));
+%! assert (size (sys_ct), [1, 2]);
+
+%!test
+%! ## minreal of a zpk system cancels the common pole/zero and stays zpk
+%! sys = zpk ([-1], [-1, -2], 3);
+%! sys_mr = minreal (sys);
+%! assert (isa (sys_mr, 'zpk'));
+%! [z, p, k] = zpkdata (sys_mr, 'v');
+%! assert (isempty (z));
+%! assert (p, -2, 1e-6);
+%! assert (k, 3, 1e-6);
+
+%!test
+%! ## inverse of a zpk system stays zpk
+%! sys = zpk ([-1], [-2], 3);
+%! sys_inv = inv (sys);
+%! assert (isa (sys_inv, 'zpk'));
+%! [z, p, k] = zpkdata (sys_inv, 'v');
+%! assert (z, -2, 1e-6);
+%! assert (p, -1, 1e-6);
+%! assert (k, 1/3, 1e-6);

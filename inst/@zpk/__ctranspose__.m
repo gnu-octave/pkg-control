@@ -20,9 +20,9 @@
 ## Complex-conjugate transpose ZPK model by delegating to TF.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function sys = __ctranspose__ (sys, ct)
-  sys = __ctranspose__ (tf (sys), ct);
+  sys = zpk (__ctranspose__ (tf (sys), ct));
 endfunction

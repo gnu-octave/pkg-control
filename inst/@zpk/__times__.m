@@ -17,18 +17,33 @@
 ## see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## Multiply two ZPK models by delegating to TF.
+## Multiply two ZPK models element-wise.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function sys = __times__ (sys1, sys2)
-  if (isa (sys1, "zpk"))
-    sys1 = tf (sys1);
+  if (! isa (sys1, "zpk"))
+    sys1 = zpk (sys1);
   endif
-  if (isa (sys2, "zpk"))
-    sys2 = tf (sys2);
+  if (! isa (sys2, "zpk"))
+    sys2 = zpk (sys2);
   endif
-  sys = __times__ (sys1, sys2);
+
+  [p1, m1] = size (sys1);
+  [p2, m2] = size (sys2);
+
+  if (p1 != p2 || m1 != m2)
+    error ("zpk: __times__: system dimensions incompatible: (%dx%d) .* (%dx%d)",
+            p1, m1, p2, m2);
+  endif
+
+  z = cellfun (@(a, b) [a; b], sys1.z, sys2.z, "uniformoutput", false);
+  p = cellfun (@(a, b) [a; b], sys1.p, sys2.p, "uniformoutput", false);
+  k = sys1.k .* sys2.k;
+
+  ltisys = __lti_group__ (sys1.lti, sys2.lti, "times");
+
+  sys = class (struct ("z", {z}, "p", {p}, "k", k), "zpk", ltisys);
 endfunction

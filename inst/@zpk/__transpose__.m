@@ -20,9 +20,9 @@
 ## Transpose ZPK model by delegating to TF.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function sys = __transpose__ (sys)
-  sys = __transpose__ (tf (sys));
+  sys = zpk (__transpose__ (tf (sys)));
 endfunction
