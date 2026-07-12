@@ -1,11 +1,21 @@
 
-Summary of important user-visible changes for releases of the control package
+Summary of important user-visible changes for releases of the control package.
+
+For a list of contributors for the control package, please refer to the
+project's home on Github at  https://github.com/gnu-octave/pkg-control
 
 ===============================================================================
-control-4.2.2+  Upcoming 4.2.3, not yet released 
+control-4.2.3  Release date 2026-07-31
 ===============================================================================
 
-** bode: more robust gain of tf systems for (again bug #68196)
+** stepinfo: New function providing characteristic values of the
+   step response of a system. Input argument is an LTI system, passing
+   data of a measured step response is not yet implemented.
+
+** bode: More robust computation of the gain for tf systems
+   (again bug #68196)
+
+** c2d: Fix algorithm for matched poles/zeros discretization
 
 ===============================================================================
 control-4.2.2  Release date 2026-06-07

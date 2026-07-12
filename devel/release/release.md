@@ -1,8 +1,17 @@
-[TOC]
-
 # Maintaining the Control Package
 
-##Release Preparation for the Control Package
+[//]: # TOC BEGIN
+- [Release Preparation for the Control Package](#release-preparation-for-the-control-package)
+  - [Set version number etc.](#set-version-number-etc)
+  - [Testing](#testing)
+  - [Release the package](#release-the-package)
+- [Configuration of the repository on github](#configuration-of-the-repository-on-github)
+  - [Publishing the Release](#publishing-the-release)
+  - [Deployment of package documentation](#deployment-of-package-documentation)
+
+[//]: # TOC END
+
+## Release Preparation for the Control Package
 
 ### Set version number etc.
 
@@ -16,7 +25,7 @@
 
 After finishing the last changes for the planned release, the following tests should still be performed in the current branch (dev, main, or a specific feature branch). 
 
-6. [ ] `make distclean` for removing all old distribution files
+1. [ ] `make distclean` for removing all old distribution files
 4. [ ] Tests
     1. [ ] `make dist`
     2. [ ] `pkg install target/control-X.Y.Z.tar.gz` in Octave
@@ -28,6 +37,9 @@ After finishing the last changes for the planned release, the following tests sh
         - any warnings or even errors?
         - correct version number?
     6. [ ] `pkg test control` in Octave
+    7. [ ] If docker is installed locally
+        1. `CHECK_OCTAVE_VERSION=6.4.0 make check-local`
+        2. `make check-local`
 
 6. [ ] `make distclean` for removing all old distribution files
 4. [ ] Tests of documentation
