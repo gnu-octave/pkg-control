@@ -20,9 +20,9 @@
 ## Return minimal realization of ZPK model by delegating to TF.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function sys = __minreal__ (sys, tol)
-  sys = __minreal__ (tf (sys), tol);
+  sys = zpk (__minreal__ (tf (sys), tol));
 endfunction

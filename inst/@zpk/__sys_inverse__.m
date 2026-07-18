@@ -20,9 +20,9 @@
 ## Invert ZPK model by delegating to TF.
 
 ## Author: Mitchell Thompkins <mitchell.thompkins@pm.me>
-## Created: June 2026
-## Version: 0.1
+## Created: July 2026
+## Version: 0.2
 
 function sys = __sys_inverse__ (sys)
-  sys = __sys_inverse__ (tf (sys));
+  sys = zpk (__sys_inverse__ (tf (sys)));
 endfunction
