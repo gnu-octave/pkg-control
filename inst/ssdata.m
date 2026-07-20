@@ -51,9 +51,7 @@
 ## If @var{sys} is given by an input-output description, like, e.g.,
 ## a transfer function, the resulting state-space model has a
 ## different form than the one provided by Matlab,
-## see
-## @inlinefmtifelse{latex, @link{@@ss/ss,@@ss/ss}, @ref{@@ss/ss}}
-## for details.
+## see @ref{@@ss/ss} for details.
 ##
 ## @end deftypefn
 

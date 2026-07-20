@@ -56,9 +56,8 @@
 ## black line. See @command{help plot} for details.
 ## @item method
 ## Method that is used to discretize a continuous-time system for the simulation.
-## See
-## @inlinefmtifelse{latex, @link{@@lti/c2d,@@lti/c2d}, @ref{@@lti/c2d}}
-## for possible methods. If @var{method} is not provided, the default is 'foh'.
+## See @ref{@@lti/c2d} for possible methods. If @var{method} is not provided,
+## the default is 'foh'.
 ## @end table
 ##
 ## @strong{Outputs}
@@ -78,8 +77,7 @@
 ##
 ## @item For the simulation, continuous-time systems are discretized using the
 ## selected method @var{method} or the default first-order-hold method (foh), see
-## @inlinefmtifelse{latex, @link{@@lti/c2d,@@lti/c2d}, @ref{@@lti/c2d}}
-## for details.
+## @ref{@@lti/c2d} for details.
 ##
 ## @item For a SISO input-output model @math{G} and initial values for the output
 ## @math{y} and its derivatives up to order @math{n-1} the corresponding state space
