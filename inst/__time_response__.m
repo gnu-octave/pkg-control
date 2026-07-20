@@ -83,7 +83,7 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
         error ("initial: system %s not in state space, x0 is ambiguous\n", no_ss_names);
       endif
 
-    case {"step", "impulse", "ramp"}
+    case {"step", "stepinfo", "impulse", "ramp"}
       switch (nnz (mat_idx))
         case 0
           ## nothing to here, just prevent case 'otherwise'
@@ -100,7 +100,7 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
   endswitch
 
   switch (response)
-    case "step"
+    case {"step", "stepresponse"}
       response1 = "zoh";
     case "impulse"
       response1 = "impulse";
@@ -183,9 +183,13 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
   else
     dt_extra = cell2mat (dt);
   end
+  factor_horizon = 1;
+  if (strcmp (response, "stepinfo"))
+    factor_horizon = 1.5;   # longer horizon for stepinfo
+  endif
   t = cell (size(dt));
   for i = 1:length(t)
-    t{i} = vec (0:dt{i}:tfinal);
+    t{i} = vec (0:dt{i}:factor_horizon*tfinal);
     if (ct_idx(i) == 0) && (nout == 0) && (length (t{i}) * dt{i} < tfinal)
       ## Discrete time system, no plotting, and last sampling is before tfinal
       t{i}(end+1) = t{i}(end) + dt{i};
@@ -203,7 +207,7 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
   switch (response)
     case "initial"
       [y, x] = cellfun (@__initial_response__, sys_dt, t, {x0}, "uniformoutput", false);
-    case "step"
+    case {"step", "stepinfo"}
       [y, x] = cellfun (@__step_response__, sys_dt, t, "uniformoutput", false);
     case "impulse"
       [y, x] = cellfun (@__impulse_response__, args(sys_idx), sys_dt, t, "uniformoutput", false);
@@ -239,7 +243,7 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
         str = "Response to Initial Conditions";
         cols = 1;
         ## yfinal = zeros (p, 1);
-      case "step"
+      case {"step", "stepinfo"}
         str = "Step Response";
         ## yfinal = dcgain (sys_cell{1});
       case "impulse"
@@ -540,7 +544,7 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
         den =  max([ev_min, ev_real_min]);
       endif
 
-      tfinal = 6 / den;
+      tfinal = 10 / den;
       auto_tfinal = 1;  # remeber that tfinal was computed, not given by the user
 
       tfinal = max (tfinal, t_max_osc); # make sure to show enough oscillations
