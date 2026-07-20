@@ -111,6 +111,20 @@ help:
 	@echo "Create $@ ..."
 	@tar -c -f - --posix -C "$(TARGET_DIR)/" "$(notdir $<)" | gzip -9n > "$@"
 
+define COPY_SLICOT_AND_BOOTSTRAP
+	@echo "  copy slicot files ..."
+	@mkdir -p $@/$(SC)/$(SC_LAPACK)
+	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
+	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
+	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
+	@cp $(SC_SUBMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
+	@echo "  bootstrap ..."
+	@cd $@/$(SRC) && ./bootstrap && $(RM) -r "autom4te.cache"
+	@chmod -R a+rX,u+w,go-w "$@"
+endef
+
 # Create the directory structure of the destributed archive file.
 # For this, archive the current git repo with some exceptions given
 # in .gitattributes with export-ignore and untar it. Then, copy the
@@ -128,17 +142,7 @@ $(RELEASE_DIR): .git/index
 	@cp $(DOCS_PDF) $@/$(DOCS_DIR)/
 	@cp $(DOCS_QCH) $@/$(DOCS_DIR)/
 	@cp $(DOCS_LOGO) $@/$(DOCS_DIR)/
-	@echo "  copy slicot files ..."
-	@mkdir -p $@/$(SC)/$(SC_LAPACK)
-	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
-	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
-	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
-	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
-	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
-	@cp $(SC_SUBMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
-	@echo "  bootstrap ..."
-	@cd $@/$(SRC) && ./bootstrap && $(RM) -r "autom4te.cache"
-	@chmod -R a+rX,u+w,go-w "$@"
+	$(COPY_SLICOT_AND_BOOTSTRAP)
 
 $(RELEASE_DIR_CI): .git/index
 	@echo "Creating CI package dist directory $@ ..."
@@ -150,17 +154,7 @@ $(RELEASE_DIR_CI): .git/index
 	GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
 	  git archive -o $@/tmp.tar $${REV:-HEAD}
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
-	@echo "  copy slicot files ..."
-	@mkdir -p $@/$(SC)/$(SC_LAPACK)
-	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
-	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
-	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
-	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
-	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
-	@cp $(SC_SUBMOD)/README.md $@/$(SC_DOC)/README-SLICOT.md
-	@echo "  bootstrap ..."
-	@cd $@/$(SRC) && ./bootstrap && $(RM) -r "autom4te.cache"
-	@chmod -R a+rX,u+w,go-w "$@"
+	$(COPY_SLICOT_AND_BOOTSTRAP)
 
 docs-html:
 	@echo "Updating HTML documentation ... "
