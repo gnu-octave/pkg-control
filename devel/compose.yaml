@@ -1,0 +1,7 @@
+services:
+  octave:
+    image: gnuoctave/octave:latest
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    command: make check-ci

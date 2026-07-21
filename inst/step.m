@@ -58,7 +58,7 @@
 ## State trajectories array.  Has @code{length (t)} rows and as many columns as states.
 ## @end table
 ##
-## @seealso{impulse, initial, lsim}
+## @seealso{stepinfo, impulse, initial, lsim}
 ## @end deftypefn
 
 ## Author: Lukas Reichlin <lukas.reichlin@gmail.com>

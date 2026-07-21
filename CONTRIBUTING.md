@@ -24,7 +24,7 @@ The **control** package is distributed under [GNU General Public License (GPL)](
 ```bash
 ## Copyright (C) YEAR NAME <E-MAIL>
 ##
-## This file is part of the statistics package for GNU Octave.
+## This file is part of the control package for GNU Octave.
 ##
 ## Octave is free software; you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
@@ -111,6 +111,25 @@ Your contribution must be an independent work or derived from code that may be r
 ### Fork and build
 
 [Fork](https://github.com/gnu-octave/pkg-control/fork) the pkg-control repository to your own account and clone the resulting repository. Refer to the [README](README.md) file for information about how to build the package archive which can be installed in GNU Octave.
+
+### Running tests locally
+
+The easiest way to run the test suite locally is with Docker. Make sure the
+submodules are initialized first, then run:
+
+```bash
+git submodule update --init
+make check-local
+```
+
+This pulls the latest `gnuoctave/octave` image and runs the full test suite
+inside it, matching the CI environment. Docker must be installed and running.
+
+`check-ci` (and therefore `check-local`) packages your working tree with `git
+stash create`, so uncommitted edits to already tracked files are picked up and
+tested automatically. New files must be staged with `git add` before running the
+tests, or they will be left out of the package. Neither case requires an actual
+commit.
 
 ### Pull request
 

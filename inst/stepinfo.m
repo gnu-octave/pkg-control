@@ -82,8 +82,15 @@
 ## Properties/value pairs changing some default thresholds.
 ## @table @samp
 ## @item RaiseTimeLimits
-## Array with two entries with relaitve values of @inlinefmtifelse{tex, @code{y_f}, @code{yf}}, between which the
-## rise time is determined. The values have to be between 0 and 1. The default is
+## Array with two entries with relative values of
+## @tex
+## \(y_f\)
+## @end tex
+## @ifnottex
+## @code{yf}
+## @end ifnottex
+## between which the rise time is determined.
+## The values have to be between 0 and 1. The default is
 ## @tex
 ## \([r_L \, r_U] = [0.1 \, 0.9]\)
 ## @end tex
@@ -92,9 +99,21 @@
 ## @end ifnottex
 ## if this property is omitted.
 ## @item SettlingTimeThreshold
-## Relative value of the absolute maximum or initial difference to @inlinefmtifelse{tex, @code{y_f}, @code{yf}}
-## defining a tolerance range around @inlinefmtifelse{tex, @code{y_f}, @code{yf}} for TransientTime or
-## SettlingTime (see below). The default is
+## Relative value of the absolute maximum or initial difference to
+## @tex
+## \(y_f\)
+## @end tex
+## @ifnottex
+## @code{yf}
+## @end ifnottex
+## defining a tolerance range around
+## @tex
+## \(y_f\)
+## @end tex
+## @ifnottex
+## @code{yf}
+## @end ifnottex
+## for TransientTime or SettlingTime (see below). The default is
 ## @tex
 ## \(s_T = 0.02\)
 ## @end tex
@@ -213,7 +232,25 @@
 ## @code{yi}.
 ## @end ifnottex
 ## @item PeakTime
-##  Time at which the peak value occurs.
+## Time at which the peak value occurs.
+## @item FinalValue
+## Final value
+## @tex
+## \(y(t\to\infty)\)
+## @end tex
+## @ifnottex
+## @code{y(t->Inf)}
+## @end ifnottex
+## of the step response, corresponds to the static gain.
+## @item InitialJump
+## Output value
+## @tex
+## \(y(t=0^+)\)
+## @end tex
+## @ifnottex
+## @code{y(t=0+)}
+## @end ifnottex
+## immediately after the input step.
 ## @end table
 ## @end table
 ##
@@ -232,7 +269,7 @@ function info = stepinfo (sys, varargin)
     error ("stepinfo: first argument must be an lti system\n");
   endif
 
-  p = inputParser ();
+  p = inputParser ();   # Use Octvae's input parser for the input arguments
   p.FunctionName = "stepinfo";
   vld_rtlimits = @(x) is_real_matrix (x) && ...
                       length (x(:)) == 2 && ...
@@ -254,87 +291,138 @@ function info = stepinfo (sys, varargin)
 
   [p, m] = size (sys);
   [num, den] = tfdata (sys);
+
+  ## Collect all system channels as separate systems in a cell array
   tfcell = cellfun (@(n,d) tf(n,d,sys.ts), num, den, "uniformoutput", false);
 
-  stability = mat2cell (cellfun (@isstable, tfcell), ...
-                        ones (1,p),  ones (1,m));
+  ## Get stability (for each channel) and continuous-/discrete-time
+  stability = cellfun (@isstable, tfcell);
   ct = isct (sys);
 
-  [y,t] = step (sys);
+  ## Use a special version of __time_response__, with a longer time horizon
+  sys_cell = cell ();
+  sys_cell{1} = sys;    # __time_response__ expects a cell with systems
+  [y,t] = __time_response__ ("stepinfo", sys_cell, 2);
+  t = t{1,1};           # and returns a cell array
+  y = y{1,1};
   N = length (t);
 
+  ## Make a cell with all system outputs y
   y_cell = mat2cell (reshape (y,p*N,m), N*ones(1,p), ones (1,m));
 
+  ## Get the static gain, y_final and y_init as cell arrays
   K = dcgain (sys);
   y_final = K;
   y_init = 0 * y_final; # for now, only y_init = 0 is considered
   y_final = mat2cell (y_final, ones(1,p), ones (1,m));
   y_init = mat2cell (y_init, ones(1,p), ones (1,m));
 
-  ## RiseTime
-  t_rise = cellfun (@(yc,yf,yi,st) __get_rise_time__ (yc,yf,yi,st,ct,t,thresholds.t_rise), ...
-                    y_cell, y_final, y_init, stability, "uniformoutput", false);
-  info = struct ("RiseTime", ...
-                 cellfun (@diff, t_rise, "uniformoutput", false));
+  ## Create structure array with all values
 
-  ## TransientTime
-  t_transient = cellfun (@(yc,yf,yi,st) __get_transient_time__ (yc,yf,yi,st,ct,t,'t',thresholds.t_transient), ...
-                         y_cell, y_final, y_init, stability, "uniformoutput", false);
-  info = __add_field__ (info, "TransientTime", t_transient);
+  info = struct ("RaiseTime", cell(p,m));
 
-  ## SettlingTime
-  t_settling = cellfun (@(yc,yf,yi,st) __get_transient_time__ (yc,yf,yi,st,ct,t,'s',thresholds.t_settling), ...
-                        y_cell, y_final, y_init, stability, "uniformoutput", false);
-  info = __add_field__ (info, "SettlingTime", t_settling);
+  for iy = 1:p
+    for iu = 1:m
 
-  ## SettlingMin/Max
-  risen_idx = cellfun (@(tr) find(t >= tr(2))(1), t_rise, "uniformoutput", false);
-  t_risen = cellfun (@(idx) t(idx:end), risen_idx, "uniformoutput", false);
-  y_risen = cellfun (@(yc,idx) yc(idx:end), y_cell, risen_idx, ...
-                     "uniformoutput", false);
-  if (ct)
-    y_risen = cellfun (@(yf,yr) [thresholds.t_rise(2)*yf; yr], y_final, y_risen, "uniformoutput", false);
-  endif
+      ## Get values of current channel (from u(iu) to y(iy))
+      y  = y_cell{iy,iu};
 
-  info = __add_field__ (info, "SettlingMin", cellfun (@min, y_risen, ...
-                                             "uniformoutput", false));
-  info = __add_field__ (info, "SettlingMax", cellfun (@max, y_risen, ...
-                                             "uniformoutput", false));
+      if (! stability(iy,iu))
 
-  ## Overshoot / Undershoot
-  y_rel = cellfun (@(yc,yi) (yc-yi), y_cell, y_init, "uniformoutput", false);
-  y_norm = cellfun (@(yr,yi,yf) yr./(yf-yi), y_rel, y_init, y_final, ...
-                    "uniformoutput", false);
+        ## Unstable system, output warning and set appropriate values
 
-  info = __add_field__ (info, "Overshoot", cellfun (@(yn) max(0,100*max(yn-1)), y_norm, ...
-                                           "uniformoutput", false));
-  info = __add_field__ (info, "Undershoot", cellfun (@(yn) min(0,-100*min(yn)), y_norm, ...
-                                            "uniformoutput", false));
+        warning ("stepinfo: system from u%d to y%d is not stable\n", iu, iy);
 
-  ## Peak and Peak Time
-  y_peak = cellfun (@(yr,yi,yf) sign(yf-yi)*yr, y_rel, y_init, y_final, ...
-                    "uniformoutput", false);
-  peak = cellfun (@max, y_peak, "uniformoutput", false);
-  info = __add_field__ (info, "Peak", peak);
+        rise_time = NaN;
+        trans_time = NaN;
+        settl_time = NaN;
+        settl_min = NaN;
+        settl_max = NaN;
+        overshoot = NaN;
+        undershoot = NaN;
+        peak = Inf;
+        peak_time = Inf;
 
-  peak_time = cellfun (@(yp,p) t(find(yp==p)(1)), y_peak, peak, ...
-                       "uniformoutput", false);
-  info = __add_field__ (info, "PeakTime", peak_time);
+      else
+
+        ## Stable system
+
+        ## Get values of current channel (from u(iu) to y(iy))
+        yf = y_final{iy,iu};
+        yi = y_init{iy,iu};
+
+        ## Rise time
+        t_rise = __get_rise_time__ (y, yf, yi, ct, t, thresholds.t_rise);
+        rise_time = diff (t_rise);
+
+
+        ## Transient time
+        trans_time = __get_transient_time__ (y, yf, yi, ct, t, 't', thresholds.t_settling);
+
+        ## Settling time
+        settl_time = __get_transient_time__ (y, yf, yi, ct, t, 's', thresholds.t_settling);
+
+        ## SettlingMin/Max
+        risen_idx = find(t >= t_rise(2))(1);   # Time of upper risen level
+        t_risen = t(risen_idx:end);            # Time vector from this time until end
+        y_risen = y(risen_idx:end);            # Output from this time until end
+
+        if (ct)
+          y_risen = [thresholds.t_rise(2)*yf; y_risen];
+        endif
+
+        settl_min = min (y_risen);
+        settl_max = max (y_risen);
+
+        ## Overshoot / Undershoot
+        y_rel = y - yi;
+        y_norm = y_rel./(yf - yi);
+
+        overshoot = max (0, 100 * max (y_norm-1));
+        undershoot = max (0, -100 * min (y_norm));
+
+        ## Peak and Peak Time
+        s = sign (y(end) - yi); # don't use y_final, which is 0 for D systems
+        if (s == 0)
+          ## In case of D-systems, y_final does not
+          s = y(1) - yi;
+        endif
+        y_peak = s * y_rel;
+
+        [peak idx] = max (y_peak);
+        peak_time = t(idx);
+
+      endif
+
+    info = setfield (info, {iy,iu}, "RiseTime" , rise_time);
+    info = setfield (info, {iy,iu}, "TransientTime" , trans_time);
+    info = setfield (info, {iy,iu}, "SettlingTime" , settl_time);
+    info = setfield (info, {iy,iu}, "SettlingMin" , settl_min);
+    info = setfield (info, {iy,iu}, "SettlingMax" , settl_max);
+    info = setfield (info, {iy,iu}, "Overshoot" , overshoot);
+    info = setfield (info, {iy,iu}, "Undershoot" , undershoot);
+    info = setfield (info, {iy,iu}, "Peak" , peak);
+    info = setfield (info, {iy,iu}, "PeakTime" , peak_time);
+    info = setfield (info, {iy,iu}, "StaticGain" , yf);
+    info = setfield (info, {iy,iu}, "InitialJump" , y(1));
+
+    endfor
+  endfor
+
 
 endfunction
 
 
 
-function t_rise = __get_rise_time__ (y, y_final, y_init, stability, ct, t, t_tol)
-
-  if (! stability)
-    return;
-  endif
+function t_rise = __get_rise_time__ (y, y_final, y_init, ct, t, t_tol)
 
   y_rise = arrayfun (@(x) t_tol * x, y_final, "uniformoutput", false);
   t_rise = [-1 -2];
 
   s = sign (y_final - y_init);
+  if (s == 0)
+    s = sign (y(1) - y_init);
+  endif
 
   for i = 1:2
 
@@ -348,11 +436,7 @@ function t_rise = __get_rise_time__ (y, y_final, y_init, stability, ct, t, t_tol
     if (j > 1)
       t_rise(i) = interp1 ([y(j-1) y(j)], [t(j-1) t(j)], y_rise{1}(i));
     else
-      if (i == 1)
-        t_rise(i) = 0;
-      else
-        t_rise(i) = Inf;
-      endif
+      t_rise(i) = 0;
     endif
 
   endfor
@@ -361,11 +445,8 @@ endfunction
 
 
 
-function t_transient = __get_transient_time__ (y, y_final, y_init, stability, ct, t, t_type, t_tol)
 
-  if (! stability)
-    return;
-  endif
+function t_transient = __get_transient_time__ (y, y_final, y_init, ct, t, t_type, t_tol)
 
   y_error = abs (y - y_final);
   if (t_type == 't')
@@ -402,17 +483,6 @@ function t_transient = __get_transient_time__ (y, y_final, y_init, stability, ct
     t_transient = Inf;
 
   endif
-
-endfunction
-
-
-
-
-function s_new = __add_field__ (s_old, field, value)
-
-  s_new = arrayfun(@(s,k) setfield(s, field, value{k}), ...
-                   s_old(:), (1:numel(s_old))', 'UniformOutput', true);
-  s_new = reshape(s_new, size (value));
 
 endfunction
 
