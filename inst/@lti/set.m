@@ -82,6 +82,15 @@ function retsys = set (sys, varargin)
             error ("lti: set: invalid sampling time");
           endif
 
+        case "inputdelay"
+          sys.indelay = __adjust_delay__ (val, [m, 1], isdt (sys), [class(sys), ": set"]);
+
+        case "outputdelay"
+          sys.outdelay = __adjust_delay__ (val, [p, 1], isdt (sys), [class(sys), ": set"]);
+
+        case "iodelay"
+          sys.iodelay = __adjust_delay__ (val, [p, m], isdt (sys), [class(sys), ": set"]);
+
         case {"ingroup", "inputgroup"}
           if (isstruct (val) && all (size (val) == 1) ...
               && all (structfun (@(x) is_group_idx (x, m), val)))

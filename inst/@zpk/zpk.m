@@ -53,6 +53,21 @@
 ## String or cell array of strings specifying the names of the inputs.
 ## @item 'OutputName'
 ## String or cell array of strings specifying the names of the outputs.
+##
+## @item 'InputDelay'
+## m-by-1 real matrix (or scalar, which expands to all inputs).
+## Delay at each input, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'OutputDelay'
+## p-by-1 real matrix (or scalar, which expands to all outputs).
+## Delay at each output, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'IODelay'
+## p-by-m real matrix (or scalar, which expands to all input/output pairs).
+## Delay from each input to each output, in seconds for continuous-time
+## models or samples for discrete-time models.
 ## @end table
 ## Type @code{set (zpk)} for further options.
 ##
@@ -283,3 +298,7 @@ endfunction
 %! assert (z, -2, 1e-6);
 %! assert (p, -1, 1e-6);
 %! assert (k, 1/3, 1e-6);
+
+%!test  # delay wiring smoke test for zpk
+%! z = zpk ([], -1, 10, "InputDelay", 0.4);
+%! assert (z.InputDelay, 0.4);

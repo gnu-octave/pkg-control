@@ -38,7 +38,10 @@ function ltisys = lti (p = 0, m = 0, tsam = -1)
                    "outgroup", struct (),
                    "name", "",
                    "notes", {{}},
-                   "userdata", []);
+                   "userdata", [],
+                   "indelay", zeros (m, 1),
+                   "outdelay", zeros (p, 1),
+                   "iodelay", zeros (p, m));
 
   ltisys = class (ltisys, "lti");
 

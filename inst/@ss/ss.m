@@ -68,6 +68,21 @@
 ## @item 'tsam'
 ## Sampling time.  See 'Inputs' for details.
 ##
+## @item 'InputDelay'
+## m-by-1 real matrix (or scalar, which expands to all inputs).
+## Delay at each input, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'OutputDelay'
+## p-by-1 real matrix (or scalar, which expands to all outputs).
+## Delay at each output, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'IODelay'
+## p-by-m real matrix (or scalar, which expands to all input/output pairs).
+## Delay from each input to each output, in seconds for continuous-time
+## models or samples for discrete-time models.
+##
 ## @item 'inname'
 ## The name of the input channels in @var{sys}.
 ## Cell vector of length m containing strings.
@@ -294,4 +309,10 @@ endfunction
 %! for i = 0:9, M(:,2*i+1:2*i+2) = C*A^i*B; Me(:,2*i+1:2*i+2) = Ce*Ae^i*Be; end;
 %!
 %! assert (M, Me, 1e-6);
+
+%!test  # delay wiring smoke test for ss
+%! s = ss (-1, 1, 1, 0, "InputDelay", 0.3, "OutputDelay", 0.2, "IODelay", 0.1);
+%! assert (s.InputDelay, 0.3);
+%! assert (s.OutputDelay, 0.2);
+%! assert (s.IODelay, 0.1);
 
