@@ -73,8 +73,18 @@ function sys = d2c (sys, method = "std", w0 = 0)
     error ("d2c: third argument is not a valid pre-warping frequency");
   endif
 
-  sys = __d2c__ (sys, sys.tsam, lower (method), w0);
+  origsys = sys;
+  tsam = sys.tsam;
+  sys = __d2c__ (sys, tsam, lower (method), w0);
   sys.tsam = 0;
+
+  if (hasdelay (origsys))
+    [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
+
+    sys = set (sys, "InputDelay", indelay * tsam, ...
+                    "OutputDelay", outdelay * tsam, ...
+                    "IODelay", iodelay * tsam);
+  endif
 
 endfunction
 
@@ -146,3 +156,22 @@ endfunction
 %! Me = [A, B; C, D];
 %!
 %!assert (Mo, Me, 1e-4);
+
+
+%!test  # integer sample delay converts to seconds correctly
+%! sys = tf (1, [1 -0.5], 0.5, "InputDelay", 2);
+%! csys = d2c (sys, "zoh");
+%! assert (isct (csys), true);
+%! assert (csys.InputDelay, 1.0, 1e-10);
+%! assert (csys.OutputDelay, 0, 1e-10);
+%! assert (csys.IODelay, 0, 1e-10);
+
+%!test  # no delay: unaffected (regression)
+%! sys = tf (1, [1 -0.5], 0.5);
+%! csys = d2c (sys, "zoh");
+%! assert (hasdelay (csys), false);
+
+%!test  # round-trip: delay survives c2d then d2c
+%! sys = tf (1, [1 1], "InputDelay", 1.0);
+%! sys2 = d2c (c2d (sys, 0.5, "zoh"), "zoh");
+%! assert (sys2.InputDelay, 1.0, 1e-10);

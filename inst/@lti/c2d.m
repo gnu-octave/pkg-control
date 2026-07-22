@@ -76,6 +76,19 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     error ("c2d: second argument is not a valid sample time");
   endif
 
+  delay_modeling = "delay";
+
+  if (isstruct (method))
+    if (w0 != 0)
+      error ("c2d: cannot combine a c2dOptions struct with an explicit prewarp frequency argument");
+    endif
+
+    opt = method;
+    method = opt.Method;
+    w0 = opt.PrewarpFrequency;
+    delay_modeling = opt.DelayModeling;
+  endif
+
   if (! ischar (method))
     error ("c2d: third argument is not a string");
   endif
@@ -84,8 +97,76 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     error ("c2d: fourth argument is not a valid pre-warping frequency");
   endif
 
-  sys = __c2d__ (sys, tsam, lower (method), w0);
-  sys.tsam = tsam;
+  origsys = sys;
+
+  if (hasdelay (origsys))
+    [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
+
+    indelay_samples = indelay / tsam;
+    outdelay_samples = outdelay / tsam;
+    iodelay_samples = iodelay / tsam;
+
+    all_samples = [indelay_samples(:); outdelay_samples(:); iodelay_samples(:)];
+
+    if (strcmp (delay_modeling, "state"))
+      % Delay must be zeroed before __c2d__ for the same recursive-re-entry
+      % reason documented below (ss() preserves delay fields), even though
+      % this branch never calls thiran -- otherwise a MIMO/recursive call
+      % into __c2d__ would re-enter this same "state" branch again.
+      sys_no_delay = set (origsys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
+
+      % absorbDelay errors on ss -- route ss inputs through tf, absorb
+      % there, then convert back, since absorbDelay's per-channel math
+      % already handles a general IODelay matrix correctly.
+      is_ss_input = isa (origsys, "ss");
+
+      if (is_ss_input)
+        sys = tf (sys_no_delay);
+      else
+        sys = sys_no_delay;
+      endif
+
+      sys = __c2d__ (sys, tsam, lower (method), w0);
+      sys.tsam = tsam;
+      sys = set (sys, "InputDelay", round (indelay_samples), ...
+                      "OutputDelay", round (outdelay_samples), ...
+                      "IODelay", round (iodelay_samples));
+      sys = absorbDelay (sys);
+
+      if (is_ss_input)
+        sys = ss (sys);
+      endif
+    elseif (any (abs (all_samples - round (all_samples)) > 1e-8))
+      [p, m] = size (origsys);
+
+      if (p != 1 || m != 1)
+        error ("c2d: fractional delays on MIMO systems are not yet supported (per-channel Thiran approximation is not yet implemented)");
+      endif
+
+      % __c2d__ recurses into this same function via ss() for the general
+      % case, and ss() does not strip delay fields -- so discretizing
+      % origsys directly here would re-enter this fractional branch a
+      % second time and double-apply the Thiran filter below.  Delay must
+      % be zeroed before the __c2d__ call, not just after.
+      sys_no_delay = set (origsys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
+      sys = __c2d__ (sys_no_delay, tsam, lower (method), w0);
+      sys.tsam = tsam;
+
+      total_delay = totaldelay (origsys);
+      filt = thiran (total_delay, tsam);
+      sys = sys * filt;
+      sys = set (sys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
+    else
+      sys = __c2d__ (origsys, tsam, lower (method), w0);
+      sys.tsam = tsam;
+      sys = set (sys, "InputDelay", round (indelay_samples), ...
+                      "OutputDelay", round (outdelay_samples), ...
+                      "IODelay", round (iodelay_samples));
+    endif
+  else
+    sys = __c2d__ (origsys, tsam, lower (method), w0);
+    sys.tsam = tsam;
+  endif
 
 endfunction
 
@@ -338,4 +419,117 @@ endfunction
 %!assert (Aex, Aex_exp, 1e-4);
 %!assert (Aexint, Aexint_exp, 1e-4);
 
+
+%!test  # exact integer-sample InputDelay survives c2d
+%! sys = tf (1, [1 1], "InputDelay", 1.0);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (dsys.InputDelay, 2);
+%! assert (dsys.OutputDelay, 0);
+%! assert (dsys.IODelay, 0);
+
+%!test  # no delay: unaffected (regression)
+%! sys = tf (1, [1 1]);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (hasdelay (dsys), false);
+
+
+%!test  # SISO tf fractional InputDelay: approximated via thiran
+%! sys = tf (1, [1 1], "InputDelay", 1.33);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (hasdelay (dsys), false);
+%! sys_dyn = c2d (tf (1, [1 1]), 0.5, "zoh");
+%! filt = thiran (1.33, 0.5);
+%! expected = sys_dyn * filt;
+%! [numd, dend] = tfdata (dsys);
+%! [nume, dene] = tfdata (expected);
+%! assert (numd, nume, 1e-8);
+%! assert (dend, dene, 1e-8);
+
+%!test  # SISO zpk fractional OutputDelay: approximated via thiran
+%! sys = zpk ([], -1, 1, "OutputDelay", 1.33);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (hasdelay (dsys), false);
+%! sys_dyn = c2d (zpk ([], -1, 1), 0.5, "zoh");
+%! filt = thiran (1.33, 0.5);
+%! expected = sys_dyn * filt;
+%! w = [0.1, 1, 5];
+%! assert (freqresp (dsys, w), freqresp (expected, w), 1e-8);
+
+%!error <MIMO> c2d (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [1.33;0]), 0.5, "zoh")
+
+
+%!test  # c2dOptions struct as 3rd argument, default DelayModeling
+%! opt = c2dOptions ();
+%! sys = tf (1, [1 1], "InputDelay", 1.0);
+%! dsys = c2d (sys, 0.5, opt);
+%! assert (dsys.InputDelay, 2);
+
+%!test  # DelayModeling='state': fractional SISO delay rounds to integer samples, absorbed into extra dynamics
+%! opt = c2dOptions ("DelayModeling", "state");
+%! sys = tf (1, [1 1], "InputDelay", 1.33);
+%! dsys = c2d (sys, 0.5, opt);
+%! assert (isdt (dsys), true);
+%! assert (hasdelay (dsys), false);
+%! rational_dsys = c2d (tf (1, [1 1]), 0.5, "zoh");
+%! k = round (1.33 / 0.5);
+%! w = [0.1, 1, 5];
+%! expected = freqresp (rational_dsys, w) .* reshape (exp (-1i * w * 0.5 * k), 1, 1, []);
+%! assert (freqresp (dsys, w), expected, 1e-8);
+
+%!test  # DelayModeling='state': MIMO fractional delay succeeds (unlike 'delay' mode), absorbed per channel
+%! opt = c2dOptions ("DelayModeling", "state");
+%! sys = tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [1.33;0]);
+%! dsys = c2d (sys, 0.5, opt);
+%! assert (hasdelay (dsys), false);
+%! rational_dsys = c2d (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}), 0.5, "zoh");
+%! total = [round(1.33/0.5), 0; round(1.33/0.5), 0];
+%! w = [0.1, 1, 5];
+%! resp = freqresp (rational_dsys, w);
+%! expected = zeros (2, 2, numel (w));
+%! for i = 1:2
+%!   for j = 1:2
+%!     expected(i,j,:) = reshape (resp(i,j,:), 1, []) .* exp (-1i * w * 0.5 * total(i,j));
+%!   endfor
+%! endfor
+%! assert (freqresp (dsys, w), expected, 1e-8);
+
+%!test  # DelayModeling='state': ss input absorbs InputDelay into extra dynamics
+%! sys = ss (-1, 1, 1, 0, "InputDelay", 0.65);
+%! opt = c2dOptions ("DelayModeling", "state");
+%! dsys = c2d (sys, 0.5, opt);
+%! assert (isa (dsys, "ss"), true);
+%! assert (isdt (dsys), true);
+%! assert (hasdelay (dsys), false);
+%! rational_dsys = c2d (ss (-1, 1, 1, 0), 0.5, "zoh");
+%! k = round (0.65 / 0.5);
+%! w = [0.1, 1, 5];
+%! expected = freqresp (rational_dsys, w) .* reshape (exp (-1i * w * 0.5 * k), 1, 1, []);
+%! assert (freqresp (dsys, w), expected, 1e-8);
+
+%!test  # DelayModeling='state': ss input with per-channel IODelay matrix (MIMO)
+%! A = [-1, 0; 0, -2];
+%! B = [1, 0; 0, 1];
+%! C = [1, 0; 0, 1];
+%! D = [0, 0; 0, 0];
+%! sys = ss (A, B, C, D);
+%! sys = set (sys, "IODelay", [0.5, 0; 0, 1.0]);
+%! opt = c2dOptions ("DelayModeling", "state");
+%! dsys = c2d (sys, 0.5, opt);
+%! assert (hasdelay (dsys), false);
+%! rational_dsys = c2d (ss (A, B, C, D), 0.5, "zoh");
+%! total = [round(0.5/0.5), 0; 0, round(1.0/0.5)];
+%! w = [0.1, 1, 5];
+%! resp = freqresp (rational_dsys, w);
+%! expected = zeros (2, 2, numel (w));
+%! for i = 1:2
+%!   for j = 1:2
+%!     expected(i,j,:) = reshape (resp(i,j,:), 1, []) .* exp (-1i * w * 0.5 * total(i,j));
+%!   endfor
+%! endfor
+%! assert (freqresp (dsys, w), expected, 1e-8);
+
+%!error <cannot combine> c2d (tf (1, [1 1]), 0.5, c2dOptions (), 100)
 

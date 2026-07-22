@@ -111,10 +111,14 @@ function [H, w, sty, idx, H_auto, w_auto, sys_names] = __frequency_response__ (c
 
   ## compute frequency response H for all LTI models
   H_auto = cellfun (@__freqresp__, args(sys_idx), w_auto, {cellflag}, "uniformoutput", false);
+  H_auto = cellfun (@__apply_freqresp_delay__, args(sys_idx), H_auto, w_auto, ...
+                     {cellflag}, "uniformoutput", false);
   if (auto)
     H = H_auto;
   else
     H = cellfun (@__freqresp__, args(sys_idx), w, {cellflag}, "uniformoutput", false);
+    H = cellfun (@__apply_freqresp_delay__, args(sys_idx), H, w, ...
+                 {cellflag}, "uniformoutput", false);
   endif
 
   ## restore frequency vectors of FRD models in w
