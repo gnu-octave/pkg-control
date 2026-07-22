@@ -2,6 +2,7 @@ services:
   octave:
     image: gnuoctave/octave:latest
     working_dir: /workspace
+    user: "${HOST_UID}:${HOST_GID}"
     volumes:
-      - .:/workspace
+      - .:/workspace:z
     command: make check-ci
