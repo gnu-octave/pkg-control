@@ -178,6 +178,10 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
   in_idx = 1 : m1;
   out_idx = 1 : p1;
 
+  if ((isa (sys1, "lti") && hasdelay (sys1)) || (isa (sys2, "lti") && hasdelay (sys2)))
+    error ("feedback: nonzero delays require internal delay support (not yet implemented)");
+  endif
+
   sys = __sys_group__ (sys1, sys2);
   sys = __sys_connect__ (sys, M);
   sys = __sys_prune__ (sys, out_idx, in_idx);
@@ -276,3 +280,11 @@ endfunction
 %!assert (S1.b, S2.b, 1e-4);
 %!assert (S1.c, S2.c, 1e-4);
 %!assert (S1.d, S2.d, 1e-4);
+
+
+%!test  # no delay on either operand: existing behavior unaffected (regression)
+%! s1 = tf (1, [1 1]);
+%! s = feedback (s1);
+%! assert (hasdelay (s), false);
+
+%!error <internal delay> feedback (tf (1, [1 1], "InputDelay", 0.1))
