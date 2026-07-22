@@ -149,3 +149,27 @@ endfunction
 %! impulse (G1,G2,1.5*G2,12);
 %! warning ("on", "Control:convert-to-state-space");
 
+%!test  # MIMO IODelay: each (output,input) channel shifted independently
+%! sys = tf ({1, 1; 1, 1}, {[1 1], [1 2]; [1 3], [1 4]});
+%! sys = set (sys, "IODelay", [0.5, 0; 0, 1.0]);
+%! sys_nodelay = tf ({1, 1; 1, 1}, {[1 1], [1 2]; [1 3], [1 4]});
+%! ## fixed dt=0.05 is an exact divisor of both IODelay entries so that
+%! ## c2d's default "delay" mode (which only rounds/absorbs whole-sample
+%! ## delays and has no MIMO fractional-delay support) sees whole-sample
+%! ## delays; an auto-chosen dt would not generally divide 0.5 s/1.0 s evenly.
+%! [y, t] = impulse (sys, 8, 0.05);
+%! [y0, t0] = impulse (sys_nodelay, t);
+%! dt = t(2) - t(1);
+%! total = [0.5, 0; 0, 1.0];
+%! for i = 1:2
+%!   for j = 1:2
+%!     k = round (total(i,j) / dt);
+%!     if (k == 0)
+%!       expected = y0(:, i, j);
+%!     else
+%!       expected = [zeros(k, 1); y0(1:end-k, i, j)];
+%!     endif
+%!     assert (y(:, i, j), expected, 1e-6);
+%!   endfor
+%! endfor
+

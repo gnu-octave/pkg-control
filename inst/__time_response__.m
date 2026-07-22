@@ -172,12 +172,24 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
   sys_ct2dt = cellfun (@c2d, sys_ctss, dt(ct_idx), {response1}, "uniformoutput", false);
   sys_dt(ct_idx) = sys_ct2dt;
 
+  ## delay is already whole samples on sys_dt (c2d's default DelayModeling
+  ## rounds to samples at conversion time; already-discrete inputs are
+  ## documented in samples too), so every shift below is an exact
+  ## integer-sample array shift -- no interpolation needed.
+  delay_mat = cellfun (@totaldelay, sys_dt, "uniformoutput", false);
+
   ## time vector: we have to consider the following cases:
   ##              1. ct system: last sample is tfinal (ensured by __sim_horizon__)
   ##              2. dt system
   ##                  a) nout > 0 (no plotting): last sample is less or equal tfinal
   ##                  b) nout > 0 (plotting): last sample is the first greater
   ##                     than tfinal (we need xlim([0,tfinal]) for the plot)
+  delay_ext = 0;
+  for i = 1:length (dt)
+    delay_ext = max (delay_ext, max (delay_mat{i}(:)) * dt{i});
+  endfor
+  tfinal = tfinal + delay_ext;
+
   if nout > 0
     dt_extra = cell2mat (dt) .* ct_idx;
   else
@@ -216,6 +228,25 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
     otherwise
       error ("time_response: invalid response type\n");
   endswitch
+
+  ## apply each channel's total delay as a post-processing shift on y;
+  ## x (state trajectory) is intentionally left unshifted, see plan/spec.
+  for i = 1:n_sys
+    if (strcmp (response, "initial"))
+      outdelay = get (sys_dt{i}, "outputdelay");
+      for row = 1:columns (y{i})
+        y{i}(:, row) = __apply_timeresp_delay__ (y{i}(:, row), outdelay(row));
+      endfor
+    else
+      p_i = size (y{i}, 2);
+      m_i = size (y{i}, 3);
+      for row = 1:p_i
+        for col = 1:m_i
+          y{i}(:, row, col) = __apply_timeresp_delay__ (y{i}(:, row, col), delay_mat{i}(row, col));
+        endfor
+      endfor
+    endif
+  endfor
 
 
   if (nout == 0)                                        # display plot

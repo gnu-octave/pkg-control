@@ -352,40 +352,104 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
     error ("lsim: input vector 'u' must have %d columns", m);
   endif
 
-  ## preallocate memory
-  y = zeros (urows, p);
-  x_arr = zeros (urows, n);
-
-  ## initial conditions
   if (isempty (x0))
     x0 = zeros (n, 1);
   elseif (n != length (x0) || ! is_real_vector (x0))
     error ("lsim: 'x0' must be a vector with %d elements", n);
   endif
 
-  x = vec (x0);                                 # make sure that x is a column vector
+  x0 = vec (x0);                                # make sure that x0 is a column vector
 
-  ## When discretization method was foh transform initial state into
-  ## the states representing the foh form.
-  ## The required matrix "Bd1" is stored by c2d in sys.userdata
-  if was_ct && (strcmp (method, "foh")) && (max (size (sys.userdata)) > 0)
-    x = x - sys.userdata * u(1,:)';
+  is_foh = was_ct && strcmp (method, "foh") && (max (size (sys.userdata)) > 0);
+
+  if (! hasdelay (sys))
+
+    ## preallocate memory
+    y = zeros (urows, p);
+    x_arr = zeros (urows, n);
+
+    x = x0;
+
+    ## When discretization method was foh transform initial state into
+    ## the states representing the foh form.
+    ## The required matrix "Bd1" is stored by c2d in sys.userdata
+    if (is_foh)
+      x = x - sys.userdata * u(1,:)';
+    endif
+
+    ## simulation
+    for k = 1 : urows
+      y(k, :) = C * x  +  D * u(k, :).';
+      x_arr(k, :) = x;
+      x = A * x  +  B * u(k, :).';
+    endfor
+
+    ## When discretization method was foh transform back from foh states
+    ## into original state
+    if (is_foh)
+      x_arr = x_arr + u * sys.userdata';
+    endif
+
+  else
+
+    ## Delayed system: superposition of a zero-input term (from x0 alone,
+    ## only OutputDelay applies -- there is no input for InputDelay/IODelay
+    ## to act on) plus one zero-state term per input channel (from u(:,j)
+    ## alone, shifted by that channel's full totaldelay, which already
+    ## includes OutputDelay). Both terms use the same delay-free A,B,C,D,
+    ## so their states add linearly and are left unshifted (see plan/spec).
+    total = totaldelay (sys);            # p-by-m, whole samples
+    outdelay = get (sys, "outputdelay"); # p-by-1, whole samples
+
+    y = zeros (urows, p);
+    x_arr = zeros (urows, n);
+
+    ## zero-input term: driven by x0 alone, with no associated input
+    ## sample, so no foh initial-state correction applies here -- the
+    ## foh correction for u(1,:) is fully accounted for by the per-column
+    ## offsets below (each column contributes its own -Bd1(:,j)*u(1,j)
+    ## piece); applying it here too would double-count it.
+    x = x0;
+    y_free = zeros (urows, p);
+    for k = 1 : urows
+      y_free(k, :) = C * x;
+      x_arr(k, :) = x;
+      x = A * x;
+    endfor
+    for row = 1 : p
+      y(:, row) += __apply_timeresp_delay__ (y_free(:, row), outdelay(row));
+    endfor
+
+    ## zero-state term, one input channel at a time
+    for j = 1 : m
+      uj = zeros (urows, m);
+      uj(:, j) = u(:, j);
+
+      xj = zeros (n, 1);
+      if (is_foh)
+        xj = -sys.userdata(:, j) * u(1, j);
+      endif
+
+      y_j = zeros (urows, p);
+      x_arr_j = zeros (urows, n);
+      for k = 1 : urows
+        y_j(k, :) = C * xj  +  D * uj(k, :).';
+        x_arr_j(k, :) = xj;
+        xj = A * xj  +  B * uj(k, :).';
+      endfor
+      if (is_foh)
+        x_arr_j = x_arr_j + uj * sys.userdata';
+      endif
+
+      x_arr += x_arr_j;
+      for row = 1 : p
+        y(:, row) += __apply_timeresp_delay__ (y_j(:, row), total(row, j));
+      endfor
+    endfor
+
   endif
 
-  ## simulation
-  for k = 1 : urows
-    y(k, :) = C * x  +  D * u(k, :).';
-    x_arr(k, :) = x;
-    x = A * x  +  B * u(k, :).';
-  endfor
-
-  ## When discretization method was foh transform back from foh states
-  ## into original state
-  if was_ct && (strcmp (method, "foh")) && (max (size (sys.userdata)) > 0)
-    x_arr = x_arr + u * sys.userdata';
-  endif
-
-  endfunction
+endfunction
 
 
 %!test
@@ -413,6 +477,75 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 %! assert (y1,y2,1e-4);
 %! assert (y1,y3,1e-4);
 %! assert (y1,y4,1e-4);
+
+%!test  # SISO InputDelay: lsim output matches a manually-shifted delay-free lsim
+%! sys = tf (1, [1 1], "InputDelay", 0.3);
+%! sys_nodelay = tf (1, [1 1]);
+%! t = 0:0.05:5;
+%! u = sin (t)';
+%! [y, tt] = lsim (sys, u, t);
+%! [y0, tt0] = lsim (sys_nodelay, u, t);
+%! dt = tt(2) - tt(1);
+%! k = round (0.3 / dt);
+%! expected = [zeros(k, 1); y0(1:end-k)];
+%! assert (y, expected, 1e-6);
+
+%!test  # MIMO IODelay: each output channel is the sum of per-input contributions,
+%!       # each shifted by its own total delay
+%! sys = tf ({1, 1; 1, 1}, {[1 1], [1 2]; [1 3], [1 4]});
+%! sys = set (sys, "IODelay", [0.2, 0; 0, 0.4]);
+%! sys_nodelay = tf ({1, 1; 1, 1}, {[1 1], [1 2]; [1 3], [1 4]});
+%! t = (0:0.05:5)';
+%! u = [sin(t), cos(t)];
+%! [y, tt] = lsim (sys, u, t);
+%! [y0, tt0] = lsim (sys_nodelay, u, t);
+%! dt = tt(2) - tt(1);
+%! total = [0.2, 0; 0, 0.4];
+%! ## reconstruct expected per-output response by re-simulating each input alone
+%! u1 = [u(:,1), zeros(size(t))];
+%! u2 = [zeros(size(t)), u(:,2)];
+%! [y01] = lsim (sys_nodelay, u1, t);
+%! [y02] = lsim (sys_nodelay, u2, t);
+%! k11 = round (total(1,1)/dt); k12 = round (total(1,2)/dt);
+%! k21 = round (total(2,1)/dt); k22 = round (total(2,2)/dt);
+%! if (k11 == 0)
+%!   s11 = y01(:,1);
+%! else
+%!   s11 = [zeros(k11,1); y01(1:end-k11,1)];
+%! endif
+%! if (k12 == 0)
+%!   s12 = y02(:,1);
+%! else
+%!   s12 = [zeros(k12,1); y02(1:end-k12,1)];
+%! endif
+%! if (k21 == 0)
+%!   s21 = y01(:,2);
+%! else
+%!   s21 = [zeros(k21,1); y01(1:end-k21,2)];
+%! endif
+%! if (k22 == 0)
+%!   s22 = y02(:,2);
+%! else
+%!   s22 = [zeros(k22,1); y02(1:end-k22,2)];
+%! endif
+%! expected1 = s11 + s12;
+%! expected2 = s21 + s22;
+%! assert (y(:,1), expected1, 1e-6);
+%! assert (y(:,2), expected2, 1e-6);
+
+%!test  # nonzero x0 on a delayed ss system: zero-input term shifted by OutputDelay only
+%! A = -1; B = 1; C = 1; D = 0;
+%! sys = ss (A, B, C, D, "OutputDelay", 0.3);
+%! sys_nodelay = ss (A, B, C, D);
+%! t = (0:0.05:5)';
+%! u = zeros (size (t));       # isolate the zero-input term
+%! x0 = 2;
+%! [y, tt] = lsim (sys, u, t, x0);
+%! [y0, tt0] = lsim (sys_nodelay, u, t, x0);
+%! dt = tt(2) - tt(1);
+%! k = round (0.3 / dt);
+%! expected = [zeros(k, 1); y0(1:end-k)];
+%! assert (y, expected, 1e-6);
 
 %!demo
 %! clf;
