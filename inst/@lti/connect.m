@@ -67,6 +67,11 @@
 ## inputs @var{in}.
 ## @end table
 ##
+## @strong{Remarks}
+## Input, output, and I/O delays on the operand systems are supported.  If a delay
+## is trapped inside a closed loop, it will appear as an @code{InternalDelay}
+## property on the result.
+##
 ## @strong{Example}
 ##
 ## Consider the control loop with reference r, disturbances d1, d2

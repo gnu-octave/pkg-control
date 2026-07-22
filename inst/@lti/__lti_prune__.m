@@ -60,6 +60,17 @@ function [lti, out_idx, in_idx] = __lti_prune__ (lti, out_idx, in_idx)
   lti.outname = lti.outname(out_idx);
   lti.inname = lti.inname(in_idx);
 
+  ## delays follow the selected I/O (previously left at their old size,
+  ## harmless only while they were always zero)
+  if (! (ischar (out_idx) && strcmp (out_idx, ":")))
+    lti.outdelay = lti.outdelay(out_idx);
+    lti.iodelay  = lti.iodelay(out_idx, :);
+  endif
+  if (! (ischar (in_idx) && strcmp (in_idx, ":")))
+    lti.indelay = lti.indelay(in_idx);
+    lti.iodelay = lti.iodelay(:, in_idx);
+  endif
+
 endfunction
 
 

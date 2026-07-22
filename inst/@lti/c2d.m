@@ -72,6 +72,10 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     error ("c2d: system is already discrete-time");
   endif
 
+  if (hasinternaldelay (sys))
+    error ("c2d: InternalDelay is not yet supported");
+  endif
+
   if (! issample (tsam))
     error ("c2d: second argument is not a valid sample time");
   endif
@@ -532,4 +536,6 @@ endfunction
 %! assert (freqresp (dsys, w), expected, 1e-8);
 
 %!error <cannot combine> c2d (tf (1, [1 1]), 0.5, c2dOptions (), 100)
+
+%!error <InternalDelay> c2d (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), 0.5, "zoh")
 

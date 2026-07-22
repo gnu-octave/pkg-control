@@ -43,6 +43,10 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
     error ("%s: require at least one LTI model\n", response);
   endif
 
+  if (any (cellfun (@hasinternaldelay, args(sys_idx))))
+    error ("%s: InternalDelay is not yet supported", response);
+  endif
+
   if (nout > 0)
     if nnz (sys_idx) > 1
       error ("%s: with output arguments, only one system is allowed\n", response);
@@ -621,3 +625,12 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   endif
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! y = step (sys);
+%! assert (isempty (y), false);
+
+%!error <InternalDelay> step (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
+%!error <InternalDelay> impulse (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
+%!error <InternalDelay> initial (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), [1])

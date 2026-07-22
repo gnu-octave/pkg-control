@@ -24,6 +24,10 @@
 
 function sys = __sys_inverse__ (sys)
 
+  if (hasinternaldelay (sys))
+    error ("ss: inverse: InternalDelay is not yet supported");
+  endif
+
   a = sys.a;
   b = sys.b;
   c = sys.c;
@@ -59,3 +63,10 @@ function sys = __sys_inverse__ (sys)
   endif
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 1);
+%! r = inv (sys);
+%! assert (hasinternaldelay (r), false);
+
+%!error <InternalDelay> inv (set (ss (-1, 1, 1, 1), "internaldelay", 0.5))

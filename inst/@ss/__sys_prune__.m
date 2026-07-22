@@ -44,6 +44,16 @@ function sys = __sys_prune__ (sys, out_idx, in_idx, st_idx = ":")
     sys.e = sys.e(st_idx, st_idx);
   endif
 
+  ## internal delay ports: their external-I/O-facing dimensions follow the
+  ## selected inputs/outputs (d12 rows = outputs, d21 cols = inputs); the
+  ## port count itself (b2/c2/d22/internaldelay) is unaffected by I/O pruning.
+  if (! isempty (sys.b2))
+    sys.b2  = sys.b2(st_idx, :);
+    sys.c2  = sys.c2(:, st_idx);
+    sys.d12 = sys.d12(out_idx, :);
+    sys.d21 = sys.d21(:, in_idx);
+  endif
+
   sys.stname = sys.stname(st_idx);
 
 endfunction

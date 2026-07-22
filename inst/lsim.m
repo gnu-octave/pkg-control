@@ -289,6 +289,10 @@ endfunction
 
 function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 
+  if (hasinternaldelay (sys))
+    error ("lsim: InternalDelay is not yet supported");
+  endif
+
   if (! isa (sys, "ss"))
     x0 =[]; # ignore initial condition for system not in state space
   endif
@@ -564,3 +568,5 @@ endfunction
 %! u = [ 0.2+0.3*sin(1.3*t') , cos(2*t') ];
 %! x0 = [0 0.1 0];
 %! lsim(S, u, t, x0);
+
+%!error <InternalDelay> lsim (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), [1;1;1], [0 1 2])

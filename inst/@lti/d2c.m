@@ -65,6 +65,10 @@ function sys = d2c (sys, method = "std", w0 = 0)
     error ("d2c: system is already continuous-time");
   endif
 
+  if (hasinternaldelay (sys))
+    error ("d2c: InternalDelay is not yet supported");
+  endif
+
   if (! ischar (method))
     error ("d2c: second argument is not a string");
   endif
@@ -175,3 +179,5 @@ endfunction
 %! sys = tf (1, [1 1], "InputDelay", 1.0);
 %! sys2 = d2c (c2d (sys, 0.5, "zoh"), "zoh");
 %! assert (sys2.InputDelay, 1.0, 1e-10);
+
+%!error <InternalDelay> d2c (set (ss (-1, 1, 1, 0, 0.1), "internaldelay", 0.5), "zoh")

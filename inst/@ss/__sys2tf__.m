@@ -24,6 +24,10 @@
 
 function [retsys, retlti] = __sys2tf__ (sys)
 
+  if (hasinternaldelay (sys))
+    error ("ss: sys2tf: conversion to tf/zpk is not supported for models with InternalDelay");
+  endif
+
   sg_flag = false;                              # static gain flag
 
   try
@@ -84,3 +88,12 @@ function [num, den] = __siso_ss2tf__ (sys)
   endif
 
 endfunction
+
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! g = tf (sys);
+%! assert (hasinternaldelay (sys), false);
+
+%!error <InternalDelay> tf (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
+%!error <InternalDelay> zpk (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

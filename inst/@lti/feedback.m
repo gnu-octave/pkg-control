@@ -51,6 +51,11 @@
 ## Resulting @acronym{LTI} model.
 ## @end table
 ##
+## @strong{Remarks}
+## Both operands may contain input, output, and I/O delays.  If a delay is trapped
+## inside the closed loop, it will appear as an @code{InternalDelay} property on the
+## (always-@code{ss}) result.
+##
 ## @strong{Block Diagram}
 ## @example
 ## @group
@@ -178,8 +183,14 @@ function sys = feedback (sys1, sys2, feedin, feedout, fbsign = -1)
   in_idx = 1 : m1;
   out_idx = 1 : p1;
 
-  if ((isa (sys1, "lti") && hasdelay (sys1)) || (isa (sys2, "lti") && hasdelay (sys2)))
-    error ("feedback: nonzero delays require internal delay support (not yet implemented)");
+  ## A delay trapped inside the loop cannot be represented by tf/zpk, which
+  ## carry no InternalDelay.  Force both operands to state-space so the delay
+  ## survives as an internal delay port (matches Matlab: such a result is ss).
+  d1 = isa (sys1, "lti") && (hasdelay (sys1) || hasinternaldelay (sys1));
+  d2 = isa (sys2, "lti") && (hasdelay (sys2) || hasinternaldelay (sys2));
+  if (d1 || d2)
+    sys1 = ss (sys1);
+    sys2 = ss (sys2);
   endif
 
   sys = __sys_group__ (sys1, sys2);
@@ -287,4 +298,57 @@ endfunction
 %! s = feedback (s1);
 %! assert (hasdelay (s), false);
 
-%!error <internal delay> feedback (tf (1, [1 1], "InputDelay", 0.1))
+## Internal delay: an input delay closing a feedback loop is no longer an
+## error; it is absorbed into the closed loop's InternalDelay (the delay
+## e^{-0.1 s} lives inside the loop 1/(s+1+e^{-0.1 s}) and cannot be
+## expressed as a pure I/O time-shift).
+%!test
+%! s = feedback (tf (1, [1 1], "InputDelay", 0.1));
+%! assert (isa (s, "ss"));                       # forced to ss to carry delay
+%! assert (get (s, "internaldelay"), 0.1, 1e-10);
+%! assert (hasinternaldelay (s), true);
+
+## Scalar loop with an IODelay in the forward path.  A single scalar delay
+## closing a loop is irreducible, so the closed-loop InternalDelay is just T.
+## Hand derivation:  G = e^{-sT} g(s),  C = c(s),  L = G C.
+## Closed loop feedback(G,C) = G/(1+GC); the e^{-sT} sits inside the loop,
+## so InternalDelay = T (0.3 here) and no residual I/O delay remains.
+%!test
+%! T = 0.3;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! C = ss (-2, 1, 1, 0);
+%! cl = feedback (G, C);
+%! assert (get (cl, "internaldelay"), T, 1e-10);
+%! assert (get (cl, "iodelay"), 0, 1e-10);       # absorbed, no residual
+
+## feedback() and connect() must agree on InternalDelay for equivalent
+## topologies, since they share __sys_connect__.
+%!test
+%! T = 0.3;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! C = ss (-2, 1, 1, 0);
+%! cl_fb = feedback (G, C);
+%! ## build the same negative feedback loop with connect():
+%! ##   inputs  : [r ; u_G ; u_C] = grouped [G.in ; C.in]  plus external r
+%! ##   here use index-based cm on append (G, C):
+%! ##   in 1 -> G, in 2 -> C ; out 1 -> G, out 2 -> C
+%! Gall = append (G, C);
+%! ## u_G = r - y_C  (row: input 1 fed by -output 2)
+%! ## u_C = y_G      (row: input 2 fed by +output 1)
+%! cm = [1, -2; 2, 1];
+%! cl_cn = connect (Gall, cm, 1, 1);
+%! assert (get (cl_cn, "internaldelay"), get (cl_fb, "internaldelay"), 1e-10);
+
+## MIMO plant whose IODelay column has more than one nonzero entry (one
+## input feeding two differently-delayed outputs).  Folding IODelay into a
+## single per-input series delay is only exact when an input drives a
+## single delayed output; this topology is outside that scope and must
+## error clearly rather than silently return a wrong InternalDelay.
+%!error <not yet supported>
+%! a = -eye (2);
+%! b = eye (2);
+%! c = eye (2);
+%! d = zeros (2);
+%! iod = [0.1, 0; 0.2, 0];         # column 1 has two nonzero entries
+%! G = ss (a, b, c, d, "IODelay", iod);
+%! feedback (G);

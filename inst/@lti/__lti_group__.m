@@ -54,9 +54,20 @@ function retlti = __lti_group__ (lti1, lti2, dim = "blkdiag")
     ## retlti.outgroup remains empty struct
   endif
 
-  retlti.indelay = zeros (numel (retlti.inname), 1);
-  retlti.outdelay = zeros (numel (retlti.outname), 1);
-  retlti.iodelay = zeros (numel (retlti.outname), numel (retlti.inname));
+  if (strcmpi (dim, "blkdiag"))
+    ## Block-diagonal append: I/O delays concatenate with zero cross-terms,
+    ## exactly like the state/b/c/d blocks.  (Previously these were dropped,
+    ## which silently discarded delays through append/feedback/connect.)
+    retlti.indelay  = [lti1.indelay(:);  lti2.indelay(:)];
+    retlti.outdelay = [lti1.outdelay(:); lti2.outdelay(:)];
+    retlti.iodelay  = blkdiag (lti1.iodelay, lti2.iodelay);
+  else
+    ## horzcat/vertcat/times share inputs and/or outputs; a general delay
+    ## merge is ambiguous, so keep the historical zeroing for those modes.
+    retlti.indelay = zeros (numel (retlti.inname), 1);
+    retlti.outdelay = zeros (numel (retlti.outname), 1);
+    retlti.iodelay = zeros (numel (retlti.outname), numel (retlti.inname));
+  endif
 
   if (lti1.tsam == lti2.tsam)
     retlti.tsam = lti1.tsam;

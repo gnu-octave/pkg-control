@@ -60,6 +60,21 @@ function sys = __set__ (sys, key, val)
         error ("ss: set: key 'scaled' must be a scalar logical");
       endif
 
+    case {"internaldelay", "internal_delay"}
+      if (isempty (val))
+        sys.internaldelay = [];  # avoid [](nx0) or [](0xn)
+      elseif (is_real_vector (val))
+        if (! isempty (sys.b2))
+          q = columns (sys.b2);
+          if (numel (val) != q)
+            error ("ss: set: key 'internaldelay' must have %d elements", q);
+          endif
+        endif
+        sys.internaldelay = val(:);
+      else
+        error ("ss: set: key 'internaldelay' must be a real vector");
+      endif
+
     otherwise
       error ("ss: set: invalid key name '%s'", key);
   endswitch
