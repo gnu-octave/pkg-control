@@ -65,10 +65,6 @@ function sys = d2c (sys, method = "std", w0 = 0)
     error ("d2c: system is already continuous-time");
   endif
 
-  if (hasinternaldelay (sys))
-    error ("d2c: InternalDelay is not yet supported");
-  endif
-
   if (! ischar (method))
     error ("d2c: second argument is not a string");
   endif
@@ -79,6 +75,31 @@ function sys = d2c (sys, method = "std", w0 = 0)
 
   origsys = sys;
   tsam = sys.tsam;
+
+  if (hasinternaldelay (origsys))
+    ## Mirror c2d.m: discretize the extended ordinary system, then convert
+    ## samples back to seconds for internaldelay (samples are exact, so no
+    ## rounding needed here, unlike the tau/tsam rounding done in c2d.m).
+    ## __ss_ext_split__ copies InputDelay/OutputDelay/IODelay unchanged from
+    ## origsys (still in samples), so if origsys also carries ordinary I/O
+    ## delay, convert it to seconds here too, mirroring c2d.m.
+    [ext_sys, nu, ny] = __ss_ext_build__ (origsys);
+    ext_sys = __d2c__ (ext_sys, tsam, lower (method), w0);
+    sys = __ss_ext_split__ (origsys, ext_sys, nu, ny);
+    sys.tsam = 0;
+    tau = get (origsys, "internaldelay");
+    sys = set (sys, "internaldelay", tau * tsam);
+
+    if (hasdelay (origsys))
+      [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
+      sys = set (sys, "InputDelay", indelay * tsam, ...
+                      "OutputDelay", outdelay * tsam, ...
+                      "IODelay", iodelay * tsam);
+    endif
+
+    return;
+  endif
+
   sys = __d2c__ (sys, tsam, lower (method), w0);
   sys.tsam = 0;
 
@@ -180,4 +201,32 @@ endfunction
 %! sys2 = d2c (c2d (sys, 0.5, "zoh"), "zoh");
 %! assert (sys2.InputDelay, 1.0, 1e-10);
 
-%!error <InternalDelay> d2c (set (ss (-1, 1, 1, 0, 0.1), "internaldelay", 0.5), "zoh")
+%!test  # InternalDelay round-trip: c2d then d2c recovers the original tau (samples convert back to seconds exactly)
+%! T = 0.3;
+%! tsam = 0.1;
+%! G = ss (-2, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! dsys = c2d (L, tsam, "zoh");
+%! csys = d2c (dsys, "zoh");
+%! assert (hasinternaldelay (csys), true);
+%! assert (csys.internaldelay, T, 1e-10);
+%! w = [0.05, 0.2, 1];
+%! assert (freqresp (csys, w), freqresp (L, w), 5e-2);
+
+%!test  # InternalDelay with no delay ports: degenerate extended system still converts back
+%! sys = set (ss (-1, 1, 1, 0, 0.1), "internaldelay", 0.5);
+%! csys = d2c (sys, "zoh");
+%! assert (isct (csys), true);
+%! assert (csys.internaldelay, 0.05, 1e-10);
+
+%!test  # combined InternalDelay AND ordinary InputDelay: both converted to seconds
+%! T = 0.5;
+%! tsam = 0.25;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! L = set (L, "InputDelay", 0.75);
+%! dsys = c2d (L, tsam, "zoh");
+%! csys = d2c (dsys, "zoh");
+%! assert (hasinternaldelay (csys), true);
+%! assert (csys.internaldelay, T, 1e-10);
+%! assert (csys.InputDelay, round (0.75 / tsam) * tsam, 1e-10);

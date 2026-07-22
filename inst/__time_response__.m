@@ -43,10 +43,6 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
     error ("%s: require at least one LTI model\n", response);
   endif
 
-  if (any (cellfun (@hasinternaldelay, args(sys_idx))))
-    error ("%s: InternalDelay is not yet supported", response);
-  endif
-
   if (nout > 0)
     if nnz (sys_idx) > 1
       error ("%s: with output arguments, only one system is allowed\n", response);
@@ -393,6 +389,21 @@ function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
     error ("initial: x0 must be a real vector with %d elements\n", n);
   endif
 
+  if (hasinternaldelay (sys_dt))
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+    z_hist = zeros (l_t, nports);
+    ## simulation (input is zero; only the internal-delay port drives w/z)
+    for k = 1 : l_t
+      w = __delay_lookup__ (z_hist, k, tau, nports);
+      y(k, :) = C * x + D12 * w;
+      z_hist(k, :) = (C2 * x + D22 * w).';
+      x_arr(k, :) = x;
+      x = F * x + B2 * w;
+    endfor
+    return;
+  endif
+
   ## simulation
   for k = 1 : l_t
     y(k, :) = C * x;
@@ -416,18 +427,35 @@ function [y, x_arr] = __step_response__ (sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
     ## initial conditions
     x = zeros (n, 1);
     u = zeros (m, 1);
     u(j) = 1;
 
-    ## simulation
-    for k = 1 : l_t
-      y(k, :, j) = C * x + D * u;
-      x_arr(k, :, j) = x;
-      x = F * x + G * u;
-    endfor
+    if (has_id)
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * u + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * u + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * u + B2 * w;
+      endfor
+    else
+      ## simulation
+      for k = 1 : l_t
+        y(k, :, j) = C * x + D * u;
+        x_arr(k, :, j) = x;
+        x = F * x + G * u;
+      endfor
+    endif
   endfor
 
 endfunction
@@ -447,23 +475,46 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
 
     u = zeros (m, 1);
     u(j) = 1;
 
-    ## initial conditions
-    x = zeros (n, 1);                                 # zero by definition
-    y(1, :, j) = D * u / dt;                          # impulse is 1/dt
-    x_arr(1, :, j) = x;
-    x = G * u / dt;
+    if (has_id)
+      ## Equivalent to the delay-free branch below: a discrete impulse is the
+      ## input signal uu(1) = u/dt, uu(k>1) = 0, run through the standard
+      ## delay-buffer recursion (the k=1 special-case there is just this loop
+      ## evaluated at the first sample).
+      x = zeros (n, 1);
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        if (k == 1), uk = u / dt; else, uk = zeros (m, 1); endif
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * uk + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * uk + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * uk + B2 * w;
+      endfor
+    else
+      ## initial conditions
+      x = zeros (n, 1);                                 # zero by definition
+      y(1, :, j) = D * u / dt;                          # impulse is 1/dt
+      x_arr(1, :, j) = x;
+      x = G * u / dt;
 
-    ## simulation
-    for k = 2 : l_t
-      y (k, :, j) = C * x;
-      x_arr(k, :, j) = x;
-      x = F * x;
-    endfor
+      ## simulation
+      for k = 2 : l_t
+        y (k, :, j) = C * x;
+        x_arr(k, :, j) = x;
+        x = F * x;
+      endfor
+    endif
 
   endfor
 
@@ -483,20 +534,77 @@ function [y, x_arr] = __ramp_response__ (sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
     ## initial conditions
     x = zeros (n, 1);
     u = zeros (m, l_t);
     u(j, :) = t;
 
-    ## simulation
-    for k = 1 : l_t
-      y(k, :, j) = C * x + D * u(:, k);
-      x_arr(k, :, j) = x;
-      x = F * x + G * u(:, k);
-    endfor
+    if (has_id)
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * u(:, k) + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * u(:, k) + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * u(:, k) + B2 * w;
+      endfor
+    else
+      ## simulation
+      for k = 1 : l_t
+        y(k, :, j) = C * x + D * u(:, k);
+        x_arr(k, :, j) = x;
+        x = F * x + G * u(:, k);
+      endfor
+    endif
   endfor
 
+endfunction
+
+
+## Extract the internal-delay port matrices (B2, C2, D12, D21, D22) and the
+## per-port delay tau (whole samples) from a discrete InternalDelay ss model,
+## by reusing @ss/__ss_ext_build__ (the same helper c2d/d2c use) purely for
+## data extraction.
+function [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt)
+  [ext, nu, ny] = __ss_ext_build__ (sys_dt);
+  [~, Be, Ce, De] = ssdata (ext);
+  B2  = Be(:, nu+1:end);
+  C2  = Ce(ny+1:end, :);
+  D12 = De(1:ny, nu+1:end);
+  D21 = De(ny+1:end, 1:nu);
+  D22 = De(ny+1:end, nu+1:end);
+  tau = get (sys_dt, "internaldelay")(:);
+endfunction
+
+
+## Delay-buffer lookup: w(port) = z_hist(k - tau(port), port), read as 0 when
+## k - tau(port) < 1 (no past sample yet -- the zero-history boundary).  At
+## k == tau this still reads 0 (index 0); the first real-history read is at
+## k == tau + 1, returning z_hist(1) -- i.e. exactly a tau-sample delay,
+## matching the integer-sample shift used by __apply_timeresp_delay__.
+##
+## Assumes tau(port) >= 1 for every port: a port whose delay rounds to 0
+## samples (an internal delay smaller than half a sample time) would read
+## w(k) = z_hist(k), which is always 0 at read time since z_hist(k) is only
+## written later in the same step -- silently dropping that port's D12/D22
+## feedthrough instead of solving the resulting algebraic w=z loop. Not
+## reachable via a well-formed nonzero delay; c2d's rounding is expected to
+## keep tau >= 1 for any InternalDelay this function is asked to simulate.
+function w = __delay_lookup__ (z_hist, k, tau, nports)
+  w = zeros (nports, 1);
+  for pp = 1 : nports
+    idx = k - tau(pp);
+    if (idx >= 1)
+      w(pp) = z_hist(idx, pp);
+    endif
+  endfor
 endfunction
 
 
@@ -631,6 +739,50 @@ endfunction
 %! y = step (sys);
 %! assert (isempty (y), false);
 
-%!error <InternalDelay> step (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
-%!error <InternalDelay> impulse (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
-%!error <InternalDelay> initial (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), [1])
+%!test  # InternalDelay step vs an independent hand-written delay-buffer reference
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! t = (0:dt:5)';
+%! [y, ty] = step (sysd, t);
+%! ## Independent reference: extract matrices (data plumbing only), simulate by hand.
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay");
+%! N = numel (ty); nst = rows (A);
+%! xr = zeros (nst, 1); zh = zeros (N, 1); yref = zeros (N, 1);
+%! for k = 1:N
+%!   if (k - tau >= 1), w = zh(k - tau); else, w = 0; endif
+%!   yref(k) = C1*xr + D11*1 + D12*w;
+%!   zh(k) = C2*xr + D21*1 + D22*w;
+%!   xr = A*xr + B1*1 + B2*w;
+%! endfor
+%! assert (y(:), yref, 1e-10);
+
+%!test  # InternalDelay initial with nonzero x0: independent free-response reference
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! x0 = 0.9;
+%! t = (0:dt:5)';
+%! [y, ty] = initial (sysd, x0, t);
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay");
+%! N = numel (ty); nst = rows (A);
+%! xr = x0(:); zh = zeros (N, 1); yref = zeros (N, 1);
+%! for k = 1:N
+%!   if (k - tau >= 1), w = zh(k - tau); else, w = 0; endif
+%!   yref(k) = C1*xr + D12*w;
+%!   zh(k) = C2*xr + D22*w;
+%!   xr = A*xr + B2*w;
+%! endfor
+%! assert (y(:), yref, 1e-10);
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! assert (isempty (impulse (sys)), false);

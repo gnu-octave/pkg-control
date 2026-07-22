@@ -289,10 +289,6 @@ endfunction
 
 function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 
-  if (hasinternaldelay (sys))
-    error ("lsim: InternalDelay is not yet supported");
-  endif
-
   if (! isa (sys, "ss"))
     x0 =[]; # ignore initial condition for system not in state space
   endif
@@ -366,7 +362,55 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 
   is_foh = was_ct && strcmp (method, "foh") && (max (size (sys.userdata)) > 0);
 
-  if (! hasdelay (sys))
+  if (hasinternaldelay (sys))
+
+    ## InternalDelay: the internal-delay port input w(k) is drawn from a
+    ## buffer of already-computed past z values (tau samples ago), so there
+    ## is no algebraic loop -- just a per-step buffer lookup.  The recursion
+    ## is linear in (x0, u), so it composes with x0 by direct state basis (no
+    ## superposition trick needed) and, when ordinary I/O delay is ALSO
+    ## present, with the prior phase's post-hoc __apply_timeresp_delay__ shift
+    ## via the same per-channel superposition it already uses.  (An
+    ## InternalDelay system is discretized through Task 1's c2d path, which
+    ## never populates sys.userdata, so is_foh is always false here.)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys);
+
+    if (! hasdelay (sys))
+      ## pure internal delay: one combined buffered recursion (x0 and u together)
+      [y, x_arr] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, tau, ...
+                                     x0, u, urows, p, n);
+    else
+      ## internal delay AND ordinary I/O delay: superpose a zero-input term
+      ## (x0 alone, shifted by OutputDelay) with one zero-state term per input
+      ## channel (shifted by that channel's totaldelay); each sub-simulation
+      ## carries its own internal-delay buffer, and summing reconstructs the
+      ## full response because the buffer recursion is linear.
+      total = totaldelay (sys);            # p-by-m, whole samples
+      outdelay = get (sys, "outputdelay"); # p-by-1, whole samples
+
+      y = zeros (urows, p);
+      x_arr = zeros (urows, n);
+
+      [y_free, x_free] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, ...
+                                           tau, x0, zeros (urows, m), urows, p, n);
+      x_arr += x_free;
+      for row = 1 : p
+        y(:, row) += __apply_timeresp_delay__ (y_free(:, row), outdelay(row));
+      endfor
+
+      for j = 1 : m
+        uj = zeros (urows, m);
+        uj(:, j) = u(:, j);
+        [y_j, x_j] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, ...
+                                       tau, zeros (n, 1), uj, urows, p, n);
+        x_arr += x_j;
+        for row = 1 : p
+          y(:, row) += __apply_timeresp_delay__ (y_j(:, row), total(row, j));
+        endfor
+      endfor
+    endif
+
+  elseif (! hasdelay (sys))
 
     ## preallocate memory
     y = zeros (urows, p);
@@ -453,6 +497,57 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 
   endif
 
+endfunction
+
+
+## Extract the internal-delay port matrices (B2, C2, D12, D21, D22) and the
+## per-port delay tau (whole samples) from a discrete InternalDelay ss model,
+## reusing @ss/__ss_ext_build__ (the same helper c2d/d2c use) for data
+## extraction only.
+function [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys)
+  [ext, nu, ny] = __ss_ext_build__ (sys);
+  [~, Be, Ce, De] = ssdata (ext);
+  B2  = Be(:, nu+1:end);
+  C2  = Ce(ny+1:end, :);
+  D12 = De(1:ny, nu+1:end);
+  D21 = De(ny+1:end, 1:nu);
+  D22 = De(ny+1:end, nu+1:end);
+  tau = get (sys, "internaldelay")(:);
+endfunction
+
+
+## One buffered per-sample simulation of an InternalDelay ss model over the
+## whole horizon: at each step the internal-delay port input w is read from a
+## buffer of past z values (tau samples ago; zero when k - tau < 1 -- the
+## zero-history boundary), never the current step's z.  Returns the output y
+## and state trajectory x_arr; linear in (x_init, umat).
+##
+## Assumes tau(port) >= 1 for every port, same as __delay_lookup__ in
+## __time_response__.m: a port whose delay rounds to 0 samples would read
+## w(k) = z_hist(k) before it is written this step, silently dropping that
+## port's D12/D22 feedthrough instead of solving the resulting algebraic
+## w=z loop.  Not reachable via a well-formed nonzero InternalDelay.
+function [y, x_arr] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, ...
+                                        tau, x_init, umat, urows, p, n)
+  nports = numel (tau);
+  z_hist = zeros (urows, nports);
+  y = zeros (urows, p);
+  x_arr = zeros (urows, n);
+  x = x_init;
+  for k = 1 : urows
+    w = zeros (nports, 1);
+    for pp = 1 : nports
+      idx = k - tau(pp);
+      if (idx >= 1)
+        w(pp) = z_hist(idx, pp);
+      endif
+    endfor
+    uk = umat(k, :).';
+    y(k, :) = C * x + D * uk + D12 * w;
+    z_hist(k, :) = (C2 * x + D21 * uk + D22 * w).';
+    x_arr(k, :) = x;
+    x = A * x + B * uk + B2 * w;
+  endfor
 endfunction
 
 
@@ -569,4 +664,37 @@ endfunction
 %! x0 = [0 0.1 0];
 %! lsim(S, u, t, x0);
 
-%!error <InternalDelay> lsim (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), [1;1;1], [0 1 2])
+%!test  # InternalDelay lsim vs an independent hand-written delay-buffer reference
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! t = (0:dt:3)';
+%! u = sin (t);
+%! [y, tt, x] = lsim (sysd, u, t);
+%! ## Independent reference: extract the matrices (data plumbing only) and run
+%! ## the delay-buffer recursion by hand with plain array indexing.
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay");
+%! N = numel (t); nst = rows (A);
+%! xr = zeros (nst, 1); zh = zeros (N, 1); yref = zeros (N, 1); xref = zeros (N, nst);
+%! for k = 1:N
+%!   if (k - tau >= 1), w = zh(k - tau); else, w = 0; endif
+%!   yref(k) = C1*xr + D11*u(k) + D12*w;
+%!   zh(k) = C2*xr + D21*u(k) + D22*w;
+%!   xref(k, :) = xr.';
+%!   xr = A*xr + B1*u(k) + B2*w;
+%! endfor
+%! assert (y, yref, 1e-10);
+%! assert (x, xref, 1e-10);
+
+%!test  # nonzero x0 composes by plain linear superposition (direct state basis)
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! t = (0:dt:3)'; u = sin (t); x0 = 0.7;
+%! y_full = lsim (sysd, u, t, x0);
+%! y_zero = lsim (sysd, u, t, 0);
+%! y_free = lsim (sysd, zeros (size (t)), t, x0);
+%! assert (y_full, y_zero + y_free, 1e-10);

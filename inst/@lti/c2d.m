@@ -72,10 +72,6 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     error ("c2d: system is already discrete-time");
   endif
 
-  if (hasinternaldelay (sys))
-    error ("c2d: InternalDelay is not yet supported");
-  endif
-
   if (! issample (tsam))
     error ("c2d: second argument is not a valid sample time");
   endif
@@ -102,6 +98,35 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
   endif
 
   origsys = sys;
+
+  if (hasinternaldelay (origsys))
+    ## Discretizing an InternalDelay system is exactly discretizing the
+    ## extended ordinary system (A, [B1 B2], [C1;C2], [[D11 D12];[D21 D22]])
+    ## via the unchanged __c2d__ (which only looks at matrix shapes), then
+    ## rounding tau to whole samples the same way InputDelay/OutputDelay are
+    ## rounded below.
+    ## __ss_ext_split__ copies InputDelay/OutputDelay/IODelay unchanged from
+    ## origsys (still in seconds), so if origsys also carries ordinary I/O
+    ## delay, round it to samples here, the same way the hasdelay() branch
+    ## below does for the InternalDelay-free case.  Combining InternalDelay
+    ## with DelayModeling="state" or fractional (Thiran) ordinary delay is
+    ## out of scope; only the plain round-to-samples case is handled.
+    [ext_sys, nu, ny] = __ss_ext_build__ (origsys);
+    ext_sys = __c2d__ (ext_sys, tsam, lower (method), w0);
+    sys = __ss_ext_split__ (origsys, ext_sys, nu, ny);
+    sys.tsam = tsam;
+    tau = get (origsys, "internaldelay");
+    sys = set (sys, "internaldelay", round (tau / tsam));
+
+    if (hasdelay (origsys))
+      [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
+      sys = set (sys, "InputDelay", round (indelay / tsam), ...
+                      "OutputDelay", round (outdelay / tsam), ...
+                      "IODelay", round (iodelay / tsam));
+    endif
+
+    return;
+  endif
 
   if (hasdelay (origsys))
     [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
@@ -537,5 +562,53 @@ endfunction
 
 %!error <cannot combine> c2d (tf (1, [1 1]), 0.5, c2dOptions (), 100)
 
-%!error <InternalDelay> c2d (set (ss (-1, 1, 1, 0), "internaldelay", 0.5), 0.5, "zoh")
+%!test  # exact-integer-sample InternalDelay: feedback()-produced system, tau/tsam is a whole number
+%! T = 0.5;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! assert (hasinternaldelay (L), true);
+%! dsys = c2d (L, 0.25, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (hasinternaldelay (dsys), true);
+%! assert (dsys.internaldelay, T / 0.25, 1e-10);
+
+%!test  # fractional InternalDelay: rounds to nearest sample
+%! T = 0.33;
+%! tsam = 0.1;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! dsys = c2d (L, tsam, "zoh");
+%! assert (hasinternaldelay (dsys), true);
+%! assert (dsys.internaldelay, round (T / tsam));
+
+%!test  # zoh sanity check: discretized InternalDelay system tracks continuous freqresp at low frequency
+%! T = 0.3;
+%! G = ss (-2, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! tsam = 0.01;
+%! dsys = c2d (L, tsam, "zoh");
+%! w = [0.05, 0.2, 1];
+%! Hc = freqresp (L, w);
+%! Hd = freqresp (dsys, w);
+%! assert (Hd, Hc, 5e-2);
+
+%!test  # InternalDelay with no delay ports (b2/c2/d12/d21/d22 empty): degenerate extended system still discretizes
+%! sys = set (ss (-1, 1, 1, 0), "internaldelay", 0.5);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (dsys.internaldelay, 1);
+
+%!test  # combined InternalDelay AND ordinary InputDelay: both rounded to samples
+%! T = 0.5;
+%! tsam = 0.25;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! L = set (L, "InputDelay", 0.75);
+%! assert (hasinternaldelay (L), true);
+%! assert (hasdelay (L), true);
+%! dsys = c2d (L, tsam, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (hasinternaldelay (dsys), true);
+%! assert (dsys.internaldelay, T / tsam, 1e-10);
+%! assert (dsys.InputDelay, round (0.75 / tsam));
 
