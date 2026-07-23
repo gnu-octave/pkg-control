@@ -206,6 +206,18 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
   n = rows (a);
   [p, mm] = size (d);
 
+  ## Pristine copies of the open-loop plant, captured before any absorption or
+  ## state augmentation modifies the working copies.  All shadow-state
+  ## decomposition below reconstructs "the part of output i due to input j"
+  ## from these originals: the shadow block replays the ORIGINAL A0 driven by
+  ## the ORIGINAL b0(:,j), read out through the ORIGINAL c0(i,:)/d0(i,j).
+  A0 = a;
+  b0 = b;
+  c0 = c;
+  d0 = d;
+  n0 = n;                                 # shadow block size (per decomposed col)
+  stname = sys.stname;
+
   ## ---- initialise delay-port blocks (existing ports, or empty) ----------
   if (isempty (sys.b2))
     B2  = zeros (n, 0);
@@ -223,35 +235,6 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
     tau = sys.internaldelay(:);
   endif
 
-  ## ---- 1. absorb I/O delays into series ports ---------------------------
-  ## effective per-input series delay: InputDelay(j) + column j of IODelay
-  ##
-  ## v(i,j) = InputDelay(j) + IODelay(i,j) is the delay row i would need
-  ## input j's series port to carry.  Only rows with a genuinely REQUESTED
-  ## (nonzero) IODelay entry are compared for agreement -- rows with
-  ## IODelay(i,j) == 0 make no request at all (this also naturally excludes
-  ## rows belonging to an unrelated block padded in by __sys_group__, e.g.
-  ## the identity compensator feedback() appends, whose IODelay is always
-  ## zero).  Folding column j into a single shared port is exact exactly
-  ## when every REQUESTING row agrees on the value: the common case (plain
-  ## InputDelay, or a diagonal IODelay column) and the equal-nonzero-value
-  ## case (e.g. IODelay = [0.3; 0.3]), which used to be mis-summed to 0.6
-  ## and then rejected by the old any(sum(iod!=0,1)>1) guard below.  When
-  ## requesting rows genuinely disagree in value, a single shared
-  ## state-space column b(:,j) cannot carry two different delays to two
-  ## different outputs; that decomposition is not implemented yet (error).
-  inport = id(:).';                       # 1-by-m
-  for j = 1 : mm
-    vals = unique (iod (iod(:, j) != 0, j));
-    if (numel (vals) > 1)
-      error (["__sys_connect__: an input feeding multiple differently-delayed ", ...
-              "outputs through IODelay is not yet supported"]);
-    elseif (numel (vals) == 1)
-      inport(j) += vals;
-    endif
-  endfor
-  outport = od(:).';                      # 1-by-p
-
   ## A channel's I/O delay is promoted into an internal series delay port ONLY
   ## when that channel actually participates in the connection matrix M (i.e.
   ## it is genuinely cascaded or fed back).  A delay on a channel that M never
@@ -268,29 +251,118 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
   absorbed_in  = false (1, mm);
   absorbed_out = false (1, p);
 
-  ## input-side ports first (they append columns that output ports may read)
+  ## ---- 1. absorb / decompose I/O delays on M-touched input columns ------
+  ## effective per-entry required series delay:
+  ##   v(i,j) = InputDelay(j) + IODelay(i,j)
+  ## is the delay output row i needs input j's contribution to carry.  Only
+  ## rows with a genuinely REQUESTED (nonzero) IODelay entry are compared for
+  ## agreement -- rows with IODelay(i,j) == 0 make no request, which also
+  ## naturally excludes rows belonging to an unrelated block padded in by
+  ## __sys_group__ (e.g. the identity compensator feedback() appends, whose
+  ## IODelay is always zero).
+  ##
+  ##   * UNIFORM column (every requesting row agrees, incl. none requesting):
+  ##     fold column j into a single shared series port -- the cheap path,
+  ##     no new states.  Covers plain InputDelay, a diagonal IODelay column,
+  ##     and the equal-nonzero-value case (e.g. IODelay = [0.3; 0.3]).
+  ##
+  ##   * NON-UNIFORM column (requesting rows genuinely disagree): a single
+  ##     shared state-space column b(:,j) cannot carry two different delays to
+  ##     two different outputs.  Decompose: append an independent n0-state
+  ##     shadow block replaying the open-loop plant driven by input j alone,
+  ##     then tap each output row off that block with its own required delay
+  ##     (a zero-delay row becomes a direct feedthrough tap, not a port).
+  ##
+  ## Untouched columns (M never references input j) are skipped entirely here
+  ## and pass straight through as ordinary lti I/O delays.  The decision is
+  ## made per column BEFORE any absorption so an untouched column is never
+  ## decomposed nor absorbed.
   for j = 1 : mm
-    if (inport(j) > 0 && in_touched(j))
-      q = columns (B2);
-      B2  = [B2,  b(:,j)];
-      D12 = [D12, d(:,j)];
-      C2  = [C2;  zeros(1,n)];
-      D21 = [D21; full(sparse(1,j,1,1,mm))];
-      D22 = [D22, zeros(q,1); zeros(1,q), 0];
-      tau = [tau; inport(j)];
-      b(:,j) = 0;                         # input j now reaches plant via port
-      d(:,j) = 0;
-      absorbed_in(j) = true;
+    if (! in_touched(j))
+      continue;                           # free external delay: pass through
+    endif
+
+    vals = unique (iod (iod(:, j) != 0, j));
+
+    if (numel (vals) > 1)
+      ## ---- NON-UNIFORM: shadow-state decomposition of column j ----------
+      bj = b0(:, j);                      # pristine input-j actuator column
+
+      ## column j no longer reaches the main state or output directly
+      b(:, j) = 0;
+      d(:, j) = 0;
+
+      ## append an independent n0-state shadow block  x_j' = A0 x_j + bj e_j
+      N  = columns (a);                   # current total state count
+      sh = N + 1 : N + n0;                # new shadow-state indices
+      a  = blkdiag (a, A0);
+      b  = [b; zeros(n0, mm)];   b(sh, j) = bj;
+      c  = [c, zeros(p, n0)];             # taps fill these shadow columns
+      B2 = [B2; zeros(n0, columns(B2))];  # existing ports drive no shadow state
+      C2 = [C2, zeros(rows(C2), n0)];     # existing ports read no shadow state
+      stname = [stname; repmat({""}, n0, 1)];
+
+      for i = 1 : p
+        vi = id(j) + iod(i, j);
+        ## does output i genuinely depend on input j in the open-loop plant?
+        ## (T_ij(s) identically zero => structural/padding zero => leave alone)
+        if (! __depends_on__ (A0, bj, c0(i,:), d0(i,j)))
+          continue;
+        endif
+        if (vi == 0)
+          ## zero-delay entry: a TRUE identity tap into the main output
+          ## equations (no port, no tau entry) reading the shadow block.
+          c(i, sh) += c0(i,:);
+          d(i, j)  += d0(i, j);
+        else
+          ## nonzero-delay entry: one output-side delay port reading ONLY the
+          ## shadow block (C(i,:) x_j + D(i,j) e_j), summed into output i via
+          ## D12 -- the same output-port pattern used below, but reading the
+          ## shadow states instead of the main state.
+          q = columns (B2);
+          B2  = [B2,  zeros(rows(a), 1)];       # port drives no state
+          c2row = zeros (1, columns(a));   c2row(sh) = c0(i,:);
+          C2  = [C2;  c2row];
+          d21row = zeros (1, mm);          d21row(j) = d0(i, j);
+          D21 = [D21; d21row];
+          D22 = [D22, zeros(q,1); zeros(1,q), 0];
+          newcol = zeros (p, 1);   newcol(i) = 1;   # output i += delayed port
+          D12 = [D12, newcol];
+          tau = [tau; vi];
+        endif
+      endfor
+
+      absorbed_in(j) = true;              # clears InputDelay/IODelay column j
+
+    else
+      ## ---- UNIFORM: cheap single shared series port ---------------------
+      coldelay = id(j);
+      if (numel (vals) == 1)
+        coldelay += vals;
+      endif
+      if (coldelay > 0)
+        q = columns (B2);
+        B2  = [B2,  b(:,j)];
+        D12 = [D12, d(:,j)];
+        C2  = [C2;  zeros(1, columns(a))];
+        D21 = [D21; full(sparse(1,j,1,1,mm))];
+        D22 = [D22, zeros(q,1); zeros(1,q), 0];
+        tau = [tau; coldelay];
+        b(:,j) = 0;                       # input j now reaches plant via port
+        d(:,j) = 0;
+        absorbed_in(j) = true;
+      endif
     endif
   endfor
 
-  ## output-side ports (read the possibly-updated c/d/D12 rows)
+  ## ---- 1b. output-side OutputDelay ports (read updated c/d/D12 rows) ----
+  outport = od(:).';                      # 1-by-p
   for i = 1 : p
     if (outport(i) > 0 && out_touched(i))
       q = columns (B2);
       ## new port picks up the internal (pre-delay) output-i signal:
       ##   z = c(i,:) x + d(i,:) e + D12(i,:) w_existing
-      B2  = [B2,  zeros(n,1)];            # port does not drive states
+      B2  = [B2,  zeros(rows(a),1)];      # port does not drive states
       C2  = [C2;  c(i,:)];
       D21 = [D21; d(i,:)];
       D22 = [D22, zeros(q,1); D12(i,:), 0];
@@ -308,8 +380,8 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
 
   ## Clear ONLY the I/O delays that were actually absorbed into ports; delays
   ## on channels that M never touched pass through unchanged.  IODelay(i,j) is
-  ## folded into input j's series delay, so it is cleared exactly when input j
-  ## was absorbed.
+  ## folded into input j's series delay/decomposition, so it is cleared exactly
+  ## when input j was absorbed.
   id_new  = id(:);   id_new(absorbed_in)   = 0;
   od_new  = od(:);   od_new(absorbed_out)  = 0;
   iod_new = iod;     iod_new(:, absorbed_in) = 0;
@@ -336,8 +408,33 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
   sys.d22 = D22 + D21*m/z*D12;
   sys.internaldelay = tau;
 
+  sys.stname = stname;
   sys.e = [];
 
+endfunction
+
+
+## Does open-loop output i genuinely depend on input j?  True iff the SISO
+## transfer  T(s) = c0*(sI - A0)^{-1}*bj + d0  is not identically zero.  A
+## rational T that vanishes at two generic (non-eigenvalue) probe points is
+## the zero function, so two probes suffice.  Used to leave structurally
+## unreachable rows (e.g. the zero-padded compensator block feedback()
+## appends, or a genuinely decoupled output) untouched during decomposition,
+## rather than build a spurious zero tap/port for them.
+function tf = __depends_on__ (A0, bj, c0, d0)
+  if (d0 != 0)
+    tf = true;
+    return;
+  endif
+  tf = false;
+  n = rows (A0);
+  for s = [0.7307+1.2531i, 2.1049-0.9137i]
+    val = c0 * ((s*eye(n) - A0) \ bj) + d0;
+    if (abs (val) > 1e-9)
+      tf = true;
+      return;
+    endif
+  endfor
 endfunction
 
 
@@ -449,3 +546,76 @@ endfunction
 %! gb = 1 / (1i*w + 2) * exp (-1i*0.4*w);
 %! cross_s = ga / (1 + ga*gb);
 %! assert (freqresp (Cross, w), cross_s, 1e-8);
+
+
+## Task 2 -- dense per-entry IODelay decomposition (shadow-state augmentation).
+## Genuinely coupled 2-in/2-out plant (non-diagonal A) with an IODelay column
+## whose two requesting rows disagree (0.4 vs 0.6): a single shared actuator
+## column cannot carry both delays, so input 2 is decomposed onto its own
+## independent n-state shadow block, and each output taps that block with its
+## own delay.  Input 1 is a uniform column (single 0.3) taking the cheap path.
+## Reference: build the true delayed open-loop transfer G(jw) entrywise as
+## T_ij(jw) e^{-jw*IODelay(i,j)} from the open-loop ssdata, then close unity
+## negative feedback in closed form  H = (I + G)^{-1} G.
+%!test
+%! A = [-1, 0.5; 0, -2];               # non-diagonal => coupled dynamics
+%! B = eye (2); C = eye (2); D = zeros (2);
+%! iod = [0.3, 0.4; 0, 0.6];           # col 1 uniform (0.3); col 2 differs
+%! G = ss (A, B, C, D, "IODelay", iod);
+%! cl = feedback (G);
+%! ## exactly ONE decomposed column (input 2) => n_original + n = 2 + 2 = 4
+%! assert (rows (ssdata (cl)), 4);
+%! ## ports: uniform 0.3 (col 1) + two decomposed taps 0.4, 0.6 (col 2)
+%! assert (sort (get (cl, "internaldelay")), [0.3; 0.4; 0.6], 1e-12);
+%! w = [0.3, 0.9, 1.7, 4.0];
+%! for k = 1 : numel (w)
+%!   s = 1i*w(k);
+%!   T = C/(s*eye(2) - A)*B + D;        # open-loop rational transfer
+%!   Gt = T .* exp (-1i*w(k)*iod);      # per-entry delayed open loop
+%!   Href = (eye(2) + Gt) \ Gt;         # unity negative feedback, closed form
+%!   assert (freqresp (cl, w(k)), Href, 1e-9);
+%! endfor
+
+
+## Task 2 -- mixed zero/nonzero rows within a single decomposed column.
+## Coupled 3-state plant (state 1 feeds states 2 and 3).  Column 1 requests
+## delays [0.5; 0.7; 0]: rows 1 and 2 disagree so the column decomposes; row 3
+## genuinely depends on input 1 (through the coupling) but requests ZERO delay,
+## so it must be wired as a TRUE identity tap -- a direct feedthrough off the
+## shadow block, NOT a delay port.  Hence internaldelay carries only 0.5 and
+## 0.7 (no tau=0 entry), and exactly one shadow block (n=3) is added.
+%!test
+%! A = [-1, 0, 0; 0.3, -2, 0; 0.2, 0, -3];   # lower-tri: state1 -> states 2,3
+%! B = eye (3); C = eye (3); D = zeros (3);
+%! iod = zeros (3); iod(1,1) = 0.5; iod(2,1) = 0.7;   # col1 = [0.5; 0.7; 0]
+%! G = ss (A, B, C, D, "IODelay", iod);
+%! cl = feedback (G);
+%! assert (rows (ssdata (cl)), 6);            # 3 original + 3 shadow (one col)
+%! d = get (cl, "internaldelay");
+%! assert (sort (d), [0.5; 0.7], 1e-12);      # two ports only; NO tau = 0
+%! assert (! any (d == 0));                    # identity tap created no port
+%! w = [0.4, 1.1, 3.0];
+%! for k = 1 : numel (w)
+%!   s = 1i*w(k);
+%!   T = C/(s*eye(3) - A)*B + D;
+%!   Gt = T .* exp (-1i*w(k)*iod);            # row 3 col 1 undelayed (tau = 0)
+%!   Href = (eye(3) + Gt) \ Gt;
+%!   assert (freqresp (cl, w(k)), Href, 1e-9);
+%! endfor
+
+
+## Task 2 -- gating: a dense DIFFERING IODelay column that M never touches must
+## pass straight through, NOT decompose and NOT error.  In a feedforward
+## cascade sys2*sys1 the inputs of sys1 are free external inputs (their M rows
+## are all zero), so sys1's dense IODelay column is untouched.  Before this
+## task the differing-value guard errored here even though M never references
+## the column; the fix restricts the decomposition decision to touched columns
+## only.  The untouched column must add NO shadow states (state count stays
+## n(sys2)+n(sys1) = 4, not 6) and produce no internal delay port.
+%!test
+%! A = [-1, 0.5; 0, -2];
+%! s1 = ss (A, eye(2), eye(2), zeros(2), "IODelay", [0, 0.4; 0, 0.6]);
+%! s2 = ss (diag ([-3, -4]), eye(2), eye(2), zeros(2));
+%! sys = s2 * s1;                             # feedforward cascade: no error
+%! assert (isempty (get (sys, "internaldelay")));   # untouched => no port
+%! assert (rows (ssdata (sys)), 4);           # no shadow block appended

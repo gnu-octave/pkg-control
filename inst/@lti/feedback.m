@@ -339,16 +339,28 @@ endfunction
 %! cl_cn = connect (Gall, cm, 1, 1);
 %! assert (get (cl_cn, "internaldelay"), get (cl_fb, "internaldelay"), 1e-10);
 
-## MIMO plant whose IODelay column has more than one nonzero entry (one
-## input feeding two differently-delayed outputs).  Folding IODelay into a
-## single per-input series delay is only exact when an input drives a
-## single delayed output; this topology is outside that scope and must
-## error clearly rather than silently return a wrong InternalDelay.
-%!error <not yet supported>
-%! a = -eye (2);
-%! b = eye (2);
+## MIMO plant whose IODelay column has more than one differently-valued
+## nonzero entry (one input feeding two differently-delayed outputs).  A single
+## shared actuator column cannot carry two different delays, so the column is
+## decomposed onto an independent shadow-state block (one per decomposed
+## column) and each output taps it with its own delay.  This used to error
+## ("not yet supported"); it is now realised exactly.  Coupled A so both
+## outputs genuinely depend on the shared input.
+%!test
+%! a = [-1, 0.4; 0, -2];
+%! b = [1; 1];                     # single input drives both states
 %! c = eye (2);
-%! d = zeros (2);
-%! iod = [0.1, 0; 0.2, 0];         # column 1 has two nonzero entries
+%! d = [0; 0];
+%! iod = [0.2; 0.5];               # one input, two differently-delayed outputs
 %! G = ss (a, b, c, d, "IODelay", iod);
-%! feedback (G);
+%! cl = feedback (G, [1, 1]);      # close the single loop (sum of outputs)
+%! assert (rows (ssdata (cl)), 4); # 2 original + 2 shadow (one decomposed col)
+%! assert (sort (get (cl, "internaldelay")), [0.2; 0.5], 1e-12);
+%! w = [0.5, 1.3, 3.0];
+%! for k = 1 : numel (w)
+%!   s = 1i*w(k);
+%!   T = c/(s*eye(2) - a)*b + d;            # 2x1 open-loop transfer
+%!   Gt = T .* exp (-1i*w(k)*iod);          # per-entry delayed
+%!   Href = Gt / (1 + [1, 1]*Gt);           # feedback (G, [1 1]): e = u - [1 1]y
+%!   assert (freqresp (cl, w(k)), Href, 1e-9);
+%! endfor
