@@ -133,3 +133,25 @@ endfunction
 %! Gd = (1 ./ (1i*w + 2)) .* exp (-1i * w * T);
 %! expected = reshape (Gd ./ (1 + Gd), 1, 1, []);
 %! assert (freqresp (L, w), expected, 1e-9);
+
+%!test  # MIMO InternalDelay: two channels with DIFFERENT delays, LFT closure per channel
+%! ## Genuine 2-in/2-out fixture (append of two independent SISO feedback loops)
+%! ## so the internal-delay LFT closure is exercised for more than one port at
+%! ## once.  Reference is the hand-derived closed form of each decoupled channel
+%! ## H_k(jw) = Gk e^{-jwTk} / (1 + Gk e^{-jwTk}),  Gk = 1/(jw+ak); off-diagonals
+%! ## must be identically zero.
+%! T1 = 0.3; a1 = 1; T2 = 0.7; a2 = 2;
+%! G1 = ss (-a1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-a2, 1, 1, 0, "IODelay", T2);
+%! sys = append (feedback (G1), feedback (G2));
+%! assert (get (sys, "internaldelay"), [T1; T2], 1e-12);
+%! w = [0.05, 0.5, 1.7, 4, 11];
+%! H = __freqresp__ (sys, w);
+%! Gd1 = (1 ./ (1i*w + a1)) .* exp (-1i*w*T1); e1 = Gd1 ./ (1 + Gd1);
+%! Gd2 = (1 ./ (1i*w + a2)) .* exp (-1i*w*T2); e2 = Gd2 ./ (1 + Gd2);
+%! for k = 1:numel (w)
+%!   assert (H(1,1,k), e1(k), 1e-10);
+%!   assert (H(2,2,k), e2(k), 1e-10);
+%!   assert (H(1,2,k), 0, 1e-12);
+%!   assert (H(2,1,k), 0, 1e-12);
+%! endfor

@@ -617,7 +617,19 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   N_DEF = 2000;                                         # default number of points
   T_DEF = 10;                                           # default simulation time
 
-  ev = pole (sys);
+  ## pole() refuses InternalDelay systems (transcendental spectrum), but the
+  ## horizon estimate only needs a time scale: use the rational-part poles
+  ## (eigenvalues of the state matrix) of the delay-free dynamics instead.
+  if (hasinternaldelay (sys))
+    [aev, ~, ~, ~, eev] = dssdata (sys, []);
+    if (isempty (eev))
+      ev = eig (aev);
+    else
+      ev = eig (aev, eev);
+    endif
+  else
+    ev = pole (sys);
+  endif
 
   TOL = max (abs (ev))*1.0e-10 + 2*eps;                 # values below TOL are assumed to be zero,
                                                         # avoid TOL = 0
@@ -786,3 +798,39 @@ endfunction
 %!test  # no InternalDelay: unaffected (regression)
 %! sys = ss (-1, 1, 1, 0);
 %! assert (isempty (impulse (sys)), false);
+
+%!test  # MIMO InternalDelay step vs independent multi-port delay-buffer reference
+%! ## Genuine 2-in/2-out InternalDelay fixture (append of two independent SISO
+%! ## feedback loops) with DIFFERENT per-channel delays, so the per-port delay
+%! ## buffers cannot be a single shared buffer misused.  Reference is a
+%! ## hand-written multi-port simulation over the extended-system matrices
+%! ## (ssdata/__ss_ext_build__ used as data plumbing only).
+%! T1 = 0.4; T2 = 0.8; dt = 0.2;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sysd = c2d (append (feedback (G1), feedback (G2)), dt, "zoh");
+%! t = (0:dt:5)';
+%! [y, ty] = step (sysd, t);                 # y is N-by-ny-by-nu
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay")(:);
+%! assert (numel (tau), 2);                  # genuinely more than one port
+%! assert (tau(1) != tau(2));                # distinct delays
+%! np = numel (tau); N = numel (ty); nst = rows (A);
+%! for jin = 1:nu
+%!   u = zeros (nu, 1); u(jin) = 1;
+%!   xr = zeros (nst, 1); zh = zeros (N, np); yref = zeros (N, ny);
+%!   for k = 1:N
+%!     w = zeros (np, 1);
+%!     for pp = 1:np
+%!       if (k - tau(pp) >= 1), w(pp) = zh(k - tau(pp), pp); endif
+%!     endfor
+%!     yref(k, :) = (C1*xr + D11*u + D12*w).';
+%!     zh(k, :)   = (C2*xr + D21*u + D22*w).';
+%!     xr = A*xr + B1*u + B2*w;
+%!   endfor
+%!   assert (y(:, :, jin), yref, 1e-10);
+%! endfor

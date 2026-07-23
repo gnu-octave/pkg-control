@@ -49,6 +49,10 @@
 
 function pol = pole (sys)
 
+  if (hasinternaldelay (sys))
+    error ("pole: InternalDelay is not yet supported");
+  endif
+
    if(nargin == 1) # pole(sys)
      if(!(isa(sys, "lti")) && issquare(sys))
        pol = eig(sys);
@@ -128,3 +132,7 @@ endfunction
 %!assert (infp, infp_exp);
 %!assert (kronr, kronr_exp);
 %!assert (kronl, kronl_exp);
+
+
+## Test for InternalDelay guard - should error with function-specific message
+%!error <pole: InternalDelay is not yet supported> pole (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

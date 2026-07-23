@@ -612,3 +612,31 @@ endfunction
 %! assert (dsys.internaldelay, T / tsam, 1e-10);
 %! assert (dsys.InputDelay, round (0.75 / tsam));
 
+
+%!test  # MIMO InternalDelay: two channels, DIFFERENT delays, dimension-correct multi-port c2d
+%! ## Genuine 2-in/2-out InternalDelay fixture built as append() of two
+%! ## independent SISO feedback loops (the isolated-SISO-block topology
+%! ## __sys_connect__ actually supports).  Distinct delays (0.4 vs 0.8) so an
+%! ## index/port swap could not hide behind equal values.
+%! T1 = 0.4; T2 = 0.8; tsam = 0.2;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sys = append (feedback (G1), feedback (G2));
+%! assert (get (sys, "internaldelay"), [T1; T2], 1e-12);   # two channels
+%! dsys = c2d (sys, tsam, "zoh");
+%! assert (hasinternaldelay (dsys), true);
+%! assert (isdt (dsys), true);
+%! assert (get (dsys, "internaldelay"), [T1/tsam; T2/tsam], 1e-10);  # 2 and 4 samples
+%! assert (size (dsys), [2, 2]);
+%! ## Independent reference: each diagonal channel must equal the SISO c2d of
+%! ## that loop alone; off-diagonals must be exactly zero (channels decoupled).
+%! d1 = c2d (feedback (G1), tsam, "zoh");
+%! d2 = c2d (feedback (G2), tsam, "zoh");
+%! w = [0.1, 0.7, 2];
+%! H = freqresp (dsys, w); H1 = freqresp (d1, w)(:); H2 = freqresp (d2, w)(:);
+%! for k = 1:numel (w)
+%!   assert (H(1,1,k), H1(k), 1e-12);
+%!   assert (H(2,2,k), H2(k), 1e-12);
+%!   assert (H(1,2,k), 0, 1e-12);
+%!   assert (H(2,1,k), 0, 1e-12);
+%! endfor

@@ -269,6 +269,10 @@ function info = stepinfo (sys, varargin)
     error ("stepinfo: first argument must be an lti system\n");
   endif
 
+  if (hasinternaldelay (sys))
+    error ("stepinfo: InternalDelay is not yet supported");
+  endif
+
   p = inputParser ();   # Use Octvae's input parser for the input arguments
   p.FunctionName = "stepinfo";
   vld_rtlimits = @(x) is_real_matrix (x) && ...
@@ -485,4 +489,8 @@ function t_transient = __get_transient_time__ (y, y_final, y_init, ct, t, t_type
   endif
 
 endfunction
+
+
+## Test for InternalDelay guard - should error with function-specific message
+%!error <stepinfo: InternalDelay is not yet supported> stepinfo (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
 

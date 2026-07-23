@@ -230,3 +230,26 @@ endfunction
 %! assert (hasinternaldelay (csys), true);
 %! assert (csys.internaldelay, T, 1e-10);
 %! assert (csys.InputDelay, round (0.75 / tsam) * tsam, 1e-10);
+
+%!test  # MIMO InternalDelay: two-channel round-trip c2d->d2c recovers both distinct taus
+%! ## Same isolated-SISO-block MIMO fixture as the c2d MIMO test; verify the
+%! ## extended-system split is dimension-correct for more than one delay port
+%! ## in BOTH directions (samples -> seconds per channel).
+%! T1 = 0.4; T2 = 0.8; tsam = 0.2;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sys = append (feedback (G1), feedback (G2));
+%! dsys = c2d (sys, tsam, "zoh");
+%! csys = d2c (dsys, "zoh");
+%! assert (hasinternaldelay (csys), true);
+%! assert (isct (csys), true);
+%! assert (get (csys, "internaldelay"), [T1; T2], 1e-10);   # both recovered
+%! ## freqresp of the round-tripped continuous system matches the original,
+%! ## per diagonal channel; off-diagonals stay zero.
+%! w = [0.05, 0.3, 1.2];
+%! H = freqresp (csys, w); H0 = freqresp (sys, w);
+%! assert (H, H0, 1e-8);
+%! for k = 1:numel (w)
+%!   assert (H(1,2,k), 0, 1e-12);
+%!   assert (H(2,1,k), 0, 1e-12);
+%! endfor

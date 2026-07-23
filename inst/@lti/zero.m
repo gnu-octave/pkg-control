@@ -143,6 +143,10 @@ function [zer, gain, info] = zero (sys, type = "invariant")
     print_usage ();
   endif
 
+  if (hasinternaldelay (sys))
+    error ("zero: InternalDelay is not yet supported");
+  endif
+
   if (strncmpi (type, "invariant", 3))                              # invariant zeros, default
     [zer, gain, info] = __zero__ (sys, nargout);
   elseif (strncmpi (type, "transmission", 1))                       # transmission zeros
@@ -455,22 +459,22 @@ endfunction
 ## only for descriptor state-space models with regular 'E' matrices.
 %!shared z_inv, z_tra, z_inp, z_out, z_sys, z_inv_e, z_tra_e, z_inp_e, z_out_e, z_sys_e
 %! A = diag ([1, 1, 3, -4, -1, 3]);
-%! 
+%!
 %! B = [  0,  -1
 %!       -1,   0
 %!        1,  -1
 %!        0,   0
 %!        0,   1
 %!       -1,  -1  ];
-%!        
+%!
 %! C = [  1,  0,  0,  1,  0,  0
 %!        0,  1,  0,  1,  0,  1
 %!        0,  0,  1,  0,  0,  1  ];
-%!         
+%!
 %! D = zeros (3, 2);
 %!
 %! E = eye (6);
-%! 
+%!
 %! SYS = dss (A, B, C, D, E);
 %!
 %! z_inv = zero (SYS);
@@ -484,9 +488,13 @@ endfunction
 %! z_inp_e = [-4];
 %! z_out_e = [-1];
 %! z_sys_e = [-4, -1, 2];
-%! 
-%!assert (z_inv, z_inv_e, 1e-4); 
-%!assert (z_tra, z_tra_e, 1e-4); 
-%!assert (z_inp, z_inp_e, 1e-4); 
-%!assert (z_out, z_out_e, 1e-4); 
+%!
+%!assert (z_inv, z_inv_e, 1e-4);
+%!assert (z_tra, z_tra_e, 1e-4);
+%!assert (z_inp, z_inp_e, 1e-4);
+%!assert (z_out, z_out_e, 1e-4);
 %!assert (z_sys, z_sys_e, 1e-4);
+
+
+## Test for InternalDelay guard - should error with function-specific message
+%!error <zero: InternalDelay is not yet supported> zero (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

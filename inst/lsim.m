@@ -698,3 +698,40 @@ endfunction
 %! y_zero = lsim (sysd, u, t, 0);
 %! y_free = lsim (sysd, zeros (size (t)), t, x0);
 %! assert (y_full, y_zero + y_free, 1e-10);
+
+%!test  # MIMO InternalDelay lsim with nonzero x0 vs independent multi-port reference
+%! ## Two-channel InternalDelay fixture (append of two independent SISO feedback
+%! ## loops, DIFFERENT delays).  Distinct nonzero x0 per state and distinct
+%! ## per-channel inputs, checked against a hand-written multi-port delay-buffer
+%! ## simulation over the extended-system matrices.
+%! T1 = 0.4; T2 = 0.8; dt = 0.2;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sysd = c2d (append (feedback (G1), feedback (G2)), dt, "zoh");
+%! t = (0:dt:5)';
+%! N = numel (t);
+%! u = [sin(t), cos(t)];
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! nst = rows (A);
+%! x0 = ((1:nst)' - nst/2) / nst;            # distinct nonzero entries
+%! y = lsim (sysd, u, t, x0);                # N-by-ny
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay")(:);
+%! assert (numel (tau), 2);
+%! assert (tau(1) != tau(2));
+%! np = numel (tau);
+%! xr = x0(:); zh = zeros (N, np); yref = zeros (N, ny);
+%! for k = 1:N
+%!   uk = u(k, :).';
+%!   w = zeros (np, 1);
+%!   for pp = 1:np
+%!     if (k - tau(pp) >= 1), w(pp) = zh(k - tau(pp), pp); endif
+%!   endfor
+%!   yref(k, :) = (C1*xr + D11*uk + D12*w).';
+%!   zh(k, :)   = (C2*xr + D21*uk + D22*w).';
+%!   xr = A*xr + B1*uk + B2*w;
+%! endfor
+%! assert (y, yref, 1e-10);
