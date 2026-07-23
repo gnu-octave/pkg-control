@@ -24,8 +24,10 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## @var{tf}, @var{zpk}, or @var{ss} model.  @var{ss} models with a nonzero
-## @var{InternalDelay} are not yet supported.
+## @var{tf}, @var{zpk}, or @var{ss} model.  @var{ss} models carrying a
+## nonzero @var{InternalDelay} are supported: the delay loop is closed
+## through a rational Pade filter via a linear-fractional transformation
+## (@code{lft}).
 ## @item n
 ## Order of the Pade approximation.  Either a scalar (applied to every
 ## nonzero delay) or a vector with one entry per nonzero delay -- see
@@ -57,7 +59,8 @@ function sys = pade (sys, n)
 
   if (isa (sys, "ss"))
     if (hasinternaldelay (sys))
-      error ("pade: ss models with a nonzero InternalDelay are not yet supported");
+      sys = __pade_substitute_internal__ (sys, n);
+      return;
     endif
     if (! hasdelay (sys))
       return;
@@ -170,6 +173,119 @@ function sys = __pade_substitute_ordinary__ (sys, n)
 
 endfunction
 
+## InternalDelay Pade substitution for ss models.  Each internal delay
+## port is a signal z(t) fed back to the plant as w(t) = z(t-tau); the
+## exact freqresp closes this loop with Delta = diag(exp(-jw*tau)) via an
+## LFT (see @ss/__freqresp__.m).  Here we replace that ideal-delay loop
+## closure by a rational one: build the extended ordinary plant (whose last
+## nports inputs are w and last nports outputs are z) with
+## __ss_ext_build__, then close the loop through a diagonal MIMO Pade
+## filter G_pade (one SISO Pade block per port) using the Redheffer star
+## product lft().  As the order grows, each SISO Pade block converges to
+## exp(-jw*tau), so the closed loop converges to the exact-delay system.
+##
+## Any ordinary delay (InputDelay/OutputDelay/IODelay) carried alongside
+## the InternalDelay is independent of the loop closure, so it is handled
+## afterwards by the same tf-roundtrip substitution used for the
+## InternalDelay-free ss case (__pade_substitute_ordinary__), fed the
+## ordinary slice of the SAME order assignment computed once up front.
+function sys = __pade_substitute_internal__ (sys, n)
+
+  ## Full per-delay order assignment, computed ONCE so the internal and
+  ## ordinary substitutions consume consistent slices (ordering per
+  ## __pade_order_vector__: InputDelay, OutputDelay, IODelay, InternalDelay).
+  [orders, idx] = __pade_order_vector__ (sys, n);
+  n_in  = numel (idx.input);
+  n_out = numel (idx.output);
+  n_iod = numel (idx.iod);
+  n_int = numel (idx.internal);
+
+  orders_ordinary = orders (1 : n_in + n_out + n_iod);
+  orders_internal = orders (n_in + n_out + n_iod + 1 : end);
+
+  ## Original internal-delay values and any ordinary delay, extracted BEFORE
+  ## the extended plant is rebuilt (the rebuild deliberately drops both the
+  ## delay ports and the ordinary delay).
+  tau = get (sys, "internaldelay");
+  tau = tau(:);
+  had_ordinary = hasdelay (sys);
+  [oindelay, ooutdelay, oiodelay] = get (sys, "inputdelay", "outputdelay", "iodelay");
+
+  ## Build the extended ordinary plant.  __ss_ext_build__ folds the delay
+  ## ports (b2/c2/d12/d21/d22) into ordinary extra inputs/outputs but leaves
+  ## the returned ext_sys's lti input/output NAMES (hence its reported
+  ## size()) and its residual b2/c2/.../internaldelay fields untouched, so
+  ## it is NOT a well-formed ordinary ss.  Rebuild a clean ss from just the
+  ## extended (a,b,c,d[,e]) matrices: that gives correct input/output counts
+  ## for lft()'s size() calls AND clears every residual port field and the
+  ## internaldelay, so hasinternaldelay(ext_clean) is false.
+  ## __ss_ext_build__ lives in @ss and returns an ss whose a/b/c/d hold the
+  ## extended matrices; extract them with dssdata (the raw fields are not
+  ## dot-accessible from outside @ss).  Passing [] keeps a descriptor E empty
+  ## rather than expanding it to the identity.
+  [ext_sys, nu, ny] = __ss_ext_build__ (sys);
+  [ea, eb, ec, ed, ee, etsam] = dssdata (ext_sys, []);
+  nports = columns (eb) - nu;
+  if (nports != rows (ec) - ny)
+    error ("pade: internal delay port dimension mismatch (%d inputs vs %d outputs)",
+           nports, rows (ec) - ny);
+  endif
+
+  ## Rebuild a clean ordinary ss from just the extended matrices.  This gives
+  ## correct input/output counts for lft()'s size() calls (the raw ext_sys
+  ## keeps the ORIGINAL input/output names, so its reported size is stale)
+  ## AND clears every residual port field and the internaldelay, so
+  ## hasinternaldelay(ext_clean) is false.
+  if (isempty (ee))
+    ext_clean = ss (ea, eb, ec, ed, etsam);
+  else
+    ext_clean = dss (ea, eb, ec, ed, ee, etsam);
+  endif
+
+  if (nports == 0)
+    ## Degenerate: an internaldelay is set but there are no actual delay
+    ## ports (empty b2/c2/...), so the "delay" affects no signal.  There is
+    ## no loop to close -- the delay-free equivalent is just the clean plant.
+    sys = ext_clean;
+  else
+    if (nports != numel (tau) || nports != n_int)
+      error ("pade: internal delay port count (%d) does not match delay count (%d/%d)",
+             nports, numel (tau), n_int);
+    endif
+
+    ## Diagonal MIMO Pade filter: nports inputs (each port's z, the delayed
+    ## signal's source) and nports outputs (each port's w, the destination).
+    G_pade = pade (tau(1), orders_internal(1));
+    for k = 2 : nports
+      G_pade = append (G_pade, pade (tau(k), orders_internal(k)));
+    endfor
+
+    ## Close the loop.  lft(sys1, sys2, nu, ny) connects the LAST nu inputs of
+    ## sys1 to the FIRST nu outputs of sys2, and the LAST ny outputs of sys1
+    ## to the FIRST ny inputs of sys2.  With sys1 = ext_clean, sys2 = G_pade,
+    ## nu = ny = nports: ext_clean's last nports inputs (w) are driven by
+    ## G_pade's first nports outputs (w), and ext_clean's last nports outputs
+    ## (z) drive G_pade's first nports inputs (z) -- exactly the loop the ideal
+    ## delay used to close (w = Delta z, now w = G_pade z).
+    sys = lft (ext_clean, G_pade, nports, nports);
+  endif
+
+  ## Ordinary delay, if any, is untouched by the loop closure; reattach the
+  ## ORIGINAL ordinary delay to the delay-free closure result and
+  ## Pade-substitute it via the same tf-roundtrip path used for
+  ## InternalDelay-free ss inputs, using the ordinary slice of the order
+  ## assignment computed above.  lft() preserves the ordinary I/O dimensions
+  ## (the first nu inputs / first ny outputs), so the ordinary delay vectors
+  ## still line up.
+  if (had_ordinary)
+    sys = set (sys, "InputDelay", oindelay, ...
+                    "OutputDelay", ooutdelay, ...
+                    "IODelay", oiodelay);
+    sys = ss (__pade_substitute_ordinary__ (tf (sys), orders_ordinary));
+  endif
+
+endfunction
+
 
 %!test  # SISO tf with InputDelay: freqresp matches hand-multiplied reference
 %! T = 0.5;
@@ -270,7 +386,101 @@ endfunction
 %! w = [0.1, 1, 5];
 %! assert (freqresp (ss2, w), freqresp (tf2, w), 1e-6);
 
-%!test  # ss with InternalDelay still errors clearly (Task 3 will remove this)
-%! h = ss (-1, 1, 1, 0);
-%! h = set (h, "internaldelay", 0.5);
-%! fail ("pade (h, 3)", "InternalDelay");
+%!test  # ss InternalDelay: feedback loop, freqresp matches Pade LFT closed form
+%! ## L = feedback (G), G = 1/(s+1) with loop delay T = 0.3 s, traps the delay
+%! ## internally.  Exact closed loop: Gd/(1+Gd), Gd = G e^{-jwT}.  The Pade
+%! ## approximation replaces e^{-jwT} by the scalar Pade transfer function's
+%! ## own freqresp Pd, so the reference is Gp/(1+Gp) with Gp = G*Pd -- an
+%! ## INDEPENDENT computation (scalar pade path), not a second call into the
+%! ## code under test.
+%! T = 0.3;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! assert (hasinternaldelay (L), true);
+%! order = 4;
+%! sys2 = pade (L, order);
+%! assert (hasinternaldelay (sys2), false);
+%! assert (hasdelay (sys2), false);
+%! w = [0.05, 0.5, 1.7, 4, 11];
+%! H = reshape (freqresp (sys2, w), 1, []);
+%! [np, dp] = pade (T, order);
+%! Pd = reshape (freqresp (tf (np, dp), w), 1, []);
+%! Gp = (1 ./ (1i*w + 1)) .* Pd;
+%! expected = Gp ./ (1 + Gp);
+%! assert (H, expected, 1e-9);
+
+%!test  # ss InternalDelay: freqresp error against TRUE exact delay shrinks with order
+%! ## Strongest evidence the substitution converges to the exact-delay system:
+%! ## as the Pade order grows, the approximation error against the untouched
+%! ## exact-delay freqresp must strictly decrease.
+%! T = 0.3;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! w = [0.05, 0.5, 1.7, 4, 11];
+%! Hexact = reshape (freqresp (L, w), 1, []);
+%! err = zeros (1, 3);
+%! orders = [2, 4, 8];
+%! for k = 1:3
+%!   sysk = pade (L, orders(k));
+%!   Hk = reshape (freqresp (sysk, w), 1, []);
+%!   err(k) = max (abs (Hk - Hexact));
+%! endfor
+%! assert (err(2) < err(1));
+%! assert (err(3) < err(2));
+
+%!test  # ss MIMO InternalDelay: two independent ports, distinct delays and orders
+%! ## append() of two SISO feedback loops -> genuine 2-port InternalDelay.
+%! ## A per-port order VECTOR (3 for port 1, 6 for port 2) verifies each port
+%! ## consumes its own assigned order.  Reference: decoupled per-channel Pade
+%! ## closed form; off-diagonals must be identically zero.
+%! T1 = 0.3; a1 = 1; o1 = 3;
+%! T2 = 0.7; a2 = 2; o2 = 6;
+%! G1 = ss (-a1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-a2, 1, 1, 0, "IODelay", T2);
+%! sys = append (feedback (G1), feedback (G2));
+%! assert (get (sys, "internaldelay"), [T1; T2], 1e-12);
+%! sys2 = pade (sys, [o1, o2]);
+%! assert (hasinternaldelay (sys2), false);
+%! assert (hasdelay (sys2), false);
+%! w = [0.05, 0.5, 1.7, 4, 11];
+%! [n1, d1] = pade (T1, o1); P1 = reshape (freqresp (tf (n1, d1), w), 1, []);
+%! [n2, d2] = pade (T2, o2); P2 = reshape (freqresp (tf (n2, d2), w), 1, []);
+%! Gp1 = (1 ./ (1i*w + a1)) .* P1; e1 = Gp1 ./ (1 + Gp1);
+%! Gp2 = (1 ./ (1i*w + a2)) .* P2; e2 = Gp2 ./ (1 + Gp2);
+%! H = freqresp (sys2, w);
+%! for k = 1:numel (w)
+%!   assert (H(1,1,k), e1(k), 1e-9);
+%!   assert (H(2,2,k), e2(k), 1e-9);
+%!   assert (H(1,2,k), 0, 1e-9);
+%!   assert (H(2,1,k), 0, 1e-9);
+%! endfor
+
+%!test  # ss combined InternalDelay AND ordinary OutputDelay: both approximated
+%! ## The loop-trapped internal delay and an untouched OutputDelay are
+%! ## independent; the result must equal the internal-delay Pade closure
+%! ## multiplied by the OutputDelay's own scalar Pade transfer function.
+%! T = 0.3; Tout = 0.2; order = 5;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = set (feedback (G), "OutputDelay", Tout);
+%! assert (hasinternaldelay (L), true);
+%! assert (hasdelay (L), true);
+%! sys2 = pade (L, order);
+%! assert (hasinternaldelay (sys2), false);
+%! assert (hasdelay (sys2), false);
+%! w = [0.05, 0.5, 1.7, 4];
+%! [np, dp] = pade (T, order);
+%! Pd = reshape (freqresp (tf (np, dp), w), 1, []);
+%! Gp = (1 ./ (1i*w + 1)) .* Pd; internal_ref = Gp ./ (1 + Gp);
+%! [no, do_] = pade (Tout, order);
+%! Pout = reshape (freqresp (tf (no, do_), w), 1, []);
+%! expected = internal_ref .* Pout;
+%! H = reshape (freqresp (sys2, w), 1, []);
+%! assert (H, expected, 1e-8);
+
+%!test  # ss InternalDelay with no delay ports (degenerate b2/c2 empty): still closes
+%! ## set() an internaldelay directly with empty ports -- the extended plant is
+%! ## degenerate (no extra I/O) but the substitution must not error and must
+%! ## drop the internal delay.
+%! sys = set (ss (-1, 1, 1, 0), "internaldelay", 0.5);
+%! sys2 = pade (sys, 3);
+%! assert (hasinternaldelay (sys2), false);
