@@ -24,7 +24,8 @@
 ## @strong{Inputs}
 ## @table @var
 ## @item sys
-## @var{tf} or @var{zpk} model (@var{ss} models are not yet supported).
+## @var{tf}, @var{zpk}, or @var{ss} model.  @var{ss} models with a nonzero
+## @var{InternalDelay} are not yet supported.
 ## @item n
 ## Order of the Pade approximation.  Either a scalar (applied to every
 ## nonzero delay) or a vector with one entry per nonzero delay -- see
@@ -34,9 +35,13 @@
 ## @strong{Outputs}
 ## @table @var
 ## @item sys
-## Delay-free @var{tf} or @var{zpk} model with the Pade-approximated
-## rational factors absorbed into each entry's numerator/denominator
-## (or zeros/poles).
+## Delay-free equivalent model with the Pade-approximated rational factors
+## absorbed into each entry's numerator/denominator (or zeros/poles, or
+## state-space realization).  For @var{ss} inputs, the result is obtained
+## via a @code{tf} roundtrip and does @strong{not} preserve the original
+## state basis or state count (matching @acronym{MATLAB}'s own
+## @code{pade()}, which likewise only guarantees an equivalent model, not
+## a minimal one -- use @code{minreal} afterward if minimality is needed).
 ## @end table
 ## @end deftypefn
 
@@ -51,16 +56,34 @@ function sys = pade (sys, n)
   endif
 
   if (isa (sys, "ss"))
-    error ("pade: ss models are not yet supported");
+    if (hasinternaldelay (sys))
+      error ("pade: ss models with a nonzero InternalDelay are not yet supported");
+    endif
+    if (! hasdelay (sys))
+      return;
+    endif
+    sys_tf = __pade_substitute_ordinary__ (tf (sys), n);
+    sys = ss (sys_tf);
+    return;
   endif
 
   if (! (isa (sys, "tf") || isa (sys, "zpk")))
-    error ("pade: only tf and zpk models are supported (ss not yet implemented)");
+    error ("pade: only tf, zpk, and ss models are supported");
   endif
 
   if (! hasdelay (sys))
     return;
   endif
+
+  sys = __pade_substitute_ordinary__ (sys, n);
+
+endfunction
+
+## Shared ordinary-delay (InputDelay/OutputDelay/IODelay) per-entry Pade
+## substitution logic for tf/zpk models.  Assumes hasdelay(sys) is true.
+## Used directly for tf/zpk inputs, and via a tf-roundtrip for ss inputs
+## with no InternalDelay.
+function sys = __pade_substitute_ordinary__ (sys, n)
 
   [indelay, outdelay, iodelay] = get (sys, "inputdelay", "outputdelay", "iodelay");
   total = totaldelay (sys);
@@ -230,3 +253,24 @@ endfunction
 %! assert (length (den{1,2}) - 1, 1 + 5);
 
 %!error <does not match the number of nonzero delays> pade (tf (1, [1 2], "InputDelay", 0.5), [1, 2])
+
+%!test  # ss with dense per-entry IODelay, cross-checked against the tf path
+%! a = [-2, 0; 0, -3];
+%! b = [1, 0; 0, 1];
+%! c = [1, 1; 1, 1];
+%! d = [0, 0; 0, 0];
+%! sys_ss = ss (a, b, c, d);
+%! sys_ss = set (sys_ss, "IODelay", [0.2, 0.3; 0.4, 0.5]);
+%! sys_tf = tf ({1, 1; 1, 1}, {[1 2], [1 3]; [1 2], [1 3]});
+%! sys_tf = set (sys_tf, "IODelay", [0.2, 0.3; 0.4, 0.5]);
+%! ss2 = pade (sys_ss, 3);
+%! tf2 = pade (sys_tf, 3);
+%! assert (hasdelay (ss2), false);
+%! assert (hasdelay (tf2), false);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (ss2, w), freqresp (tf2, w), 1e-6);
+
+%!test  # ss with InternalDelay still errors clearly (Task 3 will remove this)
+%! h = ss (-1, 1, 1, 0);
+%! h = set (h, "internaldelay", 0.5);
+%! fail ("pade (h, 3)", "InternalDelay");
