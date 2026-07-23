@@ -225,12 +225,31 @@ function sys = __sys_connect_delay__ (sys, m, id, od, iod)
 
   ## ---- 1. absorb I/O delays into series ports ---------------------------
   ## effective per-input series delay: InputDelay(j) + column j of IODelay
-  ## (IODelay folding is exact when input j drives a single output)
-  if (any (sum (iod != 0, 1) > 1))
-    error (["__sys_connect__: an input feeding multiple differently-delayed ", ...
-            "outputs through IODelay is not yet supported"]);
-  endif
-  inport = id(:).' + sum (iod, 1);        # 1-by-m
+  ##
+  ## v(i,j) = InputDelay(j) + IODelay(i,j) is the delay row i would need
+  ## input j's series port to carry.  Only rows with a genuinely REQUESTED
+  ## (nonzero) IODelay entry are compared for agreement -- rows with
+  ## IODelay(i,j) == 0 make no request at all (this also naturally excludes
+  ## rows belonging to an unrelated block padded in by __sys_group__, e.g.
+  ## the identity compensator feedback() appends, whose IODelay is always
+  ## zero).  Folding column j into a single shared port is exact exactly
+  ## when every REQUESTING row agrees on the value: the common case (plain
+  ## InputDelay, or a diagonal IODelay column) and the equal-nonzero-value
+  ## case (e.g. IODelay = [0.3; 0.3]), which used to be mis-summed to 0.6
+  ## and then rejected by the old any(sum(iod!=0,1)>1) guard below.  When
+  ## requesting rows genuinely disagree in value, a single shared
+  ## state-space column b(:,j) cannot carry two different delays to two
+  ## different outputs; that decomposition is not implemented yet (error).
+  inport = id(:).';                       # 1-by-m
+  for j = 1 : mm
+    vals = unique (iod (iod(:, j) != 0, j));
+    if (numel (vals) > 1)
+      error (["__sys_connect__: an input feeding multiple differently-delayed ", ...
+              "outputs through IODelay is not yet supported"]);
+    elseif (numel (vals) == 1)
+      inport(j) += vals;
+    endif
+  endfor
   outport = od(:).';                      # 1-by-p
 
   ## A channel's I/O delay is promoted into an internal series delay port ONLY
@@ -335,3 +354,98 @@ endfunction
 %! sys = s2 * s1;                          # feedforward cascade -> mtimes
 %! assert (get (sys, "inputdelay"), 0.3, 1e-12);
 %! assert (isempty (get (sys, "internaldelay")));
+
+
+## Bug fix: a column with 2+ EQUAL nonzero IODelay entries must absorb into
+## a single shared port of that value, not error and not silently mis-sum
+## (id(j) + sum(iod(:,j)) used to double-count equal values, e.g. 0.3+0.3 =
+## 0.6, which is why the old any(sum(iod!=0,1)>1) guard rejected this
+## topology outright rather than risk returning that wrong answer).
+%!test
+%! a = -eye (2);
+%! b = eye (2);
+%! c = eye (2);
+%! d = zeros (2);
+%! iod = [0.3, 0; 0.3, 0];                 # column 1: two EQUAL nonzero entries
+%! G = ss (a, b, c, d, "IODelay", iod);
+%! cl = feedback (G);                      # unity negative feedback, both channels
+%! assert (get (cl, "internaldelay"), 0.3, 1e-10);   # single 0.3, not 0.6
+%! ## hand-derived closed-form: the plant is decoupled (a diagonal, b = c =
+%! ## I), so each channel is an independent SISO loop; channel 1 carries the
+%! ## series delay e^{-0.3s}, channel 2 has none.
+%! ##   T1(s) = g(s) e^{-0.3s} / (1 + g(s) e^{-0.3s}),   g(s) = 1/(s+1)
+%! ##   T2(s) = g(s) / (1 + g(s))
+%! w = 1;
+%! g = 1 / (1i*w + 1);
+%! T1 = g * exp (-1i*0.3*w) / (1 + g * exp (-1i*0.3*w));
+%! T2 = g / (1 + g);
+%! fr = freqresp (cl, w);
+%! assert (fr(:, :, 1), [T1, 0; 0, T2], 1e-8);
+
+
+## Exotic topology regression: nested feedback around a delayed inner loop.
+## The inner loop's IODelay is trapped by the inner feedback() call, then the
+## inner closed loop is cascaded with a further controller and closed again
+## by an outer feedback() call.  This already worked before this task (the
+## inner delay is a single-input/single-output series port throughout, so
+## the uniform-column path always applied); promoted here into a permanent
+## regression test with a hand-derived closed-form reference.
+%!test
+%! P = ss (-1, 1, 1, 0, "IODelay", 0.2);
+%! H = ss (-3, 1, 1, 0);
+%! Inner = feedback (P, H);                # inner loop traps the delay
+%! assert (get (Inner, "internaldelay"), 0.2, 1e-10);
+%! Cc = ss (-2, 1, 1, 0);
+%! Outer = feedback (Inner * Cc);          # outer unity feedback
+%! assert (get (Outer, "internaldelay"), 0.2, 1e-10);
+%! ## hand derivation:  p(s) = 1/(s+1), h(s) = 1/(s+3), c(s) = 1/(s+2)
+%! ##   Inner(s) = p e^{-0.2s} / (1 + p e^{-0.2s} h)
+%! ##   Outer(s) = Inner*c / (1 + Inner*c)
+%! w = 1.3;
+%! p = 1 / (1i*w + 1);
+%! h = 1 / (1i*w + 3);
+%! inner_s = p * exp (-1i*0.2*w) / (1 + p * exp (-1i*0.2*w) * h);
+%! c = 1 / (1i*w + 2);
+%! outer_s = inner_s * c / (1 + inner_s * c);
+%! assert (freqresp (Outer, w), outer_s, 1e-8);
+
+
+## Exotic topology regression: a 3-block delay ring closed via connect(),
+## each block carrying its own distinct IODelay.  Already worked before this
+## task (each block's delay is absorbed as its own single-input series
+## port); promoted here into a permanent regression test.
+%!test
+%! G1 = ss (-1, 1, 1, 0, "IODelay", 0.1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", 0.15);
+%! G3 = ss (-3, 1, 1, 0, "IODelay", 0.05);
+%! Gall = append (G1, G2, G3);
+%! ## ring:  u1 = r - y3 ,  u2 = y1 ,  u3 = y2
+%! cm = [1, -3; 2, 1; 3, 2];
+%! Ring = connect (Gall, cm, 1, 1);
+%! assert (sort (get (Ring, "internaldelay")), sort ([0.1; 0.15; 0.05]), 1e-10);
+%! ## hand derivation:  g_k(s) = 1/(s+k) e^{-tau_k s},  loop gain L = g1 g2 g3
+%! ##   Ring(s) = g1 / (1 + L)         (transfer from external input r to y1)
+%! w = 0.7;
+%! g1 = 1 / (1i*w + 1) * exp (-1i*0.1*w);
+%! g2 = 1 / (1i*w + 2) * exp (-1i*0.15*w);
+%! g3 = 1 / (1i*w + 3) * exp (-1i*0.05*w);
+%! ring_s = g1 / (1 + g1*g2*g3);
+%! assert (freqresp (Ring, w), ring_s, 1e-8);
+
+
+## Exotic topology regression: cross-coupled two-block feedback where each
+## block carries its own distinct IODelay (as opposed to a single scalar
+## delay in only the forward path).  Already worked before this task;
+## promoted here into a permanent regression test.
+%!test
+%! Ga = ss (-1, 1, 1, 0, "IODelay", 0.2);
+%! Gb = ss (-2, 1, 1, 0, "IODelay", 0.4);
+%! Cross = feedback (Ga, Gb);
+%! assert (sort (get (Cross, "internaldelay")), sort ([0.2; 0.4]), 1e-10);
+%! ## hand derivation:  ga(s) = 1/(s+1) e^{-0.2s},  gb(s) = 1/(s+2) e^{-0.4s}
+%! ##   Cross(s) = ga / (1 + ga*gb)
+%! w = 0.9;
+%! ga = 1 / (1i*w + 1) * exp (-1i*0.2*w);
+%! gb = 1 / (1i*w + 2) * exp (-1i*0.4*w);
+%! cross_s = ga / (1 + ga*gb);
+%! assert (freqresp (Cross, w), cross_s, 1e-8);
