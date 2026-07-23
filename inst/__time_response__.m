@@ -568,46 +568,6 @@ function [y, x_arr] = __ramp_response__ (sys_dt, t)
 endfunction
 
 
-## Extract the internal-delay port matrices (B2, C2, D12, D21, D22) and the
-## per-port delay tau (whole samples) from a discrete InternalDelay ss model,
-## by reusing @ss/__ss_ext_build__ (the same helper c2d/d2c use) purely for
-## data extraction.
-function [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt)
-  [ext, nu, ny] = __ss_ext_build__ (sys_dt);
-  [~, Be, Ce, De] = ssdata (ext);
-  B2  = Be(:, nu+1:end);
-  C2  = Ce(ny+1:end, :);
-  D12 = De(1:ny, nu+1:end);
-  D21 = De(ny+1:end, 1:nu);
-  D22 = De(ny+1:end, nu+1:end);
-  tau = get (sys_dt, "internaldelay")(:);
-endfunction
-
-
-## Delay-buffer lookup: w(port) = z_hist(k - tau(port), port), read as 0 when
-## k - tau(port) < 1 (no past sample yet -- the zero-history boundary).  At
-## k == tau this still reads 0 (index 0); the first real-history read is at
-## k == tau + 1, returning z_hist(1) -- i.e. exactly a tau-sample delay,
-## matching the integer-sample shift used by __apply_timeresp_delay__.
-##
-## Assumes tau(port) >= 1 for every port: a port whose delay rounds to 0
-## samples (an internal delay smaller than half a sample time) would read
-## w(k) = z_hist(k), which is always 0 at read time since z_hist(k) is only
-## written later in the same step -- silently dropping that port's D12/D22
-## feedthrough instead of solving the resulting algebraic w=z loop. Not
-## reachable via a well-formed nonzero delay; c2d's rounding is expected to
-## keep tau >= 1 for any InternalDelay this function is asked to simulate.
-function w = __delay_lookup__ (z_hist, k, tau, nports)
-  w = zeros (nports, 1);
-  for pp = 1 : nports
-    idx = k - tau(pp);
-    if (idx >= 1)
-      w(pp) = z_hist(idx, pp);
-    endif
-  endfor
-endfunction
-
-
 function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
 
   ## code based on __stepimp__.m of Kai P. Mueller and A. Scottedward Hodel

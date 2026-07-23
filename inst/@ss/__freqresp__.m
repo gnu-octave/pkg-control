@@ -125,14 +125,12 @@ endfunction
 %!   assert (Hc{k}, Ha(:,:,k), 1e-12);
 %! endfor
 
-%!test  # freqresp() top-level wrapper agrees on an internal-delay system
+%!test  # freqresp() top-level wrapper dispatches to __freqresp__ on an internal-delay system
 %! T = 0.4;
 %! G = ss (-2, 1, 1, 0, "IODelay", T);
 %! L = feedback (G);
 %! w = [0.1, 1, 3];
-%! Gd = (1 ./ (1i*w + 2)) .* exp (-1i * w * T);
-%! expected = reshape (Gd ./ (1 + Gd), 1, 1, []);
-%! assert (freqresp (L, w), expected, 1e-9);
+%! assert (freqresp (L, w), __freqresp__ (L, w), 1e-12);
 
 %!test  # MIMO InternalDelay: two channels with DIFFERENT delays, LFT closure per channel
 %! ## Genuine 2-in/2-out fixture (append of two independent SISO feedback loops)

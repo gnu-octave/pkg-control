@@ -500,33 +500,11 @@ function [y, t, x_arr] = __linear_simulation__ (sys, u, t, x0, method)
 endfunction
 
 
-## Extract the internal-delay port matrices (B2, C2, D12, D21, D22) and the
-## per-port delay tau (whole samples) from a discrete InternalDelay ss model,
-## reusing @ss/__ss_ext_build__ (the same helper c2d/d2c use) for data
-## extraction only.
-function [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys)
-  [ext, nu, ny] = __ss_ext_build__ (sys);
-  [~, Be, Ce, De] = ssdata (ext);
-  B2  = Be(:, nu+1:end);
-  C2  = Ce(ny+1:end, :);
-  D12 = De(1:ny, nu+1:end);
-  D21 = De(ny+1:end, 1:nu);
-  D22 = De(ny+1:end, nu+1:end);
-  tau = get (sys, "internaldelay")(:);
-endfunction
-
-
 ## One buffered per-sample simulation of an InternalDelay ss model over the
 ## whole horizon: at each step the internal-delay port input w is read from a
 ## buffer of past z values (tau samples ago; zero when k - tau < 1 -- the
-## zero-history boundary), never the current step's z.  Returns the output y
-## and state trajectory x_arr; linear in (x_init, umat).
-##
-## Assumes tau(port) >= 1 for every port, same as __delay_lookup__ in
-## __time_response__.m: a port whose delay rounds to 0 samples would read
-## w(k) = z_hist(k) before it is written this step, silently dropping that
-## port's D12/D22 feedthrough instead of solving the resulting algebraic
-## w=z loop.  Not reachable via a well-formed nonzero InternalDelay.
+## zero-history boundary, see __delay_lookup__), never the current step's z.
+## Returns the output y and state trajectory x_arr; linear in (x_init, umat).
 function [y, x_arr] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, ...
                                         tau, x_init, umat, urows, p, n)
   nports = numel (tau);
@@ -535,13 +513,7 @@ function [y, x_arr] = __buffered_sim__ (A, B, C, D, B2, C2, D12, D21, D22, ...
   x_arr = zeros (urows, n);
   x = x_init;
   for k = 1 : urows
-    w = zeros (nports, 1);
-    for pp = 1 : nports
-      idx = k - tau(pp);
-      if (idx >= 1)
-        w(pp) = z_hist(idx, pp);
-      endif
-    endfor
+    w = __delay_lookup__ (z_hist, k, tau, nports);
     uk = umat(k, :).';
     y(k, :) = C * x + D * uk + D12 * w;
     z_hist(k, :) = (C2 * x + D21 * uk + D22 * w).';
@@ -597,40 +569,21 @@ endfunction
 %! t = (0:0.05:5)';
 %! u = [sin(t), cos(t)];
 %! [y, tt] = lsim (sys, u, t);
-%! [y0, tt0] = lsim (sys_nodelay, u, t);
 %! dt = tt(2) - tt(1);
 %! total = [0.2, 0; 0, 0.4];
-%! ## reconstruct expected per-output response by re-simulating each input alone
-%! u1 = [u(:,1), zeros(size(t))];
-%! u2 = [zeros(size(t)), u(:,2)];
-%! [y01] = lsim (sys_nodelay, u1, t);
-%! [y02] = lsim (sys_nodelay, u2, t);
-%! k11 = round (total(1,1)/dt); k12 = round (total(1,2)/dt);
-%! k21 = round (total(2,1)/dt); k22 = round (total(2,2)/dt);
-%! if (k11 == 0)
-%!   s11 = y01(:,1);
-%! else
-%!   s11 = [zeros(k11,1); y01(1:end-k11,1)];
-%! endif
-%! if (k12 == 0)
-%!   s12 = y02(:,1);
-%! else
-%!   s12 = [zeros(k12,1); y02(1:end-k12,1)];
-%! endif
-%! if (k21 == 0)
-%!   s21 = y01(:,2);
-%! else
-%!   s21 = [zeros(k21,1); y01(1:end-k21,2)];
-%! endif
-%! if (k22 == 0)
-%!   s22 = y02(:,2);
-%! else
-%!   s22 = [zeros(k22,1); y02(1:end-k22,2)];
-%! endif
-%! expected1 = s11 + s12;
-%! expected2 = s21 + s22;
-%! assert (y(:,1), expected1, 1e-6);
-%! assert (y(:,2), expected2, 1e-6);
+%! ## reconstruct expected per-output response by shifting each single-input
+%! ## zero-state response by its own total delay, then summing per output
+%! expected = zeros (size (y));
+%! for j = 1:2
+%!   uj = zeros (size (u));
+%!   uj(:, j) = u(:, j);
+%!   y0j = lsim (sys_nodelay, uj, t);
+%!   for i = 1:2
+%!     k = round (total(i,j)/dt);
+%!     expected(:,i) += [zeros(k,1); y0j(1:end-k,i)];
+%!   endfor
+%! endfor
+%! assert (y, expected, 1e-6);
 
 %!test  # nonzero x0 on a delayed ss system: zero-input term shifted by OutputDelay only
 %! A = -1; B = 1; C = 1; D = 0;
