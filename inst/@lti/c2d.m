@@ -116,7 +116,22 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     sys = __ss_ext_split__ (origsys, ext_sys, nu, ny);
     sys.tsam = tsam;
     tau = get (origsys, "internaldelay");
-    sys = set (sys, "internaldelay", round (tau / tsam));
+    tau_samples = round (tau / tsam);
+
+    ## A nonzero InternalDelay that rounds to 0 samples would silently drop
+    ## that port's feedthrough during simulation instead of solving the
+    ## resulting algebraic loop (documented in __delay_lookup__/
+    ## __buffered_sim__'s tau>=1 assumption) -- convert this from a
+    ## silent-wrong-answer risk into a clear error, consistent with every
+    ## other guard on this branch.
+    if (any (tau != 0 & tau_samples == 0))
+      bad = tau (find (tau != 0 & tau_samples == 0, 1));
+      error (["c2d: InternalDelay of %g seconds is too small relative to ", ...
+              "the sampling time %g and would round to 0 samples"], ...
+             bad, tsam);
+    endif
+
+    sys = set (sys, "internaldelay", tau_samples);
 
     if (hasdelay (origsys))
       [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
@@ -640,3 +655,8 @@ endfunction
 %!   assert (H(1,2,k), 0, 1e-12);
 %!   assert (H(2,1,k), 0, 1e-12);
 %! endfor
+
+## InternalDelay that rounds to 0 samples must error clearly, not silently
+## drop the port's feedthrough (see the tau>=1 assumption documented in
+## __delay_lookup__/__buffered_sim__).
+%!error <would round to 0 samples> c2d (feedback (ss (-1, 1, 1, 0, "IODelay", 0.01)), 1, "zoh")
