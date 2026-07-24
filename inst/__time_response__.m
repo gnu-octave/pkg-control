@@ -578,9 +578,19 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   T_DEF = 10;                                           # default simulation time
 
   ## pole() refuses InternalDelay systems (transcendental spectrum), but the
-  ## horizon estimate only needs a time scale: use the rational-part poles
-  ## (eigenvalues of the state matrix) of the delay-free dynamics instead.
-  if (hasinternaldelay (sys))
+  ## horizon estimate only needs a time scale.  The delay-free rational-part
+  ## eigenvalues alone are NOT a safe substitute: the internal-delay port's
+  ## closed loop can be far more lightly damped than the open-loop dynamics
+  ## suggest (e.g. a large delay relative to the plant's time constant can
+  ## push a feedback loop close to marginal stability), so use pole() on a
+  ## Pade approximation instead -- this captures the loop's true (approximate)
+  ## closed-loop pole locations, including the delay's effect on damping.
+  ## pade() only supports continuous-time input (a separate, pre-existing
+  ## limitation), so an already-discrete InternalDelay system still falls
+  ## back to the delay-free rational-part eigenvalues.
+  if (hasinternaldelay (sys) && isct (sys))
+    ev = pole (pade (sys, 4));
+  elseif (hasinternaldelay (sys))
     [aev, ~, ~, ~, eev] = dssdata (sys, []);
     if (isempty (eev))
       ev = eig (aev);
@@ -794,3 +804,50 @@ endfunction
 %!   endfor
 %!   assert (y(:, :, jin), yref, 1e-10);
 %! endfor
+
+
+## Auto-horizon (no explicit time vector) for a well-damped InternalDelay
+## system: the response must settle within the auto-selected horizon and
+## match the same system simulated over an equivalent explicit time vector.
+## Pass the CONTINUOUS system directly (not pre-discretized) since
+## __sim_horizon__ is invoked on the original continuous system before
+## discretization -- pre-discretizing here would silently skip the
+## Pade-based horizon estimate this test exercises (pade() only supports
+## continuous input) and fall back to the discrete-only branch instead.
+%!test
+%! T = 0.3;
+%! L = feedback (ss (-1, 1, 1, 0, "IODelay", T));
+%! [y_auto, t_auto] = step (L);
+%! K = dcgain (L);
+%! assert (abs (y_auto(end) - K) < 0.02 * abs (K));   # settled by the last sample
+%! y_explicit = step (L, t_auto);
+%! assert (y_auto, y_explicit, 1e-12);
+
+## Auto-horizon for a delay-DOMINATED InternalDelay system: a large delay
+## relative to the plant's time constant pushes the closed loop close to
+## marginal stability (lightly damped, slow to settle) -- the delay-free
+## rational-part eigenvalues alone drastically underestimate this settling
+## time (the open-loop pole is at -1, but the true closed-loop damping is
+## roughly 40x slower: pole(pade(L,4)) finds a mode near -0.02, vs the
+## delay-free estimate of -1), so __sim_horizon__ must use a
+## Pade-approximated pole estimate for InternalDelay systems instead.
+## Regression test for that fix: confirm the auto horizon is long enough
+## to actually see the response approach its final value, not stop
+## mid-transient.  Pass the continuous system directly, same reason as
+## above.
+%!test
+%! T = 5;
+%! L = feedback (ss (-1, 1, 1, 0, "IODelay", T));
+%! [y_auto, t_auto] = step (L);
+%! K = dcgain (L);
+%! ## the response oscillates around K as it settles; check the envelope
+%! ## (max absolute deviation from K over the last quarter of the horizon)
+%! ## has decayed substantially relative to the deviation over the first
+%! ## quarter after the initial delay -- i.e. the horizon is long enough to
+%! ## see real decay, not just the first few oscillations.
+%! n = numel (t_auto);
+%! first_q = y_auto (round (n/4) : round (n/2));
+%! last_q  = y_auto (round (3*n/4) : n);
+%! dev_first = max (abs (first_q - K));
+%! dev_last  = max (abs (last_q - K));
+%! assert (dev_last < 0.5 * dev_first);
