@@ -183,23 +183,26 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     elseif (any (abs (all_samples - round (all_samples)) > 1e-8))
       [p, m] = size (origsys);
 
-      if (p != 1 || m != 1)
+      if (any (strcmpi (method, {"zoh", "std"})) && __c2d_frac_applicable__ (origsys, tsam))
+        sys = __c2d_frac_ss__ (origsys, tsam);
+        sys.tsam = tsam;
+      elseif (p != 1 || m != 1)
         error ("c2d: fractional delays on MIMO systems are not yet supported (per-channel Thiran approximation is not yet implemented)");
+      else
+        % __c2d__ recurses into this same function via ss() for the general
+        % case, and ss() does not strip delay fields -- so discretizing
+        % origsys directly here would re-enter this fractional branch a
+        % second time and double-apply the Thiran filter below.  Delay must
+        % be zeroed before the __c2d__ call, not just after.
+        sys_no_delay = set (origsys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
+        sys = __c2d__ (sys_no_delay, tsam, lower (method), w0);
+        sys.tsam = tsam;
+
+        total_delay = totaldelay (origsys);
+        filt = thiran (total_delay, tsam);
+        sys = sys * filt;
+        sys = set (sys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
       endif
-
-      % __c2d__ recurses into this same function via ss() for the general
-      % case, and ss() does not strip delay fields -- so discretizing
-      % origsys directly here would re-enter this fractional branch a
-      % second time and double-apply the Thiran filter below.  Delay must
-      % be zeroed before the __c2d__ call, not just after.
-      sys_no_delay = set (origsys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
-      sys = __c2d__ (sys_no_delay, tsam, lower (method), w0);
-      sys.tsam = tsam;
-
-      total_delay = totaldelay (origsys);
-      filt = thiran (total_delay, tsam);
-      sys = sys * filt;
-      sys = set (sys, "InputDelay", 0, "OutputDelay", 0, "IODelay", 0);
     else
       sys = __c2d__ (origsys, tsam, lower (method), w0);
       sys.tsam = tsam;
@@ -478,29 +481,52 @@ endfunction
 %! assert (hasdelay (dsys), false);
 
 
-%!test  # SISO tf fractional InputDelay: approximated via thiran
+%!test  # SISO tf fractional InputDelay: exact split-ZOH via zoh (default)
 %! sys = tf (1, [1 1], "InputDelay", 1.33);
 %! dsys = c2d (sys, 0.5, "zoh");
 %! assert (isdt (dsys), true);
-%! assert (hasdelay (dsys), false);
-%! sys_dyn = c2d (tf (1, [1 1]), 0.5, "zoh");
-%! filt = thiran (1.33, 0.5);
-%! expected = sys_dyn * filt;
-%! [numd, dend] = tfdata (dsys);
-%! [nume, dene] = tfdata (expected);
-%! assert (numd, nume, 1e-8);
-%! assert (dend, dene, 1e-8);
+%! ## d = floor(tau/tsam) = floor(1.33/0.5) = 2, plus 1 more because the
+%! ## fractional remainder (0.33 s) is nonzero -- same convention as
+%! ## __c2d_frac_zoh__/__c2d_frac_ss__.
+%! assert (hasdelay (dsys), true);
+%! assert (dsys.InputDelay, 3);
+%! [numd, dend] = tfdata (dsys, "v");
+%! ## independent ground truth: split-ZOH construction (Astrom & Wittenmark),
+%! ## computed directly via expm/integral (not via the code under test) --
+%! ## see the reproduction script in the task report for how these numbers
+%! ## were derived: A=-1, B=1, tsam=0.5, tau=1.33, d=floor(tau/tsam)=2,
+%! ## tau_frac=0.33.
+%! nume = [0.1563351834, 0.2371341569];
+%! dene = [1, -0.6065306597];
+%! assert (numd, nume, 1e-6);
+%! assert (dend, dene, 1e-6);
+%!
+%! ## Thiran approximation path is still reachable for a non-zoh method.
+%! dsys_tustin = c2d (sys, 0.5, "tustin");
+%! assert (hasdelay (dsys_tustin), false);
 
-%!test  # SISO zpk fractional OutputDelay: approximated via thiran
+%!test  # SISO zpk fractional OutputDelay: exact split-ZOH via zoh (default)
 %! sys = zpk ([], -1, 1, "OutputDelay", 1.33);
 %! dsys = c2d (sys, 0.5, "zoh");
 %! assert (isdt (dsys), true);
-%! assert (hasdelay (dsys), false);
-%! sys_dyn = c2d (zpk ([], -1, 1), 0.5, "zoh");
-%! filt = thiran (1.33, 0.5);
-%! expected = sys_dyn * filt;
+%! assert (hasdelay (dsys), true);
+%! assert (dsys.InputDelay, 3);
 %! w = [0.1, 1, 5];
-%! assert (freqresp (dsys, w), freqresp (expected, w), 1e-8);
+%! ## independent ground truth: same split-ZOH construction as the tf
+%! ## InputDelay test above -- the dynamics (pole at -1, gain 1) are
+%! ## identical, since __c2d_frac_ss__ collapses all delay fields into a
+%! ## scalar totaldelay () before splitting, so the same reference numbers
+%! ## apply.
+%! nume = [0.1563351834, 0.2371341569];
+%! dene = [1, -0.6065306597];
+%! tsam = 0.5;
+%! expected = tf (nume, dene, tsam);
+%! expected = set (expected, "InputDelay", 3);
+%! assert (freqresp (dsys, w), freqresp (expected, w), 1e-6);
+%!
+%! ## Thiran approximation path is still reachable for a non-zoh method.
+%! dsys_tustin = c2d (sys, 0.5, "tustin");
+%! assert (hasdelay (dsys_tustin), false);
 
 %!error <MIMO> c2d (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [1.33;0]), 0.5, "zoh")
 
@@ -660,3 +686,68 @@ endfunction
 ## drop the port's feedthrough (see the tau>=1 assumption documented in
 ## __delay_lookup__/__buffered_sim__).
 %!error <would round to 0 samples> c2d (feedback (ss (-1, 1, 1, 0, "IODelay", 0.01)), 1, "zoh")
+
+%!test  # exact fractional IODelay via zoh: matches MATLAB's split-ZOH result
+%! h = tf (10, [1 3 10], "IODelay", 0.25);
+%! hd = c2d (h, 0.1);      # method defaults to "zoh"
+%! [num, den] = tfdata (hd);
+%! assert (hd.InputDelay + hd.IODelay, 3);   # z^-3 pure delay factored out
+%! assert (num{1}, [0.01187, 0.06408, 0.009721], 1e-4);
+%! assert (den{1}, [1, -1.655, 0.7408], 1e-3);
+
+## Temporary Task-1 stub - Task 2 replaces this with the full MIMO check.
+function tf_ok = __c2d_frac_applicable__ (sys, tsam)
+  [p, m] = size (sys);
+  tf_ok = (p == 1 && m == 1);
+endfunction
+
+function sys = __c2d_frac_ss__ (origsys, tsam)
+  sys_ss = ss (origsys);
+  [A, B, C, D] = ssdata (sys_ss);
+  tau = totaldelay (origsys);        # scalar for SISO
+
+  [Ad, Bd, extra] = __c2d_frac_zoh__ (A, B, tsam, tau);
+
+  if (! extra.needed)
+    sys = ss (Ad, Bd, C, D, tsam);
+    d_samples = extra.d;
+  else
+    n = rows (A);
+    A_aug = [Ad, extra.g0; zeros(1,n), 0];
+    B_aug = [Bd; 1];
+    C_aug = [C, zeros(rows(C),1)];
+    D_aug = D;
+    sys = ss (A_aug, B_aug, C_aug, D_aug, tsam);
+    d_samples = extra.d + 1;
+  endif
+
+  sys = set (sys, "InputDelay", d_samples);
+
+  if (isa (origsys, "tf") || isa (origsys, "zpk"))
+    sys = tf (sys);
+
+    ## The extra register state added above (when extra.needed) has an
+    ## eigenvalue of exactly zero and contributes no real dynamics -- it
+    ## exists purely to carry the sub-sample remainder through one more
+    ## sample.  Converting the augmented state-space realization to a
+    ## transfer function therefore leaves an exact pole/zero pair at the
+    ## origin (a leading zero numerator coefficient paired with a trailing
+    ## ~0 denominator coefficient): cancel it explicitly so num/den come
+    ## back at minimal (MATLAB-compatible) order instead of one degree too
+    ## high.
+    if (extra.needed)
+      [num, den] = tfdata (sys, "v");
+      if (abs (num(1)) < 1e-8 * max (abs (num)) ...
+          && abs (den(end)) < 1e-8 * max (abs (den)))
+        num = num(2:end);
+        den = den(1:end-1);
+        sys = tf (num, den, tsam);
+        sys = set (sys, "InputDelay", d_samples);
+      endif
+    endif
+
+    if (isa (origsys, "zpk"))
+      sys = zpk (sys);
+    endif
+  endif
+endfunction
