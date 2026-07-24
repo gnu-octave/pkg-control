@@ -103,7 +103,11 @@ function sys = __pade_substitute_ordinary__ (sys, n)
     ## exactly.
     [orders, ~] = __pade_order_vector__ (sys, n);
     for k = 1 : numel (orders)
-      pade (1, orders (k));
+      ## nargout=2 (matching the continuous path's own call shape below)
+      ## is required here, not just cosmetic: pade() with nargout==0 runs
+      ## its plotting branch, which would pop open stray figure windows as
+      ## a side effect of what must be a pure validation call.
+      [~, ~] = pade (1, orders (k));
     endfor
     sys = set (sys, "InputDelay", indelay, "OutputDelay", outdelay, "IODelay", iodelay);
     sys = absorbDelay (sys);
