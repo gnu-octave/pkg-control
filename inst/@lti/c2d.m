@@ -528,7 +528,103 @@ endfunction
 %! dsys_tustin = c2d (sys, 0.5, "tustin");
 %! assert (hasdelay (dsys_tustin), false);
 
-%!error <MIMO> c2d (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [1.33;0]), 0.5, "zoh")
+%!test  # SIMO (single input, multiple outputs) fractional InputDelay:
+%! ## Finding 1 fix-pass regression test.  Before the fix, __c2d_frac_ss__'s
+%! ## trailing tf/zpk pole/zero-at-origin cancellation block was guarded
+%! ## only by "m == 1", which is trivially true here (m == 1) even though
+%! ## the system is not truly SISO (p == 2) -- the cancellation code calls
+%! ## tfdata(sys, "v") in a way that assumes a genuinely SISO system, and
+%! ## crashed with "ERROR: abs: not defined for cell".  The guard is now
+%! ## "p == 1 && m == 1", so this case is correctly routed through the
+%! ## general per-column MIMO augmentation path instead (no cancellation
+%! ## attempted).  Verify no crash, and cross-check each output channel's
+%! ## response against an independently, separately discretized SISO
+%! ## channel.
+%! sys = tf ({1;1}, {[1 1];[1 2]}, "InputDelay", 1.33);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! h1 = tf (1, [1 1], "InputDelay", 1.33);
+%! h2 = tf (1, [1 2], "InputDelay", 1.33);
+%! d1 = c2d (h1, 0.5, "zoh");
+%! d2 = c2d (h2, 0.5, "zoh");
+%! w = [0.1, 1, 5];
+%! resp = freqresp (dsys, w);
+%! assert (reshape (resp(1,1,:), 1, []), reshape (freqresp (d1, w), 1, []), 1e-10);
+%! assert (reshape (resp(2,1,:), 1, []), reshape (freqresp (d2, w), 1, []), 1e-10);
+
+%!test  # MIMO fractional InputDelay, uniform per column: now handled exactly
+%! ## by the Task 2 per-column split-ZOH generalization (this used to error
+%! ## before MIMO support was added -- __c2d_frac_applicable__ now accepts
+%! ## it because each column's total delay is constant down that column).
+%! ## InputDelay is [2;0], not [3;0]: the fix-pass correction removed the
+%! ## blanket "+1" applied to every fractional-delay column, since the
+%! ## extra register state remains part of the augmented dynamics here (no
+%! ## tf/zpk pole-zero cancellation happens for p>1) and its own
+%! ## eigenvalue-zero pole already contributes exactly the missing sample.
+%! sys = tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [1.33;0]);
+%! dsys = c2d (sys, 0.5, "zoh");
+%! assert (isdt (dsys), true);
+%! assert (dsys.InputDelay, [2;0]);
+
+%!test  # MIMO: column 1 exact-integer (nonzero) delay, column 2 fractional --
+%! ## only column 2 gets an extra register state; column 1's response must
+%! ## match a plain (no-extra-state) single-channel zoh discretization
+%! ## exactly, confirming the exact-integer column is untouched by the
+%! ## per-column augmentation applied to its fractional sibling.
+%! A = [-1, 0; 0, -3];
+%! B = [1, 0; 0, 1];
+%! C = [1, 0; 0, 1];
+%! D = [0, 0; 0, 0];
+%! sys = ss (A, B, C, D);
+%! sys = set (sys, "InputDelay", [0.2; 0.37]);   # col1: exact 2 samples @ Ts=0.1
+%! tsam = 0.1;
+%! dsys = c2d (sys, tsam);
+%! assert (dsys.InputDelay(1), 2);
+%! assert (dsys.InputDelay(2), 3);   # floor(0.37/0.1)=3; no +1, since the
+%!                                    # register survives as a real state in
+%!                                    # this ss/MIMO output (only cancelled-out
+%!                                    # tf/zpk SISO conversions get the +1)
+%! sys1 = ss (A(1,1), B(1,1), C(1,1), D(1,1));
+%! sys1 = set (sys1, "InputDelay", 0.2);
+%! dsys1 = c2d (sys1, tsam);
+%! w = [0.1, 1, 5];
+%! resp_full = freqresp (dsys, w);
+%! resp_ref = freqresp (dsys1, w);
+%! assert (squeeze (resp_full(1,1,:)), squeeze (resp_ref), 1e-8);
+
+%!test  # MIMO fractional OutputDelay, uniform across all outputs: in-scope
+%! ## (Finding 2 fix-pass): OutputDelay may be nonzero for MIMO as long as
+%! ## it is uniform across all outputs, since that is mathematically
+%! ## equivalent to attributing the same delay to InputDelay instead.
+%! ## Verify this succeeds (not "not yet supported") and matches the
+%! ## InputDelay-based formulation exactly (ssdata/freqresp).
+%! num = {1,1;1,1}; den = {[1 1],[1 2];[1 3],[1 4]};
+%! sys_out = tf (num, den, "OutputDelay", [1.33;1.33]);
+%! sys_in  = tf (num, den, "InputDelay", [1.33;1.33]);
+%! d_out = c2d (sys_out, 0.5, "zoh");
+%! d_in  = c2d (sys_in, 0.5, "zoh");
+%! assert (isdt (d_out), true);
+%! [Ao, Bo, Co, Do] = ssdata (d_out);
+%! [Ai, Bi, Ci, Di] = ssdata (d_in);
+%! assert (Ao, Ai, 1e-10);
+%! assert (Bo, Bi, 1e-10);
+%! assert (Co, Ci, 1e-10);
+%! assert (Do, Di, 1e-10);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (d_out, w), freqresp (d_in, w), 1e-10);
+
+%!error <not yet supported> ...
+%! ## row-varying OutputDelay (differs across outputs) is genuinely out of
+%! ## scope -- it cannot be pushed through to the input side -- and must
+%! ## still fall through to the "not yet supported" error.
+%! c2d (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "OutputDelay", [1.33;0.5]), 0.5, "zoh")
+
+%!error <not yet supported> ...
+%! ## row-varying IODelay within a column is likewise genuinely out of
+%! ## scope and must still error.
+%! sys = ss ([-1, 0; 0, -2], [1, 0; 0, 1], [1, 0; 0, 1], [0, 0; 0, 0]);
+%! sys = set (sys, "IODelay", [1.33, 0; 0.5, 0]);
+%! c2d (sys, 0.5, "zoh")
 
 
 %!test  # c2dOptions struct as 3rd argument, default DelayModeling
@@ -695,33 +791,101 @@ endfunction
 %! assert (num{1}, [0.01187, 0.06408, 0.009721], 1e-4);
 %! assert (den{1}, [1, -1.655, 0.7408], 1e-3);
 
-## Temporary Task-1 stub - Task 2 replaces this with the full MIMO check.
 function tf_ok = __c2d_frac_applicable__ (sys, tsam)
-  [p, m] = size (sys);
-  tf_ok = (p == 1 && m == 1);
+  [outdelay] = get (sys, "outputdelay");
+  total = totaldelay (sys);           # p-by-m matrix, seconds
+  [p, m] = size (total);
+  ## A single-output system's OutputDelay commutes with its InputDelay(s)
+  ## (it is equivalent, for a scalar-output LTI system, to shifting every
+  ## input by the same amount), so it can always be folded into the
+  ## per-column totaldelay used below -- this is exactly what Task 1's
+  ## SISO OutputDelay regression test relies on.  For p > 1 a nonzero,
+  ## per-row-varying OutputDelay would make the per-column delay
+  ## inconsistent across outputs; that case is already rejected by the
+  ## uniformity check below, so no separate early-return is needed here.
+  ##
+  ## Deliberate scope decision (not just an accepted side effect): for
+  ## MIMO (p > 1), OutputDelay may be nonzero as long as it is *uniform*
+  ## across all outputs -- that is mathematically equivalent to
+  ## attributing the same delay to InputDelay instead (every output being
+  ## delayed by the same amount commutes with delaying every input by that
+  ## amount), and is folded into the per-column totaldelay uniformity
+  ## check below exactly like any other InputDelay/IODelay contribution.
+  ## Only row-VARYING OutputDelay is rejected here, since that would
+  ## require genuine output-side treatment (delaying different outputs by
+  ## different amounts cannot be pushed through to the input side), which
+  ## this fix does not implement -- such systems fall through to the
+  ## "not yet supported" error below.
+  if (p > 1 && any (outdelay != outdelay(1)))
+    tf_ok = false;
+    return;
+  endif
+  for j = 1 : m
+    col = total (:, j);
+    if (any (abs (col - col(1)) > 1e-10))
+      tf_ok = false;
+      return;
+    endif
+  endfor
+  tf_ok = true;
 endfunction
 
 function sys = __c2d_frac_ss__ (origsys, tsam)
   sys_ss = ss (origsys);
   [A, B, C, D] = ssdata (sys_ss);
-  tau = totaldelay (origsys);        # scalar for SISO
+  total = totaldelay (origsys);
+  [p, m] = size (total);
+  n = rows (A);
 
-  [Ad, Bd, extra] = __c2d_frac_zoh__ (A, B, tsam, tau);
+  col_tau = total (1, :);       # one delay value per column (uniform down
+                                 # each column, guaranteed by the
+                                 # applicability check)
 
-  if (! extra.needed)
-    sys = ss (Ad, Bd, C, D, tsam);
-    d_samples = extra.d;
-  else
-    n = rows (A);
-    A_aug = [Ad, extra.g0; zeros(1,n), 0];
-    B_aug = [Bd; 1];
-    C_aug = [C, zeros(rows(C),1)];
-    D_aug = D;
-    sys = ss (A_aug, B_aug, C_aug, D_aug, tsam);
-    d_samples = extra.d + 1;
-  endif
+  extra_needed = false (1, m);
+  d_samples = zeros (1, m);
+  Bd_cols = cell (1, m);
+  g0_cols = cell (1, m);
 
-  sys = set (sys, "InputDelay", d_samples);
+  for j = 1 : m
+    [Ad, Bd, extra] = __c2d_frac_zoh__ (A, B(:,j), tsam, col_tau(j));
+    d_samples(j) = extra.d;
+    Bd_cols{j} = Bd;
+    extra_needed(j) = extra.needed;
+    if (extra.needed)
+      g0_cols{j} = extra.g0;
+      ## NOTE: no "+1" here.  The extra register state remains part of the
+      ## augmented dynamics (A_aug/B_aug below) and its own eigenvalue-zero
+      ## pole already contributes exactly one sample of delay to the
+      ## transfer function; adding 1 to the explicit InputDelay field here
+      ## as well would double-count that sample (verified against an
+      ## independent Astrom & Wittenmark split-ZOH ground truth: with the
+      ## register left in the dynamics, InputDelay must stay at d, not
+      ## d+1).  The one case where the register's dynamics are explicitly
+      ## removed from the transfer function (the SISO tf/zpk pole/zero
+      ## cancellation below) re-adds the missing sample there, exactly
+      ## because the register's contribution is being deleted from the
+      ## dynamics at that point.
+    endif
+  endfor
+
+  n_extra = sum (extra_needed);
+  A_aug = zeros (n + n_extra, n + n_extra);
+  A_aug (1:n, 1:n) = Ad;
+  B_aug = zeros (n + n_extra, m);
+  C_aug = [C, zeros(rows(C), n_extra)];
+
+  row = n + 1;
+  for j = 1 : m
+    B_aug (1:n, j) = Bd_cols{j};
+    if (extra_needed(j))
+      A_aug (1:n, row) = g0_cols{j};
+      B_aug (row, j) = 1;
+      row += 1;
+    endif
+  endfor
+
+  sys = ss (A_aug, B_aug, C_aug, D, tsam);
+  sys = set (sys, "InputDelay", d_samples(:));
 
   if (isa (origsys, "tf") || isa (origsys, "zpk"))
     sys = tf (sys);
@@ -735,14 +899,17 @@ function sys = __c2d_frac_ss__ (origsys, tsam)
     ## ~0 denominator coefficient): cancel it explicitly so num/den come
     ## back at minimal (MATLAB-compatible) order instead of one degree too
     ## high.
-    if (extra.needed)
+    if (p == 1 && m == 1 && n_extra > 0)
       [num, den] = tfdata (sys, "v");
       if (abs (num(1)) < 1e-8 * max (abs (num)) ...
           && abs (den(end)) < 1e-8 * max (abs (den)))
         num = num(2:end);
         den = den(1:end-1);
         sys = tf (num, den, tsam);
-        sys = set (sys, "InputDelay", d_samples);
+        ## The register's dynamics were just deleted from num/den above, so
+        ## (unlike the general case) the one sample of delay it used to
+        ## contribute via its own pole must now be re-added explicitly.
+        sys = set (sys, "InputDelay", d_samples + 1);
       endif
     endif
 
