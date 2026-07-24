@@ -93,6 +93,18 @@ function sys = __pade_substitute_ordinary__ (sys, n)
   [pr, pc] = size (total);
 
   if (isdt (sys))
+    ## n still validated (same path as continuous input) even though it has
+    ## no effect on the exact discrete result -- discarding the return
+    ## values is intentional.  __pade_order_vector__ only checks that a
+    ## vector n has the right length; the actual per-entry order values
+    ## (integer, non-negative, causal) are validated by the low-level
+    ## pade() polynomial routine in the continuous branch below, so call
+    ## it here too (with a dummy dead time) to match that validation
+    ## exactly.
+    [orders, ~] = __pade_order_vector__ (sys, n);
+    for k = 1 : numel (orders)
+      pade (1, orders (k));
+    endfor
     sys = set (sys, "InputDelay", indelay, "OutputDelay", outdelay, "IODelay", iodelay);
     sys = absorbDelay (sys);
     return;
@@ -558,3 +570,5 @@ endfunction
 %! assert (hasdelay (sys2), false);
 %! w = [0.1, 1, 5];
 %! assert (freqresp (sys2, w), freqresp (L, w), 1e-8);
+
+%!error <does not match the number of nonzero delays> pade (tf (1, [1, -0.5], 0.1, "InputDelay", 2), [1, 2])
