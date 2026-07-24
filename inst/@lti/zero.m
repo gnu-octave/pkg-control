@@ -144,7 +144,8 @@ function [zer, gain, info] = zero (sys, type = "invariant")
   endif
 
   if (hasinternaldelay (sys))
-    error ("zero: InternalDelay is not yet supported");
+    error (["zero: InternalDelay is not yet supported for exact zero ", ...
+            "computation; use pade(sys, n) to approximate the delay first"]);
   endif
 
   if (strncmpi (type, "invariant", 3))                              # invariant zeros, default
@@ -497,4 +498,4 @@ endfunction
 
 
 ## Test for InternalDelay guard - should error with function-specific message
-%!error <zero: InternalDelay is not yet supported> zero (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
+%!error <use pade\(sys, n\) to approximate> zero (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

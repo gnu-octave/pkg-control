@@ -50,7 +50,8 @@
 function pol = pole (sys)
 
   if (hasinternaldelay (sys))
-    error ("pole: InternalDelay is not yet supported");
+    error (["pole: InternalDelay is not yet supported for exact pole ", ...
+            "computation; use pade(sys, n) to approximate the delay first"]);
   endif
 
    if(nargin == 1) # pole(sys)
@@ -135,4 +136,4 @@ endfunction
 
 
 ## Test for InternalDelay guard - should error with function-specific message
-%!error <pole: InternalDelay is not yet supported> pole (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
+%!error <use pade\(sys, n\) to approximate> pole (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))
