@@ -28,6 +28,9 @@ function [keys, vals] = __lti_keys__ (sys, aliases = false, subclasses = true)
 
   ## cell vector of lti-specific keys
   keys = {"tsam";
+          "inputdelay";
+          "outputdelay";
+          "iodelay";
           "inname";
           "outname";
           "ingroup";
@@ -38,6 +41,9 @@ function [keys, vals] = __lti_keys__ (sys, aliases = false, subclasses = true)
 
   ## cell vector of lti-specific assignable values
   vals = {"scalar (sample time in seconds)";
+          "m-by-1 real matrix (input delay: seconds for ct models, samples for dt models)";
+          "p-by-1 real matrix (output delay: seconds for ct models, samples for dt models)";
+          "p-by-m real matrix (I/O delay: seconds for ct models, samples for dt models)";
           "m-by-1 cell vector of strings";
           "p-by-1 cell vector of strings";
           "struct with indices as fields";

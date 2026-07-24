@@ -51,6 +51,15 @@ function sys = ctranspose (sys)
     error ("lti: ctranspose: this is an unary operator");
   endif
 
+  if (hasdelay (sys))
+    ## Pertransposition substitutes s -> -s (continuous) or z -> 1/z
+    ## (discrete), turning a delay e^(-tau s) into e^(+tau s) -- a pure
+    ## advance, which InputDelay/OutputDelay/IODelay (nonnegative-only)
+    ## cannot represent.  Error clearly rather than silently return stale
+    ## pre-transpose delay data.
+    error ("lti: ctranspose: delay is not yet supported");
+  endif
+
   [p, m] = size (sys);
   ct = isct (sys);
 
@@ -62,3 +71,13 @@ function sys = ctranspose (sys)
   sys.outgroup = struct ();
 
 endfunction
+
+
+%!test  # no delay: unaffected (regression)
+%! sys = tf (1, [1 1]);
+%! sys_ct = sys';
+%! assert (hasdelay (sys_ct), false);
+
+%!error <delay is not yet supported> tf (1, [1 1], "InputDelay", 0.5)'
+%!error <delay is not yet supported> ss (-1, 1, 1, 0, "OutputDelay", 0.5)'
+%!error <delay is not yet supported> zpk ([], -1, 1, "IODelay", 0.5)'

@@ -39,6 +39,8 @@ function val = __get__ (sys, key)
       val = sys.stname;
     case "scaled"
       val = sys.scaled;
+    case {"internaldelay", "internal_delay"}
+      val = sys.internaldelay;
     otherwise
       error ("ss: get: invalid key name '%s'", key);
   endswitch

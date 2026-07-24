@@ -59,9 +59,29 @@ function sys = series (sys1, sys2, out1, in2)
 
   if (nargin == 2)
     sys = sys2 * sys1;
+
+    [p1, m1] = size (sys1);
+    [p2, m2] = size (sys2);
+
+    if ((isa (sys1, "lti") && hasdelay (sys1)) || (isa (sys2, "lti") && hasdelay (sys2)))
+      if (p1 != 1 || m2 != 1)
+        error ("series: MIMO connections with delays are not yet supported (require internal delay support)");
+      endif
+
+      id1 = get (sys1, "inputdelay");
+      od2 = get (sys2, "outputdelay");
+      io_junction = get (sys1, "outputdelay") + get (sys2, "inputdelay") ...
+                    + get (sys1, "iodelay") + get (sys2, "iodelay");
+
+      sys = set (sys, "InputDelay", id1, "OutputDelay", od2, "IODelay", io_junction);
+    endif
   elseif (nargin == 4)
     [p1, m1] = size (sys1);
     [p2, m2] = size (sys2);
+
+    if ((isa (sys1, "lti") && hasdelay (sys1)) || (isa (sys2, "lti") && hasdelay (sys2)))
+      error ("series: MIMO connections with delays are not yet supported (require internal delay support)");
+    endif
 
     if (! is_real_vector (out1))
       error ("series: argument 3 (outputs1) invalid");
@@ -116,3 +136,27 @@ function sys = series (sys1, sys2, out1, in2)
   endif
 
 endfunction
+
+
+%!test  # single-channel cascade: exact delay composition
+%! s1 = tf (1, [1 1], "InputDelay", 0.1, "OutputDelay", 0.2);
+%! s2 = tf (1, [1 2], "InputDelay", 0.3, "OutputDelay", 0.4);
+%! s = series (s1, s2);
+%! assert (s.InputDelay, 0.1, 1e-10);
+%! assert (s.OutputDelay, 0.4, 1e-10);
+%! assert (s.IODelay, 0.5, 1e-10);
+
+%!test  # no delay on either operand: result has no delay (regression)
+%! s1 = tf (1, [1 1]);
+%! s2 = tf (1, [1 2]);
+%! s = series (s1, s2);
+%! assert (hasdelay (s), false);
+
+%!error <MIMO> series (tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}, "InputDelay", [0.1;0.2]), tf ({1,1;1,1}, {[1 1],[1 2];[1 3],[1 4]}))
+
+%!test  # one operand is a plain numeric gain (no delay): should not error (regression)
+%! s1 = tf (1, [1 1]);
+%! s = series (s1, 2);
+%! assert (hasdelay (s), false);
+
+%!error <MIMO> series (tf (1, [1 1], "InputDelay", 0.1), tf (1, [1 2]), [1], [1])

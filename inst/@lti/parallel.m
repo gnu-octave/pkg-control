@@ -45,6 +45,17 @@ function sys = parallel (sys1, sys2)
 
   if (nargin == 2)
     sys = sys1 + sys2;
+
+    if ((isa (sys1, "lti") && hasdelay (sys1)) || (isa (sys2, "lti") && hasdelay (sys2)))
+      d1 = totaldelay (sys1);
+      d2 = totaldelay (sys2);
+
+      if (! isequal (d1, d2))
+        error ("parallel: mismatched delays require internal delay support (not yet implemented)");
+      endif
+
+      sys = set (sys, "InputDelay", 0, "OutputDelay", 0, "IODelay", d1);
+    endif
   ## elseif (nargin == 6)
 
   ## TODO: implement "complicated" case sys = parallel (sys1, sys2, in1, in2, out1, out2)
@@ -54,3 +65,25 @@ function sys = parallel (sys1, sys2)
   endif
 
 endfunction
+
+
+%!test  # matching delays: exact composition
+%! s1 = tf (1, [1 1], "InputDelay", 0.1, "OutputDelay", 0.2);
+%! s2 = tf (1, [1 2], "InputDelay", 0.1, "OutputDelay", 0.2);
+%! s = parallel (s1, s2);
+%! assert (s.InputDelay, 0, 1e-10);
+%! assert (s.OutputDelay, 0, 1e-10);
+%! assert (s.IODelay, 0.3, 1e-10);
+
+%!test  # no delay on either operand: result has no delay (regression)
+%! s1 = tf (1, [1 1]);
+%! s2 = tf (1, [1 2]);
+%! s = parallel (s1, s2);
+%! assert (hasdelay (s), false);
+
+%!error <mismatched delays> parallel (tf (1, [1 1], "InputDelay", 0.1, "OutputDelay", 0.2), tf (1, [1 2], "InputDelay", 0.3, "OutputDelay", 0.4))
+
+%!test  # one operand is a plain numeric gain (no delay): should not error (regression)
+%! s1 = tf (1, [1 1]);
+%! s = parallel (s1, 2);
+%! assert (hasdelay (s), false);

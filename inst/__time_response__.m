@@ -172,12 +172,24 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
   sys_ct2dt = cellfun (@c2d, sys_ctss, dt(ct_idx), {response1}, "uniformoutput", false);
   sys_dt(ct_idx) = sys_ct2dt;
 
+  ## delay is already whole samples on sys_dt (c2d's default DelayModeling
+  ## rounds to samples at conversion time; already-discrete inputs are
+  ## documented in samples too), so every shift below is an exact
+  ## integer-sample array shift -- no interpolation needed.
+  delay_mat = cellfun (@totaldelay, sys_dt, "uniformoutput", false);
+
   ## time vector: we have to consider the following cases:
   ##              1. ct system: last sample is tfinal (ensured by __sim_horizon__)
   ##              2. dt system
   ##                  a) nout > 0 (no plotting): last sample is less or equal tfinal
   ##                  b) nout > 0 (plotting): last sample is the first greater
   ##                     than tfinal (we need xlim([0,tfinal]) for the plot)
+  delay_ext = 0;
+  for i = 1:length (dt)
+    delay_ext = max (delay_ext, max (delay_mat{i}(:)) * dt{i});
+  endfor
+  tfinal = tfinal + delay_ext;
+
   if nout > 0
     dt_extra = cell2mat (dt) .* ct_idx;
   else
@@ -216,6 +228,25 @@ function [y, t, x] = __time_response__ (response, args, nout=0, names={})
     otherwise
       error ("time_response: invalid response type\n");
   endswitch
+
+  ## apply each channel's total delay as a post-processing shift on y;
+  ## x (state trajectory) is intentionally left unshifted, see plan/spec.
+  for i = 1:n_sys
+    if (strcmp (response, "initial"))
+      outdelay = get (sys_dt{i}, "outputdelay");
+      for row = 1:columns (y{i})
+        y{i}(:, row) = __apply_timeresp_delay__ (y{i}(:, row), outdelay(row));
+      endfor
+    else
+      p_i = size (y{i}, 2);
+      m_i = size (y{i}, 3);
+      for row = 1:p_i
+        for col = 1:m_i
+          y{i}(:, row, col) = __apply_timeresp_delay__ (y{i}(:, row, col), delay_mat{i}(row, col));
+        endfor
+      endfor
+    endif
+  endfor
 
 
   if (nout == 0)                                        # display plot
@@ -358,6 +389,21 @@ function [y, x_arr] = __initial_response__ (sys_dt, t, x0)
     error ("initial: x0 must be a real vector with %d elements\n", n);
   endif
 
+  if (hasinternaldelay (sys_dt))
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+    z_hist = zeros (l_t, nports);
+    ## simulation (input is zero; only the internal-delay port drives w/z)
+    for k = 1 : l_t
+      w = __delay_lookup__ (z_hist, k, tau, nports);
+      y(k, :) = C * x + D12 * w;
+      z_hist(k, :) = (C2 * x + D22 * w).';
+      x_arr(k, :) = x;
+      x = F * x + B2 * w;
+    endfor
+    return;
+  endif
+
   ## simulation
   for k = 1 : l_t
     y(k, :) = C * x;
@@ -381,18 +427,35 @@ function [y, x_arr] = __step_response__ (sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
     ## initial conditions
     x = zeros (n, 1);
     u = zeros (m, 1);
     u(j) = 1;
 
-    ## simulation
-    for k = 1 : l_t
-      y(k, :, j) = C * x + D * u;
-      x_arr(k, :, j) = x;
-      x = F * x + G * u;
-    endfor
+    if (has_id)
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * u + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * u + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * u + B2 * w;
+      endfor
+    else
+      ## simulation
+      for k = 1 : l_t
+        y(k, :, j) = C * x + D * u;
+        x_arr(k, :, j) = x;
+        x = F * x + G * u;
+      endfor
+    endif
   endfor
 
 endfunction
@@ -412,23 +475,46 @@ function [y, x_arr] = __impulse_response__ (sys, sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
 
     u = zeros (m, 1);
     u(j) = 1;
 
-    ## initial conditions
-    x = zeros (n, 1);                                 # zero by definition
-    y(1, :, j) = D * u / dt;                          # impulse is 1/dt
-    x_arr(1, :, j) = x;
-    x = G * u / dt;
+    if (has_id)
+      ## Equivalent to the delay-free branch below: a discrete impulse is the
+      ## input signal uu(1) = u/dt, uu(k>1) = 0, run through the standard
+      ## delay-buffer recursion (the k=1 special-case there is just this loop
+      ## evaluated at the first sample).
+      x = zeros (n, 1);
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        if (k == 1), uk = u / dt; else, uk = zeros (m, 1); endif
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * uk + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * uk + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * uk + B2 * w;
+      endfor
+    else
+      ## initial conditions
+      x = zeros (n, 1);                                 # zero by definition
+      y(1, :, j) = D * u / dt;                          # impulse is 1/dt
+      x_arr(1, :, j) = x;
+      x = G * u / dt;
 
-    ## simulation
-    for k = 2 : l_t
-      y (k, :, j) = C * x;
-      x_arr(k, :, j) = x;
-      x = F * x;
-    endfor
+      ## simulation
+      for k = 2 : l_t
+        y (k, :, j) = C * x;
+        x_arr(k, :, j) = x;
+        x = F * x;
+      endfor
+    endif
 
   endfor
 
@@ -448,18 +534,35 @@ function [y, x_arr] = __ramp_response__ (sys_dt, t)
   y = zeros (l_t, p, m);
   x_arr = zeros (l_t, n, m);
 
+  has_id = hasinternaldelay (sys_dt);
+  if (has_id)
+    [B2, C2, D12, D21, D22, tau] = __internaldelay_ports__ (sys_dt);
+    nports = numel (tau);
+  endif
+
   for j = 1 : m                                         # for every input channel
     ## initial conditions
     x = zeros (n, 1);
     u = zeros (m, l_t);
     u(j, :) = t;
 
-    ## simulation
-    for k = 1 : l_t
-      y(k, :, j) = C * x + D * u(:, k);
-      x_arr(k, :, j) = x;
-      x = F * x + G * u(:, k);
-    endfor
+    if (has_id)
+      z_hist = zeros (l_t, nports);
+      for k = 1 : l_t
+        w = __delay_lookup__ (z_hist, k, tau, nports);
+        y(k, :, j) = C * x + D * u(:, k) + D12 * w;
+        z_hist(k, :) = (C2 * x + D21 * u(:, k) + D22 * w).';
+        x_arr(k, :, j) = x;
+        x = F * x + G * u(:, k) + B2 * w;
+      endfor
+    else
+      ## simulation
+      for k = 1 : l_t
+        y(k, :, j) = C * x + D * u(:, k);
+        x_arr(k, :, j) = x;
+        x = F * x + G * u(:, k);
+      endfor
+    endif
   endfor
 
 endfunction
@@ -474,7 +577,29 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   N_DEF = 2000;                                         # default number of points
   T_DEF = 10;                                           # default simulation time
 
-  ev = pole (sys);
+  ## pole() refuses InternalDelay systems (transcendental spectrum), but the
+  ## horizon estimate only needs a time scale.  The delay-free rational-part
+  ## eigenvalues alone are NOT a safe substitute: the internal-delay port's
+  ## closed loop can be far more lightly damped than the open-loop dynamics
+  ## suggest (e.g. a large delay relative to the plant's time constant can
+  ## push a feedback loop close to marginal stability), so use pole() on a
+  ## Pade approximation instead -- this captures the loop's true (approximate)
+  ## closed-loop pole locations, including the delay's effect on damping.
+  ## pade() only supports continuous-time input (a separate, pre-existing
+  ## limitation), so an already-discrete InternalDelay system still falls
+  ## back to the delay-free rational-part eigenvalues.
+  if (hasinternaldelay (sys) && isct (sys))
+    ev = pole (pade (sys, 4));
+  elseif (hasinternaldelay (sys))
+    [aev, ~, ~, ~, eev] = dssdata (sys, []);
+    if (isempty (eev))
+      ev = eig (aev);
+    else
+      ev = eig (aev, eev);
+    endif
+  else
+    ev = pole (sys);
+  endif
 
   TOL = max (abs (ev))*1.0e-10 + 2*eps;                 # values below TOL are assumed to be zero,
                                                         # avoid TOL = 0
@@ -590,3 +715,139 @@ function [tfinal, dt] = __sim_horizon__ (sys, tfinal, Ts)
   endif
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! y = step (sys);
+%! assert (isempty (y), false);
+
+%!test  # InternalDelay step vs an independent hand-written delay-buffer reference
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! t = (0:dt:5)';
+%! [y, ty] = step (sysd, t);
+%! ## Independent reference: extract matrices (data plumbing only), simulate by hand.
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay");
+%! N = numel (ty); nst = rows (A);
+%! xr = zeros (nst, 1); zh = zeros (N, 1); yref = zeros (N, 1);
+%! for k = 1:N
+%!   if (k - tau >= 1), w = zh(k - tau); else, w = 0; endif
+%!   yref(k) = C1*xr + D11*1 + D12*w;
+%!   zh(k) = C2*xr + D21*1 + D22*w;
+%!   xr = A*xr + B1*1 + B2*w;
+%! endfor
+%! assert (y(:), yref, 1e-10);
+
+%!test  # InternalDelay initial with nonzero x0: independent free-response reference
+%! T = 0.3; dt = 0.1;
+%! sysd = c2d (ss (feedback (ss (-1, 1, 1, 0, "IODelay", T))), dt);
+%! x0 = 0.9;
+%! t = (0:dt:5)';
+%! [y, ty] = initial (sysd, x0, t);
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay");
+%! N = numel (ty); nst = rows (A);
+%! xr = x0(:); zh = zeros (N, 1); yref = zeros (N, 1);
+%! for k = 1:N
+%!   if (k - tau >= 1), w = zh(k - tau); else, w = 0; endif
+%!   yref(k) = C1*xr + D12*w;
+%!   zh(k) = C2*xr + D22*w;
+%!   xr = A*xr + B2*w;
+%! endfor
+%! assert (y(:), yref, 1e-10);
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! assert (isempty (impulse (sys)), false);
+
+%!test  # MIMO InternalDelay step vs independent multi-port delay-buffer reference
+%! ## Genuine 2-in/2-out InternalDelay fixture (append of two independent SISO
+%! ## feedback loops) with DIFFERENT per-channel delays, so the per-port delay
+%! ## buffers cannot be a single shared buffer misused.  Reference is a
+%! ## hand-written multi-port simulation over the extended-system matrices
+%! ## (ssdata/__ss_ext_build__ used as data plumbing only).
+%! T1 = 0.4; T2 = 0.8; dt = 0.2;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sysd = c2d (append (feedback (G1), feedback (G2)), dt, "zoh");
+%! t = (0:dt:5)';
+%! [y, ty] = step (sysd, t);                 # y is N-by-ny-by-nu
+%! [A, B1, C1, D11] = ssdata (sysd);
+%! [ext, nu, ny] = __ss_ext_build__ (sysd);
+%! [Ae, Be, Ce, De] = ssdata (ext);
+%! B2 = Be(:, nu+1:end); C2 = Ce(ny+1:end, :);
+%! D12 = De(1:ny, nu+1:end); D21 = De(ny+1:end, 1:nu); D22 = De(ny+1:end, nu+1:end);
+%! tau = get (sysd, "internaldelay")(:);
+%! assert (numel (tau), 2);                  # genuinely more than one port
+%! assert (tau(1) != tau(2));                # distinct delays
+%! np = numel (tau); N = numel (ty); nst = rows (A);
+%! for jin = 1:nu
+%!   u = zeros (nu, 1); u(jin) = 1;
+%!   xr = zeros (nst, 1); zh = zeros (N, np); yref = zeros (N, ny);
+%!   for k = 1:N
+%!     w = zeros (np, 1);
+%!     for pp = 1:np
+%!       if (k - tau(pp) >= 1), w(pp) = zh(k - tau(pp), pp); endif
+%!     endfor
+%!     yref(k, :) = (C1*xr + D11*u + D12*w).';
+%!     zh(k, :)   = (C2*xr + D21*u + D22*w).';
+%!     xr = A*xr + B1*u + B2*w;
+%!   endfor
+%!   assert (y(:, :, jin), yref, 1e-10);
+%! endfor
+
+
+## Auto-horizon (no explicit time vector) for a well-damped InternalDelay
+## system: the response must settle within the auto-selected horizon and
+## match the same system simulated over an equivalent explicit time vector.
+## Pass the CONTINUOUS system directly (not pre-discretized) since
+## __sim_horizon__ is invoked on the original continuous system before
+## discretization -- pre-discretizing here would silently skip the
+## Pade-based horizon estimate this test exercises (pade() only supports
+## continuous input) and fall back to the discrete-only branch instead.
+%!test
+%! T = 0.3;
+%! L = feedback (ss (-1, 1, 1, 0, "IODelay", T));
+%! [y_auto, t_auto] = step (L);
+%! K = dcgain (L);
+%! assert (abs (y_auto(end) - K) < 0.02 * abs (K));   # settled by the last sample
+%! y_explicit = step (L, t_auto);
+%! assert (y_auto, y_explicit, 1e-12);
+
+## Auto-horizon for a delay-DOMINATED InternalDelay system: a large delay
+## relative to the plant's time constant pushes the closed loop close to
+## marginal stability (lightly damped, slow to settle) -- the delay-free
+## rational-part eigenvalues alone drastically underestimate this settling
+## time (the open-loop pole is at -1, but the true closed-loop damping is
+## roughly 40x slower: pole(pade(L,4)) finds a mode near -0.02, vs the
+## delay-free estimate of -1), so __sim_horizon__ must use a
+## Pade-approximated pole estimate for InternalDelay systems instead.
+## Regression test for that fix: confirm the auto horizon is long enough
+## to actually see the response approach its final value, not stop
+## mid-transient.  Pass the continuous system directly, same reason as
+## above.
+%!test
+%! T = 5;
+%! L = feedback (ss (-1, 1, 1, 0, "IODelay", T));
+%! [y_auto, t_auto] = step (L);
+%! K = dcgain (L);
+%! ## the response oscillates around K as it settles; check the envelope
+%! ## (max absolute deviation from K over the last quarter of the horizon)
+%! ## has decayed substantially relative to the deviation over the first
+%! ## quarter after the initial delay -- i.e. the horizon is long enough to
+%! ## see real decay, not just the first few oscillations.
+%! n = numel (t_auto);
+%! first_q = y_auto (round (n/4) : round (n/2));
+%! last_q  = y_auto (round (3*n/4) : n);
+%! dev_first = max (abs (first_q - K));
+%! dev_last  = max (abs (last_q - K));
+%! assert (dev_last < 0.5 * dev_first);

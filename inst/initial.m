@@ -204,3 +204,19 @@ endfunction
 %!
 %!assert (initial_c, initial_c_exp, 1e-4)
 %!assert (initial_d, initial_d_exp, 1e-4)
+
+%!test  # OutputDelay shifts the free response; InputDelay/IODelay are inert (no input)
+%! A = [-1 0; 0 -2];
+%! B = [1; 1];
+%! C = [1 0; 0 1];
+%! D = [0; 0];
+%! sys = ss (A, B, C, D, "OutputDelay", [0.4; 0], "InputDelay", 0.7);
+%! sys_nodelay = ss (A, B, C, D);
+%! x0 = [1; 2];
+%! [y, t] = initial (sys, x0, 5);
+%! [y0, t0] = initial (sys_nodelay, x0, t);
+%! dt = t(2) - t(1);
+%! k = round (0.4 / dt);
+%! expected_col1 = [zeros(k, 1); y0(1:end-k, 1)];
+%! assert (y(:, 1), expected_col1, 1e-6);
+%! assert (y(:, 2), y0(:, 2), 1e-6);

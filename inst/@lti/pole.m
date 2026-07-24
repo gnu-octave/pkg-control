@@ -49,6 +49,11 @@
 
 function pol = pole (sys)
 
+  if (hasinternaldelay (sys))
+    error (["pole: InternalDelay is not yet supported for exact pole ", ...
+            "computation; use pade(sys, n) to approximate the delay first"]);
+  endif
+
    if(nargin == 1) # pole(sys)
      if(!(isa(sys, "lti")) && issquare(sys))
        pol = eig(sys);
@@ -128,3 +133,7 @@ endfunction
 %!assert (infp, infp_exp);
 %!assert (kronr, kronr_exp);
 %!assert (kronl, kronl_exp);
+
+
+## Test for InternalDelay guard - should error with function-specific message
+%!error <use pade\(sys, n\) to approximate> pole (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

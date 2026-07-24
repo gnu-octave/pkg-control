@@ -114,3 +114,11 @@ endfunction
 %! [sv_obs, w_obs] = sigma (ss (A, B, C, D), w);
 %!assert (sv_obs, sv_exp, 1e-4);
 %!assert (w_obs, w_exp, 1e-4);
+
+%!test  # delayed SISO system: singular value (== magnitude for SISO) unaffected by delay
+%! sys = tf (1, [1, 1], "InputDelay", 0.3);
+%! rational = tf (1, [1, 1]);
+%! w = [0.5, 2, 4];
+%! [sv1] = sigma (sys, w);
+%! [sv2] = sigma (rational, w);
+%! assert (sv1, sv2, 1e-10);

@@ -27,6 +27,10 @@
 
 function retsys = __minreal__ (sys, tol)
 
+  if (hasinternaldelay (sys))
+    error ("ss: minreal: InternalDelay is not yet supported");
+  endif
+
   if (strcmpi (tol, "def"))
     tol = 0;
   elseif (tol > 1)
@@ -52,3 +56,10 @@ function retsys = __minreal__ (sys, tol)
   endif
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! r = minreal (sys);
+%! assert (hasinternaldelay (r), false);
+
+%!error <InternalDelay> minreal (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

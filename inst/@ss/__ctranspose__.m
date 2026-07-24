@@ -24,6 +24,10 @@
 
 function sys = __ctranspose__ (sys, ct)
 
+  if (hasinternaldelay (sys))
+    error ("ss: ctranspose: InternalDelay is not yet supported");
+  endif
+
   a = sys.a;
   b = sys.b;
   c = sys.c;
@@ -52,3 +56,10 @@ function sys = __ctranspose__ (sys, ct)
   endif
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! t = sys';
+%! assert (hasinternaldelay (t), false);
+
+%!error <InternalDelay> ctranspose (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

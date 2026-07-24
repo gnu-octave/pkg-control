@@ -27,6 +27,10 @@
 
 function [retsys, lscale, rscale] = __prescale__ (sys, optarg = 0.0)
 
+  if (hasinternaldelay (sys))
+    error ("ss: prescale: InternalDelay is not yet supported");
+  endif
+
   if (isempty (sys.e))
     [a, b, c, ~, scale] = __sl_tb01id__ (sys.a, sys.b, sys.c, optarg);
     retsys = ss (a, b, c, sys.d);
@@ -41,3 +45,10 @@ function [retsys, lscale, rscale] = __prescale__ (sys, optarg = 0.0)
   retsys.lti = sys.lti;  # retain i/o names and tsam
 
 endfunction
+
+%!test  # no InternalDelay: unaffected (regression)
+%! sys = ss (-1, 1, 1, 0);
+%! r = prescale (sys);
+%! assert (hasinternaldelay (r), false);
+
+%!error <InternalDelay> prescale (set (ss (-1, 1, 1, 0), "internaldelay", 0.5))

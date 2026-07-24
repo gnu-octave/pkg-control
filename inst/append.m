@@ -33,4 +33,48 @@ function sys = append (varargin)
 
   sys = blkdiag (varargin{:});
 
+  any_delay = any (cellfun (@(s) isa (s, "lti") && hasdelay (s), varargin));
+
+  if (any_delay)
+    indelay = cell (nargin, 1);
+    outdelay = cell (nargin, 1);
+    iodelay = cell (nargin, 1);
+
+    for k = 1 : nargin
+      if (isa (varargin{k}, "lti"))
+        [indelay{k}, outdelay{k}, iodelay{k}] = get (varargin{k}, "inputdelay", "outputdelay", "iodelay");
+      else
+        [p, m] = size (varargin{k});
+        indelay{k} = zeros (m, 1);
+        outdelay{k} = zeros (p, 1);
+        iodelay{k} = zeros (p, m);
+      endif
+    endfor
+
+    sys = set (sys, "InputDelay", vertcat (indelay{:}), ...
+                    "OutputDelay", vertcat (outdelay{:}), ...
+                    "IODelay", blkdiag (iodelay{:}));
+  endif
+
 endfunction
+
+
+%!test  # 3-operand append: delays carry through per-block, no cross terms
+%! s1 = tf (1, [1 1], "InputDelay", 0.1, "OutputDelay", 0.2);
+%! s2 = tf (1, [1 2], "InputDelay", 0.3, "OutputDelay", 0.4);
+%! s3 = tf (1, [1 3]);
+%! s = append (s1, s2, s3);
+%! assert (s.InputDelay, [0.1; 0.3; 0], 1e-10);
+%! assert (s.OutputDelay, [0.2; 0.4; 0], 1e-10);
+%! assert (s.IODelay, zeros (3, 3), 1e-10);
+
+%!test  # no delay on any operand: result has no delay (regression)
+%! s = append (tf (1, [1 1]), tf (1, [1 2]));
+%! assert (hasdelay (s), false);
+
+%!test  # mix of dynamic (with delay) and static-gain (numeric) operands
+%! s1 = tf (1, [1 1], "InputDelay", 0.1, "OutputDelay", 0.2);
+%! s = append (s1, eye (2));
+%! assert (s.InputDelay, [0.1; 0; 0], 1e-10);
+%! assert (s.OutputDelay, [0.2; 0; 0], 1e-10);
+%! assert (s.IODelay, zeros (3, 3), 1e-10);

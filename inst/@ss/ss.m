@@ -68,6 +68,28 @@
 ## @item 'tsam'
 ## Sampling time.  See 'Inputs' for details.
 ##
+## @item 'InputDelay'
+## m-by-1 real matrix (or scalar, which expands to all inputs).
+## Delay at each input, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'OutputDelay'
+## p-by-1 real matrix (or scalar, which expands to all outputs).
+## Delay at each output, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'IODelay'
+## p-by-m real matrix (or scalar, which expands to all input/output pairs).
+## Delay from each input to each output, in seconds for continuous-time
+## models or samples for discrete-time models.
+##
+## @item 'InternalDelay'
+## Real nonnegative column vector with one entry per internal delay channel.
+## Delays in seconds for continuous-time systems or samples for discrete-time systems.
+## This property is populated automatically by @code{feedback()} and @code{connect()}
+## when a delay is trapped inside a closed loop.  It is not meant to be set directly
+## by a user in normal use, though the property is get/set-accessible like the others.
+##
 ## @item 'inname'
 ## The name of the input channels in @var{sys}.
 ## Cell vector of length m containing strings.
@@ -245,7 +267,13 @@ function sys = ss (varargin)
                    "c", c, "d", d,
                    "e", [],
                    "stname", {stname},
-                   "scaled", false);    # struct for ss-specific data
+                   "scaled", false,
+                   "internaldelay", [],
+                   "b2", [],
+                   "c2", [],
+                   "d12", [],
+                   "d21", [],
+                   "d22", []);          # struct for ss-specific data
 
   ltisys = lti (p, m, tsam);            # parent class for general lti data
 
@@ -294,4 +322,35 @@ endfunction
 %! for i = 0:9, M(:,2*i+1:2*i+2) = C*A^i*B; Me(:,2*i+1:2*i+2) = Ce*Ae^i*Be; end;
 %!
 %! assert (M, Me, 1e-6);
+
+%!test  # delay wiring smoke test for ss
+%! s = ss (-1, 1, 1, 0, "InputDelay", 0.3, "OutputDelay", 0.2, "IODelay", 0.1);
+%! assert (s.InputDelay, 0.3);
+%! assert (s.OutputDelay, 0.2);
+%! assert (s.IODelay, 0.1);
+
+%!test  # InternalDelay defaults to empty
+%! s = ss (-1, 1, 1, 0);
+%! assert (isempty (get (s, "internaldelay")));
+
+%!test  # InternalDelay property get/set round-trip
+%! s = ss (-1, 1, 1, 0);
+%! s = set (s, "internaldelay", 0.7);
+%! assert (get (s, "internaldelay"), 0.7);
+%! assert (s.InternalDelay, 0.7);
+
+%!test  # InternalDelay setting back to empty
+%! s = ss (-1, 1, 1, 0);
+%! s = set (s, "internaldelay", [0.1; 0.2]);
+%! s = set (s, "internaldelay", []);
+%! assert (isempty (get (s, "internaldelay")));
+
+%!test  # InternalDelay concatenates through append (b2 etc. stay empty here;
+%!       # Task 1 has no public API populating them, that's Task 2's job)
+%! s1 = ss (-1, [1 1], 1, 0);
+%! s1 = set (s1, "internaldelay", [0.1; 0.2]);
+%! s2 = ss (-2, 1, 1, 0);
+%! s2 = set (s2, "internaldelay", 0.3);
+%! g = append (s1, s2);
+%! assert (get (g, "internaldelay"), [0.1; 0.2; 0.3]);
 

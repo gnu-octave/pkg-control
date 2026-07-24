@@ -287,3 +287,14 @@ endfunction
 %! G = tf (num, den);
 %! [~, pha] = bode (G);
 %! assert (pha(1), -88.828076660194938, 1e-9);
+
+%!test  # delayed system: phase differs from delay-free counterpart by -w*delay
+%! sys = tf (1, [1, 1], "InputDelay", 0.3);
+%! rational = tf (1, [1, 1]);
+%! w = [0.5, 2, 4];
+%! [mag1, pha1] = bode (sys, w);
+%! [mag2, pha2] = bode (rational, w);
+%! assert (mag1, mag2, 1e-10);
+%! diff_rad = deg2rad (pha1(:) - pha2(:));
+%! expected_rad = -w(:) * 0.3;
+%! assert (mod (diff_rad - expected_rad + pi, 2*pi) - pi, zeros (3, 1), 1e-8);

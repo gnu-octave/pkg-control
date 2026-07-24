@@ -34,7 +34,8 @@ function [keys, vals] = __sys_keys__ (sys, aliases = false)
           "d";
           "e";
           "stname";
-          "scaled"};
+          "scaled";
+          "internaldelay"};
 
   ## cell vector of ss-specific assignable values
   vals = {"n-by-n matrix (n = number of states)";
@@ -43,10 +44,11 @@ function [keys, vals] = __sys_keys__ (sys, aliases = false)
           "p-by-m matrix";
           "n-by-n matrix";
           "n-by-1 cell vector of strings";
-          "scalar logical value"};
+          "scalar logical value";
+          "q-by-1 real matrix (internal delay: seconds for ct models, samples for dt models)"};
 
   if (aliases)
-    ka = {"statename"};
+    ka = {"statename"; "internal_delay"};
     keys = [keys; ka];
   endif
 

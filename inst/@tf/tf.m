@@ -73,6 +73,21 @@
 ## @item 'tsam'
 ## Sampling time.  See 'Inputs' for details.
 ##
+## @item 'InputDelay'
+## m-by-1 real matrix (or scalar, which expands to all inputs).
+## Delay at each input, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'OutputDelay'
+## p-by-1 real matrix (or scalar, which expands to all outputs).
+## Delay at each output, in seconds for continuous-time models or
+## samples for discrete-time models.
+##
+## @item 'IODelay'
+## p-by-m real matrix (or scalar, which expands to all input/output pairs).
+## Delay from each input to each output, in seconds for continuous-time
+## models or samples for discrete-time models.
+##
 ## @item 'inname'
 ## The name of the input channels in @var{sys}.
 ## Cell vector of length m containing strings.
@@ -237,3 +252,34 @@ function sys = tf (varargin)
   endif
 
 endfunction
+
+%!test  # IODelay via constructor
+%! h = tf (10, [1 3 10], "IODelay", 0.25);
+%! assert (h.IODelay, 0.25);
+%! assert (h.InputDelay, 0);
+%! assert (h.OutputDelay, 0);
+
+%!test  # InputDelay via constructor
+%! h = tf ([1 -1], [1 4 5], "InputDelay", 0.3);
+%! assert (h.InputDelay, 0.3);
+
+%!test  # OutputDelay via constructor
+%! h = tf (10, [1 3 10], "OutputDelay", 0.25);
+%! assert (h.OutputDelay, 0.25);
+
+%!test  # scalar expansion to MIMO via dot-assignment
+%! h = tf ({1, 1; 1, 1}, {[1 1], [1 2]; [1 3], [1 4]});
+%! h.InputDelay = [0.1; 0.2];
+%! h.OutputDelay = [0.3; 0.4];
+%! assert (h.InputDelay, [0.1; 0.2]);
+%! assert (h.OutputDelay, [0.3; 0.4]);
+
+%!test  # discrete-time integer delay is accepted
+%! h = tf (1, [1 -0.5], 0.1, "InputDelay", 3);
+%! assert (h.InputDelay, 3);
+
+%!error <integer-valued>
+%! tf (1, [1 -0.5], 0.1, "InputDelay", 0.35);
+
+%!error <non-negative>
+%! tf (10, [1 3 10], "IODelay", -0.1);

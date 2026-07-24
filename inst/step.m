@@ -105,3 +105,13 @@ endfunction
 %! step (G1,G2,1.5*G2);
 %! warning ("on", "Control:convert-to-state-space");
 
+%!test  # SISO InputDelay: step response is delayed by exactly the rounded sample count
+%! sys = tf (1, [1 1], "InputDelay", 0.3);
+%! sys_nodelay = tf (1, [1 1]);
+%! [y, t] = step (sys, 5);
+%! [y0, t0] = step (sys_nodelay, t);
+%! dt = t(2) - t(1);
+%! k = round (0.3 / dt);
+%! expected = [zeros(k, 1); y0(1:end-k)];
+%! assert (y, expected, 1e-6);
+

@@ -54,6 +54,21 @@ function retlti = __lti_group__ (lti1, lti2, dim = "blkdiag")
     ## retlti.outgroup remains empty struct
   endif
 
+  if (strcmpi (dim, "blkdiag"))
+    ## Block-diagonal append: I/O delays concatenate with zero cross-terms,
+    ## exactly like the state/b/c/d blocks.  (Previously these were dropped,
+    ## which silently discarded delays through append/feedback/connect.)
+    retlti.indelay  = [lti1.indelay(:);  lti2.indelay(:)];
+    retlti.outdelay = [lti1.outdelay(:); lti2.outdelay(:)];
+    retlti.iodelay  = blkdiag (lti1.iodelay, lti2.iodelay);
+  else
+    ## horzcat/vertcat/times share inputs and/or outputs; a general delay
+    ## merge is ambiguous, so keep the historical zeroing for those modes.
+    retlti.indelay = zeros (numel (retlti.inname), 1);
+    retlti.outdelay = zeros (numel (retlti.outname), 1);
+    retlti.iodelay = zeros (numel (retlti.outname), numel (retlti.inname));
+  endif
+
   if (lti1.tsam == lti2.tsam)
     retlti.tsam = lti1.tsam;
   elseif (lti1.tsam == -1 && lti2.tsam > 0)
@@ -90,3 +105,21 @@ function ret = __merge_struct__ (a, b)
   ret = cell2struct ([ca; cb], [fa; fb]);
 
 endfunction
+
+
+%!test
+%! h = [tf(1,[1 1]); tf(1,[1 2])];
+%! assert (totaldelay (h), zeros (2, 1));
+
+%!test
+%! h1 = [tf(1,[1 1]); tf(1,[1 2])];
+%! assert (hasdelay (h1), false);
+%! h2 = [tf(1,[1 1]), tf(1,[1 2])];
+%! assert (hasdelay (h2), false);
+
+%!test
+%! h = [tf(1,[1 1]); tf(1,[1 2])];
+%! [p, m] = size (h);
+%! assert (size (h.InputDelay), [m, 1]);
+%! assert (size (h.OutputDelay), [p, 1]);
+%! assert (size (h.IODelay), [p, m]);

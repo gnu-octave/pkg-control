@@ -56,6 +56,12 @@ function varargout = get (sys, varargin)
           val = sys.outgroup;
         case "tsam"
           val = sys.tsam;
+        case "inputdelay"
+          val = sys.indelay;
+        case "outputdelay"
+          val = sys.outdelay;
+        case "iodelay"
+          val = sys.iodelay;
         case "name"
           val = sys.name;
         case "notes"

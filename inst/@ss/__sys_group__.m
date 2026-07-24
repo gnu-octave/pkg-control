@@ -66,4 +66,38 @@ function retsys = __sys_group__ (sys1, sys2)
 
   retsys.stname = [sys1.stname; sys2.stname];
 
+  id1 = ! isempty (sys1.b2);
+  id2 = ! isempty (sys2.b2);
+
+  if (id1 || id2)
+    if (id1)
+      q1 = columns (sys1.b2);
+      b21 = sys1.b2;  c21 = sys1.c2;
+      d121 = sys1.d12;  d211 = sys1.d21;  d221 = sys1.d22;
+    else
+      q1 = 0;
+      b21 = zeros (n1, 0);  c21 = zeros (0, n1);
+      d121 = zeros (p1, 0);  d211 = zeros (0, m1);  d221 = zeros (0, 0);
+    endif
+
+    if (id2)
+      q2 = columns (sys2.b2);
+      b22 = sys2.b2;  c22 = sys2.c2;
+      d122 = sys2.d12;  d212 = sys2.d21;  d222 = sys2.d22;
+    else
+      q2 = 0;
+      b22 = zeros (n2, 0);  c22 = zeros (0, n2);
+      d122 = zeros (p2, 0);  d212 = zeros (0, m2);  d222 = zeros (0, 0);
+    endif
+
+    ## delay ports are independent between operands: no cross-terms
+    retsys.b2 = [b21, zeros(n1,q2); zeros(n2,q1), b22];
+    retsys.c2 = [c21, zeros(q1,n2); zeros(q2,n1), c22];
+    retsys.d12 = [d121, zeros(p1,q2); zeros(p2,q1), d122];
+    retsys.d21 = [d211, zeros(q1,m2); zeros(q2,m1), d212];
+    retsys.d22 = [d221, zeros(q1,q2); zeros(q2,q1), d222];
+  endif
+
+  retsys.internaldelay = [sys1.internaldelay; sys2.internaldelay];
+
 endfunction
