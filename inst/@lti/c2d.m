@@ -113,8 +113,7 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
     ## out of scope; only the plain round-to-samples case is handled.
     [ext_sys, nu, ny] = __ss_ext_build__ (origsys);
     ext_sys = __c2d__ (ext_sys, tsam, lower (method), w0);
-    sys = __ss_ext_split__ (origsys, ext_sys, nu, ny);
-    sys.tsam = tsam;
+    ext_sys.tsam = tsam;
     tau = get (origsys, "internaldelay");
     tau_samples = round (tau / tsam);
 
@@ -130,6 +129,50 @@ function sys = c2d (sys, tsam, method = "std", w0 = 0)
               "the sampling time %g and would round to 0 samples"], ...
              bad, tsam);
     endif
+
+    if (strcmp (delay_modeling, "state"))
+      ## Close the discretized InternalDelay loop with an EXACT z^-k filter per
+      ## port (tau_samples is already a nonnegative integer -- no approximation
+      ## needed, unlike pade()'s Pade-filter closure for the continuous case),
+      ## instead of leaving InternalDelay as an explicit port. Mirrors
+      ## __pade_substitute_internal__'s ext_clean + lft() pattern in
+      ## @lti/pade.m: extract ext_sys's raw matrices via dssdata (this function
+      ## is an @lti method and cannot dot-access ext_sys's @ss-private fields
+      ## directly), rebuild a clean ordinary ss/dss, then close the loop.
+      [ea, eb, ec, ed, ee, etsam] = dssdata (ext_sys, []);
+      nports = columns (eb) - nu;
+
+      if (isempty (ee))
+        ext_clean = ss (ea, eb, ec, ed, etsam);
+      else
+        ext_clean = dss (ea, eb, ec, ed, ee, etsam);
+      endif
+
+      if (nports == 0)
+        ## Degenerate: internaldelay set but no actual delay ports -- nothing
+        ## to close, the clean plant already IS the delay-free equivalent.
+        sys = ext_clean;
+      else
+        G_close = __exact_discrete_delay_ss__ (tau_samples(1), tsam);
+        for kk = 2 : nports
+          G_close = append (G_close, __exact_discrete_delay_ss__ (tau_samples(kk), tsam));
+        endfor
+        sys = lft (ext_clean, G_close, nports, nports);
+      endif
+
+      if (hasdelay (origsys))
+        [indelay, outdelay, iodelay] = get (origsys, "inputdelay", "outputdelay", "iodelay");
+        sys = set (sys, "InputDelay", round (indelay / tsam), ...
+                        "OutputDelay", round (outdelay / tsam), ...
+                        "IODelay", round (iodelay / tsam));
+        sys = ss (absorbDelay (tf (sys)));
+      endif
+
+      return;
+    endif
+
+    sys = __ss_ext_split__ (origsys, ext_sys, nu, ny);
+    sys.tsam = tsam;
 
     sys = set (sys, "internaldelay", tau_samples);
 
@@ -790,6 +833,53 @@ endfunction
 %! assert (hd.InputDelay + hd.IODelay, 3);   # z^-3 pure delay factored out
 %! assert (num{1}, [0.01187, 0.06408, 0.009721], 1e-4);
 %! assert (den{1}, [1, -1.655, 0.7408], 1e-3);
+
+%!test  # DelayModeling="state" on InternalDelay: port removed, freqresp matches
+%! # the default ("delay") mode's own result exactly (both are exact, just
+%! # different representations -- explicit port vs. absorbed states).
+%! T = 0.3; tsam = 0.1;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! opt_state = c2dOptions ("DelayModeling", "state");
+%! dsys_state = c2d (L, tsam, opt_state);
+%! dsys_delay = c2d (L, tsam);
+%! assert (hasinternaldelay (dsys_state), false);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (dsys_state, w), freqresp (dsys_delay, w), 1e-8);
+
+%!test  # DelayModeling="state" combined InternalDelay + ordinary InputDelay:
+%! # both absorbed, hasdelay and hasinternaldelay both false
+%! T = 0.3; tsam = 0.1;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = set (feedback (G), "InputDelay", 0.2);
+%! opt_state = c2dOptions ("DelayModeling", "state");
+%! dsys_state = c2d (L, tsam, opt_state);
+%! assert (hasinternaldelay (dsys_state), false);
+%! assert (hasdelay (dsys_state), false);
+%! w = [0.1, 1, 5];
+%! dsys_delay = c2d (L, tsam);
+%! assert (freqresp (dsys_state, w), freqresp (dsys_delay, w), 1e-6);
+
+%!test  # DelayModeling="state" MIMO InternalDelay: two independent ports
+%! T1 = 0.3; T2 = 0.5; tsam = 0.1;
+%! G1 = ss (-1, 1, 1, 0, "IODelay", T1);
+%! G2 = ss (-2, 1, 1, 0, "IODelay", T2);
+%! sys = append (feedback (G1), feedback (G2));
+%! opt_state = c2dOptions ("DelayModeling", "state");
+%! dsys_state = c2d (sys, tsam, opt_state);
+%! assert (hasinternaldelay (dsys_state), false);
+%! w = [0.1, 1, 5];
+%! dsys_delay = c2d (sys, tsam);
+%! assert (freqresp (dsys_state, w), freqresp (dsys_delay, w), 1e-6);
+
+%!test  # default ("delay") mode on InternalDelay: unaffected regression check
+%! T = 0.3; tsam = 0.1;
+%! G = ss (-1, 1, 1, 0, "IODelay", T);
+%! L = feedback (G);
+%! dsys = c2d (L, tsam);
+%! assert (hasinternaldelay (dsys), true);
+%! assert (dsys.internaldelay, round (T/tsam));
+
 
 function tf_ok = __c2d_frac_applicable__ (sys, tsam)
   [outdelay] = get (sys, "outputdelay");
