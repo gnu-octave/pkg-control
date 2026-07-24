@@ -94,7 +94,11 @@ function sys = zpk (varargin)
     return;
   endif
 
+  from_lti_conversion = false;
+
   if (nargin == 1 && isa (varargin{1}, "lti"))     # zpk (ltisys)
+
+   from_lti_conversion = true;
 
    ## conversion from tf/ss/frd
    [num, den, tsam] = tfdata (varargin{1});
@@ -104,6 +108,12 @@ function sys = zpk (varargin)
    z = cellfun (@roots, num, "uniformoutput", false);
    p = cellfun (@roots, den, "uniformoutput", false);
    k = cellfun (@(n,d)  n(1)/d(1), num, den);
+
+   ## preserve delay information from the source model; the source's
+   ## InternalDelay (ss only) cannot be represented by zpk and is not
+   ## handled here -- it is already lost via the tfdata () call above.
+   [src_iodelay, src_indelay, src_outdelay] = ...
+     get (varargin{1}, "iodelay", "inputdelay", "outputdelay");
 
   varargin = {};
 
@@ -181,6 +191,18 @@ function sys = zpk (varargin)
     sys = set (sys, varargin{:});
   endif
 
+  ## Only push the source's delay fields onto sys when at least one is
+  ## actually nonzero. This sidesteps a pre-existing, out-of-scope bug in
+  ## tf's transpose (its InputDelay/OutputDelay/IODelay come back with
+  ## stale pre-transpose shapes instead of the post-transpose size) that
+  ## would otherwise make this fix error on an all-zero (i.e. no-op)
+  ## delay whose shape doesn't match the freshly built sys.
+  if (from_lti_conversion ...
+      && (any (src_iodelay(:)) || any (src_indelay(:)) || any (src_outdelay(:))))
+    sys = set (sys, "iodelay", src_iodelay, "inputdelay", src_indelay, ...
+               "outputdelay", src_outdelay);
+  endif
+
 endfunction
 
 
@@ -207,6 +229,34 @@ endfunction
 %! sys = zpk (5);
 %! assert (isa (sys, 'zpk'));
 %! assert (isstaticgain (sys));
+
+%!test
+%! ## conversion from tf/ss preserves InputDelay/OutputDelay/IODelay
+%! t = tf ([0.1563, 0.2371], [1, -0.6065], 0.5);
+%! t = set (t, "InputDelay", 3);
+%! z = zpk (t);
+%! assert (isa (z, 'zpk'));
+%! assert (get (z, "InputDelay"), 3);
+
+%!test
+%! t = tf ([0.1563, 0.2371], [1, -0.6065], 0.5);
+%! t = set (t, "OutputDelay", 2);
+%! z = zpk (t);
+%! assert (get (z, "OutputDelay"), 2);
+
+%!test
+%! t = tf ({1}, {[1 1]});
+%! t = set (t, "IODelay", 1.5);
+%! z = zpk (t);
+%! assert (get (z, "IODelay"), 1.5);
+
+%!test
+%! ## no-delay conversion still a no-op regression check
+%! t = tf (1, [1 3 2]);
+%! z = zpk (t);
+%! assert (get (z, "InputDelay"), 0);
+%! assert (get (z, "OutputDelay"), 0);
+%! assert (get (z, "IODelay"), 0);
 
 %!test
 %! ## conversion from tf keeps class
