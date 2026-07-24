@@ -92,6 +92,12 @@ function sys = __pade_substitute_ordinary__ (sys, n)
   total = totaldelay (sys);
   [pr, pc] = size (total);
 
+  if (isdt (sys))
+    sys = set (sys, "InputDelay", indelay, "OutputDelay", outdelay, "IODelay", iodelay);
+    sys = absorbDelay (sys);
+    return;
+  endif
+
   [orders, idx] = __pade_order_vector__ (sys, n);
 
   n_in  = numel (idx.input);
@@ -255,10 +261,20 @@ function sys = __pade_substitute_internal__ (sys, n)
 
     ## Diagonal MIMO Pade filter: nports inputs (each port's z, the delayed
     ## signal's source) and nports outputs (each port's w, the destination).
-    G_pade = pade (tau(1), orders_internal(1));
-    for k = 2 : nports
-      G_pade = append (G_pade, pade (tau(k), orders_internal(k)));
-    endfor
+    ## For discrete sys, tau(k) is already a nonnegative-integer sample
+    ## count, so the loop is closed EXACTLY via __exact_discrete_delay_ss__
+    ## instead of a rational Pade approximation.
+    if (isdt (sys))
+      G_pade = __exact_discrete_delay_ss__ (tau(1), etsam);
+      for k = 2 : nports
+        G_pade = append (G_pade, __exact_discrete_delay_ss__ (tau(k), etsam));
+      endfor
+    else
+      G_pade = pade (tau(1), orders_internal(1));
+      for k = 2 : nports
+        G_pade = append (G_pade, pade (tau(k), orders_internal(k)));
+      endfor
+    endif
 
     ## Close the loop.  lft(sys1, sys2, nu, ny) connects the LAST nu inputs of
     ## sys1 to the FIRST nu outputs of sys2, and the LAST ny outputs of sys1
@@ -484,3 +500,61 @@ endfunction
 %! sys = set (ss (-1, 1, 1, 0), "internaldelay", 0.5);
 %! sys2 = pade (sys, 3);
 %! assert (hasinternaldelay (sys2), false);
+
+%!test  # discrete tf ordinary delay: exact absorption, matches absorbDelay directly
+%! sys = tf (1, [1, -0.5], 0.1, "InputDelay", 3);
+%! sys2 = pade (sys, 4);
+%! expected = absorbDelay (sys);
+%! assert (hasdelay (sys2), false);
+%! [num2, den2] = tfdata (sys2);
+%! [nume, dene] = tfdata (expected);
+%! assert (num2, nume, 1e-12);
+%! assert (den2, dene, 1e-12);
+
+%!test  # discrete tf: pade order n has NO effect on the exact discrete result
+%! sys = tf (1, [1, -0.5], 0.1, "InputDelay", 2);
+%! sys_a = pade (sys, 2);
+%! sys_b = pade (sys, 9);
+%! [numa, dena] = tfdata (sys_a);
+%! [numb, denb] = tfdata (sys_b);
+%! assert (numa, numb, 1e-14);
+%! assert (dena, denb, 1e-14);
+
+%!test  # discrete ss ordinary delay: tf-roundtrip through absorbDelay, cross-check freqresp
+%! sys = ss (0.5, 1, 1, 0, 0.1, "InputDelay", 2);
+%! sys2 = pade (sys, 3);
+%! assert (isa (sys2, "ss"));
+%! assert (hasdelay (sys2), false);
+%! w = [0.1, 1, 5];
+%! expected = absorbDelay (tf (set (sys, "InputDelay", 2)));
+%! assert (freqresp (sys2, w), freqresp (expected, w), 1e-8);
+
+%!test  # discrete ss InternalDelay: exact loop closure, matches the untouched
+%! # exact-delay discrete freqresp (no approximation error to expect, unlike
+%! # the continuous case -- this closure is exact by construction)
+%! G = ss (0.5, 1, 1, 0, 0.1, "IODelay", 3);
+%! L = feedback (G);
+%! assert (hasinternaldelay (L), true);
+%! sys2 = pade (L, 4);
+%! assert (hasinternaldelay (sys2), false);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (sys2, w), freqresp (L, w), 1e-9);
+
+%!test  # discrete ss InternalDelay: order n has no effect on the exact result
+%! G = ss (0.5, 1, 1, 0, 0.1, "IODelay", 2);
+%! L = feedback (G);
+%! sys_a = pade (L, 2);
+%! sys_b = pade (L, 7);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (sys_a, w), freqresp (sys_b, w), 1e-12);
+
+%!test  # discrete ss: combined InternalDelay AND ordinary delay, both exact
+%! G = ss (0.5, 1, 1, 0, 0.1, "IODelay", 2);
+%! L = set (feedback (G), "InputDelay", 3);
+%! assert (hasinternaldelay (L), true);
+%! assert (hasdelay (L), true);
+%! sys2 = pade (L, 4);
+%! assert (hasinternaldelay (sys2), false);
+%! assert (hasdelay (sys2), false);
+%! w = [0.1, 1, 5];
+%! assert (freqresp (sys2, w), freqresp (L, w), 1e-8);
