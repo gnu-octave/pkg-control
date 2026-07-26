@@ -235,7 +235,8 @@ check-ci: tarball-nodocs
 	$(OCTAVE) --no-gui devel/run_tests.m
 
 check-local:
-	docker compose --file devel/compose.yaml --project-directory . run --rm octave
+	HOST_UID=$(shell id -u) HOST_GID=$(shell id -g) \
+	  docker compose --file devel/compose.yaml --project-directory . run --rm octave
 
 tarball-nodocs: $(RELEASE_TARBALL_CI)
 
