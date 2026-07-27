@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.71])
+AC_PREREQ([2.69])
 AC_INIT([control],[4.2.2+])
 AC_CONFIG_SRCDIR([sl_ab01od.cc])
 AC_CONFIG_HEADERS([config.h])
@@ -10,7 +10,7 @@ AC_CONFIG_HEADERS([config.h])
 # Octave.
 AH_TOP([#include "undef-ah-octave.h"])
 
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_CHECK_PROG(MKOCTFILE, mkoctfile, mkoctfile)
