@@ -45,6 +45,10 @@ doc/control.svg
 /src/slicot_src/*.f
 /target
 
+# HOME artifacts from `make check-local` (devel/compose.yaml sets HOME=/workspace)
+/.local
+/.config
+
 # release checklists
 
 devel/release/release_*.md
