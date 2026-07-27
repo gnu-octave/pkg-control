@@ -97,15 +97,21 @@ help:
 	@echo "   clean     - Remove releases, doc and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
 	@echo " "
-	@echo "Options: "
+	@echo "Options (environment variables): "
 	@echo " "
 	@echo "   DOCS_EXAMPLES=true"
 	@echo "             - The pdf and qch docs include any existing demos"
-	@echo "               as examples togehter with the resulting figures."
+	@echo "               as examples together with the resulting figures."
 	@echo "               The default is, that only links to the examples"
 	@echo "               in the online documentation are included."
 	@echo " "
-	
+	@echo "   CHECK_OCTAVE_VERSION=X.Y.0"
+	@echo "             - Determines the Octave version for which the check"
+	@echo "               is performed with the target check-local."
+	@echo "               The default 'latest', valid strings are Octave"
+	@echo "               version numbers like, e.g., '8.4.0' or '9.4.0'."
+	@echo " "
+
 
 %.tar.gz: %
 	@echo "Create $@ ..."
@@ -237,7 +243,7 @@ check-ci: tarball-nodocs
 
 check-local:
 	HOST_UID=$(shell id -u) HOST_GID=$(shell id -g) \
-	  docker compose --file devel/compose.yaml --project-directory . run --rm octave
+		docker compose --file devel/compose.yaml --project-directory . run -e CHECK_OCTAVE_VERSION=$(CHECK_OCTAVE_VERSION) --rm octave
 
 tarball-nodocs: $(RELEASE_TARBALL_CI)
 
