@@ -3,6 +3,8 @@ services:
     image: gnuoctave/octave:latest
     working_dir: /workspace
     user: "${HOST_UID:?set HOST_UID or run via make check-local, not docker compose directly}:${HOST_GID:?set HOST_GID or run via make check-local, not docker compose directly}"
+    environment:
+      HOME: /workspace
     volumes:
       - .:/workspace:z
     command: make check-ci
