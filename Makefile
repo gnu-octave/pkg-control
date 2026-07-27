@@ -149,10 +149,11 @@ $(RELEASE_DIR_CI): .git/index
 	@-$(RM) -r $@
 	@mkdir -p $@
 	@echo "  git archive ..."
-	@REV=$$(GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
-	  git stash create); \
-	GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
-	  git archive -o $@/tmp.tar $${REV:-HEAD}
+	@GIT_HOME=$$(mktemp -d); \
+	HOME=$$GIT_HOME git config --global --add safe.directory "$(abspath .)"; \
+	REV=$$(HOME=$$GIT_HOME git stash create); \
+	HOME=$$GIT_HOME git archive -o $@/tmp.tar $${REV:-HEAD}; \
+	$(RM) -r $$GIT_HOME
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
 	$(COPY_SLICOT_AND_BOOTSTRAP)
 
