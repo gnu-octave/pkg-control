@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,121 +557,125 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-stepinfo"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">info</var> =</code> <strong class="def-name">stepinfo</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-stepinfo-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">info</var> =</code> <strong class="def-name">stepinfo</strong> <code class="def-code-arguments">(<var class="var">sys, <var class="var">property</var>, <var class="var">value</var>, ...  </var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <var>info</var> = <b>stepinfo</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>info</var> = <b>stepinfo</b> (<var>sys, <var>property</var>, <var>value</var>, ...  </var>)</code></h5></dt>
 </dl>
-
-<p>Calculate some characteristic values of a system&rsquo;s step response
+<p> Calculate some characteristic values of a system&rsquo;s step response
 </p>
 <div class="ms-5">
-<p>The following symbols are used for explaning the characteristic
+<p> The following symbols are used for explaning the characteristic
  values in the following help text:
 </p>
-<ul class="itemize mark-bullet">
-<li>\(y_i\)
-  : Initial output value at <em class="math">t=-0</em>, before the step is applied
- </li><li>\(y_f\)
-  : Final steady state output value
- </li><li>\(y_e\)
-  : Absolute error between output <em class="math">y</em> and final value
- yf
- </li></ul>
+<ul>
+<li>
+ \(y_i\)
+  : Initial output value at
+ \(t=0^-\)
+  before the step is applied.
+</li><li>
+ \(y_f\)
+  : Final steady state output value.
+</li><li>
+ \(y_e\)
+  : Absolute error between output
+ \(y\)
+   and final value
+ \(y_f\)
+</li></ul>
 
-<p><strong class="strong">Inputs</strong>
+<p> <strong>Inputs</strong>
 </p>
-<dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>LTI system
- </p></dd>
-<dt><var class="var">property</var></dt>
-<dt><var class="var">value</var></dt>
-</dl>
-<p>Properties/value pairs changing some default thresholds.
- </p><dl class="table">
-<dt>&lsquo;<samp class="samp">RaiseTimeLimits</samp>&rsquo;</dt>
-</dl>
-<p>Array with two entries with relaitve values of <em class="math">yf</em>, between which the
- rise time is determined. The values have to be between 0 and 1. The default is
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI system</dd>
+<dt> <var>property</var></dt>
+<dt> <var>value</var></dt>
+<dd> Properties/value pairs changing some default thresholds.
+<dl compact="compact">
+<dt> &lsquo;<samp>RaiseTimeLimits</samp>&rsquo;</dt>
+<dd> Array with two entries with relative values of
+ \(y_f\)
+  between which the rise time is determined.
+ The values have to be between 0 and 1. The default is
  \([r_L \, r_U] = [0.1 \, 0.9]\)
-  if this property is omitted.
- </p></dd>
-<dt>&lsquo;<samp class="samp">SettlingTimeThreshold</samp>&rsquo;</dt>
+  if this property is omitted.</dd>
+<dt> &lsquo;<samp>SettlingTimeThreshold</samp>&rsquo;</dt>
+<dd> Relative value of the absolute maximum or initial difference to
+ \(y_f\)
+  defining a tolerance range around
+ \(y_f\)
+  for TransientTime or SettlingTime (see below). The default is
+ \(s_T = 0.02\)
+  if this property is omitted.</dd>
 </dl>
-<p>Relative value of the absolute maximum or initial difference to <em class="math">yf</em>
- defining a tolerance range around <em class="math">yf</em> for TransientTime or
- SettlingTime (see below). The default is sT = 0.02
- if this property is omitted.
- </p></dd>
-</dl>
+
 </dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
+<p> <strong>Outputs</strong>
 </p>
-<dl class="table">
-<dt><var class="var">info</var></dt>
-</dl>
-<p>Structure (or structure array for MIMO systems)
+<dl compact="compact">
+<dt> <var>info</var></dt>
+<dd> Structure (or structure array for MIMO systems)
  with some characteristics of the step response of
- system <var class="var">sys</var>. In particular, the fields in <var class="var">info</var> are:
- </p><dl class="table">
-<dt>&lsquo;<samp class="samp">RaiseTime</samp>&rsquo;</dt>
+ system <var>sys</var>. In particular, the fields in <var>info</var> are:
+<dl compact="compact">
+<dt> &lsquo;<samp>RaiseTime</samp>&rsquo;</dt>
+<dd> Time required from
+ \(r_L y_f\)
+  to
+ \(r_U y_f\)</dd>
+<dt> &lsquo;<samp>TransientTime</samp>&rsquo;</dt>
+<dd> Time after which the absolute error
+ \(y_e\)
+  is not larger than
+ \(s_T \max(|y_f-y|)\)</dd>
+<dt> &lsquo;<samp>SettlingTime</samp>&rsquo;</dt>
+<dd> Time after which the absolute error
+ \(y_e\)
+  is not larger than
+ \(s_T |y_f-y_i|\)</dd>
+<dt> &lsquo;<samp>SettlingMin</samp>&rsquo;</dt>
+<dd> The minimum value of
+ \(y\)
+  after it has risen (reached
+ \(r_U y_f\)</dd>
+<dt> &lsquo;<samp>SettlingMax</samp>&rsquo;</dt>
+<dd> The maximum value of
+ \(y\)
+  after it has risen (reached
+ \(r_U y_f\)</dd>
+<dt> &lsquo;<samp>Overshoot</samp>&rsquo;</dt>
+<dd> Relative overshoot with respect to the normalized step response
+ \(y_n = (y - y_i)/(y_f - y_i)\)</dd>
+<dt> &lsquo;<samp>Undershoot</samp>&rsquo;</dt>
+<dd> Relative undershoot with respect to the normalized step response
+ \(y_n = (y - y_i)/(y_f - y_i)\)</dd>
+<dt> &lsquo;<samp>Peak</samp>&rsquo;</dt>
+<dd> Peak value of the absolute step response with respect to
+ \(y_i\)</dd>
+<dt> &lsquo;<samp>PeakTime</samp>&rsquo;</dt>
+<dd> Time at which the peak value occurs.</dd>
+<dt> &lsquo;<samp>FinalValue</samp>&rsquo;</dt>
+<dd> Final value
+ \(y(t\to\infty)\)
+  of the step response, corresponds to the static gain.</dd>
+<dt> &lsquo;<samp>InitialJump</samp>&rsquo;</dt>
+<dd> Output value
+ \(y(t=0^+)\)
+  immediately after the input step.</dd>
 </dl>
-<p>Time required from <em class="math">rL*yf</em>
- to <em class="math">rU*yf</em>.
- </p></dd>
-<dt>&lsquo;<samp class="samp">TransientTime</samp>&rsquo;</dt>
-</dl>
-<p>Time after which the absolute error <em class="math">ye</em>
- is not larger than
- <em class="math">sT*</em>max<em class="math">(|yf-y|)</em>.
- </p></dd>
-<dt>&lsquo;<samp class="samp">SettlingTime</samp>&rsquo;</dt>
-</dl>
-<p>Time after which the absolute error <em class="math">ye</em>
- is not larger than <em class="math">sT*|yf-yi|</em>.
- </p></dd>
-<dt>&lsquo;<samp class="samp">SettlingMin</samp>&rsquo;</dt>
-</dl>
-<p>The minimum value of <em class="math">y</em> after it has risen (reached
- <em class="math">rU*yf</em>).
- </p></dd>
-<dt>&lsquo;<samp class="samp">SettlingMax</samp>&rsquo;</dt>
-</dl>
-<p>The maximum value of <em class="math">y</em> after it has risen (reached
- <em class="math">rU*yf</em>).
- </p></dd>
-<dt>&lsquo;<samp class="samp">Overshoot</samp>&rsquo;</dt>
-</dl>
-<p>Relative overshoot with respect to the normalized step response
- <em class="math">yn = (y - yi)/(yf - yi)</em>.
- </p></dd>
-<dt>&lsquo;<samp class="samp">Undershoot</samp>&rsquo;</dt>
-</dl>
-<p>Relative undershoot with respect to the normalized step response
- <em class="math">yn = (y - yi)/(yf - yi)</em>.
- </p></dd>
-<dt>&lsquo;<samp class="samp">Peak</samp>&rsquo;</dt>
-</dl>
-<p>Peak value of the absolute step response with respect to
- yi.
- </p></dd>
-<dt>&lsquo;<samp class="samp">PeakTime</samp>&rsquo;</dt>
-</dl>
-<p>Time at which the peak value occurs.
- </p></dd>
-</dl>
+
 </dd>
 </dl>
 
-
+<p> <strong>See also: </strong>
+  <a href="step.html">step</a>
+</p>
+<p><strong>Source Code: </strong>
+  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/stepinfo.m">stepinfo</a>
 </div>
-
-
-
-<!--add source here-->
 
             </div>
           </div>

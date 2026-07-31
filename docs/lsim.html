@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,135 +557,115 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-lsim"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-1"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, ..., <var class="var">sysN</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-2"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">style1</var>, ..., <var class="var">sysN</var>, <var class="var">styleN</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-3"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, ..., <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-4"><span class="category-def">Function File: </span><span><strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, ..., <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">u</var>, <var class="var">t</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-lsim-8"><span class="category-def">Function File: </span><span><code class="def-type">[...] =</code> <strong class="def-name">lsim</strong> <code class="def-code-arguments">(..., <var class="var">method</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys</var>, <var>u</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, <var>sys2</var>, ..., <var>sysN</var>, <var>u</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, <var>style1</var>, ..., <var>sysN</var>, <var>styleN</var>, <var>u</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, ..., <var>u</var>, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>lsim</b> (<var>sys1</var>, ..., <var>u</var>, <var>t</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>lsim</b> (<var>sys</var>, <var>u</var>, <var>t</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [...] = <b>lsim</b> (..., <var>method</var>)</code></h5></dt>
 </dl>
-
-<p>Simulate <abbr class="acronym">LTI</abbr> model response to arbitrary inputs.  If no output arguments are given,
+<p> Simulate LTI model response to arbitrary inputs.  If no output arguments are given,
  the system response is plotted on the screen.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model.  System must be proper, i.e. it must not have more zeros than poles.
- </p></dd>
-<dt><var class="var">u</var></dt>
-</dl>
-<p>Vector or array of input signal.  Needs <code class="code">length(t)</code> rows and as many columns
- as there are inputs.  If <var class="var">sys</var> is a single-input system, row vectors <var class="var">u</var>
- of length <code class="code">length(t)</code> are accepted as well.
- </p></dd>
-<dt><var class="var">t</var></dt>
-</dl>
-<p>Time vector.  Should be evenly spaced.  If <var class="var">sys</var> is a continuous-time system
- and <var class="var">t</var> is a real scalar, <var class="var">sys</var> is discretized with sampling time
- <code class="code">tsam = t/(rows(u)-1)</code>.  If <var class="var">sys</var> is a discrete-time system and <var class="var">t</var>
- is not specified, vector <var class="var">t</var> is assumed to be <code class="code">0 : tsam : tsam*(rows(u)-1)</code>.
- </p></dd>
-<dt><var class="var">x0</var></dt>
-</dl>
-<p>Vector of initial conditions for each state of a system in state space.
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI model.  System must be proper, i.e. it must not have more zeros than poles.</dd>
+<dt> <var>u</var></dt>
+<dd> Vector or array of input signal.  Needs <code>length(t)</code> rows and as many columns
+ as there are inputs.  If <var>sys</var> is a single-input system, row vectors <var>u</var>
+ of length <code>length(t)</code> are accepted as well.</dd>
+<dt> <var>t</var></dt>
+<dd> Time vector.  Should be evenly spaced.  If <var>sys</var> is a continuous-time system
+ and <var>t</var> is a real scalar, <var>sys</var> is discretized with sampling time
+ <code>tsam = t/(rows(u)-1)</code>.  If <var>sys</var> is a discrete-time system and <var>t</var>
+ is not specified, vector <var>t</var> is assumed to be <code>0 : tsam : tsam*(rows(u)-1)</code>.</dd>
+<dt> <var>x0</var></dt>
+<dd> Vector of initial conditions for each state of a system in state space.
  If not specified, a zero vector is assumed.
- Note: A vector <var class="var">x0</var> provided for an input-output system representation
+ Note: A vector <var>x0</var> provided for an input-output system representation
  is ignored and a zero vector of initial conditions is used instead because
  the internally used state space representaton does generally not match
- the one assumed for <var class="var">x0</var>. For a simulation of an input-output model
- with initial conditions for the output <em class="math">y</em> and its time-derivatives,
- see remarks below.
- </p></dd>
-<dt><var class="var">style</var></dt>
-</dl>
-<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line. See <code class="command">help plot</code> for details.
- </p></dd>
-<dt><var class="var">method</var></dt>
-</dl>
-<p>Method that is used to discretize a continuous-time system for the simulation.
- See
- <a href="@lti_c2d.html">@lti/c2d</a>
- for possible methods. If <var class="var">method</var> is not provided, the default is &rsquo;foh&rsquo;.
- </p></dd>
+ the one assumed for <var>x0</var>. For a simulation of an input-output model
+ with initial conditions for the output <math>y</math> and its time-derivatives,
+ see remarks below.</dd>
+<dt> <var>style</var></dt>
+<dd> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line. See <code>help plot</code> for details.</dd>
+<dt> <var>method</var></dt>
+<dd> Method that is used to discretize a continuous-time system for the simulation.
+ See <a href="@lti_c2d.html">@lti/c2d</a> for possible methods. If <var>method</var> is not provided,
+ the default is &rsquo;foh&rsquo;.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">y</var></dt>
-</dl>
-<p>Output response array.  Has as many rows as time samples (length of t)
- and as many columns as outputs.
- </p></dd>
-<dt><var class="var">t</var></dt>
-</dl>
-<p>Time row vector.  It is always evenly spaced.
- </p></dd>
-<dt><var class="var">x</var></dt>
-</dl>
-<p>State trajectories array.  Has <code class="code">length (t)</code> rows and as many columns as states.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Remarks</strong>
+<p> <strong>Outputs</strong>
 </p>
-<ul class="itemize mark-bullet">
-<li>For the simulation, continuous-time systems are discretized using the
- selected method <var class="var">method</var> or the default first-order-hold method (foh), see
- <a href="@lti_c2d.html">@lti/c2d</a>
- for details.
+<dl compact="compact">
+<dt> <var>y</var></dt>
+<dd> Output response array.  Has as many rows as time samples (length of t)
+ and as many columns as outputs.</dd>
+<dt> <var>t</var></dt>
+<dd> Time row vector.  It is always evenly spaced.</dd>
+<dt> <var>x</var></dt>
+<dd> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.</dd>
+</dl>
 
-</li><li>For a SISO input-output model <em class="math">G</em> and initial values for the output
- <em class="math">y</em> and its derivatives up to order <em class="math">n-1</em> the corresponding state space
+<p> <strong>Remarks</strong>
+</p>
+<ul>
+<li> For the simulation, continuous-time systems are discretized using the
+ selected method <var>method</var> or the default first-order-hold method (foh), see
+ <a href="@lti_c2d.html">@lti/c2d</a> for details.
+</li><li> For a SISO input-output model <math>G</math> and initial values for the output
+ <math>y</math> and its derivatives up to order <math>n-1</math> the corresponding state space
  represetaiton is computed by:
-
-<div class="example">
-<div class="group"><pre class="example-preformatted"> [A,b,c,d] = ssdata (G);
+<table><tr><td>&nbsp;</td><td><pre class="example"> [A,b,c,d] = ssdata (G);
  T = obsv (A, c);
  G_ss = ss2ss (ss (G), T);
  initial (G_ss, x0);
- </pre></div></div>
+</pre></td></tr></table>
 
-<p>Note that, in general, the states of <em class="math">G_ss</em> are only equal to the output
- <em class="math">y</em> and its first <em class="math">n-1</em> time derivaties if <em class="math">u=0</em>, which is the
- case for the initial conditions immediately before <em class="math">t=0</em>.
+
+<p> Note that, in general, the states of <math>G_ss</math> are only equal to the output
+ <math>y</math> and its first <math>n-1</math> time derivaties if <math>u=0</math>, which is the
+ case for the initial conditions immediately before <math>t=0</math>.
 </p>
+
+<p>  itemize
+</p>
+
 </li></ul>
 
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="impulse.html">impulse</a>, 
+  <a href="initial.html">initial</a>, 
+  <a href="step.html">step</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/lsim.m">lsim</a>
 </div>
-        <div class="container-xl my-4">
-          <div class="card rounded">
-            <div class="card-header card-header-mod">
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
-                  <h4 class="d-inline-block mr-2">
-                  <a name="example1">Example: 1</a>
-                  </h4>
-                </div>
+        <div class="card rounded my-4">
+          <div class="card-header card-header-mod">
+            <div class="row d-flex flex-wrap align-items-center">
+              <div class="col-sm-3 col-md-5 mb-2 mb-sm-0">
+                <button class="btn btn-link fs-4 fw-normal d-inline-block mr-2 p-0 text-reset text-decoration-none"
+                  type="button" data-bs-toggle="collapse"
+                  data-bs-target="#lsim-example1" aria-expanded="true"
+                  aria-controls="lsim-example1">
+                Example: 1
+                </button>
               </div>
             </div>
+          </div>
+          <div class="collapse show" id="lsim-example1">
             <div class="card-body">
-              <div class="container bg-light">
-                <div class="row">
-                  <table><tbody><tr>
-                    <td>&nbsp;</td>
-                    <td><pre class="example">
-
- clf;
+                <pre style="overflow-x: auto; white-space: pre; padding: 0.6rem 0.8rem; margin: 0.3rem 0; border: 1px solid #cfe0e6; border-left: 4px solid #4a90a4; border-radius: 4px; background-color: #eef5f8;"> clf;
  A = [-3   0   0;
        0  -2   1;
       10 -17   0];
@@ -674,16 +680,11 @@
  t = 0:0.01:6;
  u = [ 0.2+0.3*sin(1.3*t') , cos(2*t') ];
  x0 = [0 0.1 0];
- lsim(S, u, t, x0);
+ lsim(S, u, t, x0);</pre>
+                <div class="text-center">
+                  <img src="assets/lsim_101.svg" class="rounded img-thumbnail" width= "70%" alt="plotted figure">
+                </div><p></p>
 
-                    </pre></td></tr></tbody>
-                  </table>
-                  <div class="text-center">
-                    <img src="assets/lsim_101.svg" width="70%" alt="plotted figure">
-                  </div><p></p>
-
-                </div>
-              </div>
             </div>
           </div>
         </div>

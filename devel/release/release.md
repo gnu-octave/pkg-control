@@ -15,36 +15,36 @@
 
 ### Set version number etc.
 
-2. [ ] Update `NEWS`, possibly move old entries into `ONEWS`
-3. [ ] Update version in `DESCRIPTION`
-4. [ ] Update version in `src/configure.ac`
-5. [ ] Update `INDEX` if a new function was added
-5. [ ] `git commit` for storing above changes
+2. [x] Update `NEWS`, possibly move old entries into `ONEWS`
+3. [x] Update version in `DESCRIPTION`
+4. [x] Update version in `src/configure.ac`
+5. [x] Update `INDEX` if a new function was added
+5. [x] `git commit` for storing above changes
 
 ### Testing
 
 After finishing the last changes for the planned release, the following tests should still be performed in the current branch (dev, main, or a specific feature branch). 
 
-1. [ ] `make distclean` for removing all old distribution files
+1. [x] `make distclean` for removing all old distribution files
 4. [ ] Tests
-    1. [ ] `make dist`
-    2. [ ] `pkg install target/control-X.Y.Z.tar.gz` in Octave
+    1. [x] `make dist`
+    2. [x] `pkg install target/control-X.Y.Z.tar.gz` in Octave
         - any warnings or even errors?
         - correct version number?
-    3. [ ] `pkg test control` in Octave
-    4. [ ] `pkg uninstall control` in Octave
-    5. [ ] `make install`
+    3. [x] `pkg test control` in Octave
+    4. [x] `pkg uninstall control` in Octave
+    5. [x] `make install`
         - any warnings or even errors?
         - correct version number?
-    6. [ ] `pkg test control` in Octave
-    7. [ ] If docker is installed locally
+    6. [x] `pkg test control` in Octave
+    7. [x] If docker is installed locally
         1. `CHECK_OCTAVE_VERSION=6.4.0 make check-local`
         2. `make check-local`
 
-6. [ ] `make distclean` for removing all old distribution files
+6. [x] `make distclean` for removing all old distribution files
 4. [ ] Tests of documentation
-    1. [ ] `make DOCS_EXAMPLES=true dist`
-    2. [ ] Check pdf documentation (new functions included)
+    1. [x] `make DOCS_EXAMPLES=true dist`
+    2. [x] Check pdf documentation (new functions included)
     3. [ ] `pkg install target/control-X.Y.Z.tar.gz` in Octave
     4. [ ] `doc ...` in Octave for checking internal documentation
     2. [ ] `make docs-html` (this should be done with an active internet connection as this process tries to determine the url to the function's source on github and add it to the function reference)

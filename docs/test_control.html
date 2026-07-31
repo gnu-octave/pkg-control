@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,22 +557,22 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-test_005fcontrol"><span class="category-def">Script File: </span><span><strong class="def-name">test_control</strong></span></dt>
+<dl>
+<dt><code><h5 class="fs">Script File: <b>test_control</b></code></h5></dt>
 </dl>
-<p>Execute all available tests at once.
+<p> Execute all available tests at once.
 </p>
 <div class="ms-5">
-<p>The Octave control package uses the 
- Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT library</a>,
+<p> The Octave control package uses the 
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT library</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
- <abbr class="acronym">SLICOT</abbr> needs <abbr class="acronym">BLAS</abbr> and <abbr class="acronym">LAPACK</abbr> libraries which are also prerequisites
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+ SLICOT needs BLAS and LAPACK libraries which are also prerequisites
  for Octave itself.
  In case of failing tests, it is highly recommended to use
- <a class="url" href="http://www.netlib.org/blas/">Netlib&rsquo;s reference <abbr class="acronym">BLAS</abbr></a> and
- <a class="url" href="http://www.netlib.org/lapack/"><abbr class="acronym">LAPACK</abbr></a>
- for building Octave.  Using <abbr class="acronym">ATLAS</abbr> may lead to sign changes
+ <a href="http://www.netlib.org/blas/">Netlib&rsquo;s reference BLAS</a> and
+ <a href="http://www.netlib.org/lapack/">LAPACK</a>
+ for building Octave.  Using ATLAS may lead to sign changes
  in some entries of the state-space matrices.
  In general, these sign changes are not &rsquo;wrong&rsquo; and can be regarded as
  the result of state transformations.  Such state transformations
@@ -554,13 +580,8 @@
  input-output behaviour of the system.  For better numerics,
  the control package uses such transformations by default when
  calculating the frequency responses and a few other things.
- However, arguments like the Hankel singular Values (<abbr class="acronym">HSV</abbr>) must not change.
+ However, arguments like the Hankel singular Values (HSV) must not change.
 </p>
-
-</div>
-
-
-
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/test_control.m">test_control</a>
 </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,111 +557,93 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-initial"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-1"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-2"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-3"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">x0</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-4"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">x0</var>, <var class="var">tfinal</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-5"><span class="category-def">Function File: </span><span><strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, &hellip;, <var class="var">x0</var>, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-6"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-7"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>, <var class="var">t</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-8"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>, <var class="var">tfinal</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-initial-9"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">y</var>, <var class="var">t</var>, <var class="var">x</var>] =</code> <strong class="def-name">initial</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">x0</var>, <var class="var">tfinal</var>, <var class="var">dt</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, <var>&rsquo;style1&rsquo;</var>, &hellip;, <var>sysN</var>, <var>&rsquo;styleN&rsquo;</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>t</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
 </dl>
-
-<p>Initial condition response of a state-space model.
+<p> Initial condition response of a state-space model.
  If no output arguments are given, the response is printed on the screen.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>LTI system in state-space representation.
- </p></dd>
-<dt><var class="var">x0</var></dt>
-</dl>
-<p>Vector of initial conditions for each state.
- </p></dd>
-<dt><var class="var">t</var></dt>
-</dl>
-<p>Optional time vector.  Should be evenly spaced.  If not specified, it is calculated
- by the poles of the system to reflect adequately the response transients.
- </p></dd>
-<dt><var class="var">tfinal</var></dt>
-</dl>
-<p>Optional simulation horizon.  If not specified, it is calculated by
- the poles of the system to reflect adequately the response transients.
- </p></dd>
-<dt><var class="var">dt</var></dt>
-</dl>
-<p>Optional sampling time.  Be sure to choose it small enough to capture transient
- phenomena.  If not specified, it is calculated by the poles of the system.
- </p></dd>
-<dt><var class="var">&rsquo;style&rsquo;</var></dt>
-</dl>
-<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code class="command">help plot</code> for details.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI system in state-space representation.</dd>
+<dt> <var>x0</var></dt>
+<dd> Vector of initial conditions for each state.</dd>
+<dt> <var>t</var></dt>
+<dd> Optional time vector.  Should be evenly spaced.  If not specified, it is calculated
+ by the poles of the system to reflect adequately the response transients.</dd>
+<dt> <var>tfinal</var></dt>
+<dd> Optional simulation horizon.  If not specified, it is calculated by
+ the poles of the system to reflect adequately the response transients.</dd>
+<dt> <var>dt</var></dt>
+<dd> Optional sampling time.  Be sure to choose it small enough to capture transient
+ phenomena.  If not specified, it is calculated by the poles of the system.</dd>
+<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dd> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code>help plot</code> for details.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">y</var></dt>
-</dl>
-<p>Output response array.  Has as many rows as time samples (length of t)
- and as many columns as outputs.
- </p></dd>
-<dt><var class="var">t</var></dt>
-</dl>
-<p>Time row vector.
- </p></dd>
-<dt><var class="var">x</var></dt>
-</dl>
-<p>State trajectories array.  Has <code class="code">length (t)</code> rows and as many columns as states.
- </p></dd>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>y</var></dt>
+<dd> Output response array.  Has as many rows as time samples (length of t)
+ and as many columns as outputs.</dd>
+<dt> <var>t</var></dt>
+<dd> Time row vector.</dd>
+<dt> <var>x</var></dt>
+<dd> State trajectories array.  Has <code>length (t)</code> rows and as many columns as states.</dd>
 </dl>
 
-<p><strong class="strong">Example</strong>
+<p> <strong>Example</strong>
 </p>
-<p>Consider a continuous- or a discrete-time system of the form
+<p> Consider a continuous- or a discrete-time system of the form
 </p>
-<p>Continuous Time:
+<p> Continuous Time:
  $$\dot{x}(t) = A\,x(t) + B\,u(t),\quad x(0)=x_0,\quad y(t) = C\,x(t) + D\,u(t)$$
-</p> 
-<p>Discrete Time:
- $$x(k+1) = A\,x(k) + B\,u(k),\quad x(0)=x_0,\quad y(k) = C\,x(k) + D\,u(K)$$
-</p> 
-<p>The dynamic behavior of the system for <em class="math">u=0</em> and only driven by the
- initial system state <em class="math">x(0)</em> is given by
- </p><div class="example">
-<div class="group"><pre class="example-preformatted"> sys = ss (A, B, C, D);
- initial (sys, x0);
- </pre></div></div>
-
-<p><strong class="strong">Remark</strong>
 </p>
-<p>For a SISO input-output model <em class="math">G</em> and initial values for the output <em class="math">y</em>
- and its derivatives up to order <em class="math">n-1</em> the corresponding state space
+<p> Discrete Time:
+ $$x(k+1) = A\,x(k) + B\,u(k),\quad x(0)=x_0,\quad y(k) = C\,x(k) + D\,u(K)$$
+</p>
+<p> The dynamic behavior of the system for <math>u=0</math> and only driven by the
+ initial system state <math>x(0)</math> is given by
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"> sys = ss (A, B, C, D);
+ initial (sys, x0);
+</pre></td></tr></table>
+
+<p> <strong>Remark</strong>
+</p>
+<p> For a SISO input-output model <math>G</math> and initial values for the output <math>y</math>
+ and its derivatives up to order <math>n-1</math> the corresponding state space
  represetaiton is computed by:
 </p>
-<div class="example">
-<div class="group"><pre class="example-preformatted"> [A,b,c,d] = ssdata (G);
+<table><tr><td>&nbsp;</td><td><pre class="example"> [A,b,c,d] = ssdata (G);
  T = obsv (A, c);
  G_ss = ss2ss (ss (G), T);
  initial (G_ss, x0);
- </pre></div></div>
+</pre></td></tr></table>
 
-<p>Note that, in general, the states of <em class="math">G_ss</em> are only equal to the output
- <em class="math">y</em> and its first <em class="math">n-1</em> time derivaties if <em class="math">u=0</em>, which is the
+<p> Note that, in general, the states of <math>G_ss</math> are only equal to the output
+ <math>y</math> and its first <math>n-1</math> time derivaties if <math>u=0</math>, which is the
  case for the initial condition response.
 </p>
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="impulse.html">impulse</a>, 
+  <a href="lsim.html">lsim</a>, 
+  <a href="step.html">step</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/initial.m">initial</a>
 </div>

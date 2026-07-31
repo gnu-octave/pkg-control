@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,243 +557,172 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-hnamodred"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">hnamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-hnamodred-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">hnamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">nr</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-hnamodred-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">hnamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-hnamodred-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">hnamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">nr</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>hnamodred</b> (<var>G</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>hnamodred</b> (<var>G</var>, <var>nr</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>hnamodred</b> (<var>G</var>, <var>opt</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>hnamodred</b> (<var>G</var>, <var>nr</var>, <var>opt</var>, &hellip;)</code></h5></dt>
 </dl>
-
-<p>Model order reduction by frequency weighted optimal Hankel-norm (HNA) method.
- The aim of model reduction is to find an <abbr class="acronym">LTI</abbr> system <var class="var">Gr</var> of order
- <var class="var">nr</var> (nr &lt; n) such that the input-output behaviour of <var class="var">Gr</var>
- approximates the one from original system <var class="var">G</var>.
+<p> Model order reduction by frequency weighted optimal Hankel-norm (HNA) method.
+ The aim of model reduction is to find an LTI system <var>Gr</var> of order
+ <var>nr</var> (nr &lt; n) such that the input-output behaviour of <var>Gr</var>
+ approximates the one from original system <var>G</var>.
 </p>
 <div class="ms-5">
-<p>HNA is an absolute error method which tries to minimize
+<p> HNA is an absolute error method which tries to minimize
  $$ || G - G_r ||_H = \min $$$$ || V \ (G - G_r) \ W ||_H = \min $$
-  where <var class="var">V</var> and <var class="var">W</var> denote output and input weightings.
+  where <var>V</var> and <var>W</var> denote output and input weightings.
 </p>
-
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">G</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model to be reduced.
- </p></dd>
-<dt><var class="var">nr</var></dt>
-</dl>
-<p>The desired order of the resulting reduced order system <var class="var">Gr</var>.
- If not specified, <var class="var">nr</var> is chosen automatically according
- to the description of key <var class="var">&quot;order&quot;</var>.
- </p></dd>
-<dt><var class="var">&hellip;</var></dt>
-</dl>
-<p>Optional pairs of keys and values.  <code class="code">&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
- </p></dd>
-<dt><var class="var">opt</var></dt>
-</dl>
-<p>Optional struct with keys as field names.
- Struct <var class="var">opt</var> can be created directly or
- by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>G</var></dt>
+<dd> LTI model to be reduced.</dd>
+<dt> <var>nr</var></dt>
+<dd> The desired order of the resulting reduced order system <var>Gr</var>.
+ If not specified, <var>nr</var> is chosen automatically according
+ to the description of key <var>&quot;order&quot;</var>.</dd>
+<dt> <var>&hellip;</var></dt>
+<dd> Optional pairs of keys and values.  <code>&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.</dd>
+<dt> <var>opt</var></dt>
+<dd> Optional struct with keys as field names.
+ Struct <var>opt</var> can be created directly or
+ by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">Gr</var></dt>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>Gr</var></dt>
+<dd> Reduced order state-space model.</dd>
+<dt> <var>info</var></dt>
+<dd> Struct containing additional information.
+<dl compact="compact">
+<dt> <var>info.n</var></dt>
+<dd> The order of the original system <var>G</var>.</dd>
+<dt> <var>info.ns</var></dt>
+<dd> The order of the <var>alpha</var>-stable subsystem of the original system <var>G</var>.</dd>
+<dt> <var>info.hsv</var></dt>
+<dd> The Hankel singular values corresponding to the projection <code>op(V)*G1*op(W)</code>,
+ where G1 denotes the <var>alpha</var>-stable part of the original system <var>G</var>.
+ The <var>ns</var> Hankel singular values are ordered decreasingly.</dd>
+<dt> <var>info.nu</var></dt>
+<dd> The order of the <var>alpha</var>-unstable subsystem of both the original
+ system <var>G</var> and the reduced-order system <var>Gr</var>.</dd>
+<dt> <var>info.nr</var></dt>
+<dd> The order of the obtained reduced order system <var>Gr</var>.</dd>
 </dl>
-<p>Reduced order state-space model.
- </p></dd>
-<dt><var class="var">info</var></dt>
-</dl>
-<p>Struct containing additional information.
- </p><dl class="table">
-<dt><var class="var">info.n</var></dt>
-</dl>
-<p>The order of the original system <var class="var">G</var>.
- </p></dd>
-<dt><var class="var">info.ns</var></dt>
-</dl>
-<p>The order of the <var class="var">alpha</var>-stable subsystem of the original system <var class="var">G</var>.
- </p></dd>
-<dt><var class="var">info.hsv</var></dt>
-</dl>
-<p>The Hankel singular values corresponding to the projection <code class="code">op(V)*G1*op(W)</code>,
- where G1 denotes the <var class="var">alpha</var>-stable part of the original system <var class="var">G</var>.
- The <var class="var">ns</var> Hankel singular values are ordered decreasingly.
- </p></dd>
-<dt><var class="var">info.nu</var></dt>
-</dl>
-<p>The order of the <var class="var">alpha</var>-unstable subsystem of both the original
- system <var class="var">G</var> and the reduced-order system <var class="var">Gr</var>.
- </p></dd>
-<dt><var class="var">info.nr</var></dt>
-</dl>
-<p>The order of the obtained reduced order system <var class="var">Gr</var>.
- </p></dd>
-</dl>
+
 </dd>
 </dl>
 
-
-<p><strong class="strong">Option Keys and Values</strong>
- </p><dl class="table">
-<dt><var class="var">&rsquo;order&rsquo;, &rsquo;nr&rsquo;</var></dt>
-</dl>
-<p>The desired order of the resulting reduced order system <var class="var">Gr</var>.
- If not specified, <var class="var">nr</var> is the sum of <var class="var">info.nu</var> and the number of
- Hankel singular values greater than <code class="code">max(tol1, ns*eps*info.hsv(1)</code>;
+<p> <strong>Option Keys and Values</strong>
 </p>
-</dd>
-<dt><var class="var">&rsquo;method&rsquo;</var></dt>
-</dl>
-<p>Specifies the computational approach to be used.
+<dl compact="compact">
+<dt> <var>&rsquo;order&rsquo;, &rsquo;nr&rsquo;</var></dt>
+<dd> The desired order of the resulting reduced order system <var>Gr</var>.
+ If not specified, <var>nr</var> is the sum of <var>info.nu</var> and the number of
+ Hankel singular values greater than <code>max(tol1, ns*eps*info.hsv(1)</code>;</dd>
+<dt> <var>&rsquo;method&rsquo;</var></dt>
+<dd> Specifies the computational approach to be used.
  Valid values corresponding to this key are:
- </p><dl class="table">
-<dt><var class="var">&rsquo;descriptor&rsquo;</var></dt>
-</dl>
-<p>Use the inverse free descriptor system approach.
- </p></dd>
-<dt><var class="var">&rsquo;standard&rsquo;</var></dt>
-</dl>
-<p>Use the inversion based standard approach.
- </p></dd>
-<dt><var class="var">&rsquo;auto&rsquo;</var></dt>
-</dl>
-<p>Switch automatically to the inverse free
+<dl compact="compact">
+<dt> <var>&rsquo;descriptor&rsquo;</var></dt>
+<dd> Use the inverse free descriptor system approach.</dd>
+<dt> <var>&rsquo;standard&rsquo;</var></dt>
+<dd> Use the inversion based standard approach.</dd>
+<dt> <var>&rsquo;auto&rsquo;</var></dt>
+<dd> Switch automatically to the inverse free
  descriptor approach in case of badly conditioned
- feedthrough matrices in V or W.  Default method.
- </p></dd>
+ feedthrough matrices in V or W.  Default method.</dd>
 </dl>
-
 
 </dd>
-<dt><var class="var">&rsquo;left&rsquo;, &rsquo;v&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the left/output frequency weighting.
+<dt> <var>&rsquo;left&rsquo;, &rsquo;v&rsquo;</var></dt>
+<dd> LTI model of the left/output frequency weighting.
  The weighting must be antistable.
- \(|| V \ (G-G_r) \dots ||_H = \min\)
-</p> 
-</dd>
-<dt><var class="var">&rsquo;right&rsquo;, &rsquo;w&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the right/input frequency weighting.
+ \(|| V \ (G-G_r) \dots ||_H = \min\)</dd>
+<dt> <var>&rsquo;right&rsquo;, &rsquo;w&rsquo;</var></dt>
+<dd> LTI model of the right/input frequency weighting.
  The weighting must be antistable.
- \(|| \dots (G-G_r) \ W ||_H = \min\)
-</p> 
-
-</dd>
-<dt><var class="var">&rsquo;left-inv&rsquo;, &rsquo;inv-v&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the left/output frequency weighting.
+ \(|| \dots (G-G_r) \ W ||_H = \min\)</dd>
+<dt> <var>&rsquo;left-inv&rsquo;, &rsquo;inv-v&rsquo;</var></dt>
+<dd> LTI model of the left/output frequency weighting.
  The weighting must have only antistable zeros.
- \(|| V^{-1}(G-G_r) \dots ||_H = \min\)
-</p> 
-</dd>
-<dt><var class="var">&rsquo;right-inv&rsquo;, &rsquo;inv-w&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the right/input frequency weighting.
+ \(|| V^{-1}(G-G_r) \dots ||_H = \min\)</dd>
+<dt> <var>&rsquo;right-inv&rsquo;, &rsquo;inv-w&rsquo;</var></dt>
+<dd> LTI model of the right/input frequency weighting.
  The weighting must have only antistable zeros.
- \(|| \dots (G-G_r)\,W^{-1} ||_H = \min\)
-</p> 
-
-</dd>
-<dt><var class="var">&rsquo;left-conj&rsquo;, &rsquo;conj-v&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the left/output frequency weighting.
+ \(|| \dots (G-G_r)\,W^{-1} ||_H = \min\)</dd>
+<dt> <var>&rsquo;left-conj&rsquo;, &rsquo;conj-v&rsquo;</var></dt>
+<dd> LTI model of the left/output frequency weighting.
  The weighting must be stable.
- \(|| conj(V)\,(G-G_r) \dots ||_H = \min\)
-</p> 
-</dd>
-<dt><var class="var">&rsquo;right-conj&rsquo;, &rsquo;conj-w&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the right/input frequency weighting.
+ \(|| conj(V)\,(G-G_r) \dots ||_H = \min\)</dd>
+<dt> <var>&rsquo;right-conj&rsquo;, &rsquo;conj-w&rsquo;</var></dt>
+<dd> LTI model of the right/input frequency weighting.
  The weighting must be stable.
- \(|| \dots (G-G_r) \ conj(W) ||_H = \min\)
-</p> 
-
-</dd>
-<dt><var class="var">&rsquo;left-conj-inv&rsquo;, &rsquo;conj-inv-v&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the left/output frequency weighting.
+ \(|| \dots (G-G_r) \ conj(W) ||_H = \min\)</dd>
+<dt> <var>&rsquo;left-conj-inv&rsquo;, &rsquo;conj-inv-v&rsquo;</var></dt>
+<dd> LTI model of the left/output frequency weighting.
  The weighting must be minimum-phase.
- \(|| conj(V^{-1}) \, (G-G_r) \dots ||_H = \min\)
-</p> 
-</dd>
-<dt><var class="var">&rsquo;right-conj-inv&rsquo;, &rsquo;conj-inv-w&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the right/input frequency weighting.
+ \(|| conj(V^{-1}) \, (G-G_r) \dots ||_H = \min\)</dd>
+<dt> <var>&rsquo;right-conj-inv&rsquo;, &rsquo;conj-inv-w&rsquo;</var></dt>
+<dd> LTI model of the right/input frequency weighting.
  The weighting must be minimum-phase.
- \(|| \dots (G-G_r) \ conj(W^{-1}) ||_H = \min\)
-</p> 
-
-</dd>
-<dt><var class="var">&rsquo;alpha&rsquo;</var></dt>
-</dl>
-<p>Specifies the ALPHA-stability boundary for the eigenvalues
- of the state dynamics matrix <var class="var">G.A</var>.  For a continuous-time
+ \(|| \dots (G-G_r) \ conj(W^{-1}) ||_H = \min\)</dd>
+<dt> <var>&rsquo;alpha&rsquo;</var></dt>
+<dd> Specifies the ALPHA-stability boundary for the eigenvalues
+ of the state dynamics matrix <var>G.A</var>.  For a continuous-time
  system, ALPHA &lt;= 0 is the boundary value for
  the real parts of eigenvalues, while for a discrete-time
  system, 0 &lt;= ALPHA &lt;= 1 represents the
  boundary value for the moduli of eigenvalues.
  The ALPHA-stability domain does not include the boundary.
  Default value is 0 for continuous-time systems and
- 1 for discrete-time systems.
-</p>
-</dd>
-<dt><var class="var">&rsquo;tol1&rsquo;</var></dt>
-</dl>
-<p>If <var class="var">&rsquo;order&rsquo;</var> is not specified, <var class="var">tol1</var> contains the tolerance for
+ 1 for discrete-time systems.</dd>
+<dt> <var>&rsquo;tol1&rsquo;</var></dt>
+<dd> If <var>&rsquo;order&rsquo;</var> is not specified, <var>tol1</var> contains the tolerance for
  determining the order of the reduced model.
- For model reduction, the recommended value of <var class="var">tol1</var> is
+ For model reduction, the recommended value of <var>tol1</var> is
  c*info.hsv(1), where c lies in the interval [0.00001, 0.001].
- <var class="var">tol1</var> &lt; 1.
- If <var class="var">&rsquo;order&rsquo;</var> is specified, the value of <var class="var">tol1</var> is ignored.
-</p>
-</dd>
-<dt><var class="var">&rsquo;tol2&rsquo;</var></dt>
-</dl>
-<p>The tolerance for determining the order of a minimal
+ <var>tol1</var> &lt; 1.
+ If <var>&rsquo;order&rsquo;</var> is specified, the value of <var>tol1</var> is ignored.</dd>
+<dt> <var>&rsquo;tol2&rsquo;</var></dt>
+<dd> The tolerance for determining the order of a minimal
  realization of the ALPHA-stable part of the given
- model.  <var class="var">tol2</var> &lt;= <var class="var">tol1</var> &lt; 1.
- If not specified, ns*eps*info.hsv(1) is chosen.
-</p>
-</dd>
-<dt><var class="var">&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
-</dl>
-<p>Boolean indicating whether equilibration (scaling) should be
- performed on system <var class="var">G</var> prior to order reduction.
- Default value is true if <code class="code">G.scaled == false</code> and
- false if <code class="code">G.scaled == true</code>.
- Note that for <abbr class="acronym">MIMO</abbr> models, proper scaling of both inputs and outputs
- is of utmost importance.  The input and output scaling can <strong class="strong">not</strong>
- be done by the equilibration option or the <code class="command">prescale</code> function
+ model.  <var>tol2</var> &lt;= <var>tol1</var> &lt; 1.
+ If not specified, ns*eps*info.hsv(1) is chosen.</dd>
+<dt> <var>&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
+<dd> Boolean indicating whether equilibration (scaling) should be
+ performed on system <var>G</var> prior to order reduction.
+ Default value is true if <code>G.scaled == false</code> and
+ false if <code>G.scaled == true</code>.
+ Note that for MIMO models, proper scaling of both inputs and outputs
+ is of utmost importance.  The input and output scaling can <strong>not</strong>
+ be done by the equilibration option or the <code>prescale</code> function
  because these functions perform state transformations only.
  Furthermore, signals should not be scaled simply to a certain range.
  For all inputs (or outputs), a certain change should be of the same
- importance for the model.
- </p></dd>
+ importance for the model.</dd>
 </dl>
 
-
-<p>Approximation Properties:
- </p><ul class="itemize mark-bullet">
-<li>Guaranteed stability of reduced models
- </li><li>Lower guaranteed error bound
- </li><li>Guaranteed a priori error bound
+<p> Approximation Properties:
+</p>
+<ul>
+<li>
+ Guaranteed stability of reduced models
+</li><li>
+ Lower guaranteed error bound
+</li><li>
+ Guaranteed a priori error bound
  $$ \sigma_{r+1} \leq || (G-G_r) ||_{\infty} \leq 2 \sum_{j=r+1}^{n} \sigma_j $$
- </li></ul>
+</li></ul>
 
-<p><strong class="strong">Algorithm</strong><br>
- Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB09JD</a>,
+<p> <strong>Algorithm</strong><br>
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB09JD</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
- </p>
-</div>
-
-
-
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/hnamodred.m">hnamodred</a>
 </div>

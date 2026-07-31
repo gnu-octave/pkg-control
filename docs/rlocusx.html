@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,16 +557,15 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-rlocusx"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-rlocusx-1"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">increment</var>, <var class="var">min_k</var>, <var class="var">max_k</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-rlocusx-2"><span class="category-def">Function File: </span><span><strong class="def-name">rlocusx</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">k_vec</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>, <var>increment</var>, <var>min_k</var>, <var>max_k</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>rlocusx</b> (<var>sys</var>, <var>k_vec</var>)</code></h5></dt>
 </dl>
-
-<p>Interactive root locus plot of the specified SISO system <var class="var">SYS</var>.
+<p> Interactive root locus plot of the specified SISO system <var>SYS</var>.
 </p>
 <div class="ms-5">
-<p>This functions
+<p> This functions
  directly calls rlocus() from the control package
  which must be installed and loaded.
  In contrast to rlocus(), mouse clicks on the root locus display
@@ -548,91 +573,61 @@
  together with damping and frequency of conjugate complex pole pairs.<br>
  All possible interaction by mouse clicks or keys are:
 </p>
-<dl class="table">
-<dt>Left click: Gain, damping and Frequency</dt>
-</dl>
-<p>Displays related gain and all resulting
+<dl compact="compact">
+<dt> Left click: Gain, damping and Frequency</dt>
+<dd>                Displays related gain and all resulting
                 closed loop poles together with damping
-                and frequency
- </p></dd>
-<dt><kbd class="kbd">s</kbd>: Step response</dt>
-</dl>
-<p>Simulates the step response for the gain of
-                of the most recently selected pole locations
- </p></dd>
-<dt><kbd class="kbd">i</kbd>: Impulse response</dt>
-</dl>
-<p>Simulates the impulse response for the most
-                recently selected gain
- </p></dd>
-<dt><kbd class="kbd">b</kbd>: Bode plot</dt>
-</dl>
-<p>Provides the open loop bode plot for the most
-                recently selected gain
- </p></dd>
-<dt><kbd class="kbd">m</kbd>: Stability margins</dt>
-</dl>
-<p>Provides the open loop bode plot with stability
-                margins for the most recently selected gain
- </p></dd>
-<dt><kbd class="kbd">a</kbd>: All plots</dt>
-</dl>
-<p>Provide sall four aforementioned plots
- </p></dd>
-<dt><kbd class="kbd">c</kbd>: Clear</dt>
-</dl>
-<p>Removes all closed loop pole markers and annotations
- </p></dd>
-<dt><kbd class="kbd">d</kbd>: Delete</dt>
-</dl>
-<p>Removes all open figures with simulation and
-                bode plots
- </p></dd>
-<dt><kbd class="kbd">x</kbd>: Exit</dt>
-</dl>
-<p>Exits the interactive mode and re-activates
-                the octave prompt
- </p></dd>
+                and frequency</dd>
+<dt> <code>s</code>: Step response</dt>
+<dd>                Simulates the step response for the gain of
+                of the most recently selected pole locations</dd>
+<dt> <code>i</code>: Impulse response</dt>
+<dd>                Simulates the impulse response for the most
+                recently selected gain</dd>
+<dt> <code>b</code>: Bode plot</dt>
+<dd>                Provides the open loop bode plot for the most
+                recently selected gain</dd>
+<dt> <code>m</code>: Stability margins</dt>
+<dd>                Provides the open loop bode plot with stability
+                margins for the most recently selected gain</dd>
+<dt> <code>a</code>: All plots</dt>
+<dd>                Provide sall four aforementioned plots</dd>
+<dt> <code>c</code>: Clear</dt>
+<dd>                Removes all closed loop pole markers and annotations</dd>
+<dt> <code>d</code>: Delete</dt>
+<dd>                Removes all open figures with simulation and
+                bode plots</dd>
+<dt> <code>x</code>: Exit</dt>
+<dd>                Exits the interactive mode and re-activates
+                the octave prompt</dd>
 </dl>
 
-<p>There are no output parameters.
+<p> There are no output parameters.
 </p>
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model.  Must be a single-input and single-output (SISO) system.
- </p></dd>
-<dt><var class="var">increment</var></dt>
-</dl>
-<p>The increment used in computing gain values.
- </p></dd>
-<dt><var class="var">min_k</var></dt>
-</dl>
-<p>Minimum value of <var class="var">k</var>.
- </p></dd>
-<dt><var class="var">max_k</var></dt>
-</dl>
-<p>Maximum value of <var class="var">k</var>.
- </p></dd>
-<dt><var class="var">k_vec</var></dt>
-</dl>
-<p>Vector of values for gain values <var class="var">k</var>.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI model.  Must be a single-input and single-output (SISO) system.</dd>
+<dt> <var>increment</var></dt>
+<dd> The increment used in computing gain values.</dd>
+<dt> <var>min_k</var></dt>
+<dd> Minimum value of <var>k</var>.</dd>
+<dt> <var>max_k</var></dt>
+<dd> Maximum value of <var>k</var>.</dd>
+<dt> <var>k_vec</var></dt>
+<dd> Vector of values for gain values <var>k</var>.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
+<p> <strong>Outputs</strong>
 </p>
-<p>Plots the interactive root locus to the screen. <br>
+<p> Plots the interactive root locus to the screen. <br>
  Unlike rlocus(), this function does not have any output parameters.
  For output parameters please directly use rlocus().
 </p>
-
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="rlocus.html">rlocus</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/rlocusx.m">rlocusx</a>
 </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,42 +557,35 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-pole"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">p</var> =</code> <strong class="def-name">pole</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <var>p</var> = <b>pole</b> (<var>sys</var>)</code></h5></dt>
 </dl>
-<p>Compute poles of <abbr class="acronym">LTI</abbr> system.
+<p> Compute poles of LTI system.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">p</var></dt>
-</dl>
-<p>Poles of <var class="var">sys</var>.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI model.</dd>
 </dl>
 
-<p><strong class="strong">Algorithm</strong><br>
- For (descriptor) state-space models and system/state matrices, <code class="command">pole</code>
- relies on Octave&rsquo;s <code class="command">eig</code>.
- For <abbr class="acronym">SISO</abbr> transfer functions, <code class="command">pole</code>
- uses Octave&rsquo;s <code class="command">roots</code>.
- <abbr class="acronym">MIMO</abbr> transfer functions are converted to
- a <em class="emph">minimal</em> state-space representation for the
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>p</var></dt>
+<dd> Poles of <var>sys</var>.</dd>
+</dl>
+
+<p> <strong>Algorithm</strong><br>
+ For (descriptor) state-space models and system/state matrices, <code>pole</code>
+ relies on Octave&rsquo;s <code>eig</code>.
+ For SISO transfer functions, <code>pole</code>
+ uses Octave&rsquo;s <code>roots</code>.
+ MIMO transfer functions are converted to
+ a <em>minimal</em> state-space representation for the
  computation of the poles.
 </p>
-
-</div>
-
-
-
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/pole.m">@lti/pole</a>
 </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,70 +557,54 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-isobsv"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-isobsv-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">tol</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-isobsv-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">c</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-isobsv-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">c</var>, <var class="var">e</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-isobsv-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">c</var>, <var class="var">[]</var>, <var class="var">tol</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-isobsv-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">bool</var>, <var class="var">nobs</var>] =</code> <strong class="def-name">isobsv</strong> <code class="def-code-arguments">(<var class="var">a</var>, <var class="var">c</var>, <var class="var">e</var>, <var class="var">tol</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>sys</var>, <var>tol</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>a</var>, <var>c</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>a</var>, <var>c</var>, <var>e</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>a</var>, <var>c</var>, <var>[]</var>, <var>tol</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>bool</var>, <var>nobs</var>] = <b>isobsv</b> (<var>a</var>, <var>c</var>, <var>e</var>, <var>tol</var>)</code></h5></dt>
 </dl>
-<p>Logical check for system observability.
- For numerical reasons, <code class="code">isobsv (sys)</code>
- should be used instead of <code class="code">rank (obsv (sys))</code>.
+<p> Logical check for system observability.
+ For numerical reasons, <code>isobsv (sys)</code>
+ should be used instead of <code>rank (obsv (sys))</code>.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model.  Descriptor state-space models are possible.
- </p></dd>
-<dt><var class="var">a</var></dt>
-</dl>
-<p>State matrix (n-by-n).
- </p></dd>
-<dt><var class="var">c</var></dt>
-</dl>
-<p>Measurement matrix (p-by-n).
- </p></dd>
-<dt><var class="var">e</var></dt>
-</dl>
-<p>Descriptor matrix (n-by-n).
- If <var class="var">e</var> is empty <code class="code">[]</code> or not specified, an identity matrix is assumed.
- </p></dd>
-<dt><var class="var">tol</var></dt>
-</dl>
-<p>Optional roundoff parameter.  Default value is 0.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">bool = 0</var></dt>
-</dl>
-<p>System is not observable.
- </p></dd>
-<dt><var class="var">bool = 1</var></dt>
-</dl>
-<p>System is observable.
- </p></dd>
-<dt><var class="var">nobs</var></dt>
-</dl>
-<p>Number of observable states.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Algorithm</strong><br>
- Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB01OD and TG01HD</a>,
- Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+<p> <strong>Inputs</strong>
 </p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI model.  Descriptor state-space models are possible.</dd>
+<dt> <var>a</var></dt>
+<dd> State matrix (n-by-n).</dd>
+<dt> <var>c</var></dt>
+<dd> Measurement matrix (p-by-n).</dd>
+<dt> <var>e</var></dt>
+<dd> Descriptor matrix (n-by-n).
+ If <var>e</var> is empty <code>[]</code> or not specified, an identity matrix is assumed.</dd>
+<dt> <var>tol</var></dt>
+<dd> Optional roundoff parameter.  Default value is 0.</dd>
+</dl>
 
-</div>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>bool = 0</var></dt>
+<dd> System is not observable.</dd>
+<dt> <var>bool = 1</var></dt>
+<dd> System is observable.</dd>
+<dt> <var>nobs</var></dt>
+<dd> Number of observable states.</dd>
+</dl>
 
-
-
+<p> <strong>Algorithm</strong><br>
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB01OD and TG01HD</a>,
+ Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+</p>
+<p> <strong>See also: </strong>
+  <a href="isctrb.html">isctrb</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/isobsv.m">isobsv</a>
 </div>

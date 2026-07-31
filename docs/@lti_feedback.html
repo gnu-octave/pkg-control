@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,70 +557,56 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-feedback"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-2"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-3"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-4"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">feedin</var>, <var class="var">feedout</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-feedback-5"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">sys</var> =</code> <strong class="def-name">feedback</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, <var class="var">feedin</var>, <var class="var">feedout</var>, <var class="var">&quot;+&quot;</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>feedin</var>, <var>feedout</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>sys</var> = <b>feedback</b> (<var>sys1</var>, <var>sys2</var>, <var>feedin</var>, <var>feedout</var>, <var>&quot;+&quot;</var>)</code></h5></dt>
 </dl>
-<p>Feedback connection of two <abbr class="acronym">LTI</abbr> models.
+<p> Feedback connection of two LTI models.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys1</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of forward transmission.  <code class="code">[p1, m1] = size (sys1)</code>.
- </p></dd>
-<dt><var class="var">sys2</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of backward transmission.
- If not specified, an identity matrix of appropriate size is taken.
- </p></dd>
-<dt><var class="var">feedin</var></dt>
-</dl>
-<p>Vector containing indices of inputs to <var class="var">sys1</var> which are involved in the feedback loop.
- The number of <var class="var">feedin</var> indices and outputs of <var class="var">sys2</var> must be equal.
- If not specified, <code class="code">1:m1</code> is taken.
- </p></dd>
-<dt><var class="var">feedout</var></dt>
-</dl>
-<p>Vector containing indices of outputs from <var class="var">sys1</var> which are to be connected to <var class="var">sys2</var>.
- The number of <var class="var">feedout</var> indices and inputs of <var class="var">sys2</var> must be equal.
- If not specified, <code class="code">1:p1</code> is taken.
- </p></dd>
-<dt><var class="var">&quot;+&quot;</var></dt>
-</dl>
-<p>Positive feedback sign.  If not specified, <var class="var">&quot;-&quot;</var> for a negative feedback interconnection
- is assumed.  <var class="var">+1</var> and <var class="var">-1</var> are possible as well, but only from the third argument
- onward due to ambiguity.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys1</var></dt>
+<dd> LTI model of forward transmission.  <code>[p1, m1] = size (sys1)</code>.</dd>
+<dt> <var>sys2</var></dt>
+<dd> LTI model of backward transmission.
+ If not specified, an identity matrix of appropriate size is taken.</dd>
+<dt> <var>feedin</var></dt>
+<dd> Vector containing indices of inputs to <var>sys1</var> which are involved in the feedback loop.
+ The number of <var>feedin</var> indices and outputs of <var>sys2</var> must be equal.
+ If not specified, <code>1:m1</code> is taken.</dd>
+<dt> <var>feedout</var></dt>
+<dd> Vector containing indices of outputs from <var>sys1</var> which are to be connected to <var>sys2</var>.
+ The number of <var>feedout</var> indices and inputs of <var>sys2</var> must be equal.
+ If not specified, <code>1:p1</code> is taken.</dd>
+<dt> <var>&quot;+&quot;</var></dt>
+<dd> Positive feedback sign.  If not specified, <var>&quot;-&quot;</var> for a negative feedback interconnection
+ is assumed.  <var>+1</var> and <var>-1</var> are possible as well, but only from the third argument
+ onward due to ambiguity.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>Resulting <abbr class="acronym">LTI</abbr> model.
- </p></dd>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> Resulting LTI model.</dd>
 </dl>
 
-<p><strong class="strong">Block Diagram</strong>
- </p><div class="example">
-<div class="group"><pre class="example-preformatted">  u    +         +--------+             y
+<p> <strong>Block Diagram</strong>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">  u    +         +--------+             y
  ------&gt;(+)-----&gt;|  sys1  |-------+-------&gt;
          ^ -     +--------+       |
          |                        |
          |       +--------+       |
          +-------|  sys2  |&lt;------+
                  +--------+
- </pre></div></div>
-
-</div>
-
-
+</pre></td></tr></table>
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/feedback.m">@lti/feedback</a>

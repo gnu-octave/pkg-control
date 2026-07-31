@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,38 +557,33 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-VLFamp"><span class="category-def">Function File: </span><span><strong class="def-name">VLFamp</strong> <code class="def-code-arguments">&nbsp;</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-VLFamp-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">result</var> =</code> <strong class="def-name">VLFamp</strong> <code class="def-code-arguments">(<var class="var">verbose</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>VLFamp</b> { }</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>result</var> = <b>VLFamp</b> (<var>verbose</var>)</code></h5></dt>
 </dl>
-
-<p>Calculations on a two stage preamp for a multi-turn,
+<p> Calculations on a two stage preamp for a multi-turn,
  air-core solenoid loop antenna for the reception of
  signals below 30kHz.
 </p>
 <div class="ms-5">
-<p>The Octave Control Package functions are used extensively to
+<p> The Octave Control Package functions are used extensively to
  approximate the behavior of operational amplifiers and passive
  electrical circuit elements.
 </p>
-<p>This example presents several &rsquo;screen&rsquo; pages of documentation of the
+<p> This example presents several &rsquo;screen&rsquo; pages of documentation of the
  calculations and some reasoning about why.  Plots of the results are
  presented in most cases.
 </p>
-<p>The process is to display a &rsquo;screen&rsquo; page of text followed by the
+<p> The process is to display a &rsquo;screen&rsquo; page of text followed by the
  calculation and a &rsquo;Press return to continue&rsquo; message.  To proceed in
  the example, press return.  ^C to exit.
 </p>
-<p>At one point in the calculations, the process may seem to hang, but,
+<p> At one point in the calculations, the process may seem to hang, but,
  this is because of extensive calculations.
 </p>
-<p>The returned transfer function is more than 100 characters long so
+<p> The returned transfer function is more than 100 characters long so
  will wrap in screens that are narrow and appear jumbled.
- </p>
-</div>
-
-
-
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/VLFamp.m">VLFamp</a>
 </div>
