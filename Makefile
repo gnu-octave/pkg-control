@@ -169,12 +169,15 @@ $(RELEASE_DIR_CI): .git/index
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
 	$(COPY_SLICOT_AND_BOOTSTRAP)
 
+# The html documentation is created by the package pkg-octave-doc
+# but setting the figure format to svg instaed of the default png
+# format.
 docs-html:
 	@echo "Updating HTML documentation ... "
 	@cd $(DOCS_HTML_DIR) && $(OCTAVE) \
-													--eval "pkg load pkg-octave-doc; " \
-													--eval "pkg load $(PACKAGE);" \
-													--eval 'package_texi2html ("${PACKAGE}");'
+						--eval "pkg load pkg-octave-doc; " \
+						--eval "pkg load $(PACKAGE);" \
+						--eval 'package_texi2html ("${PACKAGE}", "figformat", "svg");'
 
 $(DOCS_DEV_DIR)/version.texi: $(DESCRIPTION)
 	@echo Generating $@ ...
@@ -195,12 +198,19 @@ $(DOCS_LOGO): $(LOGO_DEV)
 	@echo Copying $@ ...
 	cp $(LOGO_DEV) $@
 
+# Create the documentation as pdf file. This still uses makeinfo because it
+# provides better results than texi2pdf.
 $(DOCS_PDF): $(DOCS_SOURCES)
 	@echo Generating $@ ...
 	@cd $(DOCS_DEV_DIR) && $(MAKEINFO) --pdf $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
 	@cd $(DOCS_DEV_DIR) && $(RM) *.out *.log *.idx *.ilg *.ind *.toc *.cp *.cps *.aux *.fn *.fns *.out
 	@$(MV) $(DOCS_DEV_DIR)/$(PACKAGE).pdf $(DOCS_PDF)
 
+# Create the documentation as qt-help file. This uses an own procedure for
+# the required html-files (with makeinfo) and not the package pkg-octave-doc
+# because a css-file can be used (for having the same font as the octave
+# qt-help) and a more detailed table of contents and demos (figures and code)
+# in the qt-help are provided.
 $(DOCS_QCH): $(DOCS_SOURCES)
 	@echo Generating $@ ...
 	@cd $(DOCS_DEV_DIR) && $(MAKEINFO) --html --css-ref=$(PACKAGE).css $(MAKEINFO_OPTIONS) $(PACKAGE).texi
