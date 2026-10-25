@@ -25,9 +25,12 @@ endif
 MAKEINFO_OPTIONS := --no-headers --no-split --no-validate \
 												--set-customization-variable 'COPIABLE_LINKS 0'
 # work out a possible help generator
+QT_LIBEXECS := $(shell qtpaths --query QT_INSTALL_LIBEXECS 2>/dev/null)
 ifeq ($(strip $(QHELPGENERATOR)),)
   ifneq ($(shell qhelpgenerator -v 2>/dev/null),)
     QHELPGENERATOR = qhelpgenerator
+  else ifneq ($(wildcard $(QT_LIBEXECS)/qhelpgenerator),)
+    QHELPGENERATOR = $(QT_LIBEXECS)/qhelpgenerator
   else ifneq ($(shell qcollectiongenerator -v 2>/dev/null),)
     QHELPGENERATOR = qcollectiongenerator-qt5
   else ifneq ($(shell qcollectiongenerator -qt5 -v 2>/dev/null),)
@@ -38,9 +41,9 @@ ifeq ($(strip $(QHELPGENERATOR)),)
 endif
 
 DESCRIPTION := DESCRIPTION
-PACKAGE := $(shell $(SED) -n -e 's/^[Nn]ame: *\(\w\+\)/\1/p' $(DESCRIPTION))
-VERSION := $(shell $(SED) -n -e 's/^[Vv]ersion: *\(\w\+\)/\1/p' $(DESCRIPTION))
-DATE    := $(shell $(SED) -n -e 's/^[Dd]ate: *\(\w\+\)/\1/p' $(DESCRIPTION))
+PACKAGE := $(shell $(SED) -n -e 's/^[Nn]ame:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
+VERSION := $(shell $(SED) -n -e 's/^[Vv]ersion:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
+DATE    := $(shell $(SED) -n -e 's/^[Dd]ate:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
 DEPENDS := $(shell $(SED) -n -e 's/^[Dd]epends[^,]*, *\(.*\)/\1/p' $(DESCRIPTION) | $(SED) 's/ *([^()]*)//g; s/ *, */ /g')
 
 TARGET_DIR      := target
@@ -65,7 +68,10 @@ TEXI_TMP        := $(DOCS_DEV_DIR)/functions.texi $(DOCS_DEV_DIR)/version.texi
 LOGO_DEV        := $(DOCS_DEV_DIR)/$(PACKAGE)-logo.svg
 DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(DOCS_DEV_DIR)/copying.texi \
                    $(LOGO_DEV) $(TEXI_TMP)
-PKG_ADD         := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
+PKG_ADD         := $(shell $(SED) -n \
+                     -e 's|^// PKG_ADD: ||p' \
+                     -e 's|^\#\# PKG_ADD: ||p' \
+                     $(CC_SOURCES) $(M_SOURCES))
 
 DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
 DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
@@ -120,8 +126,8 @@ help:
 define COPY_SLICOT_AND_BOOTSTRAP
 	@echo "  copy slicot files ..."
 	@mkdir -p $@/$(SC)/$(SC_LAPACK)
-	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
-	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
+	@cp $(SC_SUBMOD)/$(SC_SRC)/*.f $@/$(SC)/$(SC_SRC)/
+	@cp $(SC_SUBMOD)/$(SC_LAPACK)/*.f $@/$(SC)/$(SC_LAPACK)/
 	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
 	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
 	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
