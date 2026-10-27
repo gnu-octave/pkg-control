@@ -5,10 +5,12 @@ For a list of contributors for the control package, please refer to the
 project's home on Github at  https://github.com/gnu-octave/pkg-control
 
 ===============================================================================
-control-4.2.99+  Upcoming 4.3.0, not yet released
+control-4.3.0  Release date 2026-11-01
 ===============================================================================
 
 ** zpk: new native @zpk class, fixing issue #30
+
+** Fixed build problems on MacOS (issue #39)
 
 ===============================================================================
 control-4.2.3  Release date 2026-07-31
