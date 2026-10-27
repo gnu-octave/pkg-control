@@ -4,9 +4,9 @@ This is the official repository for the control package for GNU Octave.
 
 ## About
 
-The **control** package is a collection of functions for control systems design and analysis. 
+The **control** package is a collection of functions for control systems design and analysis.
 
-As of 24.03.2023, the developemnt of the **control** package was moved from [SourceForge](https://sourceforge.net/p/octave/control/ci/default/tree/) and [Mercurial](https://en.wikipedia.org/wiki/Mercurial) to [GitHub](https://github.com/gnu-octave/pkg-control) and [Git](https://en.wikipedia.org/wiki/Git). Links related to the control package
+As of 24.03.2023, the development of the **control** package was moved from [SourceForge](https://sourceforge.net/p/octave/control/ci/default/tree/) and [Mercurial](https://en.wikipedia.org/wiki/Mercurial) to [GitHub](https://github.com/gnu-octave/pkg-control) and [Git](https://en.wikipedia.org/wiki/Git). Links related to the control package
 
 - [License and copyright information](https://github.com/gnu-octave/pkg-control/blob/main/COPYING)
 - [Releases](https://github.com/gnu-octave/pkg-control/releases)
@@ -46,9 +46,9 @@ You can also clone this repository (using the option `--recurse-submodules` sinc
 
 - `make dist`<br>
   Create the package archive file in the directory `target` which can be installed
-  in Octave afterwards. If `make DOCS_EXAMPLES=true dist` is used, the documentation   
+  in Octave afterwards. If `make DOCS_EXAMPLES=true dist` is used, the documentation
   files (pdf and qch for Octave's documentation browser) will contain the demos of
-  the package as examples togehter with the resulting plots. However, for this the
+  the package as examples together with the resulting plots. However, for this the
   control package has to be installed.
 - `make install`<br>
   Install the package

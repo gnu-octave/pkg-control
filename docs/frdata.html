@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,53 +557,41 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-frdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">H</var>, <var class="var">w</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">frdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-frdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">H</var>, <var class="var">w</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">frdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">&quot;vector&quot;</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>H</var>, <var>w</var>, <var>tsam</var>] = <b>frdata</b> (<var>sys</var>, <var>&quot;vector&quot;</var>)</code></h5></dt>
 </dl>
-<p>Access frequency response data.
+<p> Access frequency response data.
 </p>
 <div class="ms-5">
-<p>Argument <var class="var">sys</var> is not limited to frequency response data objects.
- If <var class="var">sys</var> is not a frd object, it is converted automatically.
+<p> Argument <var>sys</var> is not limited to frequency response data objects.
+ If <var>sys</var> is not a frd object, it is converted automatically.
 </p>
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>Any type of <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
- interpreted as continous-time static gain.
- </p></dd>
-<dt><var class="var">&quot;v&quot;, &quot;vector&quot;</var></dt>
-</dl>
-<p>In case <var class="var">sys</var> is a SISO model, this option returns the frequency response
- as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> Any type of LTI model or a real-valued matrix which is
+ interpreted as continous-time static gain.</dd>
+<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dd> In case <var>sys</var> is a SISO model, this option returns the frequency response
+ as a column vector (lw-by-1) instead of an array (p-by-m-by-lw).</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">H</var></dt>
-</dl>
-<p>Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>H</var></dt>
+<dd> Frequency response array (p-by-m-by-lw).  H(i,j,k) contains the
  response from input j to output i at frequency k.  In the SISO case,
- a vector (lw-by-1) is possible as well, see input <var class="var">&quot;vector&quot;</var>.
- </p></dd>
-<dt><var class="var">w</var></dt>
+ a vector (lw-by-1) is possible as well, see input <var>&quot;vector&quot;</var>.</dd>
+<dt> <var>w</var></dt>
+<dd> Frequency vector (lw-by-1) in radian per second [rad/s].
+ Frequencies are in ascending order.</dd>
+<dt> <var>tsam</var></dt>
+<dd> Sampling time in seconds.  If <var>sys</var> is a continuous-time model,
+ a zero is returned.</dd>
 </dl>
-<p>Frequency vector (lw-by-1) in radian per second [rad/s].
- Frequencies are in ascending order.
- </p></dd>
-<dt><var class="var">tsam</var></dt>
-</dl>
-<p>Sampling time in seconds.  If <var class="var">sys</var> is a continuous-time model,
- a zero is returned.
- </p></dd>
-</dl>
-
-</div>
-
-
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/frdata.m">frdata</a>

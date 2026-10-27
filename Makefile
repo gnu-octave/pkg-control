@@ -25,9 +25,12 @@ endif
 MAKEINFO_OPTIONS := --no-headers --no-split --no-validate \
 												--set-customization-variable 'COPIABLE_LINKS 0'
 # work out a possible help generator
+QT_LIBEXECS := $(shell qtpaths --query QT_INSTALL_LIBEXECS 2>/dev/null)
 ifeq ($(strip $(QHELPGENERATOR)),)
   ifneq ($(shell qhelpgenerator -v 2>/dev/null),)
     QHELPGENERATOR = qhelpgenerator
+  else ifneq ($(wildcard $(QT_LIBEXECS)/qhelpgenerator),)
+    QHELPGENERATOR = $(QT_LIBEXECS)/qhelpgenerator
   else ifneq ($(shell qcollectiongenerator -v 2>/dev/null),)
     QHELPGENERATOR = qcollectiongenerator-qt5
   else ifneq ($(shell qcollectiongenerator -qt5 -v 2>/dev/null),)
@@ -38,9 +41,9 @@ ifeq ($(strip $(QHELPGENERATOR)),)
 endif
 
 DESCRIPTION := DESCRIPTION
-PACKAGE := $(shell $(SED) -n -e 's/^[Nn]ame: *\(\w\+\)/\1/p' $(DESCRIPTION))
-VERSION := $(shell $(SED) -n -e 's/^[Vv]ersion: *\(\w\+\)/\1/p' $(DESCRIPTION))
-DATE    := $(shell $(SED) -n -e 's/^[Dd]ate: *\(\w\+\)/\1/p' $(DESCRIPTION))
+PACKAGE := $(shell $(SED) -n -e 's/^[Nn]ame:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
+VERSION := $(shell $(SED) -n -e 's/^[Vv]ersion:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
+DATE    := $(shell $(SED) -n -e 's/^[Dd]ate:[[:space:]]*\([^[:space:]][^[:space:]]*\).*/\1/p' $(DESCRIPTION))
 DEPENDS := $(shell $(SED) -n -e 's/^[Dd]epends[^,]*, *\(.*\)/\1/p' $(DESCRIPTION) | $(SED) 's/ *([^()]*)//g; s/ *, */ /g')
 
 TARGET_DIR      := target
@@ -65,7 +68,10 @@ TEXI_TMP        := $(DOCS_DEV_DIR)/functions.texi $(DOCS_DEV_DIR)/version.texi
 LOGO_DEV        := $(DOCS_DEV_DIR)/$(PACKAGE)-logo.svg
 DOCS_SOURCES    := $(DOCS_DEV_DIR)/$(PACKAGE).texi $(DOCS_DEV_DIR)/copying.texi \
                    $(LOGO_DEV) $(TEXI_TMP)
-PKG_ADD         := $(shell grep -sPho '(?<=(//|\#\#) PKG_ADD: ).*' $(CC_SOURCES) $(M_SOURCES))
+PKG_ADD         := $(shell $(SED) -n \
+                     -e 's|^// PKG_ADD: ||p' \
+                     -e 's|^\#\# PKG_ADD: ||p' \
+                     $(CC_SOURCES) $(M_SOURCES))
 
 DOCS_PDF        := $(DOCS_DIR)/$(PACKAGE).pdf
 DOCS_QCH        := $(DOCS_DIR)/$(PACKAGE).qch
@@ -97,15 +103,21 @@ help:
 	@echo "   clean     - Remove releases, doc and oct files"
 	@echo "   distclean - Remove releases, oct files and compiled libraries"
 	@echo " "
-	@echo "Options: "
+	@echo "Options (environment variables): "
 	@echo " "
 	@echo "   DOCS_EXAMPLES=true"
 	@echo "             - The pdf and qch docs include any existing demos"
-	@echo "               as examples togehter with the resulting figures."
+	@echo "               as examples together with the resulting figures."
 	@echo "               The default is, that only links to the examples"
 	@echo "               in the online documentation are included."
 	@echo " "
-	
+	@echo "   CHECK_OCTAVE_VERSION=X.Y.0"
+	@echo "             - Determines the Octave version for which the check"
+	@echo "               is performed with the target check-local."
+	@echo "               The default 'latest', valid strings are Octave"
+	@echo "               version numbers like, e.g., '8.4.0' or '9.4.0'."
+	@echo " "
+
 
 %.tar.gz: %
 	@echo "Create $@ ..."
@@ -114,8 +126,8 @@ help:
 define COPY_SLICOT_AND_BOOTSTRAP
 	@echo "  copy slicot files ..."
 	@mkdir -p $@/$(SC)/$(SC_LAPACK)
-	@cp -t $@/$(SC)/$(SC_SRC) $(SC_SUBMOD)/$(SC_SRC)/*.f
-	@cp -t $@/$(SC)/$(SC_LAPACK) $(SC_SUBMOD)/$(SC_LAPACK)/*.f
+	@cp $(SC_SUBMOD)/$(SC_SRC)/*.f $@/$(SC)/$(SC_SRC)/
+	@cp $(SC_SUBMOD)/$(SC_LAPACK)/*.f $@/$(SC)/$(SC_LAPACK)/
 	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_SRC)/../
 	@cp $(SC_SUBMOD)/README.md $@/$(SC_SRC)/../README-SLICOT.md
 	@cp $(SC_SUBMOD)/LICENSE   $@/$(SC_DOC)/
@@ -149,19 +161,23 @@ $(RELEASE_DIR_CI): .git/index
 	@-$(RM) -r $@
 	@mkdir -p $@
 	@echo "  git archive ..."
-	@REV=$$(GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
-	  git stash create); \
-	GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$(abspath .)" \
-	  git archive -o $@/tmp.tar $${REV:-HEAD}
+	@GIT_HOME=$$(mktemp -d); \
+	HOME=$$GIT_HOME git config --global --add safe.directory "$(abspath .)"; \
+	REV=$$(HOME=$$GIT_HOME git stash create); \
+	HOME=$$GIT_HOME git archive -o $@/tmp.tar $${REV:-HEAD}; \
+	$(RM) -r $$GIT_HOME
 	@cd $@ && tar -xf tmp.tar && $(RM) tmp.tar
 	$(COPY_SLICOT_AND_BOOTSTRAP)
 
+# The html documentation is created by the package pkg-octave-doc
+# but setting the figure format to svg instaed of the default png
+# format.
 docs-html:
 	@echo "Updating HTML documentation ... "
 	@cd $(DOCS_HTML_DIR) && $(OCTAVE) \
-													--eval "pkg load pkg-octave-doc; " \
-													--eval "pkg load $(PACKAGE);" \
-													--eval 'package_texi2html ("${PACKAGE}");'
+						--eval "pkg load pkg-octave-doc; " \
+						--eval "pkg load $(PACKAGE);" \
+						--eval 'package_texi2html ("${PACKAGE}", "figformat", "svg");'
 
 $(DOCS_DEV_DIR)/version.texi: $(DESCRIPTION)
 	@echo Generating $@ ...
@@ -182,12 +198,19 @@ $(DOCS_LOGO): $(LOGO_DEV)
 	@echo Copying $@ ...
 	cp $(LOGO_DEV) $@
 
+# Create the documentation as pdf file. This still uses makeinfo because it
+# provides better results than texi2pdf.
 $(DOCS_PDF): $(DOCS_SOURCES)
 	@echo Generating $@ ...
 	@cd $(DOCS_DEV_DIR) && $(MAKEINFO) --pdf $(MAKEINFO_OPTIONS) $(PACKAGE).texi > /dev/null 2>&1
 	@cd $(DOCS_DEV_DIR) && $(RM) *.out *.log *.idx *.ilg *.ind *.toc *.cp *.cps *.aux *.fn *.fns *.out
 	@$(MV) $(DOCS_DEV_DIR)/$(PACKAGE).pdf $(DOCS_PDF)
 
+# Create the documentation as qt-help file. This uses an own procedure for
+# the required html-files (with makeinfo) and not the package pkg-octave-doc
+# because a css-file can be used (for having the same font as the octave
+# qt-help) and a more detailed table of contents and demos (figures and code)
+# in the qt-help are provided.
 $(DOCS_QCH): $(DOCS_SOURCES)
 	@echo Generating $@ ...
 	@cd $(DOCS_DEV_DIR) && $(MAKEINFO) --html --css-ref=$(PACKAGE).css $(MAKEINFO_OPTIONS) $(PACKAGE).texi
@@ -235,7 +258,8 @@ check-ci: tarball-nodocs
 	$(OCTAVE) --no-gui devel/run_tests.m
 
 check-local:
-	docker compose --file devel/compose.yaml --project-directory . run --rm octave
+	HOST_UID=$(shell id -u) HOST_GID=$(shell id -g) \
+		docker compose --file devel/compose.yaml --project-directory . run -e CHECK_OCTAVE_VERSION=$(CHECK_OCTAVE_VERSION) --rm octave
 
 tarball-nodocs: $(RELEASE_TARBALL_CI)
 

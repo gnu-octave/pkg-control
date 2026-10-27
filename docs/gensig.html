@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,63 +557,45 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-gensig"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-gensig-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>, <var class="var">tfinal</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-gensig-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">u</var>, <var class="var">t</var>] =</code> <strong class="def-name">gensig</strong> <code class="def-code-arguments">(<var class="var">sigtype</var>, <var class="var">tau</var>, <var class="var">tfinal</var>, <var class="var">tsam</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>, <var>tfinal</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>u</var>, <var>t</var>] = <b>gensig</b> (<var>sigtype</var>, <var>tau</var>, <var>tfinal</var>, <var>tsam</var>)</code></h5></dt>
 </dl>
-<p>Generate periodic signal.  Useful in combination with lsim.
+<p> Generate periodic signal.  Useful in combination with lsim.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sigtype = &quot;sin&quot;</var></dt>
-</dl>
-<p>Sine wave.
- </p></dd>
-<dt><var class="var">sigtype = &quot;cos&quot;</var></dt>
-</dl>
-<p>Cosine wave.
- </p></dd>
-<dt><var class="var">sigtype = &quot;square&quot;</var></dt>
-</dl>
-<p>Square wave.
- </p></dd>
-<dt><var class="var">sigtype = &quot;pulse&quot;</var></dt>
-</dl>
-<p>Periodic pulse.
- </p></dd>
-<dt><var class="var">tau</var></dt>
-</dl>
-<p>Duration of one period in seconds.
- </p></dd>
-<dt><var class="var">tfinal</var></dt>
-</dl>
-<p>Optional duration of the signal in seconds.  Default duration is 5 periods.
- </p></dd>
-<dt><var class="var">tsam</var></dt>
-</dl>
-<p>Optional sampling time in seconds.  Default spacing is tau/64.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sigtype = &quot;sin&quot;</var></dt>
+<dd> Sine wave.</dd>
+<dt> <var>sigtype = &quot;cos&quot;</var></dt>
+<dd> Cosine wave.</dd>
+<dt> <var>sigtype = &quot;square&quot;</var></dt>
+<dd> Square wave.</dd>
+<dt> <var>sigtype = &quot;pulse&quot;</var></dt>
+<dd> Periodic pulse.</dd>
+<dt> <var>tau</var></dt>
+<dd> Duration of one period in seconds.</dd>
+<dt> <var>tfinal</var></dt>
+<dd> Optional duration of the signal in seconds.  Default duration is 5 periods.</dd>
+<dt> <var>tsam</var></dt>
+<dd> Optional sampling time in seconds.  Default spacing is tau/64.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">u</var></dt>
-</dl>
-<p>Vector of signal values.
- </p></dd>
-<dt><var class="var">t</var></dt>
-</dl>
-<p>Time vector of the signal.
- </p></dd>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>u</var></dt>
+<dd> Vector of signal values.</dd>
+<dt> <var>t</var></dt>
+<dd> Time vector of the signal.</dd>
 </dl>
 
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="lsim.html">lsim</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/gensig.m">gensig</a>
 </div>

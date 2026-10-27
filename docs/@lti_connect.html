@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,79 +557,76 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-connect"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">csys</var> =</code> <strong class="def-name">connect</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">in</var>, <var class="var">out</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-connect-1"><span class="category-def">Function File: </span><span><code class="def-type"><var class="var">csys</var> =</code> <strong class="def-name">connect</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">cm</var>, <var class="var">in</var>, <var class="var">out</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <var>csys</var> = <b>connect</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>in</var>, <var>out</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <var>csys</var> = <b>connect</b> (<var>sys</var>, <var>cm</var>, <var>in</var>, <var>out</var>)</code></h5></dt>
 </dl>
-
-<p>Name-based or index-based interconnections between the outputs and inputs of <abbr class="acronym">LTI</abbr> models.
+<p> Name-based or index-based interconnections between the outputs and inputs of LTI models.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys1, &hellip;, sysN</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> models to be connected by named-based connection.
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys1, &hellip;, sysN</var></dt>
+<dd> LTI models to be connected by named-based connection.
  The properties &rsquo;inname&rsquo; and &rsquo;outname&rsquo; of each model should be set according
- to the desired input-output connections.
- </p></dd>
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model where the outputs are connected to the inputs by
- index-based connection.
- </p></dd>
-<dt><var class="var">in</var></dt>
-</dl>
-<p>For name-based interconnections, string or cell of strings containing the names
+ to the desired input-output connections.</dd>
+<dt> <var>sys</var></dt>
+<dd> LTI model where the outputs are connected to the inputs by
+ index-based connection.</dd>
+<dt> <var>in</var></dt>
+<dd> For name-based interconnections, string or cell of strings containing the names
  of the inputs to be kept.  The names must be part of the properties &rsquo;ingroup&rsquo; or
  &rsquo;inname&rsquo;.  For index-based interconnections, vector containing the indices of the
- inputs to be kept.
- </p></dd>
-<dt><var class="var">out</var></dt>
-</dl>
-<p>For name-based interconnections, string or cell of strings containing the names
+ inputs to be kept.</dd>
+<dt> <var>out</var></dt>
+<dd> For name-based interconnections, string or cell of strings containing the names
  of the outputs to be kept.  The names must be part of the properties &rsquo;outgroup&rsquo;
  or &rsquo;outname&rsquo;.  For index-based interconnections, vector containing the indices of
- the outputs to be kept.
- </p></dd>
-<dt><var class="var">cm</var></dt>
-</dl>
-<p>Connection matrix (not name-based).  Each row of the matrix represents a summing
+ the outputs to be kept.</dd>
+<dt> <var>cm</var></dt>
+<dd> Connection matrix (not name-based).  Each row of the matrix represents a summing
  junction.  The first column holds the indices of the inputs to be summed with
  outputs of the subsequent columns.  The output indices can be negative, if the output
  is to be substracted, or zero.  For example, the row
- </p><div class="example">
-<pre class="example-preformatted"> [2 0 3 -4 0]
- </pre></div>
-<p>or
- </p><div class="example">
-<pre class="example-preformatted"> [2 -4 3]
- </pre></div>
-<p>will sum input u(2) with outputs y(3) and y(4) as
- </p><div class="example">
-<pre class="example-preformatted"> u(2) + y(3) - y(4).
- </pre></div>
-<p>If several systems are cinnected as in the name-based case, they have
- to be stacked by <code class="code">append</code> before using <code class="code">connect</code>.
- </p></dd>
-</dl>
+<table><tr><td>&nbsp;</td><td><pre class="example"> [2 0 3 -4 0]
+</pre></td></tr></table>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">csys</var></dt>
-</dl>
-<p>Resulting interconnected system with outputs <var class="var">out</var> and
- inputs <var class="var">in</var>.
- </p></dd>
-</dl>
 
-<p><strong class="strong">Example</strong>
+<p> or
 </p>
-<p>Consider the control loop with reference r, disturbances d1, d2
- and an additional output which represents the output of the controller
- </p><div class="example">
-<div class="group"><pre class="example-preformatted">
 
+<table><tr><td>&nbsp;</td><td><pre class="example"> [2 -4 3]
+</pre></td></tr></table>
+
+
+<p> will sum input u(2) with outputs y(3) and y(4) as
+</p>
+
+<table><tr><td>&nbsp;</td><td><pre class="example"> u(2) + y(3) - y(4).
+</pre></td></tr></table>
+
+
+<p> If several systems are cinnected as in the name-based case, they have
+ to be stacked by <code>append</code> before using <code>connect</code>.
+</p>
+</dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>csys</var></dt>
+<dd> Resulting interconnected system with outputs <var>out</var> and
+ inputs <var>in</var>.</dd>
+</dl>
+
+<p> <strong>Example</strong>
+</p>
+<p> Consider the control loop with reference r, disturbances d1, d2
+ and an additional output which represents the output of the controller
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
                        d1 --+              d2 --+
                             |                   |
           e  +--------+     v  u  +--------+    v
@@ -613,11 +636,11 @@
        |                 +------------------------------&gt; yc
        |                                           |
        +-------------------------------------------+
- </pre></div></div>
+</pre></td></tr></table>
 
-<p>Name-based interconnections:
- </p><div class="example">
-<div class="group"><pre class="example-preformatted"> G.inname = 'u';
+<p> Name-based interconnections:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"> G.inname = 'u';
  G.outname = 'y1';
  K.inname = 'e';
  K.outname = 'yc';
@@ -627,21 +650,21 @@
  in = {'r', 'd1', 'd2'};
  out = {'y', 'yc'};
  G_cl1 = tf (connect (K, G, s1, s2, s3, in, out))
- </pre></div></div>
+</pre></td></tr></table>
 
-<p>Index-based interconnections (without changing <code class="code">G</code> and <code class="code">K</code>):
- </p><div class="example">
-<div class="group"><pre class="example-preformatted"> G1 = tf (1);   # static gains with r, d1, d2, y as outputs
+<p> Index-based interconnections (without changing <code>G</code> and <code>K</code>):
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"> G1 = tf (1);   # static gains with r, d1, d2, y as outputs
  G_all = append (G1, G1, G1, K, G, G1);
  cm = [4, 1, -6; 5, 4, 2; 6, 5, 3];
  in = [1, 2, 3];
  out = [6, 4];
  G_cl2 = connect (G_all, cm, in, out)
- </pre></div></div>
+</pre></td></tr></table>
 
-<p>Index-based interconnections (changing <code class="code">G</code> and <code class="code">K</code>):
- </p><div class="example">
-<div class="group"><pre class="example-preformatted"> [A,B,C,D] = ssdata(K);
+<p> Index-based interconnections (changing <code>G</code> and <code>K</code>):
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"> [A,B,C,D] = ssdata(K);
  K = ss (A, [B -B], C, [D -D]);     # compare s1 above
  [A,B,C,D] = ssdata(G);
  G = ss (A, [B B 0*B], C, [D D 1]); # compare s2 and s3 above
@@ -650,13 +673,12 @@
  in = [1, 3, 5];
  out = [2, 1];
  G_cl3 = tf (connect (G_all, cm, in, out))
- </pre></div></div>
+</pre></td></tr></table>
 
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="sumblk.html">sumblk</a>, 
+  <a href="append.html">append</a>
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/@lti/connect.m">@lti/connect</a>
 </div>

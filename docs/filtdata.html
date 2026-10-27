@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,57 +557,44 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-filtdata"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">filtdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-filtdata-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">num</var>, <var class="var">den</var>, <var class="var">tsam</var>] =</code> <strong class="def-name">filtdata</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">&quot;vector&quot;</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>num</var>, <var>den</var>, <var>tsam</var>] = <b>filtdata</b> (<var>sys</var>, <var>&quot;vector&quot;</var>)</code></h5></dt>
 </dl>
-
-<p>Access discrete-time transfer function data in DSP format.
- Argument <var class="var">sys</var> is not limited to transfer function models.
- If <var class="var">sys</var> is not a transfer function, it is converted automatically.
- <var class="var">sys</var> can also be a real-valued gain matrix which is then
+<p> Access discrete-time transfer function data in DSP format.
+ Argument <var>sys</var> is not limited to transfer function models.
+ If <var>sys</var> is not a transfer function, it is converted automatically.
+ <var>sys</var> can also be a real-valued gain matrix which is then
  interpreted as static gain system with unspecified sampling time (-1).
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p>Any type of discrete-time <abbr class="acronym">LTI</abbr> model or a real-valued matrix which is
- interpreted as discrete-time static gain with unspecified sampling time -1.
- </p></dd>
-<dt><var class="var">&quot;v&quot;, &quot;vector&quot;</var></dt>
-</dl>
-<p>For SISO models, return <var class="var">num</var> and <var class="var">den</var> directly as column vectors
- instead of cells containing a single column vector.
- </p></dd>
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> Any type of discrete-time LTI model or a real-valued matrix which is
+ interpreted as discrete-time static gain with unspecified sampling time -1.</dd>
+<dt> <var>&quot;v&quot;, &quot;vector&quot;</var></dt>
+<dd> For SISO models, return <var>num</var> and <var>den</var> directly as column vectors
+ instead of cells containing a single column vector.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">num</var></dt>
-</dl>
-<p>Cell of numerator(s).  Each numerator is a row vector
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>num</var></dt>
+<dd> Cell of numerator(s).  Each numerator is a row vector
  containing the coefficients of the polynomial in ascending powers of z^-1.
  num{i,j} contains the numerator polynomial from input j to output i.
- In the SISO case, a single vector is possible as well.
- </p></dd>
-<dt><var class="var">den</var></dt>
-</dl>
-<p>Cell of denominator(s).  Each denominator is a row vector
+ In the SISO case, a single vector is possible as well.</dd>
+<dt> <var>den</var></dt>
+<dd> Cell of denominator(s).  Each denominator is a row vector
  containing the coefficients of the polynomial in ascending powers of z^-1.
  den{i,j} contains the denominator polynomial from input j to output i.
- In the SISO case, a single vector is possible as well.
- </p></dd>
-<dt><var class="var">tsam</var></dt>
+ In the SISO case, a single vector is possible as well.</dd>
+<dt> <var>tsam</var></dt>
+<dd> Sampling time in seconds.  If <var>tsam</var> is not specified, -1 is returned.</dd>
 </dl>
-<p>Sampling time in seconds.  If <var class="var">tsam</var> is not specified, -1 is returned.
- </p></dd>
-</dl>
-
-</div>
-
-
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/filtdata.m">filtdata</a>

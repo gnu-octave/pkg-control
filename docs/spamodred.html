@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,259 +557,197 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-spamodred"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-spamodred-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">nr</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-spamodred-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-spamodred-3"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Gr</var>, <var class="var">info</var>] =</code> <strong class="def-name">spamodred</strong> <code class="def-code-arguments">(<var class="var">G</var>, <var class="var">nr</var>, <var class="var">opt</var>, &hellip;)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>spamodred</b> (<var>G</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>spamodred</b> (<var>G</var>, <var>nr</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>spamodred</b> (<var>G</var>, <var>opt</var>, &hellip;)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Gr</var>, <var>info</var>] = <b>spamodred</b> (<var>G</var>, <var>nr</var>, <var>opt</var>, &hellip;)</code></h5></dt>
 </dl>
-
-<p>Model order reduction by frequency weighted Singular Perturbation Approximation (SPA).
- The aim of model reduction is to find an <abbr class="acronym">LTI</abbr> system <var class="var">Gr</var> of order
- <var class="var">nr</var> (nr &lt; n) such that the input-output behaviour of <var class="var">Gr</var>
- approximates the one from original system <var class="var">G</var>.
+<p> Model order reduction by frequency weighted Singular Perturbation Approximation (SPA).
+ The aim of model reduction is to find an LTI system <var>Gr</var> of order
+ <var>nr</var> (nr &lt; n) such that the input-output behaviour of <var>Gr</var>
+ approximates the one from original system <var>G</var>.
 </p>
 <div class="ms-5">
-<p>SPA is an absolute error method which tries to minimize
+<p> SPA is an absolute error method which tries to minimize
  $$ || G - G_r ||_{\infty} = \min $$$$ || V \ (G - G_r) \ W ||_{\infty} = \min $$
-  where <var class="var">V</var> and <var class="var">W</var> denote output and input weightings.
+  where <var>V</var> and <var>W</var> denote output and input weightings.
 </p>
-
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">G</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model to be reduced.
- </p></dd>
-<dt><var class="var">nr</var></dt>
-</dl>
-<p>The desired order of the resulting reduced order system <var class="var">Gr</var>.
- If not specified, <var class="var">nr</var> is chosen automatically according
- to the description of key <var class="var">&rsquo;order&rsquo;</var>.
- </p></dd>
-<dt><var class="var">&hellip;</var></dt>
-</dl>
-<p>Optional pairs of keys and values.  <code class="code">&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.
- </p></dd>
-<dt><var class="var">opt</var></dt>
-</dl>
-<p>Optional struct with keys as field names.
- Struct <var class="var">opt</var> can be created directly or
- by function <code class="command">options</code>.  <code class="code">opt.key1 = value1, opt.key2 = value2</code>.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">Gr</var></dt>
-</dl>
-<p>Reduced order state-space model.
- </p></dd>
-<dt><var class="var">info</var></dt>
-</dl>
-<p>Struct containing additional information.
- </p><dl class="table">
-<dt><var class="var">info.n</var></dt>
-</dl>
-<p>The order of the original system <var class="var">G</var>.
- </p></dd>
-<dt><var class="var">info.ns</var></dt>
-</dl>
-<p>The order of the <var class="var">alpha</var>-stable subsystem of the original system <var class="var">G</var>.
- </p></dd>
-<dt><var class="var">info.hsv</var></dt>
-</dl>
-<p>The Hankel singular values of the <var class="var">alpha</var>-stable part of
- the original system <var class="var">G</var>, ordered decreasingly.
- </p></dd>
-<dt><var class="var">info.nu</var></dt>
-</dl>
-<p>The order of the <var class="var">alpha</var>-unstable subsystem of both the original
- system <var class="var">G</var> and the reduced-order system <var class="var">Gr</var>.
- </p></dd>
-<dt><var class="var">info.nr</var></dt>
-</dl>
-<p>The order of the obtained reduced order system <var class="var">Gr</var>.
- </p></dd>
-</dl>
-</dd>
-</dl>
-
-
-<p><strong class="strong">Option Keys and Values</strong>
- </p><dl class="table">
-<dt><var class="var">&rsquo;order&rsquo;, &rsquo;nr&rsquo;</var></dt>
-</dl>
-<p>The desired order of the resulting reduced order system <var class="var">Gr</var>.
- If not specified, <var class="var">nr</var> is chosen automatically such that states with
- Hankel singular values <var class="var">info.hsv</var> &gt; <var class="var">tol1</var> are retained.
+<p> <strong>Inputs</strong>
 </p>
-</dd>
-<dt><var class="var">&rsquo;left&rsquo;, &rsquo;output&rsquo;</var></dt>
+<dl compact="compact">
+<dt> <var>G</var></dt>
+<dd> LTI model to be reduced.</dd>
+<dt> <var>nr</var></dt>
+<dd> The desired order of the resulting reduced order system <var>Gr</var>.
+ If not specified, <var>nr</var> is chosen automatically according
+ to the description of key <var>&rsquo;order&rsquo;</var>.</dd>
+<dt> <var>&hellip;</var></dt>
+<dd> Optional pairs of keys and values.  <code>&quot;key1&quot;, value1, &quot;key2&quot;, value2</code>.</dd>
+<dt> <var>opt</var></dt>
+<dd> Optional struct with keys as field names.
+ Struct <var>opt</var> can be created directly or
+ by function <code>options</code>.  <code>opt.key1 = value1, opt.key2 = value2</code>.</dd>
 </dl>
-<p><abbr class="acronym">LTI</abbr> model of the left/output frequency weighting <var class="var">V</var>.
- Default value is an identity matrix.
+
+<p> <strong>Outputs</strong>
 </p>
-</dd>
-<dt><var class="var">&rsquo;right&rsquo;, &rsquo;input&rsquo;</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> model of the right/input frequency weighting <var class="var">W</var>.
- Default value is an identity matrix.
-</p>
-</dd>
-<dt><var class="var">&rsquo;method&rsquo;</var></dt>
-</dl>
-<p>Approximation method for the L-infinity norm to be used as follows:
- </p><dl class="table">
-<dt><var class="var">&rsquo;sr&rsquo;, &rsquo;s&rsquo;</var></dt>
-</dl>
-<p>Use the square-root Singular Perturbation Approximation method.
- </p></dd>
-<dt><var class="var">&rsquo;bfsr&rsquo;, &rsquo;p&rsquo;</var></dt>
-</dl>
-<p>Use the balancing-free square-root Singular Perturbation Approximation method.  Default method.
- </p></dd>
+<dl compact="compact">
+<dt> <var>Gr</var></dt>
+<dd> Reduced order state-space model.</dd>
+<dt> <var>info</var></dt>
+<dd> Struct containing additional information.
+<dl compact="compact">
+<dt> <var>info.n</var></dt>
+<dd> The order of the original system <var>G</var>.</dd>
+<dt> <var>info.ns</var></dt>
+<dd> The order of the <var>alpha</var>-stable subsystem of the original system <var>G</var>.</dd>
+<dt> <var>info.hsv</var></dt>
+<dd> The Hankel singular values of the <var>alpha</var>-stable part of
+ the original system <var>G</var>, ordered decreasingly.</dd>
+<dt> <var>info.nu</var></dt>
+<dd> The order of the <var>alpha</var>-unstable subsystem of both the original
+ system <var>G</var> and the reduced-order system <var>Gr</var>.</dd>
+<dt> <var>info.nr</var></dt>
+<dd> The order of the obtained reduced order system <var>Gr</var>.</dd>
 </dl>
 
 </dd>
-<dt><var class="var">&rsquo;alpha&rsquo;</var></dt>
 </dl>
-<p>Specifies the ALPHA-stability boundary for the eigenvalues
- of the state dynamics matrix <var class="var">G.A</var>.  For a continuous-time
+
+<p> <strong>Option Keys and Values</strong>
+</p>
+<dl compact="compact">
+<dt> <var>&rsquo;order&rsquo;, &rsquo;nr&rsquo;</var></dt>
+<dd> The desired order of the resulting reduced order system <var>Gr</var>.
+ If not specified, <var>nr</var> is chosen automatically such that states with
+ Hankel singular values <var>info.hsv</var> &gt; <var>tol1</var> are retained.</dd>
+<dt> <var>&rsquo;left&rsquo;, &rsquo;output&rsquo;</var></dt>
+<dd> LTI model of the left/output frequency weighting <var>V</var>.
+ Default value is an identity matrix.</dd>
+<dt> <var>&rsquo;right&rsquo;, &rsquo;input&rsquo;</var></dt>
+<dd> LTI model of the right/input frequency weighting <var>W</var>.
+ Default value is an identity matrix.</dd>
+<dt> <var>&rsquo;method&rsquo;</var></dt>
+<dd> Approximation method for the L-infinity norm to be used as follows:
+<dl compact="compact">
+<dt> <var>&rsquo;sr&rsquo;, &rsquo;s&rsquo;</var></dt>
+<dd> Use the square-root Singular Perturbation Approximation method.</dd>
+<dt> <var>&rsquo;bfsr&rsquo;, &rsquo;p&rsquo;</var></dt>
+<dd> Use the balancing-free square-root Singular Perturbation Approximation method.  Default method.</dd>
+</dl>
+
+</dd>
+<dt> <var>&rsquo;alpha&rsquo;</var></dt>
+<dd> Specifies the ALPHA-stability boundary for the eigenvalues
+ of the state dynamics matrix <var>G.A</var>.  For a continuous-time
  system, ALPHA &lt;= 0 is the boundary value for
  the real parts of eigenvalues, while for a discrete-time
  system, 0 &lt;= ALPHA &lt;= 1 represents the
  boundary value for the moduli of eigenvalues.
  The ALPHA-stability domain does not include the boundary.
  Default value is 0 for continuous-time systems and
- 1 for discrete-time systems.
-</p>
-</dd>
-<dt><var class="var">&rsquo;tol1&rsquo;</var></dt>
-</dl>
-<p>If <var class="var">&rsquo;order&rsquo;</var> is not specified, <var class="var">tol1</var> contains the tolerance for
+ 1 for discrete-time systems.</dd>
+<dt> <var>&rsquo;tol1&rsquo;</var></dt>
+<dd> If <var>&rsquo;order&rsquo;</var> is not specified, <var>tol1</var> contains the tolerance for
  determining the order of the reduced model.
- For model reduction, the recommended value of <var class="var">tol1</var> is
+ For model reduction, the recommended value of <var>tol1</var> is
  c*info.hsv(1), where c lies in the interval [0.00001, 0.001].
  Default value is info.ns*eps*info.hsv(1).
- If <var class="var">&rsquo;order&rsquo;</var> is specified, the value of <var class="var">tol1</var> is ignored.
-</p>
-</dd>
-<dt><var class="var">&rsquo;tol2&rsquo;</var></dt>
-</dl>
-<p>The tolerance for determining the order of a minimal
+ If <var>&rsquo;order&rsquo;</var> is specified, the value of <var>tol1</var> is ignored.</dd>
+<dt> <var>&rsquo;tol2&rsquo;</var></dt>
+<dd> The tolerance for determining the order of a minimal
  realization of the ALPHA-stable part of the given
  model.  TOL2 &lt;= TOL1.
- If not specified, ns*eps*info.hsv(1) is chosen.
-</p>
-</dd>
-<dt><var class="var">&rsquo;gram-ctrb&rsquo;</var></dt>
-</dl>
-<p>Specifies the choice of frequency-weighted controllability
+ If not specified, ns*eps*info.hsv(1) is chosen.</dd>
+<dt> <var>&rsquo;gram-ctrb&rsquo;</var></dt>
+<dd> Specifies the choice of frequency-weighted controllability
  Grammian as follows:
- </p><dl class="table">
-<dt><var class="var">&rsquo;standard&rsquo;</var></dt>
-</dl>
-<p>Choice corresponding to a combination method [4]
- of the approaches of Enns [1] and Lin-Chiu [2,3].  Default method.
- </p></dd>
-<dt><var class="var">&rsquo;enhanced&rsquo;</var></dt>
-</dl>
-<p>Choice corresponding to the stability enhanced
- modified combination method of [4].
- </p></dd>
+<dl compact="compact">
+<dt> <var>&rsquo;standard&rsquo;</var></dt>
+<dd> Choice corresponding to a combination method [4]
+ of the approaches of Enns [1] and Lin-Chiu [2,3].  Default method.</dd>
+<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+<dd> Choice corresponding to the stability enhanced
+ modified combination method of [4].</dd>
 </dl>
 
 </dd>
-<dt><var class="var">&rsquo;gram-obsv&rsquo;</var></dt>
-</dl>
-<p>Specifies the choice of frequency-weighted observability
+<dt> <var>&rsquo;gram-obsv&rsquo;</var></dt>
+<dd> Specifies the choice of frequency-weighted observability
  Grammian as follows:
- </p><dl class="table">
-<dt><var class="var">&rsquo;standard&rsquo;</var></dt>
-</dl>
-<p>Choice corresponding to a combination method [4]
- of the approaches of Enns [1] and Lin-Chiu [2,3].  Default method.
- </p></dd>
-<dt><var class="var">&rsquo;enhanced&rsquo;</var></dt>
-</dl>
-<p>Choice corresponding to the stability enhanced
- modified combination method of [4].
- </p></dd>
+<dl compact="compact">
+<dt> <var>&rsquo;standard&rsquo;</var></dt>
+<dd> Choice corresponding to a combination method [4]
+ of the approaches of Enns [1] and Lin-Chiu [2,3].  Default method.</dd>
+<dt> <var>&rsquo;enhanced&rsquo;</var></dt>
+<dd> Choice corresponding to the stability enhanced
+ modified combination method of [4].</dd>
 </dl>
 
 </dd>
-<dt><var class="var">&rsquo;alpha-ctrb&rsquo;</var></dt>
-</dl>
-<p>Combination method parameter for defining the
+<dt> <var>&rsquo;alpha-ctrb&rsquo;</var></dt>
+<dd> Combination method parameter for defining the
  frequency-weighted controllability Grammian.
  abs(alphac) &lt;= 1.
  If alphac = 0, the choice of
  Grammian corresponds to the method of Enns [1], while if
  alphac = 1, the choice of Grammian corresponds
  to the method of Lin and Chiu [2,3].
- Default value is 0.
-</p>
-</dd>
-<dt><var class="var">&rsquo;alpha-obsv&rsquo;</var></dt>
-</dl>
-<p>Combination method parameter for defining the
+ Default value is 0.</dd>
+<dt> <var>&rsquo;alpha-obsv&rsquo;</var></dt>
+<dd> Combination method parameter for defining the
  frequency-weighted observability Grammian.
  abs(alphao) &lt;= 1.
  If alphao = 0, the choice of
  Grammian corresponds to the method of Enns [1], while if
  alphao = 1, the choice of Grammian corresponds
  to the method of Lin and Chiu [2,3].
- Default value is 0.
-</p>
-</dd>
-<dt><var class="var">&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
-</dl>
-<p>Boolean indicating whether equilibration (scaling) should be
- performed on system <var class="var">G</var> prior to order reduction.
- Default value is true if <code class="code">G.scaled == false</code> and
- false if <code class="code">G.scaled == true</code>.
- Note that for <abbr class="acronym">MIMO</abbr> models, proper scaling of both inputs and outputs
- is of utmost importance.  The input and output scaling can <strong class="strong">not</strong>
- be done by the equilibration option or the <code class="command">prescale</code> function
+ Default value is 0.</dd>
+<dt> <var>&rsquo;equil&rsquo;, &rsquo;scale&rsquo;</var></dt>
+<dd> Boolean indicating whether equilibration (scaling) should be
+ performed on system <var>G</var> prior to order reduction.
+ Default value is true if <code>G.scaled == false</code> and
+ false if <code>G.scaled == true</code>.
+ Note that for MIMO models, proper scaling of both inputs and outputs
+ is of utmost importance.  The input and output scaling can <strong>not</strong>
+ be done by the equilibration option or the <code>prescale</code> function
  because these functions perform state transformations only.
  Furthermore, signals should not be scaled simply to a certain range.
  For all inputs (or outputs), a certain change should be of the same
- importance for the model.
- </p></dd>
+ importance for the model.</dd>
 </dl>
 
-
-<p><strong class="strong">References</strong><br>
- </p><ol class="enumerate">
-<li> Enns, D.
- <cite class="cite">Model reduction with balanced realizations: An error bound
+<p> <strong>References</strong><br>
+</p>
+<ol>
+<li>
+ Enns, D.
+ <cite>Model reduction with balanced realizations: An error bound
  and a frequency weighted generalization</cite>.
  Proc. 23-th CDC, Las Vegas, pp. 127-132, 1984.
- </li><li> Lin, C.-A. and Chiu, T.-Y.
- <cite class="cite">Model reduction via frequency-weighted balanced realization</cite>.
+</li><li>
+ Lin, C.-A. and Chiu, T.-Y.
+ <cite>Model reduction via frequency-weighted balanced realization</cite>.
  Control Theory and Advanced Technology, vol. 8,
  pp. 341-351, 1992.
- </li><li> Sreeram, V., Anderson, B.D.O and Madievski, A.G.
- <cite class="cite">New results on frequency weighted balanced reduction
+</li><li>
+ Sreeram, V., Anderson, B.D.O and Madievski, A.G.
+ <cite>New results on frequency weighted balanced reduction
  technique</cite>.
  Proc. ACC, Seattle, Washington, pp. 4004-4009, 1995.
- </li><li> Varga, A. and Anderson, B.D.O.
- <cite class="cite">Square-root balancing-free methods for the frequency-weighted
+</li><li>
+ Varga, A. and Anderson, B.D.O.
+ <cite>Square-root balancing-free methods for the frequency-weighted
  balancing related model reduction</cite>.
  (report in preparation)
- </li></ol>
+</li></ol>
 
-
-<p><strong class="strong">Algorithm</strong><br>
- Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB09ID</a>,
+<p> <strong>Algorithm</strong><br>
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB09ID</a>,
  Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
- </p>
-</div>
-
-
-
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/spamodred.m">spamodred</a>
 </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,58 +557,49 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-sigma"><span class="category-def">Function File: </span><span><strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sigma-1"><span class="category-def">Function File: </span><span><strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sigma-2"><span class="category-def">Function File: </span><span><strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">sys2</var>, &hellip;, <var class="var">sysN</var>, <var class="var">w</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sigma-3"><span class="category-def">Function File: </span><span><strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys1</var>, <var class="var">'style1'</var>, &hellip;, <var class="var">sysN</var>, <var class="var">'styleN'</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sigma-4"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sv</var>, <var class="var">w</var>] =</code> <strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sigma-5"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">sv</var>, <var class="var">w</var>] =</code> <strong class="def-name">sigma</strong> <code class="def-code-arguments">(<var class="var">sys</var>, <var class="var">w</var>)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: <b>sigma</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>sigma</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>sigma</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>w</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: <b>sigma</b> (<var>sys1</var>, <var>&rsquo;style1&rsquo;</var>, &hellip;, <var>sysN</var>, <var>&rsquo;styleN&rsquo;</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>sv</var>, <var>w</var>] = <b>sigma</b> (<var>sys</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>sv</var>, <var>w</var>] = <b>sigma</b> (<var>sys</var>, <var>w</var>)</code></h5></dt>
 </dl>
-<p>Singular values of frequency response.  If no output arguments are given,
+<p> Singular values of frequency response.  If no output arguments are given,
  the singular value plot is printed on the screen.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">sys</var></dt>
-</dl>
-<p><abbr class="acronym">LTI</abbr> system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.
- </p></dd>
-<dt><var class="var">w</var></dt>
-</dl>
-<p>Optional vector of frequency values.  If <var class="var">w</var> is not specified,
+<p> <strong>Inputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sys</var></dt>
+<dd> LTI system.  Multiple inputs and/or outputs (MIMO systems) make practical sense.</dd>
+<dt> <var>w</var></dt>
+<dd> Optional vector of frequency values.  If <var>w</var> is not specified,
  it is calculated by the zeros and poles of the system.
- Alternatively, the cell <code class="code">{wmin, wmax}</code> specifies a frequency range,
- where <var class="var">wmin</var> and <var class="var">wmax</var> denote minimum and maximum frequencies
- in rad/s.
- </p></dd>
-<dt><var class="var">&rsquo;style&rsquo;</var></dt>
-</dl>
-<p>Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
- black line.  See <code class="command">help plot</code> for details.
- </p></dd>
+ Alternatively, the cell <code>{wmin, wmax}</code> specifies a frequency range,
+ where <var>wmin</var> and <var>wmax</var> denote minimum and maximum frequencies
+ in rad/s.</dd>
+<dt> <var>&rsquo;style&rsquo;</var></dt>
+<dd> Line style and color, e.g. &rsquo;r&rsquo; for a solid red line or &rsquo;-.k&rsquo; for a dash-dotted
+ black line.  See <code>help plot</code> for details.</dd>
 </dl>
 
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">sv</var></dt>
-</dl>
-<p>Array of singular values.  For a system with m inputs and p outputs, the array sv
- has <code class="code">min (m, p)</code> rows and as many columns as frequency points <code class="code">length (w)</code>.
- The singular values at the frequency <code class="code">w(k)</code> are given by <code class="code">sv(:,k)</code>.
- </p></dd>
-<dt><var class="var">w</var></dt>
-</dl>
-<p>Vector of frequency values used.
- </p></dd>
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>sv</var></dt>
+<dd> Array of singular values.  For a system with m inputs and p outputs, the array sv
+ has <code>min (m, p)</code> rows and as many columns as frequency points <code>length (w)</code>.
+ The singular values at the frequency <code>w(k)</code> are given by <code>sv(:,k)</code>.</dd>
+<dt> <var>w</var></dt>
+<dd> Vector of frequency values used.</dd>
 </dl>
 
-
-</div>
-
-
-
+<p> <strong>See also: </strong>
+  <a href="bodemag.html">bodemag</a>, 
+svd
+</p>
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/sigma.m">sigma</a>
 </div>

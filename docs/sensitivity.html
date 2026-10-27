@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+      src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
     </script>
     <script type="text/javascript">
       window.addEventListener("load", () => {
@@ -19,6 +19,32 @@
           tog.onclick = () => tog.classList.toggle("show");
           i.parentElement.removeChild(i.previousSibling);
           i.parentElement.insertBefore(tog, i);
+        }
+      });
+      // Open the collapsible demo an "#example" link points to, then scroll to
+      // it.  getElementById (not querySelector) matches ids that contain a dot,
+      // e.g. "Class.method-example1".
+      function openHashTarget () {
+        if (! window.location.hash) { return; }
+        let el = document.getElementById (
+          decodeURIComponent (window.location.hash.slice (1)));
+        if (! el) { return; }
+        if (el.classList.contains ("collapse") &&
+            ! el.classList.contains ("show")) {
+          bootstrap.Collapse.getOrCreateInstance (el).show ();
+        }
+        el.scrollIntoView ();
+      }
+      window.addEventListener ("DOMContentLoaded", openHashTarget);
+      window.addEventListener ("hashchange", openHashTarget);
+      // When the collapsible named by the current URL fragment is collapsed,
+      // drop the fragment (replaceState: no scroll, no history entry).  Otherwise
+      // the fragment would still equal this id, so clicking the same #example
+      // link again fires no "hashchange" and the example would not re-expand.
+      document.addEventListener ("hide.bs.collapse", (e) => {
+        if (e.target.id && window.location.hash === "#" + e.target.id) {
+          history.replaceState (null, "",
+            window.location.pathname + window.location.search);
         }
       });
     </script>
@@ -531,82 +557,69 @@
               </div>
             </div>
             <div class="card-body">
-<dl class="first-deftypefn">
-<dt class="deftypefn" id="index-sensitivity"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Ms</var>, <var class="var">ws</var>] =</code> <strong class="def-name">sensitivity</strong> <code class="def-code-arguments">(<var class="var">L</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sensitivity-1"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Ms</var>, <var class="var">ws</var>] =</code> <strong class="def-name">sensitivity</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">C</var>)</code></span></dt>
-<dt class="deftypefnx def-cmd-deftypefn" id="index-sensitivity-2"><span class="category-def">Function File: </span><span><code class="def-type">[<var class="var">Ms</var>, <var class="var">ws</var>] =</code> <strong class="def-name">sensitivity</strong> <code class="def-code-arguments">(<var class="var">P</var>, <var class="var">C1</var>, <var class="var">C2</var>, &hellip;)</code></span></dt>
+<dl>
+<dt><code><h5 class="fs">Function File: [<var>Ms</var>, <var>ws</var>] = <b>sensitivity</b> (<var>L</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Ms</var>, <var>ws</var>] = <b>sensitivity</b> (<var>P</var>, <var>C</var>)</code></h5></dt>
+<dt><code><h5 class="fs">Function File: [<var>Ms</var>, <var>ws</var>] = <b>sensitivity</b> (<var>P</var>, <var>C1</var>, <var>C2</var>, &hellip;)</code></h5></dt>
 </dl>
-<p>Return sensitivity margin <var class="var">Ms</var>.
- The quantity <var class="var">Ms</var> is simply the inverse of the shortest
+<p> Return sensitivity margin <var>Ms</var>.
+ The quantity <var>Ms</var> is simply the inverse of the shortest
  distance from the Nyquist curve to the critical point -1.
- Reasonable values of <var class="var">Ms</var> are in the range from 1.3 to 2.
+ Reasonable values of <var>Ms</var> are in the range from 1.3 to 2.
  $$ M_s = ||S(j\omega)||_{\infty} $$
   If no output arguments are given, the critical distance 1/Ms
  is plotted on a Nyquist diagram.
  In contrast to gain and phase margin as computed by function
- <code class="command">margin</code>, the sensitivity <var class="var">Ms</var> is a more robust
+ <code>margin</code>, the sensitivity <var>Ms</var> is a more robust
  criterion to assess the stability of a feedback system.
 </p>
 <div class="ms-5">
-<p><strong class="strong">Inputs</strong>
- </p><dl class="table">
-<dt><var class="var">L</var></dt>
-</dl>
-<p>Open loop transfer function.
- <var class="var">L</var> can be any type of <abbr class="acronym">LTI</abbr> system, but it must be square.
- </p></dd>
-<dt><var class="var">P</var></dt>
-</dl>
-<p>Plant model.  Any type of <abbr class="acronym">LTI</abbr> system.
- </p></dd>
-<dt><var class="var">C</var></dt>
-</dl>
-<p>Controller model.  Any type of <abbr class="acronym">LTI</abbr> system.
- </p></dd>
-<dt><var class="var">C1, C2, &hellip;</var></dt>
-</dl>
-<p>If several controllers are specified, function <code class="command">sensitivity</code>
- computes the sensitivity <var class="var">Ms</var> for each of them in combination
- with plant <var class="var">P</var>.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Outputs</strong>
- </p><dl class="table">
-<dt><var class="var">Ms</var></dt>
-</dl>
-<p>Sensitivity margin <var class="var">Ms</var> as defined in [1].
- Scalar value.
- If several controllers are specified, <var class="var">Ms</var> becomes
- a row vector with as many entries as controllers.
- </p></dd>
-<dt><var class="var">ws</var></dt>
-</dl>
-<p>The frequency [rad/s] corresponding to the sensitivity peak.
- Scalar value.
- If several controllers are specified, <var class="var">ws</var> becomes
- a row vector with as many entries as controllers.
- </p></dd>
-</dl>
-
-<p><strong class="strong">Algorithm</strong><br>
- Uses <a class="url" href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB13DD</a>,
- Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
- (<a class="url" href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+<p> <strong>Inputs</strong>
 </p>
-<p><strong class="strong">References</strong><br>
- </p><ol class="enumerate">
-<li> Astr&ouml;m, K. and H&auml;gglund, T. (1995)
+<dl compact="compact">
+<dt> <var>L</var></dt>
+<dd> Open loop transfer function.
+ <var>L</var> can be any type of LTI system, but it must be square.</dd>
+<dt> <var>P</var></dt>
+<dd> Plant model.  Any type of LTI system.</dd>
+<dt> <var>C</var></dt>
+<dd> Controller model.  Any type of LTI system.</dd>
+<dt> <var>C1, C2, &hellip;</var></dt>
+<dd> If several controllers are specified, function <code>sensitivity</code>
+ computes the sensitivity <var>Ms</var> for each of them in combination
+ with plant <var>P</var>.</dd>
+</dl>
+
+<p> <strong>Outputs</strong>
+</p>
+<dl compact="compact">
+<dt> <var>Ms</var></dt>
+<dd> Sensitivity margin <var>Ms</var> as defined in [1].
+ Scalar value.
+ If several controllers are specified, <var>Ms</var> becomes
+ a row vector with as many entries as controllers.</dd>
+<dt> <var>ws</var></dt>
+<dd> The frequency [rad/s] corresponding to the sensitivity peak.
+ Scalar value.
+ If several controllers are specified, <var>ws</var> becomes
+ a row vector with as many entries as controllers.</dd>
+</dl>
+
+<p> <strong>Algorithm</strong><br>
+ Uses <a href="https://github.com/SLICOT/SLICOT-Reference">SLICOT AB13DD</a>,
+ Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
+ (<a href="https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE">License and Disclaimer</a>).
+</p>
+<p> <strong>References</strong><br>
+</p>
+<ol>
+<li>
+ Astr"om, K. and H"agglund, T. (1995)
  PID Controllers:
  Theory, Design and Tuning,
  Second Edition.
  Instrument Society of America.
- </li></ol>
-
-
-</div>
-
-
+</li></ol>
 
 <p><strong>Source Code: </strong>
   <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/sensitivity.m">sensitivity</a>
