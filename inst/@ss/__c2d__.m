@@ -1,5 +1,5 @@
 ## Copyright (C) 2009-2016   Lukas F. Reichlin
-## Copyright (C)             Torsten Lilge
+## Copyright (C) 2020-2024   Torsten Lilge
 ##
 ## This file is part of LTI Syncope.
 ##

@@ -1,6 +1,7 @@
 ## Copyright (C) 2009-2015   Lukas F. Reichlin
 ## Copyright (C) 2016 Douglas A. Stewart
-## Copyright (C) 2024 Torsten Lilge
+## Copyright (C) 2020-2024 Torsten Lilge
+##
 ## This file is part of LTI Syncope.
 ##
 ## LTI Syncope is free software: you can redistribute it and/or modify

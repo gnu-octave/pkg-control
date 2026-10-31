@@ -1,4 +1,5 @@
 ## Copyright (C) 2017-2018 Fabian Alexander Wilms <f.alexander.wilms@gmail.com>
+## Copyright (C) 2022 Torsten Lilge
 ##
 ## This program is free software; you can redistribute it and/or modify it under
 ## the terms of the GNU General Public License as published by the Free Software

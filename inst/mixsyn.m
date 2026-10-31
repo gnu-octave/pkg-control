@@ -286,7 +286,7 @@
 ## @strong{Algorithm}@*
 ## Relies on functions @code{augw} and @code{hinfsyn},
 ## which use @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT SB10FD@comma{} SB10DD and SB10AD},
-## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2026, SLICOT, available under the BSD 3-Clause
 ## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ##
 ## @strong{References}@*

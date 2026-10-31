@@ -97,7 +97,7 @@
 ## @strong{Algorithm}@*
 ## For (descriptor) state-space models, @command{zero}
 ## uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT AB08ND and AG08BD},
-## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2026, SLICOT, available under the BSD 3-Clause
 ## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## For @acronym{SISO} transfer functions, @command{zero}
 ## uses Octave's @command{roots}.

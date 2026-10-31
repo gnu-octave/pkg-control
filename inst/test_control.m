@@ -21,7 +21,7 @@
 ##
 ## The Octave control package uses the 
 ## Uses @url{https://github.com/SLICOT/SLICOT-Reference, SLICOT library},
-## Copyright (c) 1996-2025, SLICOT, available under the BSD 3-Clause
+## Copyright (c) 1996-2026, SLICOT, available under the BSD 3-Clause
 ## (@url{https://github.com/SLICOT/SLICOT-Reference/blob/main/LICENSE,  License and Disclaimer}).
 ## @acronym{SLICOT} needs @acronym{BLAS} and @acronym{LAPACK} libraries which are also prerequisites
 ## for Octave itself.
