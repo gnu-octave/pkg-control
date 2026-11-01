@@ -47,11 +47,63 @@
             window.location.pathname + window.location.search);
         }
       });
+      // Let the browser's find-in-page reach the text inside a collapsed
+      // panel.  The attribute "hidden=until-found" is what makes content
+      // searchable and revealable; the style block below clears the
+      // "display: none" that would otherwise stop the attribute meaning
+      // anything, a box that is not generated having nothing to reveal.  Set
+      // it only where it is understood, which "content-visibility" is no test
+      // for, Firefox having shipped the two apart.  Where it is not, the panel
+      // keeps the user agent's plain [hidden] and the page behaves as before.
+      window.addEventListener ("DOMContentLoaded", () => {
+        if (! ("onbeforematch" in document.body)) { return; }
+        document.documentElement.classList.add ("until-found");
+        let panels = document.querySelectorAll (
+          ".collapse:not(.show):not(.navbar-collapse)");
+        for (let el of panels) {
+          el.setAttribute ("hidden", "until-found");
+          // Fired on a find-in-page hit, before the browser drops the
+          // attribute and scrolls to it.  Bootstrap keeps a panel's state in
+          // its class list, so adding the class here opens the panel in the
+          // same frame and leaves the button shutting it correctly afterwards.
+          // Bootstrap's own show () would animate against that scroll, and the
+          // attribute once dropped, "display: none" would take the panel back
+          // part way through.
+          el.addEventListener ("beforematch", () => {
+            el.classList.add ("show");
+            for (let b of document.querySelectorAll ("[data-bs-target]")) {
+              if (b.getAttribute ("data-bs-target") === "#" + el.id) {
+                b.setAttribute ("aria-expanded", "true");
+              }
+            }
+          });
+        }
+        // Drop the attribute before Bootstrap measures the panel it is opening,
+        // which it does after firing this; a revealable one measures nothing.
+        document.addEventListener ("show.bs.collapse", (e) => {
+          e.target.removeAttribute ("hidden");
+        });
+        // Restore it once the panel is shut, rather than while it is shutting.
+        document.addEventListener ("hidden.bs.collapse", (e) => {
+          if (! e.target.classList.contains ("navbar-collapse")) {
+            e.target.setAttribute ("hidden", "until-found");
+          }
+        });
+      });
     </script>
     <style>
-    h5.fs {
+    .fs {
     margin-top: -0.15em;
     margin-bottom: -0.15em;
+    }
+    .fs-last {
+    margin-bottom: calc(1rem - 0.15em);
+    }
+    p.description {
+    font-family: Consolas, "Courier New", monospace;
+    }
+    p.description code {
+    font-size: inherit;
     }
     h6:hover {
       color: gray;
@@ -90,6 +142,19 @@
     }
     [id^="togList"]:checked ~ .list{
       display:block;                        /* SHOW LIST (IF CHECKED) */
+    }
+    /* Bootstrap hides a collapsed panel with "display: none", which generates
+       no box, so the "content-visibility: hidden" the user agent gives
+       "hidden=until-found" could never apply and the text would stay beyond
+       find-in-page.  Clear that one declaration, and only where the script
+       above has found the attribute to be understood: an attribute selector
+       matches a value the browser does not understand, so an ungated rule
+       would leave every panel of an older browser standing open.  The
+       "!important" is required rather than decoration: the reboot carries
+       "[hidden] {display: none !important}", which the attribute itself brings
+       into play, and only another "!important" can outrank it. */
+    html.until-found .collapse[hidden="until-found"]:not(.show) {
+      display: block !important;
     }
     </style>
   </head>
@@ -151,7 +216,7 @@
 					<li><a href="@frd_frd.html" class="text-decoration-none font-monospace"><small>@frd/frd</small></a></li>
 					<li><a href="@ss_ss.html" class="text-decoration-none font-monospace"><small>@ss/ss</small></a></li>
 					<li><a href="@tf_tf.html" class="text-decoration-none font-monospace"><small>@tf/tf</small></a></li>
-					<li><a href="zpk.html" class="text-decoration-none font-monospace"><small>zpk</small></a></li>
+					<li><a href="@zpk_zpk.html" class="text-decoration-none font-monospace"><small>@zpk/zpk</small></a></li>
 				</ul>
 				</div>
 			</div>
@@ -557,18 +622,16 @@
               </div>
             </div>
             <div class="card-body">
-<dl>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>x0</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, <var>&rsquo;style1&rsquo;</var>, &hellip;, <var>sysN</var>, <var>&rsquo;styleN&rsquo;</var>, <var>x0</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>t</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>)</code></h5></dt>
-<dt><code><h5 class="fs">Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></h5></dt>
-</dl>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></p>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys1</var>, <var>sys2</var>, &hellip;, <var>sysN</var>, <var>x0</var>)</code></p>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys1</var>, <var>&rsquo;style1&rsquo;</var>, &hellip;, <var>sysN</var>, <var>&rsquo;styleN&rsquo;</var>, <var>x0</var>)</code></p>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>t</var>)</code></p>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>)</code></p>
+<p class="h5 fs"><code>Function File: <b>initial</b> (<var>sys1</var>, &hellip;, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></p>
+<p class="h5 fs"><code>Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>)</code></p>
+<p class="h5 fs"><code>Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>t</var>)</code></p>
+<p class="h5 fs"><code>Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>)</code></p>
+<p class="h5 fs fs-last"><code>Function File: [<var>y</var>, <var>t</var>, <var>x</var>] = <b>initial</b> (<var>sys</var>, <var>x0</var>, <var>tfinal</var>, <var>dt</var>)</code></p>
 <p> Initial condition response of a state-space model.
  If no output arguments are given, the response is printed on the screen.
 </p>
@@ -616,8 +679,8 @@
 <p> Discrete Time:
  $$x(k+1) = A\,x(k) + B\,u(k),\quad x(0)=x_0,\quad y(k) = C\,x(k) + D\,u(K)$$
 </p>
-<p> The dynamic behavior of the system for <math>u=0</math> and only driven by the
- initial system state <math>x(0)</math> is given by
+<p> The dynamic behavior of the system for <em class="math">u=0</em> and only driven by the
+ initial system state <em class="math">x(0)</em> is given by
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example"> sys = ss (A, B, C, D);
  initial (sys, x0);
@@ -625,8 +688,8 @@
 
 <p> <strong>Remark</strong>
 </p>
-<p> For a SISO input-output model <math>G</math> and initial values for the output <math>y</math>
- and its derivatives up to order <math>n-1</math> the corresponding state space
+<p> For a SISO input-output model <em class="math">G</em> and initial values for the output <em class="math">y</em>
+ and its derivatives up to order <em class="math">n-1</em> the corresponding state space
  represetaiton is computed by:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example"> [A,b,c,d] = ssdata (G);
@@ -635,8 +698,8 @@
  initial (G_ss, x0);
 </pre></td></tr></table>
 
-<p> Note that, in general, the states of <math>G_ss</math> are only equal to the output
- <math>y</math> and its first <math>n-1</math> time derivaties if <math>u=0</math>, which is the
+<p> Note that, in general, the states of <em class="math">G_ss</em> are only equal to the output
+ <em class="math">y</em> and its first <em class="math">n-1</em> time derivaties if <em class="math">u=0</em>, which is the
  case for the initial condition response.
 </p>
 <p> <strong>See also: </strong>
@@ -645,7 +708,8 @@
   <a href="step.html">step</a>
 </p>
 <p><strong>Source Code: </strong>
-  <a href="https://github.com/gnu-octave/pkg-control/tree/main/inst/initial.m">initial</a>
+  <a href="https://github.com/gnu-octave/pkg-control/blob/f63d020/inst/initial.m">initial</a>
+</p>
 </div>
 
             </div>
